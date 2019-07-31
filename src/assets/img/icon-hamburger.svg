@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="13px" viewBox="0 0 32 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.1 (51147) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Style-Guide" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="LandExplorer-Style-Guide" transform="translate(-930.000000, -2282.000000)" fill="#78838E">
+            <g id="Group-2" transform="translate(930.000000, 2282.000000)">
+                <path d="M31.5,1 L0.5,1 C0.2235,1 0,0.776 0,0.5 C0,0.224 0.2235,0 0.5,0 L31.5,0 C31.7765,0 32,0.224 32,0.5 C32,0.776 31.7765,1 31.5,1" id="Fill-1"></path>
+                <path d="M31.5,7 L0.5,7 C0.2235,7 0,6.776 0,6.5 C0,6.224 0.2235,6 0.5,6 L31.5,6 C31.7765,6 32,6.224 32,6.5 C32,6.776 31.7765,7 31.5,7" id="Fill-3"></path>
+                <path d="M31.5,13 L0.5,13 C0.2235,13 0,12.776 0,12.5 C0,12.224 0.2235,12 0.5,12 L31.5,12 C31.7765,12 32,12.224 32,12.5 C32,12.776 31.7765,13 31.5,13" id="Fill-5"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,275 @@
+.button {
+  font-family: Lato;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  border-radius: 200px;
+  color: #ffffff;
+  cursor: pointer;
+  background: $buttonGreen;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0);
+  transition: box-shadow 300ms, background-color 300ms;
+  box-sizing: border-box;
+  padding-top: 6px;
+  &:hover {
+    background: $primaryColor;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.25);
+  }
+}
+
+.round-button {
+  border-radius: 50%;
+  text-align: center;
+  color: $secondaryColor;
+  background-color: $toolbarBackground;
+  height: 36px;
+  width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+}
+
+.round-button-plus {
+  background-image: url('../img/icon-plus-small.svg');
+  background-size: 14px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.rounded-button-full {
+  border-radius: 100px;
+  padding: 6px 18px;
+  padding-left: 16px;
+  height: 32px;
+  box-sizing: border-box;
+  display: inline-block;
+  margin-right: -2px;
+  display: flex;
+}
+
+.rounded-button-split {
+  color: white;
+  display: flex;
+  .rounded-button-left {
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+    background-color: $buttonGreen;
+    padding: 6px 18px;
+    padding-left: 16px;
+    padding-top: 8px;
+    padding-bottom: 9px;
+    height: 36px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-right: -2px;
+    cursor: default;
+  }
+  .rounded-button-right {
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    background-color: $buttonGreen;
+    //border-left: 1px solid white;
+    display: inline-block;
+    margin-left: 0;
+    height: 36px;
+    width: 32px;
+    content: ' ';
+  }
+  .rounded-button-close {
+    background-image: url("../img/icon-close-small--white.svg");
+    background-size: 14px;
+    background-position: 45% 50%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+}
+
+#controls {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.controls-slider {
+  position: relative;
+}
+.zoom-slider-bar {
+  width: 3px;
+  background-color: white;
+  top: 48px;
+  bottom: 48px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+  z-index: -1;
+}
+.zoom-slider {
+  width: 36px;
+  height: 8px;
+  border-radius: 4px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+  background-color: $secondaryColor;
+  border: solid 2px #ffffff;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+}
+
+.zoom-button {
+  width: 48px;
+  height: 48px;
+  background-color: #fbfbfb;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  z-index: 1000;
+}
+
+.menu-layers-button {
+  width: 48px;
+  height: 48px;
+  background-color: $secondaryColor;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 65%;
+  background-image: url('../img/icon-menu-layers--white.svg');
+  border-radius: 50%;
+  z-index: 1000;
+  position: fixed;
+  bottom: 12px;
+  right: 78px;
+  z-index: 1;
+}
+
+.menu-key-button {
+  width: 48px;
+  height: 48px;
+  background-color: $secondaryColor;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 65%;
+  background-image: url('../img/icon-menu-key--white.svg');
+  border-radius: 50%;
+  z-index: 1000;
+  position: fixed;
+  bottom: 12px;
+  right: 142px;
+  z-index: 1;
+}
+
+.zoom-location {
+  background-image: url("../img/icon-location.svg");
+  margin-bottom: 24px;
+}
+
+.zoom-plus {
+  background-image: url("../img/icon-location-plus.svg");
+  margin-bottom: 96px;
+}
+
+.zoom-minus {
+  background-image: url("../img/icon-location-minus.svg");
+}
+
+.button-outline {
+  font-family: Lato;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: $buttonGreen;
+  cursor: pointer;
+  background: transparent !important;
+  border-color: $buttonGreen;
+  border-style: solid;
+  border-width: 1px;
+  box-sizing: border-box;
+  user-select: none;
+
+  &:hover {
+    background: transparent !important;
+    border-color: $primaryColor;
+    box-shadow: inset 0 0 0 2px $primaryColor;
+    color: $primaryColor;
+  }
+}
+
+ .button.button-cancel {
+  background-color: rgba(208, 2, 78, 0.95);
+   &:hover {
+     background-color: rgba(193, 1, 72, 0.95);
+   }
+}
+
+.button.button-disabled {
+  background-color: rgba(208, 2, 78, 0.95);
+  &:hover {
+    background-color: rgba(193, 1, 72, 0.95);
+  }
+}
+
+.button.button-grey {
+  background-color: rgba(208, 2, 78, 0.95);
+  &:hover {
+    background-color: rgba(193, 1, 72, 0.95);
+  }
+}
+
+.button-grey {
+  background-color: #d3d3d3 !important;
+  &:hover {
+    background-color: #d3d3d3 !important;
+    box-shadow: none;
+  }
+}
+
+.button-large {
+  width: 180px;
+  height: 32px;
+}
+
+.button-medium {
+  width: 120px;
+  height: 32px;
+}
+
+.button-small {
+  height: 32px;
+  width: 72px;
+}
+
+.button-full {
+  width: 100%;
+  height: 36px;
+}
+
+.modal-buttons {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  .button {
+    display: inline-block;
+    margin-left: 12px;
+  }
+}
+a {
+  text-decoration: none;
+}

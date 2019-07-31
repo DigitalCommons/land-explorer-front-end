@@ -1,0 +1,194 @@
+@import "variables";
+@import "typography";
+@import "buttons";
+@import "tooltips";
+@import "modals";
+@import "nav";
+@import "forms";
+@import "select";
+@import "registration";
+@import "my-account";
+
+
+html {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  overflow: hidden;
+}
+
+body {
+  font-size: 16px;
+  overflow: hidden;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+  font-family: Lato;
+  font-weight: 400;
+  color: $secondaryColor;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.toggle-switch {
+  height: 14px;
+  width: 25px;
+  position: absolute;
+  right: 14px;
+  .switch input {
+    display:none;
+  }
+  .switch input {display:none;}
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $secondaryColor;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 10px;
+    width: 10px;
+    left: 3px;
+    top: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  input:checked + .slider:before {
+    background-color: $buttonGreen;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(9px);
+    -ms-transform: translateX(9px);
+    transform: translateX(9px);
+  }
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+}
+
+#map {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left:0;
+}
+
+#map-overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left:0;
+  background: rgba(79,90,109,.65);
+}
+
+.mapboxgl-ctrl-bottom-right {
+  display: none;
+}
+
+.new-marker {
+  height: 30px;
+  width: 30px;
+  background: white;
+  border: 1px solid black;
+  background-image: url('../img/icon-drawing-tools.svg');
+  border-radius: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  pointer-events: none;
+}
+
+.mapboxgl-map {
+  background-color: transparent;
+}
+
+.map-name {
+  position: fixed;
+  bottom: 12px;
+  left: 86px;
+  color: white;
+  padding: 6px;
+  padding-left: 12px;
+  padding-right: 12px;
+  background: #78838e;
+  font-size: 12px;
+  font-weight: bold;
+  width: auto;
+  height: auto;
+  border-radius: 40px;
+  z-index: 1;
+  transition: opacity 300ms, transform 300ms, left 300ms ease;
+}
+
+.os-accreditation {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background: white;
+  color: black;
+  font-size: 6pt;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.map-click-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.centered {
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  position: absolute;
+  text-align: center;
+}
+
+.full-height {
+  min-height: 100vh;
+}
+
+.overflow-y {
+  overflow-y: scroll;
+}
+
+.getting-location {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  opacity: 1;
+  z-index: 100000;
+  color: red;
+}
+
+.trash-tool {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 30%;
+  width: 72px;
+  display: inline-block;
+}

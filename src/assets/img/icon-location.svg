@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 13</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Style-Guide" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="LandExplorer-Style-Guide" transform="translate(-179.000000, -3668.000000)">
+            <g id="Location-/-Zoom-Tools" transform="translate(168.000000, 3657.000000)">
+                <g id="Centre-Location">
+                    <g id="Group-13" transform="translate(12.000000, 12.000000)">
+                        <circle id="Oval-4" fill="#78838E" cx="12" cy="12" r="3"></circle>
+                        <circle id="Oval-4" stroke="#78838E" cx="12" cy="12" r="6.75"></circle>
+                        <path d="M0,12 L4.5620719,12" id="Line-2" stroke="#78838E" stroke-width="2" stroke-linecap="square"></path>
+                        <path d="M18.75,12 L24,12" id="Line-2" stroke="#78838E" stroke-width="2" stroke-linecap="square"></path>
+                        <path d="M12,18.75 L12,24" id="Line-2-Copy-2" stroke="#78838E" stroke-width="2" stroke-linecap="square"></path>
+                        <path d="M12,0 L12,5.25" id="Line-2-Copy-2" stroke="#78838E" stroke-width="2" stroke-linecap="square"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

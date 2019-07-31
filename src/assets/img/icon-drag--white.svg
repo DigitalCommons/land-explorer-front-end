@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="8px" height="11px" viewBox="0 0 8 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Tile Handle Static</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="LX-Map-Application-Home" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-84.000000, -150.000000)" fill="#FFFFFF">
+            <g id="Tray" transform="translate(71.000000, 68.000000)">
+                <g id="Tray-Tile-Handles" transform="translate(13.000000, 82.000000)">
+                    <g id="Tile-Handle">
+                        <g id="Group-6">
+                            <circle id="Oval-2" cx="1.5" cy="1.5" r="1.5"></circle>
+                            <circle id="Oval-2-Copy-2" cx="1.5" cy="5.5" r="1.5"></circle>
+                            <circle id="Oval-2-Copy-4" cx="1.5" cy="9.5" r="1.5"></circle>
+                            <circle id="Oval-2-Copy" cx="6.5" cy="1.5" r="1.5"></circle>
+                            <circle id="Oval-2-Copy-3" cx="6.5" cy="5.5" r="1.5"></circle>
+                            <circle id="Oval-2-Copy-5" cx="6.5" cy="9.5" r="1.5"></circle>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

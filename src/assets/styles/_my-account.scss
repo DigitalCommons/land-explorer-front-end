@@ -1,0 +1,60 @@
+.my-account--userlogo {
+  background-color: #78838e;
+  margin-right: 24px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.16);
+  border: solid 2px #ffffff;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  letter-spacing: 2px;
+  padding-left: 2px;
+  user-select: none;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  height: 60px;
+  width: 60px;
+  transform: translateX(-50%);
+  font-size: 22px;
+}
+
+.my-account--option {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.my-account--option--left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.my-account-container {
+  -ms-overflow-style: -ms-autohiding-scrollbar;  // IE 10+
+  -webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
+  position: absolute;
+  padding-top: 10vh;
+  top: 0;
+  left: 50%;
+  height: 100vh;
+  width: 100vw;
+  transform: translateX(-50%);
+  z-index: 100009;
+  @media #{$up-to-small} {
+    padding-top: 0;
+  }
+}
+.my-account-container::-webkit-scrollbar {
+  display: none;  // Safari and Chrome
+}

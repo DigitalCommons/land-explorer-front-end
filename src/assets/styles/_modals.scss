@@ -1,0 +1,205 @@
+.modal {
+  border-radius: 4px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32);
+  background-color: #ffffff;
+  border: solid 1px #d1d1d1;
+  padding: 24px;
+}
+
+.modal-close {
+  background-image: url('../img/icon-close-new.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  cursor: pointer;
+}
+
+.modal-title {
+  margin-left: 0px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.modal-content {
+  margin-top: 24px;
+}
+
+.Modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, .3);
+  z-index: 100006;
+  transition: opacity .4s;
+}
+
+.ModalBackground {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.ModalContent {
+  background-color: white;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  transition: transform 400ms;
+  width: 360px;
+  max-width: 75vw;
+  padding-bottom: 56px;
+  box-sizing: border-box;
+}
+
+#myMaps {
+  .modal-title {
+    margin-left: 0;
+  }
+  .ModalContent {
+    width: 511px;
+    height: 320px;
+    min-width: 511px !important;
+    @media ('max-width: 480px') {
+      min-width: 100vw !important;
+    }
+    table {
+      width: 100%;
+      text-align: left;
+      border-collapse: collapse;
+      user-select: none;
+      th {
+        font-size: 14px;
+        @media ('max-width: 480px') {
+          font-size: 12px !important;
+        }
+        height: 32px;
+      }
+      tr {
+        @media ('max-width: 480px') {
+          font-size: 12px !important;
+        }
+        height: 28px;
+      }
+      tr.table-map {
+        &:hover {
+          background: #f4f5f7;
+        }
+        .table-share {
+          background-image: url('../img/icon-share.svg');
+          background-size: auto 18px;
+          background-repeat: no-repeat;
+          background-position: 50%;
+          @media ('max-width: 480px') {
+            margin-left: 6px;
+          }
+        }
+        .table-trash {
+          background-image: url('../img/icon-trash.svg');
+          background-size: auto 18px;
+          background-repeat: no-repeat;
+          background-position: 50%;
+        }
+        &.active {
+          background: #27ae60 !important;
+          color: white !important;
+          .table-share {
+            background-image: url('../img/icon-share--white.svg');
+          }
+          .table-trash {
+            background-image: url('../img/icon-trash--white.svg');
+          }
+        }
+        cursor: pointer;
+      }
+      td {
+        border: none;
+      }
+    }
+    .table-icon {
+      width: 50px;
+    }
+  }
+}
+
+#mySharedMaps {
+  .modal-title {
+    margin-left: 0;
+  }
+  .ModalContent {
+    width: 430px;
+    height: 320px;
+    min-width: 430px !important;
+    @media ('max-width: 480px') {
+      min-width: 100vw !important;
+    }
+    table {
+      width: 100%;
+      text-align: left;
+      border-collapse: collapse;
+      user-select: none;
+      th {
+        font-size: 14px;
+        height: 32px;
+        @media ('max-width: 480px') {
+          font-size: 12px !important;
+        }
+      }
+      tr {
+        height: 28px;
+        @media ('max-width: 480px') {
+          font-size: 12px !important;
+        }
+      }
+      tr.table-map {
+        &:hover {
+          background: #f4f5f7;
+        }
+        .table-share {
+          background-image: url('../img/icon-share.svg');
+          background-size: auto 18px;
+          background-repeat: no-repeat;
+          background-position: 50%;
+        }
+        .table-trash {
+          background-image: url('../img/icon-trash.svg');
+          background-size: auto 18px;
+          background-repeat: no-repeat;
+          background-position: 50%;
+        }
+        &.active {
+          background: #27ae60 !important;
+          color: white !important;
+          .table-share {
+            background-image: url('../img/icon-share--white.svg');
+          }
+          .table-trash {
+            background-image: url('../img/icon-trash--white.svg');
+          }
+        }
+        cursor: pointer;
+      }
+      td {
+        border: none;
+      }
+    }
+    .table-icon {
+      width: 50px;
+    }
+  }
+}
+
+.modal-content-trash {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 65%;
+}
