@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="66px" viewBox="0 0 54 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>For Sale</title>
+    <desc>Created with Sketch.</desc>
+    <g id="For-Sale" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle-2" stroke="#78838E" stroke-width="2" x="1" y="1" width="52" height="39" rx="3"></rect>
+        <path d="M27.9975492,41 L27.9975492,65" id="Line-2-Copy-4" stroke="#78838E" stroke-width="2" stroke-linecap="square"></path>
+        <text id="FOR-SALE" font-family="Lato-Bold, Lato" font-size="13" font-weight="bold" line-spacing="14" letter-spacing="1" fill="#78838E">
+            <tspan x="12.58" y="18">FOR</tspan>
+            <tspan x="10.5" y="33">SAL</tspan>
+            <tspan x="36.4255" y="33">E</tspan>
+        </text>
+    </g>
+</svg>
