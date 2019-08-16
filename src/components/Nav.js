@@ -117,8 +117,8 @@ class Nav extends Component {
                              this.clickIcon('For Sale')
                          }}
                          data-tip
-                         data-for="ttForSale"
-                    />
+                         data-for="ttForSale" />
+
                     <div className={`nav-left-icon property-search ${active === 'Land Ownership' && 'active'}`}
                          onClick={() => {
                              analytics.event(analytics._event.SIDE_NAV + ' Land Ownership', 'Open');
@@ -190,7 +190,7 @@ class Nav extends Component {
                     onClose={this.closeTray}
                 />
                 <NavForSale
-                    open={open}
+                    open={open && active === 'Land For Sale'}
                     active={active}
                     onClose={this.closeTray}
                 />
