@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {PropTypes} from 'prop-types';
 import NavInformation from './NavInformation';
+import NavLandOwnership from './NavLandOwnership';
 import NavLandData from './NavLandData';
 import NavDrawingTools from './NavDrawingTools';
 import analytics from '../analytics';
@@ -109,6 +110,14 @@ class Nav extends Component {
                          data-tip
                          data-for="ttInfo"
                     />
+                    <div className={`nav-left-icon data-layers ${active === 'Land Ownership' && 'active'}`}
+                         onClick={() => {
+                             analytics.event(analytics._event.SIDE_NAV + ' Land Ownership', 'Open');
+                             this.clickIcon('Land Ownership')
+                         }}
+                         data-tip
+                         data-for="ttLandOwnershipNew"
+                    />
                     <div className="nav-left-icon new-map-icon"
                          onClick={() => {
                              analytics.event(analytics._event.SIDE_NAV + ' New Map', 'Clicked');
@@ -158,6 +167,11 @@ class Nav extends Component {
                     )
                 }
                 <NavLandData
+                    open={open}
+                    active={active}
+                    onClose={this.closeTray}
+                />
+                <NavLandOwnership
                     open={open}
                     active={active}
                     onClose={this.closeTray}
