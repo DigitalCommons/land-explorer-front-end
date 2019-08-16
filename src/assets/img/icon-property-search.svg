@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="66px" viewBox="0 0 54 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Documents</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Documents" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polyline id="Path-3" stroke="#78838E" stroke-width="2" fill-rule="nonzero" points="9.19798782 14.0133431 10.2054449 55.8959961 25.8210298 55.8959961"></polyline>
+        <path d="M50.0000005,14.0133431 L50,9.71768642 C49.9849144,4.34811552 47.4662716,1.66333008 42.4440718,1.66333008 C37.421872,1.66333008 34.9032293,4.34811552 34.8881436,9.71768642 L34.8881431,14.0133431" id="Oval-2" stroke="#78838E" stroke-width="2" fill-rule="nonzero"></path>
+        <path d="M42.4440718,2.20028717 C25.3563271,1.84231577 14.2742991,1.66333008 9.19798782,1.66333008 C4.12167653,1.66333008 1.6030338,4.34811552 1.64205964,9.71768642 L1.64205964,14.0133431 L35.3918722,14.0133431" id="Oval-2-Copy" stroke="#78838E" stroke-width="2" fill-rule="nonzero"></path>
+        <polyline id="Path-4" stroke="#78838E" stroke-width="2" fill-rule="nonzero" points="50 13.476386 50 55.8959961 42.9478004 55.8959961"></polyline>
+        <path d="M34,27.5 L41.5,27.5" id="Line-Copy" stroke="#78838E" stroke-width="2" stroke-linecap="square" fill-rule="nonzero"></path>
+        <path d="M17,27.5 L29,27.5" id="Line-Copy-2" stroke="#78838E" stroke-width="2" stroke-linecap="square" fill-rule="nonzero"></path>
+        <g id="Group" transform="translate(29.500000, 21.500000) rotate(-180.000000) translate(-29.500000, -21.500000) translate(17.000000, 20.000000)" fill-rule="nonzero" stroke="#78838E" stroke-linecap="square" stroke-width="2">
+            <path d="M17,1.5 L24.5,1.5" id="Line-Copy-3"></path>
+            <path d="M0,1.5 L12,1.5" id="Line-Copy-4"></path>
+        </g>
+        <polygon id="Star" stroke="#78838E" stroke-width="2" fill-rule="nonzero" points="34.505217 46.4340542 31.8106679 48.0104339 31.0200027 44.9904312 28 44.1997661 29.5763797 41.505217 28 38.8106679 31.0200027 38.0200027 31.8106679 35 34.505217 36.5763797 37.1997661 35 37.9904312 38.0200027 41.0104339 38.8106679 39.4340542 41.505217 41.0104339 44.1997661 37.9904312 44.9904312 37.1997661 48.0104339"></polygon>
+        <polyline id="Path-5" stroke="#78838E" stroke-width="2" fill-rule="nonzero" points="29 50 29 63.5 34.5 57.0434783 40 63.5 40 50"></polyline>
+    </g>
+</svg>
