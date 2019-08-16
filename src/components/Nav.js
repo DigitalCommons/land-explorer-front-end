@@ -4,6 +4,7 @@ import {PropTypes} from 'prop-types';
 import NavInformation from './NavInformation';
 import NavLandOwnership from './NavLandOwnership';
 import NavLandData from './NavLandData';
+import NavForSale from './NavForSale';
 import NavDrawingTools from './NavDrawingTools';
 import analytics from '../analytics';
 
@@ -110,6 +111,14 @@ class Nav extends Component {
                          data-tip
                          data-for="ttInfo"
                     />
+                   <div className={`nav-left-icon forsale ${active === 'For Sale' && 'active'}`}
+                         onClick={() => {
+                             analytics.event(analytics._event.SIDE_NAV + ' For Sale', 'Open');
+                             this.clickIcon('For Sale')
+                         }}
+                         data-tip
+                         data-for="ttForSale"
+
                     <div className={`nav-left-icon property-search ${active === 'Land Ownership' && 'active'}`}
                          onClick={() => {
                              analytics.event(analytics._event.SIDE_NAV + ' Land Ownership', 'Open');
@@ -117,6 +126,7 @@ class Nav extends Component {
                          }}
                          data-tip
                          data-for="ttLandOwnershipNew"
+
                     />
                     <div className="nav-left-icon new-map-icon"
                          onClick={() => {
@@ -178,6 +188,11 @@ class Nav extends Component {
                 />
                 <NavInformation
                     open={open && active === 'Land Information'}
+                    onClose={this.closeTray}
+                />
+                <NavForSale
+                    open={open && active === 'Land For Sale'}
+                    active={active}
                     onClose={this.closeTray}
                 />
             </nav>
