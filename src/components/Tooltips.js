@@ -16,6 +16,7 @@ class Tooltips extends Component {
                 <ReactTooltip id="ttNewMap" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={1200}>New Map</ReactTooltip>
                 <ReactTooltip id="ttLandData" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={1200}>Land Data</ReactTooltip>
                 <ReactTooltip id="ttInfo" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={1200}>Land Information</ReactTooltip>
+                <ReactTooltip id="ttForSale" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={1200}>For Sale</ReactTooltip>
                 <ReactTooltip id="ttBoundaries" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={1200}>Land Boundaries</ReactTooltip>
                 <ReactTooltip id="ttSave" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={1200}>Save</ReactTooltip>
                 <ReactTooltip id="ttShare" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={1200}>{ readOnly ? 'Read only!' : 'Share' }</ReactTooltip>
