@@ -117,7 +117,7 @@ class Nav extends Component {
                              this.clickIcon('For Sale')
                          }}
                          data-tip
-                         data-for="ttForSale"
+                         data-for="ttForSale" />
 
                     <div className={`nav-left-icon property-search ${active === 'Land Ownership' && 'active'}`}
                          onClick={() => {
