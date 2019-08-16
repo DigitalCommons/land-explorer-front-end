@@ -4,6 +4,7 @@ import {PropTypes} from 'prop-types';
 import NavInformation from './NavInformation';
 import NavLandOwnership from './NavLandOwnership';
 import NavLandData from './NavLandData';
+import NavForSale from './NavForSale';
 import NavDrawingTools from './NavDrawingTools';
 import analytics from '../analytics';
 
@@ -186,6 +187,11 @@ class Nav extends Component {
                 />
                 <NavInformation
                     open={open && active === 'Land Information'}
+                    onClose={this.closeTray}
+                />
+                <NavForSale
+                    open={open}
+                    active={active}
                     onClose={this.closeTray}
                 />
             </nav>
