@@ -177,6 +177,7 @@ class Nav extends Component {
                 />
                 <NavForSale
                     open={open && active === 'Land For Sale'}
+                    active={active}
                     onClose={this.closeTray}
                 />
             </nav>
