@@ -6,18 +6,47 @@ class NavLandOwnership extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            error: null,
+            postcode: '',
+            house_number: '',
             houses: [],
             mode: 'search'
         }
         this.searchHouses = this.searchHouses.bind(this)
         this.purchaseDocument = this.purchaseDocument.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
+    handleChange(event) {
+        this.setState({postcode: event.target.value});
+    }    
+
     searchHouses(event) {
-        //alert('Call backend API for data here...');
+        //alert('Call address API for data here...');
+        fetch("https://api.ideal-postcodes.co.uk/v1/postcodes/"+this.state.postcode+"?api_key=iddqd")
+        .then(res => res.json())
+        .then(
+          (data) => {
+            this.setState({
+                houses: data.result,
+                mode: "select"
+            });
+          },
+          // Note: it's important to handle errors here
+          // instead of a catch() block so that we don't swallow
+          // exceptions from actual bugs in components.
+          (error) => {
+            this.setState({
+              error
+            });
+          }
+        )
+
+        //alert(this.state.postcode);
         event.preventDefault();
         //Assume success
 
+        /*
         let array = this.state.houses;
         array = [...array, 
             {id: 1,address: "123 Worwick Street"},
@@ -31,6 +60,7 @@ class NavLandOwnership extends Component {
             houses: array,
             mode: "select"
         })
+        */
     }
 
     purchaseDocument(event) {
@@ -56,7 +86,7 @@ class NavLandOwnership extends Component {
                     <input type="text" placeholder="House Name or No." />
                     </label>
                     <label>
-                    <input type="text" />
+                    <input type="text" placeholder="Post code" value={this.state.value} onChange={this.handleChange} />
                     </label>
                     <input type="submit" value="Submit" />
                 </form>
@@ -76,7 +106,7 @@ class NavLandOwnership extends Component {
                     <input type="text" placeholder="House Name or No." />
                     </label>
                     <label>
-                    <input type="text" />
+                    <input type="text" placeholder="Post code" value={this.state.value} onChange={this.handleChange} />
                     </label>
                     <input type="submit" value="Submit" />
                 </form>
@@ -88,7 +118,7 @@ class NavLandOwnership extends Component {
                 <form onSubmit={this.purchaseDocument}>        
                     {
                         this.state.houses.map((house) => {
-                            return <label><input type="checkbox" name="house" value="{house.id}" /> {house.address} <br /></label>
+                            return <label><input type="checkbox" name="house" value="" /> {house.line_1}, {house.line_2}, {house.line_3}, {house.district} <br /></label>
                         })
                     }
                     <input type="submit" value="Submit" />
