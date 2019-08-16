@@ -19,9 +19,10 @@
 const constants = {
     PROD: true,
     //ROOT_URL: '',
-    ROOT_URL: 'http://localhost:8080',
+    //ROOT_URL: 'http://localhost:8080',
     //ROOT_URL: 'http://79.70.176.28:4747/login',
-    //ROOT_URL: 'http://79.70.176.28:4747',
+    ROOT_URL: 'http://2.101.111.138:4747',
+    //ROOT_URL: 'http://2.101.111.138:4748',
     WP_URL: 'https://www.landexplorer.cc',
     GA_ID: 'UA-25676336-2',
     OS_KEY: "bWhK8FOLoVJUaY6WykmzIzPaD44OnHLF",
