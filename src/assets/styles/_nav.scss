@@ -115,6 +115,7 @@ html, body {
   }
   .property-search{
     background-image: url('../img/icon-property-search.svg');
+    background-size: 32px;
   }
   .info {
     background-image: url('../img/icon-info.svg');
@@ -123,9 +124,9 @@ html, body {
   .info.active {
     background-image: url('../img/icon-info--white.svg');
   }
-  .forsale {
+  .for-sale {
     background-image: url('../img/icon-for-sale.svg');
-    background-size: 22px;
+    background-size: 32px;
   }
   .new-map-icon {
     background-color: #eff0f2;

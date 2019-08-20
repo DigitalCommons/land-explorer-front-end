@@ -190,7 +190,7 @@ class Nav extends Component {
                     onClose={this.closeTray}
                 />
                 <NavForSale
-                    open={open && active === 'Land For Sale'}
+                    open = {open}
                     active={active}
                     onClose={this.closeTray}
                 />
