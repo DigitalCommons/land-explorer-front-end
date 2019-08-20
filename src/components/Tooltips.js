@@ -21,6 +21,7 @@ class Tooltips extends Component {
                 <ReactTooltip id="ttBoundaries" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={1200}>Land Boundaries</ReactTooltip>
                 <ReactTooltip id="ttSave" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={1200}>Save</ReactTooltip>
                 <ReactTooltip id="ttShare" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={1200}>{ readOnly ? 'Read only!' : 'Share' }</ReactTooltip>
+                <ReactTooltip id= "publicToPrivate" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={1200}>{ readOnly ? 'Read only!' : 'Share' }</ReactTooltip>
             </div>
         );
     }
