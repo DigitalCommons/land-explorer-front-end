@@ -42,21 +42,21 @@ class PropertyList extends Component {
         return(
             <div>
                 <p>{this.state.properties[0].img}</p>
-            <p>{this.state.properties[0].location}</p>
-            <p>{this.state.properties[0].price}</p>
-            <p>{this.state.properties[0].agent}</p>
-            <p>{this.state.properties[1].img}</p>
-            <p>{this.state.properties[1].location}</p>
-            <p>{this.state.properties[1].price}</p>
-            <p>{this.state.properties[1].agent}</p>
-            <p>{this.state.properties[2].img}</p>
-            <p>{this.state.properties[2].location}</p>
-            <p>{this.state.properties[2].price}</p>
-            <p>{this.state.properties[2].agent}</p>
-            <p>{this.state.properties[3].img}</p>
-            <p>{this.state.properties[3].location}</p>
-            <p>{this.state.properties[3].price}</p>
-            <p>{this.state.properties[3].agent}</p> 
+                <p>{this.state.properties[0].location}</p>
+                <p>{this.state.properties[0].price}</p>
+                <p>{this.state.properties[0].agent}</p>
+                <p>{this.state.properties[1].img}</p>
+                <p>{this.state.properties[1].location}</p>
+                <p>{this.state.properties[1].price}</p>
+                <p>{this.state.properties[1].agent}</p>
+                <p>{this.state.properties[2].img}</p>
+                <p>{this.state.properties[2].location}</p>
+                <p>{this.state.properties[2].price}</p>
+                <p>{this.state.properties[2].agent}</p>
+                <p>{this.state.properties[3].img}</p>
+                <p>{this.state.properties[3].location}</p>
+                <p>{this.state.properties[3].price}</p>
+                <p>{this.state.properties[3].agent}</p> 
             </div>
             
         )

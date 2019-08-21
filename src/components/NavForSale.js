@@ -33,6 +33,7 @@ class NavForSale extends Component {
                 css = "nav-left-tray-wide"
                 >
             <p>Showing {this.state.numberAvailable} properties in {this.state.searchArea}</p>
+            
             <input type="text" placeholder="Property Type"></input>
             <input type="text" placeholder="Search Radius"></input>
             <input type="text" placeholder="Minimum Price"></input>
