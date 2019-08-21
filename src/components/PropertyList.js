@@ -38,9 +38,12 @@ class PropertyList extends Component {
         return properties; 
     }
 
-    render(){
-        return(
-            <div>
+    createList(){
+        let testName = this.state.properties[0].img;
+       // let output = [<p>{this.state.properties[0].img}</p>];
+        let propertyArray = [<p>test</p>,<p>test2</p>,<p>{this.testname}</p>];
+        /*( 
+            
                 <p>{this.state.properties[0].img}</p>
                 <p>{this.state.properties[0].location}</p>
                 <p>{this.state.properties[0].price}</p>
@@ -56,7 +59,17 @@ class PropertyList extends Component {
                 <p>{this.state.properties[3].img}</p>
                 <p>{this.state.properties[3].location}</p>
                 <p>{this.state.properties[3].price}</p>
-                <p>{this.state.properties[3].agent}</p> 
+                <p>{this.state.properties[3].agent}</p>
+                
+                )
+       */
+        return propertyArray;
+    }
+
+    render(){
+        return(
+            <div>
+               {this.createList()}
             </div>
             
         )
