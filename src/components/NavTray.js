@@ -5,11 +5,18 @@ import PropTypes from 'prop-types';
 class NavTray extends Component {
     constructor(props) {
         super(props);
+        
+        this.state = {
+            css: 'nav-left-tray'
+        }
+
+        if(this.props.css)
+            this.state.css = this.props.css;
     }
     render() {
         let { open, title, onClose } = this.props;
         return (
-            <div className="nav-left-tray"
+            <div className={this.state.css}
                  style={{
                      transform: open ? 'translateX(0%)' : 'translateX(-200%)',
                      boxShadow: open ? '3px 0 6px 0 rgba(0, 0, 0, 0.16)' : 'none',
