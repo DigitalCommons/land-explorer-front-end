@@ -31,12 +31,14 @@ class Save extends Component {
             name: withId ? map.name : this.state.name,
         };
         saveData = JSON.stringify(saveData);
+        
         this.setState({name: ''});
         let body = {
             "eid": withId ? currentMapId : "",
             "name": withId ? map.name : this.state.name,
             "data": saveData
         }
+        console.log(JSON.stringify(body));
         axios.put(`${constants.ROOT_URL}/api/user/map/save/`, body)
             .then((response) => {
                 console.log("save response", response);

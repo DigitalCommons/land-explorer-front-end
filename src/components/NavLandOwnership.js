@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import NavTray from './NavTray';
 import NavTrayItem from './common/NavTrayItem';
+import Checkbox from './common/Checkbox';
 
 class NavLandOwnership extends Component {
     constructor(props) {
@@ -10,16 +11,33 @@ class NavLandOwnership extends Component {
             postcode: '',
             house_number: '',
             houses: [],
-            mode: 'search'
+            mode: 'search',
+            selected_houses: new Set([])
+
         }
         this.searchHouses = this.searchHouses.bind(this)
         this.purchaseDocument = this.purchaseDocument.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.closeTray = this.closeTray.bind(this)
     }
+
+    handleCheckboxChange = changeEvent => {
+        const { name } = changeEvent.target;
+        if (this.state.selected_houses.has(name)) {
+            this.state.selected_houses.delete(name);
+        } else {
+            this.state.selected_houses.add(name);
+        }
+    };   
 
     handleChange(event) {
         this.setState({postcode: event.target.value});
-    }    
+    }        
+
+    closeTray = () => {
+        this.setState({mode: 'search'});
+        this.props.onClose();
+    }
 
     addressAPI() {
         fetch("https://api.ideal-postcodes.co.uk/v1/postcodes/"+this.state.postcode+"?api_key=iddqd")
@@ -78,12 +96,31 @@ class NavLandOwnership extends Component {
         */
     }
 
+
     purchaseDocument(event) {
         event.preventDefault();
+        
+        for (const checkbox of this.state.selected_houses) {
+            console.log(checkbox, 'is selected.');
+        }
 
         this.setState({
             mode: "purchase"
         })
+    }
+
+    getSelectedHouses = () => {
+        let selectedHousesByIndex = Array.from(this.state.selected_houses);
+        let data = "";
+
+        for (let i = 0; i < selectedHousesByIndex.length; i++) {
+            console.log("is in");
+            let index = selectedHousesByIndex[i];
+            let house = this.state.houses[index]
+            data +=  house.line_1 + ',' + house.line_2 + ',' + house.line_3;
+        }
+
+        return data;
     }
 
     render() {
@@ -92,7 +129,7 @@ class NavLandOwnership extends Component {
                 <NavTray
                     title="Land Ownership"
                     open={this.props.open && this.props.active === 'Land Ownership'}
-                    onClose={this.props.onClose}
+                    onClose={this.closeTray}
                 >   
                 <h4>Property information Search</h4>
                 <h5>Use Drawing tools to select an area or enter address details below:</h5>
@@ -112,7 +149,7 @@ class NavLandOwnership extends Component {
                 <NavTray
                     title="Land Ownership"
                     open={this.props.open && this.props.active === 'Land Ownership'}
-                    onClose={this.props.onClose}
+                    onClose={this.closeTray}
                 >   
                 <h4>Property information Search</h4>
                 <h5>Use Drawing tools to select an area or enter address details below:</h5>
@@ -133,7 +170,7 @@ class NavLandOwnership extends Component {
                 <form onSubmit={this.purchaseDocument}>        
                     {
                         this.state.houses.map((house,index) => {
-                            return <label><input type="checkbox" name="house" value={index} /> {house.line_1}, {house.line_2}, {house.line_3}, {house.district} <br /></label>
+                            return <label><input type="checkbox" name={index} value={index} key={index} onChange={this.handleCheckboxChange} className="form-check-input" /> {house.line_1}, {house.line_2}, {house.line_3} <br /></label>
                         })
                     }
                     <input type="submit" value="Submit" />
@@ -141,17 +178,21 @@ class NavLandOwnership extends Component {
                 </NavTray>
             )
         }else if(this.state.mode === 'purchase'){
+
             return (
                 <NavTray
                     title="Purchase Documents"
                     open={this.props.open && this.props.active === 'Land Ownership'}
-                    onClose={this.props.onClose}
+                    onClose={this.closeTray}
                 >   
 
-                
-                124 Worswick Street
-                HUDDERSFIELD
-                HD65 3PU
+                {
+                    this.state.houses.map((house, index) => {
+                        if(this.state.selected_houses.has(index.toString())){
+                            return <div>{house.line_1 + ',' + house.line_2 + ',' + house.line_3}</div>
+                        }
+                    })
+                }
 
                 </NavTray>
             )
