@@ -29,7 +29,7 @@ class PropertyList extends Component {
                 agent:      'plotfinder.net'
             },
              {
-                img:        'wasteland',
+                img:        'grassland',
                 location:   'Snarestone, Lecestershire',
                 price:      '£600,000',
                 agent:      'Humberts'
@@ -41,7 +41,7 @@ class PropertyList extends Component {
     createList(){
         let testName = this.state.properties[0].img;
        // let output = [<p>{this.state.properties[0].img}</p>];
-        let propertyArray = [<p>test</p>,<p>test2</p>,<p>{this.testname}</p>];
+        let propertyArray = [<p>test</p>,<p>test2</p>,<p>{this.state.properties[0].img}</p>];
         /*( 
             
                 <p>{this.state.properties[0].img}</p>
@@ -69,7 +69,38 @@ class PropertyList extends Component {
     render(){
         return(
             <div>
-               {this.createList()}
+                <p>[image of {this.state.properties[0].img}]</p>
+                <p>{this.state.properties[0].location}</p>
+                <p>{this.state.properties[0].price}</p>
+                <p><a href="">{this.state.properties[0].agent}</a></p>
+                <p>[image of {this.state.properties[1].img}]</p>
+                <p>{this.state.properties[1].location}</p>
+                <p>{this.state.properties[1].price}</p>
+                <p><a href="">{this.state.properties[1].agent}</a></p>
+                <p>[image of {this.state.properties[2].img}]</p>
+                <p>{this.state.properties[2].location}</p>
+                <p>{this.state.properties[2].price}</p>
+                <p><a href="">{this.state.properties[2].agent}</a></p>
+                <p>[image of {this.state.properties[3].img}]</p>
+                <p>{this.state.properties[3].location}</p>
+                <p>{this.state.properties[3].price}</p>
+                <p><a href="">{this.state.properties[3].agent}</a></p>
+                <p>[image of {this.state.properties[0].img}]</p>
+                <p>{this.state.properties[0].location}</p>
+                <p>{this.state.properties[0].price}</p>
+                <p><a href="">{this.state.properties[0].agent}</a></p>
+                <p>[image of {this.state.properties[1].img}]</p>
+                <p>{this.state.properties[1].location}</p>
+                <p>{this.state.properties[1].price}</p>
+                <p><a href="">{this.state.properties[1].agent}</a></p>
+                <p>[image of {this.state.properties[2].img}]</p>
+                <p>{this.state.properties[2].location}</p>
+                <p>{this.state.properties[2].price}</p>
+                <p><a href="">{this.state.properties[2].agent}</a></p>
+                <p>[image of {this.state.properties[3].img}]</p>
+                <p>{this.state.properties[3].location}</p>
+                <p>{this.state.properties[3].price}</p>
+                <p><a href="">{this.state.properties[3].agent}</a></p>
             </div>
             
         )

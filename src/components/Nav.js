@@ -5,6 +5,7 @@ import NavInformation from './NavInformation';
 import NavLandOwnership from './NavLandOwnership';
 import NavLandData from './NavLandData';
 import NavForSale from './NavForSale';
+import NavPoliticalData from './NavPoliticalData';
 import NavDrawingTools from './NavDrawingTools';
 import analytics from '../analytics';
 
@@ -111,6 +112,14 @@ class Nav extends Component {
                          data-tip
                          data-for="ttInfo"
                     />
+                    <div className={`nav-left-icon for-sale ${active === 'Political Data' && 'active'}`}
+                         onClick={() => {
+                             analytics.event(analytics._event.SIDE_NAV + ' Political Data', 'Open');
+                             this.clickIcon('Political Data')
+                         }}
+                         data-tip
+                         data-for="ttPoliticalData" />
+
                     <div className={`nav-left-icon for-sale ${active === 'For Sale' && 'active'}`}
                          onClick={() => {
                              analytics.event(analytics._event.SIDE_NAV + ' For Sale', 'Open');
@@ -190,6 +199,11 @@ class Nav extends Component {
                     onClose={this.closeTray}
                 />
                 <NavForSale
+                    open = {open}
+                    active={active}
+                    onClose={this.closeTray}
+                />
+                <NavPoliticalData
                     open = {open}
                     active={active}
                     onClose={this.closeTray}

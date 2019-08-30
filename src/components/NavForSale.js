@@ -1,27 +1,30 @@
 import React, {Component} from 'react';
 import NavTray from './NavTray';
-import NavTrayItem from './common/NavTrayItem';
-import Draggable from './Draggable';
 import ToggleSwitch from './common/ToggleSwitch';
-import Nav from './Nav';
 import PropertyList from './PropertyList';
 
 class NavForSale extends Component {
     constructor(props){
         super(props);
         this.state = {
-            numberAvailable: 4,
+            numberAvailable: 8,
             searchArea: this.getSearchArea(),
             searchRadius: 4,
             type: 'conversion',
             minPrice: '750000',
             maxPrice: '1000000',
-            on: false
+            on: true
         };
     }
 
     getSearchArea (){
         return 'Newcastle upon Tyne';
+    }
+
+    toggleSwitch(){
+        this.setState({
+            on: !this.state.on
+        });
     }
 
     render(){
@@ -41,7 +44,7 @@ class NavForSale extends Component {
 
             
             <p>Private Land</p>
-            <ToggleSwitch on={this.props.active} tooltip="publicToPrivate" ></ToggleSwitch>
+            <ToggleSwitch on={this.props.active} tooltip="publicToPrivate" toggle={this.toggleSwitch} ></ToggleSwitch>
             <p>Public Land</p>          
 
             <PropertyList></PropertyList>
