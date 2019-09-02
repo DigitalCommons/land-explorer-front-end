@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "/app/",
-  "engines" : { 
-    "node" : "9.9.0" 
-  },
   "dependencies": {
     "@mapbox/leaflet-omnivore": "^0.3.4",
     "@mapbox/mapbox-gl-draw": "^1.0.7",
