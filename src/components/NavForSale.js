@@ -7,14 +7,13 @@ class NavForSale extends Component {
     constructor(props){
         super(props);
         this.state = {
-            numberAvailable: 8,
+            numberAvailable: 4,
             searchArea: this.getSearchArea(),
             searchRadius: 4,
-            type: 'conversion',
+            propertyType: 'all',
             minPrice: '750000',
             maxPrice: '1000000',
             private: true,
-            propertyType: 'all',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -107,7 +106,7 @@ class NavForSale extends Component {
 
             </div>
 
-            <PropertyList></PropertyList>
+            <PropertyList ></PropertyList>
            
             </NavTray>
         )
