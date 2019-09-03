@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropertyListing from './PropertyListing';
 
 class PropertyList extends Component {
     constructor(props){
@@ -11,25 +12,29 @@ class PropertyList extends Component {
     getProperties(){
         let properties = [
             {
-                img:        'field',
+                imageDescription: 'field',
+                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
                 location:   'Snarestone, Lecestershire',
                 price:      '£600,000',
                 agent:      'Humberts'
             },
            {
-                img:        'meadow',
+                imageDescription:        'meadow',
+                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
                 location:   'Snarestone, Lecestershire',
                 price:      '£600,000',
                 agent:      'plotfinder.net'
             },
             {
-                img:        'prarie',
+                imageDescription:        'prarie',
+                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
                 location:   'Snarestone, Lecestershire',
                 price:      '£600,000',
                 agent:      'plotfinder.net'
             },
              {
-                img:        'grassland',
+                imageDescription:   'grassland',
+                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
                 location:   'Snarestone, Lecestershire',
                 price:      '£600,000',
                 agent:      'Humberts'
@@ -39,68 +44,22 @@ class PropertyList extends Component {
     }
 
     createList(){
-        let testName = this.state.properties[0].img;
-       // let output = [<p>{this.state.properties[0].img}</p>];
-        let propertyArray = [<p>test</p>,<p>test2</p>,<p>{this.state.properties[0].img}</p>];
-        /*( 
-            
-                <p>{this.state.properties[0].img}</p>
-                <p>{this.state.properties[0].location}</p>
-                <p>{this.state.properties[0].price}</p>
-                <p>{this.state.properties[0].agent}</p>
-                <p>{this.state.properties[1].img}</p>
-                <p>{this.state.properties[1].location}</p>
-                <p>{this.state.properties[1].price}</p>
-                <p>{this.state.properties[1].agent}</p>
-                <p>{this.state.properties[2].img}</p>
-                <p>{this.state.properties[2].location}</p>
-                <p>{this.state.properties[2].price}</p>
-                <p>{this.state.properties[2].agent}</p>
-                <p>{this.state.properties[3].img}</p>
-                <p>{this.state.properties[3].location}</p>
-                <p>{this.state.properties[3].price}</p>
-                <p>{this.state.properties[3].agent}</p>
-                
-                )
-       */
+        let propertyArray = [];
+
+        for(let i = 0;i<this.state.properties.length;i++){
+            propertyArray.push(
+                <PropertyListing imageURL={this.state.properties[i].imageURL} imageDescription={this.state.properties[i].imageDescription} location={this.state.properties[i].location} agent={this.state.properties[i].agent} price={this.state.properties[i].price}></PropertyListing>
+            );
+
+        }
+
         return propertyArray;
     }
 
     render(){
         return(
-            <div>
-                <p>[image of {this.state.properties[0].img}]</p>
-                <p>{this.state.properties[0].location}</p>
-                <p>{this.state.properties[0].price}</p>
-                <p><a href="">{this.state.properties[0].agent}</a></p>
-                <p>[image of {this.state.properties[1].img}]</p>
-                <p>{this.state.properties[1].location}</p>
-                <p>{this.state.properties[1].price}</p>
-                <p><a href="">{this.state.properties[1].agent}</a></p>
-                <p>[image of {this.state.properties[2].img}]</p>
-                <p>{this.state.properties[2].location}</p>
-                <p>{this.state.properties[2].price}</p>
-                <p><a href="">{this.state.properties[2].agent}</a></p>
-                <p>[image of {this.state.properties[3].img}]</p>
-                <p>{this.state.properties[3].location}</p>
-                <p>{this.state.properties[3].price}</p>
-                <p><a href="">{this.state.properties[3].agent}</a></p>
-                <p>[image of {this.state.properties[0].img}]</p>
-                <p>{this.state.properties[0].location}</p>
-                <p>{this.state.properties[0].price}</p>
-                <p><a href="">{this.state.properties[0].agent}</a></p>
-                <p>[image of {this.state.properties[1].img}]</p>
-                <p>{this.state.properties[1].location}</p>
-                <p>{this.state.properties[1].price}</p>
-                <p><a href="">{this.state.properties[1].agent}</a></p>
-                <p>[image of {this.state.properties[2].img}]</p>
-                <p>{this.state.properties[2].location}</p>
-                <p>{this.state.properties[2].price}</p>
-                <p><a href="">{this.state.properties[2].agent}</a></p>
-                <p>[image of {this.state.properties[3].img}]</p>
-                <p>{this.state.properties[3].location}</p>
-                <p>{this.state.properties[3].price}</p>
-                <p><a href="">{this.state.properties[3].agent}</a></p>
+            <div className="grid-of-listings">
+                {this.createList()}
             </div>
             
         )

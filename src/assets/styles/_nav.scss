@@ -245,7 +245,7 @@ html, body {
 .nav-left-tray-wide {
   left: 72px;
   position: fixed;
-  width: 500px;
+  width: 510px;
   bottom: 0;
   top: 68px;
   background-color: #f4f5f7;
@@ -379,6 +379,11 @@ html, body {
   border-bottom: 1px solid #ddd;
 }
 
+.tray-title-section {
+  border-bottom: 1px solid #ddd;
+  background-color: white;
+}
+
 .draggable-container {
   position: relative;
   width: 100%;
@@ -418,6 +423,22 @@ html, body {
   top: 0;
   left: 0;
 }
+
+.grid-of-listings{
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.listing{
+  padding: 20px;
+}  
+
+.listing-image{
+  width: 200px;
+  height: 200px; 
+}  
 
 a.mapboxgl-ctrl-logo {
   display: none !important;
