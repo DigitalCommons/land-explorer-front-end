@@ -14,7 +14,11 @@ class NavForSale extends Component {
             minPrice: '750000',
             maxPrice: '1000000',
             private: true,
+            propertyType: 'all',
         };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.toggleSwitch = this.toggleSwitch.bind(this);
     }
 
     getSearchArea (){
@@ -22,9 +26,15 @@ class NavForSale extends Component {
     }
 
     toggleSwitch(){
-        console.log(this);
+        this.setState({
+            private: !this.state.private
+        });
         
     }
+
+   handleChange(event){
+       this.setState({propertyType: event.target.value});
+   }
 
     render(){
         return(
@@ -36,10 +46,10 @@ class NavForSale extends Component {
                 >
             <div className="tray-title-section">
 
-                <p>Showing {this.state.numberAvailable} properties in {this.state.searchArea}</p>
+                <p>Showing {this.state.propertyType} properties in {this.state.searchArea}</p>
             
-                <select name="Property Type">
-                    <option value="propertyType">Property Type</option>
+                <select value={this.state.propertyType} name="Property Type" onChange={this.handleChange}>
+                    <option value="placeholder">Property Type</option>
                     <option value="all">All</option>
                     <option value="plotPlanningPermission">Plot with Planning Permission</option>
                     <option value="development">Development</option>
@@ -88,7 +98,7 @@ class NavForSale extends Component {
                     <option value="7500000">£7,500,000</option>
                     <option value="10000000">£10,000,000</option>
                 </select>
-            
+
                 <div>
                     <p>Private Land</p>
                     <ToggleSwitch on={this.state.private} tooltip="publicToPrivate" toggle={this.toggleSwitch} ></ToggleSwitch>
