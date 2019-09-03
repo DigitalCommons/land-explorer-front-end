@@ -220,9 +220,10 @@ html, body {
 }
 
 .nav-left-tray {
+  height: 100%;
   left: 72px;
   position: fixed;
-  width: 228px;
+  width: 350px;
   bottom: 0;
   top: 68px;
   background-color: #f4f5f7;
