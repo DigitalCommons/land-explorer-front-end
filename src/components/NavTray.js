@@ -7,7 +7,7 @@ class NavTray extends Component {
         super(props);
     }
     render() {
-        let { open, title, onClose } = this.props;
+        let { open, title, onClose, footer  } = this.props;
         return (
             <div className="nav-left-tray"
                  style={{
@@ -16,14 +16,17 @@ class NavTray extends Component {
                      overflow: 'scroll'
                  }}
             >
-                <div className="tray-title">
-                    <div className="title">{title}</div>
-                    <div className="close-tray"
-                         onClick={onClose}
-                    ></div>
-                </div>
-                <div>
-                    {this.props.children}
+                <div className="nav-left-tray-container">
+                    <div className="tray-title">
+                        <div className="title">{title}</div>
+                        <div className="close-tray"
+                            onClick={onClose}
+                        ></div>
+                    </div>
+                    <div className="tray-content">
+                        {this.props.children}
+                    </div>
+                    { footer }
                 </div>
             </div>
         );
