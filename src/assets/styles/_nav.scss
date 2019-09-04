@@ -245,7 +245,8 @@ html, body {
 .nav-left-tray-wide {
   left: 72px;
   position: fixed;
-  width: 510px;
+
+  width: 600px;
   bottom: 0;
   top: 68px;
   background-color: #f4f5f7;
@@ -258,13 +259,18 @@ html, body {
 }
 
 .tray-title {
+  
   height: 58px;
   background-color: #e4e6ea;
+  background-size : cover;
   width: 100%;
+ 
   display: flex;
   align-items: center;
   border-bottom: solid 1px #d1d1d1;
-  .title {
+  
+  .title 
+  {
     font-weight: bold;
     margin-left: 42px;
   }
@@ -381,6 +387,7 @@ html, body {
 
 .tray-title-section {
   border-bottom: 1px solid #ddd;
+  padding:10px;
   background-color: white;
 }
 
@@ -419,7 +426,7 @@ html, body {
   color: rgb(76, 76, 76);
   text-decoration: none;
   font: 14px/1em "Helvetica";
-  padding: 10px;
+ 
   top: 0;
   left: 0;
 }
