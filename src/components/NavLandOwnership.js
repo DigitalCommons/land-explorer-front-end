@@ -182,7 +182,7 @@ class NavLandOwnership extends Component {
                 <div className="payment-gateway">
                     <div className="payment-gateway-title">
                         <div className="payment-gateway-logo-container"><div className="payment-gateway-logo"></div></div>
-                        <div className="payment-gateway-close"></div>
+                        <div className="payment-gateway-close" onClick={this.closeGateway}></div>
                         <div className="payment-gateway-title-main">Land Explorer</div>
                         <div className="payment-gateway-title-detail">Checkout below to proceed</div>
                     </div>
@@ -266,6 +266,13 @@ class NavLandOwnership extends Component {
     //Continue towards purchasing. Attached at the nav footer
     continueAction = () => {
         this.setState({mode: 'pay'});
+    }
+
+    //User click close on payment gateway. Return to cart page
+    closeGateway = () => {
+        this.setState({
+            mode: "cart"
+        })
     }
 
     makeCartItem = (house, type) => {
