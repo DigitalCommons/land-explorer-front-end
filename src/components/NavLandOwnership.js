@@ -26,6 +26,7 @@ class NavLandOwnership extends Component {
             //4. Payment area. Mode: pay
             mode: 'search',
             cart: [], 
+            err_msg: "",
 
         }
         this.searchHouses = this.searchHouses.bind(this)
@@ -66,10 +67,14 @@ class NavLandOwnership extends Component {
             .then(res => res.json())
             .then(
             (data) => {
-                this.setState({
-                    houses: data.result,
-                    mode: "select"
-                });
+                if(data.code === 4040){
+                    this.setState({err_msg: "Invalid post code given"});
+                }else{
+                    this.setState({
+                        houses: data.result,
+                        mode: "select"
+                    });
+                }
             },
             // Note: it's important to handle errors here
             // instead of a catch() block so that we don't swallow
@@ -133,6 +138,7 @@ class NavLandOwnership extends Component {
                     <input type="text" placeholder="Post code" value={this.state.postcode} onChange={this.handleChange} />
                     </label>
                     <input type="submit" value="Submit" />
+                    <div>{ this.state.err_msg }</div>
                 </form>
             </div>
         );
