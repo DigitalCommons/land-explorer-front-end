@@ -319,6 +319,7 @@ class NavLandOwnership extends Component {
                     title="Land Ownership"
                     open={this.props.open && this.props.active === 'Land Ownership'}
                     onClose={this.closeTray}
+                    css = "nav-left-tray-ownership"
                 >   
                 
                 { this.propertySearch() }
@@ -330,6 +331,7 @@ class NavLandOwnership extends Component {
                     title="Land Ownership"
                     open={this.props.open && this.props.active === 'Land Ownership'}
                     onClose={this.closeTray}
+                    css = "nav-left-tray-ownership"
                 >   
 
                 
@@ -347,6 +349,7 @@ class NavLandOwnership extends Component {
                         open={this.props.open && this.props.active === 'Land Ownership'}
                         onClose={this.closeTray}
                         footer = {this.navFooter()}
+                        css = "nav-left-tray-ownership"
                     >   
 
                     {
@@ -376,6 +379,7 @@ class NavLandOwnership extends Component {
                         open={this.props.open && this.props.active === 'Land Ownership'}
                         onClose={this.closeTray}
                         footer = {this.navFooter()}
+                        css = "nav-left-tray-ownership"
                     >   
 
                     {

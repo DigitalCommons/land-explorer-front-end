@@ -1,4 +1,19 @@
-.land-ownership-padding{
+  .nav-left-tray-ownership{
+    left: 72px;
+    position: fixed;
+    width: 350px;
+    bottom: 0;
+    top: 68px;
+    background-color: #f4f5f7;
+    box-shadow: 3px 0 6px 0 rgba(0, 0, 0, 0.16);
+    z-index: 100000;
+    transition: transform 500ms ease;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+  }
+
+  .land-ownership-padding{
     padding-left: 15px;
     padding-right: 15px;
   }
