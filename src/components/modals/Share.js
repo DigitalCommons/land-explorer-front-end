@@ -37,6 +37,11 @@ class Share extends Component {
     }
 
     share(id) {
+        let dt = {
+            "eid": id,
+            "emailAddresses": this.props.emails
+        };
+        console.log(dt);
         axios.post(`${constants.ROOT_URL}/api/user/map/share/sync/`, {
             "eid": id,
             "emailAddresses": this.props.emails
