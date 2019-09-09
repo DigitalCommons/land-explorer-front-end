@@ -13,20 +13,91 @@ class NavForSale extends Component {
             propertyType: 'all',
             minPrice: '750000',
             maxPrice: '1000000',
-            private: true,
+            privateListings: true,
+            
         };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.toggleSwitch = this.toggleSwitch.bind(this);
+        this.handleChange   = this.handleChange.bind(this);
+        this.toggleSwitch   = this.toggleSwitch.bind(this);
+        this.getListings    = this.getListings.bind(this);
+        
     }
 
-    getSearchArea (){
+    getSearchArea(){
         return 'Newcastle upon Tyne';
+    }
+
+    getListings(){
+
+//this filters the listings based on the options selected. First option is public vs private.
+
+        let privateListings = this.state.privateListings;
+
+        console.log(privateListings);
+
+        let properties = [
+            {
+                imageDescription: 'field',
+                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
+                location:   'Snarestone, Lecestershire',
+                price:      '£600,000',
+                agent:      'Humberts-Private',
+                private:    true,
+            },
+           {
+                imageDescription:        'meadow',
+                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
+                location:   'Snarestone, Lecestershire',
+                price:      '£600,000',
+                agent:      'plotfinder.net/public',
+                private:    false,
+            },
+            {
+                imageDescription:        'prarie',
+                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
+                location:   'Snarestone, Lecestershire',
+                price:      '£600,000',
+                agent:      'plotfinder.net/private',
+                private:    true,
+            },
+            {
+                imageDescription:   'grassland',
+                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
+                location:   'Snarestone, Lecestershire',
+                price:      '£600,000',
+                agent:      'Humberts-Public',
+                private:    false,
+            }
+        ]
+
+        let output = [];
+
+        //loop through properties array and add to output if private is true
+
+        for(let i = 0;i<properties.length;i++){
+
+            //console.log("Private Listing is " + privateListings + " and properties["+ i + "].private is " + properties[i].private);
+            console.log("PrivateListins is " + privateListings);
+
+            if(privateListings === false){
+                if(properties[i].private === false)
+                    output.push(properties[i]);
+            }
+            else {
+                if(properties[i].private === true)
+                    output.push(properties[i]);
+            }
+          
+        }
+
+        console.log("the output is " + output[0].private);
+
+        return output; 
     }
 
     toggleSwitch(){
         this.setState({
-            private: !this.state.private
+            privateListings: !this.state.privateListings
         });
         
     }
@@ -100,13 +171,13 @@ class NavForSale extends Component {
 
                 <div>
                     <p>Private Land</p>
-                    <ToggleSwitch on={this.state.private} tooltip="publicToPrivate" toggle={this.toggleSwitch} ></ToggleSwitch>
+                    <ToggleSwitch on={this.state.privateListings} tooltip="publicToPrivate" toggle={this.toggleSwitch} ></ToggleSwitch>
                     <p>Public Land</p>  
                 </div>
 
             </div>
 
-            <PropertyList ></PropertyList>
+            <PropertyList listings = {this.getListings()}></PropertyList>
            
             </NavTray>
         )

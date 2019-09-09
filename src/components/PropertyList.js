@@ -5,45 +5,16 @@ class PropertyList extends Component {
     constructor(props){
         super(props);
         this.state = {
-            properties: this.getProperties()
+            properties: this.props.listings,
         }
-    }
 
-    getProperties(){
-        let properties = [
-            {
-                imageDescription: 'field',
-                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
-                location:   'Snarestone, Lecestershire',
-                price:      '£600,000',
-                agent:      'Humberts'
-            },
-           {
-                imageDescription:        'meadow',
-                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
-                location:   'Snarestone, Lecestershire',
-                price:      '£600,000',
-                agent:      'plotfinder.net'
-            },
-            {
-                imageDescription:        'prarie',
-                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
-                location:   'Snarestone, Lecestershire',
-                price:      '£600,000',
-                agent:      'plotfinder.net'
-            },
-            {
-                imageDescription:   'grassland',
-                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
-                location:   'Snarestone, Lecestershire',
-                price:      '£600,000',
-                agent:      'Humberts'
-            }
-        ]
-        return properties; 
     }
 
     createList(){
+
+        console.log(this.state.properties);
+
+
         let propertyArray = [];
 
         for(let i = 0;i<this.state.properties.length;i++){
@@ -52,6 +23,7 @@ class PropertyList extends Component {
             );
 
         }
+        //console.log("the listings here are " + this.state.properties[0].private);
 
         return propertyArray;
     }
