@@ -4,27 +4,20 @@ import PropertyListing from './PropertyListing';
 class PropertyList extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            properties: this.props.listings,
-        }
 
     }
 
     createList(){
 
-        console.log(this.state.properties);
-
-
         let propertyArray = [];
 
-        for(let i = 0;i<this.state.properties.length;i++){
+        for(let i = 0;i<this.props.listings.length;i++){
             propertyArray.push(
-                <PropertyListing imageURL={this.state.properties[i].imageURL} imageDescription={this.state.properties[i].imageDescription} location={this.state.properties[i].location} agent={this.state.properties[i].agent} price={this.state.properties[i].price}></PropertyListing>
+                <PropertyListing imageURL={this.props.listings[i].imageURL} imageDescription={this.props.listings[i].imageDescription} location={this.props.listings[i].location} agent={this.props.listings[i].agent} price={this.props.listings[i].price}></PropertyListing>
             );
 
         }
-        //console.log("the listings here are " + this.state.properties[0].private);
-
+       
         return propertyArray;
     }
 

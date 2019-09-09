@@ -17,9 +17,9 @@ class NavForSale extends Component {
             
         };
 
-        this.handleChange   = this.handleChange.bind(this);
-        this.toggleSwitch   = this.toggleSwitch.bind(this);
-        this.getListings    = this.getListings.bind(this);
+        this.handleChange           = this.handleChange.bind(this);
+        this.toggleSwitch           = this.toggleSwitch.bind(this);
+        this.getFilteredListings    = this.getFilteredListings.bind(this);
         
     }
 
@@ -27,7 +27,7 @@ class NavForSale extends Component {
         return 'Newcastle upon Tyne';
     }
 
-    getListings(){
+    getFilteredListings(){
 
 //this filters the listings based on the options selected. First option is public vs private.
 
@@ -76,9 +76,6 @@ class NavForSale extends Component {
 
         for(let i = 0;i<properties.length;i++){
 
-            //console.log("Private Listing is " + privateListings + " and properties["+ i + "].private is " + properties[i].private);
-            console.log("PrivateListins is " + privateListings);
-
             if(privateListings === false){
                 if(properties[i].private === false)
                     output.push(properties[i]);
@@ -89,8 +86,6 @@ class NavForSale extends Component {
             }
           
         }
-
-        console.log("the output is " + output[0].private);
 
         return output; 
     }
@@ -177,7 +172,7 @@ class NavForSale extends Component {
 
             </div>
 
-            <PropertyList listings = {this.getListings()}></PropertyList>
+            <PropertyList listings = {this.getFilteredListings()}></PropertyList>
            
             </NavTray>
         )
