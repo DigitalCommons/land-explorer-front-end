@@ -112,7 +112,7 @@ class Nav extends Component {
                          data-tip
                          data-for="ttInfo"
                     />
-                    <div className={`nav-left-icon for-sale ${active === 'Political Data' && 'active'}`}
+                    <div className={`nav-left-icon political-data ${active === 'Political Data' && 'active'}`}
                          onClick={() => {
                              analytics.event(analytics._event.SIDE_NAV + ' Political Data', 'Open');
                              this.clickIcon('Political Data')
