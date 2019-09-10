@@ -3,6 +3,12 @@ import React, {Component} from 'react';
 class PropertyListing extends Component{
     constructor(props){
         super(props);
+
+        this.formatPrice = this.formatPrice.bind(this);
+    }
+
+    formatPrice(){
+        return "£ " + this.props.price;
     }
 
     render(){
@@ -11,7 +17,7 @@ class PropertyListing extends Component{
                 <img className='listing-image' src={this.props.imageURL} alt={this.props.imageDescription}></img>
                 <p>{this.props.location}</p>
                 <p>{this.props.agent}</p>
-                <p>{this.props.price}</p>
+                <p>{this.formatPrice()}</p>
             </div>
         )
     }

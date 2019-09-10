@@ -31,61 +31,28 @@ class NavForSale extends Component {
 
 //this filters the listings based on the options selected. First option is public vs private.
 
-        let privateListings = this.state.privateListings;
-
-        console.log(privateListings);
-
-        let properties = [
-            {
-                imageDescription: 'field',
-                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
-                location:   'Snarestone, Lecestershire',
-                price:      '£600,000',
-                agent:      'Humberts-Private',
-                private:    true,
-            },
-           {
-                imageDescription:        'meadow',
-                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
-                location:   'Snarestone, Lecestershire',
-                price:      '£600,000',
-                agent:      'plotfinder.net/public',
-                private:    false,
-            },
-            {
-                imageDescription:        'prarie',
-                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
-                location:   'Snarestone, Lecestershire',
-                price:      '£600,000',
-                agent:      'plotfinder.net/private',
-                private:    true,
-            },
-            {
-                imageDescription:   'grassland',
-                imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
-                location:   'Snarestone, Lecestershire',
-                price:      '£600,000',
-                agent:      'Humberts-Public',
-                private:    false,
-            }
-        ]
-
         let output = [];
 
-        //loop through properties array and add to output if private is true
+        let properties = this.getProperties();
 
+       //first add all properties to output, remove them if they are wrong
+
+       //or, just don't add them in the first place
+    
+       //loop through the array and check each item against a function
+
+      
+       
         for(let i = 0;i<properties.length;i++){
 
-            if(privateListings === false){
-                if(properties[i].private === false)
-                    output.push(properties[i]);
-            }
-            else {
-                if(properties[i].private === true)
-                    output.push(properties[i]);
-            }
+            if(properties[i].private == this.state.privateListings)
+                if(properties[i].price > this.state.minPrice)
+                    if(properties[i].price < this.state.maxPrice)
+                        output.push(properties[i]);
           
-        }
+        };
+        
+
 
         return output; 
     }
@@ -98,7 +65,69 @@ class NavForSale extends Component {
     }
 
    handleChange(event){
-       this.setState({propertyType: event.target.value});
+    
+    if(event.target.name == 'Property Type')
+       this.setState({
+           propertyType:    event.target.value,
+    });
+
+    if(event.target.name == 'Search Radius')
+        this.setState({
+            searchRadius:   event.target.value,
+        })
+
+    if(event.target.name == 'Minimum Price'){
+
+        let numberValue = parseInt(event.target.value,10);
+        this.setState({
+            minPrice:       numberValue,
+        });
+        
+    }
+
+    if(event.target.name == 'Maximum Price'){
+        let numberValue = parseInt(event.target.value,10);
+        this.setState({
+            maxPrice:       numberValue,
+        });
+    }
+   }
+
+   getProperties(){
+       return [
+        {
+            imageDescription: 'field',
+            imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
+            location:   'Snarestone, Lecestershire',
+            price:      600000,
+            agent:      'Humberts-Private',
+            private:    true,
+        },
+       {
+            imageDescription:        'meadow',
+            imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
+            location:   'Snarestone, Lecestershire',
+            price:      550000,
+            agent:      'plotfinder.net/public',
+            private:    false,
+        },
+        {
+            imageDescription:        'prarie',
+            imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
+            location:   'Snarestone, Lecestershire',
+            price:      60000,
+            agent:      'plotfinder.net/private',
+            private:    true,
+        },
+        {
+            imageDescription:   'grassland',
+            imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
+            location:   'Snarestone, Lecestershire',
+            price:      300000,
+            agent:      'Humberts-Public',
+            private:    false,
+        }
+    ];
    }
 
     render(){
@@ -127,7 +156,7 @@ class NavForSale extends Component {
                     <option value="updating">Updating</option>
                     <option value="houseWithPlot">House With Plot</option>
                 </select>
-                <select name="Search Radius">
+                <select value={this.state.searchRadius} name="Search Radius" onChange={this.handleChange}>
                     <option value="searchRadius">Search Radius</option>
                     <option value="1mile">1 mile</option>
                     <option value="5miles">5 miles</option>
@@ -135,7 +164,7 @@ class NavForSale extends Component {
                     <option value="20miles">20 miles</option>
                     <option value="50miles">50 miles</option>
                 </select>
-                <select name="Minimum Price">
+                <select value={this.state.minPrice} name="Minimum Price" onChange={this.handleChange}>
                     <option value="minPrice">Minimum Price</option>
                     <option value="POA">POA</option>
                     <option value="25000">£25,000</option>
@@ -149,7 +178,7 @@ class NavForSale extends Component {
                     <option value="7500000">£7,500,000</option>
                     <option value="10000000">£10,000,000</option>
                 </select>
-                <select name="Maximum Price">
+                <select value={this.state.maxPrice} name="Maximum Price" onChange={this.handleChange}>
                     <option value="maxPrice">Maximum Price</option>
                     <option value="POA">POA</option>
                     <option value="25000">£25,000</option>

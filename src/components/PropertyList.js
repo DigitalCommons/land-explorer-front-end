@@ -13,9 +13,14 @@ class PropertyList extends Component {
 
         for(let i = 0;i<this.props.listings.length;i++){
             propertyArray.push(
-                <PropertyListing imageURL={this.props.listings[i].imageURL} imageDescription={this.props.listings[i].imageDescription} location={this.props.listings[i].location} agent={this.props.listings[i].agent} price={this.props.listings[i].price}></PropertyListing>
+                <PropertyListing 
+                    imageURL={this.props.listings[i].imageURL} 
+                    imageDescription={this.props.listings[i].imageDescription} 
+                    location={this.props.listings[i].location} 
+                    agent={this.props.listings[i].agent} 
+                    price={this.props.listings[i].price}>
+                </PropertyListing>
             );
-
         }
        
         return propertyArray;
