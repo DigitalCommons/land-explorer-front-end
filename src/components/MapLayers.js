@@ -11,7 +11,7 @@ class MapLayers extends Component {
                 <Source
                     tileJsonSource={{
                         "type": "vector",
-                        "url": "mapbox://joolzt.ay7acj73,joolzt.9edhyytu,joolzt.6dd4p92w,joolzt.50odxxr1,joolzt.cpacrvmx,joolzt.c3j1rh4t,joolzt.75llshed,joolzt.4i2tzpgj"
+                        "url": "mapbox://joolzt.ay7acj73,joolzt.9edhyytu,joolzt.6dd4p92w,joolzt.50odxxr1,joolzt.cpacrvmx,joolzt.c3j1rh4t,joolzt.75llshed,joolzt.4i2tzpgj,kingmob.8cgpa2xi"
                     }}
                     id="composite"
                 />
@@ -162,6 +162,20 @@ class MapLayers extends Component {
                     }}
                 />
                 <Layer
+                    id="local-authority-greenbelt-bou-9r44t6"
+                    type="fill"
+                    sourceId="composite"
+                    sourceLayer="Local_Authority_Greenbelt_bou-9r44t6"
+                    minZoom={8}
+                    layout={{
+                        "visibility": "visible"
+                    }}
+                    paint={{
+                        "fill-color": "hsla(113, 97%, 50%, 0.4)",
+                        "fill-opacity": activeLayers.indexOf('local-authority-greenbelt-bou-9r44t6') !== -1 ? .4 : 0,
+                    }}
+                />
+                <Layer
                     id="ncc-brownfield-sites"
                     type="fill"
                     sourceId="composite"
@@ -174,19 +188,19 @@ class MapLayers extends Component {
                         "fill-color": "hsla(0, 24%, 20%, 0.5)",
                         "fill-opacity": activeLayers.indexOf('ncc-brownfield-sites') !== -1 ? .4 : 0,
                     }}
-                />
+                />                
                 <Layer
-                    id="local-authority-greenbelt-bou-9r44t6"
+                    id="wards-may-2019-boundaries-uk-d9ukjy"
                     type="fill"
                     sourceId="composite"
-                    sourceLayer="Local_Authority_Greenbelt_bou-9r44t6"
-                    minZoom={8}
+                    sourceLayer="Wards_May_2019_Boundaries_UK_-d9ukjy"
+                    minZoom={9}
                     layout={{
                         "visibility": "visible"
                     }}
                     paint={{
-                        "fill-color": "hsla(113, 97%, 50%, 0.4)",
-                        "fill-opacity": activeLayers.indexOf('local-authority-greenbelt-bou-9r44t6') !== -1 ? .4 : 0,
+                        "fill-color": "hsla(183, 82%, 61%)",
+                        "fill-opacity": activeLayers.indexOf('wards-may-2019-boundaries-uk-d9ukjy') !== -1 ? .4 : 0,
                     }}
                 />
             </React.Fragment>

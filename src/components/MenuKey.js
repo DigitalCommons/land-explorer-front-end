@@ -76,7 +76,13 @@ class MenuKey extends Component {
                 data: {
                     "Greenbelt": "hsla(113, 97%, 50%, 0.4)"
                 }
-            }
+            },
+            "wards-may-2019-boundaries-uk-d9ukjy": {
+                name:"Wards",
+                data: {
+                    "Wards": "hsla(183, 82%, 61%)"
+                }
+            },
         }
     }
 

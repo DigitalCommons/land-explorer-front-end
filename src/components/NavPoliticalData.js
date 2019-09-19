@@ -58,7 +58,7 @@ class NavPoliticalData extends Component{
                 css = "nav-left-tray-wide"
                 >
                 <h4>Political Data Search</h4>
-                <h5>Use Drawing tools to select an area or enter address details below:</h5>
+                <h5>Enter address details below to select an area:</h5>
                 
                     <label>
                     <input onChange={this.updateInfo} type="text" placeholder="Post code" value={this.state.value} />
@@ -67,11 +67,9 @@ class NavPoliticalData extends Component{
         
                 <p>The council for {this.state.postcode} is {this.state.council}</p>
                     <p>Your MP is {this.getMPfromPostcode(this.state.postcode)}</p>
-                    <Draggable itemHeight={58}>
-                        <NavTrayItem draggable={true} title="MP Boundaries" layerId='provisional-agricultural-land-ab795l'/>
-                        <NavTrayItem draggable={true} title="Council Boundaries" layerId='national-forest-estate-soil-g-18j2ga'/>
-                        <NavTrayItem draggable={true} title="Last Election Results" layerId='historic-flood-map-5y05ao'/>
-                     </Draggable>
+                   
+                        <NavTrayItem draggable={true} title="Ward Boundaries" layerId='wards-may-2019-boundaries-uk-d9ukjy'/>
+                     
                 </NavTray>
         )
     }
