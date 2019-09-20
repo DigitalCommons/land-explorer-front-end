@@ -80,7 +80,7 @@ class MenuKey extends Component {
             "wards-may-2019-boundaries-uk-d9ukjy": {
                 name:"Wards",
                 data: {
-                    "Wards": "hsla(183, 82%, 61%)"
+                    "Wards": "hsl(0, 100%, 0%)"
                 }
             },
         }

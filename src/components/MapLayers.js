@@ -199,7 +199,7 @@ class MapLayers extends Component {
                         "visibility": "visible"
                     }}
                     paint={{
-                        "fill-color": "hsla(183, 82%, 61%)",
+                        "fill-color": "hsla(0, 100%, 0%, 0.8)",
                         "fill-opacity": activeLayers.indexOf('wards-may-2019-boundaries-uk-d9ukjy') !== -1 ? .4 : 0,
                     }}
                 />

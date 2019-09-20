@@ -12,13 +12,9 @@ class NavPoliticalData extends Component{
             council: "",
         };
 
-        this.handleChange   = this.handleChange.bind(this);
+        //this.handleChange   = this.handleChange.bind(this);
         //this.
         this.updateInfo     = this.updateInfo.bind(this);
-    }
-
-    handleChange(event){
-        this.setState({postcode: event.target.value});
     }
 
     getPostcodeFromAddress(address){
@@ -28,7 +24,17 @@ class NavPoliticalData extends Component{
     }
 
     updateInfo(){
-        let datasrc = "https://mapit.mysociety.org/postcode/" + this.state.postcode;
+
+        let postcode = '';
+        //let postcode = this.target.value;
+
+        //this.state.postcode = postcode;
+
+        //take out any spaces
+
+        //test whether viable postcode
+
+        let datasrc = "https://mapit.mysociety.org/postcode/" + postcode;
 
         //let Httpreq = new XMLHttpRequest(); // a new request
         //Httpreq.open("GET",datasrc,false);
@@ -60,13 +66,13 @@ class NavPoliticalData extends Component{
                 <h4>Political Data Search</h4>
                 <h5>Enter address details below to select an area:</h5>
                 
-                    <label>
+                    
                     <input onChange={this.updateInfo} type="text" placeholder="Post code" value={this.state.value} />
-                    </label>
-                    <button onClick={this.handleChange}>Submit</button>
+                    
+                    <button onClick={this.updateInfo}>Submit</button>
         
                 <p>The council for {this.state.postcode} is {this.state.council}</p>
-                    <p>Your MP is {this.getMPfromPostcode(this.state.postcode)}</p>
+                <p>Your MP is {this.getMPfromPostcode(this.state.postcode)}</p>
                    
                         <NavTrayItem draggable={true} title="Ward Boundaries" layerId='wards-may-2019-boundaries-uk-d9ukjy'/>
                      
