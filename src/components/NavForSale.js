@@ -41,7 +41,7 @@ class NavForSale extends Component {
         this.handleChange           = this.handleChange.bind(this);
         this.toggleSwitch           = this.toggleSwitch.bind(this);
         this.getFilteredListings    = this.getFilteredListings.bind(this);
-        this.displayMarkers         = this.displayMarkers.bind(this);
+        //this.displayMarkers         = this.displayMarkers.bind(this.props.drawControl);
         
     }
 
@@ -61,9 +61,7 @@ class NavForSale extends Component {
 
        //or, just don't add them in the first place
     
-       //loop through the array and check each item against a function
-
-        console.log(layerContainer);
+       //loop through the array and check each item against the state valuess
       
         for(let i = 0;i<properties.length;i++){
 
@@ -73,9 +71,7 @@ class NavForSale extends Component {
                         output.push(properties[i]);
           
         };
-        
-
-
+    
         return output; 
     }
 
@@ -185,9 +181,7 @@ class NavForSale extends Component {
 
         let markers = [];
 
-        if(this.props.drawControl){
-            console.log(this.props.drawControl.draw);
-        }
+        /*
         
         var geojson = {
             type: 'FeatureCollection',
@@ -205,7 +199,7 @@ class NavForSale extends Component {
            ]
           };
 
-         /* geojson.features.forEach(function(marker) {
+          geojson.features.forEach(function(marker) {
 
             // create a HTML element for each feature
             var el = document.createElement('div');
@@ -223,9 +217,6 @@ class NavForSale extends Component {
 
 
         */
-
-    
-       
 
        if(this.props.drawControl)
         markers.push( 
