@@ -30,7 +30,7 @@ class PropertyListing extends Component{
           return (            
             <div className='listing' id={this.getKey()}>
                 <button title = {'close'}
-                        onMouseUp = {this.hide}
+                        onClick = {this.hide}
                 >
                     x
                 </button>
