@@ -18,7 +18,11 @@ class PropertyList extends Component {
                     imageDescription={this.props.listings[i].imageDescription} 
                     location={this.props.listings[i].location} 
                     agent={this.props.listings[i].agent} 
-                    price={this.props.listings[i].price}>
+                    price={this.props.listings[i].price}
+                    key = {this.props.listings[i].id}
+                    id = {this.props.listings[i].id}
+                >
+                   
                 </PropertyListing>
             );
         }
