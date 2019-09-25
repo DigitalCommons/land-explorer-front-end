@@ -19,7 +19,7 @@ class ToggleSwitch extends Component {
                 <label className="switch">
                     <input
                         type="checkbox"
-                        checked={on}
+                        defaultChecked={on}
                         onChange={this.handleChange}
                     />
                     <span className="slider round"></span>

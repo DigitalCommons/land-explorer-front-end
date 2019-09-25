@@ -2,6 +2,27 @@ import React, {Component} from 'react';
 import NavTray from './NavTray';
 import ToggleSwitch from './common/ToggleSwitch';
 import PropertyList from './PropertyList';
+import ReactMapboxGl from 'react-mapbox-gl';
+import { Marker } from "react-mapbox-gl";
+import {
+    Map,
+    TileLayer,
+    Popup,
+    Circle,
+    FeatureGroup,
+    LayerGroup,
+    LayersControl,
+    CircleMarker,
+    Polygon,
+    Polyline,
+    Rectangle,
+    Tooltip,
+    GeoJSON,
+    ZoomControl
+} from 'react-leaflet';
+import PropTypes from 'prop-types';
+const {BaseLayer, Overlay, layerContainer} = LayersControl;
+
 
 class NavForSale extends Component {
     constructor(props){
@@ -14,12 +35,13 @@ class NavForSale extends Component {
             minPrice: '750000',
             maxPrice: '1000000',
             privateListings: true,
-            
+            markers:   true,
         };
 
         this.handleChange           = this.handleChange.bind(this);
         this.toggleSwitch           = this.toggleSwitch.bind(this);
         this.getFilteredListings    = this.getFilteredListings.bind(this);
+        this.displayMarkers         = this.displayMarkers.bind(this);
         
     }
 
@@ -41,13 +63,13 @@ class NavForSale extends Component {
     
        //loop through the array and check each item against a function
 
+        console.log(layerContainer);
       
-       
         for(let i = 0;i<properties.length;i++){
 
             if(properties[i].private == this.state.privateListings)
-                if(properties[i].price > this.state.minPrice)
-                    if(properties[i].price < this.state.maxPrice)
+                if(properties[i].price >= this.state.minPrice)
+                    if(properties[i].price <= this.state.maxPrice)
                         output.push(properties[i]);
           
         };
@@ -126,8 +148,109 @@ class NavForSale extends Component {
             price:      300000,
             agent:      'Humberts-Public',
             private:    false,
-        }
+        },
+        {
+            imageDescription:   'grassland',
+            imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
+            location:   'Snarestone, Lecestershire',
+            price:      6000000,
+            agent:      'Humberts-Public',
+            private:    false,
+        },
+        {
+            imageDescription:        'prarie',
+            imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
+            location:   'Snarestone, Lecestershire',
+            price:      800000,
+            agent:      'plotfinder.net/private',
+            private:    true,
+        },
+        {
+            imageDescription:       'Tyneside Cinema',
+            imageURL:   'https://i2-prod.chroniclelive.co.uk/incoming/article12536150.ece/ALTERNATES/s615/DMR_NEC_0101217tyneside_05.jpg',
+            location:   'Newcastle upon Tyne',
+            price:      1000000,
+            agent:      'private.cinemasale.co.uk',
+            private:    true,
+            coordinates: [-1.6118509274478185, 54.973665159663256],
+        },
     ];
+   }
+
+   displayMarkers(){
+
+        const markerIcon = require('../assets/img/icon-marker-new--dark-grey.svg');
+        //const markerIconAerial = require('../assets/img/icon-marker-new--white.svg');
+        //const markerIconActive = require('../assets/img/icon-marker-new--green.svg');
+
+        let markers = [];
+
+        if(this.props.drawControl){
+            console.log(this.props.drawControl.draw);
+        }
+        
+        var geojson = {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: this.getProperties()[6].coordinates,
+              },
+              properties: {
+                title: 'Mapbox',
+                description: this.getProperties()[6].imageDescription,
+              }
+            },
+           ]
+          };
+
+         /* geojson.features.forEach(function(marker) {
+
+            // create a HTML element for each feature
+            var el = document.createElement('div');
+            el.className = 'marker-section';
+          
+            // make a marker for each feature and add to the map
+            new ReactMapboxGl.Marker(el)
+              .setLngLat(marker.geometry.coordinates)
+              .addTo(this.props.drawControl.context.map);
+          });
+
+          map comes from this.props.drawControl.context.map.
+          Marker wants this.context.map to exist
+          Marker wants this == this.props.drawControl
+
+
+        */
+
+    
+       
+
+       if(this.props.drawControl)
+        markers.push( 
+                <Marker
+                    key={546}
+                    position={this.getProperties()[6].coordinates}
+                    name={this.getProperties()[6].imageDescription}
+                    description={'great description'}
+                    anchor="bottom"
+                    style={{ height: '40px', zIndex: 1}}
+                    >
+                    <img src={ markerIcon } alt=""
+                         style={{
+                             height: 40,
+                             width: 40,
+                             zIndex: 1
+                         }}
+                    />
+                </Marker>      
+        );
+
+    if (this.props.active && this.state.markers)
+        return markers;
+    else
+        return;
    }
 
     render(){
@@ -203,9 +326,14 @@ class NavForSale extends Component {
 
             <PropertyList listings = {this.getFilteredListings()}></PropertyList>
            
+            {this.displayMarkers()}
+
+            
+
             </NavTray>
         )
     }
 }
 
-export default NavForSale;
+
+export default (NavForSale);

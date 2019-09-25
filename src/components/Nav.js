@@ -202,6 +202,7 @@ class Nav extends Component {
                     open = {open}
                     active={active}
                     onClose={this.closeTray}
+                    drawControl={drawControl}
                 />
                 <NavPoliticalData
                     open = {open}
