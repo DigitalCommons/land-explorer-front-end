@@ -17,7 +17,9 @@ class PropertyListing extends Component{
     }
 
     hide(){
-        document.getElementById(this.getKey()).hide();
+        if(document.getElementById(this.getKey()))
+            document.getElementById(this.getKey()).style.display = 'none';
+        console.log("we trying!");
     }
 
     getKey(){
@@ -25,10 +27,10 @@ class PropertyListing extends Component{
     }
 
     render(){
-          return (
+          return (            
             <div className='listing' id={this.getKey()}>
                 <button title = {'close'}
-                        onClick = {this.hide()}
+                        onMouseUp = {this.hide}
                 >
                     x
                 </button>
