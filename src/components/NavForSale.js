@@ -218,7 +218,7 @@ class NavForSale extends Component {
 
         */
 
-       if(this.props.drawControl)
+       /*if(this.props.drawControl)
         markers.push( 
                 <Marker
                     key={546}
@@ -237,7 +237,7 @@ class NavForSale extends Component {
                     />
                 </Marker>
         );
-
+*/
     if (this.props.active && this.state.markers)
         return markers;
     else
