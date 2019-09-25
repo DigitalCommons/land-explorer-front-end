@@ -235,7 +235,7 @@ class NavForSale extends Component {
                              zIndex: 1
                          }}
                     />
-                </Marker>      
+                </Marker>
         );
 
     if (this.props.active && this.state.markers)
