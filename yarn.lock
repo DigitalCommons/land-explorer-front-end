@@ -1217,6 +1217,16 @@
     "@turf/invariant" "^5.1.5"
     d3-voronoi "1.1.2"
 
+"@types/geojson@*":
+  version "7946.0.7"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.7.tgz#c8fa532b60a0042219cdf173ca21a975ef0666ad"
+
+"@types/supercluster@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@types/supercluster/-/supercluster-3.0.2.tgz#dc11a6afa3d21b1a3d8510b1759a668fdf19e254"
+  dependencies:
+    "@types/geojson" "*"
+
 "@types/unist@^2.0.0", "@types/unist@^2.0.2":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.3.tgz#9c088679876f374eb5983f150d4787aa6fb32d7e"
@@ -8368,9 +8378,11 @@ react-map-gl@^3.2.7:
     prop-types "^15.5.7"
     viewport-mercator-project "^6.0.0"
 
-react-mapbox-gl-draw@^1.0.4:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/react-mapbox-gl-draw/-/react-mapbox-gl-draw-1.0.6.tgz#7d33c14b720de3acd0ec99cd16fedbb98322e46e"
+"react-mapbox-gl-draw@github:hansensalim/react-mapbox-gl-draw":
+  version "2.0.3"
+  resolved "https://codeload.github.com/hansensalim/react-mapbox-gl-draw/tar.gz/f6b566584206c7e8d3be6f967a7f8dc2167c059b"
+  dependencies:
+    "@types/supercluster" "^3.0.2"
 
 react-mapbox-gl@^3.8.0:
   version "3.9.2"
