@@ -34,14 +34,6 @@ class NavForSale extends Component {
         let output = [];
 
         let properties = this.getProperties();
-
-       //first add all properties to output, remove them if they are wrong
-
-       //or, just don't add them in the first place
-    
-       //loop through the array and check each item against a function
-
-      
        
         for(let i = 0;i<properties.length;i++){
 
@@ -51,8 +43,6 @@ class NavForSale extends Component {
                         output.push(properties[i]);
           
         };
-        
-
 
         return output; 
     }
