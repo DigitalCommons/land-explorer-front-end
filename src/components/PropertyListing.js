@@ -29,11 +29,6 @@ class PropertyListing extends Component{
     render(){
           return (            
             <div className='listing' id={this.getKey()}>
-                <button title = {'close'}
-                        onClick = {this.hide}
-                >
-                    x
-                </button>
                 <img className='listing-image' src={this.props.imageURL} alt={this.props.imageDescription}></img>
                 <p>{this.props.location}</p>
                 <p>{this.props.agent}</p>
