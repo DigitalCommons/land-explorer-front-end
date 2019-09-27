@@ -107,10 +107,10 @@ class NavLandOwnership extends Component {
     searchHouses(event) {
         event.preventDefault();
         //Commenting the API calls to reduce usage as there is limitations for free version 
-        this.addressAPI()
+        //this.addressAPI()
 
         //Using dummy property data
-        //this.fakeDate();
+        this.fakeDate();
     }
 
     //Serve the page where user can add property title/plan to cart
@@ -168,18 +168,19 @@ class NavLandOwnership extends Component {
                     <hr />
                     <h4 class="land-ownership-subsection">Select property</h4>
                 </div>
-                <form onSubmit={this.addToCartView}>        
+                <form>        
                     {
                         this.state.houses.map((house,index) => {
                             return <div class="select-property-checkbox"><label><input type="checkbox" name={index} defaultChecked={this.isPropertyChecked(index)} value={index} key={index} onChange={this.handleCheckboxChange} className="form-check-input" /> { this.displayHouse(house) } <br /></label></div>
                             //return <label><input type="checkbox" name={index} value={index} key={index} onChange={this.handleCheckboxChange} className="form-check-input" /> {house.line_1}, {house.line_2} <br /></label>
                         })
                     }
-                    <input type="submit" value="Submit" />
                 </form>
             </div>
         );
     }
+
+
 
     paymentView = () => {
         return (
@@ -264,6 +265,18 @@ class NavLandOwnership extends Component {
         );
     }
 
+    selectStateFooter = () => {
+        return (
+            <div className="nav-tray-select-footer">
+                <div className="nav-tray-footer-actions">
+                    <div className="nav-tray-select-footer-item" onClick={this.addToCartView}>
+                        SUBMIT
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     //Return to select omde. Attached at the nav footer
     backAction = () => {
         this.setState({mode: 'select'});
@@ -337,6 +350,7 @@ class NavLandOwnership extends Component {
                     title="Land Ownership"
                     open={this.props.open && this.props.active === 'Land Ownership'}
                     onClose={this.closeTray}
+                    footer = {this.selectStateFooter()}
                     css = "nav-left-tray-ownership"
                 >   
 
@@ -344,6 +358,11 @@ class NavLandOwnership extends Component {
                 { this.propertySearch() }
                 { this.propertySelect() }
  
+                {/* This div is needed to create a space between cards and footer
+                    Setting a margin wont work in this case. An alternative would be to use some br.
+                */}
+                <div style={{ height : 120}}></div>
+
                 </NavTray>
             )
         }else if(this.state.mode === 'cart'){
