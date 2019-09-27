@@ -29,9 +29,9 @@ class NavPoliticalData extends Component{
         try{   
         //API calls are limited to 50 a day so to use the dummy data for now    
         
-        //let dataJSON = this.callAPI();
+        let dataJSON = this.callAPI();
 
-        let dataJSON = dummydata; 
+        //let dataJSON = dummydata; 
             
         this.setState({
             council: dataJSON.areas[dataJSON.shortcuts.council].name,
