@@ -193,7 +193,7 @@ class MapLayers extends Component {
                 />
                  <Marker
                     key={546}
-                    coordinates = {[-1.6118509274478185, 54.973665159663256]}
+                    coordinates = {[-1.6118509274478185, 55.073665159663256]}
                     name={'Tyneside Cinema'}
                     description={'great description'}
                     anchor="bottom"

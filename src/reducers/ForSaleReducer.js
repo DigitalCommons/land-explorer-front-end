@@ -1,39 +1,39 @@
 const INITIAL_STATE = {
-    activeLayers: [],
+    activeMarkers: [],
 }
-let activeLayers;
+let activeMarkers;
 let layerId;
 export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case 'TOGGLE_LAYER':
-            activeLayers = state.activeLayers.slice();
+            activeMarkers = state.activeMarkers.slice();
             layerId = action.payload;
-            if (activeLayers.indexOf(layerId) !== -1) {
-                activeLayers = activeLayers.filter(e => e !== layerId);
+            if (activeMarkers.indexOf(layerId) !== -1) {
+                activeMarkers = activeMarkers.filter(e => e !== layerId);
             } else {
-                activeLayers.push(layerId);
+                activeMarkers.push(layerId);
             }
             return {
                 ...state,
-                activeLayers: activeLayers
+                activeMarkers: activeMarkers
             }
         case 'LAYER_OFF':
-            activeLayers = state.activeLayers.slice();
+            activeMarkers = state.activeMarkers.slice();
             layerId = action.payload;
-            if (activeLayers.indexOf(layerId) !== -1) {
-                activeLayers = activeLayers.filter(e => e !== layerId);
+            if (activeMarkers.indexOf(layerId) !== -1) {
+                activeMarkers = activeMarkers.filter(e => e !== layerId);
             }
             return {
                 ...state,
-                activeLayers: activeLayers
+                activeMarkers: activeMarkers
             }
         case 'LAYER_ON':
-            activeLayers = state.activeLayers.slice();
+            activeMarkers = state.activeMarkers.slice();
             layerId = action.payload;
-            activeLayers.push(layerId);
+            activeMarkers.push(layerId);
             return {
                 ...state,
-                activeLayers: activeLayers
+                activeMarkers: activeMarkers
             }
         case 'LOAD_MAP':
             return action.payload.mapLayers;

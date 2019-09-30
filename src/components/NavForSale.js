@@ -2,26 +2,7 @@ import React, {Component} from 'react';
 import NavTray from './NavTray';
 import ToggleSwitch from './common/ToggleSwitch';
 import PropertyList from './PropertyList';
-import ReactMapboxGl from 'react-mapbox-gl';
-import { Marker } from "react-mapbox-gl";
-import {
-    Map,
-    TileLayer,
-    Popup,
-    Circle,
-    FeatureGroup,
-    LayerGroup,
-    LayersControl,
-    CircleMarker,
-    Polygon,
-    Polyline,
-    Rectangle,
-    Tooltip,
-    GeoJSON,
-    ZoomControl
-} from 'react-leaflet';
-import PropTypes from 'prop-types';
-const {BaseLayer, Overlay, layerContainer} = LayersControl;
+import ForSaleMarkers from './ForSaleMarkers';
 
 
 class NavForSale extends Component {
@@ -35,7 +16,7 @@ class NavForSale extends Component {
             minPrice: '25000',
             maxPrice: '1000000',
             privateListings: true,
-            markers:   true,
+            markers:   false,
         };
 
         this.handleChange           = this.handleChange.bind(this);
@@ -222,27 +203,13 @@ class NavForSale extends Component {
 
         */
 
-       /*if(this.props.drawControl)
+
         markers.push( 
-                <Marker
-                    key={546}
-                    position={this.getProperties()[6].coordinates}
-                    name={this.getProperties()[6].imageDescription}
-                    description={'great description'}
-                    anchor="bottom"
-                    style={{ height: '40px', zIndex: 1}}
-                    >
-                    <img src={ markerIcon } alt=""
-                         style={{
-                             height: 40,
-                             width: 40,
-                             zIndex: 1
-                         }}
-                    />
-                </Marker>
+                <ForSaleMarkers></ForSaleMarkers>
         );
-*/
-    if (this.props.active && this.state.markers)
+
+
+    if (this.state.markers)
         return markers;
     else
         return;
@@ -283,8 +250,8 @@ class NavForSale extends Component {
                     <option value="50miles">50 miles</option>
                 </select>
                 <select value={this.state.minPrice} name="Minimum Price" onChange={this.handleChange}>
-                    <option value="minPrice">Minimum Price</option>
-                    <option value="POA">POA</option>
+                    <option value="0">Minimum Price</option>
+                    <option value="0">POA</option>
                     <option value="25000">£25,000</option>
                     <option value="50000">£50,000</option>
                     <option value="100000">£100,000</option>
@@ -297,8 +264,8 @@ class NavForSale extends Component {
                     <option value="10000000">£10,000,000</option>
                 </select>
                 <select value={this.state.maxPrice} name="Maximum Price" onChange={this.handleChange}>
-                    <option value="maxPrice">Maximum Price</option>
-                    <option value="POA">POA</option>
+                    <option value="9999999999999">Maximum Price</option>
+                    <option value="9999999999999">POA</option>
                     <option value="25000">£25,000</option>
                     <option value="50000">£50,000</option>
                     <option value="100000">£100,000</option>
@@ -321,9 +288,7 @@ class NavForSale extends Component {
 
             <PropertyList listings = {this.getFilteredListings()}></PropertyList>
            
-            {this.displayMarkers()}
-
-            
+           {this.displayMarkers()}
 
             </NavTray>
         )
