@@ -32,7 +32,7 @@ class NavForSale extends Component {
             searchArea: this.getSearchArea(),
             searchRadius: 4,
             propertyType: 'all',
-            minPrice: '750000',
+            minPrice: '25000',
             maxPrice: '1000000',
             privateListings: true,
             markers:   true,
@@ -120,6 +120,7 @@ class NavForSale extends Component {
             price:      600000,
             agent:      'Humberts-Private',
             private:    true,
+            id:         '1',
         },
        {
             imageDescription:        'meadow',
@@ -128,6 +129,7 @@ class NavForSale extends Component {
             price:      550000,
             agent:      'plotfinder.net/public',
             private:    false,
+            id:         '2',
         },
         {
             imageDescription:        'prarie',
@@ -136,6 +138,7 @@ class NavForSale extends Component {
             price:      60000,
             agent:      'plotfinder.net/private',
             private:    true,
+            id:         '3',
         },
         {
             imageDescription:   'grassland',
@@ -144,6 +147,7 @@ class NavForSale extends Component {
             price:      300000,
             agent:      'Humberts-Public',
             private:    false,
+
         },
         {
             imageDescription:   'grassland',
