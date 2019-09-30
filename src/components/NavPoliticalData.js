@@ -29,9 +29,9 @@ class NavPoliticalData extends Component{
         try{   
         //API calls are limited to 50 a day so to use the dummy data for now    
         
-        //let dataJSON = this.callAPI();
+        let dataJSON = this.callAPI();
 
-        let dataJSON = dummydata; 
+        //let dataJSON = dummydata; 
             
         this.setState({
             council: dataJSON.areas[dataJSON.shortcuts.council].name,
@@ -102,6 +102,8 @@ class NavPoliticalData extends Component{
                 onClose={this.props.onClose}
                 css = "nav-left-tray-wide"
                 >
+                <div id = "PoliticalData">
+                
                 <h4>Political Data Search</h4>
                 <h5>Enter postcode below to select an area:</h5>
                 
@@ -123,8 +125,11 @@ class NavPoliticalData extends Component{
                    
                 <NavTrayItem draggable={false} title="All Ward Boundaries" layerId='wards-may-2019-boundaries-uk-d9ukjy'/>
                      
-                <p id="copyright-footer">Contains National Statistics data © Crown copyright and database right 2019</p>
-                
+                <p id = "copyright-footer">  Contains National Statistics data <span id = "Copyright"> &#169; </span> 
+ Crown copyright and database right 2019  </p>
+ 
+ 
+                </div>
                 </NavTray>
         )
     }

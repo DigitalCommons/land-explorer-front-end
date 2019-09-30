@@ -11,28 +11,152 @@ class NavForSale extends Component {
             searchArea: this.getSearchArea(),
             searchRadius: 4,
             propertyType: 'all',
-            minPrice: '750000',
+            minPrice: '25000',
             maxPrice: '1000000',
-            private: true,
+            privateListings: true,
+            
         };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.toggleSwitch = this.toggleSwitch.bind(this);
+        this.handleChange           = this.handleChange.bind(this);
+        this.toggleSwitch           = this.toggleSwitch.bind(this);
+        this.getFilteredListings    = this.getFilteredListings.bind(this);
+        
     }
 
-    getSearchArea (){
+    getSearchArea(){
         return 'Newcastle upon Tyne';
+    }
+
+    getFilteredListings(){
+
+//this filters the listings based on the options selected. First option is public vs private.
+
+        let output = [];
+
+        let properties = this.getProperties();
+       
+        for(let i = 0;i<properties.length;i++){
+
+            if(properties[i].private == this.state.privateListings)
+                if(properties[i].price >= this.state.minPrice)
+                    if(properties[i].price <= this.state.maxPrice)
+                        output.push(properties[i]);
+          
+        };
+
+        return output; 
     }
 
     toggleSwitch(){
         this.setState({
-            private: !this.state.private
+            privateListings: !this.state.privateListings
         });
         
     }
 
    handleChange(event){
-       this.setState({propertyType: event.target.value});
+    
+    if(event.target.name == 'Property Type')
+       this.setState({
+           propertyType:    event.target.value,
+    });
+
+    if(event.target.name == 'Search Radius')
+        this.setState({
+            searchRadius:   event.target.value,
+        })
+
+    if(event.target.name == 'Minimum Price'){0
+        let numberValue = parseInt(event.target.value,10);
+        this.setState({
+            minPrice:       numberValue,
+        });
+        
+    }
+
+    if(event.target.name == 'Maximum Price'){
+        let numberValue = parseInt(event.target.value,10);
+        this.setState({
+            maxPrice:       numberValue,
+        });
+    }
+   }
+
+   getProperties(){
+       return [
+        {
+            imageDescription: 'field',
+            imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
+            location:   'Snarestone, Lecestershire',
+            price:      600000,
+            agent:      'Humberts-Private',
+            private:    true,
+            id:         '1',
+        },
+       {
+            imageDescription:        'meadow',
+            imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
+            location:   'Snarestone, Lecestershire',
+            price:      550000,
+            agent:      'plotfinder.net/public',
+            private:    false,
+            id:         '2',
+        },
+        {
+            imageDescription:        'prarie',
+            imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
+            location:   'Snarestone, Lecestershire',
+            price:      60000,
+            agent:      'plotfinder.net/private',
+            private:    true,
+            id:         '3',
+        },
+        {
+            imageDescription:   'grassland',
+            imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
+            location:   'Snarestone, Lecestershire',
+            price:      300000,
+            agent:      'Humberts-Public',
+            private:    false,
+            id:         '4',
+        },
+        {
+            imageDescription:   'nicehouse',
+            imageURL:   'https://www.lamudi.com.ph/static/media/bm9uZS9ub25l/2x2x2x380x244/739d8acb199851.jpg',
+            location:   'Snarestone, Lecestershire',
+            price:      1000000,
+            agent:      'Private Houses.com',
+            private:    true,
+            id:         '5',
+        },
+        {
+            imageDescription:   'detachedhouse',
+            imageURL:   'https://media.rightmove.co.uk/dir/crop/10:9-16:9/169k/168902/83714213/168902_9105d0cb-967c-46cc-9fa4-65b5132873cf-91_3_31_101368_IMG_01_0000_max_476x317.jpg',
+            location:   'Snarestone, Lecestershire',
+            price:      300000,
+            agent:      'Humberts-Private',
+            private:    true,
+            id:         '6',
+        },
+        {
+            imageDescription:   'church',
+            imageURL:   'https://ichef.bbci.co.uk/news/660/cpsprodpb/9C76/production/_105745004_gettyimages-684415304.jpg',
+            location:   'Snarestone, Lecestershire',
+            price:      6500000,
+            agent:      'Public-Church-Buy',
+            private:    false,
+            id:         '7',
+        },
+        {
+            imageDescription:   'brownfield',
+            imageURL:   'https://www.map.org.uk/images/shufat-3_cropped_778_518.jpg',
+            location:   'Snarestone, Lecestershire',
+            price:      20000,
+            agent:      'Please buy this rubble from me',
+            private:    false,
+            id:         '8',
+        },
+    ];
    }
 
     render(){
@@ -61,7 +185,7 @@ class NavForSale extends Component {
                     <option value="updating">Updating</option>
                     <option value="houseWithPlot">House With Plot</option>
                 </select>
-                <select name="Search Radius">
+                <select value={this.state.searchRadius} name="Search Radius" onChange={this.handleChange}>
                     <option value="searchRadius">Search Radius</option>
                     <option value="1mile">1 mile</option>
                     <option value="5miles">5 miles</option>
@@ -69,9 +193,9 @@ class NavForSale extends Component {
                     <option value="20miles">20 miles</option>
                     <option value="50miles">50 miles</option>
                 </select>
-                <select name="Minimum Price">
-                    <option value="minPrice">Minimum Price</option>
-                    <option value="POA">POA</option>
+                <select value={this.state.minPrice} name="Minimum Price" onChange={this.handleChange}>
+                    <option value="0">Minimum Price</option>
+                    <option value="0">POA</option>
                     <option value="25000">£25,000</option>
                     <option value="50000">£50,000</option>
                     <option value="100000">£100,000</option>
@@ -83,9 +207,9 @@ class NavForSale extends Component {
                     <option value="7500000">£7,500,000</option>
                     <option value="10000000">£10,000,000</option>
                 </select>
-                <select name="Maximum Price">
-                    <option value="maxPrice">Maximum Price</option>
-                    <option value="POA">POA</option>
+                <select value={this.state.maxPrice} name="Maximum Price" onChange={this.handleChange}>
+                    <option value="1000000000000">Maximum Price</option>
+                    <option value="1000000000000">POA</option>
                     <option value="25000">£25,000</option>
                     <option value="50000">£50,000</option>
                     <option value="100000">£100,000</option>
@@ -100,13 +224,13 @@ class NavForSale extends Component {
 
                 <div>
                     <p>Private Land</p>
-                    <ToggleSwitch on={this.state.private} tooltip="publicToPrivate" toggle={this.toggleSwitch} ></ToggleSwitch>
+                    <ToggleSwitch on={this.state.privateListings} tooltip="publicToPrivate" toggle={this.toggleSwitch} ></ToggleSwitch>
                     <p>Public Land</p>  
                 </div>
 
             </div>
 
-            <PropertyList ></PropertyList>
+            <PropertyList listings = {this.getFilteredListings()}></PropertyList>
            
             </NavTray>
         )
