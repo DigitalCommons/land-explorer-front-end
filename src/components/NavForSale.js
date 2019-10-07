@@ -22,7 +22,6 @@ class NavForSale extends Component {
         this.handleChange           = this.handleChange.bind(this);
         this.toggleSwitch           = this.toggleSwitch.bind(this);
         this.getFilteredListings    = this.getFilteredListings.bind(this);
-        //this.displayMarkers         = this.displayMarkers.bind(this.props.drawControl);
         
     }
 
@@ -158,63 +157,6 @@ class NavForSale extends Component {
     ];
    }
 
-   displayMarkers(){
-
-        const markerIcon = require('../assets/img/icon-marker-new--dark-grey.svg');
-        //const markerIconAerial = require('../assets/img/icon-marker-new--white.svg');
-        //const markerIconActive = require('../assets/img/icon-marker-new--green.svg');
-
-        let markers = [];
-
-        /*
-        
-        var geojson = {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: this.getProperties()[6].coordinates,
-              },
-              properties: {
-                title: 'Mapbox',
-                description: this.getProperties()[6].imageDescription,
-              }
-            },
-           ]
-          };
-
-          geojson.features.forEach(function(marker) {
-
-            // create a HTML element for each feature
-            var el = document.createElement('div');
-            el.className = 'marker-section';
-          
-            // make a marker for each feature and add to the map
-            new ReactMapboxGl.Marker(el)
-              .setLngLat(marker.geometry.coordinates)
-              .addTo(this.props.drawControl.context.map);
-          });
-
-          map comes from this.props.drawControl.context.map.
-          Marker wants this.context.map to exist
-          Marker wants this == this.props.drawControl
-
-
-        */
-
-
-        markers.push( 
-                <ForSaleMarkers></ForSaleMarkers>
-        );
-
-
-    if (this.state.markers)
-        return markers;
-    else
-        return;
-   }
-
     render(){
         return(
             <NavTray
@@ -288,7 +230,7 @@ class NavForSale extends Component {
 
             <PropertyList listings = {this.getFilteredListings()}></PropertyList>
            
-           <ForSaleMarkers></ForSaleMarkers>
+           <ForSaleMarkers active = {this.props.active}></ForSaleMarkers>
 
             </NavTray>
         )

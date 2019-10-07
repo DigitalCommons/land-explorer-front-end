@@ -1,6 +1,13 @@
-export const addMarker = (coordinates) => ({
+export const addMarker = (marker) => ({
     type: 'ADD_MARKER',
     payload: {
-        location: coordinates,
+        location: marker.coordinates,
+        name:       marker.name,
+        price:      marker.price,
     }
-  });
+  })
+
+export const clearMarkers = () => ({
+    type: 'CLEAR_MARKERS',
+    payload: {}
+});

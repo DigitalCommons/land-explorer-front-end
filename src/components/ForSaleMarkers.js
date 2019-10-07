@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Marker } from 'react-mapbox-gl';
-import { addMarker } from '../actions/ForSaleActions';
+import { addMarker, clearMarkers } from '../actions/ForSaleActions';
 
 class ForSaleMarkers extends Component {
     constructor(props){
@@ -12,36 +11,25 @@ class ForSaleMarkers extends Component {
     }
 
     dispatchItem(){
-        this.props.addMarker([-1.6118509274478185, 54.973665159663256]);
+        console.log(this.props.active);
+
+        let marker = {
+            coordinates:    [-1.6118509274478185, 54.973665159663256],
+            name:           'Tyneside Cinema',
+            price:          '£1,000,000',
+        }
+
+        if(this.props.active == 'For Sale')
+            this.props.addMarker(marker);
+        if(this.props.active != 'For Sale')
+            this.props.clearMarkers();
     }
 
     render() {
-        let { activeMarkers } = this.props;
-        const markerIcon = require('../assets/img/icon-marker-new--dark-grey.svg');
- 
-        return(<div>
-            <button onClick={this.dispatchItem}>Dispatch Something</button>
+       
+        return (<div>
+        {this.dispatchItem()}
         </div>);
-        return (
-            <React.Fragment>
-                <Marker
-                    key={546}
-                    coordinates = {[-1.6118509274478185, 54.973665159663256]}
-                    name={'Tyneside Cinema'}
-                    description={'great description'}
-                    anchor="bottom"
-                    style={{ height: '40px', zIndex: 1}}
-                    >
-                    <img src={ markerIcon } alt=""
-                        style={{
-                            height: 40,
-                             width: 40,
-                            zIndex: 1
-                            }}
-                        />
-                </Marker>
-            </React.Fragment>
-        );
     }
 }
 
@@ -49,12 +37,4 @@ ForSaleMarkers.propTypes = {
 
 };
 
-const mapStateToProps = ({ forSale }) => ({
-    activeMarkers: forSale.activeMarkers,
-});
-
-const mapDispatchToProps = ({ forSale }) => ({
-    theaction:      forSale.action,
-})
-
-export default connect(null,{addMarker})(ForSaleMarkers);
+export default connect(null,{addMarker, clearMarkers})(ForSaleMarkers);
