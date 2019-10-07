@@ -8,6 +8,7 @@ export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case 'ADD_MARKER':
             console.log("the reducer has heard the action to add marker");
+            state.coordinates = action.payload.location;
         default:
             return state;
     }

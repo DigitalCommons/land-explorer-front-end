@@ -6,7 +6,6 @@ import { Source, Layer, Marker } from 'react-mapbox-gl';
 class MapLayers extends Component {
     render() {
         let { activeLayers } = this.props;
-        const markerIcon = require('../assets/img/icon-marker-new--dark-grey.svg');
         
         return (
             <React.Fragment>
@@ -191,22 +190,6 @@ class MapLayers extends Component {
                         "fill-opacity": activeLayers.indexOf('local-authority-greenbelt-bou-9r44t6') !== -1 ? .4 : 0,
                     }}
                 />
-                 <Marker
-                    key={546}
-                    coordinates = {[-1.6118509274478185, 55.073665159663256]}
-                    name={'Tyneside Cinema'}
-                    description={'great description'}
-                    anchor="bottom"
-                    style={{ height: '40px', zIndex: 1}}
-                    >
-                    <img src={ markerIcon } alt=""
-                         style={{
-                             height: 40,
-                             width: 40,
-                             zIndex: 1
-                         }}
-                    />
-                </Marker>
             </React.Fragment>
         );
     }

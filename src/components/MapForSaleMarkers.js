@@ -2,31 +2,20 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Marker } from 'react-mapbox-gl';
-import { addMarker } from '../actions/ForSaleActions';
 
-class ForSaleMarkers extends Component {
-    constructor(props){
-        super(props);
+class MapForSaleMarkers extends Component {
 
-        this.dispatchItem = this.dispatchItem.bind(this);
-    }
-
-    dispatchItem(){
-        this.props.addMarker([-1.6118509274478185, 54.973665159663256]);
-    }
-
-    render() {
-        let { activeMarkers } = this.props;
+    render(){
+        let { coordinates } = this.props;
         const markerIcon = require('../assets/img/icon-marker-new--dark-grey.svg');
- 
-        return(<div>
-            <button onClick={this.dispatchItem}>Dispatch Something</button>
-        </div>);
-        return (
+        console.log(coordinates);
+
+        if(coordinates)
+            return (
             <React.Fragment>
                 <Marker
                     key={546}
-                    coordinates = {[-1.6118509274478185, 54.973665159663256]}
+                    coordinates = {coordinates}
                     name={'Tyneside Cinema'}
                     description={'great description'}
                     anchor="bottom"
@@ -42,19 +31,16 @@ class ForSaleMarkers extends Component {
                 </Marker>
             </React.Fragment>
         );
+        else return null;
     }
 }
 
-ForSaleMarkers.propTypes = {
+MapForSaleMarkers.propTypes = {
 
 };
 
 const mapStateToProps = ({ forSale }) => ({
-    activeMarkers: forSale.activeMarkers,
+    coordinates: forSale.coordinates,
 });
 
-const mapDispatchToProps = ({ forSale }) => ({
-    theaction:      forSale.action,
-})
-
-export default connect(null,{addMarker})(ForSaleMarkers);
+export default connect(mapStateToProps)(MapForSaleMarkers);
