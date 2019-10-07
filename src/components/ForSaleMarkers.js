@@ -1,13 +1,27 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {Marker } from 'react-mapbox-gl';
+import { Marker } from 'react-mapbox-gl';
+import { addMarker } from '../actions/ForSaleActions';
 
 class ForSaleMarkers extends Component {
+    constructor(props){
+        super(props);
+
+        this.dispatchItem = this.dispatchItem.bind(this);
+    }
+
+    dispatchItem(){
+        this.props.addMarker();
+    }
+
     render() {
-        let { activeLayers } = this.props;
+        let { activeMarkers } = this.props;
         const markerIcon = require('../assets/img/icon-marker-new--dark-grey.svg');
-        
+ 
+        return(<div>
+            <button onClick={this.dispatchItem}>Dispatch Something</button>
+        </div>);
         return (
             <React.Fragment>
                 <Marker
@@ -35,8 +49,12 @@ ForSaleMarkers.propTypes = {
 
 };
 
-const mapStateToProps = ({ mapLayers }) => ({
-    activeLayers: mapLayers.activeLayers,
+const mapStateToProps = ({ forSale }) => ({
+    activeMarkers: forSale.activeMarkers,
 });
 
-export default connect(mapStateToProps)(ForSaleMarkers);
+const mapDispatchToProps = ({ forSale }) => ({
+    theaction:      forSale.action,
+})
+
+export default connect(null,{addMarker})(ForSaleMarkers);

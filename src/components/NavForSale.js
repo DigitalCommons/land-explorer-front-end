@@ -16,7 +16,7 @@ class NavForSale extends Component {
             minPrice: '25000',
             maxPrice: '1000000',
             privateListings: true,
-            markers:   false,
+            markers:   true,
         };
 
         this.handleChange           = this.handleChange.bind(this);
@@ -288,7 +288,7 @@ class NavForSale extends Component {
 
             <PropertyList listings = {this.getFilteredListings()}></PropertyList>
            
-           {this.displayMarkers()}
+           <ForSaleMarkers></ForSaleMarkers>
 
             </NavTray>
         )

@@ -17,6 +17,7 @@ import SaveReducer from './SaveReducer';
 import MyMapsReducer from './MyMapsReducer';
 import MapMetaReducer from './MapMetaReducer';
 import ShareReducer from './ShareReducer';
+import ForSaleReducer from './ForSaleReducer';
 
 export default combineReducers({
     authentication: AuthenticationReducer,
@@ -37,4 +38,5 @@ export default combineReducers({
     myMaps: MyMapsReducer,
     mapMeta: MapMetaReducer,
     share: ShareReducer,
+    forSale: ForSaleReducer,
 });
