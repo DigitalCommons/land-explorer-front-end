@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Source, Layer } from 'react-mapbox-gl';
+import { Source, Layer, Marker } from 'react-mapbox-gl';
 
 class MapLayers extends Component {
     render() {
         let { activeLayers } = this.props;
+        
         return (
             <React.Fragment>
                 <Source
