@@ -97,7 +97,7 @@ class NavForSale extends Component {
             imageDescription:   'grassland',
             imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
             location:   'Snarestone, Lecestershire',
-            price:      6000000,
+            price:      600000,
             agent:      'Humberts-Public',
             private:    false,
         },
