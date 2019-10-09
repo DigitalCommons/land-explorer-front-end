@@ -32,8 +32,9 @@ class ForSaleMarkers extends Component {
         ]
 
         if(this.props.active == 'For Sale'){
-            this.props.addMarker(markers[0]);
-            this.props.addMarker(markers[1]);
+            for(let i = 0;i<markers.length;i++){
+                this.props.addMarker(markers[i]);
+            }
         }    
         if(this.props.active != 'For Sale')
             this.props.clearMarkers();
