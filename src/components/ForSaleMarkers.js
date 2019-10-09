@@ -13,14 +13,28 @@ class ForSaleMarkers extends Component {
     dispatchItem(){
         console.log(this.props.active);
 
-        let marker = {
-            coordinates:    [-1.6118509274478185, 54.973665159663256],
-            name:           'Tyneside Cinema',
-            price:          '£1,000,000',
-        }
+        let markers = [
+            {
+                coordinates:    [-1.6118509274478185, 54.973665159663256],
+                name:           'Tyneside Cinema',
+                price:          '£1,000,000',
+            },
+            {
+                coordinates:    [-1.518509274478185, 55.073665159663256],
+                name:           'Tyneside Cinema',
+                price:          '£1,000,000',
+            },
+            {
+                coordinates:    [-1.418509274478185, 53.073665159663256],
+                name:           'Tyneside Cinema',
+                price:          '£1,000,000',
+            },
+        ]
 
-        if(this.props.active == 'For Sale')
-            this.props.addMarker(marker);
+        if(this.props.active == 'For Sale'){
+            this.props.addMarker(markers[0]);
+            this.props.addMarker(markers[1]);
+        }    
         if(this.props.active != 'For Sale')
             this.props.clearMarkers();
     }

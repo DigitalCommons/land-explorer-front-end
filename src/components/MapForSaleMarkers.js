@@ -18,20 +18,21 @@ class MapForSaleMarkers extends Component {
         console.log("map component reads" + markerInformationSet);
 
         if(markerInformationSet.length > 0)
-        markers.push(
-            <Marker
-                    key={546}
-                    coordinates = {markerInformationSet[0].location}
-                    name={'Tyneside Cinema'}
-                    description={'great description'}
-                    anchor="bottom"
-                    style={{ height: '40px', zIndex: 1}}
-                    >
-                    <img src={ markerIcon } alt=""
-                        style={{
-                            height: 40,
-                             width: 40,
-                            zIndex: 1
+            for(let i = 0;i<markerInformationSet.length;i++)
+                markers.push(
+                    <Marker
+                       key={546 + i}
+                      coordinates = {markerInformationSet[i].location}
+                       name={'Tyneside Cinema'}
+                       description={'great description'}
+                       anchor="bottom"
+                        style={{ height: '40px', zIndex: 1}}
+                        >
+                       <img src={ markerIcon } alt=""
+                            style={{
+                                height: 40,
+                                width: 40,
+                                zIndex: 1
                             }}
                         />
                 </Marker>
