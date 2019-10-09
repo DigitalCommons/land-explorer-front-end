@@ -125,8 +125,11 @@ class NavPoliticalData extends Component{
                    
                 <NavTrayItem draggable={false} title="All Ward Boundaries" layerId='wards-may-2019-boundaries-uk-d9ukjy'/>
                      
-                <p id = "copyright-footer">  Contains National Statistics data <span id = "Copyright"> &#169; </span> 
- Crown copyright and database right 2019  </p>
+                <p id = "copyright-footer">  
+                    Contains National Statistics data 
+                    <span id = "Copyright"> &#169; </span> 
+                    Crown copyright and database right 2019  
+                </p>
  
  
                 </div>

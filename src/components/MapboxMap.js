@@ -17,6 +17,7 @@ import DrawControl from 'react-mapbox-gl-draw';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import Markers from './Markers';
 import MapLayers from './MapLayers';
+import MapForSaleMarkers from './MapForSaleMarkers';
 import DrawingLayers from './DrawingLayers'
 import ZoomWarning from './ZoomWarning';
 import Nav from './Nav';
@@ -283,6 +284,8 @@ class MapboxMap extends Component {
                 >
                     {/* Map Layers (greenbelt etc.)*/}
                     <MapLayers/>
+                    {/*For displaying for sale markers*/}
+                    <MapForSaleMarkers/>
                     {/* Geocoder - For location search */}
                     <GeoCoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
                     {/* Markers */}

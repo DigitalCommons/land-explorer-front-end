@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import NavTray from './NavTray';
 import ToggleSwitch from './common/ToggleSwitch';
 import PropertyList from './PropertyList';
+import ForSaleMarkers from './ForSaleMarkers';
+
 
 class NavForSale extends Component {
     constructor(props){
@@ -14,7 +16,7 @@ class NavForSale extends Component {
             minPrice: '25000',
             maxPrice: '1000000',
             privateListings: true,
-            
+            markers:   true,
         };
 
         this.handleChange           = this.handleChange.bind(this);
@@ -34,7 +36,15 @@ class NavForSale extends Component {
         let output = [];
 
         let properties = this.getProperties();
-       
+
+
+       //first add all properties to output, remove them if they are wrong
+
+       //or, just don't add them in the first place
+    
+       //loop through the array and check each item against the state valuess
+      
+
         for(let i = 0;i<properties.length;i++){
 
             if(properties[i].private == this.state.privateListings)
@@ -43,7 +53,6 @@ class NavForSale extends Component {
                         output.push(properties[i]);
           
         };
-
         return output; 
     }
 
@@ -85,39 +94,29 @@ class NavForSale extends Component {
    getProperties(){
        return [
         {
-            imageDescription: 'field',
+            imageDescription:   'grassland',
             imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
             location:   'Snarestone, Lecestershire',
             price:      600000,
-            agent:      'Humberts-Private',
-            private:    true,
-            id:         '1',
-        },
-       {
-            imageDescription:        'meadow',
-            imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
-            location:   'Snarestone, Lecestershire',
-            price:      550000,
-            agent:      'plotfinder.net/public',
+            agent:      'Humberts-Public',
             private:    false,
-            id:         '2',
         },
         {
             imageDescription:        'prarie',
             imageURL:   'https://upload.wikimedia.org/wikipedia/commons/a/a8/UCSC_Meadow.JPG',
             location:   'Snarestone, Lecestershire',
-            price:      60000,
+            price:      800000,
             agent:      'plotfinder.net/private',
             private:    true,
-            id:         '3',
         },
         {
-            imageDescription:   'grassland',
-            imageURL:   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg/1024px-Flodden_Field_%28Braxton%29_-_2004-Feb-06_-_Looking_SSE_from_the_monument.jpg',
-            location:   'Snarestone, Lecestershire',
-            price:      300000,
-            agent:      'Humberts-Public',
-            private:    false,
+            imageDescription:       'Tyneside Cinema',
+            imageURL:   'https://i2-prod.chroniclelive.co.uk/incoming/article12536150.ece/ALTERNATES/s615/DMR_NEC_0101217tyneside_05.jpg',
+            location:   'Newcastle upon Tyne',
+            price:      1000000,
+            agent:      'private.cinemasale.co.uk',
+            private:    true,
+            coordinates: [-1.6118509274478185, 54.973665159663256],
             id:         '4',
         },
         {
@@ -208,8 +207,8 @@ class NavForSale extends Component {
                     <option value="10000000">£10,000,000</option>
                 </select>
                 <select value={this.state.maxPrice} name="Maximum Price" onChange={this.handleChange}>
-                    <option value="1000000000000">Maximum Price</option>
-                    <option value="1000000000000">POA</option>
+                    <option value="9999999999999">Maximum Price</option>
+                    <option value="9999999999999">POA</option>
                     <option value="25000">£25,000</option>
                     <option value="50000">£50,000</option>
                     <option value="100000">£100,000</option>
@@ -231,10 +230,14 @@ class NavForSale extends Component {
             </div>
             
             <PropertyList listings = {this.getFilteredListings()}></PropertyList>
-          
+           
+           <ForSaleMarkers active = {this.props.active}></ForSaleMarkers>
+
+
             </NavTray>
         )
     }
 }
 
-export default NavForSale;
+
+export default (NavForSale);
