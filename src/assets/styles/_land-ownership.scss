@@ -26,6 +26,22 @@
     font-weight: bold;
   }
 
+  .nav-tray-select-footer{
+    position: absolute;
+    height: 50px;
+    bottom: 0px;
+    background-color: rgb(192, 193, 196);
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .nav-tray-select-footer-item{
+    line-height: 50px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
 
   .nav-tray-footer{
     position: absolute;
@@ -48,9 +64,9 @@
     padding-right: 1em;
   }
 
-  .nav-tray-footer-actions{
+  // .nav-tray-footer-actions{
 
-  }
+  // }
 
   //Set width as 49% as we are inserting while line border in between item
   .nav-tray-footer-item{

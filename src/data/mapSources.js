@@ -23,7 +23,7 @@ export const mapSources = {
             "tileSize": 256
         },
         "composite": {
-            "url": "mapbox://joolzt.ay7acj73,joolzt.9edhyytu,joolzt.6dd4p92w,joolzt.50odxxr1,joolzt.cpacrvmx,joolzt.c3j1rh4t,joolzt.4i2tzpgj,joolzt.75llshed",
+            "url": "mapbox://joolzt.ay7acj73,joolzt.9edhyytu,joolzt.6dd4p92w,joolzt.50odxxr1,joolzt.cpacrvmx,joolzt.c3j1rh4t,joolzt.4i2tzpgj,joolzt.75llshed,kingmob.8cgpa2xi",
             "type": "vector"
         },
     },

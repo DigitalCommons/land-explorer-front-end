@@ -311,6 +311,10 @@ html, body {
   border-bottom: 1px solid #ddd;
 }
 
+.drawing-tool-section:hover {
+  background-color :$primaryColor;
+}
+
 .drawing-tool-section.active {
   background-color: $primaryColor;
   box-shadow: inset 0 3px 6px 0 rgba(0, 0, 0, 0.16);
@@ -324,6 +328,9 @@ html, body {
   display: flex;
   align-items: center;
 }
+
+
+
 
 .drawing-tool.active {
   .icon-separator {
