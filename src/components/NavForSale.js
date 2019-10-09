@@ -168,7 +168,7 @@ class NavForSale extends Component {
                 css = "nav-left-tray-wide"
                 >
             <div className="tray-title-section">
-
+               
                 <p>Showing {this.state.propertyType} properties in {this.state.searchArea}</p>
             
                 <select value={this.state.propertyType} name="Property Type" onChange={this.handleChange}>
@@ -229,9 +229,9 @@ class NavForSale extends Component {
                 </div>
 
             </div>
-
+            
             <PropertyList listings = {this.getFilteredListings()}></PropertyList>
-           
+          
             </NavTray>
         )
     }
