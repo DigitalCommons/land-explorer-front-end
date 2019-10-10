@@ -28,7 +28,7 @@ export default (state = INITIAL_STATE, action) => {
                 ...action.payload,
                 populated: true,
                 initials: action.payload.firstName[0].toUpperCase() + action.payload.lastName[0].toUpperCase(),
-                type:   'council',
+                type:   'core',
             }
         default:
             return state;
