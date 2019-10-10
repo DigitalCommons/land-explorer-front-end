@@ -17,13 +17,6 @@ class Nav extends Component {
         }
     }
 
-    getUserType() {
-        if (false)
-            return 'core';
-        else
-            return 'council'; 
-    }
-
     closeTray = () => {
         this.props.dispatch({type: 'CLOSE_TRAY'})
     }
@@ -76,152 +69,8 @@ class Nav extends Component {
     render() {
         let {dispatch, open, active, drawControl, readOnly} = this.props;
 
-    if(this.getUserType() == 'core')
-        return (
-            <nav>
-                <div className="toggle-nav"
-                     onClick={() => {
-                         analytics.event(analytics._event.SIDE_NAV, 'Open');
-                         dispatch({type: 'TOGGLE_NAVIGATION'})
-                     }}
-                >
-                    <i className="fas fa-cog"></i>
-                </div>
-                <div className="nav-left"
-                     style={{ transform: open ? 'translateX(0)' : 'translateX(-100%)' }}
-                >
-                    <div className="nav-left-icon close"
-                         onClick={this.closeNav}
-                    />
-                    <div id="drawing-tools-icon"
-                         className={`nav-left-icon drawing-tools ${active === 'Drawing Tools' && 'active'}`}
-                         style={{ opacity: readOnly ? .5 : 1 }}
-                         onClick={() => {
-                             if (!readOnly) {
-                                 analytics.event(analytics._event.SIDE_NAV + ' Drawing', 'Open');
-                                 this.clickIcon('Drawing Tools')
-                             }
-                         }}
-                         data-tip
-                         data-for="ttDrawingTools"
-                    />
-                    <div className={`nav-left-icon data-layers ${active === 'Land Data' && 'active'}`}
-                         onClick={() => {
-                             analytics.event(analytics._event.SIDE_NAV + ' Land Data', 'Open');
-                             this.clickIcon('Land Data')
-                         }}
-                         data-tip
-                         data-for="ttLandData"
-                    />
-                    <div className={`nav-left-icon info ${active === 'Land Information' && 'active'}`}
-                         onClick={() => {
-                             analytics.event(analytics._event.SIDE_NAV + ' Land Information', 'Open');
-                             this.clickIcon('Land Information')
-                         }}
-                         data-tip
-                         data-for="ttInfo"
-                    />
-                    <div className={`nav-left-icon political-data ${active === 'Political Data' && 'active'}`}
-                         onClick={() => {
-                             analytics.event(analytics._event.SIDE_NAV + ' Political Data', 'Open');
-                             this.clickIcon('Political Data')
-                         }}
-                         data-tip
-                         data-for="ttPoliticalData" />
-
-                    <div className={`nav-left-icon for-sale ${active === 'For Sale' && 'active'}`}
-                         onClick={() => {
-                             analytics.event(analytics._event.SIDE_NAV + ' For Sale', 'Open');
-                             this.clickIcon('For Sale')
-                         }}
-                         data-tip
-                         data-for="ttForSale" />
-
-                    <div className={`nav-left-icon property-search ${active === 'Land Ownership' && 'active'}`}
-                         onClick={() => {
-                             analytics.event(analytics._event.SIDE_NAV + ' Land Ownership', 'Open');
-                             this.clickIcon('Land Ownership')
-                         }}
-                         data-tip
-                         data-for="ttLandOwnership"
-                    />
-                    <div className="nav-left-icon new-map-icon"
-                         onClick={() => {
-                             analytics.event(analytics._event.SIDE_NAV + ' New Map', 'Clicked');
-                             this.props.dispatch({
-                                 type: 'OPEN_MODAL',
-                                 payload: 'newMap'
-                             });
-                         }}
-                         data-tip
-                         data-for="ttNewMap"
-                    />
-                    <div className="nav-left-icon save"
-                         data-tip
-                         data-for="ttSave"
-                         onClick={() => {
-                             analytics.event(analytics._event.SIDE_NAV + ' Save', 'Clicked');
-                             this.props.dispatch({type: 'OPEN_MODAL', payload: "save"})
-                         }}
-                    />
-                    <div
-                        id="share-icon"
-                        className="nav-left-icon share"
-                        data-tip
-                        data-for="ttShare"
-                        style={{
-                            opacity: readOnly ? .5 : 1
-                        }}
-                        onClick={() => {
-                            if (!readOnly) {
-                                analytics.event(analytics._event.SIDE_NAV + ' Share', 'Clicked');
-                                analytics.pageview('/app/my-maps/share');
-                                this.props.dispatch({type: 'OPEN_MODAL', payload: "share"})
-                            }
-                        }}
-                    />
-                </div>
-                {
-                    // If not read only, render drawing tools
-                    !readOnly && (
-                        <NavDrawingTools
-                            active={active}
-                            open={open}
-                            onClose={this.closeTray}
-                            handleTrashClick={this.handleTrashClick}
-                            drawControl={drawControl}
-                        />
-                    )
-                }
-                <NavLandData
-                    open={open}
-                    active={active}
-                    onClose={this.closeTray}
-                />
-                <NavLandOwnership
-                    open={open}
-                    active={active}
-                    onClose={this.closeTray}
-                />
-                <NavInformation
-                    open={open && active === 'Land Information'}
-                    onClose={this.closeTray}
-                />
-                <NavForSale
-                    open = {open}
-                    active={active}
-                    onClose={this.closeTray}
-                    drawControl={drawControl}
-                />
-                <NavPoliticalData
-                    open = {open}
-                    active={active}
-                    onClose={this.closeTray}
-                />
-            </nav>
-        );
-        if(this.getUserType() == 'council')
-                return(
+        if(this.props.user.type == 'council')
+            return(
                     <nav>
                         <div className="toggle-nav"
                              onClick={() => {
@@ -356,6 +205,150 @@ class Nav extends Component {
                         />
                     </nav>
                 );
+        else
+            return (
+                    <nav>
+                        <div className="toggle-nav"
+                             onClick={() => {
+                                 analytics.event(analytics._event.SIDE_NAV, 'Open');
+                                 dispatch({type: 'TOGGLE_NAVIGATION'})
+                             }}
+                        >
+                            <i className="fas fa-cog"></i>
+                        </div>
+                        <div className="nav-left"
+                             style={{ transform: open ? 'translateX(0)' : 'translateX(-100%)' }}
+                        >
+                            <div className="nav-left-icon close"
+                                 onClick={this.closeNav}
+                            />
+                            <div id="drawing-tools-icon"
+                                 className={`nav-left-icon drawing-tools ${active === 'Drawing Tools' && 'active'}`}
+                                 style={{ opacity: readOnly ? .5 : 1 }}
+                                 onClick={() => {
+                                     if (!readOnly) {
+                                         analytics.event(analytics._event.SIDE_NAV + ' Drawing', 'Open');
+                                         this.clickIcon('Drawing Tools')
+                                     }
+                                 }}
+                                 data-tip
+                                 data-for="ttDrawingTools"
+                            />
+                            <div className={`nav-left-icon data-layers ${active === 'Land Data' && 'active'}`}
+                                 onClick={() => {
+                                     analytics.event(analytics._event.SIDE_NAV + ' Land Data', 'Open');
+                                     this.clickIcon('Land Data')
+                                 }}
+                                 data-tip
+                                 data-for="ttLandData"
+                            />
+                            <div className={`nav-left-icon info ${active === 'Land Information' && 'active'}`}
+                                 onClick={() => {
+                                     analytics.event(analytics._event.SIDE_NAV + ' Land Information', 'Open');
+                                     this.clickIcon('Land Information')
+                                 }}
+                                 data-tip
+                                 data-for="ttInfo"
+                            />
+                            <div className={`nav-left-icon political-data ${active === 'Political Data' && 'active'}`}
+                                 onClick={() => {
+                                     analytics.event(analytics._event.SIDE_NAV + ' Political Data', 'Open');
+                                     this.clickIcon('Political Data')
+                                 }}
+                                 data-tip
+                                 data-for="ttPoliticalData" />
+        
+                            <div className={`nav-left-icon for-sale ${active === 'For Sale' && 'active'}`}
+                                 onClick={() => {
+                                     analytics.event(analytics._event.SIDE_NAV + ' For Sale', 'Open');
+                                     this.clickIcon('For Sale')
+                                 }}
+                                 data-tip
+                                 data-for="ttForSale" />
+        
+                            <div className={`nav-left-icon property-search ${active === 'Land Ownership' && 'active'}`}
+                                 onClick={() => {
+                                     analytics.event(analytics._event.SIDE_NAV + ' Land Ownership', 'Open');
+                                     this.clickIcon('Land Ownership')
+                                 }}
+                                 data-tip
+                                 data-for="ttLandOwnership"
+                            />
+                            <div className="nav-left-icon new-map-icon"
+                                 onClick={() => {
+                                     analytics.event(analytics._event.SIDE_NAV + ' New Map', 'Clicked');
+                                     this.props.dispatch({
+                                         type: 'OPEN_MODAL',
+                                         payload: 'newMap'
+                                     });
+                                 }}
+                                 data-tip
+                                 data-for="ttNewMap"
+                            />
+                            <div className="nav-left-icon save"
+                                 data-tip
+                                 data-for="ttSave"
+                                 onClick={() => {
+                                     analytics.event(analytics._event.SIDE_NAV + ' Save', 'Clicked');
+                                     this.props.dispatch({type: 'OPEN_MODAL', payload: "save"})
+                                 }}
+                            />
+                            <div
+                                id="share-icon"
+                                className="nav-left-icon share"
+                                data-tip
+                                data-for="ttShare"
+                                style={{
+                                    opacity: readOnly ? .5 : 1
+                                }}
+                                onClick={() => {
+                                    if (!readOnly) {
+                                        analytics.event(analytics._event.SIDE_NAV + ' Share', 'Clicked');
+                                        analytics.pageview('/app/my-maps/share');
+                                        this.props.dispatch({type: 'OPEN_MODAL', payload: "share"})
+                                    }
+                                }}
+                            />
+                        </div>
+                        {
+                            // If not read only, render drawing tools
+                            !readOnly && (
+                                <NavDrawingTools
+                                    active={active}
+                                    open={open}
+                                    onClose={this.closeTray}
+                                    handleTrashClick={this.handleTrashClick}
+                                    drawControl={drawControl}
+                                />
+                            )
+                        }
+                        <NavLandData
+                            open={open}
+                            active={active}
+                            onClose={this.closeTray}
+                        />
+                        <NavLandOwnership
+                            open={open}
+                            active={active}
+                            onClose={this.closeTray}
+                        />
+                        <NavInformation
+                            open={open && active === 'Land Information'}
+                            onClose={this.closeTray}
+                        />
+                        <NavForSale
+                            open = {open}
+                            active={active}
+                            onClose={this.closeTray}
+                            drawControl={drawControl}
+                        />
+                        <NavPoliticalData
+                            open = {open}
+                            active={active}
+                            onClose={this.closeTray}
+                        />
+                    </nav>
+                );
     }
 }
 
@@ -364,7 +357,7 @@ Nav.propTypes = {
     active: PropTypes.string
 };
 
-const mapStateToProps = ({navigation, information, informationSections, readOnly, drawings, markers, mapMeta}) => ({
+const mapStateToProps = ({navigation, information, informationSections, readOnly, drawings, markers, mapMeta, user}) => ({
     open: navigation.open,
     active: navigation.active,
     information,
@@ -373,7 +366,8 @@ const mapStateToProps = ({navigation, information, informationSections, readOnly
     readOnly: readOnly.readOnly,
     currentMarker: markers.currentMarker,
     activePolygon: drawings.activePolygon,
-    currentMapId: mapMeta.currentMapId
+    currentMapId: mapMeta.currentMapId,
+    user: user,
 });
 
 export default connect(mapStateToProps, null)(Nav);
