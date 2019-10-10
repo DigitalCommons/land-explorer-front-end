@@ -16,7 +16,8 @@ const INITIAL_STATE = {
     password: '',
     phone: '',
     username: '',
-    populated: false
+    populated: false,
+    type:   ''
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -26,7 +27,8 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 ...action.payload,
                 populated: true,
-                initials: action.payload.firstName[0].toUpperCase() + action.payload.lastName[0].toUpperCase()
+                initials: action.payload.firstName[0].toUpperCase() + action.payload.lastName[0].toUpperCase(),
+                type:   'core',
             }
         default:
             return state;
