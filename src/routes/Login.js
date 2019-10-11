@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import Spinner from 'react-spinkit';
 import constants from '../constants';
+const qs = require('querystring');
 
 class Login extends Component {
     constructor(props) {
@@ -31,10 +32,41 @@ class Login extends Component {
 
     login = () => {
         this.setState({error: false, loggingIn: true});
-        let request = {
+
+        const requestBody = {
             username: this.state.email.value,
-            password: this.state.password.value
-        }
+            password: this.state.password.value,
+            grant_type: 'password'
+          }
+          
+          const config = {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          }
+          
+          axios.post("https://localhost:44344/token", qs.stringify(requestBody), config)
+            .then((response) => {
+                console.log(response.data);
+                //This is what you would expect as the response data.
+                //response.data = "{access_token: "5GrY-lR4AeOrWphtxubTU-43Tq4-7okOqP0HGX40OsEs47EqyQ…t09MQV_nBhjCX8pEneWfZ53ZE58pEa9m2mHz7QIu01GzCEBtq", token_type: "bearer", expires_in: 86399}";
+
+                //We need to store the access_token value, possibly through redux?
+                //I need to access this access_token value from different location in the app, for example: MapApp.js
+
+                if (response.status === 200) {
+                    // success
+                    window.location = "/app"
+
+                }else if (response.status === 400){
+                    this.setState({loggingIn: false, error: true})
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        
+          /*
         //todo look at changing the login mechanism to be json post
         axios.post(`${constants.ROOT_URL}/login?username=`  + request.username + `&password=` + request.password, request)
             .then((response) => {
@@ -51,6 +83,7 @@ class Login extends Component {
                 }
             })
             .catch(err => console.log(err));
+            */
     }
 
     render() {
