@@ -1,7 +1,7 @@
 export const addMarker = (marker) => ({
     type: 'ADD_MARKER',
     payload: {
-        location: marker.coordinates,
+        location:   marker.coordinates,
         name:       marker.name,
         price:      marker.price,
     }
