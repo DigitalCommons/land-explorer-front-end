@@ -9,26 +9,26 @@ class NavTraySection extends Component {
             open: false
         }
     }
-    toggleChildren = () => {
-        this.setState({ open: !this.state.open })
+
+    toggleChildren = () => 
+    {
+        this.setState ({ open: !this.state.open })
     }
+    
     render() {
         let { title, children, open, dispatch, sectionId } = this.props;
         return (
             <div className="nav-tray-section">
                 <div className="nav-tray-section-title"
-                     onClick={() => {
-                         dispatch({
+                     onClick={() => 
+                        {
+                         dispatch ({
                              type: 'TOGGLE_SECTION',
                              payload: sectionId
                          })
                      }}
                 >
-                   <h4 style={{
-                       marginLeft: '42px',
-                       fontWeight: 'bold',
-                       width: '140px'
-                   }}>{title}</h4>
+                   <h4 style = {{ marginLeft: '42px', fontWeight: 'bold',width: '140px' }} >{ title }</h4>
                     <div style={{
                         position: 'absolute',
                         top: '50%',
@@ -47,6 +47,7 @@ class NavTraySection extends Component {
                         />
                     </div>
                 </div>
+
                 <div style={{
                     overflow: open ? '' : 'hidden',
                     height: open ? 'auto' : '0',

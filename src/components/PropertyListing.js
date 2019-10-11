@@ -32,8 +32,10 @@ class PropertyListing extends Component
 
     render(){
           return (            
-            <div className='listing' id={this.getKey()}>
-                <img className='listing-image' src = { this.props.imageURL } alt = { this.props.imageDescription }></img>
+            <div className='listing' id = { this.getKey() }>
+               
+              <button className = "closeListing">X</button> 
+                <img className = 'listing-image' src = { this.props.imageURL } alt = { this.props.imageDescription }></img>
                 
                   <p> { this.props.location } </p>
                   <p> { this.props.agent } </p>
@@ -43,5 +45,6 @@ class PropertyListing extends Component
         )
     }
 }
+
 
 export default PropertyListing;
