@@ -24,11 +24,26 @@ class MapApp extends Component {
     }
 
     componentDidMount() {
+        //console.log(localStorage.getItem('token'));
+        //console.log(localStorage.getItem('token_expiry'));
 
+        var config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
+
+        axios.get( 
+            'https://localhost:44344/api/data/authenticate',
+            
+            config
+          ).then((response) => {
+            console.log(response)
+          }).catch((error) => {
+            console.log(error)
+          });
+
+        
         // Populate user details and maps
         Promise.all([
-            axios.get(`${constants.ROOT_URL}/api/user/details/`),
-            axios.get(`${constants.ROOT_URL}/api/user/maps/`)
+            axios.get(`${constants.ROOT_URL}/api/user/details/`,config),
+            axios.get(`${constants.ROOT_URL}/api/user/maps/`,config)
         ]).then(([details, maps]) => {
             // populate user details
             if (details.status === 200) {
@@ -36,7 +51,7 @@ class MapApp extends Component {
                 analytics.setDimension(analytics._dimension.ORG_ACTIVITY, details.data.organisationActivity);
                 //fire the initial page load analytics
                 analytics.pageview('/app/');
-                this.props.dispatch({ type: 'POPULATE_USER', payload: details.data })
+                //this.props.dispatch({ type: 'POPULATE_USER', payload: details.data })
             } else {
                 this.setState({ errors: details.data.errors })
             }
@@ -49,7 +64,7 @@ class MapApp extends Component {
                 this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: maps.data })
             }
         }).catch((err) => {
-            console.log("There was am error", err);
+            console.log("There was an error", err);
         })
         
     }
@@ -90,7 +105,8 @@ class MapApp extends Component {
 const mapStateToProps = ({authentication, user}) => ({
     authenticated: authentication.authenticated,
     loggedIn: authentication.loggedIn,
-    user: user
+    token: authentication.token,
+    user: user,
 });
 
 export default withRouter(connect(mapStateToProps)(MapApp));
