@@ -109,6 +109,7 @@ class NavForSale extends Component {
             price:      600000,
             agent:      'Humberts-Public',
             private:    false,
+            id : '1'
         },
         {
             imageDescription:        'prarie',
@@ -117,6 +118,7 @@ class NavForSale extends Component {
             price:      800000,
             agent:      'plotfinder.net/private',
             private:    true,
+            id : '2'
         } ,
         {
             imageDescription:       'Tyneside Cinema',
@@ -126,7 +128,7 @@ class NavForSale extends Component {
             agent:      'private.cinemasale.co.uk',
             private:    true,
             coordinates: [-1.6118509274478185, 54.973665159663256],
-            id:         '4',
+            id:         '3',
         } ,
         {
             imageDescription:   'nicehouse',
@@ -135,7 +137,7 @@ class NavForSale extends Component {
             price:      1000000,
             agent:      'Private Houses.com',
             private:    true,
-            id:         '5',
+            id:         '4',
         },
         {
             imageDescription:   'detachedhouse',
@@ -144,7 +146,7 @@ class NavForSale extends Component {
             price:      300000,
             agent:      'Humberts-Private',
             private:    true,
-            id:         '6',
+            id:         '5',
         },
         {
             imageDescription:   'church',
@@ -153,7 +155,7 @@ class NavForSale extends Component {
             price:      6500000,
             agent:      'Public-Church-Buy',
             private:    false,
-            id:         '7',
+            id:         '6',
         },
         {
             imageDescription:   'brownfield',
@@ -162,7 +164,7 @@ class NavForSale extends Component {
             price:      20000,
             agent:      'Please buy this rubble from me',
             private:    false,
-            id:         '8',
+            id:         '7',
         },
     ];
    }
