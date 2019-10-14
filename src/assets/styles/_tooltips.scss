@@ -17,11 +17,6 @@
   color: #78838e !important;
 }
 
-.no-xs {
-  @media ('max-width: 480px') {
-    display: none;
-  }
-}
 
 .tooltip-stay {
   pointer-events: auto !important;
@@ -47,11 +42,13 @@
   left: 70% !important;
 }
 
-.tooltip {
+.tooltip 
+{
   z-index: 100000;
 }
 
-.tooltip-menu {
+.tooltip-menu 
+{
   padding: 0 !important;
   position: fixed;
   top: 85px;
@@ -59,11 +56,15 @@
   border-radius: 6px;
   z-index: 1001;
   background: white;
-  a {
+  
+  a 
+  {
     text-decoration: none;
     color: inherit;
   }
-  .tooltip-menu-item {
+
+  .tooltip-menu-item 
+  {
     width: 100%;
     box-sizing: border-box;
     padding-left: 32px;
@@ -80,16 +81,22 @@
     text-align: left;
     transition: background 300ms;
 
-    &:hover {
+    &:hover 
+    {
       background: rgba(0,0,0,.1) !important;
     }
+  
   }
+  
   .tooltip-menu-item.no-hover {
     background: none !important;
   }
+  
   z-index: 10000;
   cursor: pointer !important;
-  &:before {
+  
+  &:before 
+  {
     content: ' ';
     position: absolute;
     top: -13px;
@@ -100,12 +107,11 @@
     border-style: solid;
     border-width: 0 13px 13px 13px;
     border-color: transparent transparent #d2d2d2 transparent;
-    z-index: 99999;
-    @media ('max-width: 480px') {
-      left: 79.5%;
-    }
+    z-index: 99999;  
   }
-  &:after {
+  
+  &:after 
+  {
     content: ' ';
     position: absolute;
     top: -12px;
@@ -116,34 +122,32 @@
     border-style: solid;
     border-width: 0 12px 12px 12px;
     border-color: transparent transparent white transparent;
-    z-index: 99999;
-    @media ('max-width: 480px') {
-      left: 80%;
-    }
+    z-index: 99999;  
   }
+
 }
 
-.tooltip-menu-main {
-  z-index: 100001 !important;
-  .tooltip-menu-item {
-    @media ('max-width: 480px') {
-      height: 48px;
-    }
-  }
+.tooltip-menu-main 
+{
+  z-index: 100001 !important;  
 }
 
-.tooltip-menu-layers {
+.tooltip-menu-layers 
+{
   top: auto;
   bottom: 92px;
   right: 76px;
   z-index: 1;
-  &:before {
+  &:before 
+  {
     top: auto;
     bottom: -12px;
     left: 83%;
     transform: translateX(-50%) rotate(180deg);
   }
-  &:after {
+  
+  &:after 
+  {
     top: auto;
     bottom: -11px;
     left: 83%;
@@ -151,7 +155,8 @@
   }
 }
 
-.tooltip-menu-key {
+.tooltip-menu-key 
+{
   top: auto;
   bottom: 92px;
   right: 76px;

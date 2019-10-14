@@ -1,16 +1,20 @@
 import React, {Component} from 'react';
 
-class PropertyListing extends Component{
-    constructor(props){
+class PropertyListing extends Component
+{
+    constructor(props)
+    {
         super(props);
-        this.state = {
+        
+        this.state = 
+        {
             display: true,
         }
 
         this.formatPrice    = this.formatPrice.bind(this);
         this.getKey         = this.getKey.bind(this);
 
-    }
+      }
 
     formatPrice(){
         return "£ " + this.props.price;
@@ -28,14 +32,19 @@ class PropertyListing extends Component{
 
     render(){
           return (            
-            <div className='listing' id={this.getKey()}>
-                <img className='listing-image' src={this.props.imageURL} alt={this.props.imageDescription}></img>
-                <p>{this.props.location}</p>
-                <p>{this.props.agent}</p>
-                <p>{this.formatPrice()}</p>
+            <div className='listing' id = { this.getKey() }>
+               
+              <button className = "closeListing">X</button> 
+                <img className = 'listing-image' src = { this.props.imageURL } alt = { this.props.imageDescription }></img>
+                
+                  <p> { this.props.location } </p>
+                  <p> { this.props.agent } </p>
+                  <p> { this.formatPrice() }</p>
+                <br />
             </div>
         )
     }
 }
+
 
 export default PropertyListing;

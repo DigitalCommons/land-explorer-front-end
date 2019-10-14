@@ -6,8 +6,10 @@ import ForSaleMarkers from './ForSaleMarkers';
 
 
 class NavForSale extends Component {
-    constructor(props){
+    constructor(props)
+    {
         super(props);
+
         this.state = {
             numberAvailable: 4,
             searchArea: this.getSearchArea(),
@@ -25,11 +27,13 @@ class NavForSale extends Component {
         
     }
 
-    getSearchArea(){
+    getSearchArea()
+    {
         return 'Newcastle upon Tyne';
     }
 
-    getFilteredListings(){
+    getFilteredListings()
+    {
 
 //this filters the listings based on the options selected. First option is public vs private.
 
@@ -45,9 +49,10 @@ class NavForSale extends Component {
        //loop through the array and check each item against the state valuess
       
 
-        for(let i = 0;i<properties.length;i++){
+        for (let i = 0; i < properties.length; i++)
+        {
 
-            if(properties[i].private == this.state.privateListings)
+            if (properties[i].private == this.state.privateListings)
                 if(properties[i].price >= this.state.minPrice)
                     if(properties[i].price <= this.state.maxPrice)
                         output.push(properties[i]);
@@ -56,7 +61,8 @@ class NavForSale extends Component {
         return output; 
     }
 
-    toggleSwitch(){
+    toggleSwitch() 
+    {
         this.setState({
             privateListings: !this.state.privateListings
         });
@@ -66,24 +72,27 @@ class NavForSale extends Component {
    handleChange(event){
     
     if(event.target.name == 'Property Type')
-       this.setState({
-           propertyType:    event.target.value,
-    });
+       this.setState(
+           {
+           propertyType:  event.target.value,
+           });
 
     if(event.target.name == 'Search Radius')
-        this.setState({
+        this.setState ({
             searchRadius:   event.target.value,
         })
 
-    if(event.target.name == 'Minimum Price'){0
+    if(event.target.name == 'Minimum Price')
+    { 0
         let numberValue = parseInt(event.target.value,10);
-        this.setState({
-            minPrice:       numberValue,
+        this.setState ({
+            minPrice:  numberValue,
         });
         
     }
 
-    if(event.target.name == 'Maximum Price'){
+    if(event.target.name == 'Maximum Price')
+    {
         let numberValue = parseInt(event.target.value,10);
         this.setState({
             maxPrice:       numberValue,
@@ -108,7 +117,7 @@ class NavForSale extends Component {
             price:      800000,
             agent:      'plotfinder.net/private',
             private:    true,
-        },
+        } ,
         {
             imageDescription:       'Tyneside Cinema',
             imageURL:   'https://i2-prod.chroniclelive.co.uk/incoming/article12536150.ece/ALTERNATES/s615/DMR_NEC_0101217tyneside_05.jpg',
@@ -118,7 +127,7 @@ class NavForSale extends Component {
             private:    true,
             coordinates: [-1.6118509274478185, 54.973665159663256],
             id:         '4',
-        },
+        } ,
         {
             imageDescription:   'nicehouse',
             imageURL:   'https://www.lamudi.com.ph/static/media/bm9uZS9ub25l/2x2x2x380x244/739d8acb199851.jpg',
@@ -161,16 +170,16 @@ class NavForSale extends Component {
     render(){
         return(
             <NavTray
-                title="Land For Sale"
-                open={this.props.open && this.props.active === 'For Sale'}
-                onClose={this.props.onClose}
+                title = "Land For Sale"
+                open = {this.props.open && this.props.active === 'For Sale'}
+                onClose = {this.props.onClose}
                 css = "nav-left-tray-wide"
                 >
-            <div className="tray-title-section">
-
+            <div className = "tray-title-section">
+                             
                 <p>Showing {this.state.propertyType} properties in {this.state.searchArea}</p>
             
-                <select value={this.state.propertyType} name="Property Type" onChange={this.handleChange}>
+                <select value = {this.state.propertyType} name = "Property Type" onChange = {this.handleChange}>
                     <option value="placeholder">Property Type</option>
                     <option value="all">All</option>
                     <option value="plotPlanningPermission">Plot with Planning Permission</option>
@@ -184,6 +193,7 @@ class NavForSale extends Component {
                     <option value="updating">Updating</option>
                     <option value="houseWithPlot">House With Plot</option>
                 </select>
+                
                 <select value={this.state.searchRadius} name="Search Radius" onChange={this.handleChange}>
                     <option value="searchRadius">Search Radius</option>
                     <option value="1mile">1 mile</option>
@@ -192,6 +202,7 @@ class NavForSale extends Component {
                     <option value="20miles">20 miles</option>
                     <option value="50miles">50 miles</option>
                 </select>
+                
                 <select value={this.state.minPrice} name="Minimum Price" onChange={this.handleChange}>
                     <option value="0">Minimum Price</option>
                     <option value="0">POA</option>
@@ -206,6 +217,7 @@ class NavForSale extends Component {
                     <option value="7500000">£7,500,000</option>
                     <option value="10000000">£10,000,000</option>
                 </select>
+                
                 <select value={this.state.maxPrice} name="Maximum Price" onChange={this.handleChange}>
                     <option value="9999999999999">Maximum Price</option>
                     <option value="9999999999999">POA</option>
@@ -223,15 +235,16 @@ class NavForSale extends Component {
 
                 <div>
                     <p>Private Land</p>
-                    <ToggleSwitch on={this.state.privateListings} tooltip="publicToPrivate" toggle={this.toggleSwitch} ></ToggleSwitch>
+                    <ToggleSwitch on = {this.state.privateListings} tooltip="publicToPrivate" toggle={this.toggleSwitch} ></ToggleSwitch>
                     <p>Public Land</p>  
                 </div>
 
             </div>
-
+            
             <PropertyList listings = {this.getFilteredListings()}></PropertyList>
            
            <ForSaleMarkers active = {this.props.active}></ForSaleMarkers>
+
 
             </NavTray>
         )

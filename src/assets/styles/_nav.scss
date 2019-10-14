@@ -2,11 +2,13 @@ html, body {
   overflow: hidden;
 }
 
-* {
+* 
+{
   -webkit-tap-highlight-color: transparent;
 }
 
-.navbar {
+.navbar 
+{
   position: fixed;
   top: 0;
   left: 0;
@@ -16,7 +18,8 @@ html, body {
   display: flex;
   align-items: center;
   z-index: 100003;
-  .logo {
+  .logo 
+  {
     background-image: url('../img/logo-green.svg');
     height: 41px;
     width: 230px;
@@ -24,7 +27,9 @@ html, body {
     background-position: center;
     background-repeat: no-repeat;
     margin-left: 19px;
-    @media ('max-width: 680px') {
+    
+    @media ('max-width: 680px') 
+    {
       width: 41px;
       margin-left: 12px;
       background-image: url('../img/icon-logo-green-small.svg');
@@ -33,7 +38,9 @@ html, body {
       display: none;
     }
   }
-  .big-logo {
+  
+  .big-logo 
+  {
     background-image: url('../img/logo-green.svg');
     height: 41px;
     width: 230px;
@@ -44,7 +51,8 @@ html, body {
   }
 }
 
-.navbar-shadow {
+.navbar-shadow 
+{
   position: fixed;
   top: 0;
   left: 0;
@@ -55,13 +63,15 @@ html, body {
   z-index: 100002;
 }
 
-.navbar-right {
+.navbar-right 
+{
   display: flex;
   justify-self: self-end;
   width: 100px;
 }
 
-.nav-left {
+.nav-left 
+{
   width: 72px;
   position: fixed;
   left: 0;
@@ -79,6 +89,7 @@ html, body {
     position: relative;
     cursor: pointer;
   }
+
   .nav-left-icon.active {
     background-color: $primaryColor;
     box-shadow: inset 0 3px 6px 0 rgba(0, 0, 0, 0.16);
@@ -86,26 +97,32 @@ html, body {
       display: none;
     }
   }
+
   .close {
     background-color: #eff0f2;
     background-image: url('../img/icon-close-new.svg');
     background-size: 14px;
   }
+
   .boundaries {
     background-image: url('../img/icon-boundaries.svg');
     background-size: 32px;
   }
+
   .boundaries.active {
     background-image: url('../img/icon-boundaries--white.svg');
     background-size: 32px;
   }
+
   .drawing-tools {
     background-image: url('../img/icon-drawing-tools.svg');
     background-size: 32px;
   }
+
   .drawing-tools.active {
     background-image: url('../img/icon-drawing-tools--white.svg');
   }
+
   .data-layers {
     background-image: url('../img/icon-data-layers.svg');
     background-size: 32px;
@@ -442,55 +459,71 @@ html, body {
   left: 0;
 }
 
-.grid-of-listings{
+.grid-of-listings
+{
   display: grid;
   grid-template-columns: auto auto;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
+  grid-column-gap: 10px;
+  grid-row-gap: 25px;
+  padding: 15px;
+  margin: 10px;
 }
 
-.listing{
-  padding: 20px;
+.listing 
+{
+ 
+ padding: 1px;
+ background-color: white;
+ box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2);
+ margin: auto;
+ 
 }  
 
-.listing-image{
+.listing-image 
+{
   width: 200px;
   height: 200px; 
 }  
 
-a.mapboxgl-ctrl-logo {
+a.mapboxgl-ctrl-logo 
+{
   display: none !important;
 }
 
-.marker-section {
+.marker-section 
+{
   background-image: url('../img/icon-drop-pin.svg');
   background-size: 14px;
   background-repeat: no-repeat;
   background-position: 20px 50%;
 }
 
-.polygon-section {
+.polygon-section 
+{
   background-image: url('../img/icon-polygon.svg');
   background-size: 18px;
   background-repeat: no-repeat;
   background-position: 18px 50%;
 }
 
-.polygon-section-line {
+.polygon-section-line 
+{
   background-image: url('../img/icon-line.svg');
   background-size: 18px;
   background-repeat: no-repeat;
   background-position: 18px 50%;
 }
 
-#drawing-tools-icon {
+#drawing-tools-icon 
+{
   @media ('max-width: 320px') {
     display: none;
   }
 }
 
 #share-icon {
-  @media ('max-width: 320px') {
+  @media ('max-width: 320px') 
+  {
     display: none;
   }
 }
