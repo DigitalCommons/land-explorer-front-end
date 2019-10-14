@@ -13,20 +13,24 @@ class PropertyListing extends Component
 
         this.formatPrice    = this.formatPrice.bind(this);
         this.getKey         = this.getKey.bind(this);
+        this.hide           = this.hide.bind(this);
 
       }
 
-    formatPrice(){
+    formatPrice()
+    {
         return "£ " + this.props.price;
     }
 
-    hide(){
-        if(document.getElementById(this.getKey()))
-            document.getElementById(this.getKey()).style.display = 'none';
-        console.log("we trying!");
+    hide()
+    {
+        // if(document.getElementById(this.getKey()))
+        //     document.getElementById(this.getKey()).style.display = 'none';
+        console.log("Peeka a Boo!!");
     }
 
-    getKey(){
+    getKey()
+    {
         return 'idk' + this.props.id;
     }
 
@@ -34,7 +38,7 @@ class PropertyListing extends Component
           return (            
             <div className='listing' id = { this.getKey() }>
                
-              <button className = "closeListing">X</button> 
+              <button className = "closeListing" onClick = { this.hide }> X </button> 
                 <img className = 'listing-image' src = { this.props.imageURL } alt = { this.props.imageDescription }></img>
                 
                   <p> { this.props.location } </p>
