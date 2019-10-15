@@ -24,9 +24,11 @@ class PropertyListing extends Component
 
     hide()
     {
-        // if(document.getElementById(this.getKey()))
-        //     document.getElementById(this.getKey()).style.display = 'none';
-        console.log("Peeka a Boo!!");
+        if(document.getElementById(this.getKey() == document.getElementById(this.getKey())) ) 
+        {
+            document.getElementById(this.getKey()).style.display = 'none';
+       
+        }
     }
 
     getKey()
