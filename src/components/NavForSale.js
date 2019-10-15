@@ -236,10 +236,11 @@ class NavForSale extends Component {
                     <option value="10000000">£10,000,000</option>
                 </select>
 
-                <div>
-                    <p>Private Land</p>
-                    <ToggleSwitch on = {this.state.privateListings} tooltip="publicToPrivate" toggle={this.toggleSwitch} ></ToggleSwitch>
-                    <p>Public Land</p>  
+                <div className = "PropertyType">
+                <span className= "PrivateLand"> Private Land</span> 
+                  <ToggleSwitch on = {this.state.privateListings} tooltip="publicToPrivate" toggle={this.toggleSwitch} >  </ToggleSwitch>
+
+         <span className= "PublicLand">Public Land</span>  
                 </div>
 
             </div>

@@ -7,11 +7,6 @@
     margin: 9px 9px;
 }
 
-// .listing-image
-// {
-// // max-width : 100%;
-// max-height : 100%;
-// }
 
 .closeListing 
 {
@@ -26,8 +21,28 @@
     padding: 0px 0px 2px 0px;
     vertical-align: middle;
 }
+.PropertyType
+{
+    padding: 10px;
+}
 
-// .close
-//  {
-//  display: none;
-//  }
+.PrivateLand 
+{
+    padding : 10px;
+}
+
+.PublicLand
+{
+    padding: 23px;
+}
+
+
+
+.toggle-switch
+{
+   
+    height: 14px;
+    width: 25px;
+    position: sticky;
+    display: -webkit-inline-box;
+}
