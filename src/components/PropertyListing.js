@@ -24,23 +24,19 @@ class PropertyListing extends Component
 
     hide()
     {
-        if(document.getElementById(this.getKey() == document.getElementById(this.getKey())) ) 
-        {
-            document.getElementById(this.getKey()).style.display = 'none';
-       
-        }
+             document.getElementById(this.getKey()).style.display = 'none';
     }
 
     getKey()
     {
-        return 'idk' + this.props.id;
+        return 'id' + this.props.id;
     }
 
     render(){
           return (            
             <div className='listing' id = { this.getKey() }>
                
-              <button className = "closeListing" onClick = { this.hide }> X </button> 
+              <button className = "closeListing" onClick = { this.hide } > X </button> 
                 <img className = 'listing-image' src = { this.props.imageURL } alt = { this.props.imageDescription }></img>
                 
                   <p> { this.props.location } </p>

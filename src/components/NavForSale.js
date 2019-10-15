@@ -166,6 +166,7 @@ class NavForSale extends Component {
             private:    false,
             id:         '7',
         },
+    
     ];
    }
 
