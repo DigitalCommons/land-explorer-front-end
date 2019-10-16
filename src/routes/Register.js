@@ -126,6 +126,7 @@ class Register extends Component {
                     if (response.data.status === '200') {
                         this.setState({ registerSuccess: true });
                     } else if (response.data.status === "400") {
+                        console.log(response.data.status);
                         this.setState({ registerErrors: response.data.errors });
                     }
                 }

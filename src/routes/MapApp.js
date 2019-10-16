@@ -33,14 +33,18 @@ class MapApp extends Component {
             axios.get(`${constants.ROOT_URL}/api/user/details/`,config),
             axios.get(`${constants.ROOT_URL}/api/user/maps/`,config)
         ]).then(([details, maps]) => {
-            details.data = JSON.parse(details.data);
+            
+            console.log("Logging here ============");
+            console.log(details.data[0]);
+            //details.data = JSON.parse(details.data);
+            //details.data = details.data);
             // populate user details
             if (details.status === 200) {
                 analytics.setDimension(analytics._dimension.ORG_TYPE, details.data.organisationType);
                 analytics.setDimension(analytics._dimension.ORG_ACTIVITY, details.data.organisationActivity);
                 //fire the initial page load analytics
                 analytics.pageview('/app/');
-                this.props.dispatch({ type: 'POPULATE_USER', payload: details.data })
+                this.props.dispatch({ type: 'POPULATE_USER', payload: details.data[0] })
             } else {
                 this.setState({ errors: details.data.errors })
             }
@@ -50,7 +54,9 @@ class MapApp extends Component {
             }
             // populate user maps
             if (maps.status === 200) {
-                this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: JSON.parse(maps.data) })
+                //this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: maps.data })
+                this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: [] })
+                //this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: JSON.parse(maps.data) })
             }
         }).catch((err) => {
             console.log("There was an error", err);
