@@ -8,25 +8,18 @@ class MapCommunityAssets extends Component {
         super(props);
         
     }
-
-    createMarkers(){
-        let { markerInformationSet } = this.props;
+    
+    getCommunitySpaces(){
         const markerIcon = require('../assets/img/icon-marker-new--dark-grey.svg');
 
-        let markers = [];
-
-        console.log("map component reads" + markerInformationSet);
-
-        if(markerInformationSet.length > 0)
-            for(let i = 0;i<markerInformationSet.length;i++)
-                markers.push(
-                    <Marker
-                       key={546 + i}
-                      coordinates = {markerInformationSet[i].location}
-                       name={'Tyneside Cinema'}
-                       description={'great description'}
-                       anchor="bottom"
-                        style={{ height: '40px', zIndex: 1}}
+        let spaces = [
+            <Marker
+                    key={546}
+                    coordinates = {[-1.6118509274478185, 54.973665159663256]}
+                    name={'Tyneside Cinema'}
+                    description={'great description'}
+                    anchor="bottom"
+                    style={{ height: '40px', zIndex: 1}}
                         >
                        <img src={ markerIcon } alt=""
                             style={{
@@ -35,22 +28,37 @@ class MapCommunityAssets extends Component {
                                 zIndex: 1
                             }}
                         />
-                </Marker>
-        )
+                </Marker>,
+        ]
 
-        return markers;
+        return spaces;
+    }
+
+    createNodes(){
+        let { activeCommunityAssets } = this.props;
+        
+        let nodes = [];
+
+        if(activeCommunityAssets.includes("Community Space")){
+            nodes.push(this.getCommunitySpaces())
+            
+        }
+
+        //nodes.push(this.getCommunitySpaces());
+
+        return nodes;
     }
 
     render(){
-        let { markerInformationSet } = this.props;
-        console.log("map component reads" + markerInformationSet);
-        if(markerInformationSet)
-            return (
+        let { activeCommunityAssets } = this.props;
+
+        console.log(activeCommunityAssets);
+
+        return (
             <React.Fragment>
-                {this.createMarkers()}
+                {this.createNodes()}
             </React.Fragment>
         );
-        else return null;
     }
 }
 
@@ -58,8 +66,8 @@ MapCommunityAssets.propTypes = {
 
 };
 
-const mapStateToProps = ({ forSale }) => ({
-    markerInformationSet: forSale.markerInformationSet,
+const mapStateToProps = ({ communityAssets }) => ({
+    activeCommunityAssets: communityAssets.activeCommunityAssets,
 });
 
 export default connect(mapStateToProps)(MapCommunityAssets);

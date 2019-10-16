@@ -286,7 +286,7 @@ class MapboxMap extends Component {
                 >
                     {/* Map Layers (greenbelt etc.)*/}
                     <MapLayers/>
-                    {/*For displaying for sale markers*/}
+                    {/*For displaying community assets*/}
                     <MapCommunityAssets/>
                     {/* Geocoder - For location search */}
                     <GeoCoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
