@@ -50,8 +50,8 @@ class Login extends Component {
               'Content-Type': 'application/x-www-form-urlencoded'
             }
           };
-
-          axios.post("https://localhost:44344/token", qs.stringify(requestBody), config)
+          
+          axios.post(`${constants.ROOT_URL}/token`, qs.stringify(requestBody), config)
             .then((response) => {
                 console.log(response.data);
 
