@@ -149,7 +149,7 @@ class NavPoliticalData extends Component{
             {
               "ons": "E01008320"
             },
-            
+
             "name": "Newcastle upon Tyne 007C",
             "country": "E",
             "type_name": "2001 Lower Layer Super Output Area (Full)",
@@ -238,7 +238,7 @@ class NavPoliticalData extends Component{
 
         //let dataJSON = dummydata; 
             
-        this.setState({
+        this.setState ({
             council: dataJSON.areas[dataJSON.shortcuts.council].name,
             ward:   dataJSON.areas[dataJSON.shortcuts.ward].name,
             displayInfo: true
@@ -254,7 +254,8 @@ class NavPoliticalData extends Component{
         
     }
 
-    callAPI(){
+    callAPI()
+    {
         let datasrc = "https://mapit.mysociety.org/postcode/" + this.state.postcode;
         let Httpreq = new XMLHttpRequest(); // a new request
         Httpreq.open("GET",datasrc,false);
@@ -281,16 +282,19 @@ class NavPoliticalData extends Component{
         return JSON.parse(Httpreq.responseText); 
     }
 
-    error(errorValue){
+    error(errorValue)
+    {
         if(errorValue)
             document.getElementById("errorMessage").innerHTML = "Please enter valid postcode";
-        else{
+        else
+        {
             document.getElementById("errorMessage").innerHTML = "";
         }
         
     }
 
-    getMPfromPostcode(){
+    getMPfromPostcode()
+    {
         let output = "The MP for this postcode is Nick Brown";
 
         if(this.state.postcode =! "")
@@ -299,7 +303,8 @@ class NavPoliticalData extends Component{
             return "";
     }
 
-    render(){
+    render()
+    {
         return(
             <NavTray
                 title="Political Data"
@@ -341,6 +346,6 @@ class NavPoliticalData extends Component{
                 </NavTray>
         )
     }
-}
+
 
 export default NavPoliticalData;
