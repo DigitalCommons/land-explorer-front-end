@@ -19,7 +19,13 @@ class PropertyListing extends Component
 
     formatPrice()
     {
-        return "£ " + this.props.price;
+        var rgx = /(\d)(?=(\d{3}) + (?!\d)) /g; 
+        return `£ ${this.props.price}`.replace(/(\d)(?=(\d{3}) + (?!\d)) /g);
+        //  +  + RegExp(/(\d)(?=(\d{3}) + (?!\d)) /g)
+         // .replace(/(\d)(?=(\d{3})+(?!\d)) /g,'$1 ,'  )
+         
+
+
     }
 
     hide()
