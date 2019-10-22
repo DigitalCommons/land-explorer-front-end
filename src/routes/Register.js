@@ -123,12 +123,9 @@ class Register extends Component {
                 console.log("register response", response);
                 if (response.status === 200) {
                     console.log("register response 200", response);
-                    if (response.data.status === '200') {
-                        this.setState({ registerSuccess: true });
-                    } else if (response.data.status === "400") {
-                        console.log(response.data.status);
-                        this.setState({ registerErrors: response.data.errors });
-                    }
+                    this.setState({ registerSuccess: true });
+                }else if (response.status === 400) {
+                    this.setState({ registerErrors: response.data.errors });
                 }
                 this.setState({registering: false})
             })
