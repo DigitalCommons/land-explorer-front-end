@@ -1,4 +1,4 @@
-[
+let councilData = JSON.parse(`[
  {
    "Ref:No": "",
    "Name": "North Kensington Medical Centre",
@@ -2575,4 +2575,6 @@
    "Contact Name": "",
    "Contact Address": ""
  }
-]
+]`);
+
+export {councilData};
