@@ -9,6 +9,9 @@ class NavCommunityAssets extends Component {
 
         this.communitySpaceOn   =    this.communitySpaceOn.bind(this);
         this.communitySpaceOff  =    this.communitySpaceOff.bind(this);
+        this.publicOn   =    this.publicOn.bind(this);
+        this.publicOff  =    this.publicOff.bind(this);
+    
     }
 
     communitySpaceOn(){
@@ -40,6 +43,8 @@ class NavCommunityAssets extends Component {
             >
                 <button onClick={this.communitySpaceOn}>Turn on Community Space LAYER</button>
                 <button onClick={this.communitySpaceOff}>Turn off Community Space LAYER</button>
+                <button onClick={this.publicOn}>Turn on Public LAYER</button>
+                <button onClick={this.publicOff}>Turn off Public LAYER</button>
                 
 
             </NavTray>
