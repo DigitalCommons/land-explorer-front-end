@@ -335,7 +335,7 @@ class MapboxMap extends Component {
                 />
             </div>
             )
-        else
+        else //for all other usertypes i.e. core
             return (
             <div>
                 {/* This is the ReactMapbox instance we created at the top of the file */}
