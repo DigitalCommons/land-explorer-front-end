@@ -19,7 +19,7 @@ class PropertyListing extends Component
 
     formatPrice()
     {
-        return "£ " + this.props.price;
+        return `£ ${this.props.price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g , '$1,')}`;
     }
 
     hide()
