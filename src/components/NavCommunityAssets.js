@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import NavTray from './NavTray';
-import NavTrayItem from './common/NavTrayItem';
-import Draggable from './Draggable';
 import {turnOnLayer, turnOffLayer} from '../actions/CommunityAssetsActions';
 import { connect } from 'react-redux';
 
@@ -9,17 +7,27 @@ class NavCommunityAssets extends Component {
     constructor(props){
         super(props);
 
-        this.doDispatch = this.doDispatch.bind(this);
-        this.clearLayer = this.clearLayer.bind(this);
+        this.communitySpaceOn   =    this.communitySpaceOn.bind(this);
+        this.communitySpaceOff  =    this.communitySpaceOff.bind(this);
     }
 
-    doDispatch(){
-        this.props.turnOnLayer("new nodes");
+    communitySpaceOn(){
+        this.props.turnOnLayer("Community Space");
         return;
     }
 
-    clearLayer(){
-        this.props.turnOffLayer("new nodes");
+    communitySpaceOff(){
+        this.props.turnOffLayer("Community Space");
+        return;
+    }
+
+    publicOn(){
+        this.props.turnOnLayer("Public");
+        return;
+    }
+
+    publicOff(){
+        this.props.turnOffLayer("Public");
         return;
     }
 
@@ -30,8 +38,8 @@ class NavCommunityAssets extends Component {
                 open={this.props.open && this.props.active === 'Community Assets'}
                 onClose={this.props.onClose}
             >
-                <button onClick={this.doDispatch}>TURN ON LAYER</button>
-                <button onClick={this.clearLayer}>TURN OFF LAYER</button>
+                <button onClick={this.communitySpaceOn}>Turn on Community Space LAYER</button>
+                <button onClick={this.communitySpaceOff}>Turn off Community Space LAYER</button>
                 
 
             </NavTray>

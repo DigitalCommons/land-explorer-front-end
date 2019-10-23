@@ -1,19 +1,17 @@
-export const turnOnLayer = (nodes) => {
+export const turnOnLayer = (layer) => {
     return {
     type: 'ASSET_TYPE_ON',
     payload: {
-        communityAssetsType:   "Community Space",
-        name:                   nodes,
+        communityAssetsType:   layer,
     }
   }
 }
 
-export const turnOffLayer = (nodes) => {
+export const turnOffLayer = (layer) => {
     return {
     type: 'ASSET_TYPE_OFF',
     payload: {
-        communityAssetsType:   "Community Space",
-        name:                   nodes,
+        communityAssetsType:   layer,
     }
   }
 }
