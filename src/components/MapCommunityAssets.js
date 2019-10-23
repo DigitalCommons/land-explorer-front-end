@@ -18,6 +18,8 @@ class MapCommunityAssets extends Component {
             <Nodal 
                 type = {1}
                 location = {[-1.6118509274478185, 54.973665159663256]}
+                key = {343}
+                info = "Vegetarian cafe opens 7pm"
             />,
         ]
 
@@ -30,6 +32,8 @@ class MapCommunityAssets extends Component {
             <Nodal 
                 type = {2}
                 location = {[-1.6118509274478185, 54.913665159663256]}
+                key = {345}
+                info = "The Police"
             />,
         ]
 
