@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import Nodal from './common/Nodal';
 import { Marker } from 'react-mapbox-gl';
 
 class MapCommunityAssets extends Component {
@@ -12,50 +13,24 @@ class MapCommunityAssets extends Component {
     }
     
     getCommunitySpaces(){
-        const markerIcon = require('../assets/img/icon-marker-new--dark-grey.svg');
-
+        
         let spaces = [
-            <Marker
-                    key={546}
-                    coordinates = {[-1.6118509274478185, 54.973665159663256]}
-                    name={'Tyneside Cinema'}
-                    description={'great description'}
-                    anchor="bottom"
-                    style={{ height: '40px', zIndex: 1}}
-                        >
-                       <img src={ markerIcon } alt=""
-                            style={{
-                                height: 40,
-                                width: 40,
-                                zIndex: 1
-                            }}
-                        />
-                </Marker>,
+            <Nodal 
+                type = {1}
+                location = {[-1.6118509274478185, 54.973665159663256]}
+            />,
         ]
 
         return spaces;
     }
 
     getPublic(){
-        const markerIcon = require('../assets/img/icon-marker-blue.svg');
-
+        
         let spaces = [
-            <Marker
-                    key={546}
-                    coordinates = {[-1.6118509274478185, 54.913665159663256]}
-                    name={'Tyneside Cinema'}
-                    description={'great description'}
-                    anchor="bottom"
-                    style={{ height: '40px', zIndex: 1}}
-                        >
-                       <img src={ markerIcon } alt=""
-                            style={{
-                                height: 40,
-                                width: 40,
-                                zIndex: 1
-                            }}
-                        />
-                </Marker>,
+            <Nodal 
+                type = {2}
+                location = {[-1.6118509274478185, 54.913665159663256]}
+            />,
         ]
 
         return spaces;
