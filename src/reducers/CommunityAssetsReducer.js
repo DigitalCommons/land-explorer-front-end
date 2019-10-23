@@ -7,7 +7,7 @@ export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case 'ASSET_TYPE_ON':
             console.log("turning on " + action.payload.communityAssetsType);
-            state.activeCommunityAssets.push("Community Space");
+            state.activeCommunityAssets.push(action.payload.communityAssetsType);
             console.log(state.activeCommunityAssets);
             activeCommunityAssets = state.activeCommunityAssets.slice();
             return {

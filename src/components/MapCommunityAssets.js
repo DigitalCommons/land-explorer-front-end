@@ -37,7 +37,7 @@ class MapCommunityAssets extends Component {
     }
 
     getPublic(){
-        const markerIcon = require('../assets/img/icon-marker-new--dark-grey.svg');
+        const markerIcon = require('../assets/img/icon-marker-blue.svg');
 
         let spaces = [
             <Marker
@@ -67,11 +67,10 @@ class MapCommunityAssets extends Component {
 
         if(this.props.activeCommunityAssets.includes("Community Space")){
             nodes.push(this.getCommunitySpaces())
-            
         }
+
         if(this.props.activeCommunityAssets.includes("Public")){
             nodes.push(this.getPublic())
-            
         }
 
 
@@ -79,7 +78,6 @@ class MapCommunityAssets extends Component {
     }
 
     render(){
-        console.log(this.state.count);
 
         return (
             <React.Fragment>
