@@ -6,6 +6,9 @@ import { Marker } from 'react-mapbox-gl';
 class MapCommunityAssets extends Component {
     constructor(props){
         super(props);
+        this.state = {
+            count: 0
+        }
         
     }
     
@@ -35,11 +38,10 @@ class MapCommunityAssets extends Component {
     }
 
     createNodes(){
-        let { activeCommunityAssets } = this.props;
         
         let nodes = [];
 
-        if(activeCommunityAssets.includes("Community Space")){
+        if(this.props.activeCommunityAssets.includes("Community Space")){
             nodes.push(this.getCommunitySpaces())
             
         }
@@ -50,9 +52,7 @@ class MapCommunityAssets extends Component {
     }
 
     render(){
-        let { activeCommunityAssets } = this.props;
-
-        console.log(activeCommunityAssets);
+        console.log(this.state.count);
 
         return (
             <React.Fragment>
