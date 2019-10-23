@@ -10,12 +10,39 @@
 
 .closeListing 
 {
-    background : $primaryColor;
-    position : absolute;
-    font-size : 12px;
-    border: none;
-    border-radius : 50%;
-    color:white;
+    background: #27ae60;
+    position: absolute;
+    font-size: 12px;
+    border: white 1px solid;
+    border-radius: 50%;
+    color: white;
+    height: 16px;
+    width: 18px;
+    padding: 0px 0px 2px 0px;
+    vertical-align: middle;
+}
+.PropertyType
+{
+    padding: 10px;
+}
+
+.PrivateLand 
+{
+    padding : 10px;
+}
+
+.PublicLand
+{
+    padding: 23px;
 }
 
 
+
+.toggle-switch
+{
+   
+    height: 14px;
+    width: 25px;
+    position: sticky;
+    display: -webkit-inline-box;
+}
