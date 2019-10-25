@@ -39,18 +39,23 @@ class Nodal extends Component {
 
     openPopup(){
         if(this.state.display)
-            return [<h1>{this.props.info}</h1>];
+            return <div>
+                        <h1>{this.props.name}</h1>
+                        <p>{this.props.subcat}</p>
+                        <p>{this.props.telephone}</p>
+                    </div>;
         return;
     }
 
     render(){
         return <Popup
+            style = {this.getStyleByType(this.props.style)}
             coordinates={this.props.location}
             offset={{
               'bottom-left': [12, -38],  'bottom': [0, -38], 'bottom-right': [-12, -38]
             }}
             onClick={this.toggleDisplay}
-            style = {this.getStyleByType(this.props.style)}>
+            >
             {this.openPopup()}
           </Popup>
     }

@@ -35,8 +35,10 @@ class MapCommunityAssets extends Component {
         return <Nodal
                     style = {communityAsset.Layer.slice(0,1)}
                     location = {[communityAsset.long,communityAsset.lat]}
-                    info = {communityAsset.Name}
+                    name = {communityAsset.Name}
+                    subcat = {communityAsset["Sub Cat"]}
                     key = {this.state.count++}
+                    telephone = {communityAsset["Telephone No."]}
                 />
     }
 
