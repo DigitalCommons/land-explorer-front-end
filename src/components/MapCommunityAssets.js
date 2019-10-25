@@ -20,7 +20,7 @@ class MapCommunityAssets extends Component {
                 location = {[-1.6118509274478185, 54.973665159663256]}
                 key = {343}
                 info = "Vegetarian cafe opens 7pm"
-            />,
+            />
         ]
 
         return spaces;
