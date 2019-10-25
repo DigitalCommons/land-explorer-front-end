@@ -24,30 +24,32 @@ class MapApp extends Component {
     }
 
     componentDidMount() {
+        //console.log(localStorage.getItem('token'));
+        //console.log(localStorage.getItem('token_expiry'));
 
 
-        let details = JSON.parse('{"eid": "e4389df1310f15f1bf883bd2528beb0af9b50be7b0bb1cd8e120087535317b52","username": "testing@wearespork.net","firstName": "Testing","lastName": "User","marketing": false,"organisation": "","organisationNumber": "","organisationType": "not-for-profit","organisationActivity": "community-development","address1": "","address2": "","city": "","postcode": "","phone": ""}');
+        var config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
+       // let details = JSON.parse('{"eid": "e4389df1310f15f1bf883bd2528beb0af9b50be7b0bb1cd8e120087535317b52","username": "testing@wearespork.net","firstName": "Testing","lastName": "User","marketing": false,"organisation": "","organisationNumber": "","organisationType": "not-for-profit","organisationActivity": "community-development","address1": "","address2": "","city": "","postcode": "","phone": ""}');
         
-        analytics.setDimension(analytics._dimension.ORG_TYPE, details.organisationType);
-        analytics.setDimension(analytics._dimension.ORG_ACTIVITY, details.organisationActivity);
-        //fire the initial page load analytics
-        analytics.pageview('/app/');
-        this.props.dispatch({ type: 'POPULATE_USER', payload: details })
-        this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: [] })
+  
 
-        /*
         // Populate user details and maps
         Promise.all([
-            axios.get(`${constants.ROOT_URL}/api/user/details/`),
-            axios.get(`${constants.ROOT_URL}/api/user/maps/`)
+            axios.get(`${constants.ROOT_URL}/api/user/details/`,config),
+            axios.get(`${constants.ROOT_URL}/api/user/maps/`,config)
         ]).then(([details, maps]) => {
+            
+            console.log("Logging here ============");
+            console.log(details.data[0]);
+            //details.data = JSON.parse(details.data);
+            //details.data = details.data);
             // populate user details
             if (details.status === 200) {
                 analytics.setDimension(analytics._dimension.ORG_TYPE, details.data.organisationType);
                 analytics.setDimension(analytics._dimension.ORG_ACTIVITY, details.data.organisationActivity);
                 //fire the initial page load analytics
                 analytics.pageview('/app/');
-                this.props.dispatch({ type: 'POPULATE_USER', payload: details.data })
+                this.props.dispatch({ type: 'POPULATE_USER', payload: details.data[0] })
             } else {
                 this.setState({ errors: details.data.errors })
             }
@@ -57,12 +59,14 @@ class MapApp extends Component {
             }
             // populate user maps
             if (maps.status === 200) {
+                //this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: maps.data })
                 this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: maps.data })
+                //this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: JSON.parse(maps.data) })
             }
         }).catch((err) => {
-            console.log("There was am error", err);
+            console.log("There was an error", err);
         })
-        */
+
     }
 
     render() {
@@ -101,7 +105,8 @@ class MapApp extends Component {
 const mapStateToProps = ({authentication, user}) => ({
     authenticated: authentication.authenticated,
     loggedIn: authentication.loggedIn,
-    user: user
+    token: authentication.token,
+    user: user,
 });
 
 export default withRouter(connect(mapStateToProps)(MapApp));

@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 import Navbar from '../components/Navbar';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import axios from 'axios';
 import Spinner from 'react-spinkit';
 import constants from '../constants';
+import { tokensToFunction } from 'path-to-regexp';
+
+const qs = require('querystring');
 
 class Login extends Component {
     constructor(props) {
@@ -27,14 +31,51 @@ class Login extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.login();
-    }
+    };
+
+
 
     login = () => {
+
         this.setState({error: false, loggingIn: true});
-        let request = {
+
+        const requestBody = {
             username: this.state.email.value,
-            password: this.state.password.value
-        }
+            password: this.state.password.value,
+            grant_type: 'password'
+          };
+          
+          const config = {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          };
+          
+          axios.post(`${constants.ROOT_URL}/token`, qs.stringify(requestBody), config)
+            .then((response) => {
+                console.log(response.data);
+
+                if (response.status === 200) {
+                    // save token to local storage
+                    localStorage.setItem('token', response.data.access_token);
+
+                    // and its expiry time
+                    var expiry = new Date();
+                    expiry.setSeconds(expiry.getSeconds() + response.data.expires_in);
+                    localStorage.setItem('token_expiry', expiry.toString());
+
+                    this.props.history.push('/app');
+
+                }else if (response.status === 400){
+                    console.log("wrong credentials");
+                    this.setState({loggingIn: false, error: true})
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+                this.setState({loggingIn: false, error: true})
+            })
+          /*
         //todo look at changing the login mechanism to be json post
         axios.post(`${constants.ROOT_URL}/login?username=`  + request.username + `&password=` + request.password, request)
             .then((response) => {
@@ -51,6 +92,7 @@ class Login extends Component {
                 }
             })
             .catch(err => console.log(err));
+            */
     }
 
     render() {
@@ -148,4 +190,12 @@ const emailRegexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"
 
 Login.propTypes = {};
 
-export default connect(null)(Login);
+//export default connect(null)(Login);
+
+const mapStateToProps = ({authentication, user}) => ({
+    authenticated: authentication.authenticated,
+    loggedIn: authentication.loggedIn,
+    user: user,
+});
+
+export default withRouter(connect(mapStateToProps)(Login));

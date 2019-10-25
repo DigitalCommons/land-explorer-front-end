@@ -29,12 +29,14 @@ export default (state = INITIAL_STATE, action) => {
             }
         }
         case 'SET_TOKEN': {
+            console.log("setting token");
             return {
                 ...state,
                 token: action.payload,
                 tokenExpiry: Math.round(new Date().getTime() / 1000) + (24 * 3600),
             }
         }
+        
         default:
             return state;
     }

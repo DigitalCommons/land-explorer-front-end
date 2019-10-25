@@ -20,6 +20,7 @@ import MyAccount from "./routes/MyAccount";
 import FourOhFour from './routes/FourOhFour';
 import analytics from './analytics'
 import constants from './constants';
+import Authentication from './routes/Authentication';
 
 analytics.init();
 
@@ -38,11 +39,19 @@ const AppRoute = (path) => (
     </div>
 )
 
+
+const AuthRoute = (path) => (
+    <div>
+    <Authentication/>
+    </div>
+)
+
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
             <Switch>
                 <Route path="/app" component={AppRoute} />
+                <Route path="/auth" component={AuthRoute} />
                 <Route component={FourOhFour} />
             </Switch>
         </BrowserRouter>
