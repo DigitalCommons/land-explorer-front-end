@@ -33,7 +33,7 @@ class MapCommunityAssets extends Component {
 
     createNodal(communityAsset){
         return <Nodal
-                    style = {communityAsset.Layer.slice(0,1)}
+                    type = {communityAsset.Layer.slice(0,1)}
                     location = {[communityAsset.long,communityAsset.lat]}
                     name = {communityAsset.Name}
                     subcat = {communityAsset["Sub Cat"]}

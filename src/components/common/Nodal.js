@@ -19,10 +19,18 @@ class Nodal extends Component {
         const blueStyle = {
             backgroundColor: 'blue'
         }
+        const greenStyle = {
+            backgroundColor: 'green'
+        }
+        const orangeStyle = {
+            backgroundColor: 'orange'
+        }
 
         switch (type){
-            case 1: return redStyle;
-            case 2: return blueStyle;
+            case "1": return redStyle;
+            case "2": return blueStyle;
+            case '4': return greenStyle;
+            case "7": return orangeStyle;
         }
     }
 
@@ -49,7 +57,7 @@ class Nodal extends Component {
 
     render(){
         return <Popup
-            style = {this.getStyleByType(this.props.style)}
+            style = {this.getStyleByType(this.props.type)}
             coordinates={this.props.location}
             offset={{
               'bottom-left': [12, -38],  'bottom': [0, -38], 'bottom-right': [-12, -38]
