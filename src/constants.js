@@ -20,7 +20,6 @@ const constants = {
     PROD: true,
     //ROOT_URL: '',
     //ROOT_URL: 'http://localhost:8080',
-    
     ROOT_URL: 'https://localhost:44344',
     //ROOT_URL: 'https://0746c30c.ngrok.io',
     //ROOT_URL: 'http://2.101.111.138:8080',

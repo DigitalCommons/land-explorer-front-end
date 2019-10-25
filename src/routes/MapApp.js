@@ -27,7 +27,12 @@ class MapApp extends Component {
         //console.log(localStorage.getItem('token'));
         //console.log(localStorage.getItem('token_expiry'));
 
+
         var config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
+       // let details = JSON.parse('{"eid": "e4389df1310f15f1bf883bd2528beb0af9b50be7b0bb1cd8e120087535317b52","username": "testing@wearespork.net","firstName": "Testing","lastName": "User","marketing": false,"organisation": "","organisationNumber": "","organisationType": "not-for-profit","organisationActivity": "community-development","address1": "","address2": "","city": "","postcode": "","phone": ""}');
+        
+  
+
         // Populate user details and maps
         Promise.all([
             axios.get(`${constants.ROOT_URL}/api/user/details/`,config),
@@ -61,8 +66,7 @@ class MapApp extends Component {
         }).catch((err) => {
             console.log("There was an error", err);
         })
-        /*
-        */
+
     }
 
     render() {

@@ -10,7 +10,7 @@
 @import "my-account";
 @import "land-ownership";
 @import "PoliticalData";
-
+@import "landForSale";
 
 html {
   text-rendering: optimizeLegibility;
@@ -38,12 +38,18 @@ body, h1, h2, h3, h4, h5, h6 {
 .toggle-switch {
   height: 14px;
   width: 25px;
-  position: absolute;
+  position: sticky;
   right: 14px;
-  .switch input {
+  
+  .switch input 
+  {
     display:none;
   }
-  .switch input {display:none;}
+  .switch input 
+  {
+    display:none;
+  }
+  
   .slider {
     position: absolute;
     cursor: pointer;

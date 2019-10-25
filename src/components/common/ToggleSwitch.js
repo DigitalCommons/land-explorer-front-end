@@ -9,12 +9,14 @@ class ToggleSwitch extends Component {
         let { on, toggle, tooltip } = this.props;
         return (
             <div className="toggle-switch"
-                 onClick={(e) => {
+                 onClick = { (e) => 
+                    {
                      e.preventDefault();
                      toggle();
-                 }}
-                 data-tip
-                 data-for={tooltip}
+                    }}
+                 
+                    data-tip
+                    data-for={tooltip}
             >
                 <label className="switch">
                     <input

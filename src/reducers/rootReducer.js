@@ -18,6 +18,7 @@ import MyMapsReducer from './MyMapsReducer';
 import MapMetaReducer from './MapMetaReducer';
 import ShareReducer from './ShareReducer';
 import ForSaleReducer from './ForSaleReducer';
+import CommunityAssetsReducer from './CommunityAssetsReducer';
 
 export default combineReducers({
     authentication: AuthenticationReducer,
@@ -39,4 +40,5 @@ export default combineReducers({
     mapMeta: MapMetaReducer,
     share: ShareReducer,
     forSale: ForSaleReducer,
+    communityAssets: CommunityAssetsReducer,
 });

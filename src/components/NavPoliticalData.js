@@ -70,7 +70,6 @@ class NavPoliticalData extends Component{
         xhr.onerror = function(e){
             console.error(xhr.statusText);
         };
-
         xhr.send(null); */
 
         return JSON.parse(Httpreq.responseText); 
