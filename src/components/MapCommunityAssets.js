@@ -13,15 +13,21 @@ class MapCommunityAssets extends Component {
     }
     
     getCommunitySpaces(){
+        //load json of commnunity spaces
+        //loop through json, perhaps map function
+        //create new nodals for each space
+        //add to space array
         
-        let spaces = [
+        let spaces = []
+
+        
             <Nodal 
                 type = {1}
                 location = {[-1.6118509274478185, 54.973665159663256]}
                 key = {343}
                 info = "Vegetarian cafe opens 7pm"
             />
-        ]
+        
 
         return spaces;
     }
