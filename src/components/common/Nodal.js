@@ -12,16 +12,6 @@ class Nodal extends Component {
         this.openPopup      = this.openPopup.bind(this);
     }
 
-    getIconByType(type){
-        const icon1 = require('../../assets/img/icon-marker-red.svg');
-        const icon2 = require('../../assets/img/icon-marker-blue.svg');
-
-        switch (type){
-            case 1: return icon1;
-            case 2: return icon2;
-        }
-    }
-
     getStyleByType(type){
         const redStyle = {
             backgroundColor: 'red'
@@ -60,7 +50,7 @@ class Nodal extends Component {
               'bottom-left': [12, -38],  'bottom': [0, -38], 'bottom-right': [-12, -38]
             }}
             onClick={this.toggleDisplay}
-            style = {this.getStyleByType(this.props.type)}>
+            style = {this.getStyleByType(this.props.style)}>
             {this.openPopup()}
           </Popup>
     }

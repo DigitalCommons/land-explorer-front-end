@@ -3,6 +3,8 @@
 //2.publicLayer
 //4.communityBusiness
 //7.voluntarySector
+
+
 let communitySpace = JSON.parse(`[{
   "Ref:No": "",
   "Name": "St Helen's Church, North Kensington",
@@ -374,7 +376,7 @@ let publicLayer = JSON.parse(`[{
   "Sub Cat": "Education",
   "Open Access": "",
   "Heritage": "",
-  "Web Address": "\tinfo@middlerow.rbkc.sch.uk",
+  "Web Address": "info@middlerow.rbkc.sch.uk",
   "Beneficiaries": "",
   "Telephone No.": "",
   "Contact Name": "",
