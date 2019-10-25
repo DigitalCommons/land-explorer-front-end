@@ -12,16 +12,6 @@ class Nodal extends Component {
         this.openPopup      = this.openPopup.bind(this);
     }
 
-    getIconByType(type){
-        const icon1 = require('../../assets/img/icon-marker-red.svg');
-        const icon2 = require('../../assets/img/icon-marker-blue.svg');
-
-        switch (type){
-            case 1: return icon1;
-            case 2: return icon2;
-        }
-    }
-
     getStyleByType(type){
         const redStyle = {
             backgroundColor: 'red'
@@ -29,10 +19,18 @@ class Nodal extends Component {
         const blueStyle = {
             backgroundColor: 'blue'
         }
+        const greenStyle = {
+            backgroundColor: 'green'
+        }
+        const orangeStyle = {
+            backgroundColor: 'orange'
+        }
 
         switch (type){
-            case 1: return redStyle;
-            case 2: return blueStyle;
+            case "1": return redStyle;
+            case "2": return blueStyle;
+            case '4': return greenStyle;
+            case "7": return orangeStyle;
         }
     }
 
@@ -49,18 +47,23 @@ class Nodal extends Component {
 
     openPopup(){
         if(this.state.display)
-            return [<h1>{this.props.info}</h1>];
+            return <div>
+                        <h1>{this.props.name}</h1>
+                        <p>{this.props.subcat}</p>
+                        <p>{this.props.telephone}</p>
+                    </div>;
         return;
     }
 
     render(){
         return <Popup
+            style = {this.getStyleByType(this.props.type)}
             coordinates={this.props.location}
             offset={{
               'bottom-left': [12, -38],  'bottom': [0, -38], 'bottom-right': [-12, -38]
             }}
             onClick={this.toggleDisplay}
-            style = {this.getStyleByType(this.props.type)}>
+            >
             {this.openPopup()}
           </Popup>
     }

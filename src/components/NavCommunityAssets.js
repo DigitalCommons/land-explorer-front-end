@@ -11,6 +11,10 @@ class NavCommunityAssets extends Component {
         this.communitySpaceOff  =    this.communitySpaceOff.bind(this);
         this.publicOn   =    this.publicOn.bind(this);
         this.publicOff  =    this.publicOff.bind(this);
+        this.communityBusinessOn = this.communityBusinessOn.bind(this);
+        this.communityBusinessOff = this.communityBusinessOff.bind(this);
+        this.voluntarySectorOn =    this.voluntarySectorOn.bind(this);
+        this.voluntarySectorOff =   this.voluntarySectorOff.bind(this);
     
     }
 
@@ -34,6 +38,26 @@ class NavCommunityAssets extends Component {
         return;
     }
 
+    communityBusinessOn(){
+        this.props.turnOnLayer("Community Business");
+        return;
+    }
+
+    communityBusinessOff(){
+        this.props.turnOffLayer("Community Business");
+        return;
+    }
+
+    voluntarySectorOn(){
+        this.props.turnOnLayer("Voluntary Sector");
+        return;
+    }
+
+    voluntarySectorOff(){
+        this.props.turnOffLayer("Voluntary Sector");
+        return;
+    }
+
     render(){
         return(
             <NavTray
@@ -45,7 +69,11 @@ class NavCommunityAssets extends Component {
                 <button onClick={this.communitySpaceOff}>Turn off Community Space LAYER</button>
                 <button onClick={this.publicOn}>Turn on Public LAYER</button>
                 <button onClick={this.publicOff}>Turn off Public LAYER</button>
-                
+                <button onClick={this.communityBusinessOn}>Turn on Community Business LAYER</button>
+                <button onClick={this.communityBusinessOff}>Turn off Community Business LAYER</button>
+                <button onClick={this.voluntarySectorOn}>Turn on Voluntary Sector LAYER</button>
+                <button onClick={this.voluntarySectorOff}>Turn off Voluntary Sector LAYER</button>
+
 
             </NavTray>
         );

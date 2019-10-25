@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Nodal from './common/Nodal';
 import { Marker } from 'react-mapbox-gl';
+import {communitySpace, publicLayer, communityBusiness, voluntarySector} from '../data/councilAssets';
 
 class MapCommunityAssets extends Component {
     constructor(props){
@@ -9,35 +10,36 @@ class MapCommunityAssets extends Component {
         this.state = {
             count: 0
         }
+
+        this.createNodal = this.createNodal.bind(this);
         
     }
     
     getCommunitySpaces(){
-        
-        let spaces = [
-            <Nodal 
-                type = {1}
-                location = {[-1.6118509274478185, 54.973665159663256]}
-                key = {343}
-                info = "Vegetarian cafe opens 7pm"
-            />
-        ]
-
-        return spaces;
+        return communitySpace.map(this.createNodal);;
     }
 
     getPublic(){
-        
-        let spaces = [
-            <Nodal 
-                type = {2}
-                location = {[-1.6118509274478185, 54.913665159663256]}
-                key = {345}
-                info = "The Police"
-            />,
-        ]
+        return publicLayer.map(this.createNodal);
+    }
 
-        return spaces;
+    getCommunityBusiness(){
+        return communityBusiness.map(this.createNodal);
+    }
+
+    getVoluntarySector(){
+        return voluntarySector.map(this.createNodal);
+    }
+
+    createNodal(communityAsset){
+        return <Nodal
+                    type = {communityAsset.Layer.slice(0,1)}
+                    location = {[communityAsset.long,communityAsset.lat]}
+                    name = {communityAsset.Name}
+                    subcat = {communityAsset["Sub Cat"]}
+                    key = {this.state.count++}
+                    telephone = {communityAsset["Telephone No."]}
+                />
     }
 
     createNodes(){
@@ -52,6 +54,13 @@ class MapCommunityAssets extends Component {
             nodes.push(this.getPublic())
         }
 
+        if(this.props.activeCommunityAssets.includes("Community Business")){
+            nodes.push(this.getCommunityBusiness())
+        }
+
+        if(this.props.activeCommunityAssets.includes("Voluntary Sector")){
+            nodes.push(this.getVoluntarySector())
+        }
 
         return nodes;
     }
