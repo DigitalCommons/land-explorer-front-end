@@ -90,7 +90,7 @@ class MapApp extends Component {
             return (
                 <div>
                     <MapboxMap />
-                    <Navbar limited={false} />
+                    <Navbar limited={false}/>
                     <Tooltips />
                     <Controls />
                 </div>
@@ -99,7 +99,7 @@ class MapApp extends Component {
             // else render loading spinner
             return (
                 <div className="full-height overflow-y">
-                    <Navbar limited={true} />
+                    <Navbar limited={true}/>
                     <div className="centered">
                         <Spinner name="pulse" fadeIn="none"/>
                     </div>

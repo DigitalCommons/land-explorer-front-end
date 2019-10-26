@@ -1,13 +1,22 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect  } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { getMyMaps } from '../actions/MapActions';
 import { openModal } from '../actions/ModalActions';
 import analytics from '../analytics';
 import constants from '../constants';
+import {logout} from '../components/Auth';
+import { withRouter } from 'react-router';
 
-class MenuProfile extends Component {
+class MenuProfile extends Component {    
+
+    logoutUser(e) {
+        logout();        
+        window.location.href = "/auth";
+    }
+
     render() {
         let { open, getMyMaps, openModal } = this.props;
         return (
@@ -55,12 +64,12 @@ class MenuProfile extends Component {
                              marginBottom: '10px'
                          }}
                     >
-                        <div className="button button-medium button-outline"
-                             onClick={(e) => {
-                                 e.preventDefault();
-                                 window.location = "/logout";
-                             }}
-                        >Logout</div>
+                        <div className="button button-medium" onClick={this.logoutUser.bind(this)}
+                                     /*onClick={(e) => {
+                                         e.preventDefault();
+                                         window.location = "/logout";
+                                     }}*/
+                                >Logout</div>
                     </div>
                 </div>
             </div>
