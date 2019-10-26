@@ -14,22 +14,6 @@ class MapCommunityAssets extends Component {
         this.createNodal = this.createNodal.bind(this);
         
     }
-    
-    getCommunitySpaces(){
-        return communitySpace.map(this.createNodal);;
-    }
-
-    getPublic(){
-        return publicLayer.map(this.createNodal);
-    }
-
-    getCommunityBusiness(){
-        return communityBusiness.map(this.createNodal);
-    }
-
-    getVoluntarySector(){
-        return voluntarySector.map(this.createNodal);
-    }
 
     createNodal(communityAsset){
         return <Nodal
@@ -47,19 +31,19 @@ class MapCommunityAssets extends Component {
         let nodes = [];
 
         if(this.props.activeCommunityAssets.includes("Community Space")){
-            nodes.push(this.getCommunitySpaces())
+            nodes.push(communitySpace.map(this.createNodal))
         }
 
         if(this.props.activeCommunityAssets.includes("Public")){
-            nodes.push(this.getPublic())
+            nodes.push(publicLayer.map(this.createNodal))
         }
 
         if(this.props.activeCommunityAssets.includes("Community Business")){
-            nodes.push(this.getCommunityBusiness())
+            nodes.push(communityBusiness.map(this.createNodal))
         }
 
         if(this.props.activeCommunityAssets.includes("Voluntary Sector")){
-            nodes.push(this.getVoluntarySector())
+            nodes.push(voluntarySector.map(this.createNodal))
         }
 
         return nodes;
