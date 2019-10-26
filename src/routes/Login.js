@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Navbar from '../components/Navbar';
+import * as Auth from '../components/Auth';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -25,6 +26,11 @@ class Login extends Component {
                 value: '',
                 valid: ''
             }
+        }
+
+        //If user is already logged in, redirect to app
+        if(Auth.isTokenActive()){
+            this.props.history.push('/app');
         }
     }
 
@@ -56,16 +62,8 @@ class Login extends Component {
                 console.log(response.data);
 
                 if (response.status === 200) {
-                    // save token to local storage
-                    localStorage.setItem('token', response.data.access_token);
-
-                    // and its expiry time
-                    var expiry = new Date();
-                    expiry.setSeconds(expiry.getSeconds() + response.data.expires_in);
-                    localStorage.setItem('token_expiry', expiry.toString());
-
+                    Auth.setToken(response.data.access_token, response.data.expires_in);
                     this.props.history.push('/app');
-
                 }else if (response.status === 400){
                     console.log("wrong credentials");
                     this.setState({loggingIn: false, error: true})

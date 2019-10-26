@@ -11,6 +11,7 @@ import Navbar from '../components/Navbar';
 import '../assets/styles/style.scss';
 import Tooltips from '../components/Tooltips';
 import Controls from '../components/Controls';
+import * as Auth from '../components/Auth';
 import Spinner from 'react-spinkit';
 
 class MapApp extends Component {
@@ -21,14 +22,16 @@ class MapApp extends Component {
             errors: false,
             success: false
         }
+
+        //If uuser does not have valid token, redirect to auth
+        if(!Auth.isTokenActive()){
+            this.props.history.push('/auth');
+        }
     }
 
     componentDidMount() {
-        //console.log(localStorage.getItem('token'));
-        //console.log(localStorage.getItem('token_expiry'));
 
-
-        var config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
+        let config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
        // let details = JSON.parse('{"eid": "e4389df1310f15f1bf883bd2528beb0af9b50be7b0bb1cd8e120087535317b52","username": "testing@wearespork.net","firstName": "Testing","lastName": "User","marketing": false,"organisation": "","organisationNumber": "","organisationType": "not-for-profit","organisationActivity": "community-development","address1": "","address2": "","city": "","postcode": "","phone": ""}');
         
   
@@ -50,6 +53,10 @@ class MapApp extends Component {
                 //fire the initial page load analytics
                 analytics.pageview('/app/');
                 this.props.dispatch({ type: 'POPULATE_USER', payload: details.data[0] })
+            } if (details.status === 401){
+                //Service denied due to auth denied
+                //Most probably token expired
+
             } else {
                 this.setState({ errors: details.data.errors })
             }
