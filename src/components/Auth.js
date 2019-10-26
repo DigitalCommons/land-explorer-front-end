@@ -4,16 +4,13 @@ export function isTokenExist(){
 }
 
 export function isTokenActive(){
-    if(this.isTokenExist)
+    if(isTokenExist())
     {
         let now = new Date();
-        return now < localStorage.getItem('token_expiry');
+        let expiry = new Date(localStorage.getItem('token_expiry'));
+        return now.getTime() < expiry.getTime();
     }
     return false;
-}
-
-export function isLoggedIn(){
-    return this.isTokenActive;
 }
 
 export function setToken(token, expires_in){

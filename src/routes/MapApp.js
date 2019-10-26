@@ -27,6 +27,7 @@ class MapApp extends Component {
         if(!Auth.isTokenActive()){
             this.props.history.push('/auth');
         }
+        //console.log(Auth.isTokenActive());
     }
 
     componentDidMount() {
@@ -42,8 +43,8 @@ class MapApp extends Component {
             axios.get(`${constants.ROOT_URL}/api/user/maps/`,config)
         ]).then(([details, maps]) => {
             
-            console.log("Logging here ============");
-            console.log(details.data[0]);
+            //console.log("Logging here ============");
+            //console.log(details.data[0]);
             //details.data = JSON.parse(details.data);
             //details.data = details.data);
             // populate user details
