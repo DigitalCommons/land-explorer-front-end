@@ -237,18 +237,16 @@ class NavForSale extends Component {
                 </select>
 
                 <div className = "PropertyType">
-                <span className= "PrivateLand"> Private Land</span> 
-                  <ToggleSwitch on = {this.state.privateListings} tooltip="publicToPrivate" toggle={this.toggleSwitch} >  </ToggleSwitch>
-
-         <span className= "PublicLand">Public Land</span>  
+                    <span className= "PublicLand">Public Land</span> 
+                    <ToggleSwitch on = {this.state.privateListings} tooltip="publicToPrivate" toggle={this.toggleSwitch} >  </ToggleSwitch>
+                    <span className= "PrivateLand"> Private Land</span> 
                 </div>
 
             </div>
             
             <PropertyList listings = {this.getFilteredListings()}></PropertyList>
            
-           <ForSaleMarkers active = {this.props.active}></ForSaleMarkers>
-
+            <ForSaleMarkers active = {this.props.active}></ForSaleMarkers>
 
             </NavTray>
         )
