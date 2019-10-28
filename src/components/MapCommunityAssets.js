@@ -23,6 +23,7 @@ class MapCommunityAssets extends Component {
                     subcat = {communityAsset["Sub Cat"]}
                     key = {this.state.count++}
                     telephone = {communityAsset["Telephone No."]}
+                    ward = {communityAsset.Ward}
                 />
     }
 
