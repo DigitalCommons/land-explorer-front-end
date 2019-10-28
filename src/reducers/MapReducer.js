@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
-    zoom: [6],
-    lngLat: [-1.59, 53.9],
+    zoom: [14],
+    lngLat: [-0.2138413, 51.521528],
     searchMarker: null,
     marker: [-0.2416815, 51.5285582],
     gettingLocation: false,

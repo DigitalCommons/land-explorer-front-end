@@ -26,6 +26,7 @@ import Modals from './Modals';
 import constants from '../constants';
 import mapSources from '../data/mapSources';
 import MapCommunityAssets from './MapCommunityAssets';
+import MapCouncilLayers from './MapCouncilLayers';
 
 
 const StaticMode = require('@mapbox/mapbox-gl-draw-static-mode');
@@ -284,8 +285,8 @@ class MapboxMap extends Component {
                     // this is how the map moves automatically from one location to another (default is jumpTo, but we disable this temporarily when we load a new map)
                     movingMethod={movingMethod}
                 >
-                    {/* Map Layers (greenbelt etc.)*/}
-                    <MapLayers/>
+                    {/* Map Council Layers (wards etc.)*/}
+                    <MapCouncilLayers/>
                     {/*For displaying community assets*/}
                     <MapCommunityAssets/>
                     {/* Geocoder - For location search */}

@@ -14,16 +14,20 @@ class Nodal extends Component {
 
     getStyleByType(type){
         const redStyle = {
-            backgroundColor: 'red'
+            backgroundColor: 'red',
+            zIndex: this.state.display? 4 : 3,
         }
         const blueStyle = {
-            backgroundColor: 'blue'
+            backgroundColor: 'blue',
+            zIndex: this.state.display? 4 : 3,
         }
         const greenStyle = {
-            backgroundColor: 'green'
+            backgroundColor: 'green',
+            zIndex: this.state.display? 4 : 3,
         }
         const orangeStyle = {
-            backgroundColor: 'orange'
+            backgroundColor: 'orange',
+            zIndex: this.state.display? 4 : 3,
         }
 
         switch (type){
@@ -51,6 +55,7 @@ class Nodal extends Component {
                         <h1>{this.props.name}</h1>
                         <p>{this.props.subcat}</p>
                         <p>{this.props.telephone}</p>
+                        <p>{this.props.ward}</p>
                     </div>;
         return;
     }
