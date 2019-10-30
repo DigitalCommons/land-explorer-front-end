@@ -7,55 +7,17 @@ class NavCommunityAssets extends Component {
     constructor(props){
         super(props);
 
-        this.communitySpaceOn   =    this.communitySpaceOn.bind(this);
-        this.communitySpaceOff  =    this.communitySpaceOff.bind(this);
-        this.publicOn   =    this.publicOn.bind(this);
-        this.publicOff  =    this.publicOff.bind(this);
-        this.communityBusinessOn = this.communityBusinessOn.bind(this);
-        this.communityBusinessOff = this.communityBusinessOff.bind(this);
-        this.voluntarySectorOn =    this.voluntarySectorOn.bind(this);
-        this.voluntarySectorOff =   this.voluntarySectorOff.bind(this);
+        this.buttonHandlerOn    =       this.buttonHandlerOn.bind(this);
+        this.buttonHandlerOff   =       this.buttonHandlerOff.bind(this);
     
     }
 
-    communitySpaceOn(){
-        this.props.turnOnLayer("Community Space");
-        return;
+    buttonHandlerOn(event){
+        this.props.turnOnLayer(event.target.value);
     }
 
-    communitySpaceOff(){
-        this.props.turnOffLayer("Community Space");
-        return;
-    }
-
-    publicOn(){
-        this.props.turnOnLayer("Public");
-        return;
-    }
-
-    publicOff(){
-        this.props.turnOffLayer("Public");
-        return;
-    }
-
-    communityBusinessOn(){
-        this.props.turnOnLayer("Community Business");
-        return;
-    }
-
-    communityBusinessOff(){
-        this.props.turnOffLayer("Community Business");
-        return;
-    }
-
-    voluntarySectorOn(){
-        this.props.turnOnLayer("Voluntary Sector");
-        return;
-    }
-
-    voluntarySectorOff(){
-        this.props.turnOffLayer("Voluntary Sector");
-        return;
+    buttonHandlerOff(event){
+        this.props.turnOffLayer(event.target.value);
     }
 
     render(){
@@ -65,14 +27,20 @@ class NavCommunityAssets extends Component {
                 open={this.props.open && this.props.active === 'Community Assets'}
                 onClose={this.props.onClose}
             >
-                <button onClick={this.communitySpaceOn}>Turn on Community Space LAYER</button>
-                <button onClick={this.communitySpaceOff}>Turn off Community Space LAYER</button>
-                <button onClick={this.publicOn}>Turn on Public LAYER</button>
-                <button onClick={this.publicOff}>Turn off Public LAYER</button>
-                <button onClick={this.communityBusinessOn}>Turn on Community Business LAYER</button>
-                <button onClick={this.communityBusinessOff}>Turn off Community Business LAYER</button>
-                <button onClick={this.voluntarySectorOn}>Turn on Voluntary Sector LAYER</button>
-                <button onClick={this.voluntarySectorOff}>Turn off Voluntary Sector LAYER</button>
+                <button onClick={this.buttonHandlerOn} value="Community Space">Turn ON Community Space</button>
+                <button onClick={this.buttonHandlerOff}value="Community Space">Turn OFF Community Space</button>
+                <button onClick={this.buttonHandlerOn} value="Public">Turn ON Public</button>
+                <button onClick={this.buttonHandlerOff}value="Public">Turn OFF Public</button>
+                <button onClick={this.buttonHandlerOn} value="Sports Leisure">Turn ON Sports Leisure</button>
+                <button onClick={this.buttonHandlerOff}value="Sports Leisure">Turn OFF Sports Leisure</button>
+                <button onClick={this.buttonHandlerOn} value="Community Business">Turn ON Community Business</button>
+                <button onClick={this.buttonHandlerOff}value="Community Business">Turn OFF Community Business</button>
+                <button onClick={this.buttonHandlerOn} value="Business Night">Turn ON Business Night</button>
+                <button onClick={this.buttonHandlerOff}value="Business Night">Turn OFF Business Night</button>
+                <button onClick={this.buttonHandlerOn} value="Business">Turn ON Business</button>
+                <button onClick={this.buttonHandlerOff}value="Business">Turn OFF Business</button>
+                <button onClick={this.buttonHandlerOn} value="Voluntary Sector">Turn ON Voluntary Sector</button>
+                <button onClick={this.buttonHandlerOff}value="Voluntary Sector">Turn OFF Voluntary Sector</button>
 
 
             </NavTray>

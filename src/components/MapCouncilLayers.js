@@ -25,7 +25,7 @@ class MapCouncilLayers extends Component {
                         "visibility": "visible"
                     }}
                     paint={{
-                        "fill-color": "hsla(180, 100%, 54%, 0.5)",
+                        "fill-color": "hsla(180, 100%, 54%, 0.3)",
                     }}
                 />
                 {/* Golborne */}
@@ -39,7 +39,7 @@ class MapCouncilLayers extends Component {
                         "visibility": "visible"
                     }}
                     paint={{
-                        "fill-color": "hsla(220, 100%, 54%, 0.5)",
+                        "fill-color": "hsla(220, 100%, 54%, 0.3)",
                     }}
                 />
                 {/* Dalgarno */}
@@ -53,7 +53,7 @@ class MapCouncilLayers extends Component {
                         "visibility": "visible"
                     }}
                     paint={{
-                        "fill-color": "hsla(200, 100%, 54%, 0.5)",
+                        "fill-color": "hsla(200, 100%, 54%, 0.3)",
                     }}
                 />
                 {/* Notting Dale */}
@@ -67,7 +67,7 @@ class MapCouncilLayers extends Component {
                         "visibility": "visible"
                     }}
                     paint={{
-                        "fill-color": "hsla(210, 100%, 54%, 0.5)",
+                        "fill-color": "hsla(210, 100%, 54%, 0.3)",
                     }}
                 />
                 {/* Colville */}
@@ -81,7 +81,7 @@ class MapCouncilLayers extends Component {
                         "visibility": "visible"
                     }}
                     paint={{
-                        "fill-color": "hsla(190, 100%, 54%, 0.5)",
+                        "fill-color": "hsla(190, 100%, 54%, 0.3)",
                     }}
                 />
 
