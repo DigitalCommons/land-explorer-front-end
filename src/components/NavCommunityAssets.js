@@ -2,27 +2,11 @@ import React, {Component} from 'react';
 import NavTray from './NavTray';
 import {turnOnLayer, turnOffLayer} from '../actions/CommunityAssetsActions';
 import { connect } from 'react-redux';
-import ToggleSwitch from './common/ToggleSwitch';
 import CouncilNavTrayItem from './common/CouncilNavTrayItem';
 
 class NavCommunityAssets extends Component {
     constructor(props){
         super(props);
-
-        this.buttonHandlerOn    =       this.buttonHandlerOn.bind(this);
-        this.buttonHandlerOff   =       this.buttonHandlerOff.bind(this);
-    
-    }
-
-    buttonHandlerOn(event){
-        this.props.turnOnLayer(event.target.value);
-    }
-
-    buttonHandlerOff(event){
-        this.props.turnOffLayer(event.target.value);
-    }
-
-    toggleHandler(event){
 
     }
 
@@ -32,6 +16,7 @@ class NavCommunityAssets extends Component {
                 title="Community Assets"
                 open={this.props.open && this.props.active === 'Community Assets'}
                 onClose={this.props.onClose}
+                css = {'nav-left-tray-community-assets'}
             >
                <CouncilNavTrayItem 
                     title="Community Space"
