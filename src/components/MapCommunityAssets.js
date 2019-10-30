@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Nodal from './common/Nodal';
-import { Marker } from 'react-mapbox-gl';
 import {communitySpace, publicLayer, communityBusiness, voluntarySector} from '../data/councilAssets';
 
 class MapCommunityAssets extends Component {
@@ -20,10 +19,13 @@ class MapCommunityAssets extends Component {
                     type = {communityAsset.Layer.slice(0,1)}
                     location = {[communityAsset.long,communityAsset.lat]}
                     name = {communityAsset.Name}
+                    postcode = {communityAsset.Postcode}
                     subcat = {communityAsset["Sub Cat"]}
                     key = {this.state.count++}
                     telephone = {communityAsset["Telephone No."]}
                     ward = {communityAsset.Ward}
+                    webAddress = {communityAsset["Web Address"]}
+                    siteAddress = {communityAsset["Address"]}
                 />
     }
 
@@ -59,10 +61,6 @@ class MapCommunityAssets extends Component {
         );
     }
 }
-
-MapCommunityAssets.propTypes = {
-
-};
 
 const mapStateToProps = ({ communityAssets }) => ({
     activeCommunityAssets: communityAssets.activeCommunityAssets,
