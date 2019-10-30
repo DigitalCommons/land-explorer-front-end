@@ -2,7 +2,13 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Nodal from './common/Nodal';
 import { Marker } from 'react-mapbox-gl';
-import {communitySpace, publicLayer, communityBusiness, voluntarySector} from '../data/councilAssets';
+import {communitySpace,
+        publicLayer,
+        sportsLeisure,
+        communityBusiness,
+        businessNight,
+        business,
+        voluntarySector, } from '../data/councilAssetsNew';
 
 class MapCommunityAssets extends Component {
     constructor(props){
@@ -21,7 +27,7 @@ class MapCommunityAssets extends Component {
                     location = {[communityAsset.long,communityAsset.lat]}
                     name = {communityAsset.Name}
                     subcat = {communityAsset["Sub Cat"]}
-                    key = {this.state.count++}
+                    key = {communityAsset["Ref:No"]}
                     telephone = {communityAsset["Telephone No."]}
                     ward = {communityAsset.Ward}
                 />
@@ -39,8 +45,20 @@ class MapCommunityAssets extends Component {
             nodes.push(publicLayer.map(this.createNodal))
         }
 
+        if(this.props.activeCommunityAssets.includes("Sports Leisure")){
+            nodes.push(sportsLeisure.map(this.createNodal))
+        }
+
         if(this.props.activeCommunityAssets.includes("Community Business")){
             nodes.push(communityBusiness.map(this.createNodal))
+        }
+
+        if(this.props.activeCommunityAssets.includes("Business Night")){
+            nodes.push(businessNight.map(this.createNodal))
+        }
+
+        if(this.props.activeCommunityAssets.includes("Business")){
+            nodes.push(business.map(this.createNodal))
         }
 
         if(this.props.activeCommunityAssets.includes("Voluntary Sector")){
