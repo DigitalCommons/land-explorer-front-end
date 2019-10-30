@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import NavTray from './NavTray';
 import {turnOnLayer, turnOffLayer} from '../actions/CommunityAssetsActions';
 import { connect } from 'react-redux';
+import ToggleSwitch from './common/ToggleSwitch';
+import CouncilNavTrayItem from './common/CouncilNavTrayItem';
 
 class NavCommunityAssets extends Component {
     constructor(props){
@@ -20,6 +22,10 @@ class NavCommunityAssets extends Component {
         this.props.turnOffLayer(event.target.value);
     }
 
+    toggleHandler(event){
+
+    }
+
     render(){
         return(
             <NavTray
@@ -27,21 +33,48 @@ class NavCommunityAssets extends Component {
                 open={this.props.open && this.props.active === 'Community Assets'}
                 onClose={this.props.onClose}
             >
-                <button onClick={this.buttonHandlerOn} value="Community Space">Turn ON Community Space</button>
-                <button onClick={this.buttonHandlerOff}value="Community Space">Turn OFF Community Space</button>
-                <button onClick={this.buttonHandlerOn} value="Public">Turn ON Public</button>
-                <button onClick={this.buttonHandlerOff}value="Public">Turn OFF Public</button>
-                <button onClick={this.buttonHandlerOn} value="Sports Leisure">Turn ON Sports Leisure</button>
-                <button onClick={this.buttonHandlerOff}value="Sports Leisure">Turn OFF Sports Leisure</button>
-                <button onClick={this.buttonHandlerOn} value="Community Business">Turn ON Community Business</button>
-                <button onClick={this.buttonHandlerOff}value="Community Business">Turn OFF Community Business</button>
-                <button onClick={this.buttonHandlerOn} value="Business Night">Turn ON Business Night</button>
-                <button onClick={this.buttonHandlerOff}value="Business Night">Turn OFF Business Night</button>
-                <button onClick={this.buttonHandlerOn} value="Business">Turn ON Business</button>
-                <button onClick={this.buttonHandlerOff}value="Business">Turn OFF Business</button>
-                <button onClick={this.buttonHandlerOn} value="Voluntary Sector">Turn ON Voluntary Sector</button>
-                <button onClick={this.buttonHandlerOff}value="Voluntary Sector">Turn OFF Voluntary Sector</button>
-
+               <CouncilNavTrayItem 
+                    title="Community Space"
+                    draggable={true}
+                    layerId= "Community Space">
+                </CouncilNavTrayItem>
+                <CouncilNavTrayItem 
+                    title="Public"
+                    draggable={true}
+                    layerId= "Public">
+                </CouncilNavTrayItem>
+                <CouncilNavTrayItem 
+                    title="Sports Leisure"
+                    draggable={true}
+                    layerId= "Sports Leisure">
+                </CouncilNavTrayItem>
+                <CouncilNavTrayItem 
+                    title="Community Business"
+                    draggable={true}
+                    layerId= "Community Business">
+                </CouncilNavTrayItem>
+                <CouncilNavTrayItem 
+                    title="Business Night"
+                    draggable={true}
+                    layerId= "Business Night">
+                </CouncilNavTrayItem>
+                <CouncilNavTrayItem 
+                    title="Business"
+                    draggable={true}
+                    layerId= "Business">
+                </CouncilNavTrayItem>
+                <CouncilNavTrayItem 
+                    title="Voluntary Sector"
+                    draggable={true}
+                    layerId= "Voluntary Sector">
+                </CouncilNavTrayItem>
+                <p><span style = {{backgroundColor: 'red'}}>--</span>: Community Space</p>
+                <p><span style = {{backgroundColor: 'blue'}}>--</span>: Public</p>
+                <p><span style = {{backgroundColor: 'purple'}}>--</span>: Sports Leisure</p>
+                <p><span style = {{backgroundColor: 'green'}}>--</span>: Community Business</p>
+                <p><span style = {{backgroundColor: 'brown'}}>--</span>: Business Night</p>
+                <p><span style = {{backgroundColor: 'grey'}}>--</span>: Business</p>
+                <p><span style = {{backgroundColor: 'orange'}}>--</span>: Voluntary Sector</p>
 
             </NavTray>
         );
