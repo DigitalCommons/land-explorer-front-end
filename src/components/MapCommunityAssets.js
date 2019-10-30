@@ -23,15 +23,18 @@ class MapCommunityAssets extends Component {
     createNodal(communityAsset){
         return <Nodal
                     type = {communityAsset.Layer.slice(0,1)}
-                    location = {[communityAsset.long,communityAsset.lat]}
+                    location = {[communityAsset.Long,communityAsset.Lat]}
                     name = {communityAsset.Name}
                     postcode = {communityAsset.Postcode}
                     subcat = {communityAsset["Sub Cat"]}
                     key = {communityAsset["Ref:No"]}
                     telephone = {communityAsset["Telephone No."]}
                     ward = {communityAsset.Ward}
-                    webAddress = {communityAsset["Web Address"]}
-                    siteAddress = {communityAsset["Address"]}
+                    website = {communityAsset["Web Address"]}
+                    addressLine1 = {communityAsset["Address 1"]}
+                    addressLine2 = {communityAsset["Add 2 (RD - St)"]}
+                    addressLine3 = {communityAsset["Add 3"]}
+                    addressLine4 = {communityAsset["Add 4"]}
                 />
     }
 

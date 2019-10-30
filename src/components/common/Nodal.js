@@ -21,8 +21,20 @@ class Nodal extends Component {
             backgroundColor: 'blue',
             zIndex: this.state.display? 4 : 3,
         }
+        const purpleStyle = {
+            backgroundColor: 'purple',
+            zIndex: this.state.display? 4 : 3,
+        }
         const greenStyle = {
             backgroundColor: 'green',
+            zIndex: this.state.display? 4 : 3,
+        }
+        const brownStyle = {
+            backgroundColor: 'brown',
+            zIndex: this.state.display? 4 : 3,
+        }
+        const greyStyle = {
+            backgroundColor: 'grey',
             zIndex: this.state.display? 4 : 3,
         }
         const orangeStyle = {
@@ -33,7 +45,10 @@ class Nodal extends Component {
         switch (type){
             case "1": return redStyle;
             case "2": return blueStyle;
-            case '4': return greenStyle;
+            case "3": return purpleStyle;
+            case "4": return greenStyle;
+            case "5": return brownStyle;
+            case "6": return greyStyle;
             case "7": return orangeStyle;
         }
     }
@@ -53,11 +68,14 @@ class Nodal extends Component {
         if(this.state.display)
             return <div>
                         <h1>{this.props.name}</h1>
-                        <p>{this.props.siteAddress}</p>
+                        <p>{this.props.addressLine1}</p>
+                        <p>{this.props.addressLine2}</p>
+                        <p>{this.props.addressLine3}</p>
+                        <p>{this.props.addressLine4}</p>
                         <p>{this.props.postcode}</p>
                         <p>{this.props.subcat}</p>
                         <p>{this.props.telephone}</p>
-                        <p>{this.props.webAddress}</p>
+                        <p>{this.props.website}</p>
                     </div>;
         return;
     }
