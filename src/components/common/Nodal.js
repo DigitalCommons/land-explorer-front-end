@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import { Marker, Popup } from 'react-mapbox-gl';
 
-class Nodal extends Component {
+
+class Nodal extends Component 
+{
     constructor(props){
         super(props);
         this.state = {
@@ -18,15 +20,16 @@ class Nodal extends Component {
             zIndex: this.state.display? 4 : 3,
         }
         const blueStyle = {
-            backgroundColor: 'blue',
+            color: 'blue',
             zIndex: this.state.display? 4 : 3,
+            borderRadius: 0,
         }
         const greenStyle = {
-            backgroundColor: 'green',
+            color: 'green',
             zIndex: this.state.display? 4 : 3,
         }
         const orangeStyle = {
-            backgroundColor: 'orange',
+            color: 'orange',
             zIndex: this.state.display? 4 : 3,
         }
 
@@ -61,16 +64,21 @@ class Nodal extends Component {
     }
 
     render(){
-        return <Popup
-            style = {this.getStyleByType(this.props.type)}
-            coordinates={this.props.location}
-            offset={{
+        return (
+        
+   
+        
+        <Popup style = {this.getStyleByType(this.props.type)} coordinates = {this.props.location}
+            offset = {{
               'bottom-left': [12, -38],  'bottom': [0, -38], 'bottom-right': [-12, -38]
             }}
             onClick={this.toggleDisplay}
             >
             {this.openPopup()}
+
+            
           </Popup>
+        )
     }
 }
 
