@@ -16,7 +16,7 @@ class Nodal extends Component
 
     getStyleByType(type){
         const redStyle = {
-            backgroundColor: 'red',
+            color: 'red',
             zIndex: this.state.display? 4 : 3,
         }
         const blueStyle = {
@@ -25,7 +25,7 @@ class Nodal extends Component
             borderRadius: 0,
         }
         const purpleStyle = {
-            backgroundColor: 'purple',
+            color: 'purple',
             zIndex: this.state.display? 4 : 3,
         }
         const greenStyle = {
@@ -33,11 +33,11 @@ class Nodal extends Component
             zIndex: this.state.display? 4 : 3,
         }
         const brownStyle = {
-            backgroundColor: 'brown',
+            color: 'brown',
             zIndex: this.state.display? 4 : 3,
         }
         const greyStyle = {
-            backgroundColor: 'grey',
+            color: 'grey',
             zIndex: this.state.display? 4 : 3,
         }
         const orangeStyle = {
@@ -69,7 +69,7 @@ class Nodal extends Component
 
     openPopup(){
         if(this.state.display)
-            return <div>
+            return <div className ="Popup">
                         <h1>{this.props.name}</h1>
                         <p>{this.props.addressLine1}</p>
                         <p>{this.props.addressLine2}</p>
@@ -85,17 +85,28 @@ class Nodal extends Component
 
     render(){
 
-        return 
-        (
-        <Popup
-                    style = {this.getStyleByType(this.props.type)}
-                    coordinates={this.props.location}
-                    onClick={this.toggleDisplay}
-                >
-                    {this.openPopup()}
-                 </Popup>
-                 )
+        return (
+        
+   
+        
+        <Marker style = {this.getStyleByType(this.props.type)} coordinates = {this.props.location}
+            className = "fa fa-map-marker Marker"
+            onClick={this.toggleDisplay}
+            >
+            {this.openPopup()}
 
+            
+          </Marker>
+        )
+// =======
+//         return <Popup
+//                     style = {this.getStyleByType(this.props.type)}
+//                     coordinates={this.props.location}
+//                     onClick={this.toggleDisplay}
+//                 >
+//                     {this.openPopup()}
+//                  </Popup>
+// >>>>>>> master
     }
 }
 
