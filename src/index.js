@@ -52,6 +52,7 @@ ReactDOM.render(
             <Switch>
                 <Route path="/app" component={AppRoute} />
                 <Route path="/auth" component={AuthRoute} />
+                <Route exact path="/"><Redirect to="/app" /></Route>
                 <Route component={FourOhFour} />
             </Switch>
         </BrowserRouter>

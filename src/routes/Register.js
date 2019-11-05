@@ -192,6 +192,7 @@ class Register extends Component {
                     style={{
                         minHeight: '200px',
                         width: '600px',
+                        height: '750px',
                         maxWidth: '90vw',
                         background: 'white',
                         boxSizing: 'border-box',

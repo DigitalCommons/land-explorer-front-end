@@ -2,60 +2,12 @@ import React, {Component} from 'react';
 import NavTray from './NavTray';
 import {turnOnLayer, turnOffLayer} from '../actions/CommunityAssetsActions';
 import { connect } from 'react-redux';
+import CouncilNavTrayItem from './common/CouncilNavTrayItem';
 
 class NavCommunityAssets extends Component {
     constructor(props){
         super(props);
 
-        this.communitySpaceOn   =    this.communitySpaceOn.bind(this);
-        this.communitySpaceOff  =    this.communitySpaceOff.bind(this);
-        this.publicOn   =    this.publicOn.bind(this);
-        this.publicOff  =    this.publicOff.bind(this);
-        this.communityBusinessOn = this.communityBusinessOn.bind(this);
-        this.communityBusinessOff = this.communityBusinessOff.bind(this);
-        this.voluntarySectorOn =    this.voluntarySectorOn.bind(this);
-        this.voluntarySectorOff =   this.voluntarySectorOff.bind(this);
-    
-    }
-
-    communitySpaceOn(){
-        this.props.turnOnLayer("Community Space");
-        return;
-    }
-
-    communitySpaceOff(){
-        this.props.turnOffLayer("Community Space");
-        return;
-    }
-
-    publicOn(){
-        this.props.turnOnLayer("Public");
-        return;
-    }
-
-    publicOff(){
-        this.props.turnOffLayer("Public");
-        return;
-    }
-
-    communityBusinessOn(){
-        this.props.turnOnLayer("Community Business");
-        return;
-    }
-
-    communityBusinessOff(){
-        this.props.turnOffLayer("Community Business");
-        return;
-    }
-
-    voluntarySectorOn(){
-        this.props.turnOnLayer("Voluntary Sector");
-        return;
-    }
-
-    voluntarySectorOff(){
-        this.props.turnOffLayer("Voluntary Sector");
-        return;
     }
 
     render(){
@@ -64,16 +16,50 @@ class NavCommunityAssets extends Component {
                 title="Community Assets"
                 open={this.props.open && this.props.active === 'Community Assets'}
                 onClose={this.props.onClose}
+                css = {'nav-left-tray-community-assets'}
             >
-                <button onClick={this.communitySpaceOn}>Turn on Community Space LAYER</button>
-                <button onClick={this.communitySpaceOff}>Turn off Community Space LAYER</button>
-                <button onClick={this.publicOn}>Turn on Public LAYER</button>
-                <button onClick={this.publicOff}>Turn off Public LAYER</button>
-                <button onClick={this.communityBusinessOn}>Turn on Community Business LAYER</button>
-                <button onClick={this.communityBusinessOff}>Turn off Community Business LAYER</button>
-                <button onClick={this.voluntarySectorOn}>Turn on Voluntary Sector LAYER</button>
-                <button onClick={this.voluntarySectorOff}>Turn off Voluntary Sector LAYER</button>
-
+               <CouncilNavTrayItem 
+                    title="Community Space"
+                    draggable={true}
+                    layerId= "Community Space">
+                </CouncilNavTrayItem>
+                <CouncilNavTrayItem 
+                    title="Public"
+                    draggable={true}
+                    layerId= "Public">
+                </CouncilNavTrayItem>
+                <CouncilNavTrayItem 
+                    title="Sports Leisure"
+                    draggable={true}
+                    layerId= "Sports Leisure">
+                </CouncilNavTrayItem>
+                <CouncilNavTrayItem 
+                    title="Community Business"
+                    draggable={true}
+                    layerId= "Community Business">
+                </CouncilNavTrayItem>
+                <CouncilNavTrayItem 
+                    title="Business Night"
+                    draggable={true}
+                    layerId= "Business Night">
+                </CouncilNavTrayItem>
+                <CouncilNavTrayItem 
+                    title="Business"
+                    draggable={true}
+                    layerId= "Business">
+                </CouncilNavTrayItem>
+                <CouncilNavTrayItem 
+                    title="Voluntary Sector"
+                    draggable={true}
+                    layerId= "Voluntary Sector">
+                </CouncilNavTrayItem>
+                <p><span style = {{backgroundColor: 'red'}}>--</span>: Community Space</p>
+                <p><span style = {{backgroundColor: 'blue'}}>--</span>: Public</p>
+                <p><span style = {{backgroundColor: 'purple'}}>--</span>: Sports Leisure</p>
+                <p><span style = {{backgroundColor: 'green'}}>--</span>: Community Business</p>
+                <p><span style = {{backgroundColor: 'brown'}}>--</span>: Business Night</p>
+                <p><span style = {{backgroundColor: 'grey'}}>--</span>: Business</p>
+                <p><span style = {{backgroundColor: 'orange'}}>--</span>: Voluntary Sector</p>
 
             </NavTray>
         );
