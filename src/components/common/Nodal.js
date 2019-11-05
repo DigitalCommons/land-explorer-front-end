@@ -81,13 +81,16 @@ class Nodal extends Component {
     }
 
     render(){
-        return <Popup
+        return  <div>
+                <Popup
                     style = {this.getStyleByType(this.props.type)}
                     coordinates={this.props.location}
                     onClick={this.toggleDisplay}
                 >
                     {this.openPopup()}
                  </Popup>
+                </div>
+            
     }
 }
 

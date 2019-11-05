@@ -12,16 +12,27 @@ import {communitySpace,
 class MapCommunityAssets extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            count: 0
-        }
 
         this.createNodal = this.createNodal.bind(this);
+        this.getBoundaries = this.getBoundaries.bind(this);
         
     }
 
+    getBoundaries(){
+
+        var bounds = this.props.map.getBounds();
+
+        //topRight has a higher long, and a higher lat
+        //bottomLeft has a lower long and a lower lat
+        return {"topRight": bounds._ne, "bottomLeft": bounds._sw};
+    }
+
     createNodal(communityAsset){
-        return <Nodal
+        let boundaries = this.getBoundaries();
+
+        if(communityAsset.Long < boundaries.topRight.lng && communityAsset.Long > boundaries.bottomLeft.lng)
+        if(communityAsset.Lat < boundaries.topRight.lat && communityAsset.Lat > boundaries.bottomLeft.lat)
+            return <Nodal
                     type = {communityAsset.Layer.slice(0,1)}
                     location = {[communityAsset.Long,communityAsset.Lat]}
                     name = {communityAsset.Name}
@@ -35,7 +46,7 @@ class MapCommunityAssets extends Component {
                     addressLine2 = {communityAsset["Add 2 (RD - St)"]}
                     addressLine3 = {communityAsset["Add 3"]}
                     addressLine4 = {communityAsset["Add 4"]}
-                />
+                    />
     }
 
     createNodes(){
