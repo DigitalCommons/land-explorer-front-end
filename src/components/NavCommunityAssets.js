@@ -53,14 +53,6 @@ class NavCommunityAssets extends Component {
                     draggable={true}
                     layerId= "Voluntary Sector">
                 </CouncilNavTrayItem>
-                <p><span style = {{backgroundColor: 'red'}}>--</span>: Community Space</p>
-                <p><span style = {{backgroundColor: 'blue'}}>--</span>: Public</p>
-                <p><span style = {{backgroundColor: 'purple'}}>--</span>: Sports Leisure</p>
-                <p><span style = {{backgroundColor: 'green'}}>--</span>: Community Business</p>
-                <p><span style = {{backgroundColor: 'brown'}}>--</span>: Business Night</p>
-                <p><span style = {{backgroundColor: 'grey'}}>--</span>: Business</p>
-                <p><span style = {{backgroundColor: 'orange'}}>--</span>: Voluntary Sector</p>
-
             </NavTray>
         );
     }

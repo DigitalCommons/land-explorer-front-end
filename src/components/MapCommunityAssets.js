@@ -12,16 +12,18 @@ import {communitySpace,
 class MapCommunityAssets extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            count: 0
-        }
 
         this.createNodal = this.createNodal.bind(this);
         
     }
 
     createNodal(communityAsset){
-        return <Nodal
+
+        let boundaries = this.props.map.getBounds();
+
+        if(communityAsset.Long < boundaries._ne.lng && communityAsset.Long > boundaries._sw.lng)
+        if(communityAsset.Lat < boundaries._ne.lat && communityAsset.Lat > boundaries._sw.lat)
+            return <Nodal
                     type = {communityAsset.Layer.slice(0,1)}
                     location = {[communityAsset.Long,communityAsset.Lat]}
                     name = {communityAsset.Name}
@@ -35,10 +37,12 @@ class MapCommunityAssets extends Component {
                     addressLine2 = {communityAsset["Add 2 (RD - St)"]}
                     addressLine3 = {communityAsset["Add 3"]}
                     addressLine4 = {communityAsset["Add 4"]}
-                />
+                    />
     }
 
     createNodes(){
+
+        //17 is the magic number. At a zoom level of 17, even all layers on is smooth
         
         let nodes = [];
 

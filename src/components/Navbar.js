@@ -9,6 +9,7 @@ import MenuLayers from './MenuLayers';
 import ProfilePic from './ProfilePic';
 import { connect } from 'react-redux';
 import MenuKey from './MenuKey';
+import CouncilMenuKey from './CouncilMenuKey'
 import analytics from '../analytics';
 
 class Navbar extends Component {
@@ -44,7 +45,9 @@ class Navbar extends Component {
                 <MenuMain/>
                 <MenuProfile/>
                 <MenuLayers/>
-                <MenuKey/>
+
+                {user.type == 'council' ? <CouncilMenuKey/> : <MenuKey/>}
+                
             </div>
         ) : (
             <div>

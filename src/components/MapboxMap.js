@@ -27,6 +27,7 @@ import constants from '../constants';
 import mapSources from '../data/mapSources';
 import MapCommunityAssets from './MapCommunityAssets';
 import MapCouncilLayers from './MapCouncilLayers';
+import Key from './Key';
 
 
 const StaticMode = require('@mapbox/mapbox-gl-draw-static-mode');
@@ -288,7 +289,11 @@ class MapboxMap extends Component {
                     {/* Map Council Layers (wards etc.)*/}
                     <MapCouncilLayers/>
                     {/*For displaying community assets*/}
-                    <MapCommunityAssets/>
+                    <MapCommunityAssets
+                        zoom={zoom}
+                        center={lngLat}
+                        map = {this.map}
+                    />
                     {/* Geocoder - For location search */}
                     <GeoCoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
                     {/* Markers */}
