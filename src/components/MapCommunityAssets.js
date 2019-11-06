@@ -14,24 +14,15 @@ class MapCommunityAssets extends Component {
         super(props);
 
         this.createNodal = this.createNodal.bind(this);
-        this.getBoundaries = this.getBoundaries.bind(this);
         
     }
 
-    getBoundaries(){
-
-        var bounds = this.props.map.getBounds();
-
-        //topRight has a higher long, and a higher lat
-        //bottomLeft has a lower long and a lower lat
-        return {"topRight": bounds._ne, "bottomLeft": bounds._sw};
-    }
-
     createNodal(communityAsset){
-        let boundaries = this.getBoundaries();
 
-        if(communityAsset.Long < boundaries.topRight.lng && communityAsset.Long > boundaries.bottomLeft.lng)
-        if(communityAsset.Lat < boundaries.topRight.lat && communityAsset.Lat > boundaries.bottomLeft.lat)
+        let boundaries = this.props.map.getBounds();
+
+        if(communityAsset.Long < boundaries._ne.lng && communityAsset.Long > boundaries._sw.lng)
+        if(communityAsset.Lat < boundaries._ne.lat && communityAsset.Lat > boundaries._sw.lat)
             return <Nodal
                     type = {communityAsset.Layer.slice(0,1)}
                     location = {[communityAsset.Long,communityAsset.Lat]}
@@ -50,6 +41,8 @@ class MapCommunityAssets extends Component {
     }
 
     createNodes(){
+
+        //17 is the magic number. At a zoom level of 17, even all layers on is smooth
         
         let nodes = [];
 

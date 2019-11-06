@@ -27,6 +27,7 @@ import constants from '../constants';
 import mapSources from '../data/mapSources';
 import MapCommunityAssets from './MapCommunityAssets';
 import MapCouncilLayers from './MapCouncilLayers';
+import Key from './Key';
 
 
 const StaticMode = require('@mapbox/mapbox-gl-draw-static-mode');

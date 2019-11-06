@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setLngLat, zoomIn, zoomOut, setZoom, setCurrentLocation } from '../actions/MapActions';
-import { toggleMenuKey, toggleMenuLayers } from "../actions/MenuActions";
+import { toggleMenuKey, toggleMenuLayers, toggleMenuCouncilKey } from "../actions/MenuActions";
 import { openModal, closeModal } from "../actions/ModalActions";
 
 class Controls extends Component {
@@ -49,7 +49,7 @@ class Controls extends Component {
     }
 
     render() {
-        let { activeLayers } = this.props;
+        let { activeLayers, activeCommunityAssets} = this.props;
         let { zooming } = this.state;
         return (
             <div>
@@ -61,6 +61,14 @@ class Controls extends Component {
                     activeLayers.length && (
                         <div className="menu-key-button"
                              onClick={() => this.props.toggleMenuKey() }
+                        />
+                    )
+                }
+                 {
+                    // If layers are active show button toggle key menu
+                    activeCommunityAssets.length && (
+                        <div className="menu-key-button"
+                             onClick={() => this.props.toggleMenuCouncilKey() }
                         />
                     )
                 }
@@ -96,9 +104,10 @@ Controls.propTypes = {
     zoomOut: PropTypes.func
 };
 
-const mapStateToProps = ({ map, mapLayers }) => ({
+const mapStateToProps = ({ map, mapLayers, communityAssets }) => ({
     zoom: map.zoom,
-    activeLayers: mapLayers.activeLayers
+    activeLayers: mapLayers.activeLayers,
+    activeCommunityAssets: communityAssets.activeCommunityAssets
 });
 
-export default connect(mapStateToProps, { setLngLat, zoomIn, zoomOut, toggleMenuKey, toggleMenuLayers, setCurrentLocation, closeModal, openModal, setZoom })(Controls);
+export default connect(mapStateToProps, { setLngLat, zoomIn, zoomOut, toggleMenuKey, toggleMenuLayers, toggleMenuCouncilKey, setCurrentLocation, closeModal, openModal, setZoom })(Controls);
