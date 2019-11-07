@@ -6,7 +6,6 @@ class Key extends Component {
         let { data } = this.props;
         let dataKeys = Object.keys(data);
         return dataKeys.map((key, i) => {
-            console.log("key", key);
             return (
                 <div key={i}
                      style={{

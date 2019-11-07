@@ -1,7 +1,6 @@
 import axios from 'axios';
 import constants from "../constants";
 
-
 export const getUserDetails = () => {
     return dispatch => {
         axios.get(`${constants.ROOT_URL}/api/user/details/`)
@@ -17,3 +16,11 @@ export const getUserDetails = () => {
     }
 }
 
+export const changeUser = (newUserType) => {
+    return {
+        type: 'CHANGE_USER_TYPE',
+        payload: {
+            userType:   newUserType,
+        }
+      }
+}
