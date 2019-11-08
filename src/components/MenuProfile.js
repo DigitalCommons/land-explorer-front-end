@@ -5,20 +5,37 @@ import { Link, Redirect  } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import { getMyMaps } from '../actions/MapActions';
 import { openModal } from '../actions/ModalActions';
+import { changeUser } from '../actions/UserActions'
 import analytics from '../analytics';
 import constants from '../constants';
 import {logout} from '../components/Auth';
 import { withRouter } from 'react-router';
 
-class MenuProfile extends Component {    
+class MenuProfile extends Component {
+    constructor(props){
+        super(props);
+        this.dispatchUserChange = this.dispatchUserChange.bind(this);
+    }
 
     logoutUser(e) {
         logout();        
         window.location.href = "/auth";
     }
 
+    dispatchUserChange(event){
+        this.props.changeUser(event.target.value);
+    }
+
+    ifPrivilegedDisplayButtons(privileged){
+        if(privileged)
+            return <div>
+                        <button onClick={this.dispatchUserChange} value = "core">Core</button>
+                        <button onClick={this.dispatchUserChange} value = "council">Council</button>
+                    </div>
+    }
+
     render() {
-        let { open, getMyMaps, openModal } = this.props;
+        let { open, getMyMaps, openModal, privileged } = this.props;
         return (
             <div style={{
                 display: open ? 'block' : 'none',
@@ -46,6 +63,9 @@ class MenuProfile extends Component {
                          }}
                     >
                         Shared Maps
+                    </div>
+                    <div>
+                        {this.ifPrivilegedDisplayButtons(privileged)}
                     </div>
                     <div className="tooltip-menu-item no-hover"
                          style={{
@@ -81,8 +101,9 @@ MenuProfile.propTypes = {
     open: PropTypes.bool.isRequired
 };
 
-const mapStateToProps = ({ menu }) => ({
-    open: menu.profile
+const mapStateToProps = ({ menu, user }) => ({
+    open: menu.profile,
+    privileged: user.privileged
 });
 
-export default connect(mapStateToProps, { getMyMaps, openModal })(MenuProfile);
+export default connect(mapStateToProps, { getMyMaps, openModal, changeUser })(MenuProfile);
