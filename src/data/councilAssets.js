@@ -6,17 +6,16 @@
 
 
 let communitySpace = JSON.parse(`[{
-  "Ref:No": "",
+ 
   "Name": "St Helen's Church, North Kensington",
   "Address": "St Helens Vicarage, St Helens Gardens, North Kensington",
   "Postcode": "W10 6LP",
   "Ward": "St Helen's ",
   "Layer": "1. Community Space ",
   "Sub Cat": "Place of Worship",
-  "Open Access": "",
-  "Heritage": "",
+
   "Web Address": "https://www.sthelenschurch.org.uk/",
-  "Beneficiaries": "",
+ 
   "Telephone No.": " 020 8968 7807",
   "Contact Name": "",
   "Contact Address": "",
@@ -30,8 +29,7 @@ let communitySpace = JSON.parse(`[{
   "Ward": "Golborne",
   "Layer": "1. Community Space ",
   "Sub Cat": "Place of Worship",
-  "Open Access": "",
-  "Heritage": "",
+ 
   "Web Address": "https://www.saintmichaelandallangels.com/",
   "Beneficiaries": "",
   "Telephone No.": "No phone",

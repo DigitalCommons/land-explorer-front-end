@@ -22,7 +22,7 @@ class Nodal extends Component
         const blueStyle = {
             color: 'blue',
             zIndex: this.state.display? 4 : 3,
-            borderRadius: 0,
+            
         }
         const purpleStyle = {
             color: 'purple',
@@ -69,7 +69,7 @@ class Nodal extends Component
 
     openPopup(){
         if(this.state.display)
-            return <div className ="Popup">
+            return <div className = "Popup">
                         <h1>{this.props.name}</h1>
                         <p>{this.props.addressLine1}</p>
                         <p>{this.props.addressLine2}</p>
@@ -86,7 +86,7 @@ class Nodal extends Component
     render(){
 
         return (        
-        <Marker style = { this.getStyleByType(this.props.type) } coordinates = {this.props.location} className =  "Marker" onClick={this.toggleDisplay}>
+        <Marker style = { this.getStyleByType(this.props.type) }  coordinates = {this.props.location} className =  "fa fa-map-marker" onClick={this.toggleDisplay}>
             {this.openPopup()}
          </Marker>
         )
