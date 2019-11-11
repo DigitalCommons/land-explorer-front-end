@@ -1,8 +1,4 @@
-
-
-
-
-    .Popup 
+  .Popup
     {
         position: absolute;
         background: #fff;
@@ -11,13 +7,15 @@
         float: left;
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         padding: 10px 10px 15px;
-        pointer-events: auto;
-        border: .75rem solid transparent;
-        border-width: 8px 8px 0px 8px;
-        bottom: 3px;
-        left: 8px;
-        
+        pointer-events: auto; 
+        font : 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        bottom: 0px;
+        left: 19px;
+
+      
       }
+
+     
  
 .fa-map-marker:before 
 {
