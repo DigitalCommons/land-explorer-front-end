@@ -452,7 +452,7 @@ class Register extends Component {
                             <label className="control control-checkbox"
                                    style={{ textAlign: 'left', fontSize: '14px' }}
                             >
-                                I agree to the <a target="_blank" class="link-underline" href="http://www.sharedassets.org.uk/about-us/privacy-policy/">privacy policy</a>
+                                I agree to the <a target="_blank" className="link-underline" href="http://www.sharedassets.org.uk/about-us/privacy-policy/">privacy policy</a>
                                 <input
                                     name="agree"
                                     type="checkbox"
@@ -467,7 +467,7 @@ class Register extends Component {
                         <br/>
                         <p style={{ marginTop: 0, marginBottom: '6px'}}>Would you like to receive marketing emails?</p>
                         <p style={{ textAlign: 'center', fontSize: '12px', opacity: .7, marginTop: 0}}>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        <label className="control control-radio"
+                        <label classNameName="control control-radio"
                                style={{ textAlign: 'left', fontSize: '14px', display: 'inline', marginRight: '24px' }}
                         >
                             Yes
@@ -486,7 +486,7 @@ class Register extends Component {
                                 }}
                                 style={{ display: 'inline' }}
                             />
-                            <div className="control_indicator"></div>
+                            <div classNameName="control_indicator"></div>
                         </label>
                         <label className="control control-radio"
                                style={{ textAlign: 'left', fontSize: '14px', display: 'inline'  }}

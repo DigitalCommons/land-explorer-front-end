@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import { Marker, Popup } from 'react-mapbox-gl';
 
-class Nodal extends Component {
+
+class Nodal extends Component 
+{
     constructor(props){
         super(props);
         this.state = {
@@ -14,31 +16,32 @@ class Nodal extends Component {
 
     getStyleByType(type){
         const redStyle = {
-            backgroundColor: 'red',
+            color: 'red',
             zIndex: this.state.display? 4 : 3,
         }
         const blueStyle = {
-            backgroundColor: 'blue',
+            color: 'blue',
             zIndex: this.state.display? 4 : 3,
+            
         }
         const purpleStyle = {
-            backgroundColor: 'purple',
+            color: 'purple',
             zIndex: this.state.display? 4 : 3,
         }
         const greenStyle = {
-            backgroundColor: 'green',
+            color: 'green',
             zIndex: this.state.display? 4 : 3,
         }
         const brownStyle = {
-            backgroundColor: 'brown',
+            color: 'brown',
             zIndex: this.state.display? 4 : 3,
         }
         const greyStyle = {
-            backgroundColor: 'grey',
+            color: 'grey',
             zIndex: this.state.display? 4 : 3,
         }
         const orangeStyle = {
-            backgroundColor: 'orange',
+            color: 'orange',
             zIndex: this.state.display? 4 : 3,
         }
 
@@ -66,7 +69,7 @@ class Nodal extends Component {
 
     openPopup(){
         if(this.state.display)
-            return <div>
+            return <div className = "Popup">
                         <h1>{this.props.name}</h1>
                         <p>{this.props.addressLine1}</p>
                         <p>{this.props.addressLine2}</p>
@@ -81,16 +84,13 @@ class Nodal extends Component {
     }
 
     render(){
-        return  <div>
-                <Popup
-                    style = {this.getStyleByType(this.props.type)}
-                    coordinates={this.props.location}
-                    onClick={this.toggleDisplay}
-                >
-                    {this.openPopup()}
-                 </Popup>
-                </div>
-            
+        return (        
+        <Marker style = { this.getStyleByType(this.props.type) }  coordinates = {this.props.location} className =  "fa fa-map-marker" onClick={this.toggleDisplay}>
+            {this.openPopup()}
+         </Marker>
+        )
+
+
     }
 }
 
