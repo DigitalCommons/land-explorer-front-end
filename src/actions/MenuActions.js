@@ -19,3 +19,9 @@ export const toggleMenuKey = () => {
         dispatch({ type: 'TOGGLE_MENU_KEY' })
     }
 }
+
+export const toggleMenuCouncilKey = () => {
+    return dispatch => {
+        dispatch({ type: 'TOGGLE_MENU_COUNCILKEY' })
+    }
+}

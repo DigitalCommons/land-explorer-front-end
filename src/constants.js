@@ -21,7 +21,7 @@ const constants = {
     //ROOT_URL: '',
     //ROOT_URL: 'http://localhost:8080',
     ROOT_URL: 'https://localhost:44344',
-    // ROOT_URL: 'https://cb016292.bgngrok.io',
+    //ROOT_URL: 'https://128d7a5b.ngrok.io',
     //ROOT_URL: 'http://2.101.111.138:8080',
     WP_URL: 'https://www.landexplorer.cc',
     GA_ID: 'UA-25676336-2',

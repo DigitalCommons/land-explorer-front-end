@@ -84,12 +84,12 @@ class Nodal extends Component
     }
 
     render(){
-
         return (        
         <Marker style = { this.getStyleByType(this.props.type) }  coordinates = {this.props.location} className =  "fa fa-map-marker" onClick={this.toggleDisplay}>
             {this.openPopup()}
          </Marker>
         )
+
 
     }
 }
