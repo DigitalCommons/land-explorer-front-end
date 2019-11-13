@@ -10,8 +10,9 @@ class Nodal extends Component
             display: false,
         }
 
-        this.toggleDisplay  = this.toggleDisplay.bind(this);
-        this.openPopup      = this.openPopup.bind(this);
+        this.SetDisplay  = this.SetDisplay.bind(this);
+        this.openPopup   = this.openPopup.bind(this);
+        this.closePopup  = this.closePopup.bind(this);
     }
 
     getStyleByType(type){
@@ -56,21 +57,21 @@ class Nodal extends Component
         }
     }
 
-    toggleDisplay(){
-        if(this.state.display)
-            this.setState({
-                display: false
-            })
-        else
-            this.setState({
-                display: true
-            })
+   
+   
+
+    SetDisplay()
+    {
+        this.setState ({ display : true});
     }
+
+   
 
     openPopup(){
         if(this.state.display)
             return <div className = "Popup">
-                        <h1>{this.props.name}</h1>
+                        <button onClick = {this.closePopup}>X</button>
+                        <h2>{this.props.name}</h2>
                         <p>{this.props.addressLine1}</p>
                         <p>{this.props.addressLine2}</p>
                         <p>{this.props.addressLine3}</p>
@@ -79,15 +80,37 @@ class Nodal extends Component
                         <p>{this.props.subcat}</p>
                         <p>{this.props.telephone}</p>
                         <p>{this.props.website}</p>
+
+                        <input type = "checkbox" id = "MoreInfo" className= "Info"  />
+                        
+                        <p className = "wrapper">
+                        <span className = "ReadMore">  Opening Times </span>
+                        <span className = "ReadMore">  Capacity </span>
+                        <span className = "ReadMore">  Rooms/sizes/rates </span>
+                        </p>
+                        
+                        <label htmlFor ="MoreInfo" className = "More" />
+                        
                     </div>;
         return;
     }
+    
+    closePopup()
+    {
+        this.setState ({ display : false});
+
+        console.log("Closed");
+    }
+
+    
 
     render(){
 
         return (        
-        <Marker style = { this.getStyleByType(this.props.type) }  coordinates = {this.props.location} className =  "fa fa-map-marker" onClick={this.toggleDisplay}>
+        <Marker style = { this.getStyleByType(this.props.type) }  coordinates = {this.props.location} className =  "fa fa-map-marker" onClick={this.SetDisplay}>
             {this.openPopup()}
+            {/* <Popup style = { this.getStyleByType(this.props.type) }  coordinates = {this.props.location}>
+                </Popup> */}
          </Marker>
         )
 
