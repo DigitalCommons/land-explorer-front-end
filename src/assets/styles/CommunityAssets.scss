@@ -21,22 +21,23 @@
   transition: .25s ease;
 }
 
-.Info 
-{
-display: none;
-}
+// #MoreInfo 
+// {
+// display: none;
 
-.Info ~ .More:before
-{
-   content: "Show More";
-}
+// }
 
-.Info:checked ~ .wrapper .ReadMore
-{
-  opacity: 1;
-  font-size: inherit;
-  max-height: 999em;
-}
+// .Info ~ .More:before
+// {
+//    content: "Show More";
+// }
+
+// .Info:checked ~ .wrapper #ReadMore
+// {
+//   opacity: 1;
+//   font-size: inherit;
+//   max-height: 999em;
+// }
  
 .fa-map-marker:before 
 {
