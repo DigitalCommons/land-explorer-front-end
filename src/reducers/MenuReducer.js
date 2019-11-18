@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
     main: false,
     key: false,
+    councilKey: false,
     profile: false,
     layers: false,
 }
@@ -76,6 +77,24 @@ export default (state = INITIAL_STATE, action) => {
                 key: false,
                 layers: false,
             }
+        case 'TOGGLE_MENU_COUNCILKEY':
+            return {
+                ...state,
+                councilKey: !state.councilKey,
+                layers: false,
+            }
+        case 'OPEN_MENU_COUNCILKEY':
+            return {
+                    ...state,
+                    councilKey: true,
+                    layers: false,
+                }
+        case 'CLOSE_MENU_COUNCILKEY':
+            return {
+                    ...state,
+                    councilKey: false,
+                    layers: false,
+                }            
         case 'CLOSE_MENUS':
             return {
                 ...state,

@@ -17,7 +17,8 @@ const INITIAL_STATE = {
     phone: '',
     username: '',
     populated: false,
-    type:   ''
+    type:   'council',
+    privileged: true,
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -28,8 +29,14 @@ export default (state = INITIAL_STATE, action) => {
                 ...action.payload,
                 populated: true,
                 initials: action.payload.firstName[0].toUpperCase() + action.payload.lastName[0].toUpperCase(),
-                type:   'council',
             }
+        case 'CHANGE_USER_TYPE':
+            console.log(action.payload.userType);
+            state.type = action.payload.userType;
+            console.log(state.type)
+            return {
+                ...state
+            };
         default:
             return state;
     }
