@@ -1,5 +1,5 @@
-  .Popup
-    {
+.Popup
+{
         position: absolute;
         background: #fff;
         z-index: -1;
@@ -11,15 +11,36 @@
         font : 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
         bottom: 0px;
         left: 19px;
+}
 
-      
-      }
+.ReadMore
+{
+  opacity: 0;
+  max-height: 0;
+  font-size: 0;
+  transition: .25s ease;
+}
 
-     
+// #MoreInfo 
+// {
+// display: none;
+
+// }
+
+// .Info ~ .More:before
+// {
+//    content: "Show More";
+// }
+
+// .Info:checked ~ .wrapper #ReadMore
+// {
+//   opacity: 1;
+//   font-size: inherit;
+//   max-height: 999em;
+// }
  
 .fa-map-marker:before 
 {
     position: absolute;
     font-size:26px; 
-
 }

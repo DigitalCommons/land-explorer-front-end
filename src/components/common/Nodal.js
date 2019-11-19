@@ -9,10 +9,14 @@ class Nodal extends Component
         super(props);
         this.state = {
             display: false,
+            checkBoxState : false,
         }
 
-        this.toggleDisplay  = this.toggleDisplay.bind(this);
-        this.openPopup      = this.openPopup.bind(this);
+        this.SetDisplay  = this.SetDisplay.bind(this);
+        this.openPopup   = this.openPopup.bind(this);
+        this.closePopup  = this.closePopup.bind(this);
+        this.ReadMore = this.ReadMore.bind(this);
+        this.ReadLess = this.ReadLess.bind(this)
     }
 
     getStyleByType(type){
@@ -38,6 +42,7 @@ class Nodal extends Component
             zIndex: this.state.display? 4 : 3,
         }
         const greyStyle = {
+            
             color: 'grey',
             zIndex: this.state.display? 4 : 3,
         }
@@ -57,21 +62,61 @@ class Nodal extends Component
         }
     }
 
-    toggleDisplay(){
-        if(this.state.display)
-            this.setState({
-                display: false
-            })
-        else
-            this.setState({
-                display: true
-            })
+    
+   
+    ReadMore() 
+     {
+   this.setState({ checkBoxState:true  });
+     }
+
+     ReadLess()
+     {
+        this.setState({ checkBoxState: false  });
+     }
+
+     ExtraInfo()
+     {
+         return( 
+         <div>
+            <p> Opening Times </p>
+            
+            <p> Capacity </p>
+           
+            <p> Telephone No </p>
+           
+            <p> Contact Name </p>
+           
+            <p> Email Address </p>
+
+{/* if() */}
+ {/* <button  id = "MoreInfo"   onClick = { this.ReadLess}  className = "Info">Read Less </button> */}
+        </div> 
+        
+    )
+     }
+
+
+    SetDisplay()
+    {
+        const {display} = this.state;
+        this.setState ({ display : true});
     }
 
+    closePopup()
+    {
+        const {display} = this.state;
+        this.setState ({ display : false});
+
+        alert(display);
+    }
+
+
     openPopup(){
+
         if(this.state.display)
-            return <div className="Popup">
-                        <h1>{this.props.name}</h1>
+            return <div className = "Popup">
+                        <button onClick = {this.closePopup}>X</button>
+                        <h2>{this.props.name}</h2>
                         <p>{this.props.addressLine1}</p>
                         <p>{this.props.addressLine2}</p>
                         <p>{this.props.addressLine3}</p>
@@ -80,14 +125,25 @@ class Nodal extends Component
                         <p>{this.props.subcat}</p>
                         <p>{this.props.telephone}</p>
                         <p>{this.props.website}</p>
-                    </div>;
+
+                        
+     { this.state.checkBoxState ?this.ExtraInfo()  : <button  id = "MoreInfo"   onClick = { this.ReadMore} onDoubleClick = {this.ReadLess}  className = "Info">
+      Less
+      </button>}
+ 
+ 
+                        
+    </div>;
         return;
     }
-
+    
+ 
+    
     render(){
         return (        
-        <Marker style = { this.getStyleByType(this.props.type) }  coordinates = {this.props.location} className =  "fa fa-map-marker" onClick={this.toggleDisplay}>
+        <Marker style = { this.getStyleByType(this.props.type) }  coordinates = {this.props.location} className =  "fa fa-map-marker" onClick={this.SetDisplay} >
             {this.openPopup()}
+            
          </Marker>
         )
     }
