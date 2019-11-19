@@ -15,7 +15,7 @@ class Key extends Component {
                 >
                     <div style={{
                         backgroundColor: data[key],
-                        opacity: '.6',
+                        opacity: '1',
                         height: '16px',
                         width: '16px',
                         marginRight: '6px'

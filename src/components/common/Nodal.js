@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Marker, Popup } from 'react-mapbox-gl';
+import {connect} from 'react-redux';
 
 
 class Nodal extends Component 
@@ -145,10 +146,11 @@ class Nodal extends Component
             
          </Marker>
         )
-        
-
-
     }
 }
 
-export default Nodal;
+const mapStateToProps = ({ nodal }) => ({
+    activeNodal: nodal.activeNodal,
+});
+
+export default connect(mapStateToProps)(Nodal);

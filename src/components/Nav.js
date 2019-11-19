@@ -114,15 +114,7 @@ class Nav extends Component {
                                  }}
                                  data-tip
                                  data-for="ttInfo"
-                            />        
-                            <div className={`nav-left-icon property-search ${active === 'Land Ownership' && 'active'}`}
-                                 onClick={() => {
-                                     analytics.event(analytics._event.SIDE_NAV + ' Land Ownership', 'Open');
-                                     this.clickIcon('Land Ownership')
-                                 }}
-                                 data-tip
-                                 data-for="ttLandOwnership"
-                            />
+                            />     
                             <div className="nav-left-icon new-map-icon"
                                  onClick={() => {
                                      analytics.event(analytics._event.SIDE_NAV + ' New Map', 'Clicked');
@@ -177,11 +169,6 @@ class Nav extends Component {
                             onClose={this.closeTray}
                         />
                         <NavLandData
-                            open={open}
-                            active={active}
-                            onClose={this.closeTray}
-                        />
-                        <NavLandOwnership
                             open={open}
                             active={active}
                             onClose={this.closeTray}

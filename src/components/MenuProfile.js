@@ -23,14 +23,20 @@ class MenuProfile extends Component {
     }
 
     dispatchUserChange(event){
-        this.props.changeUser(event.target.value);
+        this.props.changeUser(event.target.id);
     }
 
     ifPrivilegedDisplayButtons(privileged){
         if(privileged)
             return <div>
-                        <button onClick={this.dispatchUserChange} value = "core">Core</button>
-                        <button onClick={this.dispatchUserChange} value = "council">Council</button>
+                        <div className="tooltip-menu-item"
+                             onClick={this.dispatchUserChange}
+                             id = "core"
+                        >Core</div>
+                        <div className="tooltip-menu-item"
+                             onClick={this.dispatchUserChange}
+                             id = "council"
+                        >Council</div>
                     </div>
     }
 
@@ -64,14 +70,13 @@ class MenuProfile extends Component {
                     >
                         Shared Maps
                     </div>
-                    <div>
-                        {this.ifPrivilegedDisplayButtons(privileged)}
-                    </div>
+                    {this.ifPrivilegedDisplayButtons(privileged)}
                     <div className="tooltip-menu-item no-hover"
                          style={{
                              marginTop: '10px'
                          }}
                     >
+                        
                         <div className="button button-medium"
                              onClick={(e) => {
                                 e.preventDefault();

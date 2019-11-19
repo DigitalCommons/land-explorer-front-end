@@ -19,12 +19,14 @@ import MapMetaReducer from './MapMetaReducer';
 import ShareReducer from './ShareReducer';
 import ForSaleReducer from './ForSaleReducer';
 import CommunityAssetsReducer from './CommunityAssetsReducer';
+import NodalsReducer from './NodalsReducer';
 
 export default combineReducers({
     authentication: AuthenticationReducer,
     menu: MenuReducer,
     profileMenu: ProfileMenuReducer,
     navigation: NavigationReducer,
+    nodal: NodalsReducer,
     modal: ModalReducer,
     map: MapReducer,
     mapBaseLayer: MapBaseLayerReducer,
