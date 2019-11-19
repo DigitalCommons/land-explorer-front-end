@@ -7,11 +7,10 @@ class Nodal extends Component
     constructor(props){
         super(props);
         this.state = {
-            display: false,
             checkBoxState : false,
         }
 
-        this.SetDisplay  = this.SetDisplay.bind(this);
+        this.SetDisplayTrue  = this.SetDisplayTrue.bind(this);
         this.openPopup   = this.openPopup.bind(this);
         this.closePopup  = this.closePopup.bind(this);
         this.ReadMore = this.ReadMore.bind(this);
@@ -21,33 +20,33 @@ class Nodal extends Component
     getStyleByType(type){
         const redStyle = {
             color: 'red',
-            zIndex: this.state.display? 4 : 3,
+            zIndex: this.props.id == this.props.activeNodal? 4 : 3,
         }
         const blueStyle = {
             color: 'blue',
-            zIndex: this.state.display? 4 : 3,
+            zIndex: this.props.id == this.props.activeNodal? 4 : 3,
             
         }
         const purpleStyle = {
             color: 'purple',
-            zIndex: this.state.display? 4 : 3,
+            zIndex: this.props.id == this.props.activeNodal? 4 : 3,
         }
         const greenStyle = {
             color: 'green',
-            zIndex: this.state.display? 4 : 3,
+            zIndex: this.props.id == this.props.activeNodal? 4 : 3,
         }
         const brownStyle = {
             color: 'brown',
-            zIndex: this.state.display? 4 : 3,
+            zIndex: this.props.id == this.props.activeNodal? 4 : 3,
         }
         const greyStyle = {
             
             color: 'grey',
-            zIndex: this.state.display? 4 : 3,
+            zIndex: this.props.id == this.props.activeNodal? 4 : 3,
         }
         const orangeStyle = {
             color: 'orange',
-            zIndex: this.state.display? 4 : 3,
+            zIndex: this.props.id == this.props.activeNodal? 4 : 3,
         }
 
         switch (type){
@@ -95,7 +94,7 @@ class Nodal extends Component
      }
 
 
-    SetDisplay()
+    SetDisplayTrue()
     {
         /*
         const {display} = this.state;
@@ -112,11 +111,6 @@ class Nodal extends Component
 
     closePopup()
     {
-        /*const {display} = this.state;
-        this.setState ({ display : false});
-
-        alert(display); */
-
         this.props.dispatch({
             type: 'CLOSE_NODALS',
         });
@@ -126,30 +120,6 @@ class Nodal extends Component
     openPopup(){
 
         if(this.props.id === this.props.activeNodal)
-            return <div className = "Popup">
-            <button onClick = {this.closePopup}>X</button>
-            <h2>{this.props.name}</h2>
-            <p>{this.props.addressLine1}</p>
-            <p>{this.props.addressLine2}</p>
-            <p>{this.props.addressLine3}</p>
-            <p>{this.props.addressLine4}</p>
-            <p>{this.props.postcode}</p>
-            <p>{this.props.subcat}</p>
-            <p>{this.props.telephone}</p>
-            <p>{this.props.website}</p>
-            { this.state.checkBoxState ? this.ExtraInfo()  : 
-            <button  
-                id = "MoreInfo"   
-                onClick = { this.ReadMore} 
-                onDoubleClick = {this.ReadLess}  
-                className = "Info">
-                Less
-            </button>}
-                        
-        </div>;
-
-        /*
-        if(this.state.display)
             return <div className = "Popup">
                         <button onClick = {this.closePopup}>X</button>
                         <h2>{this.props.name}</h2>
@@ -161,18 +131,16 @@ class Nodal extends Component
                         <p>{this.props.subcat}</p>
                         <p>{this.props.telephone}</p>
                         <p>{this.props.website}</p>
-
+                        { this.state.checkBoxState ? this.ExtraInfo()  : 
+                            <button  
+                                id = "MoreInfo"   
+                                onClick = { this.ReadMore} 
+                                onDoubleClick = {this.ReadLess}  
+                                className = "Info">
+                                Less
+                            </button>}
                         
-     { this.state.checkBoxState ? this.ExtraInfo()  : 
-     <button  
-        id = "MoreInfo"   
-        onClick = { this.ReadMore} 
-        onDoubleClick = {this.ReadLess}  
-        className = "Info">
-      Less
-      </button>}
-                        
-    </div>; */
+                    </div>;
         return;
     }
     
@@ -192,7 +160,7 @@ class Nodal extends Component
             style = { this.getStyleByType(this.props.type) }  
             coordinates = {this.props.location} 
             className =  "fa fa-map-marker" 
-            onClick={this.SetDisplay} >
+            onClick={this.SetDisplayTrue} >
             {this.openPopup()}
          </Marker>
         )
