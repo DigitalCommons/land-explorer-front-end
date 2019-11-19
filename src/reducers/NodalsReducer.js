@@ -6,7 +6,6 @@ let activeNodal;
 export default (state = INITIAL_STATE, action) => {
     switch(action.type){
         case 'TURN_ON_NODAL':
-            console.log(action.payload.id);
             activeNodal = action.payload.id;
             state.activeNodal = activeNodal;
             return {
@@ -14,10 +13,8 @@ export default (state = INITIAL_STATE, action) => {
                 activeNodal,
             }
         case 'CLOSE_NODALS':
-            console.log("nodals close command sent")
             activeNodal = 0;
             state.activeNodal = activeNodal;
-            console.log(activeNodal);
             return {
                 ...state,
                 activeNodal,

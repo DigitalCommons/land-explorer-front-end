@@ -96,11 +96,6 @@ class Nodal extends Component
 
     SetDisplayTrue()
     {
-        /*
-        const {display} = this.state;
-        this.setState ({ display : true}); */
-        console.log(this.props.id);
-
         this.props.dispatch({
             type: 'TURN_ON_NODAL',
             payload: {
