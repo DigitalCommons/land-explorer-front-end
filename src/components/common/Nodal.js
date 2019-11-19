@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Marker, Popup } from 'react-mapbox-gl';
+import {connect} from 'react-redux';
 
 
 class Nodal extends Component 
@@ -69,7 +70,7 @@ class Nodal extends Component
 
     openPopup(){
         if(this.state.display)
-            return <div className = "Popup">
+            return <div className="Popup">
                         <h1>{this.props.name}</h1>
                         <p>{this.props.addressLine1}</p>
                         <p>{this.props.addressLine2}</p>
@@ -89,9 +90,11 @@ class Nodal extends Component
             {this.openPopup()}
          </Marker>
         )
-
-
     }
 }
 
-export default Nodal;
+const mapStateToProps = ({ nodal }) => ({
+    activeNodal: nodal.activeNodal,
+});
+
+export default connect(mapStateToProps)(Nodal);
