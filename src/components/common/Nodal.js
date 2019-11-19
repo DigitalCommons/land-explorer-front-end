@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Marker, Popup } from 'react-mapbox-gl';
 import {connect} from 'react-redux';
 
-
 class Nodal extends Component 
 {
     constructor(props){
@@ -98,21 +97,58 @@ class Nodal extends Component
 
     SetDisplay()
     {
+        /*
         const {display} = this.state;
-        this.setState ({ display : true});
+        this.setState ({ display : true}); */
+        console.log(this.props.id);
+
+        this.props.dispatch({
+            type: 'TURN_ON_NODAL',
+            payload: {
+                id:     this.props.id,
+            }
+        });
     }
 
     closePopup()
     {
-        const {display} = this.state;
+        /*const {display} = this.state;
         this.setState ({ display : false});
 
-        alert(display);
+        alert(display); */
+
+        this.props.dispatch({
+            type: 'CLOSE_NODALS',
+        });
     }
 
 
     openPopup(){
 
+        if(this.props.id === this.props.activeNodal)
+            return <div className = "Popup">
+            <button onClick = {this.closePopup}>X</button>
+            <h2>{this.props.name}</h2>
+            <p>{this.props.addressLine1}</p>
+            <p>{this.props.addressLine2}</p>
+            <p>{this.props.addressLine3}</p>
+            <p>{this.props.addressLine4}</p>
+            <p>{this.props.postcode}</p>
+            <p>{this.props.subcat}</p>
+            <p>{this.props.telephone}</p>
+            <p>{this.props.website}</p>
+            { this.state.checkBoxState ? this.ExtraInfo()  : 
+            <button  
+                id = "MoreInfo"   
+                onClick = { this.ReadMore} 
+                onDoubleClick = {this.ReadLess}  
+                className = "Info">
+                Less
+            </button>}
+                        
+        </div>;
+
+        /*
         if(this.state.display)
             return <div className = "Popup">
                         <button onClick = {this.closePopup}>X</button>
@@ -127,23 +163,37 @@ class Nodal extends Component
                         <p>{this.props.website}</p>
 
                         
-     { this.state.checkBoxState ?this.ExtraInfo()  : <button  id = "MoreInfo"   onClick = { this.ReadMore} onDoubleClick = {this.ReadLess}  className = "Info">
+     { this.state.checkBoxState ? this.ExtraInfo()  : 
+     <button  
+        id = "MoreInfo"   
+        onClick = { this.ReadMore} 
+        onDoubleClick = {this.ReadLess}  
+        className = "Info">
       Less
       </button>}
- 
- 
                         
-    </div>;
+    </div>; */
         return;
     }
     
- 
     
     render(){
-        return (        
-        <Marker style = { this.getStyleByType(this.props.type) }  coordinates = {this.props.location} className =  "fa fa-map-marker" onClick={this.SetDisplay} >
+        if(this.props.id == this.props.activeNodal)
+            return(
+                <Marker 
+            style = { this.getStyleByType(this.props.type) }  
+            coordinates = {this.props.location} 
+            className =  "fa fa-map-marker" >
             {this.openPopup()}
-            
+         </Marker>
+            )
+        return (        
+        <Marker 
+            style = { this.getStyleByType(this.props.type) }  
+            coordinates = {this.props.location} 
+            className =  "fa fa-map-marker" 
+            onClick={this.SetDisplay} >
+            {this.openPopup()}
          </Marker>
         )
     }
