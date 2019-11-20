@@ -17,62 +17,23 @@ class Nodal extends Component
         this.ReadLess               = this.ReadLess.bind(this)
     }
 
-    getStyleByType(type){
-        const redStyle = {
-            color: 'red',
-            zIndex: this.props.id == this.props.activeNodal? 4 : 3,
-        }
-        const blueStyle = {
-            color: 'blue',
-            zIndex: this.props.id == this.props.activeNodal? 4 : 3,
-            
-        }
-        const purpleStyle = {
-            color: 'purple',
-            zIndex: this.props.id == this.props.activeNodal? 4 : 3,
-        }
-        const greenStyle = {
-            color: 'green',
-            zIndex: this.props.id == this.props.activeNodal? 4 : 3,
-        }
-        const brownStyle = {
-            color: 'brown',
-            zIndex: this.props.id == this.props.activeNodal? 4 : 3,
-        }
-        const greyStyle = {
-            
-            color: 'grey',
-            zIndex: this.props.id == this.props.activeNodal? 4 : 3,
-        }
-        const orangeStyle = {
-            color: 'orange',
-            zIndex: this.props.id == this.props.activeNodal? 4 : 3,
-        }
-
-        switch (type){
-            case "1": return redStyle;
-            case "2": return blueStyle;
-            case "3": return purpleStyle;
-            case "4": return greenStyle;
-            case "5": return brownStyle;
-            case "6": return greyStyle;
-            case "7": return orangeStyle;
-        }
-    }
-
     getImgByType(type){
-        const redMarker = require('../../assets/img/icon-marker-new--red.svg');
-        const blueMarker =  require('../../assets/img/icon-marker-new--blue.svg');
-        const purpleMarker = require('../../assets/img/icon-marker-new--green.svg');
+        const redMarker = require('../../assets/img/icon-community-asset-red.svg');
+        const blueMarker =  require('../../assets/img/icon-community-asset-blue.svg');
+        const purpleMarker = require('../../assets/img/icon-community-asset-purple.svg');
+        const greenMarker = require('../../assets/img/icon-community-asset-green.svg');
+        const brownMarker = require('../../assets/img/icon-community-asset-brown.svg');
+        const greyMarker = require('../../assets/img/icon-community-asset-grey.svg');
+        const orangeMarker = require('../../assets/img/icon-community-asset-orange.svg');
 
         switch(type){
             case "1": return redMarker;
             case "2": return blueMarker;
             case "3": return purpleMarker;
-            case "4": return purpleMarker;
-            case "5": return purpleMarker;
-            case "6": return purpleMarker;
-            case "7": return purpleMarker;
+            case "4": return greenMarker;
+            case "5": return brownMarker;
+            case "6": return greyMarker;
+            case "7": return orangeMarker;
         }
     }
    
@@ -193,7 +154,7 @@ class Nodal extends Component
         if(this.props.id == this.props.activeNodal)
             return(
                 <Marker 
-            style = { this.getStyleByType(this.props.type) }  
+            style = { { zIndex: this.props.id == this.props.activeNodal? 4 : 3}}  
             coordinates = {this.props.location}>
             {this.displayInfoIfActive()}
             <img    src={this.getImgByType(this.props.type)} 
@@ -206,7 +167,7 @@ class Nodal extends Component
             )
         return (        
         <Marker 
-            style = { this.getStyleByType(this.props.type) }  
+        style = { { zIndex: this.props.id == this.props.activeNodal? 4 : 3}}  
             coordinates = {this.props.location}
             onClick={this.SetDisplayTrue} >
             {this.displayInfoIfActive()}
