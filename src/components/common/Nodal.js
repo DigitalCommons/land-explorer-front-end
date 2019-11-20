@@ -10,11 +10,11 @@ class Nodal extends Component
             checkBoxState : false,
         }
 
-        this.SetDisplayTrue  = this.SetDisplayTrue.bind(this);
-        this.openPopup   = this.openPopup.bind(this);
-        this.closePopup  = this.closePopup.bind(this);
-        this.ReadMore = this.ReadMore.bind(this);
-        this.ReadLess = this.ReadLess.bind(this)
+        this.SetDisplayTrue         = this.SetDisplayTrue.bind(this);
+        this.displayInfoIfActive    = this.displayInfoIfActive.bind(this);
+        this.closePopup             = this.closePopup.bind(this);
+        this.ReadMore               = this.ReadMore.bind(this);
+        this.ReadLess               = this.ReadLess.bind(this)
     }
 
     getStyleByType(type){
@@ -60,7 +60,17 @@ class Nodal extends Component
         }
     }
 
-    
+    getImgByType(type){
+        /*switch(type){
+            case "1": return redStyle;
+            case "2": return blueStyle;
+            case "3": return purpleStyle;
+            case "4": return greenStyle;
+            case "5": return brownStyle;
+            case "6": return greyStyle;
+            case "7": return orangeStyle;
+        }*/
+    }
    
     ReadMore() 
      {
@@ -112,11 +122,24 @@ class Nodal extends Component
     }
 
 
-    openPopup(){
+    displayInfoIfActive(){
+
+        const x = require('../../assets/img/icon-close-new.svg')
+
+        let closeStyle = {
+            height: '10px',
+            width: '10px',
+            borderRadius: '50%',
+            position: 'absolute',
+            top: '12px',
+            cursor: 'pointer',
+            right: '12px',
+            zIndex: '5',
+        }
 
         if(this.props.id === this.props.activeNodal)
             return <div className = "Popup">
-                        <button onClick = {this.closePopup}>X</button>
+                        <img src={x} style={closeStyle} onClick = {this.closePopup}/>
                         <h2>{this.props.name}</h2>
                         <p>{this.props.addressLine1}</p>
                         <p>{this.props.addressLine2}</p>
@@ -169,16 +192,17 @@ class Nodal extends Component
             style = { this.getStyleByType(this.props.type) }  
             coordinates = {this.props.location} 
             className =  "fa fa-map-marker" >
-            {this.openPopup()}
+            {this.displayInfoIfActive()}
          </Marker>
             )
         return (        
         <Marker 
             style = { this.getStyleByType(this.props.type) }  
             coordinates = {this.props.location} 
-            className =  "fa fa-map-marker" 
+            className =  "fa fa-map-marker" >
             onClick={this.SetDisplayTrue} >
-            {this.openPopup()}
+            {this.displayInfoIfActive()}
+            {this.getImgByType(this.props.type)}
          </Marker>
         )
     }

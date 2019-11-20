@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-    activeNodal: 0,
+    activeNodal: -1,
 }
 let activeNodal;
 
@@ -13,7 +13,7 @@ export default (state = INITIAL_STATE, action) => {
                 activeNodal,
             }
         case 'CLOSE_NODALS':
-            activeNodal = 0;
+            activeNodal = -1;
             state.activeNodal = activeNodal;
             return {
                 ...state,
