@@ -61,15 +61,19 @@ class Nodal extends Component
     }
 
     getImgByType(type){
-        /*switch(type){
-            case "1": return redStyle;
-            case "2": return blueStyle;
-            case "3": return purpleStyle;
-            case "4": return greenStyle;
-            case "5": return brownStyle;
-            case "6": return greyStyle;
-            case "7": return orangeStyle;
-        }*/
+        const redMarker = require('../../assets/img/icon-marker-new--red.svg');
+        const blueMarker =  require('../../assets/img/icon-marker-new--blue.svg');
+        const purpleMarker = require('../../assets/img/icon-marker-new--green.svg');
+
+        switch(type){
+            case "1": return redMarker;
+            case "2": return blueMarker;
+            case "3": return purpleMarker;
+            case "4": return purpleMarker;
+            case "5": return purpleMarker;
+            case "6": return purpleMarker;
+            case "7": return purpleMarker;
+        }
     }
    
     ReadMore() 
@@ -190,19 +194,28 @@ class Nodal extends Component
             return(
                 <Marker 
             style = { this.getStyleByType(this.props.type) }  
-            coordinates = {this.props.location} 
-            className =  "fa fa-map-marker" >
+            coordinates = {this.props.location}>
             {this.displayInfoIfActive()}
+            <img    src={this.getImgByType(this.props.type)} 
+                    style={{
+                        height: '30px',
+                        width: '30px',
+                        }}
+                />
          </Marker>
             )
         return (        
         <Marker 
             style = { this.getStyleByType(this.props.type) }  
-            coordinates = {this.props.location} 
-            className =  "fa fa-map-marker" >
+            coordinates = {this.props.location}
             onClick={this.SetDisplayTrue} >
             {this.displayInfoIfActive()}
-            {this.getImgByType(this.props.type)}
+            <img    src={this.getImgByType(this.props.type)} 
+                    style={{
+                        height: '30px',
+                        width: '30px',
+                        }}
+                />
          </Marker>
         )
     }
