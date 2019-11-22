@@ -90,7 +90,8 @@ class Nodal extends Component
             textDecoration: 'underline',
         }
 
-        let closeStyle = {
+        let closeStyle =
+         {
             height: '10px',
             width: '10px',
             borderRadius: '50%',
@@ -118,6 +119,7 @@ class Nodal extends Component
                         <p>{this.props.telephone}</p>
                         <p>{this.props.website}</p>
 
+
                     {this.state.checkBoxState ? 
                         <div>
                              { this.extraInfo() }
@@ -136,7 +138,7 @@ class Nodal extends Component
                             </div>
                         </div>
                     }
-                        
+                        <div className="SpeechBubble"></div>  
                     </div>;
         else
             return;
