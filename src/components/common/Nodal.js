@@ -91,6 +91,11 @@ class Nodal extends Component
 
         const x = require('../../assets/img/icon-close-new.svg')
 
+        let buttonStyle={
+            color: 'grey',
+            textDecoration: 'underline',
+        }
+
         let closeStyle = {
             height: '10px',
             width: '10px',
@@ -125,24 +130,25 @@ class Nodal extends Component
 
                         { this.state.checkBoxState ? 
                         <div>
-                        <button  
+                             { this.ExtraInfo() }
+                        <div  
                         id = "MoreInfo"   
                         onClick = { this.ReadLess} 
-                        className = "Info">
-                        Less
-                    </button>
-                       { this.ExtraInfo() }
+                        className="Info">
+                        <p style={buttonStyle}>Less</p>
+                        </div>
+                      
                         </div> 
                         : 
                         <div>
-                        <button  
+                        <div  
                                 id = "MoreInfo"   
                                 onClick = { this.ReadMore} 
                                 
-                                className = "Info">
-                                More
-                            </button>
+                                className="Info">
+                                <p style={buttonStyle}>More</p>
                             </div>
+                        </div>
                         }
                         
                     </div>;
