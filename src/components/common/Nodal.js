@@ -60,9 +60,6 @@ class Nodal extends Component
             <p> Contact Name </p>
            
             <p> Email Address </p>
-
-{/* if() */}
- {/* <button  id = "MoreInfo"   onClick = { this.ReadLess}  className = "Info">Read Less </button> */}
         </div> 
         
     )
@@ -91,7 +88,8 @@ class Nodal extends Component
 
         const x = require('../../assets/img/icon-close-new.svg')
 
-        let closeStyle = {
+        let closeStyle =
+         {
             height: '10px',
             width: '10px',
             borderRadius: '50%',
@@ -144,8 +142,9 @@ class Nodal extends Component
                             </button>
                             </div>
                         }
-                        
+                          <div className = "SpeechBubble"></div>
                     </div>;
+                  
         return;
     }
     
@@ -187,3 +186,4 @@ const mapStateToProps = ({ nodal }) => ({
 });
 
 export default connect(mapStateToProps)(Nodal);
+
