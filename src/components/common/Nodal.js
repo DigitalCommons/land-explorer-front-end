@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Marker, Popup } from 'react-mapbox-gl';
+import {Marker} from 'react-mapbox-gl';
 import {connect} from 'react-redux';
 
 class Nodal extends Component 
@@ -10,11 +10,11 @@ class Nodal extends Component
             checkBoxState : false,
         }
 
-        this.SetDisplayTrue         = this.SetDisplayTrue.bind(this);
+        this.openPopup              = this.openPopup.bind(this);
         this.displayInfoIfActive    = this.displayInfoIfActive.bind(this);
         this.closePopup             = this.closePopup.bind(this);
-        this.ReadMore               = this.ReadMore.bind(this);
-        this.ReadLess               = this.ReadLess.bind(this)
+        this.readMore               = this.readMore.bind(this);
+        this.readLess               = this.readLess.bind(this)
     }
 
     getImgByType(type){
@@ -37,20 +37,19 @@ class Nodal extends Component
         }
     }
    
-    ReadMore() 
+    readMore() 
      {
-   this.setState({ checkBoxState:true  });
+        this.setState({ checkBoxState:  true  });
      }
 
-     ReadLess()
+     readLess()
      {
-        this.setState({ checkBoxState: false  });
+        this.setState({ checkBoxState:  false  });
      }
 
-     ExtraInfo()
+     extraInfo()
      {
-         return( 
-         <div>
+         return(<div>
             <p> Opening Times </p>
             
             <p> Capacity </p>
@@ -60,13 +59,11 @@ class Nodal extends Component
             <p> Contact Name </p>
            
             <p> Email Address </p>
-        </div> 
-        
-    )
+        </div> );
      }
 
 
-    SetDisplayTrue()
+    openPopup()
     {
         this.props.dispatch({
             type: 'TURN_ON_NODAL',
@@ -86,7 +83,12 @@ class Nodal extends Component
 
     displayInfoIfActive(){
 
-        const x = require('../../assets/img/icon-close-new.svg')
+        const closeIcon = require('../../assets/img/icon-close-new.svg')
+
+        let buttonStyle={
+            color: 'grey',
+            textDecoration: 'underline',
+        }
 
         let closeStyle =
          {
@@ -102,7 +104,11 @@ class Nodal extends Component
 
         if(this.props.id === this.props.activeNodal)
             return <div className = "Popup">
-                        <img src={x} style={closeStyle} onClick = {this.closePopup}/>
+                        <img 
+                            src={closeIcon} 
+                            style={closeStyle} 
+                            onClick = {this.closePopup}
+                        />
                         <h2>{this.props.name}</h2>
                         <p>{this.props.addressLine1}</p>
                         <p>{this.props.addressLine2}</p>
@@ -113,63 +119,56 @@ class Nodal extends Component
                         <p>{this.props.telephone}</p>
                         <p>{this.props.website}</p>
 
-                        { this.state.checkBoxState ? 
+
+                    {this.state.checkBoxState ? 
                         <div>
-                        <button  
-                        id = "MoreInfo"   
-                        onClick = { this.ReadLess} 
-                        className = "Info">
-                        Less
-                    </button>
-                       { this.ExtraInfo() }
-                        </div> 
-                        : 
-                        <div>
-                        <button  
-                                id = "MoreInfo"   
-                                onClick = { this.ReadMore} 
-                                
-                                className = "Info">
-                                More
-                            </button>
+                             { this.extraInfo() }
+                            <div  
+                                id = "LessInfo"   
+                                onClick = { this.readLess}>
+                                <p style={buttonStyle}>Less</p>
                             </div>
-                        }
-                          <div className = "SpeechBubble"></div>
+                        </div> 
+                    : 
+                        <div>
+                            <div  
+                                id = "MoreInfo"   
+                                onClick = { this.readMore}>
+                                <p style={buttonStyle}>More</p>
+                            </div>
+                        </div>
+                    }
+                        
                     </div>;
-                  
-        return;
+        else
+            return;
     }
     
     
     render(){
         if(this.props.id == this.props.activeNodal)
-            return(
-                <Marker 
-            style = { { zIndex: this.props.id == this.props.activeNodal? 4 : 3}}  
-            coordinates = {this.props.location}>
-            {this.displayInfoIfActive()}
-            <img    src={this.getImgByType(this.props.type)} 
-                    style={{
-                        height: '30px',
-                        width: '30px',
-                        }}
-                />
-         </Marker>
-            )
-        return (        
-        <Marker 
-        style = { { zIndex: this.props.id == this.props.activeNodal? 4 : 3}}  
-            coordinates = {this.props.location}
-            onClick={this.SetDisplayTrue} >
-            {this.displayInfoIfActive()}
-            <img    src={this.getImgByType(this.props.type)} 
-                    style={{
-                        height: '30px',
-                        width: '30px',
-                        }}
-                />
-         </Marker>
-        )
+            return (<Marker 
+                        style = { { zIndex: this.props.id == this.props.activeNodal? 4 : 3}}  
+                        coordinates = {this.props.location}
+                    >
+                        {this.displayInfoIfActive()}
+                        <img 
+                            src={this.getImgByType(this.props.type)} 
+                            style={{height: '30px', width: '30px', }}
+                        />
+                    </Marker>);
+        else
+            return (<Marker 
+                        style = { { zIndex: this.props.id == this.props.activeNodal? 4 : 3}}  
+                        coordinates = {this.props.location}
+                        onClick={this.openPopup}
+                    >
+                        {this.displayInfoIfActive()}
+                        <img 
+                            src={this.getImgByType(this.props.type)} 
+                            style={{height: '30px',width: '30px', }}
+                        />
+                    </Marker>);
     }
 }
 
