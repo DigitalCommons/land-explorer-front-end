@@ -138,7 +138,7 @@ class Nodal extends Component
                             </div>
                         </div>
                     }
-                        
+                        <div className="SpeechBubble"></div>  
                     </div>;
         else
             return;
@@ -177,4 +177,3 @@ const mapStateToProps = ({ nodal }) => ({
 });
 
 export default connect(mapStateToProps)(Nodal);
-
