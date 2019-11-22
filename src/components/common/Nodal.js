@@ -1,76 +1,116 @@
 import React, {Component} from 'react';
 import { Marker, Popup } from 'react-mapbox-gl';
-
+import {connect} from 'react-redux';
 
 class Nodal extends Component 
 {
     constructor(props){
         super(props);
         this.state = {
-            display: false,
+            checkBoxState : false,
         }
 
-        this.toggleDisplay  = this.toggleDisplay.bind(this);
-        this.openPopup      = this.openPopup.bind(this);
+        this.SetDisplayTrue         = this.SetDisplayTrue.bind(this);
+        this.displayInfoIfActive    = this.displayInfoIfActive.bind(this);
+        this.closePopup             = this.closePopup.bind(this);
+        this.ReadMore               = this.ReadMore.bind(this);
+        this.ReadLess               = this.ReadLess.bind(this)
     }
 
-    getStyleByType(type){
-        const redStyle = {
-            color: 'red',
-            zIndex: this.state.display? 4 : 3,
+    getImgByType(type){
+        const redMarker = require('../../assets/img/icon-community-asset-red.svg');
+        const blueMarker =  require('../../assets/img/icon-community-asset-blue.svg');
+        const purpleMarker = require('../../assets/img/icon-community-asset-purple.svg');
+        const greenMarker = require('../../assets/img/icon-community-asset-green.svg');
+        const brownMarker = require('../../assets/img/icon-community-asset-brown.svg');
+        const greyMarker = require('../../assets/img/icon-community-asset-grey.svg');
+        const orangeMarker = require('../../assets/img/icon-community-asset-orange.svg');
+
+        switch(type){
+            case "1": return redMarker;
+            case "2": return blueMarker;
+            case "3": return purpleMarker;
+            case "4": return greenMarker;
+            case "5": return brownMarker;
+            case "6": return greyMarker;
+            case "7": return orangeMarker;
         }
-        const blueStyle = {
-            color: 'blue',
-            zIndex: this.state.display? 4 : 3,
+    }
+   
+    ReadMore() 
+     {
+   this.setState({ checkBoxState:true  });
+     }
+
+     ReadLess()
+     {
+        this.setState({ checkBoxState: false  });
+     }
+
+     ExtraInfo()
+     {
+         return( 
+         <div>
+            <p> Opening Times </p>
             
-        }
-        const purpleStyle = {
-            color: 'purple',
-            zIndex: this.state.display? 4 : 3,
-        }
-        const greenStyle = {
-            color: 'green',
-            zIndex: this.state.display? 4 : 3,
-        }
-        const brownStyle = {
-            color: 'brown',
-            zIndex: this.state.display? 4 : 3,
-        }
-        const greyStyle = {
+            <p> Capacity </p>
+           
+            <p> Telephone No </p>
+           
+            <p> Contact Name </p>
+           
+            <p> Email Address </p>
+
+{/* if() */}
+ {/* <button  id = "MoreInfo"   onClick = { this.ReadLess}  className = "Info">Read Less </button> */}
+        </div> 
+        
+    )
+     }
+
+
+    SetDisplayTrue()
+    {
+        this.props.dispatch({
+            type: 'TURN_ON_NODAL',
+            payload: {
+                id:     this.props.id,
+            }
+        });
+    }
+
+    closePopup()
+    {
+        this.props.dispatch({
+            type: 'CLOSE_NODALS',
+        });
+    }
+
+
+    displayInfoIfActive(){
+
+        const x = require('../../assets/img/icon-close-new.svg')
+
+        let buttonStyle={
             color: 'grey',
-            zIndex: this.state.display? 4 : 3,
-        }
-        const orangeStyle = {
-            color: 'orange',
-            zIndex: this.state.display? 4 : 3,
+            textDecoration: 'underline',
         }
 
-        switch (type){
-            case "1": return redStyle;
-            case "2": return blueStyle;
-            case "3": return purpleStyle;
-            case "4": return greenStyle;
-            case "5": return brownStyle;
-            case "6": return greyStyle;
-            case "7": return orangeStyle;
+        let closeStyle = {
+            height: '10px',
+            width: '10px',
+            borderRadius: '50%',
+            position: 'absolute',
+            top: '12px',
+            cursor: 'pointer',
+            right: '12px',
+            zIndex: '5',
         }
-    }
 
-    toggleDisplay(){
-        if(this.state.display)
-            this.setState({
-                display: false
-            })
-        else
-            this.setState({
-                display: true
-            })
-    }
-
-    openPopup(){
-        if(this.state.display)
+        if(this.props.id === this.props.activeNodal)
             return <div className = "Popup">
-                        <h1>{this.props.name}</h1>
+                        <img src={x} style={closeStyle} onClick = {this.closePopup}/>
+                        <h2>{this.props.name}</h2>
                         <p>{this.props.addressLine1}</p>
                         <p>{this.props.addressLine2}</p>
                         <p>{this.props.addressLine3}</p>
@@ -79,19 +119,77 @@ class Nodal extends Component
                         <p>{this.props.subcat}</p>
                         <p>{this.props.telephone}</p>
                         <p>{this.props.website}</p>
+
+                        {/* <button  
+                                id = "MoreInfo"   
+                                onClick = { this.ReadMore} 
+                                onDoubleClick = {this.ReadLess}  
+                                className = "Info">
+                                Less
+                            </button> */}
+
+                        { this.state.checkBoxState ? 
+                        <div>
+                             { this.ExtraInfo() }
+                        <div  
+                        id = "MoreInfo"   
+                        onClick = { this.ReadLess} 
+                        className="Info">
+                        <p style={buttonStyle}>Less</p>
+                        </div>
+                      
+                        </div> 
+                        : 
+                        <div>
+                        <div  
+                                id = "MoreInfo"   
+                                onClick = { this.ReadMore} 
+                                
+                                className="Info">
+                                <p style={buttonStyle}>More</p>
+                            </div>
+                        </div>
+                        }
+                        
                     </div>;
         return;
     }
-
+    
+    
     render(){
+        if(this.props.id == this.props.activeNodal)
+            return(
+                <Marker 
+            style = { { zIndex: this.props.id == this.props.activeNodal? 4 : 3}}  
+            coordinates = {this.props.location}>
+            {this.displayInfoIfActive()}
+            <img    src={this.getImgByType(this.props.type)} 
+                    style={{
+                        height: '30px',
+                        width: '30px',
+                        }}
+                />
+         </Marker>
+            )
         return (        
-        <Marker style = { this.getStyleByType(this.props.type) }  coordinates = {this.props.location} className =  "fa fa-map-marker" onClick={this.toggleDisplay}>
-            {this.openPopup()}
+        <Marker 
+        style = { { zIndex: this.props.id == this.props.activeNodal? 4 : 3}}  
+            coordinates = {this.props.location}
+            onClick={this.SetDisplayTrue} >
+            {this.displayInfoIfActive()}
+            <img    src={this.getImgByType(this.props.type)} 
+                    style={{
+                        height: '30px',
+                        width: '30px',
+                        }}
+                />
          </Marker>
         )
-
-
     }
 }
 
-export default Nodal;
+const mapStateToProps = ({ nodal }) => ({
+    activeNodal: nodal.activeNodal,
+});
+
+export default connect(mapStateToProps)(Nodal);

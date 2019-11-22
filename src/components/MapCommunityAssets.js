@@ -30,6 +30,7 @@ class MapCommunityAssets extends Component {
                     postcode = {communityAsset.Postcode}
                     subcat = {communityAsset["Sub Cat"]}
                     key = {communityAsset["Ref:No"]}
+                    id = {communityAsset["Ref:No"]}
                     telephone = {communityAsset["Telephone No."]}
                     ward = {communityAsset.Ward}
                     website = {communityAsset["Web Address"]}
