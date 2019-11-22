@@ -113,14 +113,6 @@ class Nodal extends Component
                         <p>{this.props.telephone}</p>
                         <p>{this.props.website}</p>
 
-                        {/* <button  
-                                id = "MoreInfo"   
-                                onClick = { this.ReadMore} 
-                                onDoubleClick = {this.ReadLess}  
-                                className = "Info">
-                                Less
-                            </button> */}
-
                         { this.state.checkBoxState ? 
                         <div>
                         <button  
