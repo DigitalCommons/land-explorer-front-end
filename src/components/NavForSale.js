@@ -236,12 +236,15 @@ class NavForSale extends Component {
                     <option value="10000000">£10,000,000</option>
                 </select>
 
-                <div className = "PropertyType">
-                    <span className= "PublicLand">Public Land</span> 
-                    <ToggleSwitch on = {this.state.privateListings} tooltip="publicToPrivate" toggle={this.toggleSwitch} >  </ToggleSwitch>
-                    <span className= "PrivateLand"> Private Land</span> 
-                </div>
 
+                { this.state.privateListings ?
+                <div style = {{padding : '10px'}}>
+                    <span className= "PublicLand"> Public Land</span> 
+                    <ToggleSwitch on = {this.state.privateListings} tooltip="publicToPrivate" toggle={this.toggleSwitch} /> 
+                    <span className= "PrivateLand" style ={{color : '#2ecc71'}}> Private Land</span> </div> : 
+                     <div style = {{padding : '10px'}}>
+                         <span className= "PublicLand" style ={{color:'#2ecc71'}}> Public Land</span>  <ToggleSwitch on = {this.state.privateListings} tooltip="publicToPrivate" toggle={this.toggleSwitch}   /> <span className= "PrivateLand"> Private Land</span> </div> }
+                {/* Make the text color depending which option has been toggled */}
             </div>
             
             <PropertyList listings = {this.getFilteredListings()}></PropertyList>

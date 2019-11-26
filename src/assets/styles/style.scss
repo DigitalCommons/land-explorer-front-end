@@ -75,10 +75,13 @@ body, h1, h2, h3, h4, h5, h6 {
     transition: .4s;
   }
 
-  input:checked + .slider:before {
+  input:checked + .slider:before 
+  {
     background-color: $buttonGreen;
   }
+  
 
+  
   input:checked + .slider:before {
     -webkit-transform: translateX(9px);
     -ms-transform: translateX(9px);
