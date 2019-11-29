@@ -56,11 +56,18 @@ class ChangeEmail extends Component {
                         } else {
                             this.setState({success: true});
                         }
+                    }else{
+                        this.setState({errors: response.data.errors});
                     }
                     this.setState({submitting: false})
                 })
                 .catch(err => {
-                    console.log("err", err);
+                    if(err.response.data.Message.includes("Duplicate")){
+                        this.setState({errors: ["This email is already registered."]});
+                    }else{
+                        this.setState({errors: ["We could not change your email at the moment. Please try again later."]});
+                    }
+                    this.setState({submitting: false});
                     this.setState({registering: false})
                 });
         }
