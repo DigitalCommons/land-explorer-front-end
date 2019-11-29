@@ -21,10 +21,6 @@ class ChangeEmail extends Component {
                 value: '',
                 valid: '',
             },
-            password: {
-                value: '',
-                valid: '',
-            },
             submitting: false,
             errors: false,
             success: false,
@@ -44,13 +40,13 @@ class ChangeEmail extends Component {
     }
     changeEmail = (e) => {
         e.preventDefault();
-        if ((this.state.confirmNewEmail.valid && this.state.newEmail.valid && this.state.password.valid)) {
+        if ((this.state.confirmNewEmail.valid && this.state.newEmail.valid)) {
             this.setState({submitting: true});
             let body = {
-                username: this.state.newEmail.value,
-                password: this.state.password.value
+                username: this.state.newEmail.value
             }
-            axios.put(`${constants.ROOT_URL}/api/user/email/`, body)
+            let config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
+            axios.put(`${constants.ROOT_URL}/api/user/email/`, body, config)
                 .then((response) => {
                     console.log("change email", response);
                     if (response.status === 200) {
@@ -71,7 +67,7 @@ class ChangeEmail extends Component {
     }
 
     render() {
-        let { submitting, success, newEmail, confirmNewEmail, password, errors } = this.state;
+        let { submitting, success, newEmail, confirmNewEmail, errors } = this.state;
         let { getUserDetails } = this.props;
         if (this.state.success) {
             return (
@@ -185,23 +181,11 @@ class ChangeEmail extends Component {
                                     this.setState({confirmNewEmail: {value, valid}})
                                 }}
                             />
-                            <input
-                                type="password"
-                                className={`text-input
-                                ${ (password.valid !== '') ? password.valid ? 'valid' : 'invalid' : '' }`}
-                                placeholder="Password"
-                                value={password.value}
-                                onChange={(e) => {
-                                    let value = e.target.value;
-                                    let valid = (value.length > 5) && (value.length < 30);
-                                    this.setState({password: {value, valid}});
-                                }}
-                            />
                             <div>
                                 <input
                                     type="submit"
                                     value="Save Changes"
-                                    className={`button button-full ${(confirmNewEmail.valid && newEmail.valid && password.valid) ? '' : 'button-grey'}`}
+                                    className={`button button-full ${(confirmNewEmail.valid && newEmail.valid) ? '' : 'button-grey'}`}
                                     style={{
                                         paddingTop: 0,
                                         marginTop: '12px',
