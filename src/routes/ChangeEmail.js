@@ -68,7 +68,6 @@ class ChangeEmail extends Component {
                         this.setState({errors: ["We could not change your email at the moment. Please try again later."]});
                     }
                     this.setState({submitting: false});
-                    this.setState({registering: false})
                 });
         }
     }

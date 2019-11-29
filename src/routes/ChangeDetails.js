@@ -147,7 +147,8 @@ class ChangeDetails extends Component {
             postcode: this.state.postcode.value,
             phone: this.state.phone.value,
         }
-        axios.put(`${constants.ROOT_URL}/api/user/details/`, body)
+        let config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
+        axios.put(`${constants.ROOT_URL}/api/user/details/`, body, config)
             .then((response) => {
                 console.log("response", response);
                 console.log("change details", response);
@@ -160,8 +161,8 @@ class ChangeDetails extends Component {
                 this.setState({submitting: false})
             })
             .catch(err => {
-                console.log("err", err);
-                this.setState({registering: false})
+                this.setState({errors: ["We could not change your details at the moment. Please try again later."]});
+                this.setState({submitting: false});
             });
     }
 
