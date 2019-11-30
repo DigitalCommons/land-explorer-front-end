@@ -178,6 +178,12 @@ class Login extends Component {
                         paddingBottom: '4px',
                         borderBottom: '1px solid rgb(46, 203, 112)'
                     }}>register new account</Link></p>
+                    <p>or, <Link to="/auth/reset-password" style={{
+                        textDecoration: 'none',
+                        color: 'rgb(46, 203, 112)',
+                        paddingBottom: '4px',
+                        borderBottom: '1px solid rgb(46, 203, 112)'
+                    }}>reset password</Link></p>
                 </div>
             </div>
         );
