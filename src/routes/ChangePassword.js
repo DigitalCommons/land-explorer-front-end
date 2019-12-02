@@ -21,10 +21,6 @@ class ChangePassword extends Component {
                 value: '',
                 valid: '',
             },
-            password: {
-                value: '',
-                valid: '',
-            },
             submitting: false,
             errors: false,
             success: false,
@@ -44,15 +40,15 @@ class ChangePassword extends Component {
     }
     changePassword = (e) => {
         e.preventDefault();
-        if (this.state.confirmNewPassword.valid && this.state.newPassword.valid && this.state.password.valid) {
+        if (this.state.confirmNewPassword.valid && this.state.newPassword.valid) {
             this.setState({submitting: true});
             let body = {
-                oldPassword: this.state.password.value,
                 password: this.state.newPassword.value,
                 passwordConfirm: this.state.confirmNewPassword.value,
             }
-            console.log(body);
-            axios.put(`${constants.ROOT_URL}/api/user/password/`, body)
+            let config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
+
+            axios.post(`${constants.ROOT_URL}/api/user/password/`, body, config)
                 .then((response) => {
                     console.log("change password", response);
                     if (response.status = 200) {
@@ -73,7 +69,7 @@ class ChangePassword extends Component {
     }
 
     render() {
-        let {submitting, success, newPassword, confirmNewPassword, password, errors} = this.state;
+        let {submitting, success, newPassword, confirmNewPassword, errors} = this.state;
         if (this.state.success) {
             return (
                 <div
@@ -184,23 +180,11 @@ class ChangePassword extends Component {
                                     this.setState({confirmNewPassword: {value, valid}})
                                 }}
                             />
-                            <input
-                                type="password"
-                                className={`text-input
-                                ${ (password.valid !== '') ? password.valid ? 'valid' : 'invalid' : '' }`}
-                                placeholder="Old password"
-                                value={password.value}
-                                onChange={(e) => {
-                                    let value = e.target.value;
-                                    let valid = (value.length > 5) && (value.length < 30);
-                                    this.setState({password: {value, valid}});
-                                }}
-                            />
                             <div style={{marginTop: '24px'}}>
                                 <input
                                     type="submit"
                                     value="Save Changes"
-                                    className={`button button-full ${(password.valid && newPassword.valid && confirmNewPassword.valid) ? '' : 'button-grey'}`}
+                                    className={`button button-full ${(newPassword.valid && confirmNewPassword.valid) ? '' : 'button-grey'}`}
                                     style={{
                                         paddingTop: 0,
                                         marginBottom: '12px',

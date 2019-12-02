@@ -60,7 +60,6 @@ class Navbar extends Component {
                         <div className="hamburger"
                              id="hamburger"
                              onClick={() => {
-                                 alert(true);
                                  analytics.event(analytics._event.MAIN_MENU, 'Open');
                                  this.props.dispatch({ type: 'TOGGLE_MENU_MAIN' })
                              }}

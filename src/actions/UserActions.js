@@ -3,7 +3,8 @@ import constants from "../constants";
 
 export const getUserDetails = () => {
     return dispatch => {
-        axios.get(`${constants.ROOT_URL}/api/user/details/`)
+        let config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
+        axios.get(`${constants.ROOT_URL}/api/user/details/`,config)
             .then((response) => {
                 if (response.status === 200) {
                     if (response.status === 200) {

@@ -13,6 +13,7 @@ import Tooltips from '../components/Tooltips';
 import Controls from '../components/Controls';
 import * as Auth from '../components/Auth';
 import Spinner from 'react-spinkit';
+import {logout} from '../components/Auth';
 
 class MapApp extends Component {
 
@@ -29,6 +30,11 @@ class MapApp extends Component {
         }
         //console.log(Auth.isTokenActive());
     }
+
+    logoutUser() {
+        logout();        
+        this.props.history.push('/auth');
+    }    
 
     componentDidMount() {
 
@@ -57,6 +63,7 @@ class MapApp extends Component {
             } if (details.status === 401){
                 //Service denied due to auth denied
                 //Most probably token expired
+                this.logoutUser();
 
             } else {
                 this.setState({ errors: details.data.errors })
@@ -73,6 +80,11 @@ class MapApp extends Component {
             }
         }).catch((err) => {
             console.log("There was an error", err);
+            if (err.response.status === 401) {
+                //Service denied due to auth denied
+                //Most probably token expired
+                this.logoutUser();
+            }
         })
 
     }
