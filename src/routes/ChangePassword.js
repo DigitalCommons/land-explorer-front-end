@@ -48,7 +48,7 @@ class ChangePassword extends Component {
             }
             let config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
 
-            axios.put(`${constants.ROOT_URL}/api/user/password/`, body, config)
+            axios.post(`${constants.ROOT_URL}/api/user/password/`, body, config)
                 .then((response) => {
                     console.log("change password", response);
                     if (response.status = 200) {

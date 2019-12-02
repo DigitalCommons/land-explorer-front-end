@@ -148,7 +148,7 @@ class ChangeDetails extends Component {
             phone: this.state.phone.value,
         }
         let config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
-        axios.put(`${constants.ROOT_URL}/api/user/details/`, body, config)
+        axios.post(`${constants.ROOT_URL}/api/user/details/`, body, config)
             .then((response) => {
                 console.log("response", response);
                 console.log("change details", response);

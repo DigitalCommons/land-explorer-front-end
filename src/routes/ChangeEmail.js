@@ -46,7 +46,7 @@ class ChangeEmail extends Component {
                 username: this.state.newEmail.value
             }
             let config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
-            axios.put(`${constants.ROOT_URL}/api/user/email/`, body, config)
+            axios.post(`${constants.ROOT_URL}/api/user/email/`, body, config)
                 .then((response) => {
                     console.log("change email", response);
                     if (response.status === 200) {
