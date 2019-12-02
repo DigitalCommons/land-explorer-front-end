@@ -16,7 +16,8 @@ import constants from '../constants';
 class App extends Component {
 
     componentDidMount() {
-        axios.get(`${constants.ROOT_URL}/api/user/details/`)
+        let config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
+        axios.get(`${constants.ROOT_URL}/api/user/details/`,config)
             .then((response) => {
                 if (response.status === 200) {
                     console.log("register response 200", response);
