@@ -13,7 +13,7 @@ import Tooltips from '../components/Tooltips';
 import Controls from '../components/Controls';
 import * as Auth from '../components/Auth';
 import Spinner from 'react-spinkit';
-import {logout} from '../components/Auth';
+import {logout,getAuthHeader} from '../components/Auth';
 
 class MapApp extends Component {
 
@@ -38,15 +38,14 @@ class MapApp extends Component {
 
     componentDidMount() {
 
-        let config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
        // let details = JSON.parse('{"eid": "e4389df1310f15f1bf883bd2528beb0af9b50be7b0bb1cd8e120087535317b52","username": "testing@wearespork.net","firstName": "Testing","lastName": "User","marketing": false,"organisation": "","organisationNumber": "","organisationType": "not-for-profit","organisationActivity": "community-development","address1": "","address2": "","city": "","postcode": "","phone": ""}');
         
   
 
         // Populate user details and maps
         Promise.all([
-            axios.get(`${constants.ROOT_URL}/api/user/details/`,config),
-            axios.get(`${constants.ROOT_URL}/api/user/maps/`,config)
+            axios.get(`${constants.ROOT_URL}/api/user/details/`,getAuthHeader()),
+            axios.get(`${constants.ROOT_URL}/api/user/maps/`,getAuthHeader())
         ]).then(([details, maps]) => {
             
             //console.log("Logging here ============");

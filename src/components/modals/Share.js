@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Modal from '../common/Modal';
 import axios from 'axios';
 import constants from '../../constants';
+import {getAuthHeader} from "../Auth";
 
 class Share extends Component {
 
@@ -45,11 +46,11 @@ class Share extends Component {
         axios.post(`${constants.ROOT_URL}/api/user/map/share/sync/`, {
             "eid": id,
             "emailAddresses": this.props.emails
-        })
+        },getAuthHeader())
         .then((response) => {
             if (response.data.status === '200') {
                 this.closeModal();
-                axios.get(`${constants.ROOT_URL}/api/user/maps/`)
+                axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
                     .then((response) => {
                         console.log("maps response", response);
                         this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data })

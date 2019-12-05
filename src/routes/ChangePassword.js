@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar';
 import {Link} from 'react-router-dom';
 import constants from '../constants';
 import analytics from "../analytics";
+import {getAuthHeader} from '../components/Auth';
 
 
 class ChangePassword extends Component {
@@ -46,9 +47,8 @@ class ChangePassword extends Component {
                 password: this.state.newPassword.value,
                 passwordConfirm: this.state.confirmNewPassword.value,
             }
-            let config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
 
-            axios.post(`${constants.ROOT_URL}/api/user/password/`, body, config)
+            axios.post(`${constants.ROOT_URL}/api/user/password/`, body, getAuthHeader())
                 .then((response) => {
                     console.log("change password", response);
                     if (response.status = 200) {

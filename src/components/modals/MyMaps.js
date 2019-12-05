@@ -76,9 +76,9 @@ class MyMaps extends Component {
                         </div>
                         <div className="button button-small"
                              onClick={() => {
-                                 axios.put(`${constants.ROOT_URL}/api/user/map/delete/`, {
+                                 axios.post(`${constants.ROOT_URL}/api/user/map/delete/`, {
                                      "eid": this.state.active.id
-                                 })
+                                 }, getAuthHeader())
                                  .then((response) => {
                                      if (this.state.active.id === currentMapId) {
                                          this.props.dispatch({ type: 'NEW_MAP' });
