@@ -4,6 +4,7 @@ import Modal from '../common/Modal';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import constants from '../../constants';
+import {getAuthHeader} from "../Auth";
 const moment = require('moment/moment.js');
 
 class MySharedMaps extends Component {
@@ -117,7 +118,7 @@ class MySharedMaps extends Component {
                                      this.props.drawControl.draw.deleteAll();
                                      axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
                                          "eid": this.state.active.id,
-                                     });
+                                     }, getAuthHeader());
                                      this.props.dispatch({
                                          type: 'LOAD_MAP',
                                          payload: savedMap,
