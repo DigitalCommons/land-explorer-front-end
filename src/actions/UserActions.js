@@ -8,7 +8,7 @@ export const getUserDetails = () => {
             .then((response) => {
                 if (response.status === 200) {
                     if (response.status === 200) {
-                        dispatch({ type: 'POPULATE_USER', payload: response.data })
+                        dispatch({ type: 'POPULATE_USER', payload: response.data[0] })
                     }
                 } else {
                     console.log("error", response.status);
