@@ -20,9 +20,8 @@ class App extends Component {
         axios.get(`${constants.ROOT_URL}/api/user/details/`,getAuthHeader())
             .then((response) => {
                 if (response.status === 200) {
-                    console.log("register response 200", response);
                     if (response.status === 200) {
-                        this.props.dispatch({ type: 'POPULATE_USER', payload: response.data })
+                        this.props.dispatch({ type: 'POPULATE_USER', payload: response.data[0] })
                     } else if (response.status === 400) {
                         this.setState({ errors: response.data.errors });
                     }

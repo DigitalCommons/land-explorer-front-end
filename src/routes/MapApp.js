@@ -79,11 +79,15 @@ class MapApp extends Component {
             }
         }).catch((err) => {
             console.log("There was an error", err);
+            this.logoutUser();
+            /*
+            //The response.status
             if (err.response.status === 401) {
                 //Service denied due to auth denied
                 //Most probably token expired
                 this.logoutUser();
             }
+            */
         })
 
     }
