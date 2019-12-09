@@ -4,6 +4,7 @@ import Modal from '../common/Modal';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import constants from '../../constants';
+import {getAuthHeader} from "../Auth";
 const moment = require('moment/moment.js');
 
 class MySharedMaps extends Component {
@@ -60,9 +61,9 @@ class MySharedMaps extends Component {
                         </div>
                         <div className="button button-small"
                              onClick={() => {
-                                 axios.put(`${constants.ROOT_URL}/api/user/map/delete/`, {
+                                 axios.post(`${constants.ROOT_URL}/api/user/map/delete/`, {
                                      "eid": this.state.active.id
-                                 })
+                                 },getAuthHeader())
                                      .then((response) => {
                                          console.log("delete response", response);
                                          if (this.state.active.id === currentMapId) {
@@ -72,7 +73,7 @@ class MySharedMaps extends Component {
                                                  this.props.dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo'})
                                              }, 1000);
                                          }
-                                         axios.get(`${constants.ROOT_URL}/api/user/maps/`)
+                                         axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
                                              .then((response) => {
                                                  console.log("maps response", response);
                                                  this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
@@ -117,7 +118,7 @@ class MySharedMaps extends Component {
                                      this.props.drawControl.draw.deleteAll();
                                      axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
                                          "eid": this.state.active.id,
-                                     });
+                                     }, getAuthHeader());
                                      this.props.dispatch({
                                          type: 'LOAD_MAP',
                                          payload: savedMap,

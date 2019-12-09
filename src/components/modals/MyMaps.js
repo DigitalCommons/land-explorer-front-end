@@ -6,6 +6,7 @@ import axios from 'axios';
 import constants from '../../constants';
 import {isMobile} from 'react-device-detect';
 import analytics from "../../analytics";
+import {getAuthHeader} from "../Auth";
 const moment = require('moment/moment.js');
 
 
@@ -75,9 +76,9 @@ class MyMaps extends Component {
                         </div>
                         <div className="button button-small"
                              onClick={() => {
-                                 axios.put(`${constants.ROOT_URL}/api/user/map/delete/`, {
+                                 axios.post(`${constants.ROOT_URL}/api/user/map/delete/`, {
                                      "eid": this.state.active.id
-                                 })
+                                 }, getAuthHeader())
                                  .then((response) => {
                                      if (this.state.active.id === currentMapId) {
                                          this.props.dispatch({ type: 'NEW_MAP' });
@@ -86,7 +87,7 @@ class MyMaps extends Component {
                                              this.props.dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo'})
                                          });
                                      }
-                                     axios.get(`${constants.ROOT_URL}/api/user/maps/`)
+                                     axios.get(`${constants.ROOT_URL}/api/user/maps/`,getAuthHeader())
                                          .then((response) => {
                                              console.log("maps response", response);
                                              this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
@@ -131,7 +132,7 @@ class MyMaps extends Component {
                                      this.props.drawControl.draw.deleteAll();
                                      axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
                                          "eid": this.state.active.id,
-                                     })
+                                     }, getAuthHeader())
                                      this.props.dispatch({
                                          type: 'LOAD_MAP',
                                          payload: savedMap,

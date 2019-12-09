@@ -1,10 +1,11 @@
 import axios from 'axios';
 import constants from "../constants";
+import {getAuthHeader} from "../components/Auth";
 
 
 export const getMyMaps = () => {
     return dispatch => {
-        axios.get(`${constants.ROOT_URL}/api/user/maps/`)
+        axios.get(`${constants.ROOT_URL}/api/user/maps/`,getAuthHeader())
             .then((response) => {
                 console.log("got maps, response", response);
                 dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });

@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import constants from '../constants';
 import { getUserDetails } from '../actions/UserActions';
 import analytics from "../analytics";
+import {getAuthHeader} from '../components/Auth';
 
 
 class ChangeDetails extends Component {
@@ -147,8 +148,7 @@ class ChangeDetails extends Component {
             postcode: this.state.postcode.value,
             phone: this.state.phone.value,
         }
-        let config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
-        axios.post(`${constants.ROOT_URL}/api/user/details/`, body, config)
+        axios.post(`${constants.ROOT_URL}/api/user/details/`, body, getAuthHeader())
             .then((response) => {
                 console.log("response", response);
                 console.log("change details", response);

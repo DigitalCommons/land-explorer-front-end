@@ -5,6 +5,7 @@ import {VERSION} from '../constants';
 import Modal from './common/Modal';
 import axios from 'axios';
 import constants from '../constants';
+import {getAuthHeader} from "../components/Auth";
 
 class Save extends Component {
     constructor(props) {
@@ -39,10 +40,10 @@ class Save extends Component {
             "data": saveData
         }
         console.log(JSON.stringify(body));
-        axios.put(`${constants.ROOT_URL}/api/user/map/save/`, body)
+        axios.post(`${constants.ROOT_URL}/api/user/map/save/`, body, getAuthHeader())
             .then((response) => {
                 console.log("save response", response);
-                axios.get(`${constants.ROOT_URL}/api/user/maps/`)
+                axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
                     .then((response) => {
                         this.props.dispatch({type: 'POPULATE_MY_MAPS', payload: response.data});
                         this.props.dispatch({

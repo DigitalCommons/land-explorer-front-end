@@ -12,17 +12,16 @@ import MapApp from '../routes/MapApp';
 import MyAccount from '../routes/MyAccount';
 import axios from "axios/index";
 import constants from '../constants';
+import {getAuthHeader} from "../components/Auth";
 
 class App extends Component {
 
     componentDidMount() {
-        let config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
-        axios.get(`${constants.ROOT_URL}/api/user/details/`,config)
+        axios.get(`${constants.ROOT_URL}/api/user/details/`,getAuthHeader())
             .then((response) => {
                 if (response.status === 200) {
-                    console.log("register response 200", response);
                     if (response.status === 200) {
-                        this.props.dispatch({ type: 'POPULATE_USER', payload: response.data })
+                        this.props.dispatch({ type: 'POPULATE_USER', payload: response.data[0] })
                     } else if (response.status === 400) {
                         this.setState({ errors: response.data.errors });
                     }

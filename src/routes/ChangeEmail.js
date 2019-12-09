@@ -8,6 +8,7 @@ import {Link} from 'react-router-dom';
 import constants from '../constants';
 import { getUserDetails } from '../actions/UserActions';
 import analytics from "../analytics";
+import {getAuthHeader} from '../components/Auth';
 
 class ChangeEmail extends Component {
     constructor(props) {
@@ -45,8 +46,7 @@ class ChangeEmail extends Component {
             let body = {
                 username: this.state.newEmail.value
             }
-            let config = {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
-            axios.post(`${constants.ROOT_URL}/api/user/email/`, body, config)
+            axios.post(`${constants.ROOT_URL}/api/user/email/`, body, getAuthHeader())
                 .then((response) => {
                     console.log("change email", response);
                     if (response.status === 200) {

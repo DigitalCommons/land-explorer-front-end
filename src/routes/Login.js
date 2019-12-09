@@ -73,24 +73,6 @@ class Login extends Component {
                 console.log(err)
                 this.setState({loggingIn: false, error: true})
             })
-          /*
-        //todo look at changing the login mechanism to be json post
-        axios.post(`${constants.ROOT_URL}/login?username=`  + request.username + `&password=` + request.password, request)
-            .then((response) => {
-                console.log("response a", response);
-                if (response.status === 200) {
-                    if (response.data.status === "200") {
-                        // success
-                        window.location = "/app"
-                    } else if (response.data.status = "403") {
-                        // error
-                        this.setState({loggingIn: false, error: true})
-                    }
-                    //{"expires":1527679145681,"message":"Success","status":"200","token":"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwiZXhwIjoxNTI3Njc5MTQ1fQ.rA6ZfGx2ekQmTEVJHf34REwAA1ot_3SzMLzrUcPybyYdK30NYFMiOCkfxhSXhVnBdKKpdd0EBb1zvR6XtRpdCA"
-                }
-            })
-            .catch(err => console.log(err));
-            */
     }
 
     render() {
