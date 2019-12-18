@@ -18,7 +18,7 @@ const INITIAL_STATE = {
     username: '',
     populated: false,
     type:   '',
-    privileged: true,
+    privileged: false,
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -33,6 +33,7 @@ export default (state = INITIAL_STATE, action) => {
                 ...action.payload,
                 populated: true,
                 type: councilType,
+                privileged: (action.payload.is_super_user === 1),
                 initials: action.payload.firstName[0].toUpperCase() + action.payload.lastName[0].toUpperCase(),
             }
         case 'CHANGE_USER_TYPE':
