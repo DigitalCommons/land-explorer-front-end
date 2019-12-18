@@ -1,13 +1,10 @@
 .registration {
   left: 50%;
-  top: 120px;
+  top: 90px;
   transform: translateX(-50%);
   width: 200px;
   height: 100px;
   position: relative;
-  margin-bottom: 200px;
-  text-align: center;
-  @media ('max-width: 480px') {
-    top: 120px;
-  }
+ 
+  text-align: center; 
 }

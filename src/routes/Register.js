@@ -143,8 +143,7 @@ class Register extends Component {
         console.log("organisation", organisation);
         return (
             <div style={{
-                minHeight: '100vh',
-                overflowY: 'scroll',
+                minHeight: '100vh'
             }}>
                 <Navbar limited={true} />
                 <div
@@ -192,23 +191,21 @@ class Register extends Component {
                     style={{
                         minHeight: '200px',
                         width: '600px',
-                        height: '750px',
-                        maxWidth: '90vw',
+                        height: '600px',
+                        maxWidth: '100vw',
                         background: 'white',
                         boxSizing: 'border-box',
                         textAlign: 'center',
                         paddingLeft: '24px',
                         paddingRight: '24px',
-                        display: registering ? 'none' : 'block'
+                        display: registering ? 'none' : 'block',
+                        overflow : "auto"
                     }}>
                     <h2>Register</h2>
-                    <br/>
+                   
                     {
                         registerErrors && (
-                            <div>
-                                {this.printErrors()}
-                                <br/>
-                            </div>
+                            <div>{this.printErrors()} </div>
                         )
                     }
                     <form onSubmit={this.handleSubmit}>
@@ -466,15 +463,10 @@ class Register extends Component {
                         <p style={{ textAlign: 'center', fontSize: '12px', opacity: .7, marginTop: 0}}>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                         <br/>
                         <p style={{ marginTop: 0, marginBottom: '6px'}}>Would you like to receive marketing emails?</p>
-                        <p style={{ textAlign: 'center', fontSize: '12px', opacity: .7, marginTop: 0}}>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        <label classNameName="control control-radio"
-                               style={{ textAlign: 'left', fontSize: '14px', display: 'inline', marginRight: '24px' }}
-                        >
+                        
+                <label classNameName="control control-radio"style={{ textAlign: 'left', fontSize: '14px', display: 'inline', marginRight: '24px' }} >
                             Yes
-                            <input
-                                name="marketing-yes"
-                                type="radio"
-                                checked={marketing.yes}
+                            <input name="marketing-yes" type="radio" checked={marketing.yes}
                                 onChange={(e) => {
                                     let on = e.target.value === 'on';
                                     this.setState({
@@ -509,24 +501,21 @@ class Register extends Component {
                             />
                             <div className="control_indicator"></div>
                         </label>
-                        <p></p>
-                        <div style={{ marginTop: '36px'}}>
+                        
+                        <div className = "FormControlButtons" style = {{ padding:'10px'}}>
                             <Link to="/auth/">
-                                <div
-                                    className="button button-cancel button-medium"
-                                    style={{ display: 'inline-block', marginRight: '12px' }}
-                                >
+                                <div className="button button-cancel button-medium" style={{ display: 'inline-block' }}>
                                     Cancel
                                 </div>
                             </Link>
-                            <input
-                                type="submit"
-                                value="Register"
-                                className="button button-medium"
+                            
+                            <input type="submit" value="Register" className="button button-medium"
                                 style={{
                                     paddingTop: 0,
                                     marginBottom: '120px',
+                                    marginLeft:'10px',
                                     display: 'inline-block'
+                                    
                                 }}
                             />
                         </div>
