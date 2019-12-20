@@ -162,6 +162,10 @@ class MapCommunityAssets extends Component {
 
         let boundaries = this.props.map.getBounds();
 
+        //This boundary check currently crashes the app as the <Cluster> is already called before this function
+        //Returning nothing will make the cluster try to access a null 
+        //Can't think of a good way to fix this right now
+
         //if(communityAsset.Long < boundaries._ne.lng && communityAsset.Long > boundaries._sw.lng)
         //if(communityAsset.Lat < boundaries._ne.lat && communityAsset.Lat > boundaries._sw.lat)
             return <Nodal
@@ -183,54 +187,7 @@ class MapCommunityAssets extends Component {
                     />
     }
 
-    createCluster(communityAsset){
-        let boundaries = this.props.map.getBounds();
-
-        //if(communityAsset.Long < boundaries._ne.lng && communityAsset.Long > boundaries._sw.lng)
-        //if(communityAsset.Lat < boundaries._ne.lat && communityAsset.Lat > boundaries._sw.lat)
-        // return <Nodal
-        //     type = {communityAsset.Layer.slice(0,1)}
-        //     location = {[communityAsset.Long,communityAsset.Lat]}
-        //     name = {communityAsset.Name}
-        //     postcode = {communityAsset.Postcode}
-        //     subcat = {communityAsset["Sub Cat"]}
-        //     key = {communityAsset["Ref:No"]}
-        //     id = {communityAsset["Ref:No"]}
-        //     telephone = {communityAsset["Telephone No."]}
-        //     ward = {communityAsset.Ward}
-        //     website = {communityAsset["Web Address"]}
-        //     addressLine1 = {communityAsset["Address 1"]}
-        //     addressLine2 = {communityAsset["Add 2 (RD - St)"]}
-        //     addressLine3 = {communityAsset["Add 3"]}
-        //     addressLine4 = {communityAsset["Add 4"]}
-        //     />
-
-        return <NodalCluster
-            type = {communityAsset.Layer.slice(0,1)}
-            location = {[communityAsset.Long,communityAsset.Lat]}
-            coordinates={[communityAsset.Long,communityAsset.Lat]}
-            name = {communityAsset.Name}
-            postcode = {communityAsset.Postcode}
-            subcat = {communityAsset["Sub Cat"]}
-            key = {communityAsset["Ref:No"]}
-            id = {communityAsset["Ref:No"]}
-            telephone = {communityAsset["Telephone No."]}
-            ward = {communityAsset.Ward}
-            website = {communityAsset["Web Address"]}
-            addressLine1 = {communityAsset["Address 1"]}
-            addressLine2 = {communityAsset["Add 2 (RD - St)"]}
-            addressLine3 = {communityAsset["Add 3"]}
-            addressLine4 = {communityAsset["Add 4"]}
-        >
-            
-          </NodalCluster>
-
-        // return <Marker
-        //     coordinates={[communityAsset.Long,communityAsset.Lat]}>
-        //     M
-        //   </Marker>
-    }
-
+    //This is the marker/nodal that would appear when a cluster is shown
     clusterMarker = (coordinates) => (
         <Marker coordinates={coordinates}>
           C
