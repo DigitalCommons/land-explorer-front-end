@@ -50,12 +50,7 @@ class ChangeEmail extends Component {
                 .then((response) => {
                     console.log("change email", response);
                     if (response.status === 200) {
-                        console.log("register response 200", response);
-                        if (response.data.status) {
-                            this.setState({errors: response.data.errors});
-                        } else {
-                            this.setState({success: true});
-                        }
+                        this.setState({success: true});
                     }else{
                         this.setState({errors: response.data.errors});
                     }
