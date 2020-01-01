@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Nodal from './common/Nodal';
-import NodalCluster from './common/NodalCluster';
+import axios from 'axios';
+import {getAuthHeader} from "./Auth";
+import constants from '../constants';
 import {Marker,Cluster} from 'react-mapbox-gl';
 import {communitySpace,
         publicLayer,
@@ -17,12 +19,12 @@ class MapCommunityAssets extends Component {
         this.state = {
             checkBoxState : false,
             clickZoom : true,
-            radius : 30
+            radius : 30,
         }        
 
         this.createNodal = this.createNodal.bind(this);
-        this.createCluster = this.createCluster.bind(this);
-
+        this.createNodalBackEnd = this.createNodalBackEnd.bind(this);
+        
         this.openPopup              = this.openPopup.bind(this);
         this.displayInfoIfActive    = this.displayInfoIfActive.bind(this);
         this.closePopup             = this.closePopup.bind(this);
@@ -187,6 +189,26 @@ class MapCommunityAssets extends Component {
                     />
     }
 
+    createNodalBackEnd(communityAsset){
+        return <Nodal
+            type = {communityAsset.Layer.slice(0,1)}
+            location = {[communityAsset.Lng,communityAsset.Lat]}
+            coordinates={[communityAsset.Lng,communityAsset.Lat]}
+            name = {communityAsset.Name}
+            postcode = {communityAsset.Postcode}
+            subcat = {communityAsset["Sub_Cat"]}
+            key = {communityAsset["RefNo"]}
+            id = {communityAsset["RefNo"]}
+            //telephone = {communityAsset["Telephone No."]}
+            ward = {communityAsset.Ward}
+            website = {communityAsset["Web_Address"]}
+            addressLine1 = {communityAsset["Address_1"]}
+            addressLine2 = {communityAsset["Add_2_RD_St"]}
+            addressLine3 = {communityAsset["Add_3"]}
+            addressLine4 = {communityAsset["Add_4"]}
+            />
+    }
+
     //This is the marker/nodal that would appear when a cluster is shown
     clusterMarker = (coordinates) => (
         <Marker coordinates={coordinates}>
@@ -200,16 +222,35 @@ class MapCommunityAssets extends Component {
         
         let nodes = [];
 
+        //Lets use data from back end for community space as a start
         if(this.props.activeCommunityAssets.includes("Community Space")){
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
+            axios.post(`${constants.ROOT_URL}/api/council/markers/`, {
+                "category_id": 1
+            }, getAuthHeader())
+            .then((response) => {
+                console.log(response.data);
+                nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
                 {
-                    communitySpace.map(this.createNodal)
+                    //This is now working, however, the nodes array is already returned and rendered before this 
+                    response.data.map(this.createNodalBackEnd)
                 }
                 </Cluster>);
-            //nodes.push(communitySpace.map(this.createNodal))
+            });
         }
 
+
+        // if(this.props.activeCommunityAssets.includes("Community Space")){
+        //     nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
+        //         {
+        //             communitySpace.map(this.createNodal)
+        //         }
+        //         </Cluster>);
+        //     //nodes.push(communitySpace.map(this.createNodal))
+        // }
+
         if(this.props.activeCommunityAssets.includes("Public")){
+            console.log(publicLayer);
+
             nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
                 {
                     publicLayer.map(this.createNodal)
