@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Nodal from './common/Nodal';
-import NodalCluster from './common/NodalCluster';
+// import NodalCluster from './common/NodalCluster';
 import {Marker,Cluster} from 'react-mapbox-gl';
 import {communitySpace,
         publicLayer,
