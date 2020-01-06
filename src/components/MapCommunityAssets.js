@@ -214,7 +214,7 @@ class MapCommunityAssets extends Component {
     //This is the marker/nodal that would appear when a cluster is shown
     clusterMarker = (coordinates) => (
         <Marker coordinates={coordinates}>
-          C
+          <span style = { { borderRadius:'50%' , backgroundColor:'red', color : 'white', padding:'5px'}}>C</span>
         </Marker>
       );
 
