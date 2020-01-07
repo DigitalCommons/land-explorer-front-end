@@ -22,6 +22,7 @@ class MapCommunityAssets extends Component {
             checkBoxState : false,
             clickZoom : true,
             radius : 30,
+            councilData : [],
         }        
 
         this.createNodal = this.createNodal.bind(this);
@@ -33,6 +34,29 @@ class MapCommunityAssets extends Component {
         this.readMore               = this.readMore.bind(this);
         this.readLess               = this.readLess.bind(this)
         
+    }
+
+    componentDidMount() {
+        axios.post(`${constants.ROOT_URL}/api/council/markers/all/`,{},getAuthHeader())
+        .then((response) => {
+            let arr = [];
+            //API return data from all layer
+            //Optimise by grouping the data according to its layers
+
+            response.data.forEach( el => {
+                //Each element has a layer id
+                if(arr[el.layer_id] == null){
+                    //push element to different index according to its layer id
+                    arr[el.layer_id] = [];
+                }
+                arr[el.layer_id].push(el);
+            });
+            
+            this.setState({councilData : arr});
+
+            
+            this.setState({councilDataFull : response.data});
+        });
     }
 
     getImgByType(type){
@@ -224,38 +248,21 @@ class MapCommunityAssets extends Component {
         
         let nodes = [];
 
-        //Lets use data from back end for community space as a start
         if(this.props.activeCommunityAssets.includes("Community Space")){
-            axios.post(`${constants.ROOT_URL}/api/council/markers/`, {
-                "category_id": 1
-            }, getAuthHeader())
-            .then((response) => {
-                console.log(response.data);
-                nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
-                {
-                    //This is now working, however, the nodes array is already returned and rendered before this 
-                    response.data.map(this.createNodalBackEnd)
-                }
-                </Cluster>);
-            });
-        }
-
-
-        // if(this.props.activeCommunityAssets.includes("Community Space")){
-        //     nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
-        //         {
-        //             communitySpace.map(this.createNodal)
-        //         }
-        //         </Cluster>);
-        //     //nodes.push(communitySpace.map(this.createNodal))
-        // }
-
-        if(this.props.activeCommunityAssets.includes("Public")){
-            console.log(publicLayer);
-
             nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
                 {
-                    publicLayer.map(this.createNodal)
+                    //communitySpace.map(this.createNodalBackEnd)
+                    this.state.councilData[1].map(this.createNodalBackEnd)
+                }
+                </Cluster>);
+            //nodes.push(communitySpace.map(this.createNodal))
+        }
+
+        if(this.props.activeCommunityAssets.includes("Public")){
+            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
+                {
+                    //publicLayer.map(this.createNodal)
+                    this.state.councilData[2].map(this.createNodalBackEnd)
                 }
                 </Cluster>);
             //nodes.push(publicLayer.map(this.createNodal))
@@ -264,34 +271,38 @@ class MapCommunityAssets extends Component {
         if(this.props.activeCommunityAssets.includes("Sports Leisure")){
             nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
                 {
-                    sportsLeisure.map(this.createNodal)
+                    //sportsLeisure.map(this.createNodal)                    
+                    this.state.councilData[3].map(this.createNodalBackEnd)
                 }
                 </Cluster>);
             //nodes.push(sportsLeisure.map(this.createNodal))
         }
 
-        if(this.props.activeCommunityAssets.includes("Community Business")){
+        if(this.props.activeCommunityAssets.includes("Community Business")){    
             nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
                 {
-                    communityBusiness.map(this.createNodal)
+                    //communityBusiness.map(this.createNodal)
+                    this.state.councilData[4].map(this.createNodalBackEnd)
                 }
                 </Cluster>);
             //nodes.push(communityBusiness.map(this.createNodal))
         }
 
-        if(this.props.activeCommunityAssets.includes("Business Night")){
+        if(this.props.activeCommunityAssets.includes("Business Night")){         
             nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
                 {
-                    businessNight.map(this.createNodal)
+                    //businessNight.map(this.createNodal)
+                    this.state.councilData[5].map(this.createNodalBackEnd)
                 }
                 </Cluster>);
             //nodes.push(businessNight.map(this.createNodal))
         }
 
-        if(this.props.activeCommunityAssets.includes("Business")){
+        if(this.props.activeCommunityAssets.includes("Business")){ 
             nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
                 {
-                    business.map(this.createNodal)
+                    //business.map(this.createNodal)
+                    this.state.councilData[6].map(this.createNodalBackEnd)
                 }
                 </Cluster>);
             //nodes.push(business.map(this.createNodal))
@@ -300,12 +311,64 @@ class MapCommunityAssets extends Component {
         if(this.props.activeCommunityAssets.includes("Voluntary Sector")){
             nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
                 {
-                    voluntarySector.map(this.createNodal)
+                    //voluntarySector.map(this.createNodal)
+                    this.state.councilData[7].map(this.createNodalBackEnd)
                 }
                 </Cluster>);
             //nodes.push(voluntarySector.map(this.createNodal))
         }
 
+
+        return nodes;
+    }
+
+    createNodesOneCluster(){
+
+        //17 is the magic number. At a zoom level of 17, even all layers on is smooth
+        
+        let nodes = [];
+        let activeLayers = [];
+
+        if(this.props.activeCommunityAssets.includes("Community Space")){
+            activeLayers.push(1);
+        }
+
+        if(this.props.activeCommunityAssets.includes("Public")){
+            activeLayers.push(2);
+        }
+
+        if(this.props.activeCommunityAssets.includes("Sports Leisure")){
+            activeLayers.push(3);
+        }
+
+        if(this.props.activeCommunityAssets.includes("Community Business")){            
+            activeLayers.push(4);
+        }
+
+        if(this.props.activeCommunityAssets.includes("Business Night")){            
+            activeLayers.push(5);
+        }
+
+        if(this.props.activeCommunityAssets.includes("Business")){            
+            activeLayers.push(6);
+        }
+
+        if(this.props.activeCommunityAssets.includes("Voluntary Sector")){            
+            activeLayers.push(7);
+        }
+
+        if(activeLayers.length > 0){
+            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
+                {
+                    this.state.councilDataFull.map(el => {
+                        if(activeLayers.includes(el.layer_id)){
+                            this.createNodalBackEnd
+                        }
+                    })
+                }
+                </Cluster>);
+        }
+        
         return nodes;
     }
 
