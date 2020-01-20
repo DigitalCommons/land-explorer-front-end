@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Marker} from 'react-mapbox-gl';
 import {connect} from 'react-redux';
+ 
 
 class Nodal extends Component 
 {
@@ -84,6 +85,7 @@ class Nodal extends Component
     displayInfoIfActive(){
 
         const closeIcon = require('../../assets/img/icon-close-new.svg')
+        const DeleteCommunityAsset = require('../../assets/img/icon-trash.svg')
 
         let buttonStyle={
             color: 'grey',
@@ -102,6 +104,8 @@ class Nodal extends Component
             zIndex: '5',
         }
 
+
+
         if(this.props.id === this.props.activeNodal)
             return <div className = "Popup">
                         <img 
@@ -109,6 +113,9 @@ class Nodal extends Component
                             style={closeStyle} 
                             onClick = {this.closePopup}
                         />
+                        
+                        <img  src = {DeleteCommunityAsset}  className ="DeleteCommunityAsset" alt = "DeleteCommunityAsset" onClick />
+                        
                         <h2>{this.props.name}</h2>
                         <p>{this.props.addressLine1}</p>
                         <p>{this.props.addressLine2}</p>
