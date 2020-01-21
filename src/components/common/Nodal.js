@@ -85,7 +85,7 @@ class Nodal extends Component
     displayInfoIfActive(){
 
         const closeIcon = require('../../assets/img/icon-close-new.svg')
-        const DeleteCommunityAsset = require('../../assets/img/icon-trash.svg')
+        const DeleteCommunityAsset = require('../../assets/img/icon-trash-red.svg')
 
         let buttonStyle={
             color: 'grey',
@@ -108,13 +108,14 @@ class Nodal extends Component
 
         if(this.props.id === this.props.activeNodal)
             return <div className = "Popup">
-                        <img 
-                            src={closeIcon} 
-                            style={closeStyle} 
-                            onClick = {this.closePopup}
-                        />
+                        <img src = {closeIcon} style = {closeStyle} onClick = {this.closePopup} />
                         
-                        <img  src = {DeleteCommunityAsset}  className ="DeleteCommunityAsset" alt = "DeleteCommunityAsset" onClick />
+                        <figure className = "CommunityAssetControls">
+                            <button className = "DeleteCommunityAsset"  >
+                            <img src = {DeleteCommunityAsset}   alt = "DeleteCommunityAsset" 
+                             onClick ={ console.log("Replace this console log with the event handler for delete ")} style = {{ backgroundColor: 'none'}}  />
+                            </button>
+                        </figure>
                         
                         <h2>{this.props.name}</h2>
                         <p>{this.props.addressLine1}</p>
