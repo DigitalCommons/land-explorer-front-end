@@ -2,12 +2,15 @@ import React, {Component} from 'react';
 import {Marker} from 'react-mapbox-gl';
 import {connect} from 'react-redux';
 
+
+
 class Nodal extends Component 
 {
     constructor(props){
         super(props);
         this.state = {
             checkBoxState : false,
+           
         }
 
         this.openPopup              = this.openPopup.bind(this);
@@ -17,6 +20,8 @@ class Nodal extends Component
         this.readLess               = this.readLess.bind(this)
     }
 
+
+  
     getImgByType(type){
         const redMarker = require('../../assets/img/icon-community-asset-red.svg');
         const blueMarker =  require('../../assets/img/icon-community-asset-blue.svg');
@@ -25,7 +30,7 @@ class Nodal extends Component
         const brownMarker = require('../../assets/img/icon-community-asset-brown.svg');
         const greyMarker = require('../../assets/img/icon-community-asset-grey.svg');
         const orangeMarker = require('../../assets/img/icon-community-asset-orange.svg');
-
+        
         switch(type){
             case "1": return redMarker;
             case "2": return blueMarker;
@@ -49,6 +54,7 @@ class Nodal extends Component
 
      extraInfo()
      {
+        
          return(<div>
             <p> Opening Times </p>
             
@@ -64,13 +70,18 @@ class Nodal extends Component
 
 
     openPopup()
-    {
+    {   
+
+        
         this.props.dispatch({
             type: 'TURN_ON_NODAL',
             payload: {
                 id:     this.props.id,
             }
         });
+        // let zoom = this.map.getZoom();
+        // alert(zoom);
+
     }
 
     closePopup()
@@ -82,6 +93,10 @@ class Nodal extends Component
 
 
     displayInfoIfActive(){
+ 
+         
+        console.log(this.props.zoom)
+  
 
         const closeIcon = require('../../assets/img/icon-close-new.svg')
 
@@ -103,6 +118,7 @@ class Nodal extends Component
         }
 
         if(this.props.id === this.props.activeNodal)
+      
             return <div className = "Popup">
                         <img 
                             src={closeIcon} 
@@ -147,9 +163,10 @@ class Nodal extends Component
     
     render(){
         if(this.props.id == this.props.activeNodal)
-            return (<Marker 
-                        style = { { zIndex: this.props.id == this.props.activeNodal? 4 : 3}}  
-                        coordinates = {this.props.location}
+        {
+           
+            return (<Marker style = { { zIndex: this.props.id == this.props.activeNodal? 4 : 3}}  
+                     coordinates = {this.props.location} 
                     >
                         {this.displayInfoIfActive()}
                         <img 
@@ -157,6 +174,7 @@ class Nodal extends Component
                             style={{height: '30px', width: '30px', }}
                         />
                     </Marker>);
+        }
         else
             return (<Marker 
                         style = { { zIndex: this.props.id == this.props.activeNodal? 4 : 3}}  
@@ -172,8 +190,13 @@ class Nodal extends Component
     }
 }
 
-const mapStateToProps = ({ nodal }) => ({
+const mapStateToProps = ({ nodal , map }) => ({
     activeNodal: nodal.activeNodal,
+    zoom: map.zoom
+    
 });
+
+
+
 
 export default connect(mapStateToProps)(Nodal);
