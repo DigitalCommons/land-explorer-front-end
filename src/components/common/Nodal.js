@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Marker} from 'react-mapbox-gl';
 import {connect} from 'react-redux';
+ 
 
 
 
@@ -99,6 +100,7 @@ class Nodal extends Component
   
 
         const closeIcon = require('../../assets/img/icon-close-new.svg')
+        const DeleteCommunityAsset = require('../../assets/img/icon-trash-red.svg')
 
         let buttonStyle={
             color: 'grey',
@@ -117,14 +119,20 @@ class Nodal extends Component
             zIndex: '5',
         }
 
+
+
         if(this.props.id === this.props.activeNodal)
       
             return <div className = "Popup">
-                        <img 
-                            src={closeIcon} 
-                            style={closeStyle} 
-                            onClick = {this.closePopup}
-                        />
+                        <img src = {closeIcon} style = {closeStyle} onClick = {this.closePopup} />
+                        
+                        <figure className = "CommunityAssetControls">
+                            <button className = "DeleteCommunityAsset"  >
+                            <img src = {DeleteCommunityAsset}   alt = "DeleteCommunityAsset" 
+                             onClick ={ console.log("Replace this console log with the event handler for delete ")} style = {{ backgroundColor: 'none'}}  />
+                            </button>
+                        </figure>
+                        
                         <h2>{this.props.name}</h2>
                         <p>{this.props.addressLine1}</p>
                         <p>{this.props.addressLine2}</p>
