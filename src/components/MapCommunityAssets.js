@@ -7,13 +7,7 @@ import {getAuthHeader} from "./Auth";
 import constants from '../constants';
 
 import {Marker,Cluster} from 'react-mapbox-gl';
-import {communitySpace,
-        publicLayer,
-        sportsLeisure,
-        communityBusiness,
-        businessNight,
-        business,
-        voluntarySector, } from '../data/councilAssetsNew';
+
 
 class MapCommunityAssets extends Component {
     constructor(props){
