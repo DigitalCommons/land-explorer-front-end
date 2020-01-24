@@ -27,12 +27,7 @@ class MapCommunityAssets extends Component {
 
         this.createNodal = this.createNodal.bind(this);
         this.createNodalBackEnd = this.createNodalBackEnd.bind(this);
-        
-        this.openPopup              = this.openPopup.bind(this);
-        this.displayInfoIfActive    = this.displayInfoIfActive.bind(this);
-        this.closePopup             = this.closePopup.bind(this);
-        this.readMore               = this.readMore.bind(this);
-        this.readLess               = this.readLess.bind(this)
+  
         
     }
 
@@ -79,16 +74,6 @@ class MapCommunityAssets extends Component {
         }
     }    
 
-    readMore() 
-     {
-        this.setState({ checkBoxState:  true  });
-     }
-
-     readLess()
-     {
-        this.setState({ checkBoxState:  false  });
-     }
-
      extraInfo()
      {
          return(<div>
@@ -104,87 +89,6 @@ class MapCommunityAssets extends Component {
         </div> );
      }
 
-
-    openPopup()
-    {
-        this.props.dispatch({
-            type: 'TURN_ON_NODAL',
-            payload: {
-                id:     this.props.id,
-            }
-        });
-    }
-
-    closePopup()
-    {
-        this.props.dispatch({
-            type: 'CLOSE_NODALS',
-        });
-    }
-
-
-    displayInfoIfActive(){
-
-        const closeIcon = require('../assets/img/icon-close-new.svg')
-
-        let buttonStyle={
-            color: 'grey',
-            textDecoration: 'underline',
-        }
-
-        let closeStyle =
-         {
-            height: '10px',
-            width: '10px',
-            borderRadius: '50%',
-            position: 'absolute',
-            top: '12px',
-            cursor: 'pointer',
-            right: '12px',
-            zIndex: '5',
-        }
-
-        if(this.props.id === this.props.activeNodal)
-            return <div className = "Popup">
-                        <img 
-                            src={closeIcon} 
-                            style={closeStyle} 
-                            onClick = {this.closePopup}
-                        />
-                        <h2>{this.props.name}</h2>
-                        <p>{this.props.addressLine1}</p>
-                        <p>{this.props.addressLine2}</p>
-                        <p>{this.props.addressLine3}</p>
-                        <p>{this.props.addressLine4}</p>
-                        <p>{this.props.postcode}</p>
-                        <p>{this.props.subcat}</p>
-                        <p>{this.props.telephone}</p>
-                        <p>{this.props.website}</p>
-
-
-                    {this.state.checkBoxState ? 
-                        <div>
-                             { this.extraInfo() }
-                            <div  
-                                id = "LessInfo"   
-                                onClick = { this.readLess}>
-                                <p style={buttonStyle}>Less</p>
-                            </div>
-                        </div> 
-                    : 
-                        <div>
-                            <div  
-                                id = "MoreInfo"   
-                                onClick = { this.readMore}>
-                                <p style={buttonStyle}>More</p>
-                            </div>
-                        </div>
-                    }
-                        <div className="SpeechBubble"></div>  
-                    </div>;
-        else
-            return;
-    }    
 
     createNodal(communityAsset){
 
@@ -206,6 +110,7 @@ class MapCommunityAssets extends Component {
                     key = {communityAsset["Ref:No"]}
                     id = {communityAsset["Ref:No"]}
                     telephone = {communityAsset["Telephone No."]}
+                    email = {communityAsset["Contact_Email"]}
                     ward = {communityAsset.Ward}
                     website = {communityAsset["Web Address"]}
                     addressLine1 = {communityAsset["Address 1"]}
@@ -225,7 +130,8 @@ class MapCommunityAssets extends Component {
             subcat = {communityAsset["Sub_Cat"]}
             key = {communityAsset["RefNo"]}
             id = {communityAsset["RefNo"]}
-            //telephone = {communityAsset["Telephone No."]}
+            telephone = {communityAsset["Telephone_No"]}
+            email = {communityAsset["Contact_Email"]}
             ward = {communityAsset.Ward}
             website = {communityAsset["Web_Address"]}
             addressLine1 = {communityAsset["Address_1"]}
@@ -298,21 +204,11 @@ class MapCommunityAssets extends Component {
             //nodes.push(businessNight.map(this.createNodal))
         }
 
-        if(this.props.activeCommunityAssets.includes("Business")){ 
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
-                {
-                    //business.map(this.createNodal)
-                    this.state.councilData[6].map(this.createNodalBackEnd)
-                }
-                </Cluster>);
-            //nodes.push(business.map(this.createNodal))
-        }
-
         if(this.props.activeCommunityAssets.includes("Voluntary Sector")){
             nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
                 {
                     //voluntarySector.map(this.createNodal)
-                    this.state.councilData[7].map(this.createNodalBackEnd)
+                    this.state.councilData[6].map(this.createNodalBackEnd)
                 }
                 </Cluster>);
             //nodes.push(voluntarySector.map(this.createNodal))

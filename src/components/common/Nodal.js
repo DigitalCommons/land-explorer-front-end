@@ -144,13 +144,18 @@ class Nodal extends Component
                         <p>{this.props.addressLine4}</p>
                         <p>{this.props.postcode}</p>
                         <p>{this.props.subcat}</p>
-                        <p>{this.props.telephone}</p>
                         <p>{this.props.website}</p>
 
 
                     {this.state.checkBoxState ? 
                         <div>
-                             { this.extraInfo() }
+                            <div>
+                                <p> Opening Times </p>                                
+                                <p> Capacity </p>    
+                                <p>{this.props.telephone}</p>                          
+                                <p> Contact Name </p>  
+                                <p>{this.props.email}</p>
+                            </div>
                             <div  
                                 id = "LessInfo"   
                                 onClick = { this.readLess}>

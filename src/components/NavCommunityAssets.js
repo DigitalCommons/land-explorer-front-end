@@ -44,11 +44,6 @@ class NavCommunityAssets extends Component {
                     layerId= "Business Night">
                 </CouncilNavTrayItem>
                 <CouncilNavTrayItem 
-                    title="Business"
-                    draggable={true}
-                    layerId= "Business">
-                </CouncilNavTrayItem>
-                <CouncilNavTrayItem 
                     title="Voluntary Sector"
                     draggable={true}
                     layerId= "Voluntary Sector">

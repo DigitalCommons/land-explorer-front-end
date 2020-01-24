@@ -37,12 +37,6 @@ class CouncilMenuKey extends Component {
                     "Business Night": "brown"
                 }
             },
-            "Business": {
-                name:"Business",
-                data: {
-                    "Business": "grey"
-                }
-            },
             "Voluntary Sector": {
                 name:"Voluntary Sector",
                 data: {
