@@ -1,27 +1,95 @@
-.Popup
+$text-color: #333333;
+$highlight-color: #E74C3C;
+$bg-color: #f1f1f1;
+
+.nodal
 {
-  position: fixed;
-  background: #fff;
+  background: $bg-color;
+  position: absolute;
+
   z-index: -1;
   color: black;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  padding: 10px 10px 15px;
+  padding: 20px 25px 15px 25px;
   pointer-events: auto;
   font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
   bottom: 53px;
   left: -226px;
-  width: 450px;       
+  width: 450px;
+  border-radius: 0.4rem;
+  box-shadow: 0 0 2.5rem rgba(0,0,0,0.5);
+  border: 2px solid $text-color;       
+
+  table  {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  td:nth-child(1) {  
+    font-weight: bold;
+    padding-right: 15px;
+    min-width: 100px;
+  }
+}
+
+.nodal_title {
+  font-size: 1.4rem;
+  font-family: 'Slabo 27px', serif;
+  font-weight: 100;
+  margin: 0;
+  padding: 0 0 15px 0;
+  border-bottom: 2px solid $text-color;
+}
+
+.nodal_close{
+  font-size: 1.4rem;
+  line-height: 1.4rem;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  cursor: pointer;
+  padding: 5px 15px 15px 15px;
+  transition: color 150ms ease;
+  &:hover {
+    color: $highlight-color;
+  }
+}
+
+.dialog__trigger, .nodal_action {
+  border: 1.5px solid $text-color;
+  background: $bg-color;
+  padding: 10px 15px;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  display: block;
+  transition: all 150ms ease-out;
+  transform: translateY(0px);
+  &:hover, &:focus {
+    outline: 0;
+    transform: translateY(-5px);
+    transition: all 100ms ease-in;
+    box-shadow: 0 5px 10px rgba($text-color,0.4);
+  }
+  &:active {
+    transform: translateY(-3px);
+  }
+}
+
+.nodal_action {
+  margin: 0;
+  font-size: 0.7rem;
 }
 
 
 .SpeechBubble
 {
   border-width: 15px 15px 0px 15px; // bottom border-width is 0px so the triangle is directed downwards
-  border-color: white transparent transparent transparent;
+  border-color: $bg-color transparent transparent transparent;
+  
   border-style: solid;
   bottom: -15px;  // Positions the triangle vertically
   position: absolute;
-  right: 212px;
+  right: 245px;
 
 }
 

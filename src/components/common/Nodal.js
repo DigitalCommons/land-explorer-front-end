@@ -92,6 +92,10 @@ class Nodal extends Component
         });
     }
 
+    deleteNodal = (e, data) => {
+        // access to e.target here
+        console.log(data);
+    }
 
     displayInfoIfActive(){
  
@@ -119,34 +123,137 @@ class Nodal extends Component
             zIndex: '5',
         }
 
-
-
         if(this.props.id === this.props.activeNodal)
-      
-            return <div className = "Popup">
+            return <div class="nodal">
+            <span onClick = {this.closePopup} class="nodal_close">&#x2715;</span>
+            <h2 class="nodal_title">{this.props.name}</h2>
+            {this.state.checkBoxState ? 
+                <div>
+                    <table class="w3-table">
+                        <tr>
+                            <td valign="top">Address:</td>
+                            <td>{this.props.addressLine1} {this.props.addressLine2} {this.props.addressLine3} {this.props.addressLine4}</td>
+                        </tr>
+                        <tr>
+                            <td>Postcode:</td>
+                            <td>{this.props.postcode}</td>
+                        </tr>
+                        <tr>
+                            <td>Category:</td>
+                            <td>{this.props.subcat}</td>
+                        </tr>
+                        <tr>
+                            <td>Ward:</td>
+                            <td>{this.props.ward}</td>
+                        </tr>
+                        {(this.props.telephone) && (this.props.telephone !== "") ?
+                            <tr>
+                                <td>Phone:</td>
+                                <td>{this.props.telephone}</td>
+                            </tr>:""
+                        } 
+                        {(this.props.email) && (this.props.email !== "") ?
+                            <tr>
+                                <td>Email:</td>
+                                <td>{this.props.email}</td>
+                            </tr>:""
+                        } 
+                        {(this.props.website) && (this.props.website !== "") ?
+                            <tr>
+                                <td>Website:</td>
+                                <td>{this.props.website}</td>
+                            </tr>:""
+                        } 
+                        {(this.props.spaceAvailable) && (this.props.spaceAvailable !== "") ?
+                            <tr>
+                                <td>Space Available:</td>
+                                <td>{this.props.spaceAvailable}</td>
+                            </tr>:""
+                        } 
+                        {(this.props.specialistSpace) && (this.props.specialistSpace !== "") ?
+                            <tr>
+                                <td>Specialist Space:</td>
+                                <td>{this.props.specialistSpace}</td>
+                            </tr>:""
+                        } 
+                        {(this.props.kitchen) && (this.props.kitchen !== "") ?
+                            <tr>
+                                <td>Kitchen:</td>
+                                <td>{this.props.kitchen === "Y" ? "Yes" : this.props.kitchen}</td>
+                            </tr>:""
+                        } 
+                        {(this.props.disabled) && (this.props.disabled !== "") ?
+                            <tr>
+                                <td>Disabled Access:</td>
+                                <td>{this.props.disabled === "Y" ? "Yes" : this.props.disabled}</td>
+                            </tr>:""
+                        } 
+                        {(this.props.price) && (this.props.price !== "") ?
+                            <tr>
+                                <td>Price Range:</td>
+                                <td>{this.props.price}</td>
+                            </tr>:""
+                        } 
+                    </table>
+                    <button onClick = { this.readLess} class="nodal_action">Read less &#8594;</button>
+                </div> 
+                : 
+                <div>
+                    <table class="w3-table">
+                        <tr>
+                            <td valign="top">Address:</td>
+                            <td>{this.props.addressLine1} {this.props.addressLine2} {this.props.addressLine3} {this.props.addressLine4}</td>
+                        </tr>
+                        <tr>
+                            <td>Postcode:</td>
+                            <td>{this.props.postcode}</td>
+                        </tr>
+                        <tr>
+                            <td>Category:</td>
+                            <td>{this.props.subcat}</td>
+                        </tr>
+                        <tr>
+                            <td>Ward:</td>
+                            <td>{this.props.ward}</td>
+                        </tr>
+                    </table>
+                    <button onClick = { this.readMore} class="nodal_action">Read more &#8594;</button>
+                </div> 
+            }
+            <div className="SpeechBubble"></div>
+            {/*   
+            <div className = "Popup">
+                    <span>
                         <img src = {closeIcon} style = {closeStyle} onClick = {this.closePopup} />
+                        <h2>{this.props.name}</h2>
+                    </span>
                         
+                      
                         <figure className = "CommunityAssetControls">
                             <button className = "DeleteCommunityAsset"  >
                             <img src = {DeleteCommunityAsset}   alt = "DeleteCommunityAsset" 
-                             onClick ={ console.log("Replace this console log with the event handler for delete ")} style = {{ backgroundColor: 'none'}}  />
+                             onClick ={ ((e) => this.deleteNodal(e, this.props.id))} style = {{ backgroundColor: 'none'}}  />
                             </button>
-                        </figure>
+                        </figure> 
                         
-                        <h2>{this.props.name}</h2>
                         <p>{this.props.addressLine1}</p>
                         <p>{this.props.addressLine2}</p>
                         <p>{this.props.addressLine3}</p>
                         <p>{this.props.addressLine4}</p>
                         <p>{this.props.postcode}</p>
                         <p>{this.props.subcat}</p>
-                        <p>{this.props.telephone}</p>
                         <p>{this.props.website}</p>
 
 
                     {this.state.checkBoxState ? 
                         <div>
-                             { this.extraInfo() }
+                            <div>
+                                <p> Opening Times </p>                                
+                                <p> Capacity </p>    
+                                <p>{this.props.telephone}</p>                          
+                                <p> Contact Name </p>  
+                                <p>{this.props.email}</p>
+                            </div>
                             <div  
                                 id = "LessInfo"   
                                 onClick = { this.readLess}>
@@ -164,6 +271,9 @@ class Nodal extends Component
                     }
                         <div className="SpeechBubble"></div>  
                     </div>;
+                    */}
+                    
+          </div>;
         else
             return;
     }
