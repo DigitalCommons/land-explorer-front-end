@@ -92,6 +92,10 @@ class Nodal extends Component
         });
     }
 
+    deleteNodal = (e, data) => {
+        // access to e.target here
+        console.log(data);
+    }
 
     displayInfoIfActive(){
  
@@ -129,7 +133,7 @@ class Nodal extends Component
                         <figure className = "CommunityAssetControls">
                             <button className = "DeleteCommunityAsset"  >
                             <img src = {DeleteCommunityAsset}   alt = "DeleteCommunityAsset" 
-                             onClick ={ console.log("Replace this console log with the event handler for delete ")} style = {{ backgroundColor: 'none'}}  />
+                             onClick ={ ((e) => this.deleteNodal(e, this.props.id))} style = {{ backgroundColor: 'none'}}  />
                             </button>
                         </figure>
                         
