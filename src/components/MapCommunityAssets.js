@@ -130,14 +130,19 @@ class MapCommunityAssets extends Component {
             subcat = {communityAsset["Sub_Cat"]}
             key = {communityAsset["RefNo"]}
             id = {communityAsset["RefNo"]}
-            telephone = {communityAsset["Telephone_No"]}
-            email = {communityAsset["Contact_Email"]}
             ward = {communityAsset.Ward}
-            website = {communityAsset["Web_Address"]}
             addressLine1 = {communityAsset["Address_1"]}
             addressLine2 = {communityAsset["Add_2_RD_St"]}
             addressLine3 = {communityAsset["Add_3"]}
             addressLine4 = {communityAsset["Add_4"]}
+            website = {communityAsset["Web_Address"]}
+            email = {communityAsset["Contact_Email"]}
+            telephone = {communityAsset["Telephone_No"]}
+            spaceAvailable = {communityAsset["Space_AvailableTT"]}
+            specialistSpace = {communityAsset["Specialist_Spaces"]}
+            kitchen = {communityAsset["Kitchen"]}
+            disabled = {communityAsset["Disabled_Access"]}
+            price = {communityAsset["Price_Range"]}
             />
     }
 
