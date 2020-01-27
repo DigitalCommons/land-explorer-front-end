@@ -14,7 +14,6 @@ class MapCommunityAssets extends Component {
         super(props);
         this.state = {
             checkBoxState : false,
-            clickZoom : true,
             radius : 30,
             councilData : [],
         }        
@@ -141,11 +140,12 @@ class MapCommunityAssets extends Component {
     }
 
     //This is the marker/nodal that would appear when a cluster is shown
-    clusterMarker = (coordinates) => (
-        <Marker coordinates={coordinates}>
-          <span style = { { borderRadius:'50%' , backgroundColor:'red', color : 'white', padding:'5px'}}>C</span>
-        </Marker>
-      );
+    clusterMarkerOne = (coordinates) => (<Marker coordinates={coordinates}><span style = { { borderRadius:'50%' , backgroundColor:'red', color : 'white', padding:'5px'}}>C</span></Marker>);
+    clusterMarkerTwo = (coordinates) => (<Marker coordinates={coordinates}><span style = { { borderRadius:'50%' , backgroundColor:'blue', color : 'white', padding:'5px'}}>C</span></Marker>);
+    clusterMarkerThree = (coordinates) => (<Marker coordinates={coordinates}><span style = { { borderRadius:'50%' , backgroundColor:'purple', color : 'white', padding:'5px'}}>C</span></Marker>);
+    clusterMarkerFour = (coordinates) => (<Marker coordinates={coordinates}><span style = { { borderRadius:'50%' , backgroundColor:'green', color : 'white', padding:'5px'}}>C</span></Marker>);
+    clusterMarkerFive = (coordinates) => (<Marker coordinates={coordinates}><span style = { { borderRadius:'50%' , backgroundColor:'brown', color : 'white', padding:'5px'}}>C</span></Marker>);
+    clusterMarkerSix = (coordinates) => (<Marker coordinates={coordinates}><span style = { { borderRadius:'50%' , backgroundColor:'grey', color : 'white', padding:'5px'}}>C</span></Marker>);
 
     createNodes(){
 
@@ -154,7 +154,7 @@ class MapCommunityAssets extends Component {
         let nodes = [];
 
         if(this.props.activeCommunityAssets.includes("Community Space")){
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
+            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarkerOne} radius={this.state.radius}>
                 {
                     //communitySpace.map(this.createNodalBackEnd)
                     this.state.councilData[1].map(this.createNodalBackEnd)
@@ -164,7 +164,7 @@ class MapCommunityAssets extends Component {
         }
 
         if(this.props.activeCommunityAssets.includes("Public")){
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
+            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarkerTwo} radius={this.state.radius}>
                 {
                     //publicLayer.map(this.createNodal)
                     this.state.councilData[2].map(this.createNodalBackEnd)
@@ -174,7 +174,7 @@ class MapCommunityAssets extends Component {
         }
 
         if(this.props.activeCommunityAssets.includes("Sports Leisure")){
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
+            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarkerThree} radius={this.state.radius}>
                 {
                     //sportsLeisure.map(this.createNodal)                    
                     this.state.councilData[3].map(this.createNodalBackEnd)
@@ -184,7 +184,7 @@ class MapCommunityAssets extends Component {
         }
 
         if(this.props.activeCommunityAssets.includes("Community Business")){    
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
+            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarkerFour} radius={this.state.radius}>
                 {
                     //communityBusiness.map(this.createNodal)
                     this.state.councilData[4].map(this.createNodalBackEnd)
@@ -194,7 +194,7 @@ class MapCommunityAssets extends Component {
         }
 
         if(this.props.activeCommunityAssets.includes("Business Night")){         
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
+            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarkerFive} radius={this.state.radius}>
                 {
                     //businessNight.map(this.createNodal)
                     this.state.councilData[5].map(this.createNodalBackEnd)
@@ -204,7 +204,7 @@ class MapCommunityAssets extends Component {
         }
 
         if(this.props.activeCommunityAssets.includes("Voluntary Sector")){
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarker} radius={this.state.radius} zoomOnClick={this.state.clickZoom}>
+            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarkerSix} radius={this.state.radius}>
                 {
                     //voluntarySector.map(this.createNodal)
                     this.state.councilData[6].map(this.createNodalBackEnd)
