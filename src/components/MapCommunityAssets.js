@@ -27,10 +27,17 @@ class MapCommunityAssets extends Component {
     componentDidMount() {
         axios.post(`${constants.ROOT_URL}/api/council/markers/all/`,{},getAuthHeader())
         .then((response) => {
+
+            //The marker data contain several business that resides in the same address
+            //The default result is that the marker would overlap
+            //We need to make is such that no markers would perfectly overlap
+            
+
             let arr = [];
             //API return data from all layer
             //Optimise by grouping the data according to its layers
 
+            //First index of arr would be marker objects with layer_id 1, and so on
             response.data.forEach( el => {
                 //Each element has a layer id
                 if(arr[el.layer_id] == null){
@@ -42,8 +49,7 @@ class MapCommunityAssets extends Component {
             
             this.setState({councilData : arr});
 
-            
-            this.setState({councilDataFull : response.data});
+            //this.setState({councilDataFull : response.data});
         });
     }
 
