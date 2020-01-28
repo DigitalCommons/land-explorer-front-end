@@ -53,23 +53,6 @@ class Nodal extends Component
         this.setState({ checkBoxState:  false  });
      }
 
-     extraInfo()
-     {
-        
-         return(<div>
-            <p> Opening Times </p>
-            
-            <p> Capacity </p>
-           
-            <p> Telephone No </p>
-           
-            <p> Contact Name </p>
-           
-            <p> Email Address </p>
-        </div> );
-     }
-
-
     openPopup()
     {   
 
@@ -221,58 +204,6 @@ class Nodal extends Component
                 </div> 
             }
             <div className="SpeechBubble"></div>
-            {/*   
-            <div className = "Popup">
-                    <span>
-                        <img src = {closeIcon} style = {closeStyle} onClick = {this.closePopup} />
-                        <h2>{this.props.name}</h2>
-                    </span>
-                        
-                      
-                        <figure className = "CommunityAssetControls">
-                            <button className = "DeleteCommunityAsset"  >
-                            <img src = {DeleteCommunityAsset}   alt = "DeleteCommunityAsset" 
-                             onClick ={ ((e) => this.deleteNodal(e, this.props.id))} style = {{ backgroundColor: 'none'}}  />
-                            </button>
-                        </figure> 
-                        
-                        <p>{this.props.addressLine1}</p>
-                        <p>{this.props.addressLine2}</p>
-                        <p>{this.props.addressLine3}</p>
-                        <p>{this.props.addressLine4}</p>
-                        <p>{this.props.postcode}</p>
-                        <p>{this.props.subcat}</p>
-                        <p>{this.props.website}</p>
-
-
-                    {this.state.checkBoxState ? 
-                        <div>
-                            <div>
-                                <p> Opening Times </p>                                
-                                <p> Capacity </p>    
-                                <p>{this.props.telephone}</p>                          
-                                <p> Contact Name </p>  
-                                <p>{this.props.email}</p>
-                            </div>
-                            <div  
-                                id = "LessInfo"   
-                                onClick = { this.readLess}>
-                                <p style={buttonStyle}>Less</p>
-                            </div>
-                        </div> 
-                    : 
-                        <div>
-                            <div  
-                                id = "MoreInfo"   
-                                onClick = { this.readMore}>
-                                <p style={buttonStyle}>More</p>
-                            </div>
-                        </div>
-                    }
-                        <div className="SpeechBubble"></div>  
-                    </div>;
-                    */}
-                    
           </div>;
         else
             return;
