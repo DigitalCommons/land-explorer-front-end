@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Nodal from './common/Nodal';
+import MultipleNodal from './common/MultipleNodal';
 
 import axios from 'axios';
 import {getAuthHeader} from "./Auth";
@@ -20,6 +21,7 @@ class MapCommunityAssets extends Component {
 
         this.createNodal = this.createNodal.bind(this);
         this.createNodalBackEnd = this.createNodalBackEnd.bind(this);
+        this.packDuplicateCoordinate = this.packDuplicateCoordinate.bind(this);
   
         
     }
@@ -47,10 +49,52 @@ class MapCommunityAssets extends Component {
                 arr[el.layer_id].push(el);
             });
             
+            arr.forEach((val,index) => {
+                arr[index] = this.packDuplicateCoordinate(val);
+            });
+
             this.setState({councilData : arr});
 
             //this.setState({councilDataFull : response.data});
         });
+    }
+
+
+    packDuplicateCoordinate(arr){
+        
+        let arrLength = arr.length;
+        let arrOfMultipleNodal = [];
+        
+        //loop through array
+        for (let i = 0; i < arrLength; i++) {
+            //dont compare last element
+            if(i !== arrLength - 1){
+              //if we find duplicate coordinate
+                if(arr[i].Long === arr[i+1].Long && arr[i].Lat === arr[i+1].Lat){
+                    let endOfDuplicate = false;
+                    let counter = 0;
+                    //Loop through from this index until there is no more duplicate
+                    //We could only do this because the data is already sorted by the coordinate
+                    while(!endOfDuplicate){
+                        if(arr[i+counter].Long === arr[i+1+counter].Long && arr[i+counter].Lat === arr[i+1+counter].Lat){
+                            //Count the instances of duplicate
+                            counter++;
+                        }else{
+                            counter++;
+                            endOfDuplicate = true;
+                            //remove duplicated from the arary and store to other temporary array
+                            arrOfMultipleNodal.push(arr.splice(i,counter));
+                            //Adjust arrayLength due to removed element
+                            arrLength -= counter;
+                        }
+                }
+                }
+          }
+        }
+
+        //Now the data become a mixed array of: Nodal object and array of Nodal objects
+        return arr.concat(arrOfMultipleNodal);
+        
     }
 
     getImgByType(type){
@@ -90,7 +134,6 @@ class MapCommunityAssets extends Component {
 
 
     createNodal(communityAsset){
-
         let boundaries = this.props.map.getBounds();
 
         //This boundary check currently crashes the app as the <Cluster> is already called before this function
@@ -99,6 +142,7 @@ class MapCommunityAssets extends Component {
 
         //if(communityAsset.Long < boundaries._ne.lng && communityAsset.Long > boundaries._sw.lng)
         //if(communityAsset.Lat < boundaries._ne.lat && communityAsset.Lat > boundaries._sw.lat)
+        if(communityAsset.length !== undefined){
             return <Nodal
                     type = {communityAsset.Layer.slice(0,1)}
                     location = {[communityAsset.Long,communityAsset.Lat]}
@@ -117,32 +161,55 @@ class MapCommunityAssets extends Component {
                     addressLine3 = {communityAsset["Add 3"]}
                     addressLine4 = {communityAsset["Add 4"]}
                     />
+        }
     }
 
     createNodalBackEnd(communityAsset){
-        return <Nodal
-            type = {communityAsset.Layer.slice(0,1)}
-            location = {[communityAsset.Lng,communityAsset.Lat]}
-            coordinates={[communityAsset.Lng,communityAsset.Lat]}
-            name = {communityAsset.Name}
-            postcode = {communityAsset.Postcode}
-            subcat = {communityAsset["Sub_Cat"]}
-            key = {communityAsset["RefNo"]}
-            id = {communityAsset["RefNo"]}
-            ward = {communityAsset.Ward}
-            addressLine1 = {communityAsset["Address_1"]}
-            addressLine2 = {communityAsset["Add_2_RD_St"]}
-            addressLine3 = {communityAsset["Add_3"]}
-            addressLine4 = {communityAsset["Add_4"]}
-            website = {communityAsset["Web_Address"]}
-            email = {communityAsset["Contact_Email"]}
-            telephone = {communityAsset["Telephone_No"]}
-            spaceAvailable = {communityAsset["Space_AvailableTT"]}
-            specialistSpace = {communityAsset["Specialist_Spaces"]}
-            kitchen = {communityAsset["Kitchen"]}
-            disabled = {communityAsset["Disabled_Access"]}
-            price = {communityAsset["Price_Range"]}
+        if(communityAsset.Name !== undefined){
+            return <Nodal
+                type = {communityAsset.Layer.slice(0,1)}
+                location = {[communityAsset.Lng,communityAsset.Lat]}
+                coordinates={[communityAsset.Lng,communityAsset.Lat]}
+                name = {communityAsset.Name}
+                postcode = {communityAsset.Postcode}
+                subcat = {communityAsset["Sub_Cat"]}
+                key = {communityAsset["RefNo"]}
+                id = {communityAsset["RefNo"]}
+                ward = {communityAsset.Ward}
+                addressLine1 = {communityAsset["Address_1"]}
+                addressLine2 = {communityAsset["Add_2_RD_St"]}
+                addressLine3 = {communityAsset["Add_3"]}
+                addressLine4 = {communityAsset["Add_4"]}
+                website = {communityAsset["Web_Address"]}
+                email = {communityAsset["Contact_Email"]}
+                telephone = {communityAsset["Telephone_No"]}
+                spaceAvailable = {communityAsset["Space_AvailableTT"]}
+                specialistSpace = {communityAsset["Specialist_Spaces"]}
+                kitchen = {communityAsset["Kitchen"]}
+                disabled = {communityAsset["Disabled_Access"]}
+                price = {communityAsset["Price_Range"]}
+                />
+        }else{
+            return <MultipleNodal
+            councilData = {communityAsset}
+            type = {communityAsset[0].Layer.slice(0,1)}
+            location = {[communityAsset[0].Lng,communityAsset[0].Lat]}
+            coordinates={[communityAsset[0].Lng,communityAsset[0].Lat]}
+            name = {communityAsset[0].Name}
+            postcode = {communityAsset[0].Postcode}
+            subcat = {communityAsset[0]["Sub Cat"]}
+            key = {communityAsset[0]["Ref:No"]}
+            id = {communityAsset[0]["Ref:No"]}
+            telephone = {communityAsset[0]["Telephone No."]}
+            email = {communityAsset[0]["Contact_Email"]}
+            ward = {communityAsset[0].Ward}
+            website = {communityAsset[0]["Web Address"]}
+            addressLine1 = {communityAsset[0]["Address 1"]}
+            addressLine2 = {communityAsset[0]["Add 2 (RD - St)"]}
+            addressLine3 = {communityAsset[0]["Add 3"]}
+            addressLine4 = {communityAsset[0]["Add 4"]}
             />
+        }
     }
 
     //This is the marker/nodal that would appear when a cluster is shown
@@ -156,8 +223,9 @@ class MapCommunityAssets extends Component {
     createNodes(){
 
         //17 is the magic number. At a zoom level of 17, even all layers on is smooth
-        
         let nodes = [];
+
+        if(this.state.councilData.length === 0) return;
 
         if(this.props.activeCommunityAssets.includes("Community Space")){
             nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarkerOne} radius={this.state.radius}>
@@ -218,7 +286,6 @@ class MapCommunityAssets extends Component {
                 </Cluster>);
             //nodes.push(voluntarySector.map(this.createNodal))
         }
-
 
         return nodes;
     }

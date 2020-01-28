@@ -5,13 +5,13 @@ import {connect} from 'react-redux';
 
 
 
-class Nodal extends Component 
+class MultipleNodal extends Component 
 {
     constructor(props){
         super(props);
         this.state = {
             checkBoxState : false,
-           
+            infoBox : 'close',
         }
 
         this.openPopup              = this.openPopup.bind(this);
@@ -40,7 +40,6 @@ class Nodal extends Component
             case "5": return brownMarker;
             case "6": return greyMarker;
             case "7": return orangeMarker;
-            default: return redMarker;
         }
     }
    
@@ -56,24 +55,12 @@ class Nodal extends Component
 
     openPopup()
     {   
-
-        
-        this.props.dispatch({
-            type: 'TURN_ON_NODAL',
-            payload: {
-                id:     this.props.id,
-            }
-        });
-        // let zoom = this.map.getZoom();
-        // alert(zoom);
-
+        this.setState({infoBox : 'list'})
     }
 
     closePopup()
     {
-        this.props.dispatch({
-            type: 'CLOSE_NODALS',
-        });
+        this.setState({infoBox : 'close'})
     }
 
     deleteNodal = (e, data) => {
@@ -83,7 +70,7 @@ class Nodal extends Component
 
     displayInfoIfActive(){
  
-          
+         
 
         const closeIcon = require('../../assets/img/icon-close-new.svg')
         const DeleteCommunityAsset = require('../../assets/img/icon-trash-red.svg')
@@ -105,6 +92,14 @@ class Nodal extends Component
             zIndex: '5',
         }
 
+        //Show list of companies in this marker
+        if(this.state.infoBox === 'list'){
+            return <span>List of companies goes here</span>
+        }
+
+        //Show the selected company from the list
+        //if(this.state.infoBox === 'company')
+        /*
         if(this.props.id === this.props.activeNodal)
             return <div class="nodal">
             <span onClick = {this.closePopup} class="nodal_close">&#x2715;</span>
@@ -202,27 +197,43 @@ class Nodal extends Component
                     <button onClick = { this.readMore} class="nodal_action">Read more &#8594;</button>
                 </div> 
             }
-            <div className="SpeechBubble"></div>
+            <div className="SpeechBubble"></div>                    
           </div>;
         else
             return;
+            */
     }
     
     
     render(){
-        return <Marker 
-        style = { { zIndex: this.props.id === this.props.activeNodal? 4 : 3}}  
-        coordinates = {this.props.location}
-        
-    >
-        {this.displayInfoIfActive()}
-        <img 
-            alt="Marker on map"
-            src={this.getImgByType(this.props.type)} 
-            style={{height: '30px',width: '30px', }}
-            onClick={this.openPopup}
-        />
-    </Marker>
+        if(this.props.councilData[0].id === this.props.activeNodal)
+        {
+           
+            return (<Marker 
+                        style = { { zIndex: this.props.councilData[0].id === this.props.activeNodal? 4 : 3}}  
+                        coordinates = {[this.props.councilData[0].Lng,this.props.councilData[0].Lat]}
+                    >
+                    {this.displayInfoIfActive()}
+                    <img 
+                        alt="Marker in Map"
+                        src={this.getImgByType(this.props.councilData[0].Layer.slice(0,1))} 
+                        style={{height: '30px',width: '30px', }}
+                    />
+                    </Marker>);
+        }
+        else
+            return (<Marker 
+                        style = { { zIndex: this.props.councilData[0].id === this.props.activeNodal? 4 : 3}}  
+                        coordinates = {[this.props.councilData[0].Lng,this.props.councilData[0].Lat]}
+                        onClick={this.openPopup}
+                    >
+                        {this.displayInfoIfActive()}
+                        <img 
+                            alt="Marker in Map"
+                            src={this.getImgByType(this.props.councilData[0].Layer.slice(0,1))} 
+                            style={{height: '30px',width: '30px', }}
+                        />
+                    </Marker>);
     }
 }
 
@@ -235,4 +246,4 @@ const mapStateToProps = ({ nodal , map }) => ({
 
 
 
-export default connect(mapStateToProps)(Nodal);
+export default connect(mapStateToProps)(MultipleNodal);
