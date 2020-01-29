@@ -197,17 +197,22 @@ class MapCommunityAssets extends Component {
             coordinates={[communityAsset[0].Lng,communityAsset[0].Lat]}
             name = {communityAsset[0].Name}
             postcode = {communityAsset[0].Postcode}
-            subcat = {communityAsset[0]["Sub Cat"]}
-            key = {communityAsset[0]["Ref:No"]}
-            id = {communityAsset[0]["Ref:No"]}
-            telephone = {communityAsset[0]["Telephone No."]}
-            email = {communityAsset[0]["Contact_Email"]}
-            ward = {communityAsset[0].Ward}
-            website = {communityAsset[0]["Web Address"]}
-            addressLine1 = {communityAsset[0]["Address 1"]}
-            addressLine2 = {communityAsset[0]["Add 2 (RD - St)"]}
-            addressLine3 = {communityAsset[0]["Add 3"]}
-            addressLine4 = {communityAsset[0]["Add 4"]}
+            subcat = {communityAsset["Sub_Cat"]}
+            key = {communityAsset["RefNo"]}
+            id = {communityAsset["RefNo"]}
+            ward = {communityAsset.Ward}
+            addressLine1 = {communityAsset["Address_1"]}
+            addressLine2 = {communityAsset["Add_2_RD_St"]}
+            addressLine3 = {communityAsset["Add_3"]}
+            addressLine4 = {communityAsset["Add_4"]}
+            website = {communityAsset["Web_Address"]}
+            email = {communityAsset["Contact_Email"]}
+            telephone = {communityAsset["Telephone_No"]}
+            spaceAvailable = {communityAsset["Space_AvailableTT"]}
+            specialistSpace = {communityAsset["Specialist_Spaces"]}
+            kitchen = {communityAsset["Kitchen"]}
+            disabled = {communityAsset["Disabled_Access"]}
+            price = {communityAsset["Price_Range"]}
             />
         }
     }
