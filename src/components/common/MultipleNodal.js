@@ -35,13 +35,14 @@ class MultipleNodal extends Component
         const orangeMarker = require('../../assets/img/icon-community-asset-orange.svg');
         
         switch(type){
+            case "0": return orangeMarker;
             case "1": return redMarker;
             case "2": return blueMarker;
             case "3": return purpleMarker;
             case "4": return greenMarker;
             case "5": return brownMarker;
             case "6": return greyMarker;
-            case "7": return orangeMarker;
+            default: return orangeMarker;
         }
     }
    
@@ -133,6 +134,7 @@ class MultipleNodal extends Component
                 {this.state.checkBoxState ? 
                     <div>
                         <table class="w3-table">
+                            <tbody>
                             <tr>
                                 <td valign="top">Address:</td>
                                 <td>{companyData.Address_1} {companyData.Add_2_RD_St} {companyData.Add_3} {companyData.Add_4}</td>
@@ -197,28 +199,31 @@ class MultipleNodal extends Component
                                     <td>{companyData.Price_Range}</td>
                                 </tr>:""
                             } 
+                            </tbody>
                         </table>
                         <button onClick = { this.readLess} class="nodal_action">Read less &#8594;</button>
                     </div> 
                     : 
                     <div>
                         <table class="w3-table">
-                            <tr>
-                                <td valign="top">Address:</td>
-                                <td>{companyData.Address_1} {companyData.Add_2_RD_St} {companyData.Add_3} {companyData.Add_4}</td>
-                            </tr>
-                            <tr>
-                                <td>Postcode:</td>
-                                <td>{companyData.Postcode}</td>
-                            </tr>
-                            <tr>
-                                <td>Category:</td>
-                                <td>{companyData.Sub_Cat}</td>
-                            </tr>
-                            <tr>
-                                <td>Ward:</td>
-                                <td>{companyData.Ward}</td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td valign="top">Address:</td>
+                                    <td>{companyData.Address_1} {companyData.Add_2_RD_St} {companyData.Add_3} {companyData.Add_4}</td>
+                                </tr>
+                                <tr>
+                                    <td>Postcode:</td>
+                                    <td>{companyData.Postcode}</td>
+                                </tr>
+                                <tr>
+                                    <td>Category:</td>
+                                    <td>{companyData.Sub_Cat}</td>
+                                </tr>
+                                <tr>
+                                    <td>Ward:</td>
+                                    <td>{companyData.Ward}</td>
+                                </tr>
+                            </tbody>
                         </table>
                         <button onClick = { this.readMore} class="nodal_action">Read more &#8594;</button>
                     </div> 

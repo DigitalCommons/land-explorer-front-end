@@ -33,14 +33,14 @@ class Nodal extends Component
         const orangeMarker = require('../../assets/img/icon-community-asset-orange.svg');
         
         switch(type){
+            case "0": return orangeMarker;
             case "1": return redMarker;
             case "2": return blueMarker;
             case "3": return purpleMarker;
             case "4": return greenMarker;
             case "5": return brownMarker;
             case "6": return greyMarker;
-            case "7": return orangeMarker;
-            default: return redMarker;
+            default: return orangeMarker;
         }
     }
    
@@ -112,6 +112,7 @@ class Nodal extends Component
             {this.state.checkBoxState ? 
                 <div>
                     <table class="w3-table">
+                        <tbody>
                         <tr>
                             <td valign="top">Address:</td>
                             <td>{this.props.addressLine1} {this.props.addressLine2} {this.props.addressLine3} {this.props.addressLine4}</td>
@@ -176,12 +177,14 @@ class Nodal extends Component
                                 <td>{this.props.price}</td>
                             </tr>:""
                         } 
+                        </tbody>
                     </table>
                     <button onClick = { this.readLess} class="nodal_action">Read less &#8594;</button>
                 </div> 
                 : 
                 <div>
                     <table class="w3-table">
+                        <tbody>
                         <tr>
                             <td valign="top">Address:</td>
                             <td>{this.props.addressLine1} {this.props.addressLine2} {this.props.addressLine3} {this.props.addressLine4}</td>
@@ -198,6 +201,7 @@ class Nodal extends Component
                             <td>Ward:</td>
                             <td>{this.props.ward}</td>
                         </tr>
+                        </tbody>
                     </table>
                     <button onClick = { this.readMore} class="nodal_action">Read more &#8594;</button>
                 </div> 
