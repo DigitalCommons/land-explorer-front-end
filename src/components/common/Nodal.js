@@ -96,7 +96,7 @@ class Nodal extends Component
     deleteNodal()   
     {
 
-           window.confirm("Are you sure want to remove this nodal from the map ?");
+           
            // if I click ok I then delete button sends an API call along with the key 
            // then API call deletes a specific record from the database  based on the key value 
                        
@@ -132,11 +132,19 @@ class Nodal extends Component
        
             return <div className="nodal">
                  <figure className = "CommunityAssetControls">
-                            <button className = "DeleteCommunityAsset" onClick ={this.deleteNodal}  >
+                    <button className = "DeleteCommunityAsset" onClick ={this.deleteNodal}  >
                             <img src = {DeleteCommunityAsset}   alt = "DeleteCommunityAsset" 
                               key = {this.props.id}  />
-                            </button>
+                    </button>
+
+                   
                         </figure> 
+                        <dialog style = {{display: 'block'}}> Are you sure want to remove this nodal from the map ? 
+                        <br />
+                        <button style = {{background: "$primary-color"}}> Yes </button> 
+                        <button> No </button>
+                        </dialog>
+                   
                         
                         
 
