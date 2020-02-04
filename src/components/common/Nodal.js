@@ -131,18 +131,20 @@ class Nodal extends Component
         if(this.props.id === this.props.activeNodal)
        
             return <div className="nodal">
-                 <figure className = "CommunityAssetControls">
+                 <form  className = "CommunityAssetControls">
                     <button className = "DeleteCommunityAsset" onClick ={this.deleteNodal}  >
                             <img src = {DeleteCommunityAsset}   alt = "DeleteCommunityAsset" 
                               key = {this.props.id}  />
                     </button>
+                   </form> 
+                        
+                        <dialog style = {{display: 'block'}} className = "ConfirmDialog"> Are you sure want to remove this nodal from the map ? 
+                        
+                        <form className = "DecisionButtons">
+                        <button id = "Yes"> Yes </button> 
+                        <button id = "No"> No </button>
+                        </form>
 
-                   
-                        </figure> 
-                        <dialog style = {{display: 'block'}}> Are you sure want to remove this nodal from the map ? 
-                        <br />
-                        <button style = {{background: "$primary-color"}}> Yes </button> 
-                        <button> No </button>
                         </dialog>
                    
                         

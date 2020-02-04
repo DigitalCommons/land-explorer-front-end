@@ -32,6 +32,31 @@ $bg-color: #f1f1f1;
   }
 }
 
+.ConfirmDialog
+{
+  display:block;
+}
+
+
+#Yes
+{
+  background: lightgreen;
+  color:white;
+  border-radius: 12px; 
+  border: none;
+  margin-right: 12px;
+}
+
+#No
+{
+  background:#f9060e;
+  color: white;
+  border-radius: 12px; 
+  border: none;
+  margin-right: 12px;
+}
+
+
 .nodal_title {
   font-size: 1.4rem;
   font-family: 'Slabo 27px', serif;
