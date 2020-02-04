@@ -140,10 +140,11 @@ class Nodal extends Component
                         
                         <dialog style = {{display: 'block'}} className = "ConfirmDialog"> Are you sure want to remove this nodal from the map ? 
                         
-                        <form className = "DecisionButtons">
-                        <button id = "Yes"> Yes </button> 
-                        <button id = "No"> No </button>
-                        </form>
+                       < div className = "DecisionButtons">
+                           
+                        <button id = "Yes" onClick ={console.log('Element is being deleted...') }> Yes </button> 
+                        <button id = "No" onClick = {console.log('Dialog is closed ')}> No </button>
+                        </div>
 
                         </dialog>
                    
