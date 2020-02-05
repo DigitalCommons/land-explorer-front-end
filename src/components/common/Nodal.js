@@ -33,13 +33,14 @@ class Nodal extends Component
         const orangeMarker = require('../../assets/img/icon-community-asset-orange.svg');
         
         switch(type){
+            case "0": return orangeMarker;
             case "1": return redMarker;
             case "2": return blueMarker;
             case "3": return purpleMarker;
             case "4": return greenMarker;
             case "5": return brownMarker;
             case "6": return greyMarker;
-            case "7": return orangeMarker;
+            default: return orangeMarker;
         }
     }
    
@@ -52,23 +53,6 @@ class Nodal extends Component
      {
         this.setState({ checkBoxState:  false  });
      }
-
-     extraInfo()
-     {
-        
-         return(<div>
-            <p> Opening Times </p>
-            
-            <p> Capacity </p>
-           
-            <p> Telephone No </p>
-           
-            <p> Contact Name </p>
-           
-            <p> Email Address </p>
-        </div> );
-     }
-
 
     openPopup()
     {   
@@ -99,9 +83,7 @@ class Nodal extends Component
 
     displayInfoIfActive(){
  
-         
-        console.log(this.props.zoom)
-  
+          
 
         const closeIcon = require('../../assets/img/icon-close-new.svg')
         const DeleteCommunityAsset = require('../../assets/img/icon-trash-red.svg')
@@ -130,6 +112,7 @@ class Nodal extends Component
             {this.state.checkBoxState ? 
                 <div>
                     <table class="w3-table">
+                        <tbody>
                         <tr>
                             <td valign="top">Address:</td>
                             <td>{this.props.addressLine1} {this.props.addressLine2} {this.props.addressLine3} {this.props.addressLine4}</td>
@@ -194,12 +177,14 @@ class Nodal extends Component
                                 <td>{this.props.price}</td>
                             </tr>:""
                         } 
+                        </tbody>
                     </table>
                     <button onClick = { this.readLess} class="nodal_action">Read less &#8594;</button>
                 </div> 
                 : 
                 <div>
                     <table class="w3-table">
+                        <tbody>
                         <tr>
                             <td valign="top">Address:</td>
                             <td>{this.props.addressLine1} {this.props.addressLine2} {this.props.addressLine3} {this.props.addressLine4}</td>
@@ -216,63 +201,12 @@ class Nodal extends Component
                             <td>Ward:</td>
                             <td>{this.props.ward}</td>
                         </tr>
+                        </tbody>
                     </table>
                     <button onClick = { this.readMore} class="nodal_action">Read more &#8594;</button>
                 </div> 
             }
             <div className="SpeechBubble"></div>
-            {/*   
-            <div className = "Popup">
-                    <span>
-                        <img src = {closeIcon} style = {closeStyle} onClick = {this.closePopup} />
-                        <h2>{this.props.name}</h2>
-                    </span>
-                        
-                      
-                        <figure className = "CommunityAssetControls">
-                            <button className = "DeleteCommunityAsset"  >
-                            <img src = {DeleteCommunityAsset}   alt = "DeleteCommunityAsset" 
-                             onClick ={ ((e) => this.deleteNodal(e, this.props.id))} style = {{ backgroundColor: 'none'}}  />
-                            </button>
-                        </figure> 
-                        
-                        <p>{this.props.addressLine1}</p>
-                        <p>{this.props.addressLine2}</p>
-                        <p>{this.props.addressLine3}</p>
-                        <p>{this.props.addressLine4}</p>
-                        <p>{this.props.postcode}</p>
-                        <p>{this.props.subcat}</p>
-                        <p>{this.props.website}</p>
-
-
-                    {this.state.checkBoxState ? 
-                        <div>
-                            <div>
-                                <p> Opening Times </p>                                
-                                <p> Capacity </p>    
-                                <p>{this.props.telephone}</p>                          
-                                <p> Contact Name </p>  
-                                <p>{this.props.email}</p>
-                            </div>
-                            <div  
-                                id = "LessInfo"   
-                                onClick = { this.readLess}>
-                                <p style={buttonStyle}>Less</p>
-                            </div>
-                        </div> 
-                    : 
-                        <div>
-                            <div  
-                                id = "MoreInfo"   
-                                onClick = { this.readMore}>
-                                <p style={buttonStyle}>More</p>
-                            </div>
-                        </div>
-                    }
-                        <div className="SpeechBubble"></div>  
-                    </div>;
-                    */}
-                    
           </div>;
         else
             return;
@@ -280,31 +214,19 @@ class Nodal extends Component
     
     
     render(){
-        if(this.props.id == this.props.activeNodal)
-        {
-           
-            return (<Marker style = { { zIndex: this.props.id == this.props.activeNodal? 4 : 3}}  
-                     coordinates = {this.props.location} 
-                    >
-                        {this.displayInfoIfActive()}
-                        <img 
-                            src={this.getImgByType(this.props.type)} 
-                            style={{height: '30px', width: '30px', }}
-                        />
-                    </Marker>);
-        }
-        else
-            return (<Marker 
-                        style = { { zIndex: this.props.id == this.props.activeNodal? 4 : 3}}  
-                        coordinates = {this.props.location}
-                        onClick={this.openPopup}
-                    >
-                        {this.displayInfoIfActive()}
-                        <img 
-                            src={this.getImgByType(this.props.type)} 
-                            style={{height: '30px',width: '30px', }}
-                        />
-                    </Marker>);
+        return <Marker 
+        style = { { zIndex: this.props.id === this.props.activeNodal? 4 : 3}}  
+        coordinates = {this.props.location}
+        
+    >
+        {this.displayInfoIfActive()}
+        <img 
+            alt="Marker on map"
+            src={this.getImgByType(this.props.type)} 
+            style={{height: '30px',width: '30px', }}
+            onClick={this.openPopup}
+        />
+    </Marker>
     }
 }
 
