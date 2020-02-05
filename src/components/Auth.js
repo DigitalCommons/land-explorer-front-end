@@ -22,6 +22,10 @@ export function setToken(token, expires_in){
     localStorage.setItem('token_expiry', expiry.toString());
 }
 
+export function getToken(){
+    return localStorage.getItem('token')
+}
+
 export function logout(){
     localStorage.removeItem('token');
     localStorage.removeItem('token_expiry');
