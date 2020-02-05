@@ -6,6 +6,7 @@ import {getAuthHeader,getToken} from "../components/Auth";
 import {turnOnLayer, turnOffLayer} from '../actions/CommunityAssetsActions';
 import { connect } from 'react-redux';
 import CouncilNavTrayItem from './common/CouncilNavTrayItem';
+import { confirmAlert } from 'react-confirm-alert';
 
 class NavCommunityAssets extends Component {
     constructor(props){
