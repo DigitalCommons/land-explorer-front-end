@@ -113,7 +113,7 @@ class MultipleNodal extends Component
 
             return <div class="nodal">
             <span onClick = {this.closePopup} class="nodal_close">&#x2715;</span>
-            <h2 class="nodal_title">Company registered:</h2>
+            <h2 class="nodal_title">Organisations:</h2>
             <div class="nodal_body">
                 {this.props.councilData.map((el,key) => {
                     return <div class="nodal_body_content" onClick={() => this.readCompany(key)}>&#8594; {el.Name}</div>
