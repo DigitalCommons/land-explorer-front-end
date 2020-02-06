@@ -23,7 +23,7 @@ class Nodal extends Component
 
 
   
-    getImgByType(type){
+    getImgByCategory(id){
         const redMarker = require('../../assets/img/icon-community-asset-red.svg');
         const blueMarker =  require('../../assets/img/icon-community-asset-blue.svg');
         const purpleMarker = require('../../assets/img/icon-community-asset-purple.svg');
@@ -32,14 +32,14 @@ class Nodal extends Component
         const greyMarker = require('../../assets/img/icon-community-asset-grey.svg');
         const orangeMarker = require('../../assets/img/icon-community-asset-orange.svg');
         
-        switch(type){
-            case "0": return orangeMarker;
-            case "1": return redMarker;
-            case "2": return blueMarker;
-            case "3": return purpleMarker;
-            case "4": return greenMarker;
-            case "5": return brownMarker;
-            case "6": return greyMarker;
+        switch(id){
+            case 0: return orangeMarker;
+            case 1: return redMarker;
+            case 2: return blueMarker;
+            case 3: return purpleMarker;
+            case 4: return greenMarker;
+            case 5: return brownMarker;
+            case 6: return greyMarker;
             default: return orangeMarker;
         }
     }
@@ -126,9 +126,19 @@ class Nodal extends Component
                             <td>{this.props.subcat}</td>
                         </tr>
                         <tr>
+                            <td>Type:</td>
+                            <td>{this.props.type}</td>
+                        </tr>
+                        <tr>
                             <td>Ward:</td>
                             <td>{this.props.ward}</td>
                         </tr>
+                        {(this.props.contact_name) && (this.props.contact_name !== "") ?
+                            <tr>
+                                <td>Contact name:</td>
+                                <td>{this.props.contact_name}</td>
+                            </tr>:""
+                        } 
                         {(this.props.telephone) && (this.props.telephone !== "") ?
                             <tr>
                                 <td>Phone:</td>
@@ -145,6 +155,24 @@ class Nodal extends Component
                             <tr>
                                 <td>Website:</td>
                                 <td>{this.props.website}</td>
+                            </tr>:""
+                        } 
+                        {(this.props.community_space) && (this.props.community_space !== "") ?
+                            <tr>
+                                <td>Community space:</td>
+                                <td>{this.props.community_space}</td>
+                            </tr>:""
+                        } 
+                        {(this.props.council_facility) && (this.props.council_facility !== "") ?
+                            <tr>
+                                <td>Council facility:</td>
+                                <td>{this.props.council_facility}</td>
+                            </tr>:""
+                        } 
+                        {(this.props.notes) && (this.props.notes !== "") ?
+                            <tr>
+                                <td>Notes:</td>
+                                <td>{this.props.notes}</td>
                             </tr>:""
                         } 
                         {(this.props.spaceAvailable) && (this.props.spaceAvailable !== "") ?
@@ -198,6 +226,10 @@ class Nodal extends Component
                             <td>{this.props.subcat}</td>
                         </tr>
                         <tr>
+                            <td>Type:</td>
+                            <td>{this.props.type}</td>
+                        </tr>
+                        <tr>
                             <td>Ward:</td>
                             <td>{this.props.ward}</td>
                         </tr>
@@ -216,13 +248,13 @@ class Nodal extends Component
     render(){
         return <Marker 
         style = { { zIndex: this.props.id === this.props.activeNodal? 4 : 3}}  
-        coordinates = {this.props.location}
+        coordinates = {this.props.coordinates}
         
     >
         {this.displayInfoIfActive()}
         <img 
             alt="Marker on map"
-            src={this.getImgByType(this.props.type)} 
+            src={this.getImgByCategory(this.props.category_id)} 
             style={{height: '30px',width: '30px', }}
             onClick={this.openPopup}
         />

@@ -111,12 +111,12 @@ class MultipleNodal extends Component
         //Show list of companies in this marker
         if(this.state.infoBox === 'list'){
 
-            return <div class="nodal">
-            <span onClick = {this.closePopup} class="nodal_close">&#x2715;</span>
-            <h2 class="nodal_title">Organisations:</h2>
-            <div class="nodal_body">
+            return <div className="nodal">
+            <span onClick = {this.closePopup} className="nodal_close">&#x2715;</span>
+            <h2 className="nodal_title">Organisations:</h2>
+            <div className="nodal_body">
                 {this.props.councilData.map((el,key) => {
-                    return <div class="nodal_body_content" onClick={() => this.readCompany(key)}>&#8594; {el.Name}</div>
+                    return <div className="nodal_body_content" onClick={() => this.readCompany(key)}>&#8594; {el.name}</div>
                 })}
             </div>
             <div className="SpeechBubble"></div>                    
@@ -128,104 +128,136 @@ class MultipleNodal extends Component
         if(this.state.infoBox === 'company'){
             if(this.state.viewCompany !== ''){
                 let companyData = this.props.councilData[this.state.viewCompany];
-                return <div class="nodal">
-                <span onClick = {this.closePopup} class="nodal_close">&#x2715;</span>
-                <h2 class="nodal_title">{companyData.Name}</h2>
+                return <div className="nodal">
+                <span onClick = {this.closePopup} className="nodal_close">&#x2715;</span>
+                <h2 className="nodal_title">{companyData.name}</h2>
                 {this.state.checkBoxState ? 
                     <div>
-                        <table class="w3-table">
+                        <table className="w3-table">
                             <tbody>
                             <tr>
                                 <td valign="top">Address:</td>
-                                <td>{companyData.Address_1} {companyData.Add_2_RD_St} {companyData.Add_3} {companyData.Add_4}</td>
+                                <td>{companyData.address_1} {companyData.address_2} {companyData.address_3} {companyData.address_4}</td>
                             </tr>
                             <tr>
                                 <td>Postcode:</td>
-                                <td>{companyData.Postcode}</td>
+                                <td>{companyData.postcode}</td>
                             </tr>
                             <tr>
                                 <td>Category:</td>
-                                <td>{companyData.Sub_Cat}</td>
+                                <td>{companyData.sub_category}</td>
+                            </tr>
+                            <tr>
+                                <td>Type:</td>
+                                <td>{companyData.type}</td>
                             </tr>
                             <tr>
                                 <td>Ward:</td>
-                                <td>{companyData.Ward}</td>
+                                <td>{companyData.ward}</td>
                             </tr>
-                            {(companyData.Telephone_No) && (companyData.Telephone_No !== "") ?
+                            {(companyData.contact_name) && (companyData.contact_name !== "") ?
+                                <tr>
+                                    <td>Contact name:</td>
+                                    <td>{companyData.contact_name}</td>
+                                </tr>:""
+                            } 
+                            {(companyData.telephone) && (companyData.telephone !== "") ?
                                 <tr>
                                     <td>Phone:</td>
-                                    <td>{companyData.Telephone_No}</td>
+                                    <td>{companyData.telephone}</td>
                                 </tr>:""
                             } 
-                            {(companyData.Contact_Email) && (companyData.Contact_Email !== "") ?
+                            {(companyData.email) && (companyData.email !== "") ?
                                 <tr>
                                     <td>Email:</td>
-                                    <td>{companyData.Contact_Email}</td>
+                                    <td>{companyData.email}</td>
                                 </tr>:""
                             } 
-                            {(companyData.Web_Address) && (companyData.Web_Address !== "") ?
+                            {(companyData.web_address) && (companyData.web_address !== "") ?
                                 <tr>
                                     <td>Website:</td>
-                                    <td>{companyData.Web_Address}</td>
+                                    <td>{companyData.web_address}</td>
                                 </tr>:""
                             } 
-                            {(companyData.Space_AvailableTT) && (companyData.Space_AvailableTT !== "") ?
+                            {(companyData.community_space) && (companyData.community_space !== "") ?
+                                <tr>
+                                    <td>Community space:</td>
+                                    <td>{companyData.community_space}</td>
+                                </tr>:""
+                            } 
+                            {(companyData.council_facility) && (companyData.council_facility !== "") ?
+                                <tr>
+                                    <td>Council facility:</td>
+                                    <td>{companyData.council_facility}</td>
+                                </tr>:""
+                            } 
+                            {(companyData.notes) && (companyData.notes !== "") ?
+                                <tr>
+                                    <td>Notes:</td>
+                                    <td>{companyData.notes}</td>
+                                </tr>:""
+                            } 
+                            {(companyData.space_available) && (companyData.space_available !== "") ?
                                 <tr>
                                     <td>Space Available:</td>
-                                    <td>{companyData.Space_AvailableTT}</td>
+                                    <td>{companyData.space_available}</td>
                                 </tr>:""
                             } 
-                            {(companyData.Specialist_Spaces) && (companyData.Specialist_Spaces !== "") ?
+                            {(companyData.specialist_spaces) && (companyData.specialist_spaces !== "") ?
                                 <tr>
                                     <td>Specialist Space:</td>
-                                    <td>{companyData.Specialist_Spaces}</td>
+                                    <td>{companyData.specialist_spaces}</td>
                                 </tr>:""
                             } 
-                            {(companyData.Kitchen) && (companyData.Kitchen !== "") ?
+                            {(companyData.kitchen) && (companyData.kitchen !== "") ?
                                 <tr>
                                     <td>Kitchen:</td>
-                                    <td>{companyData.Kitchen === "Y" ? "Yes" : companyData.Kitchen}</td>
+                                    <td>{companyData.kitchen === "Y" ? "Yes" : companyData.kitchen}</td>
                                 </tr>:""
                             } 
-                            {(companyData.Disabled_Access) && (companyData.Disabled_Access !== "") ?
+                            {(companyData.disabled_access) && (companyData.disabled_access !== "") ?
                                 <tr>
                                     <td>Disabled Access:</td>
-                                    <td>{companyData.Disabled_Access === "Y" ? "Yes" : companyData.Disabled_Access}</td>
+                                    <td>{companyData.disabled_access === "Y" ? "Yes" : companyData.disabled_access}</td>
                                 </tr>:""
                             } 
-                            {(companyData.Price_Range) && (companyData.Price_Range !== "") ?
+                            {(companyData.price_range) && (companyData.price_range !== "") ?
                                 <tr>
                                     <td>Price Range:</td>
-                                    <td>{companyData.Price_Range}</td>
+                                    <td>{companyData.price_range}</td>
                                 </tr>:""
                             } 
                             </tbody>
                         </table>
-                        <button onClick = { this.readLess} class="nodal_action">Read less &#8594;</button>
+                        <button onClick = { this.readLess} className="nodal_action">Read less &#8594;</button>
                     </div> 
                     : 
                     <div>
-                        <table class="w3-table">
+                        <table className="w3-table">
                             <tbody>
                                 <tr>
                                     <td valign="top">Address:</td>
-                                    <td>{companyData.Address_1} {companyData.Add_2_RD_St} {companyData.Add_3} {companyData.Add_4}</td>
+                                    <td>{companyData.address_1} {companyData.address_2} {companyData.address_3} {companyData.address_4}</td>
                                 </tr>
                                 <tr>
                                     <td>Postcode:</td>
-                                    <td>{companyData.Postcode}</td>
+                                    <td>{companyData.postcode}</td>
                                 </tr>
                                 <tr>
                                     <td>Category:</td>
-                                    <td>{companyData.Sub_Cat}</td>
+                                    <td>{companyData.sub_category}</td>
+                                </tr>
+                                <tr>
+                                    <td>Type:</td>
+                                    <td>{companyData.type}</td>
                                 </tr>
                                 <tr>
                                     <td>Ward:</td>
-                                    <td>{companyData.Ward}</td>
+                                    <td>{companyData.ward}</td>
                                 </tr>
                             </tbody>
                         </table>
-                        <button onClick = { this.readMore} class="nodal_action">Read more &#8594;</button>
+                        <button onClick = { this.readMore} className="nodal_action">Read more &#8594;</button>
                     </div> 
                 }
                 <div className="SpeechBubble"></div>                    
@@ -238,7 +270,7 @@ class MultipleNodal extends Component
     render(){
         return <Marker 
         style = { { zIndex: this.props.id === this.props.activeNodal? 4 : 3}}  
-        coordinates = {this.props.location}
+        coordinates = {this.props.coordinates}
         >
         {this.displayInfoIfActive()}
         <img 
