@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Marker} from 'react-mapbox-gl';
 import {connect} from 'react-redux';
+import axios from 'axios';
+import constants from '../../constants';
  
 
 
@@ -100,13 +102,19 @@ class Nodal extends Component
         e.preventDefault();
         
          this.setState({ deleteDialog: true})
-         console.log(this.state.deleteDialog);
-        let  DialogStyle = 'block';
-        // console.log(DialogStyle);
-
-        return DialogStyle;
+         
         
-           
+           axios.get(`${constants.ROOT_URL}/api//council/markers/all/`)
+           .then((response) =>
+        {
+            console.log(response)
+        },
+
+      (error) =>
+      {
+       console.log('Are fucking kidding me!');
+      });
+        
            // if I click ok I then delete button sends an API call along with the key 
            // then API call deletes a specific record from the database  based on the key value 
                        
@@ -143,18 +151,21 @@ class Nodal extends Component
             return <div className="nodal">
              
                 <button className = "DeleteCommunityAsset" onClick ={this.deleteNodal}> <img src = {DeleteCommunityAsset}   alt = "DeleteCommunityAsset" 
-                    key = {this.props.id}  />
+                    key = {this.props.id}  /></button>
 
-                    {this.state.deleteDialog ?  <dialog  className = "ConfirmDialog"> Are you sure want to remove this nodal from the map ? 
+                    <dialog  className = "ConfirmDialog" style = {{display: this.state.deleteDialog ? 'block': 'none'}}> Are you sure want to remove this nodal from the map ? 
                         
                         < div className = "DecisionButtons">
-                            
-                         <button id = "Yes"> Yes </button> 
-                         <button id = "No">   No </button>
+                       
+                         <button id = "Yes"  onClick={ () => this.setState({ deleteDialog: false})}> Yes </button> 
+                         
+                         <button id = "No"   onClick={ () => this.setState({ deleteDialog: false})}>   No </button>
                          </div>
+
+                         
  
-                         </dialog>: null}
-                    </button>
+                         </dialog>
+                   
                   
                         
                        
