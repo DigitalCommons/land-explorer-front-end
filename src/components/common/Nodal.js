@@ -11,6 +11,7 @@ class Nodal extends Component
         super(props);
         this.state = {
             checkBoxState : false,
+            deleteDialog : false
            
         }
 
@@ -93,9 +94,18 @@ class Nodal extends Component
         });
     }
 
-    deleteNodal()   
+    deleteNodal(e)   
     {
 
+        e.preventDefault();
+        
+         this.setState({ deleteDialog: true})
+         console.log(this.state.deleteDialog);
+        let  DialogStyle = 'block';
+        // console.log(DialogStyle);
+
+        return DialogStyle;
+        
            
            // if I click ok I then delete button sends an API call along with the key 
            // then API call deletes a specific record from the database  based on the key value 
@@ -131,22 +141,23 @@ class Nodal extends Component
         if(this.props.id === this.props.activeNodal)
        
             return <div className="nodal">
-                 <form  className = "CommunityAssetControls">
-                    <button className = "DeleteCommunityAsset" onClick ={this.deleteNodal}  >
-                            <img src = {DeleteCommunityAsset}   alt = "DeleteCommunityAsset" 
-                              key = {this.props.id}  />
-                    </button>
-                   </form> 
-                        
-                        <dialog style = {{display: 'block'}} className = "ConfirmDialog"> Are you sure want to remove this nodal from the map ? 
-                        
-                       < div className = "DecisionButtons">
-                           
-                        <button id = "Yes" onClick ={console.log('Element is being deleted...') }> Yes </button> 
-                        <button id = "No" onClick = {console.log('Dialog is closed ')}> No </button>
-                        </div>
+             
+                <button className = "DeleteCommunityAsset" onClick ={this.deleteNodal}> <img src = {DeleteCommunityAsset}   alt = "DeleteCommunityAsset" 
+                    key = {this.props.id}  />
 
-                        </dialog>
+                    {this.state.deleteDialog ?  <dialog  className = "ConfirmDialog"> Are you sure want to remove this nodal from the map ? 
+                        
+                        < div className = "DecisionButtons">
+                            
+                         <button id = "Yes"> Yes </button> 
+                         <button id = "No">   No </button>
+                         </div>
+ 
+                         </dialog>: null}
+                    </button>
+                  
+                        
+                       
                    
                         
                         
