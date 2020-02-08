@@ -6,7 +6,7 @@ import {getAuthHeader,getToken} from "../components/Auth";
 import {turnOnLayer, turnOffLayer} from '../actions/CommunityAssetsActions';
 import { connect } from 'react-redux';
 import CouncilNavTrayItem from './common/CouncilNavTrayItem';
-import { confirmAlert } from 'react-confirm-alert';
+import Swal from 'sweetalert2';
 
 class NavCommunityAssets extends Component {
     constructor(props){
@@ -85,11 +85,47 @@ class NavCommunityAssets extends Component {
         );
     }
 
+    get = function(obj, key) {
+        return key.split(".").reduce(function(o, x) {
+            return (typeof o == "undefined" || o === null) ? o : o[x];
+        }, obj);
+    }
+
      uploadWithFormData = () => {
         const formData = new FormData();
         formData.append("file", this.state.file);
-       
-        this.submitForm(formData, (msg) => console.log(msg));
+        
+        Swal.fire({
+            icon: 'warning',
+            title: 'Confirm replacing data',
+            text: 'This action will replace existing data with the new uploaded document.',
+            confirmButtonText: 'Submit',
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+                return axios.post(`${constants.ROOT_URL}/api/council/upload/replace/`, formData, getAuthHeader())
+                .then((response) => {
+                    if(response.status === 200){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.data.rows_affected+' rows of new data added to the system. Please refresh page to reload new data.'
+                        })
+                    }
+                }).catch((error) => { 
+                    let err_msg = this.get(error,'response.data.Message') === undefined ? "There has been an error. Please try again later." : error.response.data.Message;  
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: err_msg,
+                    }) 
+                })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        })
+
+
+        //this.submitForm(formData, (msg) => console.log(msg));
     }
 
     submitForm(data, setResponse) {
