@@ -12,16 +12,28 @@ class NavCommunityAssets extends Component {
     constructor(props){
         super(props);
 
-    }
+        this.state = {
+            file: null
+        }
 
-    state = {
-        file: null
     }
 
     setFile(e){
         let file = e.target.files[0]
 
-        this.setState({file: file})
+        this.setState({
+            file: file,
+            loaded: 0,
+        })
+    }
+
+    onChangeHandler=event=>{
+
+        let file = event.target.files[0]
+        this.setState({
+            file: file,
+            loaded: 0,
+        })
     }
 
     render(){
@@ -65,7 +77,7 @@ class NavCommunityAssets extends Component {
                 
                 <label>
                 Upload CSV
-                <input type="file" name="file" accept=".csv" onChange={(e) => this.setFile(e)} />
+                <input type="file" name="file" accept=".csv" onChange={this.onChangeHandler} />
                 </label>
 
                 <input type="button" value="Upload file" onClick={this.uploadWithFormData} />
@@ -73,7 +85,7 @@ class NavCommunityAssets extends Component {
         );
     }
 
-     uploadWithFormData(){
+     uploadWithFormData = () => {
         const formData = new FormData();
         formData.append("file", this.state.file);
        
@@ -81,16 +93,7 @@ class NavCommunityAssets extends Component {
     }
 
     submitForm(data, setResponse) {
-        // axios({
-        //     url: `${constants.ROOT_URL}/upload`,
-        //     method: 'POST',
-        //     data: data,
-        //     headers: {
-        //         'Content-Type': "multipart/form-data",
-        //         authorization: getToken()
-        //     }
-        // })
-        axios.post(`${constants.ROOT_URL}/api/council/upload`, data, getAuthHeader())
+        axios.post(`${constants.ROOT_URL}/api/council/upload/replace/`, data, getAuthHeader())
             .then((response) => {
                 setResponse(response.data);
             }).catch((error) => {

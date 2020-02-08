@@ -86,7 +86,6 @@ class MapCommunityAssets extends Component {
 
     createNodalBackEnd(communityAsset){
         let boundaries = this.props.map.getBounds();
-
         //This boundary check currently crashes the app as the <Cluster> is already called before this function
         //Returning nothing will make the cluster try to access a null 
         //Can't think of a good way to fix this right now
@@ -212,33 +211,37 @@ class MapCommunityAssets extends Component {
         let activeLayers = [];
 
         if(this.props.activeCommunityAssets.includes("Community Space")){
+            if(this.state.councilData[1] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[1]);
         }
 
         if(this.props.activeCommunityAssets.includes("Public")){
+            if(this.state.councilData[2] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[2]);
             //activeLayers.push(2);
         }
 
         if(this.props.activeCommunityAssets.includes("Sports Leisure")){
+            if(this.state.councilData[3] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[3]);
         }
 
         if(this.props.activeCommunityAssets.includes("Community Business")){    
+            if(this.state.councilData[4] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[4]);
         }
 
         if(this.props.activeCommunityAssets.includes("Business Night")){
+            if(this.state.councilData[5] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[5]);
         }
 
         if(this.props.activeCommunityAssets.includes("Voluntary Sector")){
+            if(this.state.councilData[6] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[6]);
         }
         
         activeLayers = this.packDuplicateCoordinate(activeLayers);
-        let activeLayersKey = activeLayers;
-
         if(activeLayers.length > 0){
             nodes.push(<Cluster key="1" ClusterMarkerFactory={this.clusterMarkerSeven} radius={this.state.radius}>
                 {
