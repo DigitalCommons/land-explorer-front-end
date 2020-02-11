@@ -15,7 +15,7 @@ class MapCommunityAssets extends Component {
         super(props);
         this.state = {
             checkBoxState : false,
-            radius : 30,
+            radius : 55,
             councilData : [],
         }        
 
@@ -128,7 +128,8 @@ class MapCommunityAssets extends Component {
             return <MultipleNodal
             councilData = {communityAsset}
             key = {communityAsset[0].id}
-            type = '0'
+            //category_id = 0
+            category_id = {communityAsset[0].category_id}
             coordinates={[communityAsset[0].longitude,communityAsset[0].latitude]}
             name = {communityAsset[0].name}
             postcode = {communityAsset[0].postcode}
@@ -209,41 +210,47 @@ class MapCommunityAssets extends Component {
         
         let nodes = [];
         let activeLayers = [];
+        let activeLayersId = [];
 
         if(this.props.activeCommunityAssets.includes("Community Space")){
             if(this.state.councilData[1] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[1]);
+            activeLayersId.push("clusterMarkerOne");
         }
 
         if(this.props.activeCommunityAssets.includes("Public")){
             if(this.state.councilData[2] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[2]);
-            //activeLayers.push(2);
+            activeLayersId.push("clusterMarkerTwo");
         }
 
         if(this.props.activeCommunityAssets.includes("Sports Leisure")){
             if(this.state.councilData[3] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[3]);
+            activeLayersId.push("clusterMarkerThree");
         }
 
         if(this.props.activeCommunityAssets.includes("Community Business")){    
             if(this.state.councilData[4] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[4]);
+            activeLayersId.push("clusterMarkerFour");
         }
 
         if(this.props.activeCommunityAssets.includes("Business Night")){
             if(this.state.councilData[5] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[5]);
+            activeLayersId.push("clusterMarkerFive");
         }
 
         if(this.props.activeCommunityAssets.includes("Voluntary Sector")){
             if(this.state.councilData[6] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[6]);
+            activeLayersId.push("clusterMarkerSix");
         }
         
         activeLayers = this.packDuplicateCoordinate(activeLayers);
         if(activeLayers.length > 0){
-            nodes.push(<Cluster key="1" ClusterMarkerFactory={this.clusterMarkerSeven} radius={this.state.radius}>
+            nodes.push(<Cluster key="1" ClusterMarkerFactory={this[activeLayersId[0]]} radius={this.state.radius}>
                 {
                     activeLayers.map(this.createNodalBackEnd)
                 }

@@ -25,7 +25,7 @@ class MultipleNodal extends Component
 
 
   
-    getImgByType(type){
+    getImgByCategoryId(id){
         const redMarker = require('../../assets/img/icon-community-asset-red.svg');
         const blueMarker =  require('../../assets/img/icon-community-asset-blue.svg');
         const purpleMarker = require('../../assets/img/icon-community-asset-purple.svg');
@@ -34,14 +34,14 @@ class MultipleNodal extends Component
         const greyMarker = require('../../assets/img/icon-community-asset-grey.svg');
         const orangeMarker = require('../../assets/img/icon-community-asset-orange.svg');
         
-        switch(type){
-            case "0": return orangeMarker;
-            case "1": return redMarker;
-            case "2": return blueMarker;
-            case "3": return purpleMarker;
-            case "4": return greenMarker;
-            case "5": return brownMarker;
-            case "6": return greyMarker;
+        switch(id){
+            case 0: return orangeMarker;
+            case 1: return redMarker;
+            case 2: return blueMarker;
+            case 3: return purpleMarker;
+            case 4: return greenMarker;
+            case 5: return brownMarker;
+            case 6: return greyMarker;
             default: return orangeMarker;
         }
     }
@@ -268,6 +268,7 @@ class MultipleNodal extends Component
     
     
     render(){
+        console.log("Making multiple marker with type: " + this.props.type)
         return <Marker 
         style = { { zIndex: this.props.id === this.props.activeNodal? 4 : 3}}  
         coordinates = {this.props.coordinates}
@@ -275,7 +276,7 @@ class MultipleNodal extends Component
         {this.displayInfoIfActive()}
         <img 
             alt="Marker on map"
-            src={this.getImgByType(this.props.type)} 
+            src={this.getImgByCategoryId(this.props.category_id)} 
             style={{height: '30px',width: '30px', }}
             onClick={this.openPopup}
         />
