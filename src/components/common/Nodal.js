@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import {getAuthHeader} from "../Auth";
 import constants from '../../constants';
- 
+import Swal from "sweetalert2";
 
 
 
@@ -97,29 +97,66 @@ class Nodal extends Component
         });
     }
 
-    deleteNodal(e)   
+    deleteNodal = e =>   
     {
 
-        e.preventDefault();
+    //     e.preventDefault();
         
-         this.setState({ deleteDialog: true})
+    //      this.setState({ deleteDialog: true})
          
         
-           axios.get(`${constants.ROOT_URL}/api/council/markers/all/`,{},getAuthHeader())
-           .then((response) =>
-        {
-            console.log(response)
-        },
+    //        axios.get(`${constants.ROOT_URL}/api/council/markers/all/`,{},getAuthHeader())
+    //        .then((response) =>
+    //     {
+    //         console.log(response)
+    //     },
 
-      (error) =>
-      {
-       console.log(error);
-      });
+    //   (error) =>
+    //   {
+    //    console.log(error);
+    //   });
         
-           // if I click ok I then delete button sends an API call along with the key 
-           // then API call deletes a specific record from the database  based on the key value 
+    //        // if I click ok I then delete button sends an API call along with the key 
+    //        // then API call deletes a specific record from the database  based on the key value 
                        
-    }
+    // }
+
+    Swal.fire({
+        icon: 'warning',
+        title: 'Confirm Deleting the asset',
+        text: 'If you delete the asset you\'ll have to upload it again',
+        confirmButtonText: 'DELETE',
+        cancelButtonText:'I want to keep the asset!',
+        showCancelButton: true,
+        showLoaderOnConfirm: true,
+        // preConfirm: () => {
+        //     return axios.post(`${constants.ROOT_URL}/api/council/upload/replace/`, formData, getAuthHeader())
+        //     .then((response) => {
+        //         if(response.status === 200){
+        //             Swal.fire({
+        //                 icon: 'success',
+        //                 title: 'Success',
+        //                 text: response.data.rows_affected+' rows of new data added to the system. Please refresh page to reload new data.'
+        //             })
+        //         }
+        //     }).catch((error) => { 
+        //         let err_msg = this.get(error,'response.data.Message') === undefined ? "There has been an error. Please try again later." : error.response.data.Message;  
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: 'Oops...',
+        //             text: err_msg,
+        //         }) 
+        //     })
+        // },
+        // allowOutsideClick: () => !Swal.isLoading()
+    })
+
+
+
+
+
+
+    };
 
     displayInfoIfActive(){
  
@@ -150,11 +187,7 @@ class Nodal extends Component
         if(this.props.id === this.props.activeNodal)
        
             return <div className="nodal">
-             
-                <button className = "DeleteCommunityAsset" onClick ={this.deleteNodal}> <img src = {DeleteCommunityAsset}   alt = "DeleteCommunityAsset" 
-                    key = {this.props.id}  /></button>
-
-                    <dialog  className = "ConfirmDialog" style = {{display: this.state.deleteDialog ? 'block': 'none'}}> Are you sure want to remove this nodal from the map ? 
+                    {/* <dialog  className = "ConfirmDialog" style = {{display: this.state.deleteDialog ? 'block': 'none'}}> Are you sure want to remove this nodal from the map ? 
                         
                         < div className = "DecisionButtons">
                        
@@ -165,17 +198,14 @@ class Nodal extends Component
 
                          
  
-                         </dialog>
-                   
-                  
-                        
-                       
-                   
-                        
-                        
+                         </dialog> */}
+          
 
             <span onClick = {this.closePopup} className="nodal_close">&#x2715;</span>
-            <h2 className = "nodal_title">{this.props.name}</h2>
+            <h2 className = "nodal_title">{this.props.name} <button className = "DeleteCommunityAsset" onClick ={this.deleteNodal}>
+                <img src = {DeleteCommunityAsset}   alt = "DeleteCommunityAsset" key = {this.props.id}  />
+                </button></h2>
+            
             {this.state.checkBoxState ? 
                 <div>
                     <table className="w3-table">

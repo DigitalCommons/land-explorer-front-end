@@ -32,26 +32,34 @@ $bg-color: #f1f1f1;
   }
 }
 
-
-
-
-#Yes
+.DeleteCommunityAsset
 {
-  background: lightgreen;
-  color:white;
-  border-radius: 12px; 
   border: none;
-  margin-right: 12px;
 }
 
-#No
+.DeleteCommunityAsset:hover
 {
-  background:#f9060e;
-  color: white;
-  border-radius: 12px; 
-  border: none;
-  margin-right: 12px;
+  background-color: blue;
 }
+
+
+// #Yes
+// {
+//   background: lightgreen;
+//   color:white;
+//   border-radius: 12px; 
+//   border: none;
+//   margin-right: 12px;
+// }
+
+// #No
+// {
+//   background:#f9060e;
+//   color: white;
+//   border-radius: 12px; 
+//   border: none;
+//   margin-right: 12px;
+// }
 
 
 .nodal_title {
