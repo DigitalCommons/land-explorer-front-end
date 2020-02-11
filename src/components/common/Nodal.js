@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Marker} from 'react-mapbox-gl';
 import {connect} from 'react-redux';
 import axios from 'axios';
+import {getAuthHeader} from "../Auth";
 import constants from '../../constants';
  
 
@@ -104,7 +105,7 @@ class Nodal extends Component
          this.setState({ deleteDialog: true})
          
         
-           axios.get(`${constants.ROOT_URL}/api//council/markers/all/`)
+           axios.get(`${constants.ROOT_URL}/api/council/markers/all/`,{},getAuthHeader())
            .then((response) =>
         {
             console.log(response)
@@ -112,7 +113,7 @@ class Nodal extends Component
 
       (error) =>
       {
-       console.log('Are fucking kidding me!');
+       console.log(error);
       });
         
            // if I click ok I then delete button sends an API call along with the key 
