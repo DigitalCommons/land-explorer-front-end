@@ -129,33 +129,28 @@ class Nodal extends Component
         cancelButtonText:'I want to keep the asset!',
         showCancelButton: true,
         showLoaderOnConfirm: true,
-        // preConfirm: () => {
-        //     return axios.post(`${constants.ROOT_URL}/api/council/upload/replace/`, formData, getAuthHeader())
-        //     .then((response) => {
-        //         if(response.status === 200){
-        //             Swal.fire({
-        //                 icon: 'success',
-        //                 title: 'Success',
-        //                 text: response.data.rows_affected+' rows of new data added to the system. Please refresh page to reload new data.'
-        //             })
-        //         }
-        //     }).catch((error) => { 
-        //         let err_msg = this.get(error,'response.data.Message') === undefined ? "There has been an error. Please try again later." : error.response.data.Message;  
-        //         Swal.fire({
-        //             icon: 'error',
-        //             title: 'Oops...',
-        //             text: err_msg,
-        //         }) 
-        //     })
-        // },
-        // allowOutsideClick: () => !Swal.isLoading()
+
+        preConfirm: () => 
+        {
+            console.trace();
+            return axios.delete(`${constants.ROOT_URL}/api/council/upload/replace/`, getAuthHeader())
+            .then((response) => {
+                if(response.status === 200){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.data.rows_affected+' rows of new data added to the system. Please refresh page to reload new data.'
+                    })
+ }
+            }),
+    
+      (error) =>
+      {
+       console.log(error);
+      };
+        },
+        
     })
-
-
-
-
-
-
     };
 
     displayInfoIfActive(){
@@ -167,7 +162,8 @@ class Nodal extends Component
         const closeIcon = require('../../assets/img/icon-close-new.svg')
         const DeleteCommunityAsset = require('../../assets/img/icon-trash-red.svg')
 
-        let buttonStyle={
+        let buttonStyle =
+        {
             color: 'grey',
             textDecoration: 'underline',
         }
@@ -186,7 +182,7 @@ class Nodal extends Component
 
         if(this.props.id === this.props.activeNodal)
        
-            return <div className="nodal">
+            return <div className="nodal" key ={this.props.id}>
                     {/* <dialog  className = "ConfirmDialog" style = {{display: this.state.deleteDialog ? 'block': 'none'}}> Are you sure want to remove this nodal from the map ? 
                         
                         < div className = "DecisionButtons">
@@ -199,7 +195,7 @@ class Nodal extends Component
                          
  
                          </dialog> */}
-          
+          {console.log(this.props.id)}
 
             <span onClick = {this.closePopup} className="nodal_close">&#x2715;</span>
             <h2 className = "nodal_title">{this.props.name} <button className = "DeleteCommunityAsset" onClick ={this.deleteNodal}>
