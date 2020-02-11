@@ -132,22 +132,21 @@ class Nodal extends Component
 
         preConfirm: () => 
         {
-            console.trace();
-            return axios.delete(`${constants.ROOT_URL}/api/council/upload/replace/`, getAuthHeader())
+            axios.post(`${constants.ROOT_URL}/api/council/markers/delete/`, {
+                "id": this.props.id
+            }, getAuthHeader())
             .then((response) => {
-                if(response.status === 200){
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.data.rows_affected+' rows of new data added to the system. Please refresh page to reload new data.'
-                    })
- }
-            }),
-    
-      (error) =>
-      {
-       console.log(error);
-      };
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Changes have been saved',
+                  })
+            }).catch((err) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong! Please try again later.',
+                  })
+            });
         },
         
     })
