@@ -9840,6 +9840,11 @@ sw-toolbox@^3.4.0:
     path-to-regexp "^1.0.1"
     serviceworker-cache-polyfill "^4.0.0"
 
+sweetalert2@^9.7.2:
+  version "9.7.2"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-9.7.2.tgz#ad11a75e765b543792b032c27a5ab981a7c8429e"
+  integrity sha512-VmFmigf+rO20t5fOql21wIZlk60B8M02kXwPLmMA2qaBcVwvDQA+qGXuqtXipx1wsztTOiXgyDiBvdbHbIvQpw==
+
 symbol-observable@^1.0.3:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
