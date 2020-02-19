@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import {Marker} from 'react-mapbox-gl';
 import {connect} from 'react-redux';
- 
+import axios from 'axios';
+import {getAuthHeader} from "../Auth";
+import constants from '../../constants';
+import Swal from "sweetalert2";
 
 
 
@@ -11,6 +14,7 @@ class Nodal extends Component
         super(props);
         this.state = {
             checkBoxState : false,
+            deleteDialog : false
            
         }
 
@@ -19,11 +23,12 @@ class Nodal extends Component
         this.closePopup             = this.closePopup.bind(this);
         this.readMore               = this.readMore.bind(this);
         this.readLess               = this.readLess.bind(this)
+        this.deleteNodal            = this.deleteNodal.bind(this);
     }
 
 
   
-    getImgByType(type){
+    getImgByCategory(id){
         const redMarker = require('../../assets/img/icon-community-asset-red.svg');
         const blueMarker =  require('../../assets/img/icon-community-asset-blue.svg');
         const purpleMarker = require('../../assets/img/icon-community-asset-purple.svg');
@@ -32,14 +37,14 @@ class Nodal extends Component
         const greyMarker = require('../../assets/img/icon-community-asset-grey.svg');
         const orangeMarker = require('../../assets/img/icon-community-asset-orange.svg');
         
-        switch(type){
-            case "0": return orangeMarker;
-            case "1": return redMarker;
-            case "2": return blueMarker;
-            case "3": return purpleMarker;
-            case "4": return greenMarker;
-            case "5": return brownMarker;
-            case "6": return greyMarker;
+        switch(id){
+            case 0: return orangeMarker;
+            case 1: return redMarker;
+            case 2: return blueMarker;
+            case 3: return purpleMarker;
+            case 4: return greenMarker;
+            case 5: return brownMarker;
+            case 6: return greyMarker;
             default: return orangeMarker;
         }
     }
@@ -76,19 +81,69 @@ class Nodal extends Component
         });
     }
 
-    deleteNodal = (e, data) => {
-        // access to e.target here
-        console.log(data);
-    }
+    deleteNodal = e =>   
+    {
+
+    //     e.preventDefault();
+        
+    //      this.setState({ deleteDialog: true})
+         
+        
+    //        axios.get(`${constants.ROOT_URL}/api/council/markers/all/`,{},getAuthHeader())
+    //        .then((response) =>
+    //     {
+    //         console.log(response)
+    //     },
+
+    //   (error) =>
+    //   {
+    //    console.log(error);
+    //   });
+        
+    //        // if I click ok I then delete button sends an API call along with the key 
+    //        // then API call deletes a specific record from the database  based on the key value 
+                       
+    // }
+
+    Swal.fire({
+        icon: 'warning',
+        title: 'Confirm Deleting the asset',
+        text: 'If you delete the asset you\'ll have to upload it again',
+        confirmButtonText: 'DELETE',
+        cancelButtonText:'I want to keep the asset!',
+        showCancelButton: true,
+        showLoaderOnConfirm: true,
+
+        preConfirm: () => 
+        {
+            axios.post(`${constants.ROOT_URL}/api/council/markers/delete/`, {
+                "id": this.props.id
+            }, getAuthHeader())
+            .then((response) => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Changes have been saved',
+                  })
+            }).catch((err) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong! Please try again later.',
+                  })
+            });
+        },
+        
+    })
+    };
 
     displayInfoIfActive(){
  
-          
 
         const closeIcon = require('../../assets/img/icon-close-new.svg')
         const DeleteCommunityAsset = require('../../assets/img/icon-trash-red.svg')
 
-        let buttonStyle={
+        let buttonStyle =
+        {
             color: 'grey',
             textDecoration: 'underline',
         }
@@ -106,13 +161,33 @@ class Nodal extends Component
         }
 
         if(this.props.id === this.props.activeNodal)
-            return <div class="nodal">
-            <span onClick = {this.closePopup} class="nodal_close">&#x2715;</span>
-            <h2 class="nodal_title">{this.props.name}</h2>
+       
+            return <div className="nodal" key ={this.props.id}>
+                    {/* <dialog  className = "ConfirmDialog" style = {{display: this.state.deleteDialog ? 'block': 'none'}}> Are you sure want to remove this nodal from the map ? 
+                        
+                        < div className = "DecisionButtons">
+                       
+                         <button id = "Yes"  onClick={ () => this.setState({ deleteDialog: false})}> Yes </button> 
+                         
+                         <button id = "No"   onClick={ () => this.setState({ deleteDialog: false})}>   No </button>
+                         </div>
+
+                         
+ 
+                         </dialog> */}
+          {console.log(this.props.id)}
+
+            <span onClick = {this.closePopup} className="nodal_close">&#x2715;</span>
+            <h2 className = "nodal_title">{this.props.name} <button className = "DeleteCommunityAsset" onClick ={this.deleteNodal}>
+                <img src = {DeleteCommunityAsset}   alt = "DeleteCommunityAsset" key = {this.props.id}  />
+                </button></h2>
+            
             {this.state.checkBoxState ? 
                 <div>
+
                     <table class="w3-table">
                         <tbody>
+
                         <tr>
                             <td valign="top">Address:</td>
                             <td>{this.props.addressLine1} {this.props.addressLine2} {this.props.addressLine3} {this.props.addressLine4}</td>
@@ -126,9 +201,19 @@ class Nodal extends Component
                             <td>{this.props.subcat}</td>
                         </tr>
                         <tr>
+                            <td>Type:</td>
+                            <td>{this.props.type}</td>
+                        </tr>
+                        <tr>
                             <td>Ward:</td>
                             <td>{this.props.ward}</td>
                         </tr>
+                        {(this.props.contact_name) && (this.props.contact_name !== "") ?
+                            <tr>
+                                <td>Contact name:</td>
+                                <td>{this.props.contact_name}</td>
+                            </tr>:""
+                        } 
                         {(this.props.telephone) && (this.props.telephone !== "") ?
                             <tr>
                                 <td>Phone:</td>
@@ -145,6 +230,24 @@ class Nodal extends Component
                             <tr>
                                 <td>Website:</td>
                                 <td>{this.props.website}</td>
+                            </tr>:""
+                        } 
+                        {(this.props.community_space) && (this.props.community_space !== "") ?
+                            <tr>
+                                <td>Community space:</td>
+                                <td>{this.props.community_space}</td>
+                            </tr>:""
+                        } 
+                        {(this.props.council_facility) && (this.props.council_facility !== "") ?
+                            <tr>
+                                <td>Council facility:</td>
+                                <td>{this.props.council_facility}</td>
+                            </tr>:""
+                        } 
+                        {(this.props.notes) && (this.props.notes !== "") ?
+                            <tr>
+                                <td>Notes:</td>
+                                <td>{this.props.notes}</td>
                             </tr>:""
                         } 
                         {(this.props.spaceAvailable) && (this.props.spaceAvailable !== "") ?
@@ -179,10 +282,11 @@ class Nodal extends Component
                         } 
                         </tbody>
                     </table>
-                    <button onClick = { this.readLess} class="nodal_action">Read less &#8594;</button>
+                    <button onClick = { this.readLess} className="nodal_action">Read less &#8594;</button>
                 </div> 
                 : 
                 <div>
+
                     <table class="w3-table">
                         <tbody>
                         <tr>
@@ -193,17 +297,24 @@ class Nodal extends Component
                             <td>Postcode:</td>
                             <td>{this.props.postcode}</td>
                         </tr>
+
                         <tr>
                             <td>Category:</td>
                             <td>{this.props.subcat}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Type:</td>
+                            <td>{this.props.type}</td>
                         </tr>
                         <tr>
                             <td>Ward:</td>
                             <td>{this.props.ward}</td>
                         </tr>
                         </tbody>
+
                     </table>
-                    <button onClick = { this.readMore} class="nodal_action">Read more &#8594;</button>
+                    <button onClick = { this.readMore} className = "nodal_action">Read more &#8594;</button>
                 </div> 
             }
             <div className="SpeechBubble"></div>
@@ -216,13 +327,13 @@ class Nodal extends Component
     render(){
         return <Marker 
         style = { { zIndex: this.props.id === this.props.activeNodal? 4 : 3}}  
-        coordinates = {this.props.location}
+        coordinates = {this.props.coordinates}
         
     >
         {this.displayInfoIfActive()}
         <img 
             alt="Marker on map"
-            src={this.getImgByType(this.props.type)} 
+            src={this.getImgByCategory(this.props.category_id)} 
             style={{height: '30px',width: '30px', }}
             onClick={this.openPopup}
         />

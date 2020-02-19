@@ -6,22 +6,34 @@ import {getAuthHeader,getToken} from "../components/Auth";
 import {turnOnLayer, turnOffLayer} from '../actions/CommunityAssetsActions';
 import { connect } from 'react-redux';
 import CouncilNavTrayItem from './common/CouncilNavTrayItem';
-import { confirmAlert } from 'react-confirm-alert';
+import Swal from 'sweetalert2';
 
 class NavCommunityAssets extends Component {
     constructor(props){
         super(props);
 
-    }
+        this.state = {
+            file: null
+        }
 
-    state = {
-        file: null
     }
 
     setFile(e){
         let file = e.target.files[0]
 
-        this.setState({file: file})
+        this.setState({
+            file: file,
+            loaded: 0,
+        })
+    }
+
+    onChangeHandler=event=>{
+
+        let file = event.target.files[0]
+        this.setState({
+            file: file,
+            loaded: 0,
+        })
     }
 
     render(){
@@ -65,7 +77,7 @@ class NavCommunityAssets extends Component {
                 
                 <label>
                 Upload CSV
-                <input type="file" name="file" accept=".csv" onChange={(e) => this.setFile(e)} />
+                <input type="file" name="file" accept=".csv" onChange={this.onChangeHandler} />
                 </label>
 
                 <input type="button" value="Upload file" onClick={this.uploadWithFormData} />
@@ -73,24 +85,51 @@ class NavCommunityAssets extends Component {
         );
     }
 
-     uploadWithFormData(){
+    get = function(obj, key) {
+        return key.split(".").reduce(function(o, x) {
+            return (typeof o == "undefined" || o === null) ? o : o[x];
+        }, obj);
+    }
+
+     uploadWithFormData = () => {
         const formData = new FormData();
         formData.append("file", this.state.file);
-       
-        this.submitForm(formData, (msg) => console.log(msg));
+        
+        Swal.fire({
+            icon: 'warning',
+            title: 'Confirm replacing data',
+            text: 'This action will replace existing data with the new uploaded document.',
+            confirmButtonText: 'Submit',
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+                return axios.post(`${constants.ROOT_URL}/api/council/upload/replace/`, formData, getAuthHeader())
+                .then((response) => {
+                    if(response.status === 200){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.data.rows_affected+' rows of new data added to the system. Please refresh page to reload new data.'
+                        })
+                    }
+                }).catch((error) => { 
+                    let err_msg = this.get(error,'response.data.Message') === undefined ? "There has been an error. Please try again later." : error.response.data.Message;  
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: err_msg,
+                    }) 
+                })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        })
+
+
+        //this.submitForm(formData, (msg) => console.log(msg));
     }
 
     submitForm(data, setResponse) {
-        // axios({
-        //     url: `${constants.ROOT_URL}/upload`,
-        //     method: 'POST',
-        //     data: data,
-        //     headers: {
-        //         'Content-Type': "multipart/form-data",
-        //         authorization: getToken()
-        //     }
-        // })
-        axios.post(`${constants.ROOT_URL}/api/council/upload`, data, getAuthHeader())
+        axios.post(`${constants.ROOT_URL}/api/council/upload/replace/`, data, getAuthHeader())
             .then((response) => {
                 setResponse(response.data);
             }).catch((error) => {

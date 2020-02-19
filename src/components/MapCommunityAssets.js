@@ -15,7 +15,7 @@ class MapCommunityAssets extends Component {
         super(props);
         this.state = {
             checkBoxState : false,
-            radius : 30,
+            radius : 55,
             councilData : [],
         }        
 
@@ -26,20 +26,20 @@ class MapCommunityAssets extends Component {
     }
 
     componentDidMount() {
-        axios.post(`${constants.ROOT_URL}/api/council/markers/all/`,{},getAuthHeader())
+        axios.post(`${constants.ROOT_URL}/api/council/markers/all2/`,{},getAuthHeader())
         .then((response) => {
             let arr = [];
             //API return data from all layer
-            //Optimise by grouping the data according to its layers
+            //Optimise by grouping the data according to its category id
 
-            //First index of arr would be marker objects with layer_id 1, and so on
+            //First index of arr would be marker objects with category_id 1, and so on
             response.data.forEach( el => {
-                //Each element has a layer id
-                if(arr[el.layer_id] == null){
-                    //push element to different index according to its layer id
-                    arr[el.layer_id] = [];
+                //Each element has a category_id
+                if(arr[el.category_id] == null){
+                    //push element to different index according to its category_id
+                    arr[el.category_id] = [];
                 }
-                arr[el.layer_id].push(el);
+                arr[el.category_id].push(el);
             });
 
             this.setState({councilData : arr});
@@ -62,7 +62,7 @@ class MapCommunityAssets extends Component {
             }else{
                 for(let i = 1; i < arr.length; i++){
                     //Compare first indexed item against other items on array
-                    if(arr[0].Lng === arr[i].Lng && arr[0].Lat === arr[i].Lat){
+                    if(arr[0].longitude === arr[i].longitude && arr[0].latitude === arr[i].latitude){
                         //If there is duplicate coordinate, move item to arrOfTempNodals
                         arrOfTempNodals = arrOfTempNodals.concat(arr.splice(i, 1));
                         i--;
@@ -86,62 +86,53 @@ class MapCommunityAssets extends Component {
 
     createNodalBackEnd(communityAsset){
         let boundaries = this.props.map.getBounds();
-
         //This boundary check currently crashes the app as the <Cluster> is already called before this function
         //Returning nothing will make the cluster try to access a null 
         //Can't think of a good way to fix this right now
 
-        //if(communityAsset.Long < boundaries._ne.lng && communityAsset.Long > boundaries._sw.lng)
-        //if(communityAsset.Lat < boundaries._ne.lat && communityAsset.Lat > boundaries._sw.lat)
-
-        if(communityAsset.Name !== undefined){
+        //if(communityAsset.Long < boundaries._ne.longitude && communityAsset.Long > boundaries._sw.longitude)
+        //if(communityAsset.latitude < boundaries._ne.latitude && communityAsset.latitude > boundaries._sw.latitude)
+        //console.log(communityAsset);
+        if(communityAsset.name !== undefined){
             return <Nodal
-                type = {communityAsset.Layer.slice(0,1)}
-                location = {[communityAsset.Lng,communityAsset.Lat]}
-                coordinates={[communityAsset.Lng,communityAsset.Lat]}
-                name = {communityAsset.Name}
-                postcode = {communityAsset.Postcode}
-                subcat = {communityAsset["Sub_Cat"]}
-                key = {communityAsset["RefNo"]}
-                id = {communityAsset["RefNo"]}
-                ward = {communityAsset.Ward}
-                addressLine1 = {communityAsset["Address_1"]}
-                addressLine2 = {communityAsset["Add_2_RD_St"]}
-                addressLine3 = {communityAsset["Add_3"]}
-                addressLine4 = {communityAsset["Add_4"]}
-                website = {communityAsset["Web_Address"]}
-                email = {communityAsset["Contact_Email"]}
-                telephone = {communityAsset["Telephone_No"]}
-                spaceAvailable = {communityAsset["Space_AvailableTT"]}
-                specialistSpace = {communityAsset["Specialist_Spaces"]}
-                kitchen = {communityAsset["Kitchen"]}
-                disabled = {communityAsset["Disabled_Access"]}
-                price = {communityAsset["Price_Range"]}
+                key = {communityAsset.id}
+                id = {communityAsset.id}
+                name = {communityAsset.name}
+                addressLine1 = {communityAsset.address_1}
+                addressLine2 = {communityAsset.address_2}
+                addressLine3 = {communityAsset.address_3}
+                addressLine4 = {communityAsset.address_4}
+                postcode = {communityAsset.postcode}
+                ward = {communityAsset.ward}
+                category_id = {communityAsset.category_id}
+                subcat = {communityAsset.sub_category}
+                type = {communityAsset.type}
+
+                community_space = {communityAsset.community_space}
+                council_facility = {communityAsset.council_facility}
+                notes = {communityAsset.notes}
+                website = {communityAsset.web_address}
+                email = {communityAsset.email}
+                telephone = {communityAsset.telephone}
+                contact_name = {communityAsset.contact_name}
+
+                coordinates={[communityAsset.longitude,communityAsset.latitude]}
+                
+                spaceAvailable = {communityAsset.space_available}
+                specialistSpace = {communityAsset.specialist_spaces}
+                kitchen = {communityAsset.kitchen}
+                disabled = {communityAsset.disabled_access}
+                price = {communityAsset.price_range}
                 />
         }else{
             return <MultipleNodal
             councilData = {communityAsset}
-            type = '0'
-            location = {[communityAsset[0].Lng,communityAsset[0].Lat]}
-            coordinates={[communityAsset[0].Lng,communityAsset[0].Lat]}
-            name = {communityAsset[0].Name}
-            postcode = {communityAsset[0].Postcode}
-            subcat = {communityAsset["Sub_Cat"]}
-            key = {communityAsset["RefNo"]}
-            id = {communityAsset["RefNo"]}
-            ward = {communityAsset.Ward}
-            addressLine1 = {communityAsset["Address_1"]}
-            addressLine2 = {communityAsset["Add_2_RD_St"]}
-            addressLine3 = {communityAsset["Add_3"]}
-            addressLine4 = {communityAsset["Add_4"]}
-            website = {communityAsset["Web_Address"]}
-            email = {communityAsset["Contact_Email"]}
-            telephone = {communityAsset["Telephone_No"]}
-            spaceAvailable = {communityAsset["Space_AvailableTT"]}
-            specialistSpace = {communityAsset["Specialist_Spaces"]}
-            kitchen = {communityAsset["Kitchen"]}
-            disabled = {communityAsset["Disabled_Access"]}
-            price = {communityAsset["Price_Range"]}
+            key = {communityAsset[0].id}
+            //category_id = 0
+            category_id = {communityAsset[0].category_id}
+            coordinates={[communityAsset[0].longitude,communityAsset[0].latitude]}
+            name = {communityAsset[0].name}
+            postcode = {communityAsset[0].postcode}
             />
         }
     }
@@ -155,63 +146,63 @@ class MapCommunityAssets extends Component {
     clusterMarkerSix = (coordinates) => (<Marker coordinates={coordinates}><span style = { { borderRadius:'50%' , backgroundColor:'grey', color : 'white', padding:'5px'}}>C</span></Marker>);
     clusterMarkerSeven = (coordinates) => (<Marker coordinates={coordinates}><span style = { { borderRadius:'50%' , backgroundColor:'orange', color : 'white', padding:'5px'}}>C</span></Marker>);
 
-    createNodes(){
+    // createNodes(){
 
-        //17 is the magic number. At a zoom level of 17, even all layers on is smooth
-        let nodes = [];
+    //     //17 is the magic number. At a zoom level of 17, even all layers on is smooth
+    //     let nodes = [];
 
-        if(this.state.councilData.length === 0) return;
+    //     if(this.state.councilData.length === 0) return;
 
-        if(this.props.activeCommunityAssets.includes("Community Space")){
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarkerOne} radius={this.state.radius}>
-                {
-                    this.state.councilData[1].map(this.createNodalBackEnd)
-                }
-                </Cluster>);
-        }
+    //     if(this.props.activeCommunityAssets.includes("Community Space")){
+    //         nodes.push(<Cluster key="1" ClusterMarkerFactory={this.clusterMarkerOne} radius={this.state.radius}>
+    //             {
+    //                 this.state.councilData[1].map(this.createNodalBackEnd)
+    //             }
+    //             </Cluster>);
+    //     }
 
-        if(this.props.activeCommunityAssets.includes("Public")){
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarkerTwo} radius={this.state.radius}>
-                {
-                    this.state.councilData[2].map(this.createNodalBackEnd)
-                }
-                </Cluster>);
-        }
+    //     if(this.props.activeCommunityAssets.includes("Public")){
+    //         nodes.push(<Cluster key="2" ClusterMarkerFactory={this.clusterMarkerTwo} radius={this.state.radius}>
+    //             {
+    //                 this.state.councilData[2].map(this.createNodalBackEnd)
+    //             }
+    //             </Cluster>);
+    //     }
 
-        if(this.props.activeCommunityAssets.includes("Sports Leisure")){
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarkerThree} radius={this.state.radius}>
-                {                  
-                    this.state.councilData[3].map(this.createNodalBackEnd)
-                }
-                </Cluster>);
-        }
+    //     if(this.props.activeCommunityAssets.includes("Sports Leisure")){
+    //         nodes.push(<Cluster key="3" ClusterMarkerFactory={this.clusterMarkerThree} radius={this.state.radius}>
+    //             {                  
+    //                 this.state.councilData[3].map(this.createNodalBackEnd)
+    //             }
+    //             </Cluster>);
+    //     }
 
-        if(this.props.activeCommunityAssets.includes("Community Business")){    
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarkerFour} radius={this.state.radius}>
-                {
-                    this.state.councilData[4].map(this.createNodalBackEnd)
-                }
-                </Cluster>);
-        }
+    //     if(this.props.activeCommunityAssets.includes("Community Business")){    
+    //         nodes.push(<Cluster key="4" ClusterMarkerFactory={this.clusterMarkerFour} radius={this.state.radius}>
+    //             {
+    //                 this.state.councilData[4].map(this.createNodalBackEnd)
+    //             }
+    //             </Cluster>);
+    //     }
 
-        if(this.props.activeCommunityAssets.includes("Business Night")){         
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarkerFive} radius={this.state.radius}>
-                {
-                    this.state.councilData[5].map(this.createNodalBackEnd)
-                }
-                </Cluster>);
-        }
+    //     if(this.props.activeCommunityAssets.includes("Business Night")){         
+    //         nodes.push(<Cluster key="5" ClusterMarkerFactory={this.clusterMarkerFive} radius={this.state.radius}>
+    //             {
+    //                 this.state.councilData[5].map(this.createNodalBackEnd)
+    //             }
+    //             </Cluster>);
+    //     }
 
-        if(this.props.activeCommunityAssets.includes("Voluntary Sector")){
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarkerSix} radius={this.state.radius}>
-                {
-                    this.state.councilData[6].map(this.createNodalBackEnd)
-                }
-                </Cluster>);
-        }
+    //     if(this.props.activeCommunityAssets.includes("Voluntary Sector")){
+    //         nodes.push(<Cluster key="6" ClusterMarkerFactory={this.clusterMarkerSix} radius={this.state.radius}>
+    //             {
+    //                 this.state.councilData[6].map(this.createNodalBackEnd)
+    //             }
+    //             </Cluster>);
+    //     }
 
-        return nodes;
-    }
+    //     return nodes;
+    // }
 
     createNodesOneCluster(){
 
@@ -219,36 +210,47 @@ class MapCommunityAssets extends Component {
         
         let nodes = [];
         let activeLayers = [];
+        let activeLayersId = [];
 
         if(this.props.activeCommunityAssets.includes("Community Space")){
+            if(this.state.councilData[1] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[1]);
+            activeLayersId.push("clusterMarkerOne");
         }
 
         if(this.props.activeCommunityAssets.includes("Public")){
+            if(this.state.councilData[2] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[2]);
-            //activeLayers.push(2);
+            activeLayersId.push("clusterMarkerTwo");
         }
 
         if(this.props.activeCommunityAssets.includes("Sports Leisure")){
+            if(this.state.councilData[3] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[3]);
+            activeLayersId.push("clusterMarkerThree");
         }
 
         if(this.props.activeCommunityAssets.includes("Community Business")){    
+            if(this.state.councilData[4] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[4]);
+            activeLayersId.push("clusterMarkerFour");
         }
 
         if(this.props.activeCommunityAssets.includes("Business Night")){
+            if(this.state.councilData[5] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[5]);
+            activeLayersId.push("clusterMarkerFive");
         }
 
         if(this.props.activeCommunityAssets.includes("Voluntary Sector")){
+            if(this.state.councilData[6] !== undefined)
             activeLayers = activeLayers.concat(this.state.councilData[6]);
+            activeLayersId.push("clusterMarkerSix");
         }
         
         activeLayers = this.packDuplicateCoordinate(activeLayers);
-
         if(activeLayers.length > 0){
-            nodes.push(<Cluster ClusterMarkerFactory={this.clusterMarkerSeven} radius={this.state.radius}>
+            nodes.push(<Cluster key="1" ClusterMarkerFactory={this[activeLayersId[0]]} radius={this.state.radius}>
                 {
                     activeLayers.map(this.createNodalBackEnd)
                 }
