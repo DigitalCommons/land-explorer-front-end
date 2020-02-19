@@ -71,6 +71,18 @@ $bg-color: #f1f1f1;
   border-bottom: 2px solid $text-color;
 }
 
+.nodal_body {
+  padding: 10px 0 0px 0;
+}
+
+.nodal_body_content {
+  font-size: 1.2rem;
+  font-family: 'Slabo 27px', serif;
+  font-weight: 100;
+  margin: 0;
+  padding: 5px 0 5px 0;
+}
+
 .nodal_close{
   font-size: 1.4rem;
   line-height: 1.4rem;

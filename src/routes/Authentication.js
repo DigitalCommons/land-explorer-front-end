@@ -6,7 +6,6 @@ import Login from "./Login";
 import ResetPassword from "./ResetPassword";
 import FourOhFour from "./FourOhFour";
 import BackgroundImage from '../components/BackgroundImage';
-import analytics from '../analytics';
 
 class Authentication extends Component {
     constructor(props) {
