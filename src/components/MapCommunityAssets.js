@@ -26,7 +26,7 @@ class MapCommunityAssets extends Component {
     }
 
     componentDidMount() {
-        axios.post(`${constants.ROOT_URL}/api/council/markers/all2/`,{},getAuthHeader())
+        axios.post(`${constants.ROOT_URL}/api/council/markers/all/`,{},getAuthHeader())
         .then((response) => {
             let arr = [];
             //API return data from all layer
