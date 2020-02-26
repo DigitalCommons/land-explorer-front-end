@@ -136,6 +136,10 @@ class Nodal extends Component
                 "id": this.props.id
             }, getAuthHeader())
             .then((response) => {
+
+
+                this.setState({ id:this.props.id--  });
+                console.log(this.props.id)
                 Swal.fire({
                     icon: 'success',
                     title: 'Changes have been saved',
