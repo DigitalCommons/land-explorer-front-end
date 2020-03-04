@@ -83,32 +83,10 @@ class Nodal extends Component
 
     deleteNodal = e =>   
     {
-
-    //     e.preventDefault();
-        
-    //      this.setState({ deleteDialog: true})
-         
-        
-    //        axios.get(`${constants.ROOT_URL}/api/council/markers/all/`,{},getAuthHeader())
-    //        .then((response) =>
-    //     {
-    //         console.log(response)
-    //     },
-
-    //   (error) =>
-    //   {
-    //    console.log(error);
-    //   });
-        
-    //        // if I click ok I then delete button sends an API call along with the key 
-    //        // then API call deletes a specific record from the database  based on the key value 
-                       
-    // }
-
     Swal.fire({
         icon: 'warning',
         title: 'Confirm Deleting the asset',
-        text: 'If you delete the asset you\'ll have to upload it again',
+        text: `If you delete ${this.props.name} ,all other assets at this adddres will be deleted! `,
         confirmButtonText: 'DELETE',
         cancelButtonText:'I want to keep the asset!',
         showCancelButton: true,
@@ -120,15 +98,25 @@ class Nodal extends Component
                 "id": this.props.id
             }, getAuthHeader())
             .then((response) => {
+                //       let {id} = props; 
+                // this.setState({ id:this.props.id-- });
+                // console.log(this.props.id)
+                this.props.refresh();
 
+                // this.props.dispatch({
+                //     type: 'DELETE_NODAL',
+                //     payload: {
+                //         id:     this.props.id,
+                //     }
+                // });
 
-                this.setState({ id:this.props.id--  });
-                console.log(this.props.id)
                 Swal.fire({
                     icon: 'success',
                     title: 'Changes have been saved',
                   })
             }).catch((err) => {
+                console.log(err)
+                console.trace(err)
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -179,7 +167,7 @@ class Nodal extends Component
                          
  
                          </dialog> */}
-          {console.log(this.props.id)}
+          {/* {console.log(this.props.id)} */}
 
             <span onClick = {this.closePopup} className="nodal_close">&#x2715;</span>
             <h2 className = "nodal_title">{this.props.name} <button className = "DeleteCommunityAsset" onClick ={this.deleteNodal}>
@@ -291,7 +279,7 @@ class Nodal extends Component
                 : 
                 <div>
 
-                    <table class="w3-table">
+                    <table className="w3-table">
                         <tbody>
                         <tr>
                             <td valign="top">Address:</td>

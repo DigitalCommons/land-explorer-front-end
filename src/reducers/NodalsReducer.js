@@ -19,6 +19,15 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 activeNodal,
             }
+
+            case 'DELETE_NODAL':
+                let {activeNodal}=state 
+                console.log(activeNodal)
+
+                // state.activeNodal =activeNodal;
+                return state.filter((data,i) => i !== activeNodal);
+                
+                
         default:
             return state;
     }

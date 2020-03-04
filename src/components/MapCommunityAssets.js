@@ -17,15 +17,16 @@ class MapCommunityAssets extends Component {
             checkBoxState : false,
             radius : 55,
             councilData : [],
+            refreshCount: 0,
         }        
 
         this.createNodalBackEnd = this.createNodalBackEnd.bind(this);
         this.packDuplicateCoordinate = this.packDuplicateCoordinate.bind(this);
-  
+        this.refresh = this.refresh.bind(this);
         
     }
 
-    componentDidMount() {
+    refresh (){
         axios.post(`${constants.ROOT_URL}/api/council/markers/all/`,{},getAuthHeader())
         .then((response) => {
             let arr = [];
@@ -33,7 +34,8 @@ class MapCommunityAssets extends Component {
             //Optimise by grouping the data according to its category id
 
             //First index of arr would be marker objects with category_id 1, and so on
-            response.data.forEach( el => {
+            response.data.forEach( el => 
+                {
                 //Each element has a category_id
                 if(arr[el.category_id] == null){
                     //push element to different index according to its category_id
@@ -46,6 +48,11 @@ class MapCommunityAssets extends Component {
 
             //this.setState({councilDataFull : response.data});
         });
+
+    }
+
+    componentDidMount() {
+        this.refresh();
     }
 
     packDuplicateCoordinate(arr){
@@ -107,7 +114,7 @@ class MapCommunityAssets extends Component {
                 category_id = {communityAsset.category_id}
                 subcat = {communityAsset.sub_category}
                 type = {communityAsset.type}
-
+                refresh = {()=>{this.refresh()}}
                 community_space = {communityAsset.community_space}
                 council_facility = {communityAsset.council_facility}
                 notes = {communityAsset.notes}
