@@ -130,53 +130,106 @@ class Nodal extends Component {
   }
 
   editNodal(e) {
-    axios
-      .post(
-        `${constants.ROOT_URL}/api/council/markers/update/`,
-        {
-          id: this.props.id,
-          name: e.name,
-          address_1: e.address_1,
-          address_2: e.address_2,
-          address_3: e.address_3,
-          address_4: e.address_4,
-          postcode: e.postcode,
-          ward: e.ward,
-          category_id: this.props.category_id,
-          sub_category: e.sub_category,
-          type: e.type,
-          community_space: e.community_space,
-          council_facility: e.council_facility,
-          notes: e.notes,
-          web_address: e.web_address,
-          email: e.email,
-          telephone: e.telephone,
-          contact_name: e.contact_name,
-          space_available: e.space_available,
-          specialist_spaces: e.specialist_spaces,
-          kitchen: e.kitchen,
-          disabled_access: e.disabled_access,
-          price_range: e.price_range
-        },
-        getAuthHeader()
-      )
-      .then(response => {
-        this.props.refresh();
+    Swal.fire({
+      icon: "warning",
+      title: "Edit the asset",
+      text: `Editing ${this.props.name}.`,
+      html:
+        <input id="nameForm" placeholder={this.props.name}></input> +
+        (
+          <input
+            id="address1Form"
+            placeholder={this.props.addressLine1}
+          ></input>
+        ) +
+        (
+          <input
+            id="address2Form"
+            placeholder={this.props.addressLine2}
+          ></input>
+        ) +
+        (
+          <input
+            id="address3Form"
+            placeholder={this.props.addressLine3}
+          ></input>
+        ) +
+        (
+          <input
+            id="address4Form"
+            placeholder={this.props.addressLine4}
+          ></input>
+        ) +
+        (
+          <input
+            id="postcodeForm"
+            placeholder={this.props.addressLine4}
+          ></input>
+        ) +
+        <input id="wardForm" placeholder={this.props.ward}></input> +
+        (
+          <input
+            id="sub_categoryForm"
+            placeholder={this.props.sub_category}
+          ></input>
+        ),
 
-        //this.props.updateNodal(this.props.id);
+      confirmButtonText: "SAVE EDIT",
+      cancelButtonText: "Discard edits",
+      showCancelButton: true,
+      showLoaderOnConfirm: true,
 
-        // this.props.dispatch({
-        //     type: 'DELETE_NODAL',
-        //     payload: {
-        //         id:     this.props.id,
-        //     }
-        // });
+      preConfirm: () => {
+        axios
+          .post(
+            `${constants.ROOT_URL}/api/council/markers/update/`,
+            {
+              id: this.props.id,
+              name: document.getElementById("nameForm").value,
+              address_1: e.address_1,
+              address_2: e.address_2,
+              address_3: e.address_3,
+              address_4: e.address_4,
+              postcode: e.postcode,
+              ward: e.ward,
+              category_id: this.props.category_id,
+              sub_category:
+                e.sub_category /*
+              type: e.type,
+              community_space: e.community_space,
+              council_facility: e.council_facility,
+              notes: e.notes,
+              web_address: e.web_address,
+              email: e.email,
+              telephone: e.telephone,
+              contact_name: e.contact_name,
+              space_available: e.space_available,
+              specialist_spaces: e.specialist_spaces,
+              kitchen: e.kitchen,
+              disabled_access: e.disabled_access,
+              price_range: e.price_range*/
+            },
+            getAuthHeader()
+          )
+          .then(response => {
+            this.props.refresh();
 
-        Swal.fire({
-          icon: "success",
-          title: "Changes have been saved"
-        });
-      });
+            //this.props.updateNodal(this.props.id);
+
+            // this.props.dispatch({
+            //     type: 'DELETE_NODAL',
+            //     payload: {
+            //         id:     this.props.id,
+            //     }
+            // });
+
+            Swal.fire({
+              icon: "success",
+              title: "Changes have been saved"
+            });
+          });
+      }
+    });
   }
 
   displayInfoIfActive() {
