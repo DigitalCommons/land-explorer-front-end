@@ -20,6 +20,7 @@ class Nodal extends Component {
     this.readMore = this.readMore.bind(this);
     this.readLess = this.readLess.bind(this);
     this.deleteNodal = this.deleteNodal.bind(this);
+    this.editNodal = this.editNodal.bind(this);
   }
 
   getImgByCategory(id) {
@@ -129,53 +130,98 @@ class Nodal extends Component {
     });
   }
 
-  editNodal(e) {
+  editNodal() {
     Swal.fire({
-
       icon: "warning",
       title: "Edit the asset",
       text: `Editing ${this.props.name}.`,
-      html:
-       ` <input id="nameForm" placeholder={this.props.name}></input> +
-        (
+      html: ` 
+          <label for="nameForm">Name</label>
+          <input id="nameForm" value='${this.props.name}'>
+          </input>
           <input
-            id="address1Form"
-            placeholder={this.props.addressLine1}
+            id="address_1Form"
+            value='${this.props.addressLine1}'
           ></input>
-        ) +
-        (
           <input
-            id="address2Form"
-            placeholder={this.props.addressLine2}
+            id="address_2Form"
+            value='${this.props.addressLine2}'
           ></input>
-        ) +
-        (
           <input
-            id="address3Form"
-            placeholder={this.props.addressLine3}
+            id="address_3Form"
+            value='${this.props.addressLine3}'
           ></input>
-        ) +
-        (
           <input
-            id="address4Form"
-            placeholder={this.props.addressLine4}
+            id="address_4Form"
+            value='${this.props.addressLine4}'
           ></input>
-        ) +
-        (
           <input
             id="postcodeForm"
-            placeholder={this.props.addressLine4}
+            value='${this.props.addressLine4}'
           ></input>
-        ) +
-        <input id="wardForm" placeholder={this.props.ward}></input> +
-        (
+          <input
+            id="categoryForm"
+            value='${this.props.category_id}'
+          ></input>
           <input
             id="sub_categoryForm"
-            placeholder={this.props.sub_category}
+            value='${this.props.sub_category}'
           ></input>
-        )`,
+          <input
+            id="typeForm"
+            value='${this.props.type}'
+          ></input>
+          <input
+            id="community_spaceForm"
+            value='${this.props.community_space}'
+          ></input>
+          <input
+            id="council_facilityForm"
+            value='${this.props.council_facility}'
+          ></input>
+          <input
+            id="notesForm"
+            value='${this.props.notes}'
+          ></input>
+          <input
+            id="web_addressForm"
+            value='${this.props.web_address}'
+          ></input>
+          <input
+            id="emailForm"
+            value='${this.props.email}'
+          ></input>
+          <input
+            id="telephoneForm"
+            value='${this.props.telephone}'
+          ></input>
+          <input
+            id="contact_nameForm"
+            value='${this.props.contact_name}'
+          ></input>
+          <input
+            id="space_availableForm"
+            value='${this.props.space_available}'
+          ></input>
+          <input
+            id="specialist_spacesForm"
+            value='${this.props.specialist_spaces}'
+          ></input>
+          <input
+            id="kitchenForm"
+            value='${this.props.kitchen}'
+          ></input>
+          <input
+            id="disabled_accessForm"
+            value='${this.props.disabled_access}'
+          ></input>
+          <input
+            id="price_rangeForm"
+            value='${this.props.price_range}'
+          ></input>
+        `,
 
-      confirmButtonText: "SAVE EDIT",
+      confirmButtonText: "Submit Edit",
       cancelButtonText: "Discard edits",
       showCancelButton: true,
       showLoaderOnConfirm: true,
@@ -187,28 +233,32 @@ class Nodal extends Component {
             {
               id: this.props.id,
               name: document.getElementById("nameForm").value,
-              address_1: e.address_1,
-              address_2: e.address_2,
-              address_3: e.address_3,
-              address_4: e.address_4,
-              postcode: e.postcode,
-              ward: e.ward,
-              category_id: this.props.category_id,
-              sub_category:
-                e.sub_category /*
-              type: e.type,
-              community_space: e.community_space,
-              council_facility: e.council_facility,
-              notes: e.notes,
-              web_address: e.web_address,
-              email: e.email,
-              telephone: e.telephone,
-              contact_name: e.contact_name,
-              space_available: e.space_available,
-              specialist_spaces: e.specialist_spaces,
-              kitchen: e.kitchen,
-              disabled_access: e.disabled_access,
-              price_range: e.price_range*/
+              address_1: document.getElementById("address_1Form").value,
+              address_2: document.getElementById("address_2Form").value,
+              address_3: document.getElementById("address_3Form").value,
+              address_4: document.getElementById("address_4Form").value,
+              postcode: document.getElementById("postcodeForm").value,
+              category_id: document.getElementById("categoryForm").value,
+              sub_category: document.getElementById("sub_categoryForm").value,
+              type: document.getElementById("typeForm").value,
+              community_space: document.getElementById("community_spaceForm")
+                .value,
+              council_facility: document.getElementById("council_facilityForm")
+                .value,
+              notes: document.getElementById("notesForm").value,
+              web_address: document.getElementById("web_addressForm").value,
+              email: document.getElementById("emailForm").value,
+              telephone: document.getElementById("telephoneForm").value,
+              contact_name: document.getElementById("contact_nameForm").value,
+              space_available: document.getElementById("space_availableForm")
+                .value,
+              specialist_spaces: document.getElementById(
+                "specialist_spacesForm"
+              ).value,
+              kitchen: document.getElementById("kitchenForm").value,
+              disabled_access: document.getElementById("disabled_accessForm")
+                .value,
+              price_range: document.getElementById("price_rangeForm").value
             },
             getAuthHeader()
           )
@@ -217,17 +267,9 @@ class Nodal extends Component {
 
             //this.props.updateNodal(this.props.id);
 
-            // this.props.dispatch({
-            //     type: 'DELETE_NODAL',
-            //     payload: {
-            //         id:     this.props.id,
-            //     }
-            // });
-
             Swal.fire({
               icon: "success",
               title: "Changes have been saved"
-
             });
           });
       }
@@ -254,7 +296,7 @@ class Nodal extends Component {
       zIndex: "5"
     };
 
-    let editIcon = require('../../assets/img/icon-drawing-tools.svg') 
+    let editIcon = require("../../assets/img/icon-drawing-tools.svg");
 
     if (this.props.id === this.props.activeNodal)
       return (
@@ -285,7 +327,9 @@ class Nodal extends Component {
                 key={this.props.id}
               />
             </button>
-            <button onClick = {this.editNodal} ><ing src = {editIcon} /></button>
+            <button onClick={this.editNodal}>
+              <img src={editIcon} />
+            </button>
           </h2>
 
           {this.state.checkBoxState ? (
