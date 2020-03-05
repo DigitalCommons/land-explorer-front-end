@@ -37,6 +37,21 @@ $bg-color: #f1f1f1;
   border: none;
 }
 
+.EditIcon
+{
+  border:none;
+}
+
+.EditIcon:hover
+{
+  background-color: yellow;
+}
+
+.DeleteCommunityAsset:hover
+{
+  background-color: blue;
+}
+
 .DeleteCommunityAsset:hover
 {
   background-color: blue;

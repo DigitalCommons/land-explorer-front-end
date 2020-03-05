@@ -135,87 +135,82 @@ class Nodal extends Component {
       icon: "warning",
       title: "Edit the asset",
       text: `Editing ${this.props.name}.`,
+
       html: ` 
           <label for="nameForm">Name</label>
           <input id="nameForm" value='${this.props.name}'>
           </input>
-          <input
-            id="address_1Form"
-            value='${this.props.addressLine1}'
-          ></input>
-          <input
-            id="address_2Form"
-            value='${this.props.addressLine2}'
-          ></input>
-          <input
-            id="address_3Form"
-            value='${this.props.addressLine3}'
-          ></input>
-          <input
-            id="address_4Form"
-            value='${this.props.addressLine4}'
-          ></input>
-          <input
-            id="postcodeForm"
-            value='${this.props.addressLine4}'
-          ></input>
-          <input
-            id="categoryForm"
-            value='${this.props.category_id}'
-          ></input>
-          <input
-            id="sub_categoryForm"
-            value='${this.props.sub_category}'
-          ></input>
-          <input
+          <br />
+          
+          <br /><label for = "address_1Form"> Address Line 1 : </label>
+          <input id="address_1Form" value='${this.props.addressLine1}'></input>
+          
+                    
+          <br /><label for = "address_2form" >Address Line 2 : </label><input id="address_2Form" value='${this.props.addressLine2}></input>
+          
+          <br /><label for = "address_3form">Address Line 3 : </label><input id="address_3Form" value='${this.props.addressLine3}'></input>
+          
+<br /><label for = "address_4form">Address Line 4 : </label><input id="address_4Form" value='${this.props.addressLine4}'></input>
+          
+          <br /><label for = "categoryForm">Category</label><input id="categoryForm" value='${this.props.category_id}'></input>
+          <label for = "sub_categoryForm">Sub Category :</label><input id="sub_categoryForm" value='${this.props.sub_category}'></input>
+          <br /><label for = "typeForm"> Type :</label><input
             id="typeForm"
             value='${this.props.type}'
           ></input>
-          <input
+         <br /><label for = "community_spaceForm">Community Form :</label><input
             id="community_spaceForm"
             value='${this.props.community_space}'
           ></input>
-          <input
+          <br /><label for = "council_facilityForm">Council Facility</label><input
             id="council_facilityForm"
             value='${this.props.council_facility}'
           ></input>
-          <input
+          <br /><label for = "notesForm">Notes :</label><input
             id="notesForm"
             value='${this.props.notes}'
           ></input>
-          <input
+          <br /><label for = "web_addressForm">Website</label><input
             id="web_addressForm"
             value='${this.props.web_address}'
           ></input>
-          <input
+          <br /><label for = "emailForm"> Email :</label><input
             id="emailForm"
             value='${this.props.email}'
           ></input>
-          <input
+         <br /><label for = "telephoneForm">Telephone: </label> <input
             id="telephoneForm"
             value='${this.props.telephone}'
           ></input>
-          <input
+          <br /><label for = "contact_nameForm"> Contact Name : </label><input
             id="contact_nameForm"
             value='${this.props.contact_name}'
+            placeholder=${this.props.addressLine4}
           ></input>
-          <input
+        <br /><label for = "wardForm"> Ward :</label><input id="wardForm" placeholder=${this.props.ward}></input> 
+        
+         <br /><label for = "sub_categoryForm"> Sub category</label> <input
+            id="sub_categoryForm"
+            placeholder=${this.props.sub_category}
+          ></input>
+          <br /><label for = "space_avaiableForm">Space Avaiable</label><input
             id="space_availableForm"
             value='${this.props.space_available}'
           ></input>
-          <input
-            id="specialist_spacesForm"
+          <br /><label for = "specialist_spaceForm"> Specialist Space : </label><input
+            id="specialist_spaceForm"
             value='${this.props.specialist_spaces}'
           ></input>
-          <input
+          <br /><label for ="kitchenForm"> Kitchen : </label><input
             id="kitchenForm"
             value='${this.props.kitchen}'
           ></input>
-          <input
+          
+          <br /><label for = "disabled_accessForm"> Disabled Access</label><input
             id="disabled_accessForm"
             value='${this.props.disabled_access}'
           ></input>
-          <input
+          <br /><label for ="price_rangeForm"> Price Range</label><input
             id="price_rangeForm"
             value='${this.props.price_range}'
           ></input>
@@ -296,24 +291,14 @@ class Nodal extends Component {
       zIndex: "5"
     };
 
+
     let editIcon = require("../../assets/img/icon-drawing-tools.svg");
+
 
     if (this.props.id === this.props.activeNodal)
       return (
         <div className="nodal" key={this.props.id}>
-          {/* <dialog  className = "ConfirmDialog" style = {{display: this.state.deleteDialog ? 'block': 'none'}}> Are you sure want to remove this nodal from the map ? 
-                        
-                        < div className = "DecisionButtons">
-                       
-                         <button id = "Yes"  onClick={ () => this.setState({ deleteDialog: false})}> Yes </button> 
-                         
-                         <button id = "No"   onClick={ () => this.setState({ deleteDialog: false})}>   No </button>
-                         </div>
-
-                         
- 
-                         </dialog> */}
-          {/* {console.log(this.props.id)} */}
+         
 
           <span onClick={this.closePopup} className="nodal_close">
             &#x2715;
@@ -327,9 +312,10 @@ class Nodal extends Component {
                 key={this.props.id}
               />
             </button>
-            <button onClick={this.editNodal}>
-              <img src={editIcon} />
-            </button>
+
+          
+  <button onClick = {this.editNodal}  className= "EditIcon"><img src = {editIcon} /></button>
+
           </h2>
 
           {this.state.checkBoxState ? (
