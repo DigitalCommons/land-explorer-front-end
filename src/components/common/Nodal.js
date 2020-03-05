@@ -131,11 +131,12 @@ class Nodal extends Component {
 
   editNodal(e) {
     Swal.fire({
+
       icon: "warning",
       title: "Edit the asset",
       text: `Editing ${this.props.name}.`,
       html:
-        <input id="nameForm" placeholder={this.props.name}></input> +
+       ` <input id="nameForm" placeholder={this.props.name}></input> +
         (
           <input
             id="address1Form"
@@ -172,7 +173,7 @@ class Nodal extends Component {
             id="sub_categoryForm"
             placeholder={this.props.sub_category}
           ></input>
-        ),
+        )`,
 
       confirmButtonText: "SAVE EDIT",
       cancelButtonText: "Discard edits",
@@ -226,6 +227,7 @@ class Nodal extends Component {
             Swal.fire({
               icon: "success",
               title: "Changes have been saved"
+
             });
           });
       }
@@ -251,6 +253,8 @@ class Nodal extends Component {
       right: "12px",
       zIndex: "5"
     };
+
+    let editIcon = require('../../assets/img/icon-drawing-tools.svg') 
 
     if (this.props.id === this.props.activeNodal)
       return (
@@ -281,6 +285,7 @@ class Nodal extends Component {
                 key={this.props.id}
               />
             </button>
+            <button onClick = {this.editNodal} ><ing src = {editIcon} /></button>
           </h2>
 
           {this.state.checkBoxState ? (
