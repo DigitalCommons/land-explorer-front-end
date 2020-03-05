@@ -157,6 +157,7 @@ class MapCommunityAssets extends Component {
           ]}
           name={communityAsset[0].name}
           postcode={communityAsset[0].postcode}
+          refresh={() => this.props.refresh()}
         />
       );
     }

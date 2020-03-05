@@ -141,18 +141,17 @@ class Nodal extends Component {
           <input id="nameForm" value='${this.props.name}'>
           </input>
           <br />
-          
-          <br /><label for = "address_1Form"> Address Line 1 : </label>
+          <label for = "address_1Form"> Address Line 1 : </label>
           <input id="address_1Form" value='${this.props.addressLine1}'></input>
-          
                     
-          <br /><label for = "address_2form" >Address Line 2 : </label><input id="address_2Form" value='${this.props.addressLine2}></input>
+          <br /><label for = "address_2form" >Address Line 2 : </label><input id="address_2Form" value='${this.props.addressLine2}'></input>
           
           <br /><label for = "address_3form">Address Line 3 : </label><input id="address_3Form" value='${this.props.addressLine3}'></input>
           
-<br /><label for = "address_4form">Address Line 4 : </label><input id="address_4Form" value='${this.props.addressLine4}'></input>
+          <br /><label for = "address_4form">Address Line 4 : </label><input id="address_4Form" value='${this.props.addressLine4}'></input>
           
           <br /><label for = "categoryForm">Category</label><input id="categoryForm" value='${this.props.category_id}'></input>
+          <br/>
           <label for = "sub_categoryForm">Sub Category :</label><input id="sub_categoryForm" value='${this.props.sub_category}'></input>
           <br /><label for = "typeForm"> Type :</label><input
             id="typeForm"
@@ -187,12 +186,6 @@ class Nodal extends Component {
             value='${this.props.contact_name}'
             placeholder=${this.props.addressLine4}
           ></input>
-        <br /><label for = "wardForm"> Ward :</label><input id="wardForm" placeholder=${this.props.ward}></input> 
-        
-         <br /><label for = "sub_categoryForm"> Sub category</label> <input
-            id="sub_categoryForm"
-            placeholder=${this.props.sub_category}
-          ></input>
           <br /><label for = "space_avaiableForm">Space Avaiable</label><input
             id="space_availableForm"
             value='${this.props.space_available}'
@@ -205,7 +198,6 @@ class Nodal extends Component {
             id="kitchenForm"
             value='${this.props.kitchen}'
           ></input>
-          
           <br /><label for = "disabled_accessForm"> Disabled Access</label><input
             id="disabled_accessForm"
             value='${this.props.disabled_access}'
@@ -291,15 +283,11 @@ class Nodal extends Component {
       zIndex: "5"
     };
 
-
     let editIcon = require("../../assets/img/icon-drawing-tools.svg");
-
 
     if (this.props.id === this.props.activeNodal)
       return (
         <div className="nodal" key={this.props.id}>
-         
-
           <span onClick={this.closePopup} className="nodal_close">
             &#x2715;
           </span>
@@ -312,10 +300,9 @@ class Nodal extends Component {
                 key={this.props.id}
               />
             </button>
-
-          
-  <button onClick = {this.editNodal}  className= "EditIcon"><img src = {editIcon} /></button>
-
+            <button onClick={this.editNodal} className="EditIcon">
+              <img src={editIcon} />
+            </button>
           </h2>
 
           {this.state.checkBoxState ? (
