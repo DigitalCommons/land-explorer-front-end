@@ -130,135 +130,160 @@ class Nodal extends Component {
     });
   }
 
-  editNodal() {
+  editNodal() 
+  {
     Swal.fire({
       icon: "warning",
       title: "Edit the asset",
       text: `Editing ${this.props.name}.`,
-
+       
       html: ` 
-          <label for="nameForm">Name</label>
-          <input id="nameForm" value='${this.props.name}'>
-          </input>
+        <form  >
+        
+          <label  style ="padding:10px;"for="nameForm">Name : </label><input id="nameForm" value='${this.props.name}' ></input>
+          
+          <br />
+         <label  style ="padding:10px;"for = "address_1Form"> Address Line 1 : </label> <input id="address_1Form" value='${this.props.addressLine1}' required></input>
+          
+          <br />
+        <label  style ="padding:10px;"for = "address_2form" >Address Line 2 : </label><input id="address_2Form" value='${this.props.addressLine2}' required></input>
+          
+          <br />
+          <label  style ="padding:10px;" for = "address_3form">Address Line 3 : </label><input id="address_3Form" value='${this.props.addressLine3}' required></input>
+          
+          <br />
+          <label  style ="padding:10px;"for = "address_4form">Address Line 4 : </label><input id="address_4Form" value='${this.props.addressLine4}' required></input>
+          
+          <br />
+          <label style ="padding:10px;" for = "categoryForm">Category : </label><input id="categoryForm" value = '${this.props.category_id}' required></input>
+          
           <br />
           
-          <br /><label for = "address_1Form"> Address Line 1 : </label>
-          <input id="address_1Form" value='${this.props.addressLine1}'></input>
+        <label  style ="padding:10px;"for = "sub_categoryForm">Sub Category : </label><input id="sub_categoryForm" value='${this.props.sub_category}' required></input>
           
-                    
-          <br /><label for = "address_2form" >Address Line 2 : </label><input id="address_2Form" value='${this.props.addressLine2}></input>
+          <br />
           
-          <br /><label for = "address_3form">Address Line 3 : </label><input id="address_3Form" value='${this.props.addressLine3}'></input>
+          <label style ="padding:10px;" for = "typeForm"> Type : </label><input id="typeForm" value='${this.props.type}' required></input>
           
-<br /><label for = "address_4form">Address Line 4 : </label><input id="address_4Form" value='${this.props.addressLine4}'></input>
+          <br />
           
-          <br /><label for = "categoryForm">Category</label><input id="categoryForm" value='${this.props.category_id}'></input>
-          <label for = "sub_categoryForm">Sub Category :</label><input id="sub_categoryForm" value='${this.props.sub_category}'></input>
-          <br /><label for = "typeForm"> Type :</label><input
-            id="typeForm"
-            value='${this.props.type}'
-          ></input>
-         <br /><label for = "community_spaceForm">Community Form :</label><input
-            id="community_spaceForm"
-            value='${this.props.community_space}'
-          ></input>
-          <br /><label for = "council_facilityForm">Council Facility</label><input
-            id="council_facilityForm"
-            value='${this.props.council_facility}'
-          ></input>
-          <br /><label for = "notesForm">Notes :</label><input
-            id="notesForm"
-            value='${this.props.notes}'
-          ></input>
-          <br /><label for = "web_addressForm">Website</label><input
-            id="web_addressForm"
-            value='${this.props.web_address}'
-          ></input>
-          <br /><label for = "emailForm"> Email :</label><input
-            id="emailForm"
-            value='${this.props.email}'
-          ></input>
-         <br /><label for = "telephoneForm">Telephone: </label> <input
-            id="telephoneForm"
-            value='${this.props.telephone}'
-          ></input>
-          <br /><label for = "contact_nameForm"> Contact Name : </label><input
-            id="contact_nameForm"
-            value='${this.props.contact_name}'
-            placeholder=${this.props.addressLine4}
-          ></input>
-        <br /><label for = "wardForm"> Ward :</label><input id="wardForm" placeholder=${this.props.ward}></input> 
+          <label style ="padding:10px;" for = "community_spaceForm"> Community Space : </label><input id="community_spaceForm" value='${this.props.community_space}' required ></input>
+          
+          <br />
+          
+        <label  style ="padding:10px;"for = "council_facilityForm">Council Facility : </label><input id="council_facilityForm" value='${this.props.council_facility}' required></input>
+          
+          <br />
+          
+        <label  style = "padding:10px" for = "notesForm">Notes :</label><input id="notesForm" value='${this.props.notes}' required/>
+          
+          <br />
+          
+        <label  style ="padding:10px;"for = "web_addressForm">Website : </label><input id="web_addressForm" value='${this.props.web_address}' required/>
         
-         <br /><label for = "sub_categoryForm"> Sub category</label> <input
-            id="sub_categoryForm"
-            placeholder=${this.props.sub_category}
-          ></input>
-          <br /><label for = "space_avaiableForm">Space Avaiable</label><input
-            id="space_availableForm"
-            value='${this.props.space_available}'
-          ></input>
-          <br /><label for = "specialist_spaceForm"> Specialist Space : </label><input
-            id="specialist_spaceForm"
-            value='${this.props.specialist_spaces}'
-          ></input>
-          <br /><label for ="kitchenForm"> Kitchen : </label><input
-            id="kitchenForm"
-            value='${this.props.kitchen}'
-          ></input>
+          <br />
           
-          <br /><label for = "disabled_accessForm"> Disabled Access</label><input
-            id="disabled_accessForm"
-            value='${this.props.disabled_access}'
-          ></input>
-          <br /><label for ="price_rangeForm"> Price Range</label><input
-            id="price_rangeForm"
-            value='${this.props.price_range}'
-          ></input>
+        <label style ="padding:10px;" for = "emailForm"> Email : </label><input id="emailForm" value='${this.props.email}'  required/>
+         
+          <br />
+         
+          <label style ="padding:10px;" for = "telephoneForm">Telephone : </label> <input id="telephoneForm"value='${this.props.telephone}' required />
+  
+          <br />
+        
+        <label  style ="padding:10px;"for = "contact_nameForm"> Contact Name : </label>
+        <input id="contact_nameForm" value='${this.props.contact_name}' placeholder=${this.props.contact_name} required />
+        
+        <br />
+        
+        <label style ="padding:10px;" for = "wardForm"> Ward :</label>
+        <input id="wardForm" placeholder=${this.props.ward} required />
+        
+       
+          <br />
+          <label  style ="padding:10px;"for = "space_avaiableForm">Space Avaiable : </label>
+          <input id="space_availableForm" value='${this.props.space_available}'  required></input>
+          
+          <br />
+          
+          <label  style ="padding:10px;"for = "specialist_spaceForm"> Specialist Space : </label>
+          <input id="specialist_spaceForm" value='${this.props.specialist_spaces}' required />
+          
+          <br />
+          
+          <label  style ="padding:10px;"for ="kitchenForm"> Kitchen : </label><input id="kitchenForm" value='${this.props.kitchen}' />
+          
+          <br />
+          <label  style ="padding:10px;"for = "disabled_accessForm"> Disabled Access :</label>
+          <input id="disabled_accessForm" value='${this.props.disabled_access}' required />
+          
+          <br />
+          
+          <label style ="padding:10px;" for ="price_rangeForm"> Price Range :</label>
+          <input id="price_rangeForm" value='${this.props.price_range}' required />
+       
+          </form>
         `,
 
       confirmButtonText: "Submit Edit",
+      
       cancelButtonText: "Discard edits",
       showCancelButton: true,
       showLoaderOnConfirm: true,
+      
 
       preConfirm: () => {
-        axios
-          .post(
-            `${constants.ROOT_URL}/api/council/markers/update/`,
-            {
-              id: this.props.id,
-              name: document.getElementById("nameForm").value,
-              address_1: document.getElementById("address_1Form").value,
-              address_2: document.getElementById("address_2Form").value,
-              address_3: document.getElementById("address_3Form").value,
-              address_4: document.getElementById("address_4Form").value,
-              postcode: document.getElementById("postcodeForm").value,
-              category_id: document.getElementById("categoryForm").value,
-              sub_category: document.getElementById("sub_categoryForm").value,
-              type: document.getElementById("typeForm").value,
-              community_space: document.getElementById("community_spaceForm")
-                .value,
-              council_facility: document.getElementById("council_facilityForm")
-                .value,
-              notes: document.getElementById("notesForm").value,
-              web_address: document.getElementById("web_addressForm").value,
-              email: document.getElementById("emailForm").value,
-              telephone: document.getElementById("telephoneForm").value,
-              contact_name: document.getElementById("contact_nameForm").value,
-              space_available: document.getElementById("space_availableForm")
-                .value,
-              specialist_spaces: document.getElementById(
-                "specialist_spacesForm"
-              ).value,
-              kitchen: document.getElementById("kitchenForm").value,
-              disabled_access: document.getElementById("disabled_accessForm")
-                .value,
-              price_range: document.getElementById("price_rangeForm").value
-            },
-            getAuthHeader()
-          )
-          .then(response => {
-            this.props.refresh();
+
+        
+         if(document.getElementById("nameForm").value === '')
+         {
+                    alert("Fill in empty fields!")
+                    // Swal.fire({
+                    //   icon: "Error",
+                    //   title: "Incomplete form"
+                    // });
+                    
+         }
+         
+         else
+         {
+         // axios
+        //   .post(
+        //     `${constants.ROOT_URL}/api/council/markers/update/`,
+        //     {
+        //       id: this.props.id,
+        //       name: document.getElementById("nameForm").value,
+        //       address_1: document.getElementById("address_1Form").value,
+        //       address_2: document.getElementById("address_2Form").value,
+        //       address_3: document.getElementById("address_3Form").value,
+        //       address_4: document.getElementById("address_4Form").value,
+        //       postcode: document.getElementById("postcodeForm").value,
+        //       category_id: document.getElementById("categoryForm").value,
+        //       sub_category: document.getElementById("sub_categoryForm").value,
+        //       type: document.getElementById("typeForm").value,
+        //       community_space: document.getElementById("community_spaceForm")
+        //         .value,
+        //       council_facility: document.getElementById("council_facilityForm")
+        //         .value,
+        //       notes: document.getElementById("notesForm").value,
+        //       web_address: document.getElementById("web_addressForm").value,
+        //       email: document.getElementById("emailForm").value,
+        //       telephone: document.getElementById("telephoneForm").value,
+        //       contact_name: document.getElementById("contact_nameForm").value,
+        //       space_available: document.getElementById("space_availableForm")
+        //         .value,
+        //       specialist_spaces: document.getElementById(
+        //         "specialist_spacesForm"
+        //       ).value,
+        //       kitchen: document.getElementById("kitchenForm").value,
+        //       disabled_access: document.getElementById("disabled_accessForm")
+        //         .value,
+        //       price_range: document.getElementById("price_rangeForm").value
+        //     },
+        //     getAuthHeader()
+        //   )
+          // .then(response => {
+          //   this.props.refresh();
 
             //this.props.updateNodal(this.props.id);
 
@@ -266,8 +291,9 @@ class Nodal extends Component {
               icon: "success",
               title: "Changes have been saved"
             });
-          });
-      }
+          }
+          // });
+      },
     });
   }
 
