@@ -46,9 +46,9 @@ class Nodal extends Component {
       case 5:
         return brownMarker;
       case 6:
-        return greyMarker;
-      default:
         return orangeMarker;
+      default:
+        return greyMarker;
     }
   }
 

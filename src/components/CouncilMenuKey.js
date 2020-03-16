@@ -40,7 +40,7 @@ class CouncilMenuKey extends Component {
       "Voluntary Sector": {
         name: "Voluntary Sector",
         data: {
-          "Voluntary Sector": "grey"
+          "Voluntary Sector": "orange"
         }
       }
     };
