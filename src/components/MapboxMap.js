@@ -310,7 +310,7 @@ class MapboxMap extends Component {
             movingMethod={movingMethod}
           >
             {/* Map Council Layers (wards etc.)*/}
-            <MapCouncilLayers />
+            <MapCouncilLayers zoom={zoom} />
             {/*For displaying community assets*/}
             <MapCommunityAssets zoom={zoom} center={lngLat} map={this.map} />
             {/* Geocoder - For location search */}
