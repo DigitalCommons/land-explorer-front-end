@@ -56,7 +56,7 @@ class MapCouncilLayers extends Component {
 
     return (
       <Marker coordinates={label.coordinates}>
-        <h1>{label.name}</h1>
+        <h1 style={{ userSelect: "none" }}>{label.name}</h1>
       </Marker>
     );
   }
