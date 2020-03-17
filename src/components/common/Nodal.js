@@ -309,42 +309,20 @@ class Nodal extends Component {
     const closeIcon = require("../../assets/img/icon-close-new.svg");
     const DeleteCommunityAsset = require("../../assets/img/icon-trash-red.svg");
 
-    let buttonStyle = {
-      color: "grey",
-      textDecoration: "underline"
-    };
+   
 
-    let closeStyle = {
-      height: "10px",
-      width: "10px",
-      borderRadius: "50%",
-      position: "absolute",
-      top: "12px",
-      cursor: "pointer",
-      right: "12px",
-      zIndex: "5"
-    };
-
+    
 
     let editIcon = require("../../assets/img/icon-drawing-tools.svg");
 
 
     if (this.props.id === this.props.activeNodal)
       return (
-        <div className="nodal" key={this.props.id}>
-         
-
-          <span onClick={this.closePopup} className="nodal_close">
-            &#x2715;
-          </span>
-          <h2 className="nodal_title">
-            {this.props.name}{" "}
+        <div className="nodal" key={this.props.id}>  
+        <img src={closeIcon} className = "Closebtn" onClick = {this.closePopup}  alt ="Close button"/>
+          <h2 className="nodal_title"> {this.props.name}
             <button className="DeleteCommunityAsset" onClick={this.deleteNodal}>
-              <img
-                src={DeleteCommunityAsset}
-                alt="DeleteCommunityAsset"
-                key={this.props.id}
-              />
+              <img src={DeleteCommunityAsset} alt="DeleteCommunityAsset" key={this.props.id}/>
             </button>
 
           
@@ -489,8 +467,8 @@ class Nodal extends Component {
                   )}
                 </tbody>
               </table>
-              <button onClick={this.readLess} className="nodal_action">
-                Read less &#8594;
+              <button onClick={this.readLess} className="MoreInfo">
+                Read less 
               </button>
             </div>
           ) : (
@@ -524,8 +502,8 @@ class Nodal extends Component {
                   </tr>
                 </tbody>
               </table>
-              <button onClick={this.readMore} className="nodal_action">
-                Read more &#8594;
+              <button onClick={this.readMore} className="MoreInfo">
+                Read more 
               </button>
             </div>
           )}
