@@ -29,7 +29,7 @@ class GeoCoder extends Component {
       console.log(
         "need help"
       );
-       
+
       var keyEvent = new KeyboardEvent("pseudo return keypress", {
         isTrusted: true,
         key: 13,
@@ -44,11 +44,12 @@ class GeoCoder extends Component {
         .getElementById("geocoder")
         .childNodes[0].childNodes[1].addEventListener("keydown", e =>
           console.log(e)
-        );*/
+        );
 
     });
 
     document.getElementById("geocoder").appendChild(searchButton);
+    */
 
     geocoder.on("results", results => {
       console.log("geocoding results", results);
