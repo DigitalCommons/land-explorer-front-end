@@ -313,6 +313,7 @@ class Nodal extends Component {
         <div className="nodal" key={this.props.id}>  
         <img src={closeIcon} className = "Closebtn" onClick = {this.closePopup}  alt ="Close button"/>
           <h2 className="nodal_title"> {this.props.name}
+          
             <button className="DeleteCommunityAsset" onClick={this.deleteNodal}>
               <img src={DeleteCommunityAsset} alt="DeleteCommunityAsset" key={this.props.id}/>
             </button>

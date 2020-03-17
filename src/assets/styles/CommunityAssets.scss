@@ -4,21 +4,20 @@ $bg-color:  #ffffff;;
 
 .nodal
 {
-  background: $bg-color;
-  position: absolute;
-
+  background: #fff;
+  position: fixed;
   z-index: -1;
-  color: black;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  padding: 10px;
+  color: #75848f;
+  padding: 10px 17px 15px;
+  margin-bottom: 1px;
   pointer-events: auto;
-  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font: 12px/20px 'Lato Regular', Arial, Helvetica, sans-serif;
   bottom: 53px;
-  left: -226px;
-  width: 450px;
+  left: -160px;
+  width: 368px;
   transform: rotate(-360deg);
   border-radius: 4px;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32);
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,0.32);
   
 }
 
@@ -163,13 +162,13 @@ $bg-color:  #ffffff;;
 
 .SpeechBubble
 {
-  border-width: 15px 15px 0px 15px; // bottom border-width is 0px so the triangle is directed downwards
-  border-color: $bg-color transparent transparent transparent;
-  
+ 
+  border-width: 15px 15px 0px 15px;
+  border-color: #fff transparent transparent transparent;
   border-style: solid;
-  bottom: -15px;  // Positions the triangle vertically
+  bottom: -15px;
   position: absolute;
-  right: 245px;
+  right: 210px;
 
 }
 
