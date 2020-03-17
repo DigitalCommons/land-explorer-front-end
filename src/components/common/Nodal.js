@@ -133,13 +133,12 @@ class Nodal extends Component {
   editNodal() 
   {
     Swal.fire({
-     
       icon: "warning",
       title: "Edit the asset",
       text: `Editing ${this.props.name}.`,
-      
+       
       html: ` 
-        <form id ="EditMyCommunityAsset" >
+        <form  >
         
           <label  style ="padding:10px;"for="nameForm">Name : </label><input id="nameForm" value='${this.props.name}' ></input>
           
@@ -235,26 +234,19 @@ class Nodal extends Component {
 
       preConfirm: () => {
 
-   
-        let name = document.forms["EditMyCommunityAsset"]["nameForm"];
-         
-
-        console.log(name);
         
-         if(name.value == "")
+         if(document.getElementById("nameForm").value === '')
          {
                     alert("Fill in empty fields!")
-                    console.log(name.value);
-                    // return false;
-                    
-                    
+                    // Swal.fire({
+                    //   icon: "Error",
+                    //   title: "Incomplete form"
+                    // });
                     
          }
-
-        
          
-        //  else
-        //  {
+         else
+         {
          // axios
         //   .post(
         //     `${constants.ROOT_URL}/api/council/markers/update/`,
@@ -295,13 +287,13 @@ class Nodal extends Component {
 
             //this.props.updateNodal(this.props.id);
 
-            // Swal.fire({
-            //   icon: "success",
-            //   title: "Changes have been saved"
-            // });
+            Swal.fire({
+              icon: "success",
+              title: "Changes have been saved"
+            });
           }
           // });
-      // },
+      },
     });
   }
 
