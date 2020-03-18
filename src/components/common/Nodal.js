@@ -46,9 +46,9 @@ class Nodal extends Component {
       case 5:
         return brownMarker;
       case 6:
-        return greyMarker;
-      default:
         return orangeMarker;
+      default:
+        return greyMarker;
     }
   }
 
@@ -143,6 +143,7 @@ class Nodal extends Component {
           <label  style ="padding:10px;"for="nameForm">Name : </label><input id="nameForm" value='${this.props.name}' ></input>
           
           <br />
+
          <label  style ="padding:10px;"for = "address_1Form"> Address Line 1 : </label> <input id="address_1Form" value='${this.props.addressLine1}' required></input>
           
           <br />
@@ -153,6 +154,7 @@ class Nodal extends Component {
           
           <br />
           <label  style ="padding:10px;"for = "address_4form">Address Line 4 : </label><input id="address_4Form" value='${this.props.addressLine4}' required></input>
+
           
           <br />
           <label style ="padding:10px;" for = "categoryForm">Category : </label><input id="categoryForm" value = '${this.props.category_id}' required></input>
@@ -223,6 +225,7 @@ class Nodal extends Component {
           <input id="price_rangeForm" value='${this.props.price_range}' required />
        
           </form>
+
         `,
 
       confirmButtonText: "Submit Edit",
@@ -301,26 +304,22 @@ class Nodal extends Component {
     const closeIcon = require("../../assets/img/icon-close-new.svg");
     const DeleteCommunityAsset = require("../../assets/img/icon-trash-red.svg");
 
-   
-
-    
-
     let editIcon = require("../../assets/img/icon-drawing-tools.svg");
-
 
     if (this.props.id === this.props.activeNodal)
       return (
+
         <div className="nodal" key={this.props.id}>  
         <img src={closeIcon} className = "Closebtn" onClick = {this.closePopup}  alt ="Close button"/>
           <h2 className="nodal_title"> {this.props.name}
           
+
             <button className="DeleteCommunityAsset" onClick={this.deleteNodal}>
               <img src={DeleteCommunityAsset} alt="DeleteCommunityAsset" key={this.props.id}/>
             </button>
-
-          
-  <button onClick = {this.editNodal}  className= "EditIcon"><img src = {editIcon} /></button>
-
+            <button onClick={this.editNodal} className="EditIcon">
+              <img src={editIcon} />
+            </button>
           </h2>
 
           {this.state.checkBoxState ? (

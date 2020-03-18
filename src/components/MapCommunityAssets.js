@@ -157,6 +157,7 @@ class MapCommunityAssets extends Component {
           ]}
           name={communityAsset[0].name}
           postcode={communityAsset[0].postcode}
+          refresh={() => this.props.refresh()}
         />
       );
     }
@@ -238,7 +239,7 @@ class MapCommunityAssets extends Component {
       <span
         style={{
           borderRadius: "50%",
-          backgroundColor: "grey",
+          backgroundColor: "orange",
           color: "white",
           padding: "5px"
         }}
@@ -252,7 +253,7 @@ class MapCommunityAssets extends Component {
       <span
         style={{
           borderRadius: "50%",
-          backgroundColor: "orange",
+          backgroundColor: "grey",
           color: "white",
           padding: "5px"
         }}
