@@ -80,7 +80,7 @@ class NavCommunityAssets extends Component {
                 <input type="file" name="file" accept=".csv" onChange={this.onChangeHandler} />
                 </label>
 
-                <input type="button" value="Upload file" onClick={this.uploadWithFormData} />
+                <input type="button" value="Upload file" onClick={this.uploadWithFormData}  className ="UploadButton" />
             </NavTray>
         );
     }

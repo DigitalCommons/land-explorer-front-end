@@ -1,9 +1,21 @@
 $text-color: #333333;
-$highlight-color: #E74C3C;
-$bg-color:  #ffffff;;
+$primary-color: #2ecc71;
+$highlight-color: #e74c3c;
+$bg-color: #ffffff;
 
-.nodal
+.UploadButton 
 {
+  border-radius: 200px;
+  background: #b3ad98;
+  border-radius: 200px;
+
+  border: none;
+  width: 84px;
+  height: 20px;
+  color:white;
+}
+
+.nodal {
   background: #fff;
   position: fixed;
   z-index: -1;
@@ -17,12 +29,10 @@ $bg-color:  #ffffff;;
   width: 368px;
   transform: rotate(-360deg);
   border-radius: 4px;
-  box-shadow: 0 3px 6px 0 rgba(0,0,0,0.32);
-  
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32);
 }
 
-.Closebtn
-{
+.Closebtn {
   height: 10px;
   width: 10px;
   border-radius: 50%;
@@ -33,37 +43,29 @@ $bg-color:  #ffffff;;
   z-index: 5;
 }
 
-.DeleteCommunityAsset
-{
+.DeleteCommunityAsset {
   border: none;
-  background:inherit;
+  background: inherit;
 }
 
-.EditIcon
-{
-  border:none;
-  background:inherit;
-
+.EditIcon {
+  border: none;
+  background: inherit;
 }
 
-.EditIcon:hover
-{
-  background-color: #2ecc71;
+.EditIcon:hover {
+  background-color: $primary-color;
 }
 
-.DeleteCommunityAsset:hover
-{
-  background-color:#2ecc71;
+.DeleteCommunityAsset:hover {
+  background-color: $primary-color;
 }
-
-
-
 
 // #Yes
 // {
 //   background: lightgreen;
 //   color:white;
-//   border-radius: 12px; 
+//   border-radius: 12px;
 //   border: none;
 //   margin-right: 12px;
 // }
@@ -72,11 +74,10 @@ $bg-color:  #ffffff;;
 // {
 //   background:#f9060e;
 //   color: white;
-//   border-radius: 12px; 
+//   border-radius: 12px;
 //   border: none;
 //   margin-right: 12px;
 // }
-
 
 // .nodal_title {
 //   font-size: 1.4rem;
@@ -99,8 +100,7 @@ $bg-color:  #ffffff;;
 //   padding: 5px 0 5px 0;
 // }
 
-.nodal_close
-{
+.nodal_close {
   font-size: 1.4rem;
   line-height: 1.4rem;
   position: absolute;
@@ -109,8 +109,7 @@ $bg-color:  #ffffff;;
   cursor: pointer;
   padding: 5px 15px 15px 15px;
   transition: color 150ms ease;
-  &:hover 
-  {
+  &:hover {
     color: $highlight-color;
   }
 }
@@ -135,43 +134,32 @@ $bg-color:  #ffffff;;
 //   }
 // }
 
-.MoreInfo
-{
+.MoreInfo {
   margin: 0;
   font-size: 0.7rem;
   border-radius: 18px;
-  border:none;
-  
-  background: #2ecc71;
-  color:white;
+  border: none;
 
-  &:hover,&:focus
-  {
-        outline: 0;
-        transform: translateY(-5px);
-        transition: all 100ms ease-in;
-       
+  background: $primary-color;
+  color: white;
+
+  &:hover,
+  &:focus {
+    outline: 0;
+    transform: translateY(-5px);
+    transition: all 100ms ease-in;
   }
 
-  &:active 
-  {
-      transform: translateY(-3px);
+  &:active {
+    transform: translateY(-3px);
   }
 }
 
-
-.SpeechBubble
-{
- 
+.SpeechBubble {
   border-width: 15px 15px 0px 15px;
   border-color: #fff transparent transparent transparent;
   border-style: solid;
   bottom: -15px;
   position: absolute;
   right: 210px;
-
 }
-
- 
-
-
