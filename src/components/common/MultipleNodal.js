@@ -327,6 +327,12 @@ class MultipleNodal extends Component {
             <span onClick={this.closePopup} className="nodal_close">
               &#x2715;
             </span>
+            <button
+              className="nodal_action"
+              onClick={() => this.setState({ infoBox: "list" })}
+            >
+              &#8592; back
+            </button>
             <h2 className="nodal_title">
               {companyData.name}
               <button
