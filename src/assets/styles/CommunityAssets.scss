@@ -8,7 +8,7 @@ $bg-color: #ffffff;
   border-radius: 200px;
   background: #b3ad98;
   border-radius: 200px;
-
+  margin : 10px;
   border: none;
   width: 84px;
   height: 20px;
@@ -139,9 +139,9 @@ $bg-color: #ffffff;
   font-size: 0.7rem;
   border-radius: 18px;
   border: none;
-
-  background: $primary-color;
-  color: white;
+  color: black;
+  background: white;
+  padding: 10px;
 
   &:hover,
   &:focus {

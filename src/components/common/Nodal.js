@@ -494,9 +494,7 @@ class Nodal extends Component {
                   </tr>
                 </tbody>
               </table>
-              <button onClick={this.readMore} className="MoreInfo">
-                Read more 
-              </button>
+              <button onClick={this.readMore} className="MoreInfo">Read More...</button>
             </div>
           )}
           <div className="SpeechBubble"></div>
