@@ -130,7 +130,14 @@ class Register extends Component {
                 this.setState({registering: false})
             })
             .catch(err => {
-                console.log("err", err);
+                //Catch err 400 her
+                let response = err.response;
+                if(response.status === 400)
+                {
+                    console.log("Hey we get some custom error message from server:");
+                    console.log(response.data);
+                }
+                //console.log("err", err.response);
                 this.setState({registering: false})
             });
     }
