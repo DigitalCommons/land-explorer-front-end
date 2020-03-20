@@ -295,7 +295,16 @@ class Register extends Component {
                             onChange={(e) => {
                                 let value = e.target.value;
                                 let valid = ukPhoneRegexp.test(value);
-                                this.setState({ phone: { value, valid } });
+                                if(value.length > 101 )
+                                {
+                                    alert("Max Characters is 101")
+                                }
+
+                                else
+                                {
+                                    this.setState({ phone: { value, valid } });
+                                  }
+                                
                                
                             }}
 
@@ -310,7 +319,15 @@ class Register extends Component {
                             onChange={(e) => {
                                 let value = e.target.value;
                                 let valid = value !== '';
+                                if(value.length > 101 )
+                                {
+                                    alert("Max Characters is 101")
+                                }
+
+                                else
+                                {
                                 this.setState({ organisationNumber: { value, valid } });
+                            }
                             }}
                         />
                         <input
