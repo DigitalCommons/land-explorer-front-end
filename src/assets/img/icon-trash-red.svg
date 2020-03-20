@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px"  viewBox="0 0 52 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Trash</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Trash" stroke="none" stroke-width="1" fill="#ff0000" fill-rule="evenodd">
+        <g id="Page-1" fill="#ff0000">
+            <path d="M 51 9 L 1 9 C 0.4 9 0 8.6 0 8 C 0 7.4 0.4 7 1 7 L 51 7 C 51.6 7 52 7.4 52 8 C 52 8.6 51.6 9 51 9" id="Fill-1"></path>
+            <path d="M 26 55 C 25.4 55 25 54.6 25 54 L 25 17 C 25 16.4 25.4 16 26 16 C 26.6 16 27 16.4 27 17 L 27 54 C 27 54.6 26.6 55 26 55" id="Fill-3"></path>
+            <path d="M 17 55 C 16.4 55 16 54.6 16 54 L 16 17 C 16 16.4 16.4 16 17 16 C 17.6 16 18 16.4 18 17 L 18 54 C 18 54.6 17.6 55 17 55" id="Fill-5"></path>
+            <path d="M 35 55 C 34.4 55 34 54.6 34 54 L 34 17 C 34 16.4 34.4 16 35 16 C 35.6 16 36 16.4 36 17 L 36 54 C 36 54.6 35.6 55 35 55" id="Fill-7"></path>
+            <path d="M 45.4 64 L 6.6 64 L 4 61.4 L 4 8 C 4 7.4 4.4 7 5 7 C 5.6 7 6 7.4 6 8 L 6 60.6 L 7.4 62 L 44.6 62 L 46.5 60.1 L 46.5 8 C 46.5 7.4 46.9 7 47.5 7 C 48.1 7 48.5 7.4 48.5 8 L 48.5 60.9 L 45.4 64 Z" id="Fill-9"></path>
+            <path d="M 34 9 C 33.4 9 33 8.6 33 8 L 33 3.4 L 31.6 2 L 20.4 2 L 19 3.4 L 19 8 C 19 8.6 18.6 9 18 9 C 17.4 9 17 8.6 17 8 L 17 2.6 L 19.6 0 L 32.4 0 L 35 2.6 L 35 8 C 35 8.6 34.6 9 34 9" id="Fill-11"></path>
+        </g>
+    </g>
+</svg>

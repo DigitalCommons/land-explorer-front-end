@@ -72,7 +72,7 @@ form {
   border: solid 1px $trayAccent !important;
   border-radius: 100px;
   color: $secondaryColor;
-  background-image: url('../img/icon-search.svg');
+  background-image: url("../img/icon-search.svg");
   background-repeat: no-repeat;
   background-position: calc(10px) 50%;
   background-size: 22px;
@@ -112,7 +112,7 @@ form {
     font-size: 14px;
     color: $secondaryColor !important;
     &:after {
-      content: ' ';
+      content: " ";
       position: absolute;
       top: -12px;
       left: 50%;
@@ -136,7 +136,7 @@ form {
     li.active {
       a {
         background-color: transparent;
-      };
+      }
       a:hover {
         background-color: #e5e7eb;
       }
@@ -153,32 +153,30 @@ form {
 }
 
 .geocoder-icon-close {
-  background-image: url('../../assets/img/icon-close-new.svg');
+  background-image: url("../../assets/img/icon-close-new.svg");
   background-color: transparent !important;
   background-size: 12px;
   cursor: pointer !important;
-    &:focus {
+  &:focus {
     outline: transparent;
-    }
+  }
 }
-
 
 .mapboxgl-ctrl-bottom-left {
   //display: none !important;
 }
 
-
-input[type=text] {
+input[type="text"] {
   -webkit-appearance: none;
   border-radius: 5px;
 }
 
-input[type=password] {
+input[type="password"] {
   -webkit-appearance: none;
   border-radius: 5px;
 }
 
-input[type=submit] {
+input[type="submit"] {
   -webkit-appearance: none;
   border-color: transparent;
   &:focus {
@@ -234,7 +232,7 @@ input[type=submit] {
 }
 .control_indicator:after {
   box-sizing: unset;
-  content: '';
+  content: "";
   position: absolute;
   display: none;
 }
@@ -253,13 +251,6 @@ input[type=submit] {
 .control-checkbox input:disabled ~ .control_indicator:after {
   border-color: #7b7b7b;
 }
-
-
-
-
-
-
-
 
 .control-radio .control_indicator {
   border-radius: 50%;

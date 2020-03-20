@@ -1,214 +1,251 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import Navbar from '../components/Navbar';
-import { Link, Redirect } from 'react-router-dom';
-import Select from 'react-select';
-import Spinner from 'react-spinkit';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Navbar from "../components/Navbar";
+import { Link, Redirect } from "react-router-dom";
+import Select from "react-select";
+import Spinner from "react-spinkit";
 import axios from "axios/index";
-import constants from '../constants';
+import constants from "../constants";
+import Swal from "sweetalert2";
 
 class Register extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            registering: false,
-            registerSuccess: false,
-            registerErrors: null,
-            firstName: {
-                value: '',
-                valid: ''
-            },
-            lastName: {
-                value: '',
-                valid: ''
-            },
-            organisation: {
-                value: '',
-                valid: '',
-            },
-            organisationType: {
-                value: '',
-                valid: '',
-            },
-            organisationCommercial: {
-                value: '',
-                valid: '',
-            },
-            organisationCommercialOther: {
-                value: '',
-                valid: '',
-            },
-            organisationCommunityInterest: {
-                value: '',
-                valid: '',
-            },
-            organisationNumber: {
-                value: '',
-                valid: '',
-            },
-            phone: {
-                value: '',
-                valid: '',
-            },
-            address1: {
-                value: '',
-                valid: '',
-            },
-            address2: {
-                value: '',
-                valid: '',
-            },
-            city: {
-                value: '',
-                valid: '',
-            },
-            postcode: {
-                value: '',
-                valid: '',
-            },
-            email: {
-                value: '',
-                valid: ''
-            },
-            password: {
-                value: '',
-                valid: ''
-            },
-            confirmPassword: {
-                value: '',
-                valid: ''
-            },
-            agree: false,
-            marketing: {
-                yes: false,
-                no: false,
-            }
+  constructor(props) {
+    super(props);
+    this.state = {
+      registering: false,
+      registerSuccess: false,
+      registerErrors: null,
+      firstName: {
+        value: "",
+        valid: ""
+      },
+      lastName: {
+        value: "",
+        valid: ""
+      },
+      organisation: {
+        value: "",
+        valid: ""
+      },
+      organisationType: {
+        value: "",
+        valid: ""
+      },
+      organisationCommercial: {
+        value: "",
+        valid: ""
+      },
+      organisationCommercialOther: {
+        value: "",
+        valid: ""
+      },
+      organisationCommunityInterest: {
+        value: "",
+        valid: ""
+      },
+      organisationNumber: {
+        value: "",
+        valid: ""
+      },
+      phone: {
+        value: "",
+        valid: ""
+      },
+      address1: {
+        value: "",
+        valid: ""
+      },
+      address2: {
+        value: "",
+        valid: ""
+      },
+      city: {
+        value: "",
+        valid: ""
+      },
+      postcode: {
+        value: "",
+        valid: ""
+      },
+      email: {
+        value: "",
+        valid: ""
+      },
+      password: {
+        value: "",
+        valid: ""
+      },
+      confirmPassword: {
+        value: "",
+        valid: ""
+      },
+      agree: false,
+      marketing: {
+        yes: false,
+        no: false
+      }
+    };
+  }
+
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.setState({ registering: true });
+    this.register();
+  };
+
+
+  printErrors = () => {
+    let errors = this.state.registerErrors;
+    let keys = Object.keys(errors);
+    return keys.map((key, index) => {
+      return <p key={index}>{errors[key]}</p>;
+    });
+  };
+
+  register = () => {
+    let organisationType = this.state.organisationType.value;
+    let organisationSubType =
+      organisationType === "community-interest"
+        ? this.state.organisationCommunityInterest.value
+        : this.state.organisationCommercial.value;
+    organisationSubType =
+      organisationSubType === "other"
+        ? this.state.organisationCommercialOther.value
+        : organisationSubType;
+    let request = {
+      address: this.state.address1.value,
+      firstName: this.state.firstName.value,
+      lastName: this.state.lastName.value,
+      marketing: this.state.marketing.yes,
+      organisation: this.state.organisation.value,
+      organisationNumber: this.state.organisationNumber.value,
+      organisationType: organisationType,
+      organisationSubType: organisationSubType,
+      password: this.state.password.value,
+      phone: this.state.phone.value,
+      username: this.state.email.value
+    };
+    console.log("registration request", request);
+    axios
+      .post(`${constants.ROOT_URL}/api/user/register/`, request)
+      .then(response => {
+        console.log("register response", response);
+        if (response.status === 200) {
+          console.log("register response 200", response);
+          this.setState({ registerSuccess: true });
+        } else if (response.status === 400) {
+          this.setState({ registerErrors: response.data.errors });
         }
-    }
+        this.setState({ registering: false });
+      })
+      .catch(err => {
+        //Catch err 400 her
+        let response = err.response;
+        if (response.status === 400) {
+          console.log("Hey we get some custom error message from server:");
+          console.log(response.data);
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        
-        this.setState({registering: true});
-        this.register();
-    }
-
-    printErrors = () => {
-        let errors = this.state.registerErrors;
-        let keys = Object.keys(errors);
-        return keys.map((key, index) => {
-            return <p key={index}>{errors[key]}</p>;
-        });
-    }
-
-    register = () => {
-        let organisationType = this.state.organisationType.value;
-        let organisationSubType = organisationType === 'community-interest' ? this.state.organisationCommunityInterest.value : this.state.organisationCommercial.value;
-        organisationSubType = (organisationSubType === 'other') ? this.state.organisationCommercialOther.value : organisationSubType;
-        let request = {
-            address: this.state.address1.value,
-            firstName: this.state.firstName.value,
-            lastName: this.state.lastName.value,
-            marketing: this.state.marketing.yes,
-            organisation: this.state.organisation.value,
-            organisationNumber: this.state.organisationNumber.value,
-            organisationType: organisationType,
-            organisationSubType: organisationSubType,
-            password: this.state.password.value,
-            phone: this.state.phone.value,
-            username: this.state.email.value
+          if (response.data.username)
+            Swal.fire({ icon: "error", text: response.data.username[0] });
         }
-        console.log("registration request", request);
-        axios.post(`${constants.ROOT_URL}/api/user/register/`, request)
-            .then((response) => {
-                console.log("register response", response);
-                if (response.status === 200) {
-                    console.log("register response 200", response);
-                    this.setState({ registerSuccess: true });
-                }else if (response.status === 400) {
-                    this.setState({ registerErrors: response.data.errors });
-                }
-                this.setState({registering: false})
-            })
-            .catch(err => {
-                console.log("err", err);
-                this.setState({registering: false})
-            });
-    }
+        //console.log("err", err.response);
+        this.setState({ registering: false });
+      });
+  };
 
-    render() {
-        let { firstName, lastName, organisation, organisationType, organisationCommercial,
-            organisationCommunityInterest, organisationNumber, password, email, confirmPassword,
-            address1, address2, city, postcode, phone, registering, registerSuccess, registerErrors, agree, marketing
-        } = this.state;
-        console.log("organisation", organisation);
-        return (
-            <div style={{
-                minHeight: '100vh'
-            }}>
-                <Navbar limited={true} />
-                <div
-                    style={{
-                        display: registering ? 'block' : 'none',
-                        left: '50%',
-                        top: '50%',
-                        transform: 'translateX(-50%) translateY(-50%)',
-                        position: 'absolute',
-                        textAlign: 'center',
-                    }}
-                >
-                    <Spinner name="pulse" fadeIn="none"/>
-                </div>
-                <div style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background: 'white',
-                    display: registerSuccess ? 'block' : 'none',
-                    zIndex: 1
-                }}>
-                    <div
-                        style={{
-                            left: '50%',
-                            top: '50%',
-                            transform: 'translateX(-50%) translateY(-50%)',
-                            position: 'absolute',
-                            textAlign: 'center',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center'
-                        }}
-                    >
-                        <p>Registration Successful</p>
-                        <Link to="/auth/"
-                              className="button button-small"
-                        >Ok</Link>
-                    </div>
-                </div>
-                <div
-                    className="registration"
-                    style={{
-                        minHeight: '200px',
-                        width: '600px',
-                        height: '600px',
-                        maxWidth: '100vw',
-                        background: 'white',
-                        boxSizing: 'border-box',
-                        textAlign: 'center',
-                        paddingLeft: '24px',
-                        paddingRight: '24px',
-                        display: registering ? 'none' : 'block',
-                        overflow : "auto"
-                    }}>
-                    <h2>Register</h2>
-                   
-                    {
-                        registerErrors && (
-                            <div>{this.printErrors()} </div>
-                        )
-                    }
+  render() {
+    let {
+      firstName,
+      lastName,
+      organisation,
+      organisationType,
+      organisationCommercial,
+      organisationCommunityInterest,
+      organisationNumber,
+      password,
+      email,
+      confirmPassword,
+      address1,
+      address2,
+      city,
+      postcode,
+      phone,
+      registering,
+      registerSuccess,
+      registerErrors,
+      agree,
+      marketing
+    } = this.state;
+    console.log("organisation", organisation);
+    return (
+      <div
+        style={{
+          minHeight: "100vh"
+        }}
+      >
+        <Navbar limited={true} />
+        <div
+          style={{
+            display: registering ? "block" : "none",
+            left: "50%",
+            top: "50%",
+            transform: "translateX(-50%) translateY(-50%)",
+            position: "absolute",
+            textAlign: "center"
+          }}
+        >
+          <Spinner name="pulse" fadeIn="none" />
+        </div>
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "white",
+            display: registerSuccess ? "block" : "none",
+            zIndex: 1
+          }}
+        >
+          <div
+            style={{
+              left: "50%",
+              top: "50%",
+              transform: "translateX(-50%) translateY(-50%)",
+              position: "absolute",
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center"
+            }}
+          >
+            <p>Registration Successful</p>
+            <Link to="/auth/" className="button button-small">
+              Ok
+            </Link>
+          </div>
+        </div>
+        <div
+          className="registration"
+          style={{
+            minHeight: "200px",
+            width: "600px",
+            height: "600px",
+            maxWidth: "100vw",
+            background: "white",
+            boxSizing: "border-box",
+            textAlign: "center",
+            paddingLeft: "24px",
+            paddingRight: "24px",
+            display: registering ? "none" : "block",
+            overflow: "auto"
+          }}
+        >
+          <h2>Register</h2>
+
+          {registerErrors && <div>{this.printErrors()} </div>}
                     <form onSubmit={this.handleSubmit}>
                         <input
                             type="text"
@@ -555,9 +592,25 @@ class Register extends Component {
                         </div>
                     </form>
                 </div>
+              </Link>
+
+              <input
+                type="submit"
+                value="Register"
+                className="button button-medium"
+                style={{
+                  paddingTop: 0,
+                  marginBottom: "120px",
+                  marginLeft: "10px",
+                  display: "inline-block"
+                }}
+              />
             </div>
-        );
-    }
+          </form>
+        </div>
+      </div>
+    );
+  }
 }
 
 const emailRegexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

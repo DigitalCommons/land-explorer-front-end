@@ -1,94 +1,118 @@
-import React, {Component} from 'react';
-import { Source, Layer} from 'react-mapbox-gl';
+import React, { Component } from "react";
+import { GeoJSONLayer, Marker } from "react-mapbox-gl";
+import {
+  stHelens,
+  golborne,
+  dalgarno,
+  nottingDale,
+  colville,
+  norland,
+  pembridge,
+  holland,
+  campden,
+  abingdon,
+  queensGate,
+  earlsCourt,
+  courtfield,
+  bromptonAndHansTown,
+  redcliffe,
+  stanley,
+  chelseaRiverside,
+  royalHospital
+} from "../data/wardOutlines";
 
 class MapCouncilLayers extends Component {
-    render() {
-        
-        return (
-            <React.Fragment>
-                <Source
-                    tileJsonSource={{
-                        "type": "vector",
-                        "url": "mapbox://kingmob.3mzcsn3y,kingmob.13t9w8d9,kingmob.cwck8dxg,kingmob.4v2uu2el,kingmob.8jl57qha"
-                    }}
-                    id="composite"
-                />
-                
-                {/* St Helen's */}
-                <Layer
-                    id="144348-st-helens-1h7v6d"
-                    type="fill"
-                    sourceId="composite"
-                    sourceLayer="144348_St_Helens-1h7v6d"
-                    minZoom={9}
-                    layout={{
-                        "visibility": "visible"
-                    }}
-                    paint={{
-                        "fill-color": "hsla(180, 100%, 54%, 0.3)",
-                    }}
-                />
-                {/* Golborne */}
-                <Layer
-                    id="144351-golborne-5qhq4t"
-                    type="fill"
-                    sourceId="composite"
-                    sourceLayer="144351_Golborne-5qhq4t"
-                    minZoom={9}
-                    layout={{
-                        "visibility": "visible"
-                    }}
-                    paint={{
-                        "fill-color": "hsla(220, 100%, 54%, 0.3)",
-                    }}
-                />
-                {/* Dalgarno */}
-                <Layer
-                    id="144350-delgarno-26ei0o"
-                    type="fill"
-                    sourceId="composite"
-                    sourceLayer="144350_-_Delgarno-26ei0o"
-                    minZoom={9}
-                    layout={{
-                        "visibility": "visible"
-                    }}
-                    paint={{
-                        "fill-color": "hsla(200, 100%, 54%, 0.3)",
-                    }}
-                />
-                {/* Notting Dale */}
-                <Layer
-                    id="144347-notting-dale-13vbt0"
-                    type="fill"
-                    sourceId="composite"
-                    sourceLayer="144347_Notting_Dale-13vbt0"
-                    minZoom={9}
-                    layout={{
-                        "visibility": "visible"
-                    }}
-                    paint={{
-                        "fill-color": "hsla(210, 100%, 54%, 0.3)",
-                    }}
-                />
-                {/* Colville */}
-                <Layer
-                    id="144349-colville-8zqj2a"
-                    type="fill"
-                    sourceId="composite"
-                    sourceLayer="144349_Colville-8zqj2a"
-                    minZoom={9}
-                    layout={{
-                        "visibility": "visible"
-                    }}
-                    paint={{
-                        "fill-color": "hsla(190, 100%, 54%, 0.3)",
-                    }}
-                />
+  constructor(props) {
+    super(props);
 
-            </React.Fragment>
-        );
-    }
+    this.createGeoJSONLayer = this.createGeoJSONLayer.bind(this);
+  }
+
+  createGeoJSONLayer(boundary) {
+    return (
+      <GeoJSONLayer
+        data={{
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              geometry: {
+                type: "LineString",
+                coordinates: boundary
+              }
+            }
+          ]
+        }}
+        linePaint={{
+          "line-color": "grey",
+          "line-width": this.props.zoom > 15 ? 5 : 2
+        }}
+      />
+    );
+  }
+
+  createLabel(label) {
+    //add if the label is visible or not based on its coordinates and the open map
+
+    return (
+      <Marker coordinates={label.coordinates}>
+        <h1 style={{ userSelect: "none" }}>{label.name}</h1>
+      </Marker>
+    );
+  }
+  render() {
+    let wardBoundaries = [
+      stHelens,
+      golborne,
+      dalgarno,
+      nottingDale,
+      colville,
+      norland,
+      pembridge,
+      holland,
+      campden,
+      abingdon,
+      queensGate,
+      earlsCourt,
+      courtfield,
+      bromptonAndHansTown,
+      redcliffe,
+      stanley,
+      chelseaRiverside,
+      royalHospital
+    ];
+
+    let wardNames = [
+      { name: "St Helen's", coordinates: ["-0.220544", "51.524929"] },
+      { name: "Golborne", coordinates: ["-0.207939", "51.522323"] },
+      { name: "Dalgarno", coordinates: ["-0.217240", "51.517794"] },
+      { name: "Notting Dale", coordinates: ["-0.213941", "51.511803"] },
+      { name: "Colville", coordinates: ["-0.202294", "51.515883"] },
+      { name: "Norland", coordinates: ["-0.213623", "51.506567"] },
+      { name: "Pembridge", coordinates: ["-0.198597", "51.511169"] },
+      { name: "Holland", coordinates: ["-0.206638", "51.501232"] },
+      { name: "Campden", coordinates: ["-0.195197", "51.504216"] },
+      { name: "Abingdon", coordinates: ["-0.194988", "51.497828"] },
+      { name: "Queen's Gate", coordinates: ["-0.184237", "51.498497"] },
+      { name: "Earl's Court", coordinates: ["-0.193405", "51.491410"] },
+      { name: "Courtfield", coordinates: ["-0.180079", "51.492860"] },
+      {
+        name: "Brompton and Hans Town",
+        coordinates: [" -0.164959", "51.495764"]
+      },
+      { name: "Redcliffe", coordinates: [" -0.186794", "51.487586"] },
+      { name: "Stanley", coordinates: [" -0.174044", "51.487041"] },
+      { name: "Chelsea Riverside", coordinates: ["-0.17", "51.483368"] },
+      { name: "Royal Hospital", coordinates: [" -0.161159", "51.488852"] }
+    ];
+
+    return (
+      <React.Fragment>
+        {wardBoundaries.map(this.createGeoJSONLayer)}
+        {wardNames.map(this.createLabel)}
+      </React.Fragment>
+    );
+  }
 }
-
 
 export default MapCouncilLayers;

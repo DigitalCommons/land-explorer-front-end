@@ -48,7 +48,7 @@ class Share extends Component {
             "emailAddresses": this.props.emails
         },getAuthHeader())
         .then((response) => {
-            if (response.data.status === '200') {
+            if (response.status === 200) {
                 this.closeModal();
                 axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
                     .then((response) => {
