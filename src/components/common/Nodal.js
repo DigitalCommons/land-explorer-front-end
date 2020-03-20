@@ -130,13 +130,12 @@ class Nodal extends Component {
     });
   }
 
-  editNodal() 
-  {
+  editNodal() {
     Swal.fire({
       icon: "warning",
       title: "Edit the asset",
       text: `Editing ${this.props.name}.`,
-       
+
       html: ` 
         <form  >
         
@@ -229,74 +228,66 @@ class Nodal extends Component {
         `,
 
       confirmButtonText: "Submit Edit",
-      
+
       cancelButtonText: "Discard edits",
       showCancelButton: true,
       showLoaderOnConfirm: true,
-      
 
       preConfirm: () => {
-
-        
-         if(document.getElementById("nameForm").value === '')
-         {
-                    alert("Fill in empty fields!")
-                    // Swal.fire({
-                    //   icon: "Error",
-                    //   title: "Incomplete form"
-                    // });
-                    
-         }
-         
-         else
-         {
-         // axios
-        //   .post(
-        //     `${constants.ROOT_URL}/api/council/markers/update/`,
-        //     {
-        //       id: this.props.id,
-        //       name: document.getElementById("nameForm").value,
-        //       address_1: document.getElementById("address_1Form").value,
-        //       address_2: document.getElementById("address_2Form").value,
-        //       address_3: document.getElementById("address_3Form").value,
-        //       address_4: document.getElementById("address_4Form").value,
-        //       postcode: document.getElementById("postcodeForm").value,
-        //       category_id: document.getElementById("categoryForm").value,
-        //       sub_category: document.getElementById("sub_categoryForm").value,
-        //       type: document.getElementById("typeForm").value,
-        //       community_space: document.getElementById("community_spaceForm")
-        //         .value,
-        //       council_facility: document.getElementById("council_facilityForm")
-        //         .value,
-        //       notes: document.getElementById("notesForm").value,
-        //       web_address: document.getElementById("web_addressForm").value,
-        //       email: document.getElementById("emailForm").value,
-        //       telephone: document.getElementById("telephoneForm").value,
-        //       contact_name: document.getElementById("contact_nameForm").value,
-        //       space_available: document.getElementById("space_availableForm")
-        //         .value,
-        //       specialist_spaces: document.getElementById(
-        //         "specialist_spacesForm"
-        //       ).value,
-        //       kitchen: document.getElementById("kitchenForm").value,
-        //       disabled_access: document.getElementById("disabled_accessForm")
-        //         .value,
-        //       price_range: document.getElementById("price_rangeForm").value
-        //     },
-        //     getAuthHeader()
-        //   )
+        if (document.getElementById("nameForm").value === "") {
+          alert("Fill in empty fields!");
+          // Swal.fire({
+          //   icon: "Error",
+          //   title: "Incomplete form"
+          // });
+        } else {
+          // axios
+          //   .post(
+          //     `${constants.ROOT_URL}/api/council/markers/update/`,
+          //     {
+          //       id: this.props.id,
+          //       name: document.getElementById("nameForm").value,
+          //       address_1: document.getElementById("address_1Form").value,
+          //       address_2: document.getElementById("address_2Form").value,
+          //       address_3: document.getElementById("address_3Form").value,
+          //       address_4: document.getElementById("address_4Form").value,
+          //       postcode: document.getElementById("postcodeForm").value,
+          //       category_id: document.getElementById("categoryForm").value,
+          //       sub_category: document.getElementById("sub_categoryForm").value,
+          //       type: document.getElementById("typeForm").value,
+          //       community_space: document.getElementById("community_spaceForm")
+          //         .value,
+          //       council_facility: document.getElementById("council_facilityForm")
+          //         .value,
+          //       notes: document.getElementById("notesForm").value,
+          //       web_address: document.getElementById("web_addressForm").value,
+          //       email: document.getElementById("emailForm").value,
+          //       telephone: document.getElementById("telephoneForm").value,
+          //       contact_name: document.getElementById("contact_nameForm").value,
+          //       space_available: document.getElementById("space_availableForm")
+          //         .value,
+          //       specialist_spaces: document.getElementById(
+          //         "specialist_spacesForm"
+          //       ).value,
+          //       kitchen: document.getElementById("kitchenForm").value,
+          //       disabled_access: document.getElementById("disabled_accessForm")
+          //         .value,
+          //       price_range: document.getElementById("price_rangeForm").value
+          //     },
+          //     getAuthHeader()
+          //   )
           // .then(response => {
           //   this.props.refresh();
 
-            //this.props.updateNodal(this.props.id);
+          //this.props.updateNodal(this.props.id);
 
-            Swal.fire({
-              icon: "success",
-              title: "Changes have been saved"
-            });
-          }
-          // });
-      },
+          Swal.fire({
+            icon: "success",
+            title: "Changes have been saved"
+          });
+        }
+        // });
+      }
     });
   }
 
@@ -308,14 +299,22 @@ class Nodal extends Component {
 
     if (this.props.id === this.props.activeNodal)
       return (
-
-        <div className="nodal" key={this.props.id}>  
-        <img src={closeIcon} className = "Closebtn" onClick = {this.closePopup}  alt ="Close button"/>
-          <h2 className="nodal_title"> {this.props.name}
-          
-
+        <div className="nodal" key={this.props.id}>
+          <img
+            src={closeIcon}
+            className="Closebtn"
+            onClick={this.closePopup}
+            alt="Close button"
+          />
+          <h2 className="nodal_title">
+            {" "}
+            {this.props.name}
             <button className="DeleteCommunityAsset" onClick={this.deleteNodal}>
-              <img src={DeleteCommunityAsset} alt="DeleteCommunityAsset" key={this.props.id}/>
+              <img
+                src={DeleteCommunityAsset}
+                alt="DeleteCommunityAsset"
+                key={this.props.id}
+              />
             </button>
             <button onClick={this.editNodal} className="EditIcon">
               <img src={editIcon} />
@@ -459,9 +458,9 @@ class Nodal extends Component {
                   )}
                 </tbody>
               </table>
-              <button onClick={this.readLess} className="MoreInfo">
-                Read less 
-              </button>
+              <div onClick={this.readLess} className="popup-buttons left">
+                <h2>Read less</h2>
+              </div>
             </div>
           ) : (
             <div>
@@ -494,9 +493,9 @@ class Nodal extends Component {
                   </tr>
                 </tbody>
               </table>
-              <button onClick={this.readMore} className="MoreInfo">
-                Read more 
-              </button>
+              <div onClick={this.readMore} className="popup-buttons left">
+                <h2>Read More</h2>
+              </div>
             </div>
           )}
           <div className="SpeechBubble"></div>
