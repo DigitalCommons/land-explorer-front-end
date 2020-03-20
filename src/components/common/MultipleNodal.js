@@ -296,7 +296,7 @@ class MultipleNodal extends Component {
     if (this.state.infoBox === "list") {
       return (
         <div className="nodal">
-          <span onClick={this.closePopup} src = {closeIcon}>
+          <span onClick={this.closePopup} src={closeIcon} className="Closebtn">
             &#x2715;
           </span>
           <h2 className="nodal_title">Organisations:</h2>
@@ -324,15 +324,19 @@ class MultipleNodal extends Component {
         let companyData = this.props.councilData[this.state.viewCompany];
         return (
           <div className="nodal">
-            <span onClick={this.closePopup}  src = {closeIcon} > 
-             
-            </span>
-            <button
-              className="nodal_action"
-              onClick={() => this.setState({ infoBox: "list" })}
+            <span
+              onClick={this.closePopup}
+              src={closeIcon}
+              className="Closebtn"
             >
-              &#8592; back
-            </button>
+              &#x2715;
+            </span>
+            <div
+              onClick={() => this.setState({ infoBox: "list" })}
+              className="popup-buttons left"
+            >
+              <h2>&#8592; back</h2>
+            </div>
             <h2 className="nodal_title">
               {companyData.name}
               <button
@@ -493,9 +497,9 @@ class MultipleNodal extends Component {
                     )}
                   </tbody>
                 </table>
-                <button onClick={this.readLess} className="MoreInfo">
-                  Read less...
-                </button>
+                <div onClick={this.readLess} className="popup-buttons left">
+                  <h2>Read less</h2>
+                </div>
               </div>
             ) : (
               <div>
@@ -526,9 +530,9 @@ class MultipleNodal extends Component {
                     </tr>
                   </tbody>
                 </table>
-                <button onClick={this.readMore} className="MoreInfo">
-                  Read more...
-                </button>
+                <div onClick={this.readMore} className="popup-buttons left">
+                  <h2>Read More</h2>
+                </div>
               </div>
             )}
             <div className="SpeechBubble"></div>

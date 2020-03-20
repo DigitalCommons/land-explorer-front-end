@@ -3,16 +3,16 @@ $primary-color: #2ecc71;
 $highlight-color: #e74c3c;
 $bg-color: #ffffff;
 
-.UploadButton 
-{
+.UploadButton {
   border-radius: 200px;
   background: #b3ad98;
   border-radius: 200px;
-  margin : 10px;
+  margin: 10px;
+  padding: 10px;
   border: none;
   width: 84px;
   height: 20px;
-  color:white;
+  color: white;
 }
 
 .nodal {
@@ -23,7 +23,7 @@ $bg-color: #ffffff;
   padding: 10px 17px 15px;
   margin-bottom: 1px;
   pointer-events: auto;
-  font: 12px/20px 'Lato Regular', Arial, Helvetica, sans-serif;
+  font: 12px/20px "Lato Regular", Arial, Helvetica, sans-serif;
   bottom: 53px;
   left: -160px;
   width: 368px;
