@@ -255,7 +255,7 @@ class Register extends Component {
                                       : "invalid"
                                     : ""
                                 }`}
-              placeholder="First name"
+              placeholder="First name (Required)"
               value={firstName.value}
               onChange={e => {
                 let value = e.target.value;
@@ -264,6 +264,8 @@ class Register extends Component {
                   firstName: { value, valid }
                 });
               }}
+              required
+              maxlength="101"
             />
             <input
               type="text"
@@ -275,8 +277,9 @@ class Register extends Component {
                                       : "invalid"
                                     : ""
                                 }`}
-              placeholder="Last name"
+              placeholder="Last name (Required)"
               value={lastName.value}
+              maxlength="101"
               onChange={e => {
                 let value = e.target.value;
                 let valid = value.length > 2 && value.length < 20;
@@ -284,25 +287,24 @@ class Register extends Component {
                   lastName: { value, valid }
                 });
               }}
+              required
             />
             <input
-              type="text"
-              className={`text-input
-                                ${
-                                  email.valid !== ""
-                                    ? email.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
-              placeholder="Email address"
+              type="email"
+              className={`text-input ${
+                email.valid !== "" ? (email.valid ? "valid" : "invalid") : ""
+              }`}
+              placeholder="Email address (Required)"
               value={email.value}
+              maxlength="101"
               onChange={e => {
                 let value = e.target.value;
                 let valid = emailRegexp.test(value);
                 this.setState({ email: { value, valid } });
               }}
+              required
             />
+
             <input
               type="password"
               className={`text-input text-input-half text-input-first-half
@@ -313,14 +315,17 @@ class Register extends Component {
                                       : "invalid"
                                     : ""
                                 }`}
-              placeholder="Password"
+              placeholder="Password (Required)"
               value={password.value}
               style={{ marginRight: "2%" }}
+              minlength="4"
+              maxlenght="101"
               onChange={e => {
                 let value = e.target.value;
                 let valid = value.length > 5 && value.length < 30;
                 this.setState({ password: { value, valid } });
               }}
+              required
             />
             <input
               type="password"
@@ -334,16 +339,20 @@ class Register extends Component {
                                       : "invalid"
                                     : ""
                                 }`}
-              placeholder="Confirm password"
+              placeholder="Confirm password (Required)"
               value={confirmPassword.value}
+              minlength="4"
+              maxlength="101"
               onChange={e => {
                 let value = e.target.value;
                 let valid = password.value === value;
                 this.setState({ confirmPassword: { value, valid } });
               }}
+              required
             />
+
             <input
-              type="text"
+              type="number"
               className={`text-input text-input-half text-input-first-half
                                 ${
                                   phone.valid !== ""
@@ -357,11 +366,17 @@ class Register extends Component {
               onChange={e => {
                 let value = e.target.value;
                 let valid = ukPhoneRegexp.test(value);
-                this.setState({ phone: { value, valid } });
+                if (value.length > 101) {
+                  alert("Max Characters is 101");
+                } else {
+                  this.setState({ phone: { value, valid } });
+                }
               }}
+
+              // maxLength = {11} doesn't work wioth number use js to  iterate through each char and stop use from putting shit when its above 11
             />
             <input
-              type="text"
+              type="number"
               className={`text-input text-input-half
                                 ${
                                   organisationNumber.valid !== ""
@@ -375,7 +390,11 @@ class Register extends Component {
               onChange={e => {
                 let value = e.target.value;
                 let valid = value !== "";
-                this.setState({ organisationNumber: { value, valid } });
+                if (value.length > 101) {
+                  alert("Max Characters is 101");
+                } else {
+                  this.setState({ organisationNumber: { value, valid } });
+                }
               }}
             />
             <input
@@ -390,6 +409,7 @@ class Register extends Component {
                                 }`}
               placeholder="Address 1"
               value={address1.value}
+              maxlength="101"
               onChange={e => {
                 let value = e.target.value;
                 let valid = value !== "";
@@ -401,6 +421,7 @@ class Register extends Component {
               className={`text-input`}
               placeholder="Address 2"
               value={address2.value}
+              maxlength="101"
               onChange={e => {
                 let value = e.target.value;
                 let valid = true;
@@ -419,6 +440,7 @@ class Register extends Component {
                                 }`}
               placeholder="City"
               value={city.value}
+              maxlength="101"
               onChange={e => {
                 let value = e.target.value;
                 let valid = value !== "";
@@ -437,6 +459,7 @@ class Register extends Component {
                                 }`}
               placeholder="Postcode"
               value={postcode.value}
+              maxlength="7"
               onChange={e => {
                 let value = e.target.value;
                 let valid = ukPostcodeRegexp.test(value);
@@ -455,6 +478,7 @@ class Register extends Component {
                                 }`}
               placeholder="Organisation Name"
               value={organisation.value}
+              maxlength="101"
               onChange={e => {
                 let value = e.target.value;
                 let valid = value !== "";
