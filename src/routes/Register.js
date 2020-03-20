@@ -214,7 +214,7 @@ class Register extends Component {
                             type="text"
                             className={`text-input text-input-half text-input-first-half
                                 ${ (firstName.valid !== '') ? firstName.valid ? 'valid' : 'invalid' : '' }`}
-                            placeholder="First name"
+                            placeholder="First name (Required)"
                             value={firstName.value}
 
                             onChange={(e) => {
@@ -232,7 +232,7 @@ class Register extends Component {
                             type="text"
                             className={`text-input text-input-half
                                 ${ (lastName.valid !== '') ? lastName.valid ? 'valid' : 'invalid' : '' }`}
-                            placeholder="Last name"
+                            placeholder="Last name (Required)"
                             value={lastName.value}
                             maxlength="101"
                             onChange={(e) => {
@@ -245,7 +245,7 @@ class Register extends Component {
                         required 
                          />
                         <input type="email" className={`text-input ${ (email.valid !== '') ? email.valid ? 'valid' : 'invalid' : '' }`}
-                            placeholder="Email address"
+                            placeholder="Email address (Required)"
                             value={email.value}
                             maxlength = "101"
                             onChange={(e) => {
@@ -259,7 +259,7 @@ class Register extends Component {
                             type="password"
                             className={`text-input text-input-half text-input-first-half
                                 ${ (password.valid !== '') ? password.valid ? 'valid' : 'invalid' : '' }`}
-                            placeholder="Password"
+                            placeholder="Password (Required)"
                             value={password.value}
                             
                             style={{ marginRight: '2%' }}
@@ -275,7 +275,7 @@ class Register extends Component {
                             type="password"
                             className={`text-input text-input-half
                                 ${ (password.value !== '') ? (confirmPassword.valid !== '') ? confirmPassword.valid ? 'valid' : 'invalid' : 'invalid' : '' }`}
-                            placeholder="Confirm password"
+                            placeholder="Confirm password (Required)"
                             value={confirmPassword.value}
                             minlength = "4"
                             maxlength = "101"
