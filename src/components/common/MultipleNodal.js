@@ -493,8 +493,8 @@ class MultipleNodal extends Component {
                     )}
                   </tbody>
                 </table>
-                <button onClick={this.readLess} className="nodal_action">
-                  Read less &#8594;
+                <button onClick={this.readLess} className="MoreInfo">
+                  Read less...
                 </button>
               </div>
             ) : (
@@ -526,8 +526,8 @@ class MultipleNodal extends Component {
                     </tr>
                   </tbody>
                 </table>
-                <button onClick={this.readMore} className="nodal_action">
-                  Read more &#8594;
+                <button onClick={this.readMore} className="MoreInfo">
+                  Read more...
                 </button>
               </div>
             )}
