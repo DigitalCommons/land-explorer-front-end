@@ -1,0 +1,7 @@
+<svg height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><g id="Signpost-pin-locations-2" data-name="Signpost-pin-locations">
+<path fill="brown" d="m32 60c3.72 0 6-1.29 6-2 0-.47-1.07-1.26-3.03-1.69a2.985 2.985 0 0 1 -5.94 0c-1.96.43-3.03 1.22-3.03 1.69 0 .71 2.28 2 6 2z"/>
+<path fill="brown" d="m9.41 23-5 5 5 5h19.59v-10z"/>
+<path fill="brown" d="m33 56v-46.14a3.641 3.641 0 0 1 -2 0v46.14a1 1 0 0 0 2 0z"/>
+<circle fill="brown" cx="32" cy="6" r="2"/>
+<path fill="brown" d="m59.59 38-5-5h-19.59v10h19.59z"/>
+<path fill="brown" d="m35 13v10h19.59l5-5-5-5z"/></g></svg>

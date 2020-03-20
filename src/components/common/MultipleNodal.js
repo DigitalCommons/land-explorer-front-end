@@ -26,13 +26,13 @@ class MultipleNodal extends Component {
   }
 
   getImgByCategoryId(id) {
-    const redMarker = require("../../assets/img/icon-community-asset-red.svg");
-    const blueMarker = require("../../assets/img/icon-community-asset-blue.svg");
-    const purpleMarker = require("../../assets/img/icon-community-asset-purple.svg");
-    const greenMarker = require("../../assets/img/icon-community-asset-green.svg");
-    const brownMarker = require("../../assets/img/icon-community-asset-brown.svg");
-    const greyMarker = require("../../assets/img/icon-community-asset-grey.svg");
-    const orangeMarker = require("../../assets/img/icon-community-asset-orange.svg");
+    const redMarker = require("../../assets/img/sign-post-red.svg");
+    const blueMarker = require("../../assets/img/sign-post-blue.svg");
+    const purpleMarker = require("../../assets/img/sign-post-purple.svg");
+    const greenMarker = require("../../assets/img/sign-post-green.svg");
+    const brownMarker = require("../../assets/img/sign-post-brown.svg");
+    const greyMarker = require("../../assets/img/sign-post-grey.svg");
+    const orangeMarker = require("../../assets/img/sign-post-orange.svg");
 
     switch (id) {
       case 0:

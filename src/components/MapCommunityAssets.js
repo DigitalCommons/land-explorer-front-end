@@ -162,13 +162,22 @@ class MapCommunityAssets extends Component {
       );
     }
   }
-
   //This is the marker/nodal that would appear when a cluster is shown
   clusterMarkerOne = coordinates => (
     <Marker coordinates={coordinates}>
       <img
         src={require("../assets/img/icon-community-asset-grey.svg")}
         style={{ height: "30px", width: "30px" }}
+      />
+      <img
+        src={require("../assets/img/icon-search.svg")}
+        style={{
+          height: "20px",
+          width: "20px",
+          position: "relative",
+          top: "-24px",
+          left: "-34px"
+        }}
       />
     </Marker>
   );
@@ -178,6 +187,16 @@ class MapCommunityAssets extends Component {
         src={require("../assets/img/icon-community-asset-grey.svg")}
         style={{ height: "30px", width: "30px" }}
       />
+      <img
+        src={require("../assets/img/icon-search.svg")}
+        style={{
+          height: "20px",
+          width: "20px",
+          position: "relative",
+          top: "-24px",
+          left: "-34px"
+        }}
+      />
     </Marker>
   );
   clusterMarkerThree = coordinates => (
@@ -186,13 +205,33 @@ class MapCommunityAssets extends Component {
         src={require("../assets/img/icon-community-asset-grey.svg")}
         style={{ height: "30px", width: "30px" }}
       />
+      <img
+        src={require("../assets/img/icon-search.svg")}
+        style={{
+          height: "20px",
+          width: "20px",
+          position: "relative",
+          top: "-24px",
+          left: "-34px"
+        }}
+      />
     </Marker>
   );
   clusterMarkerFour = coordinates => (
     <Marker coordinates={coordinates}>
       <img
         src={require("../assets/img/icon-community-asset-grey.svg")}
-        style={{ height: "30px", width: "30px" }}
+        style={{ height: "30px", width: "30px", top: "40", left: "40" }}
+      />
+      <img
+        src={require("../assets/img/icon-search.svg")}
+        style={{
+          height: "20px",
+          width: "20px",
+          position: "relative",
+          top: "-24px",
+          left: "-34px"
+        }}
       />
     </Marker>
   );
@@ -202,6 +241,16 @@ class MapCommunityAssets extends Component {
         src={require("../assets/img/icon-community-asset-grey.svg")}
         style={{ height: "30px", width: "30px" }}
       />
+      <img
+        src={require("../assets/img/icon-search.svg")}
+        style={{
+          height: "20px",
+          width: "20px",
+          position: "relative",
+          top: "-24px",
+          left: "-34px"
+        }}
+      />
     </Marker>
   );
   clusterMarkerSix = coordinates => (
@@ -210,6 +259,16 @@ class MapCommunityAssets extends Component {
         src={require("../assets/img/icon-community-asset-grey.svg")}
         style={{ height: "30px", width: "30px" }}
       />
+      <img
+        src={require("../assets/img/icon-search.svg")}
+        style={{
+          height: "20px",
+          width: "20px",
+          position: "relative",
+          top: "-24px",
+          left: "-34px"
+        }}
+      />
     </Marker>
   );
   clusterMarkerSeven = coordinates => (
@@ -217,6 +276,16 @@ class MapCommunityAssets extends Component {
       <img
         src={require("../assets/img/icon-community-asset-grey.svg")}
         style={{ height: "30px", width: "30px" }}
+      />
+      <img
+        src={require("../assets/img/icon-search.svg")}
+        style={{
+          height: "20px",
+          width: "20px",
+          position: "relative",
+          top: "-24px",
+          left: "-34px"
+        }}
       />
     </Marker>
   );
