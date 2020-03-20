@@ -296,7 +296,7 @@ class MultipleNodal extends Component {
     if (this.state.infoBox === "list") {
       return (
         <div className="nodal">
-          <span onClick={this.closePopup} className="nodal_close">
+          <span onClick={this.closePopup} src = {closeIcon}>
             &#x2715;
           </span>
           <h2 className="nodal_title">Organisations:</h2>
@@ -324,8 +324,8 @@ class MultipleNodal extends Component {
         let companyData = this.props.councilData[this.state.viewCompany];
         return (
           <div className="nodal">
-            <span onClick={this.closePopup} className="nodal_close">
-              &#x2715;
+            <span onClick={this.closePopup}  src = {closeIcon} > 
+             
             </span>
             <button
               className="nodal_action"
