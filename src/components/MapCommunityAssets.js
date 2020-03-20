@@ -166,100 +166,58 @@ class MapCommunityAssets extends Component {
   //This is the marker/nodal that would appear when a cluster is shown
   clusterMarkerOne = coordinates => (
     <Marker coordinates={coordinates}>
-      <span
-        style={{
-          borderRadius: "50%",
-          backgroundColor: "red",
-          color: "white",
-          padding: "5px"
-        }}
-      >
-        C
-      </span>
+      <img
+        src={require("../assets/img/icon-community-asset-grey.svg")}
+        style={{ height: "30px", width: "30px" }}
+      />
     </Marker>
   );
   clusterMarkerTwo = coordinates => (
     <Marker coordinates={coordinates}>
-      <span
-        style={{
-          borderRadius: "50%",
-          backgroundColor: "blue",
-          color: "white",
-          padding: "5px"
-        }}
-      >
-        C
-      </span>
+      <img
+        src={require("../assets/img/icon-community-asset-grey.svg")}
+        style={{ height: "30px", width: "30px" }}
+      />
     </Marker>
   );
   clusterMarkerThree = coordinates => (
     <Marker coordinates={coordinates}>
-      <span
-        style={{
-          borderRadius: "50%",
-          backgroundColor: "purple",
-          color: "white",
-          padding: "5px"
-        }}
-      >
-        C
-      </span>
+      <img
+        src={require("../assets/img/icon-community-asset-grey.svg")}
+        style={{ height: "30px", width: "30px" }}
+      />
     </Marker>
   );
   clusterMarkerFour = coordinates => (
     <Marker coordinates={coordinates}>
-      <span
-        style={{
-          borderRadius: "50%",
-          backgroundColor: "green",
-          color: "white",
-          padding: "5px"
-        }}
-      >
-        C
-      </span>
+      <img
+        src={require("../assets/img/icon-community-asset-grey.svg")}
+        style={{ height: "30px", width: "30px" }}
+      />
     </Marker>
   );
   clusterMarkerFive = coordinates => (
     <Marker coordinates={coordinates}>
-      <span
-        style={{
-          borderRadius: "50%",
-          backgroundColor: "brown",
-          color: "white",
-          padding: "5px"
-        }}
-      >
-        C
-      </span>
+      <img
+        src={require("../assets/img/icon-community-asset-grey.svg")}
+        style={{ height: "30px", width: "30px" }}
+      />
     </Marker>
   );
   clusterMarkerSix = coordinates => (
     <Marker coordinates={coordinates}>
-      <span
-        style={{
-          borderRadius: "50%",
-          backgroundColor: "orange",
-          color: "white",
-          padding: "5px"
-        }}
-      >
-        C
-      </span>
+      <img
+        src={require("../assets/img/icon-community-asset-grey.svg")}
+        style={{ height: "30px", width: "30px" }}
+      />
     </Marker>
   );
   clusterMarkerSeven = coordinates => (
     <Marker coordinates={coordinates}>
-      <span
-        style={{
-          borderRadius: "50%",
-          backgroundColor: "grey",
-          color: "white",
-          padding: "5px"
-        }}
-      >
-        C
-      </span>
+      <img
+        src={require("../assets/img/icon-community-asset-grey.svg")}
+        style={{ height: "30px", width: "30px" }}
+      />
     </Marker>
   );
 

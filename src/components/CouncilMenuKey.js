@@ -42,6 +42,12 @@ class CouncilMenuKey extends Component {
         data: {
           "Voluntary Sector": "orange"
         }
+      },
+      Cluster: {
+        name: "Cluster",
+        data: {
+          Cluster: "grey"
+        }
       }
     };
   }
