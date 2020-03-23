@@ -149,7 +149,7 @@ class MapCommunityAssets extends Component {
         <MultipleNodal
           councilData={communityAsset}
           key={communityAsset[0].id}
-          //category_id = 0
+          id={communityAsset[0].id}
           category_id={communityAsset[0].category_id}
           coordinates={[
             communityAsset[0].longitude,

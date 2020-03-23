@@ -551,7 +551,7 @@ class MultipleNodal extends Component {
       >
         {this.displayInfoIfActive()}
         <img
-          alt="Marker on map"
+          alt="Signpost on map"
           src={this.getImgByCategoryId(this.props.category_id)}
           style={{ height: "30px", width: "30px" }}
           onClick={this.openPopup}

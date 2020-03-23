@@ -84,12 +84,13 @@ class NavCommunityAssets extends Component {
             />
           </label>
 
-          <input
-            type="button"
-            value="Upload file"
+          <button
             onClick={this.uploadWithFormData}
             className="button button-medium"
-          />
+            style={{ borderWidth: 0 }}
+          >
+            Upload file
+          </button>
         </div>
       </NavTray>
     );
