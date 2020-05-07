@@ -11,8 +11,8 @@ class MapProperties extends Component {
 
     //let propertiesArray = axios.get('apiaddres' + '/properties' , map.center);
     let propertiesArray = [
-      { coordinates: stHelens, UPRN: 12345, name: "St Helen's Ward" },
-      { coordinates: norland, UPRN: 67890, name: "Norland Ward" }
+      { coordinates: stHelens, UPRN: 12345, address: "St Helen's Ward" },
+      { coordinates: norland, UPRN: 67890, address: "Norland Ward" },
     ];
 
     return propertiesArray;
@@ -23,7 +23,7 @@ class MapProperties extends Component {
 
     let properties = [];
 
-    data.map(propertyInfo =>
+    data.map((propertyInfo) =>
       properties.push(<Property propertyInfo={propertyInfo} />)
     );
 

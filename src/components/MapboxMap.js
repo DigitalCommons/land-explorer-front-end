@@ -397,7 +397,7 @@ class MapboxMap extends Component {
             {/* Map Layers (greenbelt etc.)*/}
             <MapLayers />
             {/*For displaying for sale markers*/}
-            <MapForSaleMarkers />
+            <MapForSaleMarkers center={lngLat} map={this.map} />
             {/*For displaying the property boundaries*/}
             <MapProperties />
             {/* Geocoder - For location search */}
