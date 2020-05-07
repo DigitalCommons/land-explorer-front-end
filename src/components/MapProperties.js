@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Property from "../components/Property";
 import { stHelens, norland } from "../data/wardOutlines";
 
@@ -9,7 +10,8 @@ class MapProperties extends Component {
   getProperties() {
     //use map location in the api call to get all properties in a certain area.
 
-    //let propertiesArray = axios.get('apiaddres' + '/properties' , map.center);
+    //let propertiesArray = axios.post('apiaddres' + '/properties' , map.boundaries);
+
     let propertiesArray = [
       { coordinates: stHelens, UPRN: 12345, address: "St Helen's Ward" },
       { coordinates: norland, UPRN: 67890, address: "Norland Ward" },
@@ -31,9 +33,15 @@ class MapProperties extends Component {
   }
 
   render() {
-    //if zoom level is below ~14 (or something) do nothing except trigger the zoom warning.
-    return <React.Fragment>{this.createProperties()}</React.Fragment>;
+    //TO ADD: if zoom level is below ~14 (or something) do nothing except trigger the zoom warning.
+    if (this.props.displayActive)
+      return <React.Fragment>{this.createProperties()}</React.Fragment>;
+    else return null;
   }
 }
 
-export default MapProperties;
+const mapStateToProps = ({ landOwnership }) => ({
+  displayActive: landOwnership.displayActive,
+});
+
+export default connect(mapStateToProps)(MapProperties);

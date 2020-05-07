@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
   address: "",
+  displayActive: false,
 };
 
 let address;
@@ -13,6 +14,12 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         address: address,
       };
+    case "DISPLAY_PROPERTIES":
+      state.displayActive = true;
+      return { ...state };
+    case "STOP_DISPLAYING_PROPERTIES":
+      state.displayActive = false;
+      return { ...state };
     default:
       return state;
   }

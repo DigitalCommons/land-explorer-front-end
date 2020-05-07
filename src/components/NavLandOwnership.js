@@ -4,6 +4,10 @@ import NavTray from "./NavTray";
 import NavTrayItem from "./common/NavTrayItem";
 import Checkbox from "./common/Checkbox";
 import { checkServerIdentity } from "tls";
+import {
+  displayProperties,
+  stopDisplayingProperties,
+} from "../actions/LandOwnershipActions";
 var lodash = require("lodash");
 
 const property_price = 3.99;
@@ -51,6 +55,15 @@ class NavLandOwnership extends Component {
       });
       this.state.selected_houses.add("0");
     }
+
+    //if this has just been opened, then turn on displaying properties.
+    //if the active is switched away from, stop displaying properties. (dealt with closed already)
+
+    if (prevProps.active != this.props.active) {
+      if (this.props.active === "Land Ownership") {
+        this.props.displayProperties();
+      } else this.props.stopDisplayingProperties();
+    }
   }
 
   //When postcode is filled
@@ -73,6 +86,7 @@ class NavLandOwnership extends Component {
   //Reset mode when nav tray are closed
   closeTray = () => {
     this.setState({ mode: "search" });
+    this.props.stopDisplayingProperties();
     this.props.onClose();
   };
 
@@ -526,9 +540,7 @@ class NavLandOwnership extends Component {
             css="nav-left-tray-ownership"
           >
             {this.state.houses.map((house, index) => {
-              console.log("map");
               if (this.state.selected_houses.has(index.toString())) {
-                console.log("mapyes");
                 return this.purchaseDocument(house);
                 //return <div>{house.line_1 + ',' + house.line_2 + ',' + house.line_3}</div>
               }
@@ -613,4 +625,7 @@ const mapStateToProps = ({ landOwnership }) => ({
   mapAddress: landOwnership.address,
 });
 
-export default connect(mapStateToProps)(NavLandOwnership);
+export default connect(mapStateToProps, {
+  displayProperties,
+  stopDisplayingProperties,
+})(NavLandOwnership);

@@ -4,3 +4,13 @@ export const viewAddressInfo = (address) => ({
     address: address,
   },
 });
+
+export const displayProperties = () => ({
+  type: "DISPLAY_PROPERTIES",
+  payload: {},
+});
+
+export const stopDisplayingProperties = () => ({
+  type: "STOP_DISPLAYING_PROPERTIES",
+  payload: {},
+});
