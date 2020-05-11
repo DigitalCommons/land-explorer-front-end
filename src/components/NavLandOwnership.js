@@ -221,10 +221,10 @@ class NavLandOwnership extends Component {
   searchHouses(event) {
     event.preventDefault();
     //Commenting the API calls to reduce usage as there is limitations for free version
-    //this.addressAPI();
+    this.addressAPI();
 
     //Using dummy property data
-    this.fakeDate();
+    //this.fakeDate();
   }
 
   //Serve the page where user can add property title/plan to cart

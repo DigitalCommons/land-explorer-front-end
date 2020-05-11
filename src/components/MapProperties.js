@@ -13,8 +13,8 @@ class MapProperties extends Component {
     //let propertiesArray = axios.post('apiaddres' + '/properties' , map.boundaries);
 
     let propertiesArray = [
-      { coordinates: stHelens, UPRN: 12345, address: "St Helen's Ward" },
-      { coordinates: norland, UPRN: 67890, address: "Norland Ward" },
+      { coordinates: stHelens, UPRN: 12345, address: "Property 1" },
+      { coordinates: norland, UPRN: 67890, address: "Property 2" },
     ];
 
     return propertiesArray;
