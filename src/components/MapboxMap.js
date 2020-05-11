@@ -399,7 +399,7 @@ class MapboxMap extends Component {
             {/*For displaying for sale markers*/}
             <MapForSaleMarkers center={lngLat} map={this.map} />
             {/*For displaying the property boundaries*/}
-            <MapProperties />
+            <MapProperties center={lngLat} map={this.map} />
             {/* Geocoder - For location search */}
             <GeoCoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
             {/* Markers */}

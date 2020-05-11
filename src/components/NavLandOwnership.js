@@ -234,6 +234,8 @@ class NavLandOwnership extends Component {
     this.setState({
       mode: "cart",
     });
+
+      
   }
 
   //The sub component view for postcode form

@@ -37,7 +37,7 @@ class MapCommunityAssets extends Component {
         let arr = [];
         //API return data from all layer
         //Optimise by grouping the data according to its category id
-
+        
         //First index of arr would be marker objects with category_id 1, and so on
         response.data.forEach(el => {
           //Each element has a category_id
