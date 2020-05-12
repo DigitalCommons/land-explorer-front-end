@@ -7,7 +7,7 @@ import ReactMapboxGl, {
   Marker,
   ZoomControl,
   Source,
-  GeoJSONLayer
+  GeoJSONLayer,
 } from "react-mapbox-gl";
 import update from "immutability-helper";
 import * as MapboxGL from "mapbox-gl";
@@ -42,7 +42,7 @@ const Map = ReactMapboxGl({
   maxzoom: 11,
   keyboard: false,
   touchZoomRotate: false,
-  doubleClickZoom: true
+  doubleClickZoom: true,
 });
 
 class MapboxMap extends Component {
@@ -53,7 +53,7 @@ class MapboxMap extends Component {
       loaded: false,
       styleLoaded: false,
       drawings: null,
-      redrawing: false
+      redrawing: false,
     };
     // ref to the mapbox map
     this.map = null;
@@ -88,7 +88,7 @@ class MapboxMap extends Component {
     if (this.props.activeTool === "drop-pin") {
       this.props.dispatch({
         type: "SET_MARKER",
-        payload: [evt.lngLat.lng, evt.lngLat.lat]
+        payload: [evt.lngLat.lng, evt.lngLat.lat],
       });
     } else {
       // if polygon or marker is selected, deselect them
@@ -106,7 +106,7 @@ class MapboxMap extends Component {
       let zoom = this.map.getZoom();
       this.props.dispatch({
         type: "SET_ZOOM",
-        payload: [zoom]
+        payload: [zoom],
       });
     }
   };
@@ -126,7 +126,7 @@ class MapboxMap extends Component {
     }
   };
 
-  onDrawCreate = e => {
+  onDrawCreate = (e) => {
     /*
             This takes the feature created in drawing and creates a copy of it
             and stores it in the redux store, so that it can be rendered as a react GeoJSON component
@@ -139,9 +139,9 @@ class MapboxMap extends Component {
         geometry: feature.geometry,
         properties: {
           // This is is created by the javascript drawing tools, we store it to keep them in sync
-          id: feature.id
+          id: feature.id,
         },
-        id: feature.id
+        id: feature.id,
       };
       let type = feature.geometry.type;
       // Use turf to convert the polygon to a line (so we can get the length of it (perimeter)
@@ -161,11 +161,11 @@ class MapboxMap extends Component {
         center: turf.pointOnFeature(featureCopy).geometry.coordinates,
         type: type,
         length: turf.length(line, { units: "kilometers" }),
-        area: type === "Polygon" ? turf.area(featureCopy) : 0
+        area: type === "Polygon" ? turf.area(featureCopy) : 0,
       };
       this.props.dispatch({
         type: "ADD_POLYGON",
-        payload: polygon
+        payload: polygon,
       });
       // change drawing mode back to static and deselct all tools
       setTimeout(() => {
@@ -176,20 +176,20 @@ class MapboxMap extends Component {
     }
   };
 
-  onDrawUpdate = e => {
+  onDrawUpdate = (e) => {
     /*
           This takes all the drawing features and creates a copies of them
           and stores them the redux store, so that they can be rendered as react GeoJSON components
       */
     let { features } = e;
-    features.map(feature => {
+    features.map((feature) => {
       let featureCopy = {
         type: feature.type,
         geometry: feature.geometry,
         properties: {
-          id: feature.id
+          id: feature.id,
         },
-        id: feature.id
+        id: feature.id,
       };
       let type = feature.geometry.type;
       let line =
@@ -203,16 +203,16 @@ class MapboxMap extends Component {
           data: featureCopy,
           center: turf.pointOnFeature(featureCopy).geometry.coordinates,
           length: turf.length(line, { units: "kilometers" }),
-          area: turf.area(featureCopy)
-        }
+          area: turf.area(featureCopy),
+        },
       });
       this.props.dispatch({
-        type: "CLEAR_ACTIVE_POLYGON"
+        type: "CLEAR_ACTIVE_POLYGON",
       });
     });
   };
 
-  onDrawSelectionChange = e => {
+  onDrawSelectionChange = (e) => {
     let mode = this.drawControl.draw.getMode();
     if (mode === "simple_select") {
       if (e.features.length) {
@@ -220,7 +220,7 @@ class MapboxMap extends Component {
         // We pass the featureId of the feature we want to be automatically selected when
         // the mode changes
         this.drawControl.draw.changeMode("direct_select", {
-          featureId: id
+          featureId: id,
         });
       }
     }
@@ -232,10 +232,10 @@ class MapboxMap extends Component {
         */
     this.setState({ redrawing: true });
     if (this.props.polygons) {
-      this.props.polygons.map(polygon => {
+      this.props.polygons.map((polygon) => {
         this.drawControl.draw.add({
           ...polygon.data,
-          id: polygon.id
+          id: polygon.id,
         });
       });
       this.drawControl.draw.changeMode("static");
@@ -265,18 +265,18 @@ class MapboxMap extends Component {
       name,
       navOpen,
       movingMethod,
-      user
+      user,
     } = this.props;
     let baseLayers = [
       baseLayer === "aerial"
         ? this.state.satelliteLayer
-        : this.state.topographyLayer
+        : this.state.topographyLayer,
     ];
     let style = {
       version: 8,
       sources: this.state.sources,
       // these are the base tile sets, aerial or streets
-      layers: baseLayers
+      layers: baseLayers,
     };
     if (user.type == "council")
       return (
@@ -294,13 +294,13 @@ class MapboxMap extends Component {
                   ? "#091324"
                   : constants.USE_OS_TILES
                   ? "#aadeef"
-                  : "#72b6e6"
+                  : "#72b6e6",
             }}
             zoom={zoom}
             onZoomEnd={this.onZoomEnd}
             onDragEnd={this.onDragEnd}
             center={lngLat}
-            onStyleLoad={map => {
+            onStyleLoad={(map) => {
               this.map = map;
               this.setState({ styleLoaded: true });
             }}
@@ -323,7 +323,7 @@ class MapboxMap extends Component {
             <ZoomWarning show={zoom < 9 && activeLayers.length > 0} />
             /* Drawing tools */
             <DrawControl
-              ref={drawControl => {
+              ref={(drawControl) => {
                 // this reference is passed to the Nav and Modals to give them access to the methods
                 this.drawControl = drawControl;
               }}
@@ -331,15 +331,17 @@ class MapboxMap extends Component {
               onDrawCreate={this.onDrawCreate}
               modes={this.modes}
               defaultMode="simple_select"
-              onDrawModeChange={e => console.log("draw mode changed", e)}
+              onDrawModeChange={(e) => console.log("draw mode changed", e)}
               onDrawUpdate={this.onDrawUpdate}
               onDrawSelectionChange={this.onDrawSelectionChange}
-              onDrawActionable={e => console.log("draw actionable", e)}
+              onDrawActionable={(e) => console.log("draw actionable", e)}
               onDrawDelete={this.onDrawDelete}
             />
-            {/* Render the drawing layers if they are not currently being redrawn */
-            /* This is the GEOJSON Layers, the react components with click events, that we use to display the popups*/
-            !this.state.redrawing && <DrawingLayers />}
+            {
+              /* Render the drawing layers if they are not currently being redrawn */
+              /* This is the GEOJSON Layers, the react components with click events, that we use to display the popups*/
+              !this.state.redrawing && <DrawingLayers />
+            }
           </Map>
           <Nav drawControl={this.drawControl} />
           <Modals
@@ -354,7 +356,7 @@ class MapboxMap extends Component {
           <div
             className="map-click-layer"
             style={{
-              display: this.isMenuOpen() ? "block" : "none"
+              display: this.isMenuOpen() ? "block" : "none",
             }}
             onClick={() => {
               this.props.dispatch({ type: "CLOSE_MENUS" });
@@ -379,13 +381,13 @@ class MapboxMap extends Component {
                   ? "#091324"
                   : constants.USE_OS_TILES
                   ? "#aadeef"
-                  : "#72b6e6"
+                  : "#72b6e6",
             }}
             zoom={zoom}
             onZoomEnd={this.onZoomEnd}
             onDragEnd={this.onDragEnd}
             center={lngLat}
-            onStyleLoad={map => {
+            onStyleLoad={(map) => {
               this.map = map;
               this.setState({ styleLoaded: true });
             }}
@@ -407,10 +409,15 @@ class MapboxMap extends Component {
             /* Map name in lower left corner */
             {this.renderMapName(name, navOpen)}
             /* Shows zoom warning if active layers are out of view */
-            <ZoomWarning show={zoom < 9 && activeLayers.length > 0} />
+            <ZoomWarning
+              show={
+                (zoom < 9 && activeLayers.length > 0) ||
+                (zoom < 18 && this.props.propertiesDisplay)
+              }
+            />
             /* Drawing tools */
             <DrawControl
-              ref={drawControl => {
+              ref={(drawControl) => {
                 // this reference is passed to the Nav and Modals to give them access to the methods
                 this.drawControl = drawControl;
               }}
@@ -418,15 +425,17 @@ class MapboxMap extends Component {
               onDrawCreate={this.onDrawCreate}
               modes={this.modes}
               defaultMode="simple_select"
-              onDrawModeChange={e => console.log("draw mode changed", e)}
+              onDrawModeChange={(e) => console.log("draw mode changed", e)}
               onDrawUpdate={this.onDrawUpdate}
               onDrawSelectionChange={this.onDrawSelectionChange}
-              onDrawActionable={e => console.log("draw actionable", e)}
+              onDrawActionable={(e) => console.log("draw actionable", e)}
               onDrawDelete={this.onDrawDelete}
             />
-            {/* Render the drawing layers if they are not currently being redrawn */
-            /* This is the GEOJSON Layers, the react components with click events, that we use to display the popups*/
-            !this.state.redrawing && <DrawingLayers />}
+            {
+              /* Render the drawing layers if they are not currently being redrawn */
+              /* This is the GEOJSON Layers, the react components with click events, that we use to display the popups*/
+              !this.state.redrawing && <DrawingLayers />
+            }
           </Map>
           <Nav drawControl={this.drawControl} />
           <Modals
@@ -441,7 +450,7 @@ class MapboxMap extends Component {
           <div
             className="map-click-layer"
             style={{
-              display: this.isMenuOpen() ? "block" : "none"
+              display: this.isMenuOpen() ? "block" : "none",
             }}
             onClick={() => {
               this.props.dispatch({ type: "CLOSE_MENUS" });
@@ -462,7 +471,8 @@ const mapStateToProps = ({
   markers,
   drawings,
   menu,
-  user
+  user,
+  landOwnership,
 }) => ({
   zoom: map.zoom,
   lngLat: map.lngLat,
@@ -483,7 +493,8 @@ const mapStateToProps = ({
   navOpen: navigation.open,
   movingMethod: map.movingMethod,
   menu: menu,
-  user
+  user,
+  propertiesDisplay: landOwnership.displayActive,
 });
 
 export default connect(mapStateToProps)(MapboxMap);

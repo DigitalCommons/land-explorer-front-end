@@ -45,10 +45,10 @@ class NavLandOwnership extends Component {
       this.setState({
         houses: [
           {
-            postcode: "n4",
+            postcode: "sample postcode",
             line_1: this.props.mapAddress,
-            line_2: "RBKC",
-            line_3: "London",
+            line_2: "Sample",
+            line_3: "Bristol",
           },
         ],
         mode: "cart",
@@ -234,8 +234,6 @@ class NavLandOwnership extends Component {
     this.setState({
       mode: "cart",
     });
-
-      
   }
 
   //The sub component view for postcode form
