@@ -21,17 +21,17 @@ class Property extends Component {
             ],
           }}
           linePaint={{
-            "line-color": "red",
-            "line-width": 4,
+            "line-color": "green",
+            "line-width": 2,
           }}
         />
         <Marker coordinates={this.props.propertyInfo.coordinates[0]}>
           <button
             onClick={() => {
-              this.props.viewAddressInfo(this.props.propertyInfo.address);
+              this.props.viewAddressInfo(this.props.propertyInfo.title_no);
             }}
           >
-            see info on {this.props.propertyInfo.address}
+            see info on {this.props.propertyInfo.title_no}
           </button>
         </Marker>
       </React.Fragment>
