@@ -47,3 +47,13 @@
     display: -webkit-inline-box;
 }
 
+.mapboxgl-popup
+{
+    border-width: 15px 15px 0px 15px;
+    border-color: #fff transparent transparent transparent;
+    border-style: solid;
+    bottom: -15px;
+    position: absolute;
+    right: 210px;
+}
+

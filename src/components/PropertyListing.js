@@ -13,12 +13,24 @@ class PropertyListing extends Component {
     this.hide = this.hide.bind(this);
   }
 
-  formatPrice(price) {
+    formatPrice(price) 
+    {
     return `£ ${price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}`;
   }
 
   hide() {
     document.getElementById(this.getKey()).style.display = "none";
+  }
+
+  priceModal()
+  {
+    // create modal
+    // access the price prop
+for(let i =0;i<this.props.listings;i++)
+    {
+      console.log(this.props.price[i])
+    }
+    // format the price to GBP
   }
 
   getKey() {
@@ -41,6 +53,8 @@ class PropertyListing extends Component {
         <p> {this.props.locationName} </p>
         <p> {this.props.agent} </p>
         <p> {this.formatPrice(this.props.price)}</p>
+        {this.priceModal()}
+    
         <br />
       </div>
     );
