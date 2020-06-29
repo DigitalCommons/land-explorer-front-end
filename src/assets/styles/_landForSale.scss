@@ -47,13 +47,37 @@
     display: -webkit-inline-box;
 }
 
-.mapboxgl-popup
+
+.PriceModal
 {
-    border-width: 15px 15px 0px 15px;
-    border-color: #fff transparent transparent transparent;
-    border-style: solid;
-    bottom: -15px;
-    position: absolute;
-    right: 210px;
+  padding:10px;
+  // right: 235px;
+  color:black;
+  background: white;
+
 }
+  .ModalPointer
+
+  { 
+//      border-left:15px;
+//      border-right:15px;
+// //     border-width: 15px 15px 0px 15px; // bottom border-width is 0px so the triangle is directed downwards
+//     border-color:white transparent transparent transparent;
+//     border-style: solid;
+border-left: 15px solid transparent;
+border-right: 15px solid transparent;
+border-top: 15px solid white;
+bottom: -15px;
+right: 14px;
+    
+  
+    right: 14px;
+    position: absolute;
+    // /* margin-bottom: 33px; */
+    
+    // */color: black
+   
+
+         }
+
 
