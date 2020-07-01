@@ -66,7 +66,7 @@ class MapForSaleMarkers extends Component {
           >
 
         <main className = "PriceModal">
-        <div>{ `£ ${this.props.markerInformationSet[i].price}` }</div>
+        <div>{ `£ ${this.props.markerInformationSet[i].price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}` }</div>
         <div className ="ModalPointer"></div>
         </main>
          
