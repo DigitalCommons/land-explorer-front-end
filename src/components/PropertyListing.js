@@ -22,16 +22,7 @@ class PropertyListing extends Component {
     document.getElementById(this.getKey()).style.display = "none";
   }
 
-  priceModal()
-  {
-    // create modal
-    // access the price prop
-for(let i =0;i<this.props.listings;i++)
-    {
-      console.log(this.props.price[i])
-    }
-    // format the price to GBP
-  }
+  
 
   getKey() {
     return "id" + this.props.id;
@@ -53,7 +44,7 @@ for(let i =0;i<this.props.listings;i++)
         <p> {this.props.locationName} </p>
         <p> {this.props.agent} </p>
         <p> {this.formatPrice(this.props.price)}</p>
-        {this.priceModal()}
+    
     
         <br />
       </div>
