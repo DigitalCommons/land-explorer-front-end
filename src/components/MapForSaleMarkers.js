@@ -8,6 +8,7 @@ class MapForSaleMarkers extends Component {
     super(props);
   }
 
+
   sendDetailsToNav() {
     let output = {};
 
@@ -20,6 +21,30 @@ class MapForSaleMarkers extends Component {
     this.props.postCurrentView(output);
   }
 
+
+  PriceModal()
+  { 
+    
+   if(this.props.markerInformationSet.length > 0)
+   {
+     console.log('price has to be paid ');
+    for(let i =0; i<this.props.markerInformationSet.length;i++)
+    {
+      console.log(this.props.markerInformationSet[i].price);
+     
+      return(
+        <main className = "PriceModal">
+        <div>{this.props.markerInformationSet[i].price}</div>
+        <div className ="ModalPointer"></div>
+        </main>
+        
+      )
+     
+    }
+    
+  
+  }
+  }
   createMarkers() {
     let { markerInformationSet } = this.props;
     const markerIcon = require("../assets/img/icon-marker-new--dark-grey.svg");
@@ -28,7 +53,9 @@ class MapForSaleMarkers extends Component {
 
     if (markerInformationSet.length > 0)
       for (let i = 0; i < markerInformationSet.length; i++)
+     
         markers.push(
+
           <Marker
             key={546 + i}
             coordinates={markerInformationSet[i].location}
@@ -37,7 +64,15 @@ class MapForSaleMarkers extends Component {
             anchor="bottom"
             style={{ height: "40px", zIndex: 1 }}
           >
-            <img
+
+        <main className = "PriceModal">
+        <div>{ `£ ${this.props.markerInformationSet[i].price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}` }</div>
+        <div className ="ModalPointer"></div>
+        </main>
+         
+{/* 
+            {/* <img
+
               src={markerIcon}
               alt=""
               style={{
@@ -45,12 +80,14 @@ class MapForSaleMarkers extends Component {
                 width: 40,
                 zIndex: 1
               }}
-            />
+            /> */}
           </Marker>
         );
-
+        
     return markers;
   }
+
+
 
   render() {
     let { markerInformationSet } = this.props;
@@ -59,6 +96,7 @@ class MapForSaleMarkers extends Component {
         <React.Fragment>
           {this.createMarkers()}
           {this.sendDetailsToNav()}
+          
         </React.Fragment>
       );
     return null;

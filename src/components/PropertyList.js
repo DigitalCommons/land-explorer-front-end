@@ -21,15 +21,28 @@ class PropertyList extends Component {
           key={this.props.listings[i].id}
           id={this.props.listings[i].id}
         />
+       
       );
+      
     }
+
 
     return propertyArray;
   }
 
-  render() {
-    return <div className="grid-of-listings">{this.createList()}</div>;
-  }
+  
+    render() {
+        return(
+            <div className="grid-of-listings">
+                {this.createList()}
+                {/* {this.formatPrice()} */}
+
+               
+            </div>
+            
+        )
+        
+    }
 }
 
 export default PropertyList;
