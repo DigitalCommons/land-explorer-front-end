@@ -7,7 +7,6 @@ class Property extends Component {
   placeMiddle() {
     let halfLength = Math.floor(this.props.propertyInfo.coordinates.length / 2);
 
-    console.log(halfLength);
     return [
       (this.props.propertyInfo.coordinates[0][0] +
         this.props.propertyInfo.coordinates[halfLength][0]) /
@@ -34,7 +33,13 @@ class Property extends Component {
               },
             ],
           }}
-          linePaint={{
+          linePaint={this.props.highlight? 
+            {
+              "line-color": "red",
+            "line-width": 3,
+            }
+            :
+            {
             "line-color": "green",
             "line-width": 2,
           }}
@@ -42,7 +47,7 @@ class Property extends Component {
         <Marker coordinates={this.placeMiddle()}>
           <button
             onClick={() => {
-              this.props.viewAddressInfo(this.props.propertyInfo.title_no);
+              this.props.viewAddressInfo(this.props.propertyInfo);
             }}
           >
             {this.props.propertyInfo.title_no}
