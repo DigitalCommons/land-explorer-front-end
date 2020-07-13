@@ -9,6 +9,10 @@ class ForSaleMarkers extends Component {
     this.dispatchItem = this.dispatchItem.bind(this);
   }
 
+  componentWillUnmount() {
+    this.props.clearMarkers();
+  }
+
   dispatchItem() {
     console.log(this.props.active);
     if (this.props.active != "For Sale") this.props.clearMarkers();

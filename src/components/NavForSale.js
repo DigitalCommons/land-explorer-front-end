@@ -43,7 +43,7 @@ class NavForSale extends Component {
       this.state.searchRadius
     );
 
-    //loop through the array and check each item against the state valuess
+    //loop through the array and check each item against the state values
 
     for (let i = 0; i < properties.length; i++) {
       if (properties[i].private == this.state.privateListings)
@@ -235,14 +235,6 @@ class NavForSale extends Component {
         {this.props.open && this.props.active === "For Sale" ? (
           <div>
             <PropertyList listings={this.getFilteredListings()}></PropertyList>
-            <img
-              src="https://www.zoopla.co.uk/static/images/mashery/powered-by-zoopla-150x73.png"
-              width="150"
-              height="73"
-              title="Property information powered by Zoopla"
-              alt="Property information powered by Zoopla"
-              border="0"
-            ></img>
             <ForSaleMarkers
               active={this.props.active}
               properties={this.getFilteredListings()}

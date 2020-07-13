@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Property from "../components/Property";
-import { stHelens, norland } from "../data/wardOutlines";
 import axios from "axios";
 import constants from "../constants";
 import { getAuthHeader } from "./Auth";
@@ -39,6 +38,8 @@ class MapProperties extends Component {
       )
       .then((response) => {
         let array = [];
+
+        response.data = response.data.slice(0,100);
 
         response.data.map((property) => {
           let json = JSON.parse(property.geojson);
