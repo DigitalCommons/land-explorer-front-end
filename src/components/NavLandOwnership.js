@@ -396,6 +396,7 @@ class NavLandOwnership extends Component {
                 <p>Proprietor Name: {house.commercialInformation.proprietor_name_1}</p>
                 <p>Proprietor Address: {house.commercialInformation.proprietor_1_address_1}</p>
                 <p>Tenure: {house.commercialInformation.tenure}</p>
+                <p>Date Proprietor Added: {house.commercialInformation.date_proprietor_added}</p>
               </div>
             }
           </span>

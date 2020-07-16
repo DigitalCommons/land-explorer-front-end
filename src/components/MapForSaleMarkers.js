@@ -90,8 +90,8 @@ class MapForSaleMarkers extends Component {
 
 
   render() {
-    let { markerInformationSet } = this.props;
-    if (markerInformationSet)
+    let { markerInformationSet, active } = this.props;
+    if (markerInformationSet && active == "For Sale")
       return (
         <React.Fragment>
           {this.createMarkers()}
@@ -103,8 +103,9 @@ class MapForSaleMarkers extends Component {
   }
 }
 
-const mapStateToProps = ({ forSale }) => ({
-  markerInformationSet: forSale.markerInformationSet
+const mapStateToProps = ({ navigation, forSale }) => ({
+  markerInformationSet: forSale.markerInformationSet,
+  active: navigation.active,
 });
 
 export default connect(mapStateToProps, { postCurrentView })(MapForSaleMarkers);

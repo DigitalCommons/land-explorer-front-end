@@ -46,6 +46,11 @@ class Property extends Component {
         />
         <Marker coordinates={this.placeMiddle()}>
           <button
+            style={this.props.propertyInfo.date_proprietor_added?
+              {color: 'green'}
+              :
+              {color: 'orange'}
+            }
             onClick={() => {
               this.props.viewAddressInfo(this.props.propertyInfo);
             }}

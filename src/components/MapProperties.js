@@ -67,7 +67,6 @@ class MapProperties extends Component {
       properties.push(<Property propertyInfo={this.props.highlightedProperty} highlight={true} />)
     }
     
-
     return properties;
   }
 
