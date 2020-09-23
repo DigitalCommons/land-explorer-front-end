@@ -9,8 +9,9 @@ class ForSaleMarkers extends Component {
     this.dispatchItem = this.dispatchItem.bind(this);
   }
 
-  dispatchItem() 
-{
+  dispatchItem() {
+    console.log(this.props.active);
+
     let markers = this.props.properties;
       
 

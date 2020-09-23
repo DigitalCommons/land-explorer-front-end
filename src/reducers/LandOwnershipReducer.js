@@ -1,18 +1,20 @@
 const INITIAL_STATE = {
-  address: "",
+  propertyInformation: {},
   displayActive: false,
+  highlightedProperty: null,
 };
 
-let address;
+let propertyInformation;
+let highlightedProperty;
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "VIEW_ADDRESS_INFO":
-      address = action.payload.address;
-      state.address = address;
+      propertyInformation = action.payload.propertyInformation;
+      state.propertyInformation = propertyInformation;
       return {
         ...state,
-        address: address,
+        propertyInformation: propertyInformation,
       };
     case "DISPLAY_PROPERTIES":
       state.displayActive = true;
@@ -20,6 +22,16 @@ export default (state = INITIAL_STATE, action) => {
     case "STOP_DISPLAYING_PROPERTIES":
       state.displayActive = false;
       return { ...state };
+    case "HIGHLIGHT_PROPERTY":
+      highlightedProperty = action.payload.highlightedProperty;
+      state.highlightedProperty = highlightedProperty;
+      return {
+        ...state,
+        highlightedProperty: highlightedProperty
+      };
+    case "CLEAR_HIGHLIGHT":
+      state.highlightedProperty = null;
+      return {...state};
     default:
       return state;
   }
