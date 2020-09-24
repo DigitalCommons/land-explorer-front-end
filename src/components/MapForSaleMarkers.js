@@ -39,7 +39,8 @@ class MapForSaleMarkers extends Component {
             name={"Tyneside Cinema"}
             description={"great description"}
             anchor="bottom"
-            style={{ height: "40px", zIndex: 1 }}
+            style={{  zIndex: 1, marginLeft: "-83px",paddingBottom :  "47px"}}
+            className = "PriceMarker"
           >
 
         <main className = "PriceModal">
