@@ -50,7 +50,7 @@ class NavLandOwnership extends Component {
           {
             postcode: this.props.propertyInformation.postcode,
             line_1: this.props.propertyInformation.title_no,
-            line_2: "Bristol",
+            line_2: "",
             commercialInformation: this.props.propertyInformation.proprietor_category_1? this.props.propertyInformation: null
           },
         ],
