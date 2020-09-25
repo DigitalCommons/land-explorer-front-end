@@ -22,29 +22,6 @@ class MapForSaleMarkers extends Component {
   }
 
 
-  PriceModal()
-  { 
-    
-   if(this.props.markerInformationSet.length > 0)
-   {
-     console.log('price has to be paid ');
-    for(let i =0; i<this.props.markerInformationSet.length;i++)
-    {
-      console.log(this.props.markerInformationSet[i].price);
-     
-      return(
-        <main className = "PriceModal">
-        <div>{this.props.markerInformationSet[i].price}</div>
-        <div className ="ModalPointer"></div>
-        </main>
-        
-      )
-     
-    }
-    
-  
-  }
-  }
   createMarkers() {
     let { markerInformationSet } = this.props;
     const markerIcon = require("../assets/img/icon-marker-new--dark-grey.svg");
@@ -62,7 +39,8 @@ class MapForSaleMarkers extends Component {
             name={"Tyneside Cinema"}
             description={"great description"}
             anchor="bottom"
-            style={{ height: "40px", zIndex: 1 }}
+            style={{  zIndex: 1, marginLeft: "-83px",paddingBottom :  "47px"}}
+            className = "PriceMarker"
           >
 
         <main className = "PriceModal">
