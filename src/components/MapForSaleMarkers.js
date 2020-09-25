@@ -39,13 +39,13 @@ class MapForSaleMarkers extends Component {
             name={"Tyneside Cinema"}
             description={"great description"}
             anchor="bottom"
-            style={{  zIndex: 1, marginLeft: "-83px",paddingBottom :  "47px"}}
+            style={{  zIndex: 1}}
             className = "PriceMarker"
           >
 
         <main className = "PriceModal">
         <div>{ `£ ${this.props.markerInformationSet[i].price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}` }</div>
-        <div className ="ModalPointer"></div>
+        <div className ="ModalPointer" ></div>
         </main>
          
 {/* 
