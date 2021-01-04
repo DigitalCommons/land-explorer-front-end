@@ -5,8 +5,8 @@ import { viewAddressInfo } from "../actions/LandOwnershipActions";
 
 class Property extends Component {
   placeMiddle() {
-    let halfLength = Math.floor(this.props.propertyInfo.coordinates.length / 2);
 
+    let halfLength = Math.floor(this.props.propertyInfo.coordinates.length / 2);
     return [
       (this.props.propertyInfo.coordinates[0][0] +
         this.props.propertyInfo.coordinates[halfLength][0]) /
@@ -40,7 +40,6 @@ class Property extends Component {
             }
             :
             {
-
             "line-color": "green",
             "line-width": 2,
           }}
@@ -53,8 +52,7 @@ class Property extends Component {
               {color: 'orange'}
             }
             onClick={() => {
-
-              this.props.viewAddressInfo(this.props.propertyInfo.title_no);
+              this.props.viewAddressInfo(this.props.propertyInfo);
             }}
           >
             see info on {this.props.propertyInfo.title_no}

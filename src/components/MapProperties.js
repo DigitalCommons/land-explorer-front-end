@@ -57,7 +57,7 @@ class MapProperties extends Component {
     let properties = [];
 
     if (this.state.propertiesArray.length > 0)
-      this.state.propertiesArray.map((propertyInfo) =>
+      this.state.propertiesArray.forEach((propertyInfo) =>
         properties.push(<Property propertyInfo={propertyInfo} />)
       );
 
