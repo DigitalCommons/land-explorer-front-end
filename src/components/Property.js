@@ -40,6 +40,7 @@ class Property extends Component {
             }
             :
             {
+
             "line-color": "green",
             "line-width": 2,
           }}
@@ -52,10 +53,11 @@ class Property extends Component {
               {color: 'orange'}
             }
             onClick={() => {
-              this.props.viewAddressInfo(this.props.propertyInfo);
+
+              this.props.viewAddressInfo(this.props.propertyInfo.title_no);
             }}
           >
-            {this.props.propertyInfo.title_no}
+            see info on {this.props.propertyInfo.title_no}
           </button>
         </Marker>
       </React.Fragment>
