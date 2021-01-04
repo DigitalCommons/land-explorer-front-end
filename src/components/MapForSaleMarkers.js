@@ -8,6 +8,7 @@ class MapForSaleMarkers extends Component {
     super(props);
   }
 
+
   sendDetailsToNav() {
     let output = {};
 
@@ -20,6 +21,7 @@ class MapForSaleMarkers extends Component {
     this.props.postCurrentView(output);
   }
 
+
   createMarkers() {
     let { markerInformationSet } = this.props;
     const markerIcon = require("../assets/img/icon-marker-new--dark-grey.svg");
@@ -28,16 +30,27 @@ class MapForSaleMarkers extends Component {
 
     if (markerInformationSet.length > 0)
       for (let i = 0; i < markerInformationSet.length; i++)
+     
         markers.push(
+
           <Marker
             key={546 + i}
             coordinates={markerInformationSet[i].location}
             name={"Tyneside Cinema"}
             description={"great description"}
             anchor="bottom"
-            style={{ height: "40px", zIndex: 1 }}
+            style={{  zIndex: 1}}
+            className = "PriceMarker"
           >
-            <img
+
+        <main className = "PriceModal">
+        <div>{ `£ ${this.props.markerInformationSet[i].price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}` }</div>
+        <div className ="ModalPointer" ></div>
+        </main>
+         
+{/* 
+            {/* <img
+
               src={markerIcon}
               alt=""
               style={{
@@ -45,28 +58,32 @@ class MapForSaleMarkers extends Component {
                 width: 40,
                 zIndex: 1
               }}
-            />
+            /> */}
           </Marker>
         );
-
+        
     return markers;
   }
 
+
+
   render() {
-    let { markerInformationSet } = this.props;
-    if (markerInformationSet)
+    let { markerInformationSet, active } = this.props;
+    if (markerInformationSet && active == "For Sale")
       return (
         <React.Fragment>
           {this.createMarkers()}
           {this.sendDetailsToNav()}
+          
         </React.Fragment>
       );
     return null;
   }
 }
 
-const mapStateToProps = ({ forSale }) => ({
-  markerInformationSet: forSale.markerInformationSet
+const mapStateToProps = ({ navigation, forSale }) => ({
+  markerInformationSet: forSale.markerInformationSet,
+  active: navigation.active,
 });
 
 export default connect(mapStateToProps, { postCurrentView })(MapForSaleMarkers);

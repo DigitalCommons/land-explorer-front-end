@@ -1,7 +1,7 @@
-export const viewAddressInfo = (address) => ({
+export const viewAddressInfo = (propertyInformation) => ({
   type: "VIEW_ADDRESS_INFO",
   payload: {
-    address: address,
+    propertyInformation: propertyInformation,
   },
 });
 
@@ -12,5 +12,17 @@ export const displayProperties = () => ({
 
 export const stopDisplayingProperties = () => ({
   type: "STOP_DISPLAYING_PROPERTIES",
+  payload: {},
+});
+
+export const highlightProperty = (highlightedProperty) => ({
+  type: "HIGHLIGHT_PROPERTY",
+  payload: {
+    highlightedProperty: highlightedProperty
+  }
+});
+
+export const clearHighlight = () => ({
+  type: "CLEAR_HIGHLIGHT",
   payload: {},
 });

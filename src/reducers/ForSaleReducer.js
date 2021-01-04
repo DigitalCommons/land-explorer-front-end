@@ -15,12 +15,16 @@ export default (state = INITIAL_STATE, action) => {
           " costing: " +
           action.payload.price
       );
+
+      // console.log(markerInformationSet[0])
+
       markerInformationSet.push(action.payload);
       state.markerInformationSet = markerInformationSet;
       return state;
-    case "CLEAR MARKERS":
+    
+      case "CLEAR MARKERS":
       console.log("clearing markers");
-      markerInformationSet = [];
+      markerInformationSet = markerInformationSet.splice(0,markerInformationSet.length)
       state.markerInformationSet = markerInformationSet;
       return state;
     case "POST_CURRENT_VIEW":

@@ -47,3 +47,24 @@
     display: -webkit-inline-box;
 }
 
+
+.PriceModal
+{
+    padding: 5px;
+    margin: 16px;
+    color:black;
+    background: white;
+
+}
+  .ModalPointer
+
+  { 
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid white;
+    bottom: -10px;;
+    right: 18px;
+    position: absolute;   
+  }
+
+

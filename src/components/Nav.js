@@ -20,24 +20,30 @@ class Nav extends Component {
 
     closeTray = () => {
         this.props.dispatch({type: 'CLOSE_TRAY'})
+        
     }
 
     closeNav = () => {
         if (this.props.active !== '') {
             this.props.dispatch({type: 'CLOSE_TRAY'});
+            console.log(this.props.active)
+           
             setTimeout(() => {
                 this.props.dispatch({type: 'CLOSE_NAVIGATION'});
             }, 200);
         } else {
             this.props.dispatch({type: 'CLOSE_NAVIGATION'});
+                 
         }
     }
 
     clickIcon = (tray) => {
         let {active, dispatch} = this.props;
         active === tray ?
+       
             dispatch({type: 'CLOSE_TRAY'}) :
             dispatch({type: 'SET_ACTIVE', payload: tray});
+           
     }
 
     handleTrashClick = () => {
@@ -311,7 +317,7 @@ class Nav extends Component {
                             onClose={this.closeTray}
                         />
                         <NavForSale
-                            open = {open}
+                            open = {open && active === 'For Sale'}
                             active={active}
                             onClose={this.closeTray}
                             drawControl={drawControl}

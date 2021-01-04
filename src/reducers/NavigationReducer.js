@@ -38,18 +38,24 @@ export default (state = INITIAL_STATE, action) => {
         case 'DESELECT_TOOLS':
             return {
                 ...state,
-                activeTool: ''
+                activeTool: '',
+                active: '',
             }
         case 'TOGGLE_TOOL':
             return {
                 ...state,
                 activeTool: action.payload === state.activeTool ? '' : action.payload
             }
+
         case 'CLOSE_TRAY':
-            return {
+          
+        //    state.active = ''
+        //    console.log(state.active)
+        return {
                 ...state,
                 active: '',
                 activeTool: '',
+                   
             }
         case 'LOAD_MAP':
             return INITIAL_STATE;

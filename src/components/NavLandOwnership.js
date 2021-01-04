@@ -7,6 +7,8 @@ import { checkServerIdentity } from "tls";
 import {
   displayProperties,
   stopDisplayingProperties,
+  highlightProperty,
+  clearHighlight,
 } from "../actions/LandOwnershipActions";
 var lodash = require("lodash");
 
@@ -41,20 +43,31 @@ class NavLandOwnership extends Component {
   componentDidUpdate(prevProps) {
     console.log(this.state.cart);
 
-    if (this.props.mapAddress != prevProps.mapAddress) {
+    if (this.props.propertyInformation != prevProps.propertyInformation) {
+      console.log(this.props.propertyInformation);
       this.setState({
         houses: [
           {
-            postcode: "n4",
-            line_1: this.props.mapAddress,
-            line_2: "RBKC",
-            line_3: "London",
+            postcode: this.props.propertyInformation.postcode,
+            line_1: this.props.propertyInformation.title_no,
+            line_2: "",
+            commercialInformation: this.props.propertyInformation.proprietor_category_1? this.props.propertyInformation: null
           },
         ],
         mode: "cart",
       });
       this.state.selected_houses.add("0");
+      this.props.highlightProperty(this.props.propertyInformation);
     }
+
+    /*
+    Clearing the map highlight if the user searches for something else
+
+    if(this.state.postcode != ""){
+      console.log("not map highlight");
+      this.props.clearHighlight();
+    }
+    */
 
     //if this has just been opened, then turn on displaying properties.
     //if the active is switched away from, stop displaying properties. (dealt with closed already)
@@ -368,13 +381,24 @@ class NavLandOwnership extends Component {
 
   //The sub component view where user can add title/plan to cart
   purchaseDocument = (house) => {
+    console.log(house);
     return (
-      <div className="purchase-card">
+      <div className="purchase-card" key={1}>
         <div className="purchase-container">
           <span>
             <b>{this.displayHouse(house)}</b>
             <p className="purchase-detail">{house.post_town}</p>
             <p className="purchase-detail">{house.postcode}</p>
+            {house.commercialInformation &&
+              <div>
+                <p>Property Address: {house.commercialInformation.property_address}</p>
+                <p>Proprietor Category: {house.commercialInformation.proprietor_category_1}</p>
+                <p>Proprietor Name: {house.commercialInformation.proprietor_name_1}</p>
+                <p>Proprietor Address: {house.commercialInformation.proprietor_1_address_1}</p>
+                <p>Tenure: {house.commercialInformation.tenure}</p>
+                <p>Date Proprietor Added: {house.commercialInformation.date_proprietor_added}</p>
+              </div>
+            }
           </span>
 
           {this.createCartButton(this.makeCartItem(house, "title"))}
@@ -622,10 +646,12 @@ const NavLandOwnership = ({ open, active, onClose, searchHouses, houses }) => (
 */
 
 const mapStateToProps = ({ landOwnership }) => ({
-  mapAddress: landOwnership.address,
+  propertyInformation: landOwnership.propertyInformation,
 });
 
 export default connect(mapStateToProps, {
   displayProperties,
   stopDisplayingProperties,
+  highlightProperty,
+  clearHighlight,
 })(NavLandOwnership);

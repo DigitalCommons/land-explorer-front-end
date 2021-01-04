@@ -4,6 +4,19 @@ import { GeoJSONLayer, Marker } from "react-mapbox-gl";
 import { viewAddressInfo } from "../actions/LandOwnershipActions";
 
 class Property extends Component {
+  placeMiddle() {
+    let halfLength = Math.floor(this.props.propertyInfo.coordinates.length / 2);
+
+    return [
+      (this.props.propertyInfo.coordinates[0][0] +
+        this.props.propertyInfo.coordinates[halfLength][0]) /
+        2.0,
+      (this.props.propertyInfo.coordinates[0][1] +
+        this.props.propertyInfo.coordinates[halfLength][1]) /
+        2.0,
+    ];
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -20,14 +33,27 @@ class Property extends Component {
               },
             ],
           }}
-          linePaint={{
+          linePaint={this.props.highlight? 
+            {
+              "line-color": "red",
+            "line-width": 3,
+            }
+            :
+            {
+
             "line-color": "green",
             "line-width": 2,
           }}
         />
-        <Marker coordinates={this.props.propertyInfo.coordinates[0]}>
+        <Marker coordinates={this.placeMiddle()}>
           <button
+            style={this.props.propertyInfo.date_proprietor_added?
+              {color: 'green'}
+              :
+              {color: 'orange'}
+            }
             onClick={() => {
+
               this.props.viewAddressInfo(this.props.propertyInfo.title_no);
             }}
           >
