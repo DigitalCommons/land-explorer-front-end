@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import NavTray from "./NavTray";
 import NavTrayItem from "./common/NavTrayItem";
+import ToggleSwitch from './common/ToggleSwitch';
 import Checkbox from "./common/Checkbox";
 import { checkServerIdentity } from "tls";
 import {
@@ -9,6 +10,8 @@ import {
   stopDisplayingProperties,
   highlightProperty,
   clearHighlight,
+  clearAllHighlight,
+  toggleHighlightMultiple,
 } from "../actions/LandOwnershipActions";
 var lodash = require("lodash");
 
@@ -43,21 +46,30 @@ class NavLandOwnership extends Component {
   componentDidUpdate(prevProps) {
     console.log(this.state.cart);
 
-    if (this.props.propertyInformation != prevProps.propertyInformation) {
-      console.log(this.props.propertyInformation);
+    if (this.props.highlightedProperty != prevProps.highlightedProperty) {
+      console.log(this.props.highlightedProperty);
+
+      let highlightedProperty = this.props.highlightedProperty;
+
+      let housesArray = highlightedProperty.map((property,index)=>({
+        postcode: property.postcode,
+        line_1: property.title_no,
+        line_2: "",
+        commercialInformation: property.proprietor_category_1? property: null,
+        index: index,
+      }));
+
       this.setState({
-        houses: [
-          {
-            postcode: this.props.propertyInformation.postcode,
-            line_1: this.props.propertyInformation.title_no,
-            line_2: "",
-            commercialInformation: this.props.propertyInformation.proprietor_category_1? this.props.propertyInformation: null
-          },
-        ],
+        houses: housesArray,
         mode: "cart",
       });
-      this.state.selected_houses.add("0");
-      this.props.highlightProperty(this.props.propertyInformation);
+
+      housesArray.forEach(property=>
+        this.state.selected_houses.add(""+property.index)
+      )
+
+      //the next part is how the selected houses works, what to do to display them
+
     }
 
     /*
@@ -98,7 +110,7 @@ class NavLandOwnership extends Component {
 
   //Reset mode when nav tray are closed
   closeTray = () => {
-    this.setState({ mode: "search" });
+    //this.setState({ mode: "search" });
     this.props.stopDisplayingProperties();
     this.props.onClose();
   };
@@ -379,14 +391,42 @@ class NavLandOwnership extends Component {
     );
   };
 
+  //subcomponent that controls the document highlighting
+
+  controlBar = () => {
+    return <div style={{
+        display: "flex", 
+        justifyContent: "space-between",
+        padding: 10
+        }}>
+      <button onClick={()=>this.props.clearAllHighlight()}>Clear all</button> {/* clear highlights actionr required */}
+      <div style={{display: "inline", padding: "0px 10px"}} >
+        <p style={{display: "inline", fontWeight: "bold"}}>Highlight: </p>
+        <p style={{display: "inline", color: this.props.highlightMultiple?"black":"green"}}>Single</p>
+        <ToggleSwitch 
+            on={this.props.highlightMultiple} 
+            tooltip="Highlight single/multiple properties" 
+            toggle={()=>this.props.toggleHighlightMultiple()} 
+        />
+        <p style={{display: "inline",color: this.props.highlightMultiple?"green":"black"}}>Multiple</p>
+      </div>
+    </div>
+  };
+
   //The sub component view where user can add title/plan to cart
   purchaseDocument = (house) => {
     console.log(house);
     return (
       <div className="purchase-card" key={1}>
         <div className="purchase-container">
+          
           <span>
             <b>{this.displayHouse(house)}</b>
+            <button 
+              style={{float: "right"}}
+              onClick={()=>this.props.clearHighlight(house)}>
+                remove
+            </button>
             <p className="purchase-detail">{house.post_town}</p>
             <p className="purchase-detail">{house.postcode}</p>
             {house.commercialInformation &&
@@ -563,6 +603,7 @@ class NavLandOwnership extends Component {
             footer={this.navFooter()}
             css="nav-left-tray-ownership"
           >
+            {this.controlBar()}
             {this.state.houses.map((house, index) => {
               if (this.state.selected_houses.has(index.toString())) {
                 return this.purchaseDocument(house);
@@ -646,7 +687,8 @@ const NavLandOwnership = ({ open, active, onClose, searchHouses, houses }) => (
 */
 
 const mapStateToProps = ({ landOwnership }) => ({
-  propertyInformation: landOwnership.propertyInformation,
+  highlightedProperty: landOwnership.highlightedProperty,
+  highlightMultiple: landOwnership.highlightMultiple,
 });
 
 export default connect(mapStateToProps, {
@@ -654,4 +696,6 @@ export default connect(mapStateToProps, {
   stopDisplayingProperties,
   highlightProperty,
   clearHighlight,
+  clearAllHighlight,
+  toggleHighlightMultiple
 })(NavLandOwnership);
