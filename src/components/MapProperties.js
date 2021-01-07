@@ -60,21 +60,29 @@ class MapProperties extends Component {
       this.state.propertiesArray.forEach((propertyInfo) =>
         properties.push(<Property propertyInfo={propertyInfo} />)
       );
-
     
-    if(this.props.highlightedProperty){
-      console.log(this.props.highlightedProperty)
-      properties.push(<Property propertyInfo={this.props.highlightedProperty} highlight={true} />)
+    if(this.props.highlightedProperty.length>0){
+      this.props.highlightedProperty.forEach(highlightedProperty=>
+        properties.push(<Property propertyInfo={highlightedProperty} highlight={true} />)
+      )
     }
     
+    return properties;
+  }
+
+  createHighlightedProperties(){
+    let properties = []
+    this.props.highlightedProperty.forEach(highlightedProperty=>
+      properties.push(<Property propertyInfo={highlightedProperty} highlight={true} />)
+    )
     return properties;
   }
 
   render() {
     if (this.props.displayActive && this.props.zoom >= 18)
       return <React.Fragment>{this.createProperties()}</React.Fragment>;
-    if(this.props.displayActive && this.props.highlightedProperty)
-      return <React.Fragment><Property propertyInfo={this.props.highlightedProperty} highlight={true} /></React.Fragment>
+    if(this.props.highlightedProperty.length>0)
+      return <React.Fragment>{this.createHighlightedProperties()}</React.Fragment>
     else return null;
   }
 }

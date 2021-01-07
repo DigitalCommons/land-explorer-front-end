@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { GeoJSONLayer, Marker } from "react-mapbox-gl";
-import { viewAddressInfo } from "../actions/LandOwnershipActions";
+import { viewAddressInfo, highlightProperty } from "../actions/LandOwnershipActions";
 
 class Property extends Component {
   placeMiddle() {
@@ -52,7 +52,7 @@ class Property extends Component {
               {color: 'orange'}
             }
             onClick={() => {
-              this.props.viewAddressInfo(this.props.propertyInfo);
+              this.props.highlightProperty(this.props.propertyInfo);
             }}
           >
             see info on {this.props.propertyInfo.title_no}
@@ -63,4 +63,4 @@ class Property extends Component {
   }
 }
 
-export default connect(null, { viewAddressInfo })(Property);
+export default connect(null, { viewAddressInfo, highlightProperty })(Property);

@@ -22,7 +22,19 @@ export const highlightProperty = (highlightedProperty) => ({
   }
 });
 
-export const clearHighlight = () => ({
+export const clearHighlight = (property) => ({
   type: "CLEAR_HIGHLIGHT",
-  payload: {},
+  payload: {
+    property: property
+  },
 });
+
+export const clearAllHighlight = () => ({
+  type: "CLEAR_ALL_HIGHLIGHT",
+  payload: {},
+})
+
+export const toggleHighlightMultiple = () => ({
+  type: "TOGGLE_HIGHLIGHT_MULTIPLE",
+  payload: {},
+})
