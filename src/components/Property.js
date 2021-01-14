@@ -43,20 +43,48 @@ class Property extends Component {
             "line-color": "green",
             "line-width": 2,
           }}
+          lineOnClick={e=>{
+            console.log("clicked on property")
+            this.props.highlightProperty(this.props.propertyInfo);
+          }}
+        />
+        <GeoJSONLayer
+          data={{
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: {
+                  type: "LineString",
+                  coordinates: this.props.propertyInfo.coordinates,
+                },
+              },
+            ],
+          }}
+          fillPaint={this.props.highlight? 
+            {
+              "fill-color": "red",
+            "fill-opacity": 0.05,
+            }
+            :
+            this.props.propertyInfo.date_proprietor_added?
+            {
+              "fill-color": "green",
+              "fill-opacity": 0.05,
+            }
+            :
+            {
+              "fill-color": "orange",
+              "fill-opacity": 0.05,
+            }
+          }
+          fillOnClick={()=>{
+            this.props.highlightProperty(this.props.propertyInfo);
+          }}
+        
         />
         <Marker coordinates={this.placeMiddle()}>
-          <button
-            style={this.props.propertyInfo.date_proprietor_added?
-              {color: 'green'}
-              :
-              {color: 'orange'}
-            }
-            onClick={() => {
-              this.props.highlightProperty(this.props.propertyInfo);
-            }}
-          >
-            see info on {this.props.propertyInfo.title_no}
-          </button>
+          <p>{this.props.propertyInfo.title_no}</p>
         </Marker>
       </React.Fragment>
     );
