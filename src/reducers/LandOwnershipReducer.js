@@ -1,11 +1,13 @@
 const INITIAL_STATE = {
   propertyInformation: {},
   displayActive: false,
-  highlightedProperty: null,
+  highlightMultiple: false,
+  highlightedProperty: [],
 };
 
 let propertyInformation;
 let highlightedProperty;
+let propertyToRemove;
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -24,13 +26,29 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state };
     case "HIGHLIGHT_PROPERTY":
       highlightedProperty = action.payload.highlightedProperty;
-      state.highlightedProperty = highlightedProperty;
+      if(state.highlightMultiple)
+        state.highlightedProperty = state.highlightedProperty.concat([highlightedProperty]);
+      else
+        state.highlightedProperty = [highlightedProperty];
+      console.log("reducer");
+      console.log(state.highlightedProperty);
       return {
         ...state,
-        highlightedProperty: highlightedProperty
+        highlightedProperty: state.highlightedProperty
       };
     case "CLEAR_HIGHLIGHT":
-      state.highlightedProperty = null;
+      propertyToRemove = action.payload.property;
+      console.log(propertyToRemove);
+      console.log(state.highlightedProperty)
+      state.highlightedProperty = state.highlightedProperty.filter(
+        property=>property.title_no!=propertyToRemove.line_1
+      );
+      return {...state};
+    case "CLEAR_ALL_HIGHLIGHT":
+      state.highlightedProperty = [];
+      return {...state};
+    case "TOGGLE_HIGHLIGHT_MULTIPLE":
+      state.highlightMultiple = !state.highlightMultiple;
       return {...state};
     default:
       return state;
