@@ -25,7 +25,7 @@ const constants = {
     //ROOT_URL: 'http://2.101.111.138:8080',
     WP_URL: 'https://www.landexplorer.cc',
     GA_ID: 'UA-25676336-2',
-    OS_KEY: "bWhK8FOLoVJUaY6WykmzIzPaD44OnHLF",
+    OS_KEY: "kgoK3RJFt8WCAuzeUlGwlwnOHkCKAtNI",
     OS_PLACES_KEY: "GByeoRG21I61e4WAlXt5ujtqEZEhojdZ",
     MAPBOX_KEY: "",
     USE_OS_TILES: true,
@@ -35,6 +35,6 @@ const constants = {
     }]
 }
 
-export const VERSION = "1.00";
+export const VERSION = "1.1";
 
 export default constants;

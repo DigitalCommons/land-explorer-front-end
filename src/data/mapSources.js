@@ -2,14 +2,9 @@ import constants from '../constants';
 
 export const mapSources = {
     sources: {
-        "raster-tiles-night": {
-            "type": "raster",
-            "tiles": [`https://api2.ordnancesurvey.co.uk/mapping_api/v1/service/zxy/EPSG%3A3857/Night 3857/{z}/{x}/{y}.png?key=${constants.OS_KEY}`],
-            "tileSize": 256
-        },
         "raster-tiles": {
             "type": "raster",
-            "tiles": [`https://api2.ordnancesurvey.co.uk/mapping_api/v1/service/zxy/EPSG%3A3857/Outdoor 3857/{z}/{x}/{y}.png?key=${constants.OS_KEY}`],
+            "tiles": [`https://api.os.uk/maps/raster/v1/zxy/Outdoor_3857/{z}/{x}/{y}.png?key=${constants.OS_KEY}`],
             "tileSize": 256
         },
         "mapbox://mapbox.satellite": {
