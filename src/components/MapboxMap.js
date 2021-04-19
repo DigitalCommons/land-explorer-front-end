@@ -401,7 +401,8 @@ class MapboxMap extends Component {
             {/*For displaying for sale markers*/}
             <MapForSaleMarkers center={lngLat} map={this.map} />
             {/*For displaying the property boundaries*/}
-            <MapProperties center={lngLat} map={this.map} />
+            {constants.LR_POLYGONS_ENABLED &&
+              <MapProperties center={lngLat} map={this.map} />}
             {/* Geocoder - For location search */}
             <GeoCoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
             {/* Markers */}
@@ -412,7 +413,7 @@ class MapboxMap extends Component {
             <ZoomWarning
               show={
                 (zoom < 9 && activeLayers.length > 0) ||
-                (zoom < 18 && this.props.propertiesDisplay)
+                (zoom < 18 && this.props.propertiesDisplay && constants.LR_POLYGONS_ENABLED)
               }
             />
             /* Drawing tools */

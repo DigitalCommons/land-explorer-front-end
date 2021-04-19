@@ -32,7 +32,8 @@ const constants = {
     MAP_BOUNDS: [{lat: 48.92789850164277, lng: -11.238012966001804}, {
         lat: 61.59762543319033,
         lng: 2.7726241015535606
-    }]
+    }],
+    LR_POLYGONS_ENABLED: true
 }
 
 export const VERSION = "1.1";
