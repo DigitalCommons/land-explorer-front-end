@@ -230,6 +230,7 @@ class Nav extends Component {
                                  data-tip
                                  data-for="ttInfo"
                             />
+                            {/*
                             <div className={`nav-left-icon political-data ${active === 'Political Data' && 'active'}`}
                                  onClick={() => {
                                      analytics.event(analytics._event.SIDE_NAV + ' Political Data', 'Open');
@@ -245,7 +246,7 @@ class Nav extends Component {
                                  }}
                                  data-tip
                                  data-for="ttForSale" />
-        
+                            */}        
                             <div className={`nav-left-icon property-search ${active === 'Land Ownership' && 'active'}`}
                                  onClick={() => {
                                      analytics.event(analytics._event.SIDE_NAV + ' Land Ownership', 'Open');
@@ -316,6 +317,7 @@ class Nav extends Component {
                             open={open && active === 'Land Information'}
                             onClose={this.closeTray}
                         />
+                        {/*
                         <NavForSale
                             open = {open && active === 'For Sale'}
                             active={active}
@@ -327,6 +329,7 @@ class Nav extends Component {
                             active={active}
                             onClose={this.closeTray}
                         />
+                        */}
                     </nav>
                 );
     }
