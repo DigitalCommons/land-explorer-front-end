@@ -79,11 +79,9 @@ class Register extends Component {
         value: "",
         valid: ""
       },
+      accountType: "free",
       agree: false,
-      marketing: {
-        yes: false,
-        no: false
-      }
+      marketing: false
     };
   }
 
@@ -115,7 +113,7 @@ class Register extends Component {
       address: this.state.address1.value,
       firstName: this.state.firstName.value,
       lastName: this.state.lastName.value,
-      marketing: this.state.marketing.yes,
+      marketing: this.state.marketing,
       organisation: this.state.organisation.value,
       organisationNumber: this.state.organisationNumber.value,
       organisationType: organisationType,
@@ -153,7 +151,7 @@ class Register extends Component {
   };
 
   render() {
-    let {
+    const {
       firstName,
       lastName,
       organisation,
@@ -172,6 +170,7 @@ class Register extends Component {
       registering,
       registerSuccess,
       registerErrors,
+      accountType,
       agree,
       marketing
     } = this.state;
@@ -228,33 +227,26 @@ class Register extends Component {
         <div
           className="registration"
           style={{
-            minHeight: "200px",
-            width: "600px",
-            height: "600px",
             maxWidth: "100vw",
             background: "white",
-            boxSizing: "border-box",
             textAlign: "center",
             paddingLeft: "24px",
             paddingRight: "24px",
             display: registering ? "none" : "block",
-            overflow: "auto"
           }}
         >
-          <h2>Register</h2>
-
+          <h2 className="title">Register</h2>
           {registerErrors && <div>{this.printErrors()} </div>}
           <form onSubmit={this.handleSubmit}>
             <input
               type="text"
               className={`text-input text-input-half text-input-first-half
-                                ${
-                                  firstName.valid !== ""
-                                    ? firstName.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${firstName.valid !== ""
+                  ? firstName.valid
+                    ? "valid"
+                    : "invalid"
+                  : ""
+                }`}
               placeholder="First name (Required)"
               value={firstName.value}
               onChange={e => {
@@ -270,13 +262,12 @@ class Register extends Component {
             <input
               type="text"
               className={`text-input text-input-half
-                                ${
-                                  lastName.valid !== ""
-                                    ? lastName.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${lastName.valid !== ""
+                  ? lastName.valid
+                    ? "valid"
+                    : "invalid"
+                  : ""
+                }`}
               placeholder="Last name (Required)"
               value={lastName.value}
               maxlength="101"
@@ -291,9 +282,8 @@ class Register extends Component {
             />
             <input
               type="email"
-              className={`text-input ${
-                email.valid !== "" ? (email.valid ? "valid" : "invalid") : ""
-              }`}
+              className={`text-input ${email.valid !== "" ? (email.valid ? "valid" : "invalid") : ""
+                }`}
               placeholder="Email address (Required)"
               value={email.value}
               maxlength="101"
@@ -304,17 +294,15 @@ class Register extends Component {
               }}
               required
             />
-
             <input
               type="password"
               className={`text-input text-input-half text-input-first-half
-                                ${
-                                  password.valid !== ""
-                                    ? password.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${password.valid !== ""
+                  ? password.valid
+                    ? "valid"
+                    : "invalid"
+                  : ""
+                }`}
               placeholder="Password (Required)"
               value={password.value}
               style={{ marginRight: "2%" }}
@@ -330,15 +318,14 @@ class Register extends Component {
             <input
               type="password"
               className={`text-input text-input-half
-                                ${
-                                  password.value !== ""
-                                    ? confirmPassword.valid !== ""
-                                      ? confirmPassword.valid
-                                        ? "valid"
-                                        : "invalid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${password.value !== ""
+                  ? confirmPassword.valid !== ""
+                    ? confirmPassword.valid
+                      ? "valid"
+                      : "invalid"
+                    : "invalid"
+                  : ""
+                }`}
               placeholder="Confirm password (Required)"
               value={confirmPassword.value}
               minlength="4"
@@ -350,41 +337,33 @@ class Register extends Component {
               }}
               required
             />
-
             <input
-              type="number"
+              type="tel"
               className={`text-input text-input-half text-input-first-half
-                                ${
-                                  phone.valid !== ""
-                                    ? phone.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${phone.valid !== ""
+                  ? phone.valid
+                    ? "valid"
+                    : "invalid"
+                  : ""
+                }`}
               placeholder="Tel"
               value={phone.value}
+              maxLength={15}
               onChange={e => {
                 let value = e.target.value;
                 let valid = ukPhoneRegexp.test(value);
-                if (value.length > 101) {
-                  alert("Max Characters is 101");
-                } else {
-                  this.setState({ phone: { value, valid } });
-                }
+                this.setState({ phone: { value, valid } });
               }}
-
-              // maxLength = {11} doesn't work wioth number use js to  iterate through each char and stop use from putting shit when its above 11
             />
             <input
               type="number"
               className={`text-input text-input-half
-                                ${
-                                  organisationNumber.valid !== ""
-                                    ? organisationNumber.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${organisationNumber.valid !== ""
+                  ? organisationNumber.valid
+                    ? "valid"
+                    : "invalid"
+                  : ""
+                }`}
               placeholder="Organisation / Charity number"
               value={organisationNumber.value}
               onChange={e => {
@@ -400,13 +379,12 @@ class Register extends Component {
             <input
               type="text"
               className={`text-input
-                                ${
-                                  address1.valid !== ""
-                                    ? address1.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${address1.valid !== ""
+                  ? address1.valid
+                    ? "valid"
+                    : "invalid"
+                  : ""
+                }`}
               placeholder="Address 1"
               value={address1.value}
               maxlength="101"
@@ -431,13 +409,12 @@ class Register extends Component {
             <input
               type="text"
               className={`text-input text-input-half text-input-first-half
-                                ${
-                                  city.valid !== ""
-                                    ? city.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${city.valid !== ""
+                  ? city.valid
+                    ? "valid"
+                    : "invalid"
+                  : ""
+                }`}
               placeholder="City"
               value={city.value}
               maxlength="101"
@@ -450,13 +427,12 @@ class Register extends Component {
             <input
               type="text"
               className={`text-input text-input-half
-                                ${
-                                  postcode.valid !== ""
-                                    ? postcode.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${postcode.valid !== ""
+                  ? postcode.valid
+                    ? "valid"
+                    : "invalid"
+                  : ""
+                }`}
               placeholder="Postcode"
               value={postcode.value}
               maxlength="7"
@@ -469,13 +445,12 @@ class Register extends Component {
             <input
               type="text"
               className={`text-input
-                                ${
-                                  organisation.valid !== ""
-                                    ? organisation.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${organisation.valid !== ""
+                  ? organisation.valid
+                    ? "valid"
+                    : "invalid"
+                  : ""
+                }`}
               placeholder="Organisation Name"
               value={organisation.value}
               maxlength="101"
@@ -562,16 +537,15 @@ class Register extends Component {
                 <input
                   type="text"
                   className={`text-input
-                                        ${
-                                          this.state.organisationCommercialOther
-                                            .valid !== ""
-                                            ? this.state
-                                                .organisationCommercialOther
-                                                .valid
-                                              ? "valid"
-                                              : "invalid"
-                                            : ""
-                                        }`}
+                                        ${this.state.organisationCommercialOther
+                      .valid !== ""
+                      ? this.state
+                        .organisationCommercialOther
+                        .valid
+                        ? "valid"
+                        : "invalid"
+                      : ""
+                    }`}
                   placeholder="Other"
                   value={this.state.organisationCommercialOther.value}
                   onChange={e => {
@@ -583,7 +557,28 @@ class Register extends Component {
                   }}
                 />
               )}
-            <br />
+            <div className="account-type-container" >
+              <div className={`account-type-card ${accountType == "free" ? "active" : "inactive"}`}
+                onClick={() => {
+                  this.setState({
+                    accountType: "free"
+                  })
+                }}>
+                <p className="account-type-title">Free</p>
+                <p className="account-type-text">- Lorum ipsum</p>
+                <p className="account-type-text">- Lorum ipsum</p>
+              </div>
+              <div className={`account-type-card ${accountType == "paid" ? "active" : "inactive"}`}
+                onClick={() => {
+                  this.setState({
+                    accountType: "paid"
+                  })
+                }}>
+                <p className="account-type-title">£30/month</p>
+                <p className="account-type-text">- Lorum ipsum</p>
+                <p className="account-type-text">- Lorum ipsum</p>
+              </div>
+            </div>
             <div
               style={{
                 width: "100%",
@@ -616,23 +611,37 @@ class Register extends Component {
                 <div className="control_indicator"></div>
               </label>
             </div>
-            <p
+            <div
               style={{
-                textAlign: "center",
-                fontSize: "12px",
-                opacity: 0.7,
-                marginTop: 0
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "3px"
               }}
             >
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            </p>
-            <br />
+              <label
+                className="control control-checkbox"
+                style={{ textAlign: "left", fontSize: "14px" }}
+              >
+                I would like to receive marketing emails
+                <input
+                  name="agree"
+                  type="checkbox"
+                  checked={marketing}
+                  onChange={e => {
+                    this.setState({ marketing: e.target.checked });
+                  }}
+                  style={{ display: "inline" }}
+                />
+                <div className="control_indicator"></div>
+              </label>
+            </div>
+            {/* 
             <p style={{ marginTop: 0, marginBottom: "6px" }}>
               Would you like to receive marketing emails?
             </p>
-
             <label
-              classNameName="control control-radio"
+              className="control control-radio"
               style={{
                 textAlign: "left",
                 fontSize: "14px",
@@ -656,7 +665,7 @@ class Register extends Component {
                 }}
                 style={{ display: "inline" }}
               />
-              <div classNameName="control_indicator"></div>
+              <div className="control_indicator"></div>
             </label>
             <label
               className="control control-radio"
@@ -680,7 +689,7 @@ class Register extends Component {
               />
               <div className="control_indicator"></div>
             </label>
-
+            */}
             <div className="FormControlButtons" style={{ padding: "10px" }}>
               <Link to="/auth/">
                 <div
@@ -690,14 +699,12 @@ class Register extends Component {
                   Cancel
                 </div>
               </Link>
-
               <input
                 type="submit"
                 value="Register"
                 className="button button-medium"
                 style={{
                   paddingTop: 0,
-                  marginBottom: "120px",
                   marginLeft: "10px",
                   display: "inline-block"
                 }}
