@@ -10,10 +10,10 @@ class Property extends Component {
     return [
       (this.props.propertyInfo.coordinates[0][0] +
         this.props.propertyInfo.coordinates[halfLength][0]) /
-        2.0,
+      2.0,
       (this.props.propertyInfo.coordinates[0][1] +
         this.props.propertyInfo.coordinates[halfLength][1]) /
-        2.0,
+      2.0,
     ];
   }
 
@@ -33,17 +33,17 @@ class Property extends Component {
               },
             ],
           }}
-          linePaint={this.props.highlight? 
+          linePaint={this.props.highlight ?
             {
               "line-color": "red",
-            "line-width": 3,
+              "line-width": 3,
             }
             :
             {
-            "line-color": "green",
-            "line-width": 2,
-          }}
-          lineOnClick={e=>{
+              "line-color": "green",
+              "line-width": 2,
+            }}
+          lineOnClick={e => {
             console.log("clicked on property")
             this.props.highlightProperty(this.props.propertyInfo);
           }}
@@ -61,30 +61,29 @@ class Property extends Component {
               },
             ],
           }}
-          fillPaint={this.props.highlight? 
+          fillPaint={this.props.highlight ?
             {
               "fill-color": "red",
-            "fill-opacity": 0.05,
-            }
-            :
-            this.props.propertyInfo.date_proprietor_added?
-            {
-              "fill-color": "green",
               "fill-opacity": 0.05,
             }
             :
-            {
-              "fill-color": "orange",
-              "fill-opacity": 0.05,
-            }
+            this.props.propertyInfo.date_proprietor_added ?
+              {
+                "fill-color": "green",
+                "fill-opacity": 0.05,
+              }
+              :
+              {
+                "fill-color": "orange",
+                "fill-opacity": 0.05,
+              }
           }
-          fillOnClick={()=>{
+          fillOnClick={() => {
             this.props.highlightProperty(this.props.propertyInfo);
           }}
-        
         />
         <Marker coordinates={this.placeMiddle()}>
-          <p>{this.props.propertyInfo.title_no}</p>
+          <p>{this.props.propertyInfo.poly_id}</p>
         </Marker>
       </React.Fragment>
     );

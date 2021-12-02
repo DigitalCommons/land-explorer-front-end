@@ -51,11 +51,11 @@ class NavLandOwnership extends Component {
 
       let highlightedProperty = this.props.highlightedProperty;
 
-      let housesArray = highlightedProperty.map((property,index)=>({
+      let housesArray = highlightedProperty.map((property, index) => ({
         postcode: property.postcode,
-        line_1: property.title_no,
-        line_2: "",
-        commercialInformation: property.proprietor_category_1? property: null,
+        line_1: property.poly_id,
+        line_2: property.title_no,
+        commercialInformation: property.proprietor_category_1 ? property : null,
         index: index,
       }));
 
@@ -64,8 +64,8 @@ class NavLandOwnership extends Component {
         mode: "cart",
       });
 
-      housesArray.forEach(property=>
-        this.state.selected_houses.add(""+property.index)
+      housesArray.forEach(property =>
+        this.state.selected_houses.add("" + property.index)
       )
 
       //the next part is how the selected houses works, what to do to display them
@@ -120,8 +120,8 @@ class NavLandOwnership extends Component {
     if (this.state.postcode) {
       fetch(
         "https://api.ideal-postcodes.co.uk/v1/postcodes/" +
-          this.state.postcode +
-          "?api_key=iddqd"
+        this.state.postcode +
+        "?api_key=iddqd"
       )
         .then((res) => res.json())
         .then(
@@ -395,20 +395,20 @@ class NavLandOwnership extends Component {
 
   controlBar = () => {
     return <div style={{
-        display: "flex", 
-        justifyContent: "space-between",
-        padding: 10
-        }}>
-      <button onClick={()=>this.props.clearAllHighlight()}>Clear all</button> {/* clear highlights actionr required */}
-      <div style={{display: "inline", padding: "0px 10px"}} >
-        <p style={{display: "inline", fontWeight: "bold"}}>Highlight: </p>
-        <p style={{display: "inline", color: this.props.highlightMultiple?"black":"green"}}>Single</p>
-        <ToggleSwitch 
-            on={this.props.highlightMultiple} 
-            tooltip="Highlight single/multiple properties" 
-            toggle={()=>this.props.toggleHighlightMultiple()} 
+      display: "flex",
+      justifyContent: "space-between",
+      padding: 10
+    }}>
+      <button onClick={() => this.props.clearAllHighlight()}>Clear all</button> {/* clear highlights actionr required */}
+      <div style={{ display: "inline", padding: "0px 10px" }} >
+        <p style={{ display: "inline", fontWeight: "bold" }}>Highlight: </p>
+        <p style={{ display: "inline", color: this.props.highlightMultiple ? "black" : "green" }}>Single</p>
+        <ToggleSwitch
+          on={this.props.highlightMultiple}
+          tooltip="Highlight single/multiple properties"
+          toggle={() => this.props.toggleHighlightMultiple()}
         />
-        <p style={{display: "inline",color: this.props.highlightMultiple?"green":"black"}}>Multiple</p>
+        <p style={{ display: "inline", color: this.props.highlightMultiple ? "green" : "black" }}>Multiple</p>
       </div>
     </div>
   };
@@ -419,13 +419,13 @@ class NavLandOwnership extends Component {
     return (
       <div className="purchase-card" key={1}>
         <div className="purchase-container">
-          
+
           <span>
             <b>{this.displayHouse(house)}</b>
-            <button 
-              style={{float: "right"}}
-              onClick={()=>this.props.clearHighlight(house)}>
-                remove
+            <button
+              style={{ float: "right" }}
+              onClick={() => this.props.clearHighlight(house)}>
+              remove
             </button>
             <p className="purchase-detail">{house.post_town}</p>
             <p className="purchase-detail">{house.postcode}</p>

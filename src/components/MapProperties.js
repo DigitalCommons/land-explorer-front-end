@@ -15,7 +15,7 @@ class MapProperties extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps != this.props) 
+    if (prevProps != this.props)
       if (this.props.displayActive && this.props.zoom >= 18)
         this.getProperties();
   }
@@ -26,29 +26,29 @@ class MapProperties extends Component {
     axios
       .get(
         `${constants.ROOT_URL}/api/ownership/?sw_lng=` +
-          mapBoundaries._sw.lng +
-          "&sw_lat=" +
-          mapBoundaries._sw.lat +
-          "&ne_lng=" +
-          mapBoundaries._ne.lng +
-          "&ne_lat=" +
-          mapBoundaries._ne.lat,
+        mapBoundaries._sw.lng +
+        "&sw_lat=" +
+        mapBoundaries._sw.lat +
+        "&ne_lng=" +
+        mapBoundaries._ne.lng +
+        "&ne_lat=" +
+        mapBoundaries._ne.lat,
         getAuthHeader()
       )
       .then((response) => {
-        let array = [];
+        let properties = [];
 
-        response.data = response.data.slice(0,100);
+        const propertiesData = response.data.slice(0, 100);
 
-        response.data.map((property) => {
+        propertiesData.map((property) => {
           let json = JSON.parse(property.geojson);
           property.coordinates = json.coordinates[0];
-          array.push(property);
+          properties.push(property);
         });
 
-        if (array.length > 0)
+        if (properties.length > 0)
           this.setState({
-            propertiesArray: array,
+            propertiesArray: properties
           });
       });
   }
@@ -60,19 +60,19 @@ class MapProperties extends Component {
       this.state.propertiesArray.forEach((propertyInfo) =>
         properties.push(<Property propertyInfo={propertyInfo} />)
       );
-    
-    if(this.props.highlightedProperty.length>0){
-      this.props.highlightedProperty.forEach(highlightedProperty=>
+
+    if (this.props.highlightedProperty.length > 0) {
+      this.props.highlightedProperty.forEach(highlightedProperty =>
         properties.push(<Property propertyInfo={highlightedProperty} highlight={true} />)
       )
     }
-    
+
     return properties;
   }
 
-  createHighlightedProperties(){
+  createHighlightedProperties() {
     let properties = []
-    this.props.highlightedProperty.forEach(highlightedProperty=>
+    this.props.highlightedProperty.forEach(highlightedProperty =>
       properties.push(<Property propertyInfo={highlightedProperty} highlight={true} />)
     )
     return properties;
@@ -81,7 +81,7 @@ class MapProperties extends Component {
   render() {
     if (this.props.displayActive && this.props.zoom >= 18)
       return <React.Fragment>{this.createProperties()}</React.Fragment>;
-    if(this.props.highlightedProperty.length>0)
+    if (this.props.highlightedProperty.length > 0)
       return <React.Fragment>{this.createHighlightedProperties()}</React.Fragment>
     else return null;
   }
