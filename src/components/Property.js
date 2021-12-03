@@ -70,12 +70,12 @@ class Property extends Component {
             this.props.propertyInfo.date_proprietor_added ?
               {
                 "fill-color": "green",
-                "fill-opacity": 0.05,
+                "fill-opacity": 0.15,
               }
               :
               {
                 "fill-color": "orange",
-                "fill-opacity": 0.05,
+                "fill-opacity": 0.15,
               }
           }
           fillOnClick={() => {

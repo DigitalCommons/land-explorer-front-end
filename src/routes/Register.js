@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import Navbar from "../components/Navbar";
 import { Link, Redirect } from "react-router-dom";
@@ -81,7 +81,8 @@ class Register extends Component {
       },
       accountType: "free",
       agree: false,
-      marketing: false
+      marketing: false,
+      formStage: "personal",
     };
   }
 
@@ -100,7 +101,7 @@ class Register extends Component {
   };
 
   register = () => {
-    let organisationType = this.state.organisationType.value;
+    const organisationType = this.state.organisationType.value;
     let organisationSubType =
       organisationType === "community-interest"
         ? this.state.organisationCommunityInterest.value
@@ -109,15 +110,16 @@ class Register extends Component {
       organisationSubType === "other"
         ? this.state.organisationCommercialOther.value
         : organisationSubType;
-    let request = {
+
+    const request = {
       address: this.state.address1.value,
       firstName: this.state.firstName.value,
       lastName: this.state.lastName.value,
       marketing: this.state.marketing,
       organisation: this.state.organisation.value,
       organisationNumber: this.state.organisationNumber.value,
-      organisationType: organisationType,
-      organisationSubType: organisationSubType,
+      organisationType,
+      organisationSubType,
       password: this.state.password.value,
       phone: this.state.phone.value,
       username: this.state.email.value
@@ -172,8 +174,440 @@ class Register extends Component {
       registerErrors,
       accountType,
       agree,
-      marketing
+      marketing,
+      formStage
     } = this.state;
+
+    let formDisplay = <Fragment>
+      <h2 className="title">Register</h2>
+      {registerErrors && <div>{this.printErrors()} </div>}
+      <form onSubmit={accountType == "free" ? this.handleSubmit : () => this.setState({ formStage: "payment" })}>
+        <input
+          type="text"
+          className={`text-input text-input-half text-input-first-half
+                                ${firstName.valid !== ""
+              ? firstName.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
+          placeholder="First name (Required)"
+          value={firstName.value}
+          onChange={e => {
+            let value = e.target.value;
+            let valid = value.length > 2 && value.length < 20;
+            this.setState({
+              firstName: { value, valid }
+            });
+          }}
+          required
+          maxlength="101"
+        />
+        <input
+          type="text"
+          className={`text-input text-input-half
+                                ${lastName.valid !== ""
+              ? lastName.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
+          placeholder="Last name (Required)"
+          value={lastName.value}
+          maxlength="101"
+          onChange={e => {
+            let value = e.target.value;
+            let valid = value.length > 2 && value.length < 20;
+            this.setState({
+              lastName: { value, valid }
+            });
+          }}
+          required
+        />
+        <input
+          type="email"
+          className={`text-input ${email.valid !== "" ? (email.valid ? "valid" : "invalid") : ""
+            }`}
+          placeholder="Email address (Required)"
+          value={email.value}
+          maxlength="101"
+          onChange={e => {
+            let value = e.target.value;
+            let valid = emailRegexp.test(value);
+            this.setState({ email: { value, valid } });
+          }}
+          required
+        />
+        <input
+          type="password"
+          className={`text-input text-input-half text-input-first-half
+                                ${password.valid !== ""
+              ? password.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
+          placeholder="Password (Required)"
+          value={password.value}
+          style={{ marginRight: "2%" }}
+          minlength="4"
+          maxlenght="101"
+          onChange={e => {
+            let value = e.target.value;
+            let valid = value.length > 5 && value.length < 30;
+            this.setState({ password: { value, valid } });
+          }}
+          required
+        />
+        <input
+          type="password"
+          className={`text-input text-input-half
+                                ${password.value !== ""
+              ? confirmPassword.valid !== ""
+                ? confirmPassword.valid
+                  ? "valid"
+                  : "invalid"
+                : "invalid"
+              : ""
+            }`}
+          placeholder="Confirm password (Required)"
+          value={confirmPassword.value}
+          minlength="4"
+          maxlength="101"
+          onChange={e => {
+            let value = e.target.value;
+            let valid = password.value === value;
+            this.setState({ confirmPassword: { value, valid } });
+          }}
+          required
+        />
+        <input
+          type="tel"
+          className={`text-input text-input-half text-input-first-half
+                                ${phone.valid !== ""
+              ? phone.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
+          placeholder="Tel"
+          value={phone.value}
+          maxLength={15}
+          onChange={e => {
+            let value = e.target.value;
+            let valid = ukPhoneRegexp.test(value);
+            this.setState({ phone: { value, valid } });
+          }}
+        />
+        <input
+          type="number"
+          className={`text-input text-input-half
+                                ${organisationNumber.valid !== ""
+              ? organisationNumber.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
+          placeholder="Organisation / Charity number"
+          value={organisationNumber.value}
+          onChange={e => {
+            let value = e.target.value;
+            let valid = value !== "";
+            if (value.length > 101) {
+              alert("Max Characters is 101");
+            } else {
+              this.setState({ organisationNumber: { value, valid } });
+            }
+          }}
+        />
+        <input
+          type="text"
+          className={`text-input
+                                ${address1.valid !== ""
+              ? address1.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
+          placeholder="Address 1"
+          value={address1.value}
+          maxlength="101"
+          onChange={e => {
+            let value = e.target.value;
+            let valid = value !== "";
+            this.setState({ address1: { value, valid } });
+          }}
+        />
+        <input
+          type="text"
+          className={`text-input`}
+          placeholder="Address 2"
+          value={address2.value}
+          maxlength="101"
+          onChange={e => {
+            let value = e.target.value;
+            let valid = true;
+            this.setState({ address2: { value, valid } });
+          }}
+        />
+        <input
+          type="text"
+          className={`text-input text-input-half text-input-first-half
+                                ${city.valid !== ""
+              ? city.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
+          placeholder="City"
+          value={city.value}
+          maxlength="101"
+          onChange={e => {
+            let value = e.target.value;
+            let valid = value !== "";
+            this.setState({ city: { value, valid } });
+          }}
+        />
+        <input
+          type="text"
+          className={`text-input text-input-half
+                                ${postcode.valid !== ""
+              ? postcode.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
+          placeholder="Postcode"
+          value={postcode.value}
+          maxlength="7"
+          onChange={e => {
+            let value = e.target.value;
+            let valid = ukPostcodeRegexp.test(value);
+            this.setState({ postcode: { value, valid } });
+          }}
+        />
+        <input
+          type="text"
+          className={`text-input
+                                ${organisation.valid !== ""
+              ? organisation.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
+          placeholder="Organisation Name"
+          value={organisation.value}
+          maxlength="101"
+          onChange={e => {
+            let value = e.target.value;
+            let valid = value !== "";
+            this.setState({ organisation: { value, valid } });
+          }}
+        />
+        <Select
+          name="organisation-type"
+          value={organisationType.value}
+          onChange={selectedOption => {
+            let value = selectedOption.value;
+            let valid = value !== "";
+            this.setState({ organisationType: { value, valid } });
+          }}
+          options={[
+            { value: "community-interest", label: "Community Interest" },
+            { value: "commercial", label: "Commercial" }
+          ]}
+          clearable={false}
+          searchable={false}
+          placeholder="My organisation is..."
+        />
+        {organisationType.value === "community-interest" && (
+          <Select
+            name="community-interest"
+            value={organisationCommunityInterest.value}
+            onChange={selectedOption => {
+              let value = selectedOption.value;
+              let valid = value !== "";
+              this.setState({
+                organisationCommunityInterest: { value, valid }
+              });
+            }}
+            style={{ marginBottom: "6px" }}
+            options={[
+              { value: "community-energy", label: "Community Energy" },
+              {
+                value: "community-growing",
+                label: "Community Growing or Rural Enterprise"
+              },
+              {
+                value: "community-group",
+                label: "Community Group (other)"
+              },
+              { value: "coop", label: "Co-op" },
+              {
+                value: "neighbourhood-planning",
+                label: "Neighbourhood Planning"
+              },
+              { value: "renters-union", label: "Renters Union" },
+              { value: "woodland-enterprise", label: "Woodland Enterprise" }
+            ]}
+            clearable={false}
+            searchable={false}
+            placeholder="Community interest type"
+          />
+        )}
+        {organisationType.value === "commercial" && (
+          <Select
+            name="community-interest"
+            value={organisationCommercial.value}
+            onChange={selectedOption => {
+              let value = selectedOption.value;
+              let valid = value !== "";
+              this.setState({ organisationCommercial: { value, valid } });
+            }}
+            options={[
+              { value: "local-authority", label: "Local Authority" },
+              { value: "power-network", label: "Power Network" },
+              { value: "utility-company", label: "Utility Company" },
+              { value: "other", label: "Other (please specify)" }
+            ]}
+            style={{ marginBottom: "6px" }}
+            clearable={false}
+            searchable={false}
+            placeholder="Commercial type"
+          />
+        )}
+        {organisationType.value === "commercial" &&
+          organisationCommercial.value === "other" && (
+            <input
+              type="text"
+              className={`text-input
+                                        ${this.state.organisationCommercialOther
+                  .valid !== ""
+                  ? this.state
+                    .organisationCommercialOther
+                    .valid
+                    ? "valid"
+                    : "invalid"
+                  : ""
+                }`}
+              placeholder="Other"
+              value={this.state.organisationCommercialOther.value}
+              onChange={e => {
+                let value = e.target.value;
+                let valid = value !== "";
+                this.setState({
+                  organisationCommercialOther: { value, valid }
+                });
+              }}
+            />
+          )}
+        <div className="account-type-container" >
+          <div className={`account-type-card ${accountType == "free" ? "active" : "inactive"}`}
+            onClick={() => {
+              this.setState({
+                accountType: "free"
+              })
+            }}>
+            <p className="account-type-title">Free</p>
+            <p className="account-type-text">- Lorum ipsum</p>
+            <p className="account-type-text">- Lorum ipsum</p>
+          </div>
+          <div className={`account-type-card ${accountType == "paid" ? "active" : "inactive"}`}
+            onClick={() => {
+              this.setState({
+                accountType: "paid"
+              })
+            }}>
+            <p className="account-type-title">£30/month</p>
+            <p className="account-type-text">- Lorum ipsum</p>
+            <p className="account-type-text">- Lorum ipsum</p>
+          </div>
+        </div>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "3px"
+          }}
+        >
+          <label
+            className="control control-checkbox"
+            style={{ textAlign: "left", fontSize: "14px" }}
+          >
+            I agree to the{" "}
+            <a
+              target="_blank"
+              className="link-underline"
+              href="http://www.sharedassets.org.uk/about-us/privacy-policy/"
+            >
+              privacy policy
+            </a>
+            <input
+              name="agree"
+              type="checkbox"
+              checked={agree}
+              onChange={e => {
+                this.setState({ agree: e.target.checked });
+              }}
+              style={{ display: "inline" }}
+            />
+            <div className="control_indicator"></div>
+          </label>
+        </div>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "3px"
+          }}
+        >
+          <label
+            className="control control-checkbox"
+            style={{ textAlign: "left", fontSize: "14px" }}
+          >
+            I would like to receive marketing emails
+            <input
+              name="agree"
+              type="checkbox"
+              checked={marketing}
+              onChange={e => {
+                this.setState({ marketing: e.target.checked });
+              }}
+              style={{ display: "inline" }}
+            />
+            <div className="control_indicator"></div>
+          </label>
+        </div>
+        <div className="FormControlButtons" style={{ padding: "10px" }}>
+          <Link to="/auth/">
+            <div
+              className="button button-cancel button-medium"
+              style={{ display: "inline-block" }}
+            >
+              Cancel
+            </div>
+          </Link>
+          <input
+            type="submit"
+            value={accountType == "free" ? "Register" : "Next"}
+            className="button button-medium"
+            style={{
+              paddingTop: 0,
+              marginLeft: "10px",
+              display: "inline-block"
+            }}
+          />
+        </div>
+      </form>
+    </Fragment>
+
+    if (formStage == "payment")
+      formDisplay = <Fragment>
+        <h2>Payment</h2>
+      </Fragment>
+
     console.log("organisation", organisation);
     return (
       <div
@@ -235,482 +669,7 @@ class Register extends Component {
             display: registering ? "none" : "block",
           }}
         >
-          <h2 className="title">Register</h2>
-          {registerErrors && <div>{this.printErrors()} </div>}
-          <form onSubmit={this.handleSubmit}>
-            <input
-              type="text"
-              className={`text-input text-input-half text-input-first-half
-                                ${firstName.valid !== ""
-                  ? firstName.valid
-                    ? "valid"
-                    : "invalid"
-                  : ""
-                }`}
-              placeholder="First name (Required)"
-              value={firstName.value}
-              onChange={e => {
-                let value = e.target.value;
-                let valid = value.length > 2 && value.length < 20;
-                this.setState({
-                  firstName: { value, valid }
-                });
-              }}
-              required
-              maxlength="101"
-            />
-            <input
-              type="text"
-              className={`text-input text-input-half
-                                ${lastName.valid !== ""
-                  ? lastName.valid
-                    ? "valid"
-                    : "invalid"
-                  : ""
-                }`}
-              placeholder="Last name (Required)"
-              value={lastName.value}
-              maxlength="101"
-              onChange={e => {
-                let value = e.target.value;
-                let valid = value.length > 2 && value.length < 20;
-                this.setState({
-                  lastName: { value, valid }
-                });
-              }}
-              required
-            />
-            <input
-              type="email"
-              className={`text-input ${email.valid !== "" ? (email.valid ? "valid" : "invalid") : ""
-                }`}
-              placeholder="Email address (Required)"
-              value={email.value}
-              maxlength="101"
-              onChange={e => {
-                let value = e.target.value;
-                let valid = emailRegexp.test(value);
-                this.setState({ email: { value, valid } });
-              }}
-              required
-            />
-            <input
-              type="password"
-              className={`text-input text-input-half text-input-first-half
-                                ${password.valid !== ""
-                  ? password.valid
-                    ? "valid"
-                    : "invalid"
-                  : ""
-                }`}
-              placeholder="Password (Required)"
-              value={password.value}
-              style={{ marginRight: "2%" }}
-              minlength="4"
-              maxlenght="101"
-              onChange={e => {
-                let value = e.target.value;
-                let valid = value.length > 5 && value.length < 30;
-                this.setState({ password: { value, valid } });
-              }}
-              required
-            />
-            <input
-              type="password"
-              className={`text-input text-input-half
-                                ${password.value !== ""
-                  ? confirmPassword.valid !== ""
-                    ? confirmPassword.valid
-                      ? "valid"
-                      : "invalid"
-                    : "invalid"
-                  : ""
-                }`}
-              placeholder="Confirm password (Required)"
-              value={confirmPassword.value}
-              minlength="4"
-              maxlength="101"
-              onChange={e => {
-                let value = e.target.value;
-                let valid = password.value === value;
-                this.setState({ confirmPassword: { value, valid } });
-              }}
-              required
-            />
-            <input
-              type="tel"
-              className={`text-input text-input-half text-input-first-half
-                                ${phone.valid !== ""
-                  ? phone.valid
-                    ? "valid"
-                    : "invalid"
-                  : ""
-                }`}
-              placeholder="Tel"
-              value={phone.value}
-              maxLength={15}
-              onChange={e => {
-                let value = e.target.value;
-                let valid = ukPhoneRegexp.test(value);
-                this.setState({ phone: { value, valid } });
-              }}
-            />
-            <input
-              type="number"
-              className={`text-input text-input-half
-                                ${organisationNumber.valid !== ""
-                  ? organisationNumber.valid
-                    ? "valid"
-                    : "invalid"
-                  : ""
-                }`}
-              placeholder="Organisation / Charity number"
-              value={organisationNumber.value}
-              onChange={e => {
-                let value = e.target.value;
-                let valid = value !== "";
-                if (value.length > 101) {
-                  alert("Max Characters is 101");
-                } else {
-                  this.setState({ organisationNumber: { value, valid } });
-                }
-              }}
-            />
-            <input
-              type="text"
-              className={`text-input
-                                ${address1.valid !== ""
-                  ? address1.valid
-                    ? "valid"
-                    : "invalid"
-                  : ""
-                }`}
-              placeholder="Address 1"
-              value={address1.value}
-              maxlength="101"
-              onChange={e => {
-                let value = e.target.value;
-                let valid = value !== "";
-                this.setState({ address1: { value, valid } });
-              }}
-            />
-            <input
-              type="text"
-              className={`text-input`}
-              placeholder="Address 2"
-              value={address2.value}
-              maxlength="101"
-              onChange={e => {
-                let value = e.target.value;
-                let valid = true;
-                this.setState({ address2: { value, valid } });
-              }}
-            />
-            <input
-              type="text"
-              className={`text-input text-input-half text-input-first-half
-                                ${city.valid !== ""
-                  ? city.valid
-                    ? "valid"
-                    : "invalid"
-                  : ""
-                }`}
-              placeholder="City"
-              value={city.value}
-              maxlength="101"
-              onChange={e => {
-                let value = e.target.value;
-                let valid = value !== "";
-                this.setState({ city: { value, valid } });
-              }}
-            />
-            <input
-              type="text"
-              className={`text-input text-input-half
-                                ${postcode.valid !== ""
-                  ? postcode.valid
-                    ? "valid"
-                    : "invalid"
-                  : ""
-                }`}
-              placeholder="Postcode"
-              value={postcode.value}
-              maxlength="7"
-              onChange={e => {
-                let value = e.target.value;
-                let valid = ukPostcodeRegexp.test(value);
-                this.setState({ postcode: { value, valid } });
-              }}
-            />
-            <input
-              type="text"
-              className={`text-input
-                                ${organisation.valid !== ""
-                  ? organisation.valid
-                    ? "valid"
-                    : "invalid"
-                  : ""
-                }`}
-              placeholder="Organisation Name"
-              value={organisation.value}
-              maxlength="101"
-              onChange={e => {
-                let value = e.target.value;
-                let valid = value !== "";
-                this.setState({ organisation: { value, valid } });
-              }}
-            />
-            <Select
-              name="organisation-type"
-              value={organisationType.value}
-              onChange={selectedOption => {
-                let value = selectedOption.value;
-                let valid = value !== "";
-                this.setState({ organisationType: { value, valid } });
-              }}
-              options={[
-                { value: "community-interest", label: "Community Interest" },
-                { value: "commercial", label: "Commercial" }
-              ]}
-              clearable={false}
-              searchable={false}
-              placeholder="My organisation is..."
-            />
-            {organisationType.value === "community-interest" && (
-              <Select
-                name="community-interest"
-                value={organisationCommunityInterest.value}
-                onChange={selectedOption => {
-                  let value = selectedOption.value;
-                  let valid = value !== "";
-                  this.setState({
-                    organisationCommunityInterest: { value, valid }
-                  });
-                }}
-                style={{ marginBottom: "6px" }}
-                options={[
-                  { value: "community-energy", label: "Community Energy" },
-                  {
-                    value: "community-growing",
-                    label: "Community Growing or Rural Enterprise"
-                  },
-                  {
-                    value: "community-group",
-                    label: "Community Group (other)"
-                  },
-                  { value: "coop", label: "Co-op" },
-                  {
-                    value: "neighbourhood-planning",
-                    label: "Neighbourhood Planning"
-                  },
-                  { value: "renters-union", label: "Renters Union" },
-                  { value: "woodland-enterprise", label: "Woodland Enterprise" }
-                ]}
-                clearable={false}
-                searchable={false}
-                placeholder="Community interest type"
-              />
-            )}
-            {organisationType.value === "commercial" && (
-              <Select
-                name="community-interest"
-                value={organisationCommercial.value}
-                onChange={selectedOption => {
-                  let value = selectedOption.value;
-                  let valid = value !== "";
-                  this.setState({ organisationCommercial: { value, valid } });
-                }}
-                options={[
-                  { value: "local-authority", label: "Local Authority" },
-                  { value: "power-network", label: "Power Network" },
-                  { value: "utility-company", label: "Utility Company" },
-                  { value: "other", label: "Other (please specify)" }
-                ]}
-                style={{ marginBottom: "6px" }}
-                clearable={false}
-                searchable={false}
-                placeholder="Commercial type"
-              />
-            )}
-            {organisationType.value === "commercial" &&
-              organisationCommercial.value === "other" && (
-                <input
-                  type="text"
-                  className={`text-input
-                                        ${this.state.organisationCommercialOther
-                      .valid !== ""
-                      ? this.state
-                        .organisationCommercialOther
-                        .valid
-                        ? "valid"
-                        : "invalid"
-                      : ""
-                    }`}
-                  placeholder="Other"
-                  value={this.state.organisationCommercialOther.value}
-                  onChange={e => {
-                    let value = e.target.value;
-                    let valid = value !== "";
-                    this.setState({
-                      organisationCommercialOther: { value, valid }
-                    });
-                  }}
-                />
-              )}
-            <div className="account-type-container" >
-              <div className={`account-type-card ${accountType == "free" ? "active" : "inactive"}`}
-                onClick={() => {
-                  this.setState({
-                    accountType: "free"
-                  })
-                }}>
-                <p className="account-type-title">Free</p>
-                <p className="account-type-text">- Lorum ipsum</p>
-                <p className="account-type-text">- Lorum ipsum</p>
-              </div>
-              <div className={`account-type-card ${accountType == "paid" ? "active" : "inactive"}`}
-                onClick={() => {
-                  this.setState({
-                    accountType: "paid"
-                  })
-                }}>
-                <p className="account-type-title">£30/month</p>
-                <p className="account-type-text">- Lorum ipsum</p>
-                <p className="account-type-text">- Lorum ipsum</p>
-              </div>
-            </div>
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                marginBottom: "3px"
-              }}
-            >
-              <label
-                className="control control-checkbox"
-                style={{ textAlign: "left", fontSize: "14px" }}
-              >
-                I agree to the{" "}
-                <a
-                  target="_blank"
-                  className="link-underline"
-                  href="http://www.sharedassets.org.uk/about-us/privacy-policy/"
-                >
-                  privacy policy
-                </a>
-                <input
-                  name="agree"
-                  type="checkbox"
-                  checked={agree}
-                  onChange={e => {
-                    this.setState({ agree: e.target.checked });
-                  }}
-                  style={{ display: "inline" }}
-                />
-                <div className="control_indicator"></div>
-              </label>
-            </div>
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                marginBottom: "3px"
-              }}
-            >
-              <label
-                className="control control-checkbox"
-                style={{ textAlign: "left", fontSize: "14px" }}
-              >
-                I would like to receive marketing emails
-                <input
-                  name="agree"
-                  type="checkbox"
-                  checked={marketing}
-                  onChange={e => {
-                    this.setState({ marketing: e.target.checked });
-                  }}
-                  style={{ display: "inline" }}
-                />
-                <div className="control_indicator"></div>
-              </label>
-            </div>
-            {/* 
-            <p style={{ marginTop: 0, marginBottom: "6px" }}>
-              Would you like to receive marketing emails?
-            </p>
-            <label
-              className="control control-radio"
-              style={{
-                textAlign: "left",
-                fontSize: "14px",
-                display: "inline",
-                marginRight: "24px"
-              }}
-            >
-              Yes
-              <input
-                name="marketing-yes"
-                type="radio"
-                checked={marketing.yes}
-                onChange={e => {
-                  let on = e.target.value === "on";
-                  this.setState({
-                    marketing: {
-                      yes: on,
-                      no: !on
-                    }
-                  });
-                }}
-                style={{ display: "inline" }}
-              />
-              <div className="control_indicator"></div>
-            </label>
-            <label
-              className="control control-radio"
-              style={{ textAlign: "left", fontSize: "14px", display: "inline" }}
-            >
-              No
-              <input
-                name="marketing-no"
-                type="radio"
-                checked={marketing.no}
-                onChange={e => {
-                  let on = e.target.value === "on";
-                  this.setState({
-                    marketing: {
-                      yes: !on,
-                      no: on
-                    }
-                  });
-                }}
-                style={{ display: "inline" }}
-              />
-              <div className="control_indicator"></div>
-            </label>
-            */}
-            <div className="FormControlButtons" style={{ padding: "10px" }}>
-              <Link to="/auth/">
-                <div
-                  className="button button-cancel button-medium"
-                  style={{ display: "inline-block" }}
-                >
-                  Cancel
-                </div>
-              </Link>
-              <input
-                type="submit"
-                value="Register"
-                className="button button-medium"
-                style={{
-                  paddingTop: 0,
-                  marginLeft: "10px",
-                  display: "inline-block"
-                }}
-              />
-            </div>
-          </form>
+          {formDisplay}
         </div>
       </div>
     );
