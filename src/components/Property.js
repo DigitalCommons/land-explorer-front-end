@@ -4,8 +4,13 @@ import { GeoJSONLayer, Marker } from "react-mapbox-gl";
 import { viewAddressInfo, highlightProperty } from "../actions/LandOwnershipActions";
 
 class Property extends Component {
-  placeMiddle() {
+  constructor(props) {
+    super(props);
 
+    this.highlightProperty = this.highlightProperty.bind(this);
+  }
+
+  placeMiddle() {
     let halfLength = Math.floor(this.props.propertyInfo.coordinates.length / 2);
     return [
       (this.props.propertyInfo.coordinates[0][0] +
@@ -15,6 +20,10 @@ class Property extends Component {
         this.props.propertyInfo.coordinates[halfLength][1]) /
       2.0,
     ];
+  }
+
+  highlightProperty() {
+    this.props.highlightProperty(this.props.propertyInfo);
   }
 
   render() {
@@ -43,10 +52,7 @@ class Property extends Component {
               "line-color": "green",
               "line-width": 2,
             }}
-          lineOnClick={e => {
-            console.log("clicked on property")
-            this.props.highlightProperty(this.props.propertyInfo);
-          }}
+          lineOnClick={this.highlightProperty}
         />
         <GeoJSONLayer
           data={{
@@ -78,12 +84,10 @@ class Property extends Component {
                 "fill-opacity": 0.15,
               }
           }
-          fillOnClick={() => {
-            this.props.highlightProperty(this.props.propertyInfo);
-          }}
+          fillOnClick={this.highlightProperty}
         />
         <Marker coordinates={this.placeMiddle()}>
-          <p>{this.props.propertyInfo.poly_id}</p>
+          <p className="property-id-number" onClick={this.highlightProperty}>{this.props.propertyInfo.poly_id}</p>
         </Marker>
       </React.Fragment>
     );
