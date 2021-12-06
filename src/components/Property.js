@@ -87,7 +87,7 @@ class Property extends Component {
           fillOnClick={this.highlightProperty}
         />
         <Marker coordinates={this.placeMiddle()}>
-          <p className="property-id-number" onClick={this.highlightProperty}>{this.props.propertyInfo.poly_id}</p>
+          <p className={"property-id-number" + (this.props.highlight ? " highlighted" : "")} onClick={this.highlightProperty}>{this.props.propertyInfo.poly_id}</p>
         </Marker>
       </React.Fragment>
     );
