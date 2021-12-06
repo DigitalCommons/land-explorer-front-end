@@ -78,7 +78,7 @@ class MapboxMap extends Component {
       /* If there are no features where clicked, deselect tools */
       if (features.length === 0) {
         this.drawControl.draw.changeMode("static");
-        this.props.dispatch({ type: "DESELECT_TOOLS" });
+        // this.props.dispatch({ type: "DESELECT_TOOLS" });  // couldn't tell you why this was there
         this.redrawPolygons();
       }
     }
@@ -293,8 +293,8 @@ class MapboxMap extends Component {
                 baseLayer === "aerial"
                   ? "#091324"
                   : constants.USE_OS_TILES
-                  ? "#aadeef"
-                  : "#72b6e6",
+                    ? "#aadeef"
+                    : "#72b6e6",
             }}
             zoom={zoom}
             onZoomEnd={this.onZoomEnd}
@@ -380,8 +380,8 @@ class MapboxMap extends Component {
                 baseLayer === "aerial"
                   ? "#091324"
                   : constants.USE_OS_TILES
-                  ? "#aadeef"
-                  : "#72b6e6",
+                    ? "#aadeef"
+                    : "#72b6e6",
             }}
             zoom={zoom}
             onZoomEnd={this.onZoomEnd}
