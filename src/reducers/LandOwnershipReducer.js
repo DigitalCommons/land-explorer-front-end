@@ -26,7 +26,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state };
     case "HIGHLIGHT_PROPERTY":
       highlightedProperty = action.payload.highlightedProperty;
-      if(state.highlightMultiple)
+      if (state.highlightMultiple)
         state.highlightedProperty = state.highlightedProperty.concat([highlightedProperty]);
       else
         state.highlightedProperty = [highlightedProperty];
@@ -41,15 +41,15 @@ export default (state = INITIAL_STATE, action) => {
       console.log(propertyToRemove);
       console.log(state.highlightedProperty)
       state.highlightedProperty = state.highlightedProperty.filter(
-        property=>property.title_no!=propertyToRemove.line_1
+        property => property.poly_id != propertyToRemove.line_1
       );
-      return {...state};
+      return { ...state };
     case "CLEAR_ALL_HIGHLIGHT":
       state.highlightedProperty = [];
-      return {...state};
+      return { ...state };
     case "TOGGLE_HIGHLIGHT_MULTIPLE":
       state.highlightMultiple = !state.highlightMultiple;
-      return {...state};
+      return { ...state };
     default:
       return state;
   }

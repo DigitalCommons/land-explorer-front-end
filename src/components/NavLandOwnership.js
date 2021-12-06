@@ -394,22 +394,20 @@ class NavLandOwnership extends Component {
   //subcomponent that controls the document highlighting
 
   controlBar = () => {
-    return <div style={{
-      display: "flex",
-      justifyContent: "space-between",
-      padding: 10
-    }}>
-      <button onClick={() => this.props.clearAllHighlight()}>Clear all</button> {/* clear highlights actionr required */}
-      <div style={{ display: "inline", padding: "0px 10px" }} >
+    return <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "0rem 1.5rem", padding: "0px 10px" }} >
         <p style={{ display: "inline", fontWeight: "bold" }}>Highlight: </p>
-        <p style={{ display: "inline", color: this.props.highlightMultiple ? "black" : "green" }}>Single</p>
-        <ToggleSwitch
-          on={this.props.highlightMultiple}
-          tooltip="Highlight single/multiple properties"
-          toggle={() => this.props.toggleHighlightMultiple()}
-        />
-        <p style={{ display: "inline", color: this.props.highlightMultiple ? "green" : "black" }}>Multiple</p>
+        <div className={"highlight-toggle"}>
+          <p style={{ display: "inline", color: this.props.highlightMultiple ? "black" : "green" }}>Single</p>
+          <ToggleSwitch
+            on={this.props.highlightMultiple}
+            tooltip="Highlight single/multiple properties"
+            toggle={() => this.props.toggleHighlightMultiple()}
+          />
+          <p style={{ display: "inline", color: this.props.highlightMultiple ? "green" : "black" }}>Multiple</p>
+        </div>
       </div>
+      <div className="button button-medium" style={{ marginLeft: "1.5rem" }} onClick={() => this.props.clearAllHighlight()}>Clear all</div>
     </div>
   };
 
@@ -419,14 +417,11 @@ class NavLandOwnership extends Component {
     return (
       <div className="purchase-card" key={1}>
         <div className="purchase-container">
-
           <span>
+            <div className={"close-card"}
+              onClick={() => this.props.clearHighlight(house)}
+            ></div>
             <b>{this.displayHouse(house)}</b>
-            <button
-              style={{ float: "right" }}
-              onClick={() => this.props.clearHighlight(house)}>
-              remove
-            </button>
             <p className="purchase-detail">{house.post_town}</p>
             <p className="purchase-detail">{house.postcode}</p>
             {house.commercialInformation &&
