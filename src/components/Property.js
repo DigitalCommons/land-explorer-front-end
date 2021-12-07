@@ -11,15 +11,22 @@ class Property extends Component {
   }
 
   placeMiddle() {
-    let halfLength = Math.floor(this.props.propertyInfo.coordinates.length / 2);
-    return [
-      (this.props.propertyInfo.coordinates[0][0] +
-        this.props.propertyInfo.coordinates[halfLength][0]) /
-      2.0,
-      (this.props.propertyInfo.coordinates[0][1] +
-        this.props.propertyInfo.coordinates[halfLength][1]) /
-      2.0,
-    ];
+    const { coordinates } = this.props.propertyInfo;
+
+    let sumLng = 0;
+    let sumLat = 0;
+
+    coordinates.forEach(coordinate => {
+      sumLng += coordinate[0];
+      sumLat += coordinate[1];
+    })
+
+    const averageCoordinates = [
+      sumLng / coordinates.length,
+      sumLat / coordinates.length
+    ]
+
+    return averageCoordinates;
   }
 
   highlightProperty() {
