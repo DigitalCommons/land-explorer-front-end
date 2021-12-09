@@ -26,8 +26,10 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state };
     case "HIGHLIGHT_PROPERTY":
       highlightedProperty = action.payload.highlightedProperty;
-      if (state.highlightMultiple)
-        state.highlightedProperty = state.highlightedProperty.concat([highlightedProperty]);
+      if (state.highlightMultiple) {
+        if (!state.highlightedProperty.includes(highlightedProperty))
+          state.highlightedProperty = state.highlightedProperty.concat([highlightedProperty]);
+      }
       else
         state.highlightedProperty = [highlightedProperty];
       console.log("reducer");
