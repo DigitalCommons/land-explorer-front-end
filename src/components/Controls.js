@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setLngLat, zoomIn, zoomOut, setZoom, setCurrentLocation } from '../actions/MapActions';
@@ -49,48 +49,48 @@ class Controls extends Component {
     }
 
     render() {
-        let { activeLayers, activeCommunityAssets} = this.props;
+        let { activeLayers, activeCommunityAssets } = this.props;
         let { zooming } = this.state;
         return (
             <div>
                 <div className="menu-layers-button"
-                     onClick={() => this.props.toggleMenuLayers() }
+                    onClick={() => this.props.toggleMenuLayers()}
                 />
                 {
                     // If layers are active show button toggle key menu
                     activeLayers.length && (
                         <div className="menu-key-button"
-                             onClick={() => this.props.toggleMenuKey() }
+                            onClick={() => this.props.toggleMenuKey()}
                         />
                     )
                 }
-                 {
+                {
                     // If layers are active show button toggle key menu
-                    activeCommunityAssets.length && (
+                    activeCommunityAssets.length > 1 && (
                         <div className="menu-key-button"
-                             onClick={() => this.props.toggleMenuCouncilKey() }
+                            onClick={() => this.props.toggleMenuCouncilKey()}
                         />
                     )
                 }
                 <div id="controls">
                     <div className="zoom-button zoom-location"
-                         onClick={() => this.getLocation()}
+                        onClick={() => this.getLocation()}
                     />
                     <div className="controls-slider">
                         <div className="zoom-button zoom-plus"
-                             style={{marginBottom: '24px'}}
-                             onClick={() => {
-                                 if (!zooming) {
-                                     this.zoomIn();
-                                 }
-                             }}
+                            style={{ marginBottom: '24px' }}
+                            onClick={() => {
+                                if (!zooming) {
+                                    this.zoomIn();
+                                }
+                            }}
                         />
                         <div className="zoom-button zoom-minus"
-                             onClick={() => {
-                                 if (!zooming) {
-                                     this.zoomOut();
-                                 }
-                             }}
+                            onClick={() => {
+                                if (!zooming) {
+                                    this.zoomOut();
+                                }
+                            }}
                         />
                     </div>
                 </div>
