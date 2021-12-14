@@ -4,6 +4,7 @@ import Property from "../components/Property";
 import axios from "axios";
 import constants from "../constants";
 import { getAuthHeader } from "./Auth";
+import Loading from "../components/common/Loading";
 
 class MapProperties extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class MapProperties extends Component {
 
     this.state = {
       propertiesArray: [],
+      loadingProperties: false,
     };
   }
 
@@ -23,7 +25,9 @@ class MapProperties extends Component {
   async getProperties() {
     const mapBoundaries = this.props.map.getBounds();
 
-    axios
+    this.setState({ loadingProperties: true });
+
+    const response = await axios
       .get(
         `${constants.ROOT_URL}/api/ownership/?sw_lng=` +
         mapBoundaries._sw.lng +
@@ -34,23 +38,24 @@ class MapProperties extends Component {
         "&ne_lat=" +
         mapBoundaries._ne.lat,
         getAuthHeader()
-      )
-      .then((response) => {
-        let properties = [];
+      );
 
-        const propertiesData = response.data.slice(0, 100);
+    let properties = [];
 
-        propertiesData.map((property) => {
-          let json = JSON.parse(property.geojson);
-          property.coordinates = json.coordinates[0];
-          properties.push(property);
-        });
+    const propertiesData = response.data.slice(0, 100);
 
-        if (properties.length > 0)
-          this.setState({
-            propertiesArray: properties
-          });
+    propertiesData.map((property) => {
+      let json = JSON.parse(property.geojson);
+      property.coordinates = json.coordinates[0];
+      properties.push(property);
+    });
+
+    if (properties.length > 0)
+      this.setState({
+        propertiesArray: properties
       });
+
+    this.setState({ loadingProperties: false });
   }
 
   createProperties() {
@@ -79,10 +84,17 @@ class MapProperties extends Component {
   }
 
   render() {
+    const { loadingProperties } = this.state;
+
     if (this.props.displayActive && this.props.zoom >= 18)
-      return <React.Fragment>{this.createProperties()}</React.Fragment>;
+      return <React.Fragment>
+        {loadingProperties && <Loading message={"fetching property boundaries"} />}
+        {this.createProperties()}
+      </React.Fragment>;
     if (this.props.highlightedProperty.length > 0)
-      return <React.Fragment>{this.createHighlightedProperties()}</React.Fragment>
+      return <React.Fragment>
+        {this.createHighlightedProperties()}
+      </React.Fragment>
     else return null;
   }
 }

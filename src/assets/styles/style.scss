@@ -202,3 +202,34 @@ body, h1, h2, h3, h4, h5, h6 {
   width: 72px;
   display: inline-block;
 }
+
+.loading-circle{
+  z-index: 3;
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  animation: alternate infinite 1s gradient-change;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes gradient-change {
+  0% {
+		background-color: rgba(39,174,96,0.5);
+	}
+	100% {
+		background-color: rgba(39,174,96,0);
+	}
+}
+
+.loading-text{
+  z-index: 3;
+  color: white;
+  opacity: 1;
+  text-align: center;
+}
