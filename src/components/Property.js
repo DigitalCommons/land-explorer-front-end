@@ -77,7 +77,7 @@ class Property extends Component {
           fillPaint={this.props.highlight ?
             {
               "fill-color": "red",
-              "fill-opacity": 0.05,
+              "fill-opacity": 0.15,
             }
             :
             this.props.propertyInfo.date_proprietor_added ?
