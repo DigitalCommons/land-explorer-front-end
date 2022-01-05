@@ -29,11 +29,12 @@ const constants = {
     OS_PLACES_KEY: "GByeoRG21I61e4WAlXt5ujtqEZEhojdZ",
     MAPBOX_KEY: "",
     USE_OS_TILES: true,
-    MAP_BOUNDS: [{lat: 48.92789850164277, lng: -11.238012966001804}, {
+    MAP_BOUNDS: [{ lat: 48.92789850164277, lng: -11.238012966001804 }, {
         lat: 61.59762543319033,
         lng: 2.7726241015535606
     }],
-    LR_POLYGONS_ENABLED: true
+    LR_POLYGONS_ENABLED: true,
+    PROPERTY_BOUNDARIES_ZOOM_LEVEL: 17
 }
 
 export const VERSION = "1.1";

@@ -413,7 +413,7 @@ class MapboxMap extends Component {
             <ZoomWarning
               show={
                 (zoom < 9 && activeLayers.length > 0) ||
-                (zoom < 18 && this.props.propertiesDisplay && constants.LR_POLYGONS_ENABLED)
+                (zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL && this.props.propertiesDisplay && constants.LR_POLYGONS_ENABLED)
               }
             />
             /* Drawing tools */

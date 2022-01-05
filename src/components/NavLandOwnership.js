@@ -435,7 +435,6 @@ class NavLandOwnership extends Component {
               </div>
             }
           </span>
-
           {this.createCartButton(this.makeCartItem(house, "title"))}
           {this.createCartButton(this.makeCartItem(house, "plan"))}
         </div>
@@ -448,7 +447,7 @@ class NavLandOwnership extends Component {
       return (
         <p
           onClick={() => this.addItemToCart(houseItem)}
-          class="add-to-basket-button"
+          className="add-to-basket-button"
         >
           {houseItem.type.toUpperCase()} - Add to Basket: £{property_price}
         </p>

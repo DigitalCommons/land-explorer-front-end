@@ -18,7 +18,7 @@ class MapProperties extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps != this.props)
-      if (this.props.displayActive && this.props.zoom >= 18)
+      if (this.props.displayActive && this.props.zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL)
         this.getProperties();
   }
 
@@ -42,7 +42,8 @@ class MapProperties extends Component {
 
     let properties = [];
 
-    const propertiesData = response.data.slice(0, 100);
+    //const propertiesData = response.data.slice(0, 100);
+    const propertiesData = response.data;
 
     propertiesData.map((property) => {
       let json = JSON.parse(property.geojson);
@@ -86,7 +87,7 @@ class MapProperties extends Component {
   render() {
     const { loadingProperties } = this.state;
 
-    if (this.props.displayActive && this.props.zoom >= 18)
+    if (this.props.displayActive && this.props.zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL)
       return <React.Fragment>
         {loadingProperties && <Loading message={"fetching property boundaries"} />}
         {this.createProperties()}
