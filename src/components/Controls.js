@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { setLngLat, zoomIn, zoomOut, setZoom, setCurrentLocation } from '../actions/MapActions';
 import { toggleMenuKey, toggleMenuLayers, toggleMenuCouncilKey } from "../actions/MenuActions";
 import { openModal, closeModal } from "../actions/ModalActions";
+import constants from '../constants';
 
 class Controls extends Component {
 
@@ -77,6 +78,16 @@ class Controls extends Component {
                         onClick={() => this.getLocation()}
                     />
                     <div className="controls-slider">
+                        {this.props.propertiesDisplay &&
+                            <div className="zoom-button zoom-properties"
+                                style={{ marginBottom: '24px' }}
+                                onClick={() => {
+                                    if (!zooming) {
+                                        this.props.setZoom([constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL]);;
+                                    }
+                                }}
+                            />
+                        }
                         <div className="zoom-button zoom-plus"
                             style={{ marginBottom: '24px' }}
                             onClick={() => {
@@ -104,10 +115,11 @@ Controls.propTypes = {
     zoomOut: PropTypes.func
 };
 
-const mapStateToProps = ({ map, mapLayers, communityAssets }) => ({
+const mapStateToProps = ({ map, mapLayers, communityAssets, landOwnership }) => ({
     zoom: map.zoom,
     activeLayers: mapLayers.activeLayers,
-    activeCommunityAssets: communityAssets.activeCommunityAssets
+    activeCommunityAssets: communityAssets.activeCommunityAssets,
+    propertiesDisplay: landOwnership.displayActive,
 });
 
 export default connect(mapStateToProps, { setLngLat, zoomIn, zoomOut, toggleMenuKey, toggleMenuLayers, toggleMenuCouncilKey, setCurrentLocation, closeModal, openModal, setZoom })(Controls);
