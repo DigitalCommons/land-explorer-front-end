@@ -523,12 +523,15 @@ class Register extends Component {
             <p className="account-type-text">- Lorum ipsum</p>
           </div>
         </div>
+
         <div
           style={{
-            width: "100%",
+            width: "70%",
             display: "flex",
+            flexDirection: "column",
             justifyContent: "center",
-            marginBottom: "3px"
+            marginBottom: "3px",
+            marginLeft: "15%"
           }}
         >
           <label
@@ -554,20 +557,11 @@ class Register extends Component {
             />
             <div className="control_indicator"></div>
           </label>
-        </div>
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: "3px"
-          }}
-        >
           <label
             className="control control-checkbox"
             style={{ textAlign: "left", fontSize: "14px" }}
           >
-            I would like to receive marketing emails
+            Keep me up to date with Land Explorer and Digital Commons developments
             <input
               name="agree"
               type="checkbox"
