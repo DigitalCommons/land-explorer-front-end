@@ -22,6 +22,7 @@ const constants = {
     //ROOT_URL: 'http://localhost:8080',
     //ROOT_URL: 'https://localhost:44344',
     ROOT_URL: 'http://landexpl.w28.wh-2.com/server',
+    PAYMENTS_URL: 'http://localhost:4000',
     //ROOT_URL: 'http://2.101.111.138:8080',
     WP_URL: 'https://www.landexplorer.cc',
     GA_ID: 'UA-25676336-2',

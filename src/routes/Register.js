@@ -7,6 +7,7 @@ import Spinner from "react-spinkit";
 import axios from "axios/index";
 import constants from "../constants";
 import Swal from "sweetalert2";
+import GoCardlessModal from "../components/modals/GoCardlessModal";
 
 class Register extends Component {
   constructor(props) {
@@ -86,11 +87,35 @@ class Register extends Component {
     };
   }
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
-    this.setState({ registering: true });
-    this.register();
+    if (this.state.accountType == "free") {
+      this.setState({ registering: true });
+      this.register();
+    }
+    else {
+      if (this.state.formStage == "personal") {
+        const response = await axios.post(`${constants.PAYMENTS_URL}/gocardless/billing/flow`);
+        const { success, billingRequestFlowID } = response.data;
+        if (success)
+          this.setState({ formStage: "payment", billingRequestFlowID: billingRequestFlowID })
+      }
+    }
   };
+
+  handlePaymentSubmit = async e => {
+    const requestData = {
+      mandate: this.state.mandate,
+      email: this.state.email.value,
+      firstName: this.state.firstName.value,
+      lastName: this.state.lastName.value,
+      subscriptionTypeId: 1
+    }
+    const response = await axios.post(`${constants.PAYMENTS_URL}/subscription`, requestData);
+    const { success } = response.data;
+    if (success)
+      this.register();
+  }
 
   printErrors = () => {
     let errors = this.state.registerErrors;
@@ -175,13 +200,16 @@ class Register extends Component {
       accountType,
       agree,
       marketing,
-      formStage
+      formStage,
+      billingRequestFlowID,
+      mandate,
+      goCardlessVisible
     } = this.state;
 
     let formDisplay = <Fragment>
       <h2 className="title">Register</h2>
       {registerErrors && <div>{this.printErrors()} </div>}
-      <form onSubmit={accountType == "free" ? this.handleSubmit : () => this.setState({ formStage: "payment" })}>
+      <form onSubmit={this.handleSubmit}>
         <input
           type="text"
           className={`text-input text-input-half text-input-first-half
@@ -600,6 +628,36 @@ class Register extends Component {
     if (formStage == "payment")
       formDisplay = <Fragment>
         <h2>Payment</h2>
+        <p>
+          Click the GoCardless button below to set up a direct debit.
+          After the direct debit has been set up, please close the gocardless modals
+          and press Register to complete registration for Land Explorer.
+        </p>
+        {
+          (billingRequestFlowID && goCardlessVisible) &&
+          <GoCardlessModal
+            billingRequestFlowID={billingRequestFlowID}
+            setMandate={mandate => this.setState({ mandate: mandate })}
+            closeModal={() => this.setState({ goCardlessVisible: false })}
+          />
+        }
+        {
+          mandate ?
+            <p>GoCardless Success!</p>
+            :
+            <button onClick={() => this.setState({ goCardlessVisible: true })}>Open GoCardless</button>
+        }
+        <button
+          onClick={this.handlePaymentSubmit}
+          disabled={!mandate}
+          type="submit"
+          className={"button button-medium" + (mandate ? "" : " button-reg-disabled")}
+          style={{
+            paddingTop: 0,
+            marginLeft: "10px",
+            display: "inline-block"
+          }}
+        >Register</button>
       </Fragment>
 
     console.log("organisation", organisation);

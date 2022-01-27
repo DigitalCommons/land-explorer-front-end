@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import constants from '../constants';
 import { withRouter } from 'react-router';
@@ -13,7 +13,7 @@ import Tooltips from '../components/Tooltips';
 import Controls from '../components/Controls';
 import * as Auth from '../components/Auth';
 import Spinner from 'react-spinkit';
-import {logout,getAuthHeader} from '../components/Auth';
+import { logout, getAuthHeader } from '../components/Auth';
 
 class MapApp extends Component {
 
@@ -25,29 +25,29 @@ class MapApp extends Component {
         }
 
         //If uuser does not have valid token, redirect to auth
-        if(!Auth.isTokenActive()){
+        if (!Auth.isTokenActive()) {
             this.props.history.push('/auth');
         }
         //console.log(Auth.isTokenActive());
     }
 
     logoutUser() {
-        logout();        
+        logout();
         this.props.history.push('/auth');
-    }    
+    }
 
     componentDidMount() {
 
-       // let details = JSON.parse('{"eid": "e4389df1310f15f1bf883bd2528beb0af9b50be7b0bb1cd8e120087535317b52","username": "testing@wearespork.net","firstName": "Testing","lastName": "User","marketing": false,"organisation": "","organisationNumber": "","organisationType": "not-for-profit","organisationActivity": "community-development","address1": "","address2": "","city": "","postcode": "","phone": ""}');
-        
-  
+        // let details = JSON.parse('{"eid": "e4389df1310f15f1bf883bd2528beb0af9b50be7b0bb1cd8e120087535317b52","username": "testing@wearespork.net","firstName": "Testing","lastName": "User","marketing": false,"organisation": "","organisationNumber": "","organisationType": "not-for-profit","organisationActivity": "community-development","address1": "","address2": "","city": "","postcode": "","phone": ""}');
+
+
 
         // Populate user details and maps
         Promise.all([
-            axios.get(`${constants.ROOT_URL}/api/user/details/`,getAuthHeader()),
-            axios.get(`${constants.ROOT_URL}/api/user/maps/`,getAuthHeader())
+            axios.get(`${constants.ROOT_URL}/api/user/details/`, getAuthHeader()),
+            axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
         ]).then(([details, maps]) => {
-            
+
             //console.log("Logging here ============");
             //console.log(details.data[0]);
             //details.data = JSON.parse(details.data);
@@ -59,7 +59,7 @@ class MapApp extends Component {
                 //fire the initial page load analytics
                 analytics.pageview('/app/');
                 this.props.dispatch({ type: 'POPULATE_USER', payload: details.data[0] })
-            } if (details.status === 401){
+            } if (details.status === 401) {
                 //Service denied due to auth denied
                 //Most probably token expired
                 this.logoutUser();
@@ -94,6 +94,7 @@ class MapApp extends Component {
 
     render() {
         let { populated } = this.props.user;
+        console.log(this.props.user)
         // If user details and maps have been populated render map
         if (populated) {
             /*
@@ -104,8 +105,8 @@ class MapApp extends Component {
              */
             return (
                 <div>
-                    <MapboxMap />
-                    <Navbar limited={false}/>
+                    <MapboxMap user={this.props.user} />
+                    <Navbar limited={false} />
                     <Tooltips />
                     <Controls />
                 </div>
@@ -114,9 +115,9 @@ class MapApp extends Component {
             // else render loading spinner
             return (
                 <div className="full-height overflow-y">
-                    <Navbar limited={true}/>
+                    <Navbar limited={true} />
                     <div className="centered">
-                        <Spinner name="pulse" fadeIn="none"/>
+                        <Spinner name="pulse" fadeIn="none" />
                     </div>
                 </div>
             )
@@ -125,7 +126,7 @@ class MapApp extends Component {
 }
 
 
-const mapStateToProps = ({authentication, user}) => ({
+const mapStateToProps = ({ authentication, user }) => ({
     authenticated: authentication.authenticated,
     loggedIn: authentication.loggedIn,
     token: authentication.token,

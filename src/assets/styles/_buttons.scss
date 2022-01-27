@@ -21,6 +21,14 @@
   }
 }
 
+.button-reg-disabled {
+  opacity: 0.3;
+  background: $buttonGreen;
+  &:hover {
+    box-shadow: initial;
+  }
+}
+
 .round-button {
   border-radius: 50%;
   text-align: center;

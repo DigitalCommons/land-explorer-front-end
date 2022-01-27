@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "/app/",
   "dependencies": {
+    "@gocardless/react-dropin": "^0.3.0",
     "@mapbox/leaflet-omnivore": "^0.3.4",
     "@mapbox/mapbox-gl-draw": "^1.0.7",
     "@mapbox/mapbox-gl-draw-static-mode": "^1.0.1",
