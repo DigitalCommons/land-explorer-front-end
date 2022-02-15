@@ -20,11 +20,14 @@ class Nav extends Component {
     }
 
     componentDidMount() {
-        axios.get(`${constants.PAYMENTS_URL}/subscription/${this.props.user.username}/1`)
+        const LX_SUBSCRIPTION_ID = "1";
+        const SUBSCRIPTION_ACTIVE = "1";
+
+        axios.get(`${constants.PAYMENTS_URL}/subscription/${this.props.user.username}/${LX_SUBSCRIPTION_ID}`)
             .then(res => {
                 const { data: { subscription } } = res;
                 if (subscription)
-                    if (subscription.status_type == "1")
+                    if (subscription.status_type == SUBSCRIPTION_ACTIVE)
                         this.setState({ ownership: true });
             });
     }

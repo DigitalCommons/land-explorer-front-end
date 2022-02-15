@@ -30,7 +30,7 @@ class MapForSaleMarkers extends Component {
 
     if (markerInformationSet.length > 0)
       for (let i = 0; i < markerInformationSet.length; i++)
-     
+
         markers.push(
 
           <Marker
@@ -39,16 +39,16 @@ class MapForSaleMarkers extends Component {
             name={"Tyneside Cinema"}
             description={"great description"}
             anchor="bottom"
-            style={{  zIndex: 1}}
-            className = "PriceMarker"
+            style={{ zIndex: 1 }}
+            className="PriceMarker"
           >
 
-        <main className = "PriceModal">
-        <div>{ `£ ${this.props.markerInformationSet[i].price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}` }</div>
-        <div className ="ModalPointer" ></div>
-        </main>
-         
-{/* 
+            <main className="PriceModal">
+              <div>{`£ ${this.props.markerInformationSet[i].price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}`}</div>
+              <div className="ModalPointer" ></div>
+            </main>
+
+            {/* 
             {/* <img
 
               src={markerIcon}
@@ -61,7 +61,7 @@ class MapForSaleMarkers extends Component {
             /> */}
           </Marker>
         );
-        
+
     return markers;
   }
 
@@ -74,7 +74,6 @@ class MapForSaleMarkers extends Component {
         <React.Fragment>
           {this.createMarkers()}
           {this.sendDetailsToNav()}
-          
         </React.Fragment>
       );
     return null;
