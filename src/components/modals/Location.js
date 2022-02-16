@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from '../common/Modal';
-import Spinner from 'react-spinkit';
+//import Spinner from 'react-spinkit';
 
 const Location = () => (
     <Modal id="location">
@@ -10,8 +10,8 @@ const Location = () => (
             alignItems: 'center',
         }}>
             <p>Finding your location..</p>
-            <br/>
-            <Spinner name="pulse" fadeIn="none"/>
+            <br />
+            {/*<Spinner name="pulse" fadeIn="none" />*/}
         </div>
     </Modal>
 );

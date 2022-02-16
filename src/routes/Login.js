@@ -4,9 +4,9 @@ import Navbar from "../components/Navbar";
 import * as Auth from "../components/Auth";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { withRouter } from "react-router";
+import withRouter from "../components/common/withRouter";
 import axios from "axios";
-import Spinner from "react-spinkit";
+/*import Spinner from "react-spinkit";*/
 import constants from "../constants";
 import { tokensToFunction } from "path-to-regexp";
 
@@ -93,7 +93,7 @@ class Login extends Component {
             display: loggingIn ? "block" : "none"
           }}
         >
-          <Spinner name="pulse" fadeIn="none" />
+          {/*<Spinner name="pulse" fadeIn="none" />*/}
         </div>
         <div
           style={{

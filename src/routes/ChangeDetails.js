@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import Spinner from 'react-spinkit';
+//import Spinner from 'react-spinkit';
 import Navbar from '../components/Navbar';
 import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import constants from '../constants';
 import { getUserDetails } from '../actions/UserActions';
 import analytics from "../analytics";
-import {getAuthHeader} from '../components/Auth';
+import { getAuthHeader } from '../components/Auth';
 
 
 class ChangeDetails extends Component {
@@ -56,7 +56,7 @@ class ChangeDetails extends Component {
                 organisationActivity = 'other';
             }
         }
-        this.state ={
+        this.state = {
             firstName: {
                 value: user.firstName,
                 valid: ''
@@ -115,7 +115,7 @@ class ChangeDetails extends Component {
         }
     }
 
-    componentDidMount (){
+    componentDidMount() {
         analytics.pageview(window.location.pathname);
     }
 
@@ -158,11 +158,11 @@ class ChangeDetails extends Component {
                 } else {
                     this.setState({ errors: true });
                 }
-                this.setState({submitting: false})
+                this.setState({ submitting: false })
             })
             .catch(err => {
-                this.setState({errors: ["We could not change your details at the moment. Please try again later."]});
-                this.setState({submitting: false});
+                this.setState({ errors: ["We could not change your details at the moment. Please try again later."] });
+                this.setState({ submitting: false });
             });
     }
 
@@ -178,28 +178,28 @@ class ChangeDetails extends Component {
                 <div
                     className="registration modal"
                     style={{
-                    height: 'auto',
-                    width: '340px',
-                    maxWidth: '90vw',
-                    background: 'white',
-                    boxSizing: 'border-box',
-                    textAlign: 'center',
-                    paddingLeft: '24px',
-                    paddingRight: '24px',
-                    paddingBottom: '24px',
-                    paddingTop: '28px',
-                    borderRadius: '8px',
-                    margin: '0',
-                }}>
+                        height: 'auto',
+                        width: '340px',
+                        maxWidth: '90vw',
+                        background: 'white',
+                        boxSizing: 'border-box',
+                        textAlign: 'center',
+                        paddingLeft: '24px',
+                        paddingRight: '24px',
+                        paddingBottom: '24px',
+                        paddingTop: '28px',
+                        borderRadius: '8px',
+                        margin: '0',
+                    }}>
                     <div>
                         <div>
                             Your details have been changed successfully.
                         </div>
-                        <div style={{marginTop: '24px'}}>
+                        <div style={{ marginTop: '24px' }}>
                             <Link to="/app/my-account">
                                 <div
                                     className="button button-small"
-                                    style={{display: 'inline-block', marginRight: '12px'}}
+                                    style={{ display: 'inline-block', marginRight: '12px' }}
                                     onClick={getUserDetails}
                                 >
                                     Ok
@@ -221,7 +221,7 @@ class ChangeDetails extends Component {
                         textAlign: 'center',
                     }}
                 >
-                    <Spinner name="pulse" fadeIn="none" color="white"/>
+                    {/*<Spinner name="pulse" fadeIn="none" color="white"/>*/}
                 </div>
             )
         } else {
@@ -229,237 +229,237 @@ class ChangeDetails extends Component {
                 <div style={{
                     height: '200vh'
                 }}>
-                <div
-                    className="registration modal"
-                    style={{
-                    height: 'auto',
-                    minHeight: '200px',
-                    width: '340px',
-                    maxWidth: '90vw',
-                    background: 'white',
-                    boxSizing: 'border-box',
-                    textAlign: 'center',
-                    paddingLeft: '24px',
-                    paddingRight: '24px',
-                    paddingBottom: '12px',
-                    paddingTop: '6px',
-                    borderRadius: '8px',
-                    margin: '0'
-                }}>
                     <div
+                        className="registration modal"
                         style={{
-                            display: submitting ? 'none' : 'block'
+                            height: 'auto',
+                            minHeight: '200px',
+                            width: '340px',
+                            maxWidth: '90vw',
+                            background: 'white',
+                            boxSizing: 'border-box',
+                            textAlign: 'center',
+                            paddingLeft: '24px',
+                            paddingRight: '24px',
+                            paddingBottom: '12px',
+                            paddingTop: '6px',
+                            borderRadius: '8px',
+                            margin: '0'
                         }}>
-                        <h3 style={{ fontWeight: 600 }}>Details</h3>
-                        <Link to="/app/my-account"
-                              className="modal-close"
-                        />
-                        <br/>
-                        {
-                            errors && (
-                                <div>
-                                    {this.printErrors()}
-                                    <br/>
-                                </div>
-                            )
-                        }
-                        <form onSubmit={this.changeDetails}>
-                            <input
-                                type="text"
-                                className={`text-input
-                                ${ (organisation.valid !== '') ? organisation.valid ? 'valid' : 'invalid' : '' }`}
-                                placeholder="Organisation Name"
-                                value={organisation.value}
-                                onChange={(e) => {
-                                    let value = e.target.value;
-                                    let valid = value !== '';
-                                    this.setState({organisation: {value, valid}});
-                                }}
+                        <div
+                            style={{
+                                display: submitting ? 'none' : 'block'
+                            }}>
+                            <h3 style={{ fontWeight: 600 }}>Details</h3>
+                            <Link to="/app/my-account"
+                                className="modal-close"
                             />
-                            <Select
-                                name="organisation-type"
-                                value={organisationType.value}
-                                onChange={(selectedOption) => {
-                                    let value = selectedOption.value;
-                                    let valid = value !== '';
-                                    this.setState({ organisationType: { value, valid }})
-                                }}
-                                options={[
-                                    {value: 'academic-institution', label: 'Academic institution'},
-                                    {value: 'community-group', label: 'Community group'},
-                                    {value: 'not-for-profit', label: 'Not for profit organisation'},
-                                    {value: 'private-sector', label: 'Private sector'},
-                                    {value: 'public-sector', label: 'Public sector'},
-                                    {value: 'sole-trader', label: 'Sole trader'},
-                                    {value: 'other', label: 'Other'}
-                                ]}
-                                clearable={false}
-                                searchable={false}
-                                placeholder="Organisation type"
-                            />
+                            <br />
                             {
-                                (organisationType.value === 'other') && (
-                                    <input
-                                        type="text"
-                                        className={`text-input
-                                            ${ (organisationTypeOther.valid !== '') ? organisationTypeOther.valid ? 'valid' : 'invalid' : '' }`}
-                                        placeholder="Specify organisation type"
-                                        value={organisationTypeOther.value}
-                                        onChange={(e) => {
-                                            let value = e.target.value;
-                                            let valid = value !== '';
-                                            this.setState({ organisationTypeOther: { value, valid } })
-                                        }}
-                                    />
+                                errors && (
+                                    <div>
+                                        {this.printErrors()}
+                                        <br />
+                                    </div>
                                 )
                             }
-                            <Select
-                                name="organisation-activity"
-                                value={organisationActivity.value}
-                                onChange={(selectedOption) => {
-                                    let value = selectedOption.value;
-                                    let valid = value !== '';
-                                    this.setState({ organisationActivity: { value, valid }})
-                                }}
-                                options={[
-                                    {value: 'amenity-recreation', label: 'Amenity and recreation'},
-                                    {value: 'community-development', label: 'Community development'},
-                                    {value: 'conservation-biodiversity', label: 'Conservation and biodiversity'},
-                                    {value: 'economic-development', label: 'Economic development'},
-                                    {value: 'food-growing', label: 'Food growing'},
-                                    {value: 'health-services', label: 'Health services'},
-                                    {value: 'housing', label: 'Housing'},
-                                    {value: 'neighbourhood-planning', label: 'Neighbourhood planning'},
-                                    {value: 'policy-development', label: 'Policy development'},
-                                    {value: 'professional-consultancy', label: 'Professional / consultancy services'},
-                                    {value: 'public-services', label: 'Public services'},
-                                    {value: 'renewable-energy-generation', label: 'Renewable energy generation'},
-                                    {value: 'training-education', label: 'Training and education services'},
-                                    {value: 'woodland-management', label: 'Woodland management'},
-                                    {value: 'other', label: 'Other'}
-                                ]}
-                                clearable={false}
-                                searchable={false}
-                                placeholder="Organisation activity"
-                            />
-                            {
-                                (organisationActivity.value === 'other') && (
-                                    <input
-                                        type="text"
-                                        className={`text-input
-                                            ${ (organisationActivityOther.valid !== '') ? organisationActivityOther.valid ? 'valid' : 'invalid' : '' }`}
-                                        placeholder="Specify organisation activity"
-                                        value={organisationActivityOther.value}
-                                        onChange={(e) => {
-                                            let value = e.target.value;
-                                            let valid = value !== '';
-                                            this.setState({ organisationActivityOther: { value, valid } })
-                                        }}
-                                    />
-                                )
-                            }
-                            <input
-                                type="text"
-                                className={`text-input
-                                ${ (firstName.valid !== '') ? firstName.valid ? 'valid' : 'invalid' : '' }`}
-                                placeholder="First name"
-                                value={firstName.value}
-                                onChange={(e) => {
-                                    let value = e.target.value;
-                                    let valid = ((value.length > 2) && (value.length < 20));
-                                    this.setState({
-                                        firstName: {value, valid}
-                                    })
-                                }}
-                            />
-                            <input
-                                type="text"
-                                className={`text-input
-                                ${ (lastName.valid !== '') ? lastName.valid ? 'valid' : 'invalid' : '' }`}
-                                placeholder="Last name"
-                                value={lastName.value}
-                                onChange={(e) => {
-                                    let value = e.target.value;
-                                    let valid = ((value.length > 2) && (value.length < 20));
-                                    this.setState({
-                                        lastName: {value, valid}
-                                    })
-                                }}
-                            />
-                            <input
-                                type="text"
-                                className={`text-input
-                                ${ (address1.valid !== '') ? address1.valid ? 'valid' : 'invalid' : '' }`}
-                                placeholder="Address 1"
-                                value={address1.value}
-                                onChange={(e) => {
-                                    let value = e.target.value;
-                                    let valid = value !== '';
-                                    this.setState({address1: {value, valid}});
-                                }}
-                            />
-                            <input
-                                type="text"
-                                className={`text-input`}
-                                placeholder="Address 2"
-                                value={address2.value}
-                                onChange={(e) => {
-                                    let value = e.target.value;
-                                    let valid = true;
-                                    this.setState({address2: {value, valid}});
-                                }}
-                            />
-                            <input
-                                type="text"
-                                className={`text-input
-                                ${ (city.valid !== '') ? city.valid ? 'valid' : 'invalid' : '' }`}
-                                placeholder="City"
-                                value={city.value}
-                                onChange={(e) => {
-                                    let value = e.target.value;
-                                    let valid = value !== '';
-                                    this.setState({city: {value, valid}});
-                                }}
-                            />
-                            <input
-                                type="text"
-                                className={`text-input
-                                ${ (postcode.valid !== '') ? postcode.valid ? 'valid' : 'invalid' : '' }`}
-                                placeholder="Postcode"
-                                value={postcode.value}
-                                onChange={(e) => {
-                                    let value = e.target.value;
-                                    let valid = ukPostcodeRegexp.test(value);
-                                    this.setState({postcode: {value, valid}});
-                                }}
-                            />
-                            <input
-                                type="text"
-                                className={`text-input
-                                ${ (phone.valid !== '') ? phone.valid ? 'valid' : 'invalid' : '' }`}
-                                placeholder="Tel"
-                                value={phone.value}
-                                onChange={(e) => {
-                                    let value = e.target.value;
-                                    let valid = ukPhoneRegexp.test(value);
-                                    this.setState({phone: {value, valid}});
-                                }}
-                            />
-                            <div style={{marginTop: '24px'}}>
+                            <form onSubmit={this.changeDetails}>
                                 <input
-                                    type="submit"
-                                    value="Save Changes"
-                                    className="button button-full"
-                                    style={{
-                                        paddingTop: 0,
-                                        marginBottom: '12px',
-                                        display: 'inline-block'
+                                    type="text"
+                                    className={`text-input
+                                ${(organisation.valid !== '') ? organisation.valid ? 'valid' : 'invalid' : ''}`}
+                                    placeholder="Organisation Name"
+                                    value={organisation.value}
+                                    onChange={(e) => {
+                                        let value = e.target.value;
+                                        let valid = value !== '';
+                                        this.setState({ organisation: { value, valid } });
                                     }}
                                 />
-                            </div>
-                        </form>
+                                <Select
+                                    name="organisation-type"
+                                    value={organisationType.value}
+                                    onChange={(selectedOption) => {
+                                        let value = selectedOption.value;
+                                        let valid = value !== '';
+                                        this.setState({ organisationType: { value, valid } })
+                                    }}
+                                    options={[
+                                        { value: 'academic-institution', label: 'Academic institution' },
+                                        { value: 'community-group', label: 'Community group' },
+                                        { value: 'not-for-profit', label: 'Not for profit organisation' },
+                                        { value: 'private-sector', label: 'Private sector' },
+                                        { value: 'public-sector', label: 'Public sector' },
+                                        { value: 'sole-trader', label: 'Sole trader' },
+                                        { value: 'other', label: 'Other' }
+                                    ]}
+                                    clearable={false}
+                                    searchable={false}
+                                    placeholder="Organisation type"
+                                />
+                                {
+                                    (organisationType.value === 'other') && (
+                                        <input
+                                            type="text"
+                                            className={`text-input
+                                            ${(organisationTypeOther.valid !== '') ? organisationTypeOther.valid ? 'valid' : 'invalid' : ''}`}
+                                            placeholder="Specify organisation type"
+                                            value={organisationTypeOther.value}
+                                            onChange={(e) => {
+                                                let value = e.target.value;
+                                                let valid = value !== '';
+                                                this.setState({ organisationTypeOther: { value, valid } })
+                                            }}
+                                        />
+                                    )
+                                }
+                                <Select
+                                    name="organisation-activity"
+                                    value={organisationActivity.value}
+                                    onChange={(selectedOption) => {
+                                        let value = selectedOption.value;
+                                        let valid = value !== '';
+                                        this.setState({ organisationActivity: { value, valid } })
+                                    }}
+                                    options={[
+                                        { value: 'amenity-recreation', label: 'Amenity and recreation' },
+                                        { value: 'community-development', label: 'Community development' },
+                                        { value: 'conservation-biodiversity', label: 'Conservation and biodiversity' },
+                                        { value: 'economic-development', label: 'Economic development' },
+                                        { value: 'food-growing', label: 'Food growing' },
+                                        { value: 'health-services', label: 'Health services' },
+                                        { value: 'housing', label: 'Housing' },
+                                        { value: 'neighbourhood-planning', label: 'Neighbourhood planning' },
+                                        { value: 'policy-development', label: 'Policy development' },
+                                        { value: 'professional-consultancy', label: 'Professional / consultancy services' },
+                                        { value: 'public-services', label: 'Public services' },
+                                        { value: 'renewable-energy-generation', label: 'Renewable energy generation' },
+                                        { value: 'training-education', label: 'Training and education services' },
+                                        { value: 'woodland-management', label: 'Woodland management' },
+                                        { value: 'other', label: 'Other' }
+                                    ]}
+                                    clearable={false}
+                                    searchable={false}
+                                    placeholder="Organisation activity"
+                                />
+                                {
+                                    (organisationActivity.value === 'other') && (
+                                        <input
+                                            type="text"
+                                            className={`text-input
+                                            ${(organisationActivityOther.valid !== '') ? organisationActivityOther.valid ? 'valid' : 'invalid' : ''}`}
+                                            placeholder="Specify organisation activity"
+                                            value={organisationActivityOther.value}
+                                            onChange={(e) => {
+                                                let value = e.target.value;
+                                                let valid = value !== '';
+                                                this.setState({ organisationActivityOther: { value, valid } })
+                                            }}
+                                        />
+                                    )
+                                }
+                                <input
+                                    type="text"
+                                    className={`text-input
+                                ${(firstName.valid !== '') ? firstName.valid ? 'valid' : 'invalid' : ''}`}
+                                    placeholder="First name"
+                                    value={firstName.value}
+                                    onChange={(e) => {
+                                        let value = e.target.value;
+                                        let valid = ((value.length > 2) && (value.length < 20));
+                                        this.setState({
+                                            firstName: { value, valid }
+                                        })
+                                    }}
+                                />
+                                <input
+                                    type="text"
+                                    className={`text-input
+                                ${(lastName.valid !== '') ? lastName.valid ? 'valid' : 'invalid' : ''}`}
+                                    placeholder="Last name"
+                                    value={lastName.value}
+                                    onChange={(e) => {
+                                        let value = e.target.value;
+                                        let valid = ((value.length > 2) && (value.length < 20));
+                                        this.setState({
+                                            lastName: { value, valid }
+                                        })
+                                    }}
+                                />
+                                <input
+                                    type="text"
+                                    className={`text-input
+                                ${(address1.valid !== '') ? address1.valid ? 'valid' : 'invalid' : ''}`}
+                                    placeholder="Address 1"
+                                    value={address1.value}
+                                    onChange={(e) => {
+                                        let value = e.target.value;
+                                        let valid = value !== '';
+                                        this.setState({ address1: { value, valid } });
+                                    }}
+                                />
+                                <input
+                                    type="text"
+                                    className={`text-input`}
+                                    placeholder="Address 2"
+                                    value={address2.value}
+                                    onChange={(e) => {
+                                        let value = e.target.value;
+                                        let valid = true;
+                                        this.setState({ address2: { value, valid } });
+                                    }}
+                                />
+                                <input
+                                    type="text"
+                                    className={`text-input
+                                ${(city.valid !== '') ? city.valid ? 'valid' : 'invalid' : ''}`}
+                                    placeholder="City"
+                                    value={city.value}
+                                    onChange={(e) => {
+                                        let value = e.target.value;
+                                        let valid = value !== '';
+                                        this.setState({ city: { value, valid } });
+                                    }}
+                                />
+                                <input
+                                    type="text"
+                                    className={`text-input
+                                ${(postcode.valid !== '') ? postcode.valid ? 'valid' : 'invalid' : ''}`}
+                                    placeholder="Postcode"
+                                    value={postcode.value}
+                                    onChange={(e) => {
+                                        let value = e.target.value;
+                                        let valid = ukPostcodeRegexp.test(value);
+                                        this.setState({ postcode: { value, valid } });
+                                    }}
+                                />
+                                <input
+                                    type="text"
+                                    className={`text-input
+                                ${(phone.valid !== '') ? phone.valid ? 'valid' : 'invalid' : ''}`}
+                                    placeholder="Tel"
+                                    value={phone.value}
+                                    onChange={(e) => {
+                                        let value = e.target.value;
+                                        let valid = ukPhoneRegexp.test(value);
+                                        this.setState({ phone: { value, valid } });
+                                    }}
+                                />
+                                <div style={{ marginTop: '24px' }}>
+                                    <input
+                                        type="submit"
+                                        value="Save Changes"
+                                        className="button button-full"
+                                        style={{
+                                            paddingTop: 0,
+                                            marginBottom: '12px',
+                                            display: 'inline-block'
+                                        }}
+                                    />
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
                 </div>
             );
         }

@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
     entry: [
-        'react-hot-loader/patch',
+        // 'react-hot-loader/patch',
         './src/index.js'
     ],
     output: {
@@ -15,7 +15,7 @@ const config = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            templateContent: ({ htmlWebpackPlugin }) => '<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>' + htmlWebpackPlugin.options.title + '</title></head><body><div id=\"app\"></div></body></html>',
+            templateContent: ({ htmlWebpackPlugin }) => '<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>' + htmlWebpackPlugin.options.title + '</title></head><body><div id=\"root\"></div></body></html>',
             filename: 'index.html',
         })
     ],

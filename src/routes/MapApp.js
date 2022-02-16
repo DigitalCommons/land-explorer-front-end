@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import constants from '../constants';
-import { withRouter } from 'react-router';
+import withRouter from "../components/common/withRouter";
 import { isMobile } from 'react-device-detect';
 import analytics from '../analytics';
 
@@ -12,7 +12,7 @@ import '../assets/styles/style.scss';
 import Tooltips from '../components/Tooltips';
 import Controls from '../components/Controls';
 import * as Auth from '../components/Auth';
-import Spinner from 'react-spinkit';
+//import Spinner from 'react-spinkit';
 import { logout, getAuthHeader } from '../components/Auth';
 
 class MapApp extends Component {
@@ -25,19 +25,22 @@ class MapApp extends Component {
         }
 
         //If uuser does not have valid token, redirect to auth
-        if (!Auth.isTokenActive()) {
-            this.props.history.push('/auth');
-        }
+
         //console.log(Auth.isTokenActive());
     }
 
     logoutUser() {
         logout();
-        this.props.history.push('/auth');
+        //this.props.history.push('/auth');
+        this.props.router.navigate("/auth", { replace: true });
     }
 
     componentDidMount() {
-
+        if (!Auth.isTokenActive()) {
+            console.log("no token, redirecting")
+            //this.props.history.push('/auth');
+            this.props.router.navigate("/auth", { replace: true });
+        }
         // let details = JSON.parse('{"eid": "e4389df1310f15f1bf883bd2528beb0af9b50be7b0bb1cd8e120087535317b52","username": "testing@wearespork.net","firstName": "Testing","lastName": "User","marketing": false,"organisation": "","organisationNumber": "","organisationType": "not-for-profit","organisationActivity": "community-development","address1": "","address2": "","city": "","postcode": "","phone": ""}');
 
 
@@ -117,7 +120,7 @@ class MapApp extends Component {
                 <div className="full-height overflow-y">
                     <Navbar limited={true} />
                     <div className="centered">
-                        <Spinner name="pulse" fadeIn="none" />
+                        {/*<Spinner name="pulse" fadeIn="none" />*/}
                     </div>
                 </div>
             )

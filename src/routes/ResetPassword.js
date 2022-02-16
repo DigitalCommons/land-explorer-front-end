@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import Spinner from 'react-spinkit';
+//import Spinner from 'react-spinkit';
 import constants from '../constants';
 import analytics from '../analytics';
 
@@ -34,7 +34,7 @@ class ResetPassword extends Component {
             .then((response) => {
                 console.log("reset response", response);
                 this.setState({ success: true });
-	            analytics.event(analytics._event.PASSWORD_RESET,'Success');
+                analytics.event(analytics._event.PASSWORD_RESET, 'Success');
             })
             .catch(err => console.log(err));
     }
@@ -72,9 +72,9 @@ class ResetPassword extends Component {
                             borderRadius: '8px'
                         }}
                     >
-                        <h3 style={{fontWeight: 600}}>Password reset requested</h3>
+                        <h3 style={{ fontWeight: 600 }}>Password reset requested</h3>
                         <Link to="/auth/">
-                            <div className="button button-small" style={{margin: 'auto'}}>Ok</div>
+                            <div className="button button-small" style={{ margin: 'auto' }}>Ok</div>
                         </Link>
                     </div>
                 </div>
@@ -100,7 +100,7 @@ class ResetPassword extends Component {
                         paddingBottom: '12px',
                         borderRadius: '8px'
                     }}>
-                        <h3 style={{fontWeight: 600}}>Reset Password</h3>
+                        <h3 style={{ fontWeight: 600 }}>Reset Password</h3>
                         <form onSubmit={this.handleSubmit}>
                             <input
                                 type="text"
@@ -115,7 +115,7 @@ class ResetPassword extends Component {
                                     })
                                 }}
                             />
-                            <div style={{ marginTop: '16px'}}>
+                            <div style={{ marginTop: '16px' }}>
                                 <input
                                     type="submit"
                                     value="Reset"

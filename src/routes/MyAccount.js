@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Navbar from '../components/Navbar';
-import { Link, Redirect, Route, Switch } from 'react-router-dom';
+import { Link, Redirect, Route, Routes } from 'react-router-dom';
 import Select from 'react-select';
-import Spinner from 'react-spinkit';
+//import Spinner from 'react-spinkit';
 import axios from "axios/index";
 import ChangePassword from "./ChangePassword";
 import ChangeEmail from "./ChangeEmail";
@@ -23,7 +23,7 @@ class MyAccount extends Component {
     }
 
     componentDidMount() {
-	    analytics.pageview(window.location.pathname);
+        analytics.pageview(window.location.pathname);
         this.props.closeMenus();
         this.props.getUserDetails();
         setTimeout(() => {
@@ -37,13 +37,13 @@ class MyAccount extends Component {
         return this.props.populated ? (
             <div>
                 <div className="Modal"
-                     style={{
-                         opacity: this.state.background,
-                         transition: 'opacity 300ms'
-                     }}
+                    style={{
+                        opacity: this.state.background,
+                        transition: 'opacity 300ms'
+                    }}
                 />
                 <div className="my-account-container">
-                    <Switch>
+                    <Routes>
                         <Route exact path="/app/my-account" render={() => (
                             <div
                                 className="registration modal"
@@ -66,28 +66,28 @@ class MyAccount extends Component {
                                     {this.props.initials}
                                 </div>
                                 <h3 style={{ fontWeight: 600 }}>My Account</h3>
-                                <br/>
+                                <br />
                                 <div style={{
                                     display: 'flex',
                                     flexDirection: 'column',
                                     alignItems: 'center'
                                 }}>
                                     <Link to="/app/"
-                                          className="modal-close"
+                                        className="modal-close"
                                     />
                                     <div className="my-account--option">
                                         <div className="my-account--option--left">
                                             <img src={require('../assets/img/icon-details.svg')} alt=""
-                                                 style={{
-                                                     height: '18px',
-                                                     width: '18px',
-                                                     marginRight: '18px'
-                                                 }}
+                                                style={{
+                                                    height: '18px',
+                                                    width: '18px',
+                                                    marginRight: '18px'
+                                                }}
                                             />
                                             Details
                                         </div>
                                         <Link to="/app/my-account/details"
-                                              className="button button-small"
+                                            className="button button-small"
                                         >
                                             Edit
                                         </Link>
@@ -95,16 +95,16 @@ class MyAccount extends Component {
                                     <div className="my-account--option">
                                         <div className="my-account--option--left">
                                             <img src={require('../assets/img/icon-mail.svg')} alt=""
-                                                 style={{
-                                                     height: '24px',
-                                                     width: '24px',
-                                                     marginRight: '12px'
-                                                 }}
+                                                style={{
+                                                    height: '24px',
+                                                    width: '24px',
+                                                    marginRight: '12px'
+                                                }}
                                             />
                                             Email
                                         </div>
                                         <Link to="/app/my-account/email"
-                                              className="button button-small"
+                                            className="button button-small"
                                         >
                                             Edit
                                         </Link>
@@ -112,31 +112,32 @@ class MyAccount extends Component {
                                     <div className="my-account--option">
                                         <div className="my-account--option--left">
                                             <img src={require('../assets/img/icon-lock.svg')} alt=""
-                                                 style={{
-                                                     height: '22px',
-                                                     width: '22px',
-                                                     marginRight: '12px'
-                                                 }}
+                                                style={{
+                                                    height: '22px',
+                                                    width: '22px',
+                                                    marginRight: '12px'
+                                                }}
                                             />
                                             Password
                                         </div>
                                         <Link to="/app/my-account/password"
-                                              className="button button-small"
+                                            className="button button-small"
                                         >
                                             Edit
                                         </Link>
                                     </div>
                                 </div>
                             </div>
-                        )}/>
+                        )} />
                         <Route exact path="/app/my-account/details" component={ChangeDetails} />
                         <Route exact path="/app/my-account/email" component={ChangeEmail} />
                         <Route exact path="/app/my-account/password" component={ChangePassword} />
-                    </Switch>
+                    </Routes>
                 </div>
             </div>
         ) : (
-            <Spinner/>
+            <div> {/*<Spinner />*/}</div>
+
         );
     }
 }

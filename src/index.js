@@ -7,10 +7,8 @@ import rootReducer from './reducers/rootReducer';
 import {
     BrowserRouter,
     Route,
-    Link,
-    Redirect,
-    withRouter,
-    Switch
+    Navigate,
+    Routes
 } from 'react-router-dom';
 import '../node_modules/leaflet-draw/dist/leaflet.draw.css';
 import './index.css';
@@ -31,34 +29,18 @@ const store = createStore(rootReducer, {}, composeEnhancers(
     applyMiddleware(ReduxThunk)
 ));
 
-
-const AppRoute = (path) => <>
-    <Route path="/app">
-        <MapApp />
-    </Route>
-    <Route path="/app/my-account">
-        <MyAccount />
-    </Route>
-</>
-
-
-const AuthRoute = (path) => (
-    <div>
-        <Authentication />
-    </div>
-)
+console.log("hello")
 
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <Switch>
-                <Route path="/app">
-                    <AppRoute />
-                </Route>
-                <Route path="/auth" component={AuthRoute} />
-                <Route exact path="/"><Redirect to="/app" /></Route>
-                <Route component={FourOhFour} />
-            </Switch>
+            <Routes>
+                <Route path="/app" element={<MapApp />} />
+                <Route path="/app/my-account" element={<MyAccount />} />
+                <Route path="/auth/*" element={<Authentication />} />
+                <Route exact path="/" element={<Navigate to="/app" replace={true} />} />
+                <Route path="*" element={<FourOhFour />} />
+            </Routes>
         </BrowserRouter>
     </Provider>,
     document.getElementById('root')
