@@ -11,7 +11,7 @@ import ReactMapboxGl, {
 } from "react-mapbox-gl";
 import update from "immutability-helper";
 import * as MapboxGL from "mapbox-gl";
-import * as turf from "@turf/turf/turf.js";
+import * as turf from "@turf/turf";
 import MapboxDraw from "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.js";
 import DrawControl from "react-mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
