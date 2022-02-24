@@ -1,43 +1,43 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link, Redirect  } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import { getMyMaps } from '../actions/MapActions';
 import { openModal } from '../actions/ModalActions';
 import { changeUser } from '../actions/UserActions'
 import analytics from '../analytics';
 import constants from '../constants';
-import {logout} from '../components/Auth';
-import { withRouter } from 'react-router';
+import { logout } from '../components/Auth';
+import withRouter from "../components/common/withRouter";
 
 class MenuProfile extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.dispatchUserChange = this.dispatchUserChange.bind(this);
     }
 
     logoutUser(e) {
-        logout();        
-        window.location.href = "/auth";
+        logout();
+        this.props.router.navigate("/auth")
     }
 
-    dispatchUserChange(event){
+    dispatchUserChange(event) {
         this.props.changeUser(event.target.id);
     }
 
-    ifPrivilegedDisplayButtons(privileged){
-        if(privileged)
+    ifPrivilegedDisplayButtons(privileged) {
+        if (privileged)
             return <div>
-                        <div className="tooltip-menu-item"
-                             onClick={this.dispatchUserChange}
-                             id = "core"
-                        >Core</div>
-                        <div className="tooltip-menu-item"
-                             onClick={this.dispatchUserChange}
-                             id = "council"
-                        >Council</div>
-                    </div>
+                <div className="tooltip-menu-item"
+                    onClick={this.dispatchUserChange}
+                    id="core"
+                >Core</div>
+                <div className="tooltip-menu-item"
+                    onClick={this.dispatchUserChange}
+                    id="council"
+                >Council</div>
+            </div>
     }
 
     render() {
@@ -53,48 +53,48 @@ class MenuProfile extends Component {
                         </div>
                     </Link>
                     <div className="tooltip-menu-item"
-                         onClick={() => {
-                             getMyMaps();
-                             analytics.pageview('/app/my-maps');
-                             openModal('myMaps');
-                         }}
+                        onClick={() => {
+                            getMyMaps();
+                            analytics.pageview('/app/my-maps');
+                            openModal('myMaps');
+                        }}
                     >
                         My Maps
                     </div>
                     <div className="tooltip-menu-item"
-                         onClick={() => {
-                             getMyMaps();
-                             analytics.pageview('/app/my-shared-maps');
-                             openModal('mySharedMaps');
-                         }}
+                        onClick={() => {
+                            getMyMaps();
+                            analytics.pageview('/app/my-shared-maps');
+                            openModal('mySharedMaps');
+                        }}
                     >
                         Shared Maps
                     </div>
                     {this.ifPrivilegedDisplayButtons(privileged)}
                     <div className="tooltip-menu-item no-hover"
-                         style={{
-                             marginTop: '10px'
-                         }}
+                        style={{
+                            marginTop: '10px'
+                        }}
                     >
-                        
+
                         <div className="button button-medium"
-                             onClick={(e) => {
+                            onClick={(e) => {
                                 e.preventDefault();
-                                window.open(constants.WP_URL+'/#donate');
-                              }}
+                                window.open(constants.WP_URL + '/#donate');
+                            }}
                         >Donate</div>
                     </div>
                     <div className="tooltip-menu-item no-hover"
-                         style={{
-                             marginBottom: '10px'
-                         }}
+                        style={{
+                            marginBottom: '10px'
+                        }}
                     >
                         <div className="button button-medium" onClick={this.logoutUser.bind(this)}
-                                     /*onClick={(e) => {
-                                         e.preventDefault();
-                                         window.location = "/logout";
-                                     }}*/
-                                >Logout</div>
+                        /*onClick={(e) => {
+                            e.preventDefault();
+                            window.location = "/logout";
+                        }}*/
+                        >Logout</div>
                     </div>
                 </div>
             </div>
@@ -111,4 +111,4 @@ const mapStateToProps = ({ menu, user }) => ({
     privileged: user.privileged
 });
 
-export default connect(mapStateToProps, { getMyMaps, openModal, changeUser })(MenuProfile);
+export default connect(mapStateToProps, { getMyMaps, openModal, changeUser })(withRouter(MenuProfile));

@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Marker, Popup } from 'react-mapbox-gl';
 import { connect } from 'react-redux';
 
 class MarkerPin extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             editing: false,
@@ -20,9 +20,6 @@ class MarkerPin extends Component {
     }
 
     render() {
-        const markerIcon = require('../assets/img/icon-marker-new--dark-grey.svg');
-        const markerIconAerial = require('../assets/img/icon-marker-new--white.svg');
-        const markerIconActive = require('../assets/img/icon-marker-new--green.svg');
         let { marker, currentMarker, activeTool, readOnly, baseLayer } = this.props;
         let { hidden, input, editing } = this.state;
         let active = currentMarker === marker.id;
@@ -36,27 +33,27 @@ class MarkerPin extends Component {
                     name={marker.name}
                     description={marker.description}
                     anchor="bottom"
-                    style={{ height: '40px', zIndex: 1}}
+                    style={{ height: '40px', zIndex: 1 }}
                 >
-                    <img src={ active ? markerIconActive : baseLayer === 'aerial' ? markerIconAerial : markerIcon } alt=""
-                         style={{
-                             height: 40,
-                             width: 40,
-                             zIndex: 1
-                         }}
-                         onClick={(evt) => {
-                             if (!activeTool) {
-                                 if (marker.id === currentMarker) {
-                                     this.props.dispatch({ type: 'CLEAR_CURRENT_MARKER' });
-                                     this.setState({hidden: false});
-                                 } else {
-                                     this.props.dispatch({
-                                         type: 'SET_CURRENT_MARKER',
-                                         payload: marker.id
-                                     })
-                                 }
-                             }
-                         }}
+                    <div className={active ? "marker-icon-active" : baseLayer === 'aerial' ? "marker-icon-aerial" : "marker-icon"}
+                        style={{
+                            height: 40,
+                            width: 40,
+                            zIndex: 1
+                        }}
+                        onClick={(evt) => {
+                            if (!activeTool) {
+                                if (marker.id === currentMarker) {
+                                    this.props.dispatch({ type: 'CLEAR_CURRENT_MARKER' });
+                                    this.setState({ hidden: false });
+                                } else {
+                                    this.props.dispatch({
+                                        type: 'SET_CURRENT_MARKER',
+                                        payload: marker.id
+                                    })
+                                }
+                            }
+                        }}
                     />
                 </Marker>
                 <Popup
@@ -82,7 +79,7 @@ class MarkerPin extends Component {
                             <div
                                 className="popup-close"
                                 onClick={() => {
-                                    this.setState({hidden: true})
+                                    this.setState({ hidden: true })
                                 }}
                             />
                         )}
@@ -111,62 +108,62 @@ class MarkerPin extends Component {
                             this.state.editing ? (
                                 <div className="popup-buttons">
                                     <div className="left"
-                                         style={{
-                                             color: 'rgba(208, 2, 78, 0.95)'
-                                         }}
-                                         onClick={() => {
-                                             this.setState({
-                                                 editing: !this.state.editing,
-                                                 input: null
-                                             });
-                                         }}
+                                        style={{
+                                            color: 'rgba(208, 2, 78, 0.95)'
+                                        }}
+                                        onClick={() => {
+                                            this.setState({
+                                                editing: !this.state.editing,
+                                                input: null
+                                            });
+                                        }}
                                     >Cancel
                                     </div>
                                     <div className="right"
-                                         style={{
-                                             color: '#2ecc71'
-                                         }}
-                                         onClick={() => {
-                                             if (this.state.input) {
-                                                 this.props.dispatch({
-                                                     type: 'RENAME_MARKER',
-                                                     payload: {
-                                                         name: this.state.input,
-                                                         id: marker.id
-                                                     }
-                                                 })
-                                                 this.setState({
-                                                     editing: !this.state.editing,
-                                                     input: null
-                                                 });
-                                             }
-                                         }}
+                                        style={{
+                                            color: '#2ecc71'
+                                        }}
+                                        onClick={() => {
+                                            if (this.state.input) {
+                                                this.props.dispatch({
+                                                    type: 'RENAME_MARKER',
+                                                    payload: {
+                                                        name: this.state.input,
+                                                        id: marker.id
+                                                    }
+                                                })
+                                                this.setState({
+                                                    editing: !this.state.editing,
+                                                    input: null
+                                                });
+                                            }
+                                        }}
                                     >OK
                                     </div>
                                 </div>
                             ) : (
                                 <div className="popup-buttons">
                                     <div className="left"
-                                         onClick={() => {
-                                             this.props.dispatch({
-                                                 type: 'OPEN_NAVIGATION',
-                                             })
-                                             this.props.dispatch({
-                                                 type: 'SET_ACTIVE',
-                                                 payload: 'Land Information'
-                                             })
-                                         }}
+                                        onClick={() => {
+                                            this.props.dispatch({
+                                                type: 'OPEN_NAVIGATION',
+                                            })
+                                            this.props.dispatch({
+                                                type: 'SET_ACTIVE',
+                                                payload: 'Land Information'
+                                            })
+                                        }}
                                     >Info
                                     </div>
                                     <div className="right"
-                                         onClick={() => {
-                                             if (!readOnly) {
-                                                 this.setState({
-                                                     editing: !this.state.editing,
-                                                     input: marker.name
-                                                 });
-                                             }
-                                         }}
+                                        onClick={() => {
+                                            if (!readOnly) {
+                                                this.setState({
+                                                    editing: !this.state.editing,
+                                                    input: marker.name
+                                                });
+                                            }
+                                        }}
                                     >Rename
                                     </div>
                                 </div>

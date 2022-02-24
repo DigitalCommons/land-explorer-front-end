@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Navbar from "../components/Navbar";
 import { Link, Redirect } from "react-router-dom";
 import Select from "react-select";
-//import Spinner from "react-spinkit";
+import Spinner from '../components/common/Spinner';
 import axios from "axios/index";
 import constants from "../constants";
 import Swal from "sweetalert2";
@@ -85,6 +85,10 @@ class Register extends Component {
       marketing: false,
       formStage: "personal",
     };
+  }
+
+  componentDidMount() {
+    this.props.updateCarousel(1);
   }
 
   handleSubmit = async e => {
@@ -678,7 +682,7 @@ class Register extends Component {
             textAlign: "center"
           }}
         >
-          {/*<Spinner name="pulse" fadeIn="none" />*/}
+          <Spinner />
         </div>
         <div
           style={{

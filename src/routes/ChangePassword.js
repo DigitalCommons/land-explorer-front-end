@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
-//import Spinner from 'react-spinkit';
+import Spinner from '../components/common/Spinner';
 import Navbar from '../components/Navbar';
 import { Link } from 'react-router-dom';
 import constants from '../constants';
@@ -115,7 +115,7 @@ class ChangePassword extends Component {
                         textAlign: 'center',
                     }}
                 >
-                    {/*<Spinner name="pulse" fadeIn="none" color="white"/>*/}
+                    <Spinner />
                 </div>
             )
         } else {

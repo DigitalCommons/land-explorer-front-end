@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
     Map,
@@ -18,8 +18,8 @@ import {
     ZoomControl
 } from 'react-leaflet';
 import axios from 'axios';
-import {EditControl} from 'react-leaflet-draw';
-const {BaseLayer, Overlay} = LayersControl;
+import { EditControl } from 'react-leaflet-draw';
+const { BaseLayer, Overlay } = LayersControl;
 
 class MyMap extends Component {
     constructor(props) {
@@ -53,7 +53,7 @@ class MyMap extends Component {
 
     onChange = (e) => {
         // this._editableFG contains the edited geometry, which can be manipulated through the leaflet API
-        const {onChange} = this.props;
+        const { onChange } = this.props;
         if (!this._editableFG || !onChange) {
             return;
         }
@@ -98,7 +98,7 @@ class MyMap extends Component {
     componentDidMount() {
         axios.get('https://raw.githubusercontent.com/sjwhitworth/london_geojson/master/london_postcodes.json')
             .then((response) => {
-                this.setState({data: response.data});
+                this.setState({ data: response.data });
             });
     }
 
@@ -143,7 +143,7 @@ class MyMap extends Component {
                     onViewportChange={(viewport) => {
                         console.log("viewport change", viewport);
                         if (viewport.zoom !== this.state.zoom) {
-                            this.setState({zoom: viewport.zoom});
+                            this.setState({ zoom: viewport.zoom });
                         }
                     }}
                     ref="map"
@@ -203,7 +203,7 @@ class MyMap extends Component {
                                 </Popup>
                             </Marker>
                         </Overlay>
-                        { this.state.data !== null && (
+                        {this.state.data !== null && (
                             <Overlay checked name="London">
                                 <GeoJSON
                                     data={this.state.data} // wont be updated dynamically
@@ -217,11 +217,11 @@ class MyMap extends Component {
                         )}
                         <Overlay name="Polygons">
                             <LayerGroup>
-                                <Polyline color="#333" positions={polyline}/>
-                                <Polyline color="#333" positions={multiPolyline}/>
-                                <Polygon color="purple" positions={polygon}/>
-                                <Polygon color="purple" positions={multiPolygon}/>
-                                <Rectangle bounds={rectangle} color="black"/>
+                                <Polyline color="#333" positions={polyline} />
+                                <Polyline color="#333" positions={multiPolyline} />
+                                <Polygon color="purple" positions={polygon} />
+                                <Polygon color="purple" positions={multiPolygon} />
+                                <Rectangle bounds={rectangle} color="black" />
                             </LayerGroup>
                         </Overlay>
                         <Overlay checked name="Drawing">
@@ -248,7 +248,7 @@ class MyMap extends Component {
                         flexDirection: 'row',
                     }}>
                         <div style={styles.circularButton}
-                             onClick={this.zoomIn}
+                            onClick={this.zoomIn}
                         >
                             <i className="fas fa-plus"></i>
                         </div>
@@ -257,15 +257,15 @@ class MyMap extends Component {
                             marginLeft: '24px',
                             marginRight: '24px',
                         }}
-                             onClick={() => {
-                                 this.setState({locating: true});
-                                 this.refs.map.leafletElement.locate()
-                             }}
+                            onClick={() => {
+                                this.setState({ locating: true });
+                                this.refs.map.leafletElement.locate()
+                            }}
                         >
                             <i className="fas fa-crosshairs"></i>
                         </div>
                         <div style={styles.circularButton}
-                             onClick={this.zoomOut}
+                            onClick={this.zoomOut}
                         >
                             <i className="fas fa-minus"></i>
                         </div>

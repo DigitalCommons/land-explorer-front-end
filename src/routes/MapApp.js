@@ -12,7 +12,7 @@ import '../assets/styles/style.scss';
 import Tooltips from '../components/Tooltips';
 import Controls from '../components/Controls';
 import * as Auth from '../components/Auth';
-//import Spinner from 'react-spinkit';
+import Spinner from '../components/common/Spinner';
 import { logout, getAuthHeader } from '../components/Auth';
 
 class MapApp extends Component {
@@ -120,7 +120,7 @@ class MapApp extends Component {
                 <div className="full-height overflow-y">
                     <Navbar limited={true} />
                     <div className="centered">
-                        {/*<Spinner name="pulse" fadeIn="none" />*/}
+                        <Spinner />
                     </div>
                 </div>
             )

@@ -228,15 +228,14 @@ body {
 }
 
 .hamburger {
+  background-image: url('../img/icon-hamburger.svg');
+  background-repeat: no-repeat;
+  background-position: center;
   margin-right: 30px;
   width: 32px;
+  height: 32px;
   cursor: pointer;
   user-select: none;
-
-  img {
-    width: 100%;
-    height: auto;
-  }
 }
 
 .nav-left-tray {
@@ -402,6 +401,10 @@ body {
   top: 84px;
   left: 12px;
   z-index: 2;
+  background-image: url("../img/icon-nav-cog.svg");
+  background-size: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
   background-color: #7d808d;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   display: flex;

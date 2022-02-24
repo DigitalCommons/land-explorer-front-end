@@ -25,6 +25,7 @@
     "case-sensitive-paths-webpack-plugin": "2.4.0",
     "chalk": "4.0.0",
     "convert-units": "^2.3.4",
+    "copy-webpack-plugin": "^10.2.4",
     "css-loader": "6.6.0",
     "dotenv": "16.0.0",
     "dotenv-expand": "8.0.1",
@@ -74,20 +75,20 @@
     "react-leaflet-vectorgrid": "^2.2.1",
     "react-map-gl": "^7.0.6",
     "react-mapbox-gl": "^5.1.1",
-    "react-mapbox-gl-draw": "github:hansensalim/react-mapbox-gl-draw",
+    "react-mapbox-gl-draw": "^2.0.4",
     "react-motion": "^0.5.2",
     "react-places-autocomplete": "^7.3.0",
     "react-redux": "^7.2.6",
     "react-router": "^6.2.1",
     "react-router-dom": "^6.2.1",
     "react-select": "^5.2.2",
-    "react-spinkit": "^3.0.0",
     "react-tooltip": "^4.2.21",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "round-to": "^6.0.0",
     "sass-loader": "^12.6.0",
     "style-loader": "3.3.1",
+    "svg-url-loader": "^7.1.1",
     "sw-precache-webpack-plugin": "1.0.0",
     "sweetalert2": "^11.4.0",
     "tls": "^0.0.1",
@@ -100,8 +101,8 @@
     "whatwg-fetch": "3.6.2"
   },
   "scripts": {
-    "start": "npx webpack serve --config ./config/webpackNew.config.js --mode=development",
-    "build": "node scripts/build.js",
+    "start": "npx webpack serve --config ./config/webpack.config.common.js --mode=development",
+    "build": "npx webpack build --config ./config/webpack.config.common.js --mode=production",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {
@@ -147,6 +148,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "@svgr/webpack": "^6.2.1",
     "webpack-cli": "^4.9.2"
   }
 }

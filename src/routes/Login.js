@@ -6,7 +6,7 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import withRouter from "../components/common/withRouter";
 import axios from "axios";
-/*import Spinner from "react-spinkit";*/
+import Spinner from "../components/common/Spinner";
 import constants from "../constants";
 import { tokensToFunction } from "path-to-regexp";
 
@@ -33,6 +33,11 @@ class Login extends Component {
       this.props.history.push("/app");
     }
   }
+
+  componentDidMount() {
+    this.props.updateCarousel(0);
+  }
+
 
   handleSubmit = e => {
     e.preventDefault();
@@ -62,7 +67,7 @@ class Login extends Component {
 
         if (response.status === 200) {
           Auth.setToken(response.data.access_token, response.data.expires_in);
-          this.props.history.push("/app");
+          this.props.router.navigate("/app");
         } else if (response.status === 400) {
           console.log("wrong credentials");
           this.setState({ loggingIn: false, error: true });
@@ -93,7 +98,7 @@ class Login extends Component {
             display: loggingIn ? "block" : "none"
           }}
         >
-          {/*<Spinner name="pulse" fadeIn="none" />*/}
+          <Spinner />
         </div>
         <div
           style={{

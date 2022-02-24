@@ -14,6 +14,7 @@
   }
 }
 
+
 form {
   .text-input {
     background-color: $toolbarAccent;
@@ -36,13 +37,13 @@ form {
   .text-input-half {
     width: 49%;
     display: inline;
-    @media ('max-width: 480px') {
+    @media (max-width: 480px) {
       width: 100%;
     }
   }
   .text-input-first-half {
     margin-right: 2%;
-    @media ('max-width: 480px') {
+    @media (max-width: 480px) {
       margin-right: 0;
     }
   }
@@ -89,9 +90,7 @@ form {
   @media #{$up-to-small} {
     width: 263px;
   }
-  .geocoder-icon-search {
-    display: none;
-  }
+  
   input {
     padding-left: 28px !important;
     padding-top: 4px !important;
@@ -99,6 +98,12 @@ form {
     font-size: 16px;
   }
 }
+
+
+.mapboxgl-ctrl-geocoder--icon-search{
+  display: none;
+}
+
 .mapboxgl-ctrl-geocoder {
   -webkit-box-shadow: none;
   box-shadow: none;

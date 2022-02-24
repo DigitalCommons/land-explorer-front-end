@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Navbar from '../components/Navbar';
 import { Link, Redirect, Route, Routes } from 'react-router-dom';
 import Select from 'react-select';
-//import Spinner from 'react-spinkit';
+import Spinner from '../components/common/Spinner';
 import axios from "axios/index";
 import ChangePassword from "./ChangePassword";
 import ChangeEmail from "./ChangeEmail";
@@ -136,7 +136,7 @@ class MyAccount extends Component {
                 </div>
             </div>
         ) : (
-            <div> {/*<Spinner />*/}</div>
+            <div> <Spinner /></div>
 
         );
     }

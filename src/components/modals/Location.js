@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from '../common/Modal';
-//import Spinner from 'react-spinkit';
+import Spinner from '../common/Spinner';
 
 const Location = () => (
     <Modal id="location">
@@ -11,7 +11,7 @@ const Location = () => (
         }}>
             <p>Finding your location..</p>
             <br />
-            {/*<Spinner name="pulse" fadeIn="none" />*/}
+            <Spinner />
         </div>
     </Modal>
 );

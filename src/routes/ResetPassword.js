@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
-//import Spinner from 'react-spinkit';
 import constants from '../constants';
 import analytics from '../analytics';
 
