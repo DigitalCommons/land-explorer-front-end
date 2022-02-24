@@ -23,7 +23,8 @@ class Navbar extends Component {
         <div className="navbar-shadow"></div>
         <div className="navbar">
           <Link to="/app/">
-            <div className="logo"></div>
+            <div className="logo">
+            </div>
           </Link>
           <div className="search-bar">
             <span id="geocoder"></span>
@@ -39,7 +40,6 @@ class Navbar extends Component {
                 this.props.dispatch({ type: "TOGGLE_MENU_MAIN" });
               }}
             >
-              <img src={require("../assets/img/icon-hamburger.svg")} alt="" />
             </div>
           </div>
         </div>

@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import axios from 'axios';
-import Spinner from 'react-spinkit';
+import Spinner from '../components/common/Spinner';
 import Navbar from '../components/Navbar';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import constants from '../constants';
 import analytics from "../analytics";
-import {getAuthHeader} from '../components/Auth';
+import { getAuthHeader } from '../components/Auth';
 
 
 class ChangePassword extends Component {
@@ -28,7 +28,7 @@ class ChangePassword extends Component {
         }
     }
 
-    componentDidMount (){
+    componentDidMount() {
         analytics.pageview(window.location.pathname);
     }
 
@@ -42,7 +42,7 @@ class ChangePassword extends Component {
     changePassword = (e) => {
         e.preventDefault();
         if (this.state.confirmNewPassword.valid && this.state.newPassword.valid) {
-            this.setState({submitting: true});
+            this.setState({ submitting: true });
             let body = {
                 password: this.state.newPassword.value,
                 passwordConfirm: this.state.confirmNewPassword.value,
@@ -53,21 +53,21 @@ class ChangePassword extends Component {
                     console.log("change password", response);
                     if (response.status = 200) {
                         console.log("register response 200", response);
-                        this.setState({success: true});
-                    }else{
-                        this.setState({errors: response.data.errors});
+                        this.setState({ success: true });
+                    } else {
+                        this.setState({ errors: response.data.errors });
                     }
-                    this.setState({submitting: false})
+                    this.setState({ submitting: false })
                 })
                 .catch(err => {
                     console.log("err", err);
-                    this.setState({registering: false})
+                    this.setState({ registering: false })
                 });
         }
     }
 
     render() {
-        let {submitting, success, newPassword, confirmNewPassword, errors} = this.state;
+        let { submitting, success, newPassword, confirmNewPassword, errors } = this.state;
         if (this.state.success) {
             return (
                 <div
@@ -90,11 +90,11 @@ class ChangePassword extends Component {
                         <div>
                             Your password has been changed successfully.
                         </div>
-                        <div style={{marginTop: '24px'}}>
+                        <div style={{ marginTop: '24px' }}>
                             <Link to="/app/my-account">
                                 <div
                                     className="button button-medium"
-                                    style={{display: 'inline-block', marginRight: '12px'}}
+                                    style={{ display: 'inline-block', marginRight: '12px' }}
                                 >
                                     Ok
                                 </div>
@@ -115,7 +115,7 @@ class ChangePassword extends Component {
                         textAlign: 'center',
                     }}
                 >
-                    <Spinner name="pulse" fadeIn="none" color="white"/>
+                    <Spinner />
                 </div>
             )
         } else {
@@ -142,14 +142,14 @@ class ChangePassword extends Component {
                         }}>
                         <h3 style={{ fontWeight: 600 }}>Password</h3>
                         <Link to="/app/my-account"
-                              className="modal-close"
+                            className="modal-close"
                         />
-                        <br/>
+                        <br />
                         {
                             errors && (
                                 <div>
                                     {this.printErrors()}
-                                    <br/>
+                                    <br />
                                 </div>
                             )
                         }
@@ -157,28 +157,28 @@ class ChangePassword extends Component {
                             <input
                                 type="password"
                                 className={`text-input
-                                ${ (newPassword.valid !== '') ? newPassword.valid ? 'valid' : 'invalid' : '' }`}
+                                ${(newPassword.valid !== '') ? newPassword.valid ? 'valid' : 'invalid' : ''}`}
                                 placeholder="New password"
                                 value={newPassword.value}
                                 onChange={(e) => {
                                     let value = e.target.value;
                                     let valid = (value.length > 5) && (value.length < 30);
-                                    this.setState({newPassword: {value, valid}})
+                                    this.setState({ newPassword: { value, valid } })
                                 }}
                             />
                             <input
                                 type="password"
                                 className={`text-input
-                                ${ (confirmNewPassword.valid !== '') ? confirmNewPassword.valid ? 'valid' : 'invalid' : '' }`}
+                                ${(confirmNewPassword.valid !== '') ? confirmNewPassword.valid ? 'valid' : 'invalid' : ''}`}
                                 placeholder="Confirm new password"
                                 value={confirmNewPassword.value}
                                 onChange={(e) => {
                                     let value = e.target.value;
                                     let valid = newPassword.value === value;
-                                    this.setState({confirmNewPassword: {value, valid}})
+                                    this.setState({ confirmNewPassword: { value, valid } })
                                 }}
                             />
-                            <div style={{marginTop: '24px'}}>
+                            <div style={{ marginTop: '24px' }}>
                                 <input
                                     type="submit"
                                     value="Save Changes"
@@ -198,7 +198,7 @@ class ChangePassword extends Component {
     }
 }
 
-const mapStateToProps = ({user}) => ({
+const mapStateToProps = ({ user }) => ({
     user: user
 });
 

@@ -196,6 +196,7 @@ body, h1, h2, h3, h4, h5, h6 {
 }
 
 .trash-tool {
+  background-image: url('../img/icon-trash.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 30%;
@@ -232,4 +233,64 @@ body, h1, h2, h3, h4, h5, h6 {
   color: white;
   opacity: 1;
   text-align: center;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+
+  position: relative;
+  margin: 100px auto;
+}
+
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #333;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+  animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
+.marker-icon{
+  background-image: url('../img/icon-marker-new--dark-grey.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.marker-icon-active{
+  background-image: url('../img/icon-marker-new--green.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.marker-icon-aerial{
+  background-image: url('../img/icon-marker-new--white.svg');
+  background-position: center;
+  background-repeat: no-repeat;
 }

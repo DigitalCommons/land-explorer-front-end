@@ -7,14 +7,12 @@ import rootReducer from './reducers/rootReducer';
 import {
     BrowserRouter,
     Route,
-    Link,
-    Redirect,
-    withRouter,
-    Switch
+    Navigate,
+    Routes
 } from 'react-router-dom';
 import '../node_modules/leaflet-draw/dist/leaflet.draw.css';
 import './index.css';
-import 'react-select/dist/react-select.css';
+//import 'react-select/dist/react-select.css';
 import MapApp from "./routes/MapApp";
 import MyAccount from "./routes/MyAccount";
 import FourOhFour from './routes/FourOhFour';
@@ -28,33 +26,19 @@ analytics.init();
 const composeEnhancers = constants.PROD ? compose : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // Create store from rootReducer with Thunk middleware
 const store = createStore(rootReducer, {}, composeEnhancers(
-   applyMiddleware(ReduxThunk)
+    applyMiddleware(ReduxThunk)
 ));
-
-
-const AppRoute = (path) => (
-    <div>
-        <Route path="/app" component={MapApp} />
-        <Route path="/app/my-account" component={MyAccount} />
-    </div>
-)
-
-
-const AuthRoute = (path) => (
-    <div>
-    <Authentication/>
-    </div>
-)
 
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <Switch>
-                <Route path="/app" component={AppRoute} />
-                <Route path="/auth" component={AuthRoute} />
-                <Route exact path="/"><Redirect to="/app" /></Route>
-                <Route component={FourOhFour} />
-            </Switch>
+            <Routes>
+                <Route path="/app" element={<MapApp />} />
+                <Route path="/app/my-account" element={<MyAccount />} />
+                <Route path="/auth/*" element={<Authentication />} />
+                <Route exact path="/" element={<Navigate to="/app" replace={true} />} />
+                <Route path="*" element={<FourOhFour />} />
+            </Routes>
         </BrowserRouter>
     </Provider>,
     document.getElementById('root')

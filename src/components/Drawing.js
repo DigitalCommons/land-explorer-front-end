@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {GeoJSONLayer, Popup} from 'react-mapbox-gl';
-import {connect} from "react-redux";
-import * as turf from '@turf/turf/turf.js';
+import { GeoJSONLayer, Popup } from 'react-mapbox-gl';
+import { connect } from "react-redux";
+import * as turf from '@turf/turf';
 import MarkerPin from './MarkerPin'
 
 class Drawing extends Component {
@@ -23,14 +23,14 @@ class Drawing extends Component {
     }
 
     render() {
-        let {polygon, type, activePolygon, activeTool, readOnly, baseLayer} = this.props;
-        let {editing, hidden} = this.state;
+        let { polygon, type, activePolygon, activeTool, readOnly, baseLayer } = this.props;
+        let { editing, hidden } = this.state;
         let polygonId = polygon.data.properties.id;
         polygon = polygon.data;
         let isActive = polygonId === activePolygon;
         let center = turf.pointOnFeature(polygon);
         let line = type === 'polygon' ? turf.polygonToLine(polygon.geometry) : polygon;
-        let length = turf.length(line, {units: 'kilometers'});
+        let length = turf.length(line, { units: 'kilometers' });
         let showPopup = isActive && !activeTool;
         let marker = {
             id: 23123,
@@ -60,7 +60,7 @@ class Drawing extends Component {
                                         console.log("the polygon was clicked", e);
                                         let area = turf.area(polygon);
                                         let roundedArea = Math.round(area * 100) / 100;
-                                        if ( isActive ) {
+                                        if (isActive) {
                                             this.props.dispatch({
                                                 type: 'CLEAR_ACTIVE_POLYGON',
                                             })
@@ -94,7 +94,7 @@ class Drawing extends Component {
                                         type: 'SET_ACTIVE_POLYGON',
                                         payload: polygonId
                                     });
-                                    this.setState({hidden: false});
+                                    this.setState({ hidden: false });
                                 }
                             }}
                         />
@@ -123,7 +123,7 @@ class Drawing extends Component {
                             <div
                                 className="popup-close"
                                 onClick={() => {
-                                    this.setState({hidden: true})
+                                    this.setState({ hidden: true })
                                 }}
                             />
                         )}
@@ -150,64 +150,64 @@ class Drawing extends Component {
                             this.state.editing ? (
                                 <div className="popup-buttons">
                                     <div className="left"
-                                         style={{
-                                             color: 'rgba(208, 2, 78, 0.95)'
-                                         }}
-                                         onClick={() => {
-                                             this.setState({
-                                                 editing: !this.state.editing,
-                                                 input: null
-                                             });
-                                         }}
+                                        style={{
+                                            color: 'rgba(208, 2, 78, 0.95)'
+                                        }}
+                                        onClick={() => {
+                                            this.setState({
+                                                editing: !this.state.editing,
+                                                input: null
+                                            });
+                                        }}
                                     >Cancel
                                     </div>
                                     <div className="right"
-                                         style={{
-                                             color: '#2ecc71'
-                                         }}
-                                         onClick={() => {
-                                             if (this.state.input) {
-                                                 this.props.dispatch({
-                                                     type: 'RENAME_POLYGON',
-                                                     payload: {
-                                                         name: this.state.input,
-                                                         id: polygonId
-                                                     }
-                                                 })
-                                                 this.setState({
-                                                     editing: !this.state.editing,
-                                                     input: null
-                                                 });
-                                             }
-                                         }}
+                                        style={{
+                                            color: '#2ecc71'
+                                        }}
+                                        onClick={() => {
+                                            if (this.state.input) {
+                                                this.props.dispatch({
+                                                    type: 'RENAME_POLYGON',
+                                                    payload: {
+                                                        name: this.state.input,
+                                                        id: polygonId
+                                                    }
+                                                })
+                                                this.setState({
+                                                    editing: !this.state.editing,
+                                                    input: null
+                                                });
+                                            }
+                                        }}
                                     >OK
                                     </div>
                                 </div>
                             ) : (
                                 <div className="popup-buttons">
                                     <div className="left"
-                                         style={{
-                                             color: '#2ecc71'
-                                         }}
-                                         onClick={() => {
-                                             this.props.dispatch({ type: 'OPEN_NAVIGATION' });
-                                             this.props.dispatch({
-                                                 type: 'SET_ACTIVE',
-                                                 payload: 'Land Information'
-                                             })
-                                         }}
+                                        style={{
+                                            color: '#2ecc71'
+                                        }}
+                                        onClick={() => {
+                                            this.props.dispatch({ type: 'OPEN_NAVIGATION' });
+                                            this.props.dispatch({
+                                                type: 'SET_ACTIVE',
+                                                payload: 'Land Information'
+                                            })
+                                        }}
                                     >Info
                                     </div>
                                     <div className="right"
-                                         style={{ color : readOnly ?  'rgb(200,200,200)' : '#2ecc71' }}
-                                         onClick={() => {
-                                             if (!readOnly) {
-                                                 this.setState({
-                                                     editing: !this.state.editing,
-                                                     input: marker.name
-                                                 });
-                                             }
-                                         }}
+                                        style={{ color: readOnly ? 'rgb(200,200,200)' : '#2ecc71' }}
+                                        onClick={() => {
+                                            if (!readOnly) {
+                                                this.setState({
+                                                    editing: !this.state.editing,
+                                                    input: marker.name
+                                                });
+                                            }
+                                        }}
                                     >Rename
                                     </div>
                                 </div>
@@ -222,7 +222,7 @@ class Drawing extends Component {
 
 Drawing.propTypes = {};
 
-const mapStateToProps = ({navigation, drawings, readOnly, mapBaseLayer }) => ({
+const mapStateToProps = ({ navigation, drawings, readOnly, mapBaseLayer }) => ({
     activeTool: navigation.activeTool,
     activePolygon: drawings.activePolygon,
     readOnly: readOnly.readOnly,

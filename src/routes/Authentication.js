@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
-import {Route, Switch, withRouter} from 'react-router';
+import React, { Component } from 'react';
+import { Route, Routes } from 'react-router';
+import withRouter from "../components/common/withRouter";
 import Navbar from '../components/Navbar';
 import Register from "./Register";
 import Login from "./Login";
@@ -16,7 +17,7 @@ class Authentication extends Component {
         }
     }
     componentDidMount() {
-        let { pathname } = this.props.location;
+        let { pathname } = this.props.router.location;
         if (pathname.includes('register')) {
             this.setState({ prevImage: 1 })
         } else if (pathname.includes('reset')) {
@@ -29,17 +30,17 @@ class Authentication extends Component {
         })
     }
     render() {
-        console.log("Authentication route", this.props.location);
+        console.log("Authentication route", this.props.router.location);
         return (
             <div>
                 <Navbar limited={true} />
-                <BackgroundImage image={this.state.image}/>
-                <Switch>
-                    <Route exact path="/auth" render={() => <Login updateCarousel={this.updateCarousel}/>} />
-                    <Route path="/auth/register" render={() => <Register updateCarousel={this.updateCarousel}/>} />
-                    <Route path="/auth/reset-password" render={() => <ResetPassword updateCarousel={this.updateCarousel}/>} />
-                    <Route path="/" component={FourOhFour}/>
-                </Switch>
+                <BackgroundImage image={this.state.image} />
+                <Routes>
+                    <Route exact path="/" element={<Login updateCarousel={this.updateCarousel} />} />
+                    <Route path="/register" element={<Register updateCarousel={this.updateCarousel} />} />
+                    <Route path="/reset-password" element={<ResetPassword updateCarousel={this.updateCarousel} />} />
+                    <Route path="/*" element={<FourOhFour />} />
+                </Routes>
             </div>
         );
     }

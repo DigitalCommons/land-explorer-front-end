@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import axios from 'axios';
-import Spinner from 'react-spinkit';
+import Spinner from '../components/common/Spinner';
 import Navbar from '../components/Navbar';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import constants from '../constants';
 import { getUserDetails } from '../actions/UserActions';
 import analytics from "../analytics";
-import {getAuthHeader} from '../components/Auth';
+import { getAuthHeader } from '../components/Auth';
 
 class ChangeEmail extends Component {
     constructor(props) {
@@ -28,7 +28,7 @@ class ChangeEmail extends Component {
         }
     }
 
-    componentDidMount (){
+    componentDidMount() {
         analytics.pageview(window.location.pathname);
     }
 
@@ -42,7 +42,7 @@ class ChangeEmail extends Component {
     changeEmail = (e) => {
         e.preventDefault();
         if ((this.state.confirmNewEmail.valid && this.state.newEmail.valid)) {
-            this.setState({submitting: true});
+            this.setState({ submitting: true });
             let body = {
                 username: this.state.newEmail.value
             }
@@ -50,19 +50,19 @@ class ChangeEmail extends Component {
                 .then((response) => {
                     console.log("change email", response);
                     if (response.status === 200) {
-                        this.setState({success: true});
-                    }else{
-                        this.setState({errors: response.data.errors});
+                        this.setState({ success: true });
+                    } else {
+                        this.setState({ errors: response.data.errors });
                     }
-                    this.setState({submitting: false})
+                    this.setState({ submitting: false })
                 })
                 .catch(err => {
-                    if(err.response.data.Message.includes("Duplicate")){
-                        this.setState({errors: ["This email is already registered."]});
-                    }else{
-                        this.setState({errors: ["We could not change your email at the moment. Please try again later."]});
+                    if (err.response.data.Message.includes("Duplicate")) {
+                        this.setState({ errors: ["This email is already registered."] });
+                    } else {
+                        this.setState({ errors: ["We could not change your email at the moment. Please try again later."] });
                     }
-                    this.setState({submitting: false});
+                    this.setState({ submitting: false });
                 });
         }
     }
@@ -72,31 +72,31 @@ class ChangeEmail extends Component {
         let { getUserDetails } = this.props;
         if (this.state.success) {
             return (
-            <div
-                className="registration modal"
-                style={{
-                    height: 'auto',
-                    width: '340px',
-                    maxWidth: '90vw',
-                    background: 'white',
-                    boxSizing: 'border-box',
-                    textAlign: 'center',
-                    paddingLeft: '24px',
-                    paddingRight: '24px',
-                    paddingBottom: '24px',
-                    paddingTop: '28px',
-                    borderRadius: '8px',
-                    margin: '0'
-                }}>
+                <div
+                    className="registration modal"
+                    style={{
+                        height: 'auto',
+                        width: '340px',
+                        maxWidth: '90vw',
+                        background: 'white',
+                        boxSizing: 'border-box',
+                        textAlign: 'center',
+                        paddingLeft: '24px',
+                        paddingRight: '24px',
+                        paddingBottom: '24px',
+                        paddingTop: '28px',
+                        borderRadius: '8px',
+                        margin: '0'
+                    }}>
                     <div>
                         <div>
                             Your email has been changed successfully.
                         </div>
-                        <div style={{marginTop: '24px'}}>
+                        <div style={{ marginTop: '24px' }}>
                             <Link to="/app/my-account">
                                 <div
                                     className="button button-medium"
-                                    style={{display: 'inline-block', marginRight: '12px'}}
+                                    style={{ display: 'inline-block', marginRight: '12px' }}
                                     onClick={getUserDetails}
                                 >
                                     Ok
@@ -118,7 +118,7 @@ class ChangeEmail extends Component {
                         textAlign: 'center',
                     }}
                 >
-                    <Spinner name="pulse" fadeIn="none" color="white"/>
+                    <Spinner />
                 </div>
             )
         } else {
@@ -146,14 +146,14 @@ class ChangeEmail extends Component {
                         }}>
                         <h3 style={{ fontWeight: 600 }}>Email</h3>
                         <Link to="/app/my-account"
-                              className="modal-close"
+                            className="modal-close"
                         />
-                        <br/>
+                        <br />
                         {
                             errors && (
                                 <div>
                                     {this.printErrors()}
-                                    <br/>
+                                    <br />
                                 </div>
                             )
                         }
@@ -161,25 +161,25 @@ class ChangeEmail extends Component {
                             <input
                                 type="text"
                                 className={`text-input
-                                ${ (newEmail.valid !== '') ? newEmail.valid ? 'valid' : 'invalid' : '' }`}
+                                ${(newEmail.valid !== '') ? newEmail.valid ? 'valid' : 'invalid' : ''}`}
                                 placeholder="New email address"
                                 value={newEmail.value}
                                 onChange={(e) => {
                                     let value = e.target.value;
                                     let valid = emailRegexp.test(value);
-                                    this.setState({newEmail: {value, valid}})
+                                    this.setState({ newEmail: { value, valid } })
                                 }}
                             />
                             <input
                                 type="text"
                                 className={`text-input
-                                ${ (confirmNewEmail.valid !== '') ? confirmNewEmail.valid ? 'valid' : 'invalid' : '' }`}
+                                ${(confirmNewEmail.valid !== '') ? confirmNewEmail.valid ? 'valid' : 'invalid' : ''}`}
                                 placeholder="Confirm new email address"
                                 value={confirmNewEmail.value}
                                 onChange={(e) => {
                                     let value = e.target.value;
                                     let valid = newEmail.value === value;
-                                    this.setState({confirmNewEmail: {value, valid}})
+                                    this.setState({ confirmNewEmail: { value, valid } })
                                 }}
                             />
                             <div>
@@ -205,7 +205,7 @@ class ChangeEmail extends Component {
 
 const emailRegexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const mapStateToProps = ({user}) => ({
+const mapStateToProps = ({ user }) => ({
     user: user
 });
 

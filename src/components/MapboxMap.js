@@ -11,7 +11,7 @@ import ReactMapboxGl, {
 } from "react-mapbox-gl";
 import update from "immutability-helper";
 import * as MapboxGL from "mapbox-gl";
-import * as turf from "@turf/turf/turf.js";
+import * as turf from "@turf/turf";
 import MapboxDraw from "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.js";
 import DrawControl from "react-mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
@@ -44,6 +44,8 @@ const Map = ReactMapboxGl({
   touchZoomRotate: false,
   doubleClickZoom: true,
 });
+
+
 
 class MapboxMap extends Component {
   constructor(props) {
@@ -257,7 +259,7 @@ class MapboxMap extends Component {
   };
 
   render() {
-    let {
+    const {
       zoom,
       lngLat,
       baseLayer,
@@ -265,200 +267,120 @@ class MapboxMap extends Component {
       name,
       navOpen,
       movingMethod,
-      user,
+      user: { type },
     } = this.props;
-    let baseLayers = [
+    const baseLayers = [
       baseLayer === "aerial"
         ? this.state.satelliteLayer
         : this.state.topographyLayer,
     ];
-    let style = {
+    const style = {
       version: 8,
       sources: this.state.sources,
       // these are the base tile sets, aerial or streets
       layers: baseLayers,
     };
-    if (user.type == "council")
-      return (
-        <div>
-          {/* This is the ReactMapbox instance we created at the top of the file */}
-          <Map
-            style={style}
-            detectRetina={true}
-            containerStyle={{
-              height: "100vh",
-              width: "100vw",
-              position: "fixed",
-              background:
-                baseLayer === "aerial"
-                  ? "#091324"
-                  : constants.USE_OS_TILES
-                    ? "#aadeef"
-                    : "#72b6e6",
-            }}
-            zoom={zoom}
-            onZoomEnd={this.onZoomEnd}
-            onDragEnd={this.onDragEnd}
-            center={lngLat}
-            onStyleLoad={(map) => {
-              this.map = map;
-              this.setState({ styleLoaded: true });
-            }}
-            onClick={this.onClick}
-            maxBounds={constants.MAP_BOUNDS}
-            // this is how the map moves automatically from one location to another (default is jumpTo, but we disable this temporarily when we load a new map)
-            movingMethod={movingMethod}
-          >
-            {/* Map Council Layers (wards etc.)*/}
+    const council = type == "council";
+
+    return (
+      <div>
+        {/* This is the ReactMapbox instance we created at the top of the file */}
+        <Map
+          style={style}
+          detectRetina={true}
+          containerStyle={{
+            height: "100vh",
+            width: "100vw",
+            position: "fixed",
+            background:
+              baseLayer === "aerial"
+                ? "#091324"
+                : constants.USE_OS_TILES
+                  ? "#aadeef"
+                  : "#72b6e6",
+          }}
+          zoom={zoom}
+          onZoomEnd={this.onZoomEnd}
+          onDragEnd={this.onDragEnd}
+          center={lngLat}
+          onStyleLoad={(map) => {
+            this.map = map;
+            this.setState({ styleLoaded: true });
+          }}
+          onClick={this.onClick}
+          //maxBounds={constants.MAP_BOUNDS}
+          // this is how the map moves automatically from one location to another (default is jumpTo, but we disable this temporarily when we load a new map)
+          movingMethod={movingMethod}
+        >
+          {/* Map Layers (greenbelt etc.)*/}
+          <MapLayers />
+          {council &&  /* Map Council Layers (wards etc.)*/
             <MapCouncilLayers zoom={zoom} />
-            {/*For displaying community assets*/}
+          }
+          {council && /*For displaying community assets*/
             <MapCommunityAssets zoom={zoom} center={lngLat} map={this.map} />
-            {/* Geocoder - For location search */}
-            <GeoCoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
-            {/* Markers */}
-            {this.state.styleLoaded && <Markers map={this.map} />}
+          }
+          {/*For displaying the property boundaries*/}
+          {constants.LR_POLYGONS_ENABLED &&
+            <MapProperties center={lngLat} map={this.map} />
+          }
+          {/* Geocoder - For location search */}
+          <GeoCoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
+          {/* Markers */}
+          {this.state.styleLoaded && <Markers map={this.map} />}
             /* Map name in lower left corner */
-            {this.renderMapName(name, navOpen)}
+          {this.renderMapName(name, navOpen)}
             /* Shows zoom warning if active layers are out of view */
-            <ZoomWarning show={zoom < 9 && activeLayers.length > 0} />
-            /* Drawing tools */
-            <DrawControl
-              ref={(drawControl) => {
-                // this reference is passed to the Nav and Modals to give them access to the methods
-                this.drawControl = drawControl;
-              }}
-              position="bottom-right"
-              onDrawCreate={this.onDrawCreate}
-              modes={this.modes}
-              defaultMode="simple_select"
-              onDrawModeChange={(e) => console.log("draw mode changed", e)}
-              onDrawUpdate={this.onDrawUpdate}
-              onDrawSelectionChange={this.onDrawSelectionChange}
-              onDrawActionable={(e) => console.log("draw actionable", e)}
-              onDrawDelete={this.onDrawDelete}
-            />
-            {
-              /* Render the drawing layers if they are not currently being redrawn */
-              /* This is the GEOJSON Layers, the react components with click events, that we use to display the popups*/
-              !this.state.redrawing && <DrawingLayers />
+          <ZoomWarning
+            show={
+              (zoom < 9 && activeLayers.length > 0) ||
+              (zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL && this.props.propertiesDisplay && constants.LR_POLYGONS_ENABLED)
             }
-          </Map>
-          <Nav drawControl={this.drawControl} />
-          <Modals
-            drawControl={this.drawControl}
-            redrawPolygons={this.redrawPolygons}
           />
-          <div className="os-accreditation">
-            Contains OS data © Crown copyright and database rights 2018 OS
-            0100059691
-          </div>
-          {/* If menus are open, this invisible layer covers the whole app, when clicked, closes menus */}
-          <div
+            /* Drawing tools */
+          <DrawControl
+            addControl={this.map}
+            ref={(drawControl) => {
+              // this reference is passed to the Nav and Modals to give them access to the methods
+              this.drawControl = drawControl;
+            }}
+            position="bottom-right"
+            onDrawCreate={this.onDrawCreate}
+            modes={this.modes}
+            defaultMode="simple_select"
+            onDrawModeChange={(e) => console.log("draw mode changed", e)}
+            onDrawUpdate={this.onDrawUpdate}
+            onDrawSelectionChange={this.onDrawSelectionChange}
+            onDrawActionable={(e) => console.log("draw actionable", e)}
+            onDrawDelete={this.onDrawDelete}
+          />
+          {
+            /* Render the drawing layers if they are not currently being redrawn */
+            /* This is the GEOJSON Layers, the react components with click events, that we use to display the popups*/
+            !this.state.redrawing && <DrawingLayers />
+          }
+        </Map>
+        <Nav drawControl={this.drawControl} user={this.props.user} />
+        <Modals
+          drawControl={this.drawControl}
+          redrawPolygons={this.redrawPolygons}
+        />
+        <div className="os-accreditation">
+          Contains OS data © Crown copyright and database rights 2022 OS
+          0100059691
+        </div>
+        {/* If menus are open, this invisible layer covers the whole app, when clicked, closes menus */}
+        {/*<div
             className="map-click-layer"
             style={{
               display: this.isMenuOpen() ? "block" : "none",
             }}
             onClick={() => {
               this.props.dispatch({ type: "CLOSE_MENUS" });
-            }}
-          />
-        </div>
-      );
-    //for all other usertypes i.e. core
-    else
-      return (
-        <div>
-          {/* This is the ReactMapbox instance we created at the top of the file */}
-          <Map
-            style={style}
-            detectRetina={true}
-            containerStyle={{
-              height: "100vh",
-              width: "100vw",
-              position: "fixed",
-              background:
-                baseLayer === "aerial"
-                  ? "#091324"
-                  : constants.USE_OS_TILES
-                    ? "#aadeef"
-                    : "#72b6e6",
-            }}
-            zoom={zoom}
-            onZoomEnd={this.onZoomEnd}
-            onDragEnd={this.onDragEnd}
-            center={lngLat}
-            onStyleLoad={(map) => {
-              this.map = map;
-              this.setState({ styleLoaded: true });
-            }}
-            onClick={this.onClick}
-            maxBounds={constants.MAP_BOUNDS}
-            // this is how the map moves automatically from one location to another (default is jumpTo, but we disable this temporarily when we load a new map)
-            movingMethod={movingMethod}
-          >
-            {/* Map Layers (greenbelt etc.)*/}
-            <MapLayers />
-            {/*For displaying for sale markers*/}
-            <MapForSaleMarkers center={lngLat} map={this.map} />
-            {/*For displaying the property boundaries*/}
-            {constants.LR_POLYGONS_ENABLED &&
-              <MapProperties center={lngLat} map={this.map} />}
-            {/* Geocoder - For location search */}
-            <GeoCoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
-            {/* Markers */}
-            {this.state.styleLoaded && <Markers map={this.map} />}
-            /* Map name in lower left corner */
-            {this.renderMapName(name, navOpen)}
-            /* Shows zoom warning if active layers are out of view */
-            <ZoomWarning
-              show={
-                (zoom < 9 && activeLayers.length > 0) ||
-                (zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL && this.props.propertiesDisplay && constants.LR_POLYGONS_ENABLED)
-              }
-            />
-            /* Drawing tools */
-            <DrawControl
-              ref={(drawControl) => {
-                // this reference is passed to the Nav and Modals to give them access to the methods
-                this.drawControl = drawControl;
-              }}
-              position="bottom-right"
-              onDrawCreate={this.onDrawCreate}
-              modes={this.modes}
-              defaultMode="simple_select"
-              onDrawModeChange={(e) => console.log("draw mode changed", e)}
-              onDrawUpdate={this.onDrawUpdate}
-              onDrawSelectionChange={this.onDrawSelectionChange}
-              onDrawActionable={(e) => console.log("draw actionable", e)}
-              onDrawDelete={this.onDrawDelete}
-            />
-            {
-              /* Render the drawing layers if they are not currently being redrawn */
-              /* This is the GEOJSON Layers, the react components with click events, that we use to display the popups*/
-              !this.state.redrawing && <DrawingLayers />
-            }
-          </Map>
-          <Nav drawControl={this.drawControl} user={this.props.user} />
-          <Modals
-            drawControl={this.drawControl}
-            redrawPolygons={this.redrawPolygons}
-          />
-          <div className="os-accreditation">
-            Contains OS data © Crown copyright and database rights 2018 OS
-            0100059691
-          </div>
-          {/* If menus are open, this invisible layer covers the whole app, when clicked, closes menus */}
-          <div
-            className="map-click-layer"
-            style={{
-              display: this.isMenuOpen() ? "block" : "none",
-            }}
-            onClick={() => {
-              this.props.dispatch({ type: "CLOSE_MENUS" });
-            }}
-          />
-        </div>
-      );
+            }}>
+          </div>*/}
+      </div>
+    );
   }
 }
 
