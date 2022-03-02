@@ -16,9 +16,6 @@ const config = {
         clean: true,
         //publicPath: '/'
     },
-    devServer: {
-        historyApiFallback: true,
-    },
     plugins: [
         new HtmlWebpackPlugin({
             templateContent: ({ htmlWebpackPlugin }) =>
@@ -90,6 +87,7 @@ const config = {
         ]
     },
     devServer: {
+        historyApiFallback: true,
         'static': {
             directory: './dist'
         }

@@ -16,44 +16,13 @@ class GeoCoder extends Component {
     var geocoder = new MapboxGeocoder({
       accessToken,
       placeholder: " Enter Location",
-      country: "gb",
-      zoom: 13
+      countries: "gb",
+      zoom: 13,
+      reverseGeocode: true
     });
 
     document.getElementById("geocoder").appendChild(geocoder.onAdd(map));
 
-    /*var searchButton = document.createElement("BUTTON");
-    var text = document.createTextNode("Search");
-    searchButton.appendChild(text);
-    searchButton.addEventListener("click", () => {
-      console.log(
-        "need help"
-      );
-
-      var keyEvent = new KeyboardEvent("pseudo return keypress", {
-        isTrusted: true,
-        key: 13,
-        keyCode: 13
-      });
-
-      console.log(
-        document.getElementById("geocoder").childNodes[0].childNodes[1]
-      );
-
-      document
-        .getElementById("geocoder")
-        .childNodes[0].childNodes[1].addEventListener("keydown", e =>
-          console.log(e)
-        );
-
-    });
-
-    document.getElementById("geocoder").appendChild(searchButton);
-    */
-
-    geocoder.on("results", results => {
-      console.log("geocoding results", results);
-    });
     geocoder.on("result", result => {
       this.props.setSearchMarker({
         lng: result.result.center[0],
