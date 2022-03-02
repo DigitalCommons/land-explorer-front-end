@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Property from "../components/Property";
+import { Layer, Feature } from 'react-mapbox-gl';
 import axios from "axios";
 import constants from "../constants";
 import { getAuthHeader } from "./Auth";
 import Loading from "../components/common/Loading";
+import { highlightProperty } from "../actions/LandOwnershipActions";
 
 class MapProperties extends Component {
   constructor(props) {
@@ -17,9 +18,11 @@ class MapProperties extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps != this.props)
-      if (this.props.displayActive && this.props.zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL)
-        this.getProperties();
+    if (prevProps != this.props &&
+      prevProps.highlightedProperty == this.props.highlightedProperty &&
+      this.props.displayActive &&
+      this.props.zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL)
+      this.getProperties();
   }
 
   async getProperties() {
@@ -42,7 +45,6 @@ class MapProperties extends Component {
 
     let properties = [];
 
-    //const propertiesData = response.data.slice(0, 100);
     const propertiesData = response.data;
 
     propertiesData.map((property) => {
@@ -60,42 +62,80 @@ class MapProperties extends Component {
   }
 
   createProperties() {
-    let properties = [];
+    const detailedProperties = [];
+    const basicProperties = [];
 
-    if (this.state.propertiesArray.length > 0)
-      this.state.propertiesArray.forEach((propertyInfo) =>
-        properties.push(<Property propertyInfo={propertyInfo} />)
-      );
+    this.state.propertiesArray.forEach(property => {
+      if (property.date_proprietor_added)
+        detailedProperties.push(<Feature
+          coordinates={[property.coordinates]}
+          key={property.coordinates[0][0]}
+          onClick={() => this.props.highlightProperty(property)}
+        />)
+      else
+        basicProperties.push(<Feature
+          coordinates={[property.coordinates]}
+          key={property.coordinates[0][0]}
+          onClick={() => this.props.highlightProperty(property)}
+        />)
+    })
 
-    if (this.props.highlightedProperty.length > 0) {
-      this.props.highlightedProperty.forEach(highlightedProperty =>
-        properties.push(<Property propertyInfo={highlightedProperty} highlight={true} />)
-      )
-    }
+    return <>
+      <Layer
+        type={"fill"}
+        paint={{
+          "fill-opacity": 0.15,
+          "fill-color": 'green',
+          "fill-outline-color": 'green',
+        }}
+      >
+        {detailedProperties}
+      </Layer>
+      <Layer
+        type={"fill"}
+        paint={{
+          "fill-opacity": 0.15,
+          "fill-color": 'orange',
+          "fill-outline-color": 'green',
+        }}
+      >
+        {basicProperties}
+      </Layer>
+    </>
 
-    return properties;
   }
 
   createHighlightedProperties() {
     let properties = []
     this.props.highlightedProperty.forEach(highlightedProperty =>
-      properties.push(<Property propertyInfo={highlightedProperty} highlight={true} />)
+      properties.push(<Feature
+        coordinates={[highlightedProperty.coordinates]}
+        key={highlightedProperty.coordinates[0][0]}
+      />)
     )
-    return properties;
+    return <Layer type={"fill"}
+      paint={{
+        "fill-opacity": 0.4,
+        "fill-color": 'red'
+      }}>
+      {properties}
+    </Layer>
   }
 
   render() {
-    const { loadingProperties } = this.state;
+    const { loadingProperties, propertiesArray } = this.state;
+    const { highlightedProperty } = this.props;
 
     if (this.props.displayActive && this.props.zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL)
-      return <React.Fragment>
+      return <>
         {loadingProperties && <Loading message={"fetching property boundaries"} />}
-        {this.createProperties()}
-      </React.Fragment>;
-    if (this.props.highlightedProperty.length > 0)
-      return <React.Fragment>
-        {this.createHighlightedProperties()}
-      </React.Fragment>
+        {propertiesArray && this.createProperties()}
+        {highlightedProperty && this.createHighlightedProperties()}
+      </>;
+    if (highlightedProperty.length > 0)
+      return <>
+        {highlightedProperty && this.createHighlightedProperties()}
+      </>
     else return null;
   }
 }
@@ -106,4 +146,4 @@ const mapStateToProps = ({ landOwnership, map }) => ({
   highlightedProperty: landOwnership.highlightedProperty
 });
 
-export default connect(mapStateToProps)(MapProperties);
+export default connect(mapStateToProps, { highlightProperty })(MapProperties);

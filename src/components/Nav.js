@@ -15,7 +15,7 @@ class Nav extends Component {
         super(props);
         this.state = {
             animating: false,
-            ownership: false
+            ownership: true
         }
     }
 
