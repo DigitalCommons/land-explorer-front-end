@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class ToggleSwitch extends Component {
@@ -6,17 +6,16 @@ class ToggleSwitch extends Component {
         super(props);
     }
     render() {
-        let { on, toggle, tooltip } = this.props;
+        const { on, toggle, tooltip } = this.props;
         return (
             <div className="toggle-switch"
-                 onClick = { (e) => 
-                    {
-                     e.preventDefault();
-                     toggle();
-                    }}
-                 
-                    data-tip
-                    data-for={tooltip}
+                onClick={(e) => {
+                    e.preventDefault();
+                    toggle();
+                }}
+
+                data-tip
+                data-for={tooltip}
             >
                 <label className="switch">
                     <input

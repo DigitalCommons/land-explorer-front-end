@@ -108,9 +108,9 @@ class MapApp extends Component {
              */
             return (
                 <div>
+                    <Tooltips />
                     <MapboxMap user={this.props.user} />
                     <Navbar limited={false} />
-                    <Tooltips />
                     <Controls />
                 </div>
             )

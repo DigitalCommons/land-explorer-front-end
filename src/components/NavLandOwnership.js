@@ -401,7 +401,7 @@ class NavLandOwnership extends Component {
           <p style={{ display: "inline", color: this.props.highlightMultiple ? "black" : "green" }}>Single</p>
           <ToggleSwitch
             on={this.props.highlightMultiple}
-            tooltip="Highlight single/multiple properties"
+            tooltip="highlightSingleMultiple"
             toggle={() => this.props.toggleHighlightMultiple()}
           />
           <p style={{ display: "inline", color: this.props.highlightMultiple ? "green" : "black" }}>Multiple</p>
