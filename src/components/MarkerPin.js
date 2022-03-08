@@ -93,16 +93,13 @@ class MarkerPin extends Component {
                                 }}
                                 value={this.state.input}
                                 onChange={(e) => {
-                                    let value = e.target.value;
-                                    if (value.length < 18) {
-                                        this.setState({
-                                            input: value
-                                        })
-                                    }
+                                    this.setState({
+                                        input: e.target.value
+                                    })
                                 }}
                             />
                         ) : (
-                            <h2>{marker.name}</h2>
+                            <h2 className="marker-name">{marker.name}</h2>
                         )}
                         {
                             this.state.editing ? (
