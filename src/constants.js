@@ -35,7 +35,7 @@ const constants = {
         lng: 2.7726241015535606
     }],
     LR_POLYGONS_ENABLED: true,
-    PROPERTY_BOUNDARIES_ZOOM_LEVEL: 17.5,
+    PROPERTY_BOUNDARIES_ZOOM_LEVEL: 15,
 }
 
 export const VERSION = "1.1";
