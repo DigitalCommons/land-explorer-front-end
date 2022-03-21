@@ -25,7 +25,7 @@ const constants = {
     PAYMENTS_URL: 'http://localhost:4000',
     //ROOT_URL: 'http://2.101.111.138:8080',
     WP_URL: 'https://www.landexplorer.cc',
-    GA_ID: 'UA-25676336-2',
+    GA_ID: 'G-S6XYPY9S5Y',
     OS_KEY: "kgoK3RJFt8WCAuzeUlGwlwnOHkCKAtNI",
     OS_PLACES_KEY: "GByeoRG21I61e4WAlXt5ujtqEZEhojdZ",
     MAPBOX_KEY: "",
