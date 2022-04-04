@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
+const Dotenv = require('dotenv-webpack');
 
 const config = {
     entry: [
@@ -52,6 +53,9 @@ const config = {
                     to: "../dist"
                 }
             ],
+        }),
+        new Dotenv({
+            path: './config/.env'
         })
     ],
     module: {
