@@ -10,8 +10,6 @@ import Spinner from "../components/common/Spinner";
 import constants from "../constants";
 import { tokensToFunction } from "path-to-regexp";
 
-const qs = require("querystring");
-
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -47,11 +45,11 @@ class Login extends Component {
   login = () => {
     this.setState({ error: false, loggingIn: true });
 
-    const requestBody = {
+    const loginDetails = new URLSearchParams({
       username: this.state.email.value,
       password: this.state.password.value,
       grant_type: "password"
-    };
+    });
 
     const config = {
       headers: {
@@ -61,7 +59,7 @@ class Login extends Component {
     };
 
     axios
-      .post(`${constants.ROOT_URL}/token`, qs.stringify(requestBody), config)
+      .post(`${constants.ROOT_URL}/token`, loginDetails, config)
       .then(response => {
         console.log(response.data);
 
