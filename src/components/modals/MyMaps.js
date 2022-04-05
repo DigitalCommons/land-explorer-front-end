@@ -1,12 +1,11 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import Modal from '../common/Modal';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import constants from '../../constants';
-import {isMobile} from 'react-device-detect';
+import { isMobile } from 'react-device-detect';
 import analytics from "../../analytics";
-import {getAuthHeader} from "../Auth";
+import { getAuthHeader } from "../Auth";
 const moment = require('moment/moment.js');
 
 
@@ -33,12 +32,12 @@ class MyMaps extends Component {
                 <tr key={`map-${i}`}
                     className={`table-map ${this.state.active.id === map.eid ? 'active' : ''}`}
                     onClick={() => {
-                        this.setState({ active: { id: map.eid, name: map.name }})
+                        this.setState({ active: { id: map.eid, name: map.name } })
                     }}
                 >
-                    <td style={{ width: '230px'}}>{map.name}</td>
+                    <td style={{ width: '230px' }}>{map.name}</td>
                     <td>{momentDate}</td>
-                    <td className="table-icon table-share" style={{ width: '24px'}}
+                    <td className="table-icon table-share" style={{ width: '24px' }}
                         onClick={() => {
                             analytics.pageview('/app/my-maps/share');
                             this.props.dispatch({
@@ -49,7 +48,7 @@ class MyMaps extends Component {
                         }}
                     />
                     <td className="table-icon table-trash"
-                        onClick={() => this.setState({trash: true})}
+                        onClick={() => this.setState({ trash: true })}
                     />
                 </tr>
             )
@@ -68,36 +67,36 @@ class MyMaps extends Component {
                     </div>
                     <div className="modal-buttons">
                         <div className="button button-cancel button-small"
-                             onClick={() => {
-                                 this.setState({ trash: false })
-                             }}
+                            onClick={() => {
+                                this.setState({ trash: false })
+                            }}
                         >
                             Cancel
                         </div>
                         <div className="button button-small"
-                             onClick={() => {
-                                 axios.post(`${constants.ROOT_URL}/api/user/map/delete/`, {
-                                     "eid": this.state.active.id
-                                 }, getAuthHeader())
-                                 .then((response) => {
-                                     if (this.state.active.id === currentMapId) {
-                                         this.props.dispatch({ type: 'NEW_MAP' });
-                                         this.props.drawControl.draw.deleteAll();
-                                         setTimeout(() => {
-                                             this.props.dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo'})
-                                         });
-                                     }
-                                     axios.get(`${constants.ROOT_URL}/api/user/maps/`,getAuthHeader())
-                                         .then((response) => {
-                                             console.log("maps response", response);
-                                             this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
-                                             this.setState({ trash: false });
-                                         })
-                                         .catch(() => {
-                                             this.setState({ trash: false });
-                                         })
-                                 });
-                             }}
+                            onClick={() => {
+                                axios.post(`${constants.ROOT_URL}/api/user/map/delete/`, {
+                                    "eid": this.state.active.id
+                                }, getAuthHeader())
+                                    .then((response) => {
+                                        if (this.state.active.id === currentMapId) {
+                                            this.props.dispatch({ type: 'NEW_MAP' });
+                                            this.props.drawControl.draw.deleteAll();
+                                            setTimeout(() => {
+                                                this.props.dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo' })
+                                            });
+                                        }
+                                        axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
+                                            .then((response) => {
+                                                console.log("maps response", response);
+                                                this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
+                                                this.setState({ trash: false });
+                                            })
+                                            .catch(() => {
+                                                this.setState({ trash: false });
+                                            })
+                                    });
+                            }}
                         >
                             Delete
                         </div>
@@ -109,54 +108,54 @@ class MyMaps extends Component {
                 <Modal id="myMaps">
                     <div className="modal-title">My Maps</div>
                     <div className="modal-content modal-content-trash"
-                    style={{ textAlign: 'center'}}>
+                        style={{ textAlign: 'center' }}>
                         {`Load "${this.state.active.name}"?`}
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         Any unsaved changes to the current map will be lost.
                     </div>
                     <div className="modal-buttons">
                         <div className="button button-cancel button-small"
-                             onClick={() => {
-                                 this.setState({ load: false })
-                             }}
+                            onClick={() => {
+                                this.setState({ load: false })
+                            }}
                         >
                             Cancel
                         </div>
                         <div className="button button-small"
-                             onClick={() => {
-                                 let savedMap = this.props.myMaps.filter((item) => item.map.eid === this.state.active.id);
-                                 savedMap = JSON.parse(savedMap[0].map.data);
-                                 console.log("saved map", savedMap);
-                                 if (savedMap) {
-                                     this.props.drawControl.draw.deleteAll();
-                                     axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
-                                         "eid": this.state.active.id,
-                                     }, getAuthHeader())
-                                     this.props.dispatch({
-                                         type: 'LOAD_MAP',
-                                         payload: savedMap,
-                                         id: this.state.active.id
-                                     });
-                                     this.props.dispatch({
-                                         type: 'CLOSE_MODAL',
-                                         payload: 'myMaps'
-                                     });
-                                     this.setState({ load: false });
-                                     if (!isMobile) {
-                                         this.props.dispatch({type: 'READ_ONLY_OFF'});
-                                     }
-                                     setTimeout(() => {
-                                         this.props.redrawPolygons();
-                                     }, 200);
-                                     setTimeout(() => {
-                                         this.props.dispatch({
-                                             type: 'CHANGE_MOVING_METHOD',
-                                             payload: 'flyTo'
-                                         })
-                                     }, 1000)
-                                 }
-                             }}
+                            onClick={() => {
+                                let savedMap = this.props.myMaps.filter((item) => item.map.eid === this.state.active.id);
+                                savedMap = JSON.parse(savedMap[0].map.data);
+                                console.log("saved map", savedMap);
+                                if (savedMap) {
+                                    this.props.drawControl.draw.deleteAll();
+                                    axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
+                                        "eid": this.state.active.id,
+                                    }, getAuthHeader())
+                                    this.props.dispatch({
+                                        type: 'LOAD_MAP',
+                                        payload: savedMap,
+                                        id: this.state.active.id
+                                    });
+                                    this.props.dispatch({
+                                        type: 'CLOSE_MODAL',
+                                        payload: 'myMaps'
+                                    });
+                                    this.setState({ load: false });
+                                    if (!isMobile) {
+                                        this.props.dispatch({ type: 'READ_ONLY_OFF' });
+                                    }
+                                    setTimeout(() => {
+                                        this.props.redrawPolygons();
+                                    }, 200);
+                                    setTimeout(() => {
+                                        this.props.dispatch({
+                                            type: 'CHANGE_MOVING_METHOD',
+                                            payload: 'flyTo'
+                                        })
+                                    }, 1000)
+                                }
+                            }}
                         >
                             Ok
                         </div>
@@ -171,9 +170,9 @@ class MyMaps extends Component {
                         <table>
                             <thead>
                                 <tr>
-                                    <th style={{ width: '230px'}}>Name</th>
+                                    <th style={{ width: '230px' }}>Name</th>
                                     <th>Modified</th>
-                                    <th className="table-icon" style={{ width: '24px'}}></th>
+                                    <th className="table-icon" style={{ width: '24px' }}></th>
                                     <th className="table-icon"></th>
                                 </tr>
                             </thead>
@@ -191,19 +190,19 @@ class MyMaps extends Component {
                     </div>
                     <div className="modal-buttons">
                         <div className="button button-cancel button-small"
-                             onClick={() => this.props.dispatch({
-                                 type: 'CLOSE_MODAL',
-                                 payload: 'myMaps'
-                             })}
+                            onClick={() => this.props.dispatch({
+                                type: 'CLOSE_MODAL',
+                                payload: 'myMaps'
+                            })}
                         >
                             Cancel
                         </div>
                         <div className="button button-small"
-                             onClick={() => {
-                                 if (this.state.active !== null) {
+                            onClick={() => {
+                                if (this.state.active !== null) {
                                     this.setState({ load: true })
-                                 }
-                             }}
+                                }
+                            }}
                         >
                             Open
                         </div>

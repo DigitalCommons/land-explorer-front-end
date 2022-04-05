@@ -1,8 +1,6 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from "react-redux";
+import React, { Component } from 'react';
+import { connect } from "react-redux";
 import Drawing from './Drawing';
-import * as MapboxGL from 'mapbox-gl';
 
 class DrawingLayers extends Component {
     renderPolygons = () => {
@@ -11,17 +9,17 @@ class DrawingLayers extends Component {
             let type = polygon.data.geometry.type === 'Polygon' ? 'polygon' : 'line';
             console.log("type", type);
             return (<Drawing
-              type={type}
-              key={polygon.id}
-              polygon={polygon}
-              name={polygon.name}
+                type={type}
+                key={polygon.id}
+                polygon={polygon}
+                name={polygon.name}
             />)
         })
     }
     render() {
         return (
             <div>
-                { this.props.polygons.length && this.renderPolygons() }
+                {this.props.polygons.length && this.renderPolygons()}
             </div>
         );
     }

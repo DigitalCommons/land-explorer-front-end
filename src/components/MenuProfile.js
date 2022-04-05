@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
-import { Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getMyMaps } from '../actions/MapActions';
 import { openModal } from '../actions/ModalActions';
 import { changeUser } from '../actions/UserActions'

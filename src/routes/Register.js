@@ -1,13 +1,12 @@
-import React, { Component, Fragment } from "react";
-import PropTypes from "prop-types";
-import Navbar from "../components/Navbar";
-import { Link, Redirect } from "react-router-dom";
-import Select from "react-select";
-import Spinner from '../components/common/Spinner';
 import axios from "axios/index";
-import constants from "../constants";
+import React, { Component, Fragment } from "react";
+import { Link } from "react-router-dom";
+import Select from "react-select";
 import Swal from "sweetalert2";
+import Spinner from '../components/common/Spinner';
 import GoCardlessModal from "../components/modals/GoCardlessModal";
+import Navbar from "../components/Navbar";
+import constants from "../constants";
 
 class Register extends Component {
   constructor(props) {

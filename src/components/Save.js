@@ -1,11 +1,10 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {VERSION} from '../constants';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { VERSION } from '../constants';
 import Modal from './common/Modal';
 import axios from 'axios';
 import constants from '../constants';
-import {getAuthHeader} from "../components/Auth";
+import { getAuthHeader } from "../components/Auth";
 
 class Save extends Component {
     constructor(props) {
@@ -16,7 +15,7 @@ class Save extends Component {
     }
 
     saveMap = (withId) => {
-        let {map, drawings, markers, mapLayers, readOnly, currentMapId, saveAs} = this.props;
+        let { map, drawings, markers, mapLayers, readOnly, currentMapId, saveAs } = this.props;
         let saveData = {
             map: {
                 ...map,
@@ -32,8 +31,8 @@ class Save extends Component {
             name: withId ? map.name : this.state.name,
         };
         saveData = JSON.stringify(saveData);
-        
-        this.setState({name: ''});
+
+        this.setState({ name: '' });
         let body = {
             "eid": withId ? currentMapId : "",
             "name": withId ? map.name : this.state.name,
@@ -45,13 +44,13 @@ class Save extends Component {
                 console.log("save response", response);
                 axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
                     .then((response) => {
-                        this.props.dispatch({type: 'POPULATE_MY_MAPS', payload: response.data});
+                        this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
                         this.props.dispatch({
                             type: 'CLOSE_MODAL',
                             payload: 'save'
                         });
                         if (this.props.currentMapId === null) {
-                            let newMap = response.data[response.data.length -1];
+                            let newMap = response.data[response.data.length - 1];
                             console.log("THE NEW MAP", newMap);
                             let newMapId = newMap.map.eid;
                             console.log("newmapid", newMapId);
@@ -77,7 +76,7 @@ class Save extends Component {
     }
 
     render() {
-        let {map, readOnly, saveAs} = this.props;
+        let { map, readOnly, saveAs } = this.props;
         console.log("save - readOnly?", readOnly);
         if (readOnly) {
             return (
@@ -90,36 +89,36 @@ class Save extends Component {
                             className="text-input"
                             type="text"
                             placeholder="Name"
-                            style={{marginBottom: '22px'}}
+                            style={{ marginBottom: '22px' }}
                             value={this.state.name}
                             onChange={(e) => {
                                 let value = e.target.value;
-                                this.setState({name: value});
+                                this.setState({ name: value });
                             }}
                         />
                     </div>
                     <div className="modal-buttons">
                         <div className="button button-cancel rounded-button-full modal-button-cancel"
-                             onClick={() => {
-                                 if (saveAs) {
-                                     this.props.dispatch({ type: 'SAVE_AS_OFF' })
-                                 } else {
-                                     this.props.dispatch({
-                                         type: 'CLOSE_MODAL',
-                                         payload: 'save'
-                                     });
-                                     this.setState({name: ''});
-                                 }
-                             }}
+                            onClick={() => {
+                                if (saveAs) {
+                                    this.props.dispatch({ type: 'SAVE_AS_OFF' })
+                                } else {
+                                    this.props.dispatch({
+                                        type: 'CLOSE_MODAL',
+                                        payload: 'save'
+                                    });
+                                    this.setState({ name: '' });
+                                }
+                            }}
                         >
                             Cancel
                         </div>
                         <div className="button rounded-button-full modal-button-confirm"
-                             onClick={() => {
-                                 if ((this.state.name !== '') && (this.state.name !== 'New Map')) {
-                                     this.saveMap(false);
-                                 }
-                             }}
+                            onClick={() => {
+                                if ((this.state.name !== '') && (this.state.name !== 'New Map')) {
+                                    this.saveMap(false);
+                                }
+                            }}
                         >
                             Save
                         </div>
@@ -148,23 +147,23 @@ class Save extends Component {
                                         marginBottom: '12px'
                                     }}>
                                         <div className="button button-cancel button-small"
-                                             style={{
-                                                 marginRight: '12px'
-                                             }}
-                                             onClick={() => {
-                                                 this.props.dispatch({
-                                                     type: 'CLOSE_MODAL',
-                                                     payload: 'save'
-                                                 });
-                                                 this.props.dispatch({ type: 'SAVE_AS_OFF' });
-                                             }}
+                                            style={{
+                                                marginRight: '12px'
+                                            }}
+                                            onClick={() => {
+                                                this.props.dispatch({
+                                                    type: 'CLOSE_MODAL',
+                                                    payload: 'save'
+                                                });
+                                                this.props.dispatch({ type: 'SAVE_AS_OFF' });
+                                            }}
                                         >
                                             Cancel
                                         </div>
                                         <div className="button button-small"
-                                             onClick={() => {
-                                                 this.saveMap(true);
-                                             }}
+                                            onClick={() => {
+                                                this.saveMap(true);
+                                            }}
                                         >
                                             Save
                                         </div>
@@ -177,7 +176,7 @@ class Save extends Component {
                                         alignItems: 'center',
                                         display: 'flex'
                                     }}>
-                                        <p style={{marginBottom: 0}}>or,</p>
+                                        <p style={{ marginBottom: 0 }}>or,</p>
                                         <p
                                             style={{
                                                 marginBottom: 0,
@@ -204,36 +203,36 @@ class Save extends Component {
                                         className="text-input"
                                         type="text"
                                         placeholder="Name"
-                                        style={{marginBottom: '22px'}}
+                                        style={{ marginBottom: '22px' }}
                                         value={this.state.name}
                                         onChange={(e) => {
                                             let value = e.target.value;
-                                            this.setState({name: value});
+                                            this.setState({ name: value });
                                         }}
                                     />
                                 </div>
                                 <div className="modal-buttons">
                                     <div className="button button-cancel rounded-button-full modal-button-cancel"
-                                         onClick={() => {
-                                             if (saveAs) {
-                                                 this.props.dispatch({ type: 'SAVE_AS_OFF' })
-                                             } else {
-                                                 this.props.dispatch({
-                                                     type: 'CLOSE_MODAL',
-                                                     payload: 'save'
-                                                 });
-                                                 this.setState({name: ''});
-                                             }
-                                         }}
+                                        onClick={() => {
+                                            if (saveAs) {
+                                                this.props.dispatch({ type: 'SAVE_AS_OFF' })
+                                            } else {
+                                                this.props.dispatch({
+                                                    type: 'CLOSE_MODAL',
+                                                    payload: 'save'
+                                                });
+                                                this.setState({ name: '' });
+                                            }
+                                        }}
                                     >
                                         Cancel
                                     </div>
                                     <div className="button rounded-button-full modal-button-confirm"
-                                         onClick={() => {
-                                             if ((this.state.name !== '') && (this.state.name !== 'New Map')) {
-                                                 this.saveMap(false);
-                                             }
-                                         }}
+                                        onClick={() => {
+                                            if ((this.state.name !== '') && (this.state.name !== 'New Map')) {
+                                                this.saveMap(false);
+                                            }
+                                        }}
                                     >
                                         Save
                                     </div>
@@ -247,7 +246,7 @@ class Save extends Component {
     }
 }
 
-const mapStateToProps = ({drawings, map, markers, mapLayers, readOnly, mapMeta, save}) => ({
+const mapStateToProps = ({ drawings, map, markers, mapLayers, readOnly, mapMeta, save }) => ({
     drawings: drawings,
     mapLayers: mapLayers,
     map: map,

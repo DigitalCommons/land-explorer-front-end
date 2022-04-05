@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 class DrawingTool extends Component {
@@ -47,7 +46,7 @@ class DrawingTool extends Component {
     render() {
         let { activeTool, tool, size, name, drawControl } = this.props;
         let image = require('../../assets/img/icon-' + tool + (activeTool === tool ? '--white' : '') + '.svg');
-        return(
+        return (
             <div
                 className={`drawing-tool-section ${activeTool === tool ? 'active' : ''}`}
                 onClick={this.handleClick}
@@ -74,7 +73,7 @@ class DrawingTool extends Component {
     }
 }
 
-const mapStateToProps = ({navigation, drawings}) => ({
+const mapStateToProps = ({ navigation, drawings }) => ({
     activeTool: navigation.activeTool,
     active: navigation.active,
     activePolygon: drawings.activePolygon,

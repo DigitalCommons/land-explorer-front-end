@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Marker, Popup } from 'react-mapbox-gl';
 import { connect } from 'react-redux';
 

@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import NavTray from "./NavTray";
-import NavTrayItem from "./common/NavTrayItem";
 import ToggleSwitch from './common/ToggleSwitch';
-import Checkbox from "./common/Checkbox";
-import { checkServerIdentity } from "tls";
 import {
   displayProperties,
   stopDisplayingProperties,

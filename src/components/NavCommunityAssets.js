@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import NavTray from "./NavTray";
 import axios from "axios";
 import constants from "../constants";
-import { getAuthHeader, getToken } from "../components/Auth";
+import { getAuthHeader } from "../components/Auth";
 import { turnOnLayer, turnOffLayer } from "../actions/CommunityAssetsActions";
 import { connect } from "react-redux";
 import CouncilNavTrayItem from "./common/CouncilNavTrayItem";
@@ -96,8 +96,8 @@ class NavCommunityAssets extends Component {
     );
   }
 
-  get = function(obj, key) {
-    return key.split(".").reduce(function(o, x) {
+  get = function (obj, key) {
+    return key.split(".").reduce(function (o, x) {
       return typeof o == "undefined" || o === null ? o : o[x];
     }, obj);
   };

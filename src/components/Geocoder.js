@@ -1,5 +1,4 @@
-import React, { createElement, Component } from "react";
-import { Map } from "mapbox-gl";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";

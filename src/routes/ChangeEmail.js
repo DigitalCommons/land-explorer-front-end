@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import Spinner from '../components/common/Spinner';
-import Navbar from '../components/Navbar';
 import { Link } from 'react-router-dom';
 import constants from '../constants';
 import { getUserDetails } from '../actions/UserActions';

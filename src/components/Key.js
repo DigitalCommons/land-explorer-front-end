@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 class Key extends Component {
     renderKeys = () => {
@@ -8,10 +7,10 @@ class Key extends Component {
         return dataKeys.map((key, i) => {
             return (
                 <div key={i}
-                     style={{
-                         display: 'flex',
-                         marginBottom: '6px'
-                     }}
+                    style={{
+                        display: 'flex',
+                        marginBottom: '6px'
+                    }}
                 >
                     <div style={{
                         backgroundColor: data[key],
@@ -19,8 +18,8 @@ class Key extends Component {
                         height: '16px',
                         width: '16px',
                         marginRight: '6px'
-                    }}/>
-                    <div style={{ fontSize: '14px'}}>{key}</div>
+                    }} />
+                    <div style={{ fontSize: '14px' }}>{key}</div>
                 </div>
             )
         })
@@ -41,8 +40,8 @@ class Key extends Component {
                     borderBottom: '1px solid #d0d0d0',
                     width: '100%',
                     marginBottom: '12px',
-                }}/>
-                { this.renderKeys() }
+                }} />
+                {this.renderKeys()}
             </div>
         );
     }

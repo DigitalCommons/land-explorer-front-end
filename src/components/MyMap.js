@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
     Map,
     TileLayer,
@@ -14,8 +13,7 @@ import {
     Polyline,
     Rectangle,
     Tooltip,
-    GeoJSON,
-    ZoomControl
+    GeoJSON
 } from 'react-leaflet';
 import axios from 'axios';
 import { EditControl } from 'react-leaflet-draw';

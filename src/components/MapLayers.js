@@ -1,12 +1,11 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Source, Layer, Marker } from 'react-mapbox-gl';
+import { Source, Layer } from 'react-mapbox-gl';
 
 class MapLayers extends Component {
     render() {
         let { activeLayers } = this.props;
-        
+
         return (
             <React.Fragment>
                 <Source
@@ -189,7 +188,7 @@ class MapLayers extends Component {
                         "fill-color": "hsla(0, 24%, 20%, 0.5)",
                         "fill-opacity": activeLayers.indexOf('ncc-brownfield-sites') !== -1 ? .4 : 0,
                     }}
-                />                
+                />
                 <Layer
                     id="wards-may-2019-boundaries-uk-d9ukjy"
                     type="fill"

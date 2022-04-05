@@ -1,23 +1,12 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import ReactMapboxGl, {
-  Layer,
-  Feature,
-  Marker,
-  ZoomControl,
-  Source,
-  GeoJSONLayer,
-} from "react-mapbox-gl";
-import update from "immutability-helper";
-import * as MapboxGL from "mapbox-gl";
+import ReactMapboxGl from "react-mapbox-gl";
 import * as turf from "@turf/turf";
 import MapboxDraw from "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.js";
 import DrawControl from "react-mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import Markers from "./Markers";
 import MapLayers from "./MapLayers";
-import MapForSaleMarkers from "./MapForSaleMarkers";
 import DrawingLayers from "./DrawingLayers";
 import ZoomWarning from "./ZoomWarning";
 import Nav from "./Nav";
@@ -28,7 +17,6 @@ import mapSources from "../data/mapSources";
 import MapCommunityAssets from "./MapCommunityAssets";
 import MapCouncilLayers from "./MapCouncilLayers";
 import MapProperties from "./MapProperties";
-import Key from "./Key";
 
 const StaticMode = require("@mapbox/mapbox-gl-draw-static-mode");
 

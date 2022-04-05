@@ -1,10 +1,6 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
     Route,
-    Link,
-    Redirect,
-    withRouter,
     Switch
 } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -12,12 +8,12 @@ import MapApp from '../routes/MapApp';
 import MyAccount from '../routes/MyAccount';
 import axios from "axios/index";
 import constants from '../constants';
-import {getAuthHeader} from "../components/Auth";
+import { getAuthHeader } from "../components/Auth";
 
 class App extends Component {
 
     componentDidMount() {
-        axios.get(`${constants.ROOT_URL}/api/user/details/`,getAuthHeader())
+        axios.get(`${constants.ROOT_URL}/api/user/details/`, getAuthHeader())
             .then((response) => {
                 if (response.status === 200) {
                     if (response.status === 200) {
@@ -45,7 +41,7 @@ class App extends Component {
 
 App.propTypes = {};
 
-const mapStateToProps = ({authentication, user}) => ({
+const mapStateToProps = ({ authentication, user }) => ({
     authenticated: authentication.authenticated,
     loggedIn: authentication.loggedIn,
     user: user

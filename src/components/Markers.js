@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MarkerPin from './MarkerPin';
 import { Marker } from 'react-mapbox-gl';
@@ -61,13 +60,13 @@ class Markers extends Component {
                     searchMarker && (
                         <Marker
                             coordinates={searchMarker}
-                            style={{zIndex: 1}}
+                            style={{ zIndex: 1 }}
                         >
                             <img src={require('../assets/img/icon-marker-new--red.svg')} alt=""
-                                 style={{
-                                     height: 40,
-                                     width: 40
-                                 }}
+                                style={{
+                                    height: 40,
+                                    width: 40
+                                }}
                             />
                         </Marker>
                     )
@@ -76,13 +75,13 @@ class Markers extends Component {
                     currentLocation && (
                         <Marker
                             coordinates={currentLocation}
-                            style={{zIndex: 1}}
+                            style={{ zIndex: 1 }}
                         >
                             <img src={require('../assets/img/icon-current-location--blue.svg')} alt=""
-                                 style={{
-                                     height: 30,
-                                     width: 30
-                                 }}
+                                style={{
+                                    height: 30,
+                                    width: 30
+                                }}
                             />
                         </Marker>
                     )
@@ -101,7 +100,7 @@ class Markers extends Component {
 
 Markers.propTypes = {};
 
-const mapStateToProps = ({map, markers }) => ({
+const mapStateToProps = ({ map, markers }) => ({
     searchMarker: map.searchMarker,
     currentLocation: map.currentLocation,
     markers: markers.markers,

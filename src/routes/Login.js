@@ -1,14 +1,12 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Navbar from "../components/Navbar";
-import * as Auth from "../components/Auth";
-import { Link, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import withRouter from "../components/common/withRouter";
 import axios from "axios";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import * as Auth from "../components/Auth";
 import Spinner from "../components/common/Spinner";
+import withRouter from "../components/common/withRouter";
+import Navbar from "../components/Navbar";
 import constants from "../constants";
-import { tokensToFunction } from "path-to-regexp";
 
 class Login extends Component {
   constructor(props) {
