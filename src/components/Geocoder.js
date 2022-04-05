@@ -1,10 +1,10 @@
 import React, { createElement, Component } from "react";
 import { Map } from "mapbox-gl";
 import PropTypes from "prop-types";
-import { accessToken } from "../token";
 import { connect } from "react-redux";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import * as MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import constants from "../constants";
 import { setSearchMarker, clearSearchMarker, setLngLat } from "../actions/MapActions";
 
 class GeoCoder extends Component {
@@ -14,7 +14,7 @@ class GeoCoder extends Component {
   componentDidMount() {
     const { map } = this.context;
     var geocoder = new MapboxGeocoder({
-      accessToken,
+      accessToken: constants.GEOCODER_TOKEN,
       placeholder: " Enter Location",
       countries: "gb",
       zoom: 13,

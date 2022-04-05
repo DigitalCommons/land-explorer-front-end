@@ -1,6 +1,19 @@
 # Land Explorer Documentation (Front End)
 
+## Get Started
 
+1. Clone this repo
+2. 'yarn install'
+3. create a .env file in the config folder, copying and replacing the below:
+```
+PAYMENTS_URL=http://examples.payments.com
+GA_ID=replacethiskey
+OS_KEY=replacethiskey
+OS_PLACES_KEY=replacethiskey
+GEOCODER_TOKEN=replacethiskey
+MAPBOX_TOKEN=replacethiskey
+```
+4. 'yarn start'
 
 ### Libraries
 >**mapbox-gl** 
@@ -150,16 +163,3 @@ tippecanoe is a way of converting geojson to mbtiles (so that they can be upload
 > --drop-densest-as-needed automatically reduces polygon detail and lower zoom levels.
 
 <br/>
-
-## UI that will need to be built in the next phase
-
-    Land Ownership
-        - Land Ownership Nav Left Icon (deed icon)
-        - Property Information Search Form (and OS Places API async actions).
-        - Search Results - List Found properties (can select more than one)
-            - circular checkbox component 
-            - when selected show Title Document Cards in NavTray and show Polygons on map (UPRN -> TITLE_NO -> Inspire ID)
-        - Document Purchase
-            - Title Document Card
-            - Basket
-            - Checkout Page

@@ -20,6 +20,9 @@ import analytics from './analytics'
 import constants from './constants';
 import Authentication from './routes/Authentication';
 
+
+console.log(process.env.test)
+
 analytics.init();
 
 //Enable REDUX DevTools if not in production

@@ -35,7 +35,7 @@ const StaticMode = require("@mapbox/mapbox-gl-draw-static-mode");
 // Create Map Component with settings
 const Map = ReactMapboxGl({
   accessToken:
-    "pk.eyJ1Ijoiam9vbHp0IiwiYSI6ImNqYWpxNjJzOTJ3c2wzMm5pa3d6NWZ4bzAifQ.uh0IvJ8ggnsowL3GYhk5mg",
+    constants.MAPBOX_TOKEN,
   scrollZoom: true,
   dragRotate: false,
   minzoom: 6,

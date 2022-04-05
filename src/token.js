@@ -1,1 +1,0 @@
-export const accessToken = "pk.eyJ1IjoiY2hyaXNhdHNwb3JrIiwiYSI6ImNqZjg2OXR6bDFwZjgzNG80eTY0NGpycm0ifQ.oqfJaP1qTIHRt_o1QhZnKA";
