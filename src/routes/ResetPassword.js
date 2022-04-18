@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
 import axios from 'axios';
-import constants from '../constants';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import analytics from '../analytics';
+import constants from '../constants';
 
 class ResetPassword extends Component {
     constructor(props) {

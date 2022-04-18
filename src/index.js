@@ -10,18 +10,14 @@ import {
     Navigate,
     Routes
 } from 'react-router-dom';
-import '../node_modules/leaflet-draw/dist/leaflet.draw.css';
+//import '../node_modules/leaflet-draw/dist/leaflet.draw.css';
 import './index.css';
-//import 'react-select/dist/react-select.css';
 import MapApp from "./routes/MapApp";
 import MyAccount from "./routes/MyAccount";
 import FourOhFour from './routes/FourOhFour';
 import analytics from './analytics'
 import constants from './constants';
 import Authentication from './routes/Authentication';
-
-
-console.log(process.env.test)
 
 analytics.init();
 

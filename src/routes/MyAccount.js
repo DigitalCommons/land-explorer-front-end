@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Navbar from '../components/Navbar';
-import { Link, Redirect, Route, Routes } from 'react-router-dom';
-import Select from 'react-select';
-import Spinner from '../components/common/Spinner';
-import axios from "axios/index";
-import ChangePassword from "./ChangePassword";
-import ChangeEmail from "./ChangeEmail";
-import ChangeDetails from "./ChangeDetails";
 import { connect } from 'react-redux';
-import constants from '../constants';
-import { getUserDetails } from '../actions/UserActions';
+import { Link, Route, Routes } from 'react-router-dom';
 import { closeMenus } from '../actions/MenuActions';
+import { getUserDetails } from '../actions/UserActions';
 import analytics from '../analytics';
+import Spinner from '../components/common/Spinner';
+import ChangeDetails from "./ChangeDetails";
+import ChangeEmail from "./ChangeEmail";
+import ChangePassword from "./ChangePassword";
 
 class MyAccount extends Component {
     constructor(props) {

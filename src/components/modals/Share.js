@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import Modal from '../common/Modal';
 import axios from 'axios';
 import constants from '../../constants';
-import {getAuthHeader} from "../Auth";
+import { getAuthHeader } from "../Auth";
 
 class Share extends Component {
 
@@ -33,7 +32,7 @@ class Share extends Component {
     }
 
     closeModal = () => {
-        this.props.dispatch({ type: 'CLOSE_MODAL',  payload: 'share' });
+        this.props.dispatch({ type: 'CLOSE_MODAL', payload: 'share' });
         this.props.dispatch({ type: 'CLEAR_MAP_TO_SHARE' });
     }
 
@@ -46,20 +45,20 @@ class Share extends Component {
         axios.post(`${constants.ROOT_URL}/api/user/map/share/sync/`, {
             "eid": id,
             "emailAddresses": this.props.emails
-        },getAuthHeader())
-        .then((response) => {
-            if (response.status === 200) {
-                this.closeModal();
-                axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
-                    .then((response) => {
-                        console.log("maps response", response);
-                        this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data })
-                    })
-            } else {
-                console.log("There was an error sharing this map.")
-            }
-        })
-        .catch((err) => console.log("share error", err));
+        }, getAuthHeader())
+            .then((response) => {
+                if (response.status === 200) {
+                    this.closeModal();
+                    axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
+                        .then((response) => {
+                            console.log("maps response", response);
+                            this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data })
+                        })
+                } else {
+                    console.log("There was an error sharing this map.")
+                }
+            })
+            .catch((err) => console.log("share error", err));
     }
 
     componentDidUpdate(prevProps) {
@@ -85,16 +84,16 @@ class Share extends Component {
                             onChange={(e) => {
                                 this.setState({ input: e.target.value })
                             }}
-                            style={{marginBottom: '22px'}}
+                            style={{ marginBottom: '22px' }}
                         />
-                        <div style={{marginBottom: '24px'}}>
+                        <div style={{ marginBottom: '24px' }}>
                             {
                                 emails.map((email, i) => {
                                     return (
-                                        <div className="rounded-button-split" style={{marginBottom: '6px'}} key={email}>
+                                        <div className="rounded-button-split" style={{ marginBottom: '6px' }} key={email}>
                                             <div className="rounded-button-left">{email}</div>
                                             <div className="rounded-button-right rounded-button-close"
-                                                 onClick={() => this.removeEmail(i)}
+                                                onClick={() => this.removeEmail(i)}
                                             />
                                         </div>
                                     )
@@ -103,17 +102,17 @@ class Share extends Component {
                         </div>
                     </div>
                     <div className="round-button round-button-plus"
-                         style={{ position: 'absolute' }}
-                         onClick={this.addEmail}
+                        style={{ position: 'absolute' }}
+                        onClick={this.addEmail}
                     />
                     <div className="modal-buttons">
                         <div className="button button-cancel rounded-button-full modal-button-cancel"
-                             onClick={this.closeModal}
+                            onClick={this.closeModal}
                         >
                             Cancel
                         </div>
                         <div className={`button rounded-button-full modal-button-confirm`}
-                            onClick={ () => this.share(mapToShare.map.eid) }
+                            onClick={() => this.share(mapToShare.map.eid)}
                         >
                             Share
                         </div>
@@ -133,16 +132,16 @@ class Share extends Component {
                             onChange={(e) => {
                                 this.setState({ input: e.target.value })
                             }}
-                            style={{marginBottom: '22px'}}
+                            style={{ marginBottom: '22px' }}
                         />
-                        <div style={{marginBottom: '24px'}}>
+                        <div style={{ marginBottom: '24px' }}>
                             {
                                 emails.map((email, i) => {
                                     return (
-                                        <div className="rounded-button-split" style={{marginBottom: '6px'}}>
+                                        <div className="rounded-button-split" style={{ marginBottom: '6px' }}>
                                             <div className="rounded-button-left">{email}</div>
                                             <div className="rounded-button-right rounded-button-close"
-                                                 onClick={() => this.removeEmail(i)}
+                                                onClick={() => this.removeEmail(i)}
                                             />
                                         </div>
                                     )
@@ -151,17 +150,17 @@ class Share extends Component {
                         </div>
                     </div>
                     <div className="round-button round-button-plus"
-                         style={{ position: 'absolute' }}
-                         onClick={this.addEmail}
+                        style={{ position: 'absolute' }}
+                        onClick={this.addEmail}
                     />
                     <div className="modal-buttons">
                         <div className="button button-cancel rounded-button-full modal-button-cancel"
-                             onClick={this.closeModal}
+                            onClick={this.closeModal}
                         >
                             Cancel
                         </div>
                         <div className={`button rounded-button-full modal-button-confirm ${emails.length ? '' : ''}`}
-                             onClick={ () => this.share(currentMapId) }
+                            onClick={() => this.share(currentMapId)}
                         >
                             Share
                         </div>

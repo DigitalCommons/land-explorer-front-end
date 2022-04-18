@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {Motion, spring} from 'react-motion';
-import {range} from 'lodash';
+import React, { Component } from 'react';
+import { Motion, spring } from 'react-motion';
+import { range } from 'lodash';
 
 function reinsert(arr, from, to) {
     const _arr = arr.slice(0);
@@ -15,7 +14,7 @@ function clamp(n, min, max) {
     return Math.max(Math.min(n, max), min);
 }
 
-const springConfig = {stiffness: 300, damping: 50};
+const springConfig = { stiffness: 300, damping: 50 };
 
 class Draggable extends Component {
     constructor(props) {
@@ -49,7 +48,7 @@ class Draggable extends Component {
         this.handleMouseMove(e.touches[0]);
     };
 
-    handleMouseDown = (pos, pressY, {pageY}) => {
+    handleMouseDown = (pos, pressY, { pageY }) => {
         this.setState({
             topDeltaY: pageY - pressY,
             mouseY: pressY,
@@ -59,16 +58,16 @@ class Draggable extends Component {
     };
 
     handleMouseUp = () => {
-        this.setState({isPressed: false, topDeltaY: 0});
+        this.setState({ isPressed: false, topDeltaY: 0 });
     };
 
     handleMouseLeave = () => {
-        this.setState({isPressed: false, topDeltaY: 0});
+        this.setState({ isPressed: false, topDeltaY: 0 });
     }
 
-    handleMouseMove = ({pageY}) => {
+    handleMouseMove = ({ pageY }) => {
 
-        const {isPressed, topDeltaY, order, originalPosOfLastPressed, itemsCount} = this.state;
+        const { isPressed, topDeltaY, order, originalPosOfLastPressed, itemsCount } = this.state;
 
         if (isPressed) {
             const mouseY = pageY - topDeltaY;
@@ -77,20 +76,20 @@ class Draggable extends Component {
             if (currentRow !== order.indexOf(originalPosOfLastPressed)) {
                 newOrder = reinsert(order, order.indexOf(originalPosOfLastPressed), currentRow);
             }
-            this.setState({mouseY: mouseY, order: newOrder});
+            this.setState({ mouseY: mouseY, order: newOrder });
         }
 
     };
 
     render() {
-        let {itemHeight} = this.props;
-        let {mouseY, isPressed, originalPosOfLastPressed, order} = this.state;
+        let { itemHeight } = this.props;
+        let { mouseY, isPressed, originalPosOfLastPressed, order } = this.state;
         return (
             <div className="draggable-container"
-                 ref={(elem) => this.draggableRef = elem}
-                 style={{
-                     height: `${this.props.children.length * itemHeight}px`
-                 }}
+                ref={(elem) => this.draggableRef = elem}
+                style={{
+                    height: `${this.props.children.length * itemHeight}px`
+                }}
             >
                 <div>
                     {React.Children.map(this.props.children, (child, i) => {
@@ -107,7 +106,7 @@ class Draggable extends Component {
                             };
                         return (
                             <Motion style={style} key={i}>
-                                {({scale, shadow, y}) =>
+                                {({ scale, shadow, y }) =>
                                     <div
                                         className="draggable-item"
                                         style={{

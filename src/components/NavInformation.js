@@ -1,8 +1,6 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import NavTray from './NavTray';
-import NavTraySection from './common/NavTraySection';
 import MarkerSection from './MarkerSection';
 import PolygonSection from './PolygonSection';
 
@@ -12,7 +10,7 @@ class NavInformation extends Component {
     renderMarkers = () => {
         return this.props.markers.map((marker, i) => {
             return (
-                <MarkerSection marker={marker} key={`marker-${i}`}/>
+                <MarkerSection marker={marker} key={`marker-${i}`} />
             )
         });
     }
@@ -20,7 +18,7 @@ class NavInformation extends Component {
     renderPolygons = () => {
         return this.props.polygons.map((polygon, i) => {
             return (
-                <PolygonSection polygon={polygon} key={`polygon-${i}`}/>
+                <PolygonSection polygon={polygon} key={`polygon-${i}`} />
             )
         })
     }
@@ -39,7 +37,7 @@ class NavInformation extends Component {
                             {this.renderMarkers()}
                             {this.renderPolygons()}
                         </React.Fragment>
-                    ): (
+                    ) : (
                         <div style={{
                             width: '100%',
                             textAlign: 'center',

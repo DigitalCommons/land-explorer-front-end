@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { GeoJSONLayer, Popup } from 'react-mapbox-gl';
 import { connect } from "react-redux";
 import * as turf from '@turf/turf';
-import MarkerPin from './MarkerPin'
 
 class Drawing extends Component {
     constructor(props) {
