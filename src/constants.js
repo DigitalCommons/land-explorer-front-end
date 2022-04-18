@@ -19,7 +19,7 @@
 const constants = {
     PROD: true,
     WP_URL: 'https://www.landexplorer.cc',
-    ROOT_URL: 'http://landexpl.w28.wh-2.com/server',
+    ROOT_URL: process.env.ROOT_URL,
     PAYMENTS_URL: process.env.PAYMENTS_URL,
     GA_ID: process.env.GA_ID,
     OS_KEY: process.env.OS_KEY,
