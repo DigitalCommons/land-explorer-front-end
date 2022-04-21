@@ -21,6 +21,7 @@ import ForSaleReducer from "./ForSaleReducer";
 import CommunityAssetsReducer from "./CommunityAssetsReducer";
 import NodalsReducer from "./NodalsReducer";
 import LandOwnershipReducer from "./LandOwnershipReducer";
+import DataGroupsReducer from "./DataGroupsReducer";
 
 export default combineReducers({
   authentication: AuthenticationReducer,
@@ -45,4 +46,5 @@ export default combineReducers({
   forSale: ForSaleReducer,
   communityAssets: CommunityAssetsReducer,
   landOwnership: LandOwnershipReducer,
+  dataGroups: DataGroupsReducer,
 });

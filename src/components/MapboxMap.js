@@ -17,6 +17,7 @@ import mapSources from "../data/mapSources";
 import MapCommunityAssets from "./MapCommunityAssets";
 import MapCouncilLayers from "./MapCouncilLayers";
 import MapProperties from "./MapProperties";
+import MapDataGroups from "./MapDataGroups";
 
 const StaticMode = require("@mapbox/mapbox-gl-draw-static-mode");
 
@@ -302,6 +303,8 @@ class MapboxMap extends Component {
         >
           {/* Map Layers (greenbelt etc.)*/}
           <MapLayers />
+          {/* Map Data Groups displaying My Data */}
+          <MapDataGroups />
           {council &&  /* Map Council Layers (wards etc.)*/
             <MapCouncilLayers zoom={zoom} />
           }
