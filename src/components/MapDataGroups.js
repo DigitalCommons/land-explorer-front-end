@@ -76,6 +76,10 @@ const MapDataGroups = () => {
     }, []);
 
     const activeDataGroups = dataGroups && dataGroups.filter((group, index) => activeGroups.includes(index));
+    dispatch({
+        type: "STORE_ACTIVE_DATA_GROUPS",
+        payload: activeDataGroups
+    })
 
     const dataGroupMarkers = activeDataGroups && activeDataGroups.map(dataGroup =>
         dataGroup.markers.map(marker =>

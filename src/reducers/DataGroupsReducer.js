@@ -1,10 +1,12 @@
 const INITIAL_STATE = {
     dataGroupTitles: [],
     activeGroups: [],
+    activeDataGroups: []
 }
 
 let dataGroupTitles;
 let activeGroups;
+let activeDataGroups;
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -24,6 +26,12 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 activeGroups
+            }
+        case 'STORE_ACTIVE_DATA_GROUPS':
+            activeDataGroups = action.payload;
+            return {
+                ...state,
+                activeDataGroups
             }
         default:
             return state;

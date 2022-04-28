@@ -6,7 +6,6 @@ import constants from '../../constants';
 import { getAuthHeader } from "../Auth";
 
 class Share extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -71,10 +70,10 @@ class Share extends Component {
     render() {
         let { mapToShare, emails, currentMapId } = this.props;
         console.log("EMAILS", emails);
-        if (mapToShare) {
+        if (mapToShare || currentMapId !== null) {
             return (
                 <Modal id="share">
-                    <div className="modal-title">Share "{mapToShare.map.name}"</div>
+                    <div className="modal-title">Share{mapToShare ? ` "${mapToShare.map.name}"` : ""}</div>
                     <div className="modal-content">
                         <input
                             className="text-input"
@@ -112,55 +111,7 @@ class Share extends Component {
                             Cancel
                         </div>
                         <div className={`button rounded-button-full modal-button-confirm`}
-                            onClick={() => this.share(mapToShare.map.eid)}
-                        >
-                            Share
-                        </div>
-                    </div>
-                </Modal>
-            )
-        } else if (currentMapId !== null) {
-            return (
-                <Modal id="share">
-                    <div className="modal-title">Share</div>
-                    <div className="modal-content">
-                        <input
-                            className="text-input"
-                            type="text"
-                            placeholder="Email address"
-                            value={this.state.input}
-                            onChange={(e) => {
-                                this.setState({ input: e.target.value })
-                            }}
-                            style={{ marginBottom: '22px' }}
-                        />
-                        <div style={{ marginBottom: '24px' }}>
-                            {
-                                emails.map((email, i) => {
-                                    return (
-                                        <div className="rounded-button-split" style={{ marginBottom: '6px' }}>
-                                            <div className="rounded-button-left">{email}</div>
-                                            <div className="rounded-button-right rounded-button-close"
-                                                onClick={() => this.removeEmail(i)}
-                                            />
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                    </div>
-                    <div className="round-button round-button-plus"
-                        style={{ position: 'absolute' }}
-                        onClick={this.addEmail}
-                    />
-                    <div className="modal-buttons">
-                        <div className="button button-cancel rounded-button-full modal-button-cancel"
-                            onClick={this.closeModal}
-                        >
-                            Cancel
-                        </div>
-                        <div className={`button rounded-button-full modal-button-confirm ${emails.length ? '' : ''}`}
-                            onClick={() => this.share(currentMapId)}
+                            onClick={() => this.share(mapToShare ? mapToShare.map.eid : currentMapId)}
                         >
                             Share
                         </div>

@@ -15,8 +15,8 @@ class Save extends Component {
     }
 
     saveMap = (withId) => {
-        let { map, drawings, markers, mapLayers, readOnly, currentMapId, saveAs } = this.props;
-        let saveData = {
+        let { map, drawings, markers, mapLayers, activeDataGroups, readOnly, currentMapId, saveAs } = this.props;
+        const saveData = {
             map: {
                 ...map,
                 gettingLocation: false,
@@ -26,17 +26,19 @@ class Save extends Component {
             },
             drawings: drawings,
             markers: markers,
-            mapLayers: mapLayers,
+            mapLayers: {
+                activeLayers: mapLayers.activeLayers,
+                myDataLayers: activeDataGroups
+            },
             version: VERSION,
             name: withId ? map.name : this.state.name,
         };
-        saveData = JSON.stringify(saveData);
 
         this.setState({ name: '' });
-        let body = {
+        const body = {
             "eid": withId ? currentMapId : null,
             "name": withId ? map.name : this.state.name,
-            "data": saveData
+            "data": JSON.stringify(saveData)
         }
         console.log(JSON.stringify(body));
         axios.post(`${constants.ROOT_URL}/api/user/map/save/`, body, getAuthHeader())
@@ -76,7 +78,7 @@ class Save extends Component {
     }
 
     render() {
-        let { map, readOnly, saveAs } = this.props;
+        const { map, readOnly, saveAs } = this.props;
         console.log("save - readOnly?", readOnly);
         if (readOnly) {
             return (
@@ -246,9 +248,10 @@ class Save extends Component {
     }
 }
 
-const mapStateToProps = ({ drawings, map, markers, mapLayers, readOnly, mapMeta, save }) => ({
+const mapStateToProps = ({ drawings, map, markers, mapLayers, dataGroups, readOnly, mapMeta, save }) => ({
     drawings: drawings,
     mapLayers: mapLayers,
+    activeDataGroups: dataGroups.activeDataGroups,
     map: map,
     markers: markers,
     readOnly: readOnly.readOnly,
