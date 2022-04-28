@@ -34,7 +34,7 @@ class Save extends Component {
 
         this.setState({ name: '' });
         let body = {
-            "eid": withId ? currentMapId : "",
+            "eid": withId ? currentMapId : null,
             "name": withId ? map.name : this.state.name,
             "data": saveData
         }
