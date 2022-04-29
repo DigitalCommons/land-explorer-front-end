@@ -64,10 +64,11 @@ const MapDataGroups = () => {
         const result = await axios.get(`${constants.ROOT_URL}/api/datagroups`, getAuthHeader())
         setDataGroups(result.data);
 
-        const dataGroupTitles = result.data.map(dataGroup => dataGroup.title);
+        const dataGroupTitlesAndIDs = result.data.map(dataGroup =>
+            ({ title: dataGroup.title, id: dataGroup.iddata_groups }));
         dispatch({
             type: "SET_DATA_GROUP_TITLES",
-            payload: dataGroupTitles
+            payload: dataGroupTitlesAndIDs
         });
     }
 
@@ -75,7 +76,7 @@ const MapDataGroups = () => {
         loadDataGroups();
     }, []);
 
-    const activeDataGroups = dataGroups && dataGroups.filter((group, index) => activeGroups.includes(index));
+    const activeDataGroups = dataGroups && dataGroups.filter(group => activeGroups.includes(group.iddata_groups));
     dispatch({
         type: "STORE_ACTIVE_DATA_GROUPS",
         payload: activeDataGroups

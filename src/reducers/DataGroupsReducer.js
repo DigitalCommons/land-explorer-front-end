@@ -1,28 +1,29 @@
 const INITIAL_STATE = {
-    dataGroupTitles: [],
+    dataGroupTitlesAndIDs: [],
     activeGroups: [],
     activeDataGroups: []
 }
 
-let dataGroupTitles;
+let dataGroupTitlesAndIDs;
 let activeGroups;
 let activeDataGroups;
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case 'SET_DATA_GROUP_TITLES':
-            dataGroupTitles = action.payload;
+            dataGroupTitlesAndIDs = action.payload;
             return {
                 ...state,
-                dataGroupTitles
+                dataGroupTitlesAndIDs
             };
         case 'TOGGLE_DATA_GROUP':
             if (state.activeGroups.includes(action.payload)) {
-                activeGroups = state.activeGroups.filter(groupIndex => groupIndex != action.payload)
+                activeGroups = state.activeGroups.filter(groupId => groupId != action.payload)
             }
             else {
                 activeGroups = state.activeGroups.concat([action.payload]);
             }
+            console.log(activeGroups)
             return {
                 ...state,
                 activeGroups
@@ -32,6 +33,13 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 activeDataGroups
+            }
+        case 'LOAD_MAP':
+            const { myDataLayers } = action.payload.mapLayers;
+            activeGroups = myDataLayers.map(myDataLayer => myDataLayer.iddata_groups);
+            return {
+                ...state,
+                activeGroups
             }
         default:
             return state;

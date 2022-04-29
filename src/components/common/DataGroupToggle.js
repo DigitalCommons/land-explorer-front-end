@@ -2,13 +2,13 @@ import React from 'react';
 import ToggleSwitch from './ToggleSwitch';
 import { useDispatch } from 'react-redux';
 
-const DataGroupToggle = ({ title, layerIndex, active }) => {
+const DataGroupToggle = ({ title, layerId, active }) => {
     const dispatch = useDispatch();
 
     const toggleSwitch = () => {
         dispatch({
             type: "TOGGLE_DATA_GROUP",
-            payload: layerIndex
+            payload: layerId
         })
     }
 

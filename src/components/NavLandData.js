@@ -6,11 +6,11 @@ import DataGroupToggle from './common/DataGroupToggle';
 import Draggable from './Draggable';
 
 const NavLandData = ({ open, active, onClose }) => {
-    const dataGroupTitles = useSelector((state) => state.dataGroups.dataGroupTitles);
+    const dataGroupTitlesAndIDs = useSelector((state) => state.dataGroups.dataGroupTitlesAndIDs);
     const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
 
-    const myDataItems = dataGroupTitles && dataGroupTitles.map((title, index) =>
-        <DataGroupToggle title={title} layerIndex={index} active={activeGroups.includes(index)} />
+    const myDataItems = dataGroupTitlesAndIDs && dataGroupTitlesAndIDs.map(dataGroup =>
+        <DataGroupToggle title={dataGroup.title} layerId={dataGroup.id} active={activeGroups.includes(dataGroup.id)} />
     )
 
     return (
