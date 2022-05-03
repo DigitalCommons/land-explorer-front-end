@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Save from './Save';
 import MyMaps from './modals/MyMaps';
 import MySharedMaps from './modals/MySharedMaps';
-import Share from './modals/Share';
+import Share from './modals/Share/Share';
 import NewMap from './modals/NewMap';
 import Location from './modals/Location';
 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import constants from '../../constants';
-import { getAuthHeader } from "../Auth";
+import constants from '../../../constants';
+import { getAuthHeader } from "../../Auth";
 
 class EmailShare extends Component {
     constructor(props) {
@@ -67,7 +67,7 @@ class EmailShare extends Component {
     }
 
     render() {
-        let { mapToShare, emails, currentMapId, cancel } = this.props;
+        let { mapToShare, emails, cancel } = this.props;
         console.log("EMAILS", emails);
         return (
             <>
@@ -109,7 +109,7 @@ class EmailShare extends Component {
                         Cancel
                     </div>
                     <div className={`button rounded-button-full modal-button-confirm`}
-                        onClick={() => this.share(mapToShare ? mapToShare.map.eid : currentMapId)}
+                        onClick={() => this.share(mapId)}
                     >
                         Share
                     </div>
@@ -128,7 +128,6 @@ const mapStateToProps = ({ map, share, myMaps, mapMeta }) => ({
     mapToShare: share.mapToShare,
     emails: share.emails,
     myMaps: myMaps.maps,
-    currentMapId: mapMeta.currentMapId
 });
 
 export default connect(mapStateToProps)(EmailShare);
