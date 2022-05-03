@@ -135,9 +135,12 @@ class MyMaps extends Component {
                                     //pick up the old name for the landDataLayers
                                     if (savedMap.mapLayers.activeLayers) {
                                         console.log("happening")
-                                        savedMap.mapLayers["landDataLayers"] = savedMap.mapLayers.activeLayers;
+                                        savedMap.mapLayers.landDataLayers = savedMap.mapLayers.activeLayers;
                                     }
-                                    console.log(savedMap)
+                                    //fix that some have no dataLayers
+                                    if (!savedMap.mapLayers.myDataLayers) {
+                                        savedMap.mapLayers.myDataLayers = [];
+                                    }
 
                                     this.props.dispatch({
                                         type: 'LOAD_MAP',

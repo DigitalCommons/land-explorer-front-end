@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Save from './Save';
 import MyMaps from './modals/MyMaps';
 import MySharedMaps from './modals/MySharedMaps';
-import EmailShare from './modals/EmailShare';
 import Share from './modals/Share';
 import NewMap from './modals/NewMap';
 import Location from './modals/Location';
@@ -14,7 +13,6 @@ class Modals extends Component {
         return (
             <div>
                 <Share />
-                <EmailShare />
                 <Save />
                 <MyMaps drawControl={drawControl} redrawPolygons={redrawPolygons} />
                 <MySharedMaps drawControl={drawControl} redrawPolygons={redrawPolygons} />

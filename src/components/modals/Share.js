@@ -1,47 +1,61 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import Modal from '../common/Modal';
-import { useDispatch } from 'react-redux';
+import EmailShare from './EmailShare';
+import LinkShare from './LinkShare';
+import Download from './Download';
 
 const Share = () => {
+    const mapToShare = useSelector((state) => state.share.mapToShare);
+    const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
     const [stage, setStage] = useState("share");
-    const dispatch = useDispatch();
 
-    const shareByEmail = () => {
-        dispatch({
-            type: "CLOSE_MODAL",
-            payload: "share",
-        });
-        dispatch({
-            type: "OPEN_MODAL",
-            payload: "email-share",
-        });
-    }
+    if (!mapToShare && currentMapId == null)
+        return <Modal id="share">
+            <div className="modal-title">Share</div>
+            <div className="modal-content">
+                <div>Please save map first!</div>
+            </div>
+        </Modal>
 
     let modalContent;
 
     if (stage == "share")
-        modalContent = <>
-            <p onClick={shareByEmail}>Share Invite</p>
-            <p onClick={() => setStage("export")}>Export Data</p>
-        </>
+        modalContent = <div className='share-options-container'>
+            <div onClick={() => setStage("email")}>
+                <img src={require("../../assets/img/icon-share.svg")} className='share-option-icon' />
+                <p className='share-option-text'>Share Invite</p>
+            </div>
+            <div className='share-option-divider'></div>
+            <div onClick={() => setStage("export")}>
+                <img src={require("../../assets/img/icon-export.svg")} className='share-option-icon' />
+                <p className='share-option-text'>Export Data</p>
+            </div>
+        </div>
 
     if (stage == "export")
-        modalContent = <>
-            <p onClick={() => setStage("link")}>Generate GEOJson link</p>
-            <p onClick={() => setStage("download")}>Download Shapefile</p>
-        </>
+        modalContent = <div className='share-options-container'>
+            <div onClick={() => setStage("link")}>
+                <img src={require("../../assets/img/icon-link.svg")} className='share-option-icon' />
+                <p className='share-option-text'>Generate GEOJson link</p>
+            </div>
+            <div className='share-option-divider'></div>
+            <div onClick={() => setStage("download")}>
+                <img src={require("../../assets/img/icon-download.svg")} className='share-option-icon' />
+                <p className='share-option-text'>Download Shapefile</p>
+            </div>
+        </div>
+
+    if (stage == "email")
+        modalContent = <EmailShare cancel={() => setStage("share")} />
 
     if (stage == "link")
-        modalContent = <>
-            <p>Copy this link</p>
-        </>
+        modalContent = <LinkShare cancel={() => setStage("share")} />
 
     if (stage == "download")
-        modalContent = <>
-            <p>enjoy your download!</p>
-        </>
+        modalContent = <Download cancel={() => setStage("share")} />
 
-    return <Modal id="share">
+    return <Modal id="share" customClose={() => setStage("share")}>
         {modalContent}
     </Modal>
 }
