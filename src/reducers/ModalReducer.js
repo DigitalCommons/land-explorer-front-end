@@ -7,6 +7,10 @@ const INITIAL_STATE = {
         open: false,
         canToggle: true,
     },
+    "email-share": {
+        open: false,
+        canToggle: true,
+    },
     myMaps: {
         open: false,
         canToggle: true,
