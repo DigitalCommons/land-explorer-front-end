@@ -33,7 +33,7 @@ const LinkShare = ({ cancel, mapId }) => {
 
     return <>
         <div className="modal-title">Export</div>
-        <input type="text" disabled={true} value={linkText}></input>
+        <input type="text" disabled={true} value={linkText} className='link-text-input'></input>
         <div className="modal-buttons">
             <div className="button button-cancel rounded-button-full modal-button-cancel"
                 onClick={cancel}
@@ -46,7 +46,6 @@ const LinkShare = ({ cancel, mapId }) => {
                 {stage == "generate" ? "Generate" : stage == "copy" ? "Copy" : "Copied!"}
             </div>
         </div>
-
     </>
 }
 
