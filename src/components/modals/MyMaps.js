@@ -132,6 +132,13 @@ class MyMaps extends Component {
                                     axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
                                         "eid": this.state.active.id,
                                     }, getAuthHeader())
+                                    //pick up the old name for the landDataLayers
+                                    if (savedMap.mapLayers.activeLayers) {
+                                        console.log("happening")
+                                        savedMap.mapLayers["landDataLayers"] = savedMap.mapLayers.activeLayers;
+                                    }
+                                    console.log(savedMap)
+
                                     this.props.dispatch({
                                         type: 'LOAD_MAP',
                                         payload: savedMap,

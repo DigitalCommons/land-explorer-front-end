@@ -27,7 +27,7 @@ class Save extends Component {
             drawings: drawings,
             markers: markers,
             mapLayers: {
-                activeLayers: mapLayers.activeLayers,
+                landDataLayers: mapLayers.landDataLayers,
                 myDataLayers: activeDataGroups
             },
             version: VERSION,

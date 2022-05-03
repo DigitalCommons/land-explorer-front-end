@@ -1,39 +1,39 @@
 const INITIAL_STATE = {
-    activeLayers: [],
+    landDataLayers: [],
 }
-let activeLayers;
+let landDataLayers;
 let layerId;
 export default (state = INITIAL_STATE, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case 'TOGGLE_LAYER':
-            activeLayers = state.activeLayers.slice();
+            landDataLayers = state.landDataLayers.slice();
             layerId = action.payload;
-            if (activeLayers.indexOf(layerId) !== -1) {
-                activeLayers = activeLayers.filter(e => e !== layerId);
+            if (landDataLayers.indexOf(layerId) !== -1) {
+                landDataLayers = landDataLayers.filter(e => e !== layerId);
             } else {
-                activeLayers.push(layerId);
+                landDataLayers.push(layerId);
             }
             return {
                 ...state,
-                activeLayers: activeLayers
+                landDataLayers: landDataLayers
             }
         case 'LAYER_OFF':
-            activeLayers = state.activeLayers.slice();
+            landDataLayers = state.landDataLayers.slice();
             layerId = action.payload;
-            if (activeLayers.indexOf(layerId) !== -1) {
-                activeLayers = activeLayers.filter(e => e !== layerId);
+            if (landDataLayers.indexOf(layerId) !== -1) {
+                landDataLayers = landDataLayers.filter(e => e !== layerId);
             }
             return {
                 ...state,
-                activeLayers: activeLayers
+                landDataLayers: landDataLayers
             }
         case 'LAYER_ON':
-            activeLayers = state.activeLayers.slice();
+            landDataLayers = state.landDataLayers.slice();
             layerId = action.payload;
-            activeLayers.push(layerId);
+            landDataLayers.push(layerId);
             return {
                 ...state,
-                activeLayers: activeLayers
+                landDataLayers: landDataLayers
             }
         case 'LOAD_MAP':
             return action.payload.mapLayers;

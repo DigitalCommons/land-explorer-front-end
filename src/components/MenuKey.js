@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Key from './Key';
@@ -78,7 +78,7 @@ class MenuKey extends Component {
                 }
             },
             "wards-may-2019-boundaries-uk-d9ukjy": {
-                name:"Wards",
+                name: "Wards",
                 data: {
                     "Wards": "hsl(0, 100%, 0%)"
                 }
@@ -87,7 +87,7 @@ class MenuKey extends Component {
     }
 
     renderKeys() {
-        return this.props.activeLayers.map((layer, i) => {
+        return this.props.landDataLayers.map((layer, i) => {
             return (
                 <Key
                     key={i}
@@ -99,7 +99,7 @@ class MenuKey extends Component {
     }
 
     render() {
-        let { open, baseLayer, dispatch, activeLayers } = this.props;
+        let { open, baseLayer, dispatch, landDataLayers } = this.props;
         let mobile = window.innerWidth < 480;
         return mobile ? (
             <div style={{
@@ -111,19 +111,19 @@ class MenuKey extends Component {
                 overflowY: 'scroll',
                 background: 'white',
                 zIndex: 10000000,
-                display: open && activeLayers.length ? 'block' : 'none',
+                display: open && landDataLayers.length ? 'block' : 'none',
             }}>
                 <div style={{
                     position: 'fixed',
                     top: '24px',
                     right: '24px',
                 }}
-                     onClick={() => {
-                         this.props.dispatch({type: 'CLOSE_MENU_KEY'})
-                     }}
+                    onClick={() => {
+                        this.props.dispatch({ type: 'CLOSE_MENU_KEY' })
+                    }}
                 >
                     <img
-                        style={{height: '16px', width: '16px' }}
+                        style={{ height: '16px', width: '16px' }}
                         src={require('../assets/img/icon-close-new.svg')}
                         alt=""
                     />
@@ -136,38 +136,38 @@ class MenuKey extends Component {
                     paddingTop: '0px'
                 }}>
                     <h2>Layer Key</h2>
-                    {activeLayers && (this.renderKeys())}
-                    {(activeLayers.length === 0) && (
+                    {landDataLayers && (this.renderKeys())}
+                    {(landDataLayers.length === 0) && (
                         <div>No Layers selected</div>
                     )}
                 </div>
             </div>
         )
-        : (
-            <div style={{
-                display: open && activeLayers.length ? 'block' : 'none'
-            }}>
-                <div className="tooltip-menu tooltip-menu-layers tooltip-menu-key modal"
-                     onClick={(e) => {
-                         e.stopPropagation();
-                         e.preventDefault();
-                     }}
-                >
-                    <div style={{
-                        height: '300px',
-                        width: '220px',
-                        overflowY: 'scroll',
-                        padding: '6px'
-                    }}>
-                        <h3 style={{marginTop: 0}}>Layer Key</h3>
-                        {activeLayers && (this.renderKeys())}
-                        {(activeLayers.length === 0) && (
-                            <div>No Layers selected</div>
-                        )}
+            : (
+                <div style={{
+                    display: open && landDataLayers.length ? 'block' : 'none'
+                }}>
+                    <div className="tooltip-menu tooltip-menu-layers tooltip-menu-key modal"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                        }}
+                    >
+                        <div style={{
+                            height: '300px',
+                            width: '220px',
+                            overflowY: 'scroll',
+                            padding: '6px'
+                        }}>
+                            <h3 style={{ marginTop: 0 }}>Layer Key</h3>
+                            {landDataLayers && (this.renderKeys())}
+                            {(landDataLayers.length === 0) && (
+                                <div>No Layers selected</div>
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
     }
 }
 
@@ -177,7 +177,7 @@ MenuKey.propTypes = {
 
 const mapStateToProps = ({ menu, mapLayers }) => ({
     open: menu.key,
-    activeLayers: mapLayers.activeLayers,
+    landDataLayers: mapLayers.landDataLayers,
 });
 
 export default connect(mapStateToProps)(MenuKey);

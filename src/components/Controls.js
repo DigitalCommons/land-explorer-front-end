@@ -50,7 +50,7 @@ class Controls extends Component {
     }
 
     render() {
-        let { activeLayers, activeCommunityAssets } = this.props;
+        let { landDataLayers, activeCommunityAssets } = this.props;
         let { zooming } = this.state;
         return (
             <div>
@@ -59,7 +59,7 @@ class Controls extends Component {
                 />
                 {
                     // If layers are active show button toggle key menu
-                    activeLayers.length && (
+                    landDataLayers.length && (
                         <div className="menu-key-button"
                             onClick={() => this.props.toggleMenuKey()}
                         />
@@ -117,7 +117,7 @@ Controls.propTypes = {
 
 const mapStateToProps = ({ map, mapLayers, communityAssets, landOwnership }) => ({
     zoom: map.zoom,
-    activeLayers: mapLayers.activeLayers,
+    landDataLayers: mapLayers.landDataLayers,
     activeCommunityAssets: communityAssets.activeCommunityAssets,
     propertiesDisplay: landOwnership.displayActive,
 });
