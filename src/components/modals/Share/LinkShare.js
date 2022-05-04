@@ -34,6 +34,7 @@ const LinkShare = ({ cancel, mapId }) => {
     return <>
         <div className="modal-title">Export</div>
         <input type="text" disabled={true} value={linkText} className='link-text-input'></input>
+        <p className='modal-warning'>Note: this will make your map data available to anyone with this link</p>
         <div className="modal-buttons-float">
             <div className="button button-cancel rounded-button-full modal-button-cancel"
                 onClick={cancel}

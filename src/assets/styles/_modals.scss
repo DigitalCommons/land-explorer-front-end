@@ -238,9 +238,16 @@
 
 .link-text-input{
   background: #E3E3E5 0% 0% no-repeat padding-box;
+  font-size: 16px;
   border-radius: 4px;
   color: #78838E;
   width: 90%;
   margin-top: 25px;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
+  padding: 4px;
+}
+
+.modal-warning{
+  font-size: 12px;
+  margin: 0px;
 }
