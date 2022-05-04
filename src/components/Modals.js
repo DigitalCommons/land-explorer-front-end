@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Save from './Save';
+import Save from './modals/Save';
 import MyMaps from './modals/MyMaps';
 import MySharedMaps from './modals/MySharedMaps';
 import Share from './modals/Share/Share';

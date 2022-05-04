@@ -56,8 +56,11 @@
   transition: transform 400ms;
   width: 360px;
   max-width: 75vw;
-  padding-bottom: 56px;
   box-sizing: border-box;
+}
+
+.modal-padding{
+  padding-bottom: 56px;
 }
 
 #myMaps {
@@ -211,6 +214,12 @@
   align-items: center;
 }
 
+.share-option{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
 .share-option-icon{
   height: 55px;
   width: auto;
@@ -222,7 +231,9 @@
 }
 
 .share-option-text{
-  width: 138px;
+  width: auto;
+  max-width: 138px;
+  text-align: center;
 }
 
 .link-text-input{

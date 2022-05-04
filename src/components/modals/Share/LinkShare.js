@@ -34,7 +34,7 @@ const LinkShare = ({ cancel, mapId }) => {
     return <>
         <div className="modal-title">Export</div>
         <input type="text" disabled={true} value={linkText} className='link-text-input'></input>
-        <div className="modal-buttons">
+        <div className="modal-buttons-float">
             <div className="button button-cancel rounded-button-full modal-button-cancel"
                 onClick={cancel}
             >

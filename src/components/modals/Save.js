@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { VERSION } from '../constants';
-import Modal from './common/Modal';
+import { VERSION } from '../../constants';
+import Modal from '../common/Modal';
 import axios from 'axios';
-import constants from '../constants';
-import { getAuthHeader } from "../components/Auth";
+import constants from '../../constants';
+import { getAuthHeader } from "../Auth";
 
 class Save extends Component {
     constructor(props) {
@@ -82,7 +82,7 @@ class Save extends Component {
         console.log("save - readOnly?", readOnly);
         if (readOnly) {
             return (
-                <Modal id="save" customClose={() => {
+                <Modal id="save" padding={true} customClose={() => {
                     this.props.dispatch({ type: 'SAVE_AS_OFF' })
                 }}>
                     <div className="modal-title">Save copy of "{map.name}"</div>
@@ -129,7 +129,7 @@ class Save extends Component {
             )
         } else {
             return (
-                <Modal id="save" customClose={() => {
+                <Modal id="save" padding={true} customClose={() => {
                     this.props.dispatch({ type: 'SAVE_AS_OFF' })
                 }}>
                     <div className="modal-title">Save</div>

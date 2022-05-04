@@ -4,7 +4,7 @@
       <rect id="Rectangle_43" data-name="Rectangle 43" width="64.333" height="53.942" fill="none" stroke="#78838e" stroke-width="1.5"/>
     </clipPath>
   </defs>
-  <g id="Group_40" data-name="Group 40" clip-path="url(#clip-path)">
+  <g id="Group_40" data-name="Group 40">
     <path id="Path_11" data-name="Path 11" d="M60.886,36.619,47.531,18.674c1.978,0,6.927-.1,8.841-.1v-.786c-.393-16.9,0,0-.393-16.5V.5c4.562,0,4.869.02,9.43,0,0,0,0,.316,0,.786-.016,5.685,0,10.818,0,16.5v.786c1.9,0,6.846.085,8.841.085Z" transform="translate(-28.855 -0.305)" fill="none" stroke="#78838e" stroke-width="1.5"/>
     <path id="Path_12" data-name="Path 12" d="M56.9,84.895c0,.6.061,10.664.036,11.257H8.185V84.5H.5V101.78c.988,2.521,2.684,3.273,4.994,3.264C23.5,104.972,41.505,105,59.511,105c.446,0,.894.015,1.337-.025a3.872,3.872,0,0,0,3.561-4.121c.073-5.365,0-10.732-.028-16.1,0-.067-.14-.134-.292-.255h-6.6S56.9,84.5,56.9,84.895Z" transform="translate(-0.304 -51.299)" fill="none" stroke="#78838e" stroke-width="1.5"/>
   </g>

@@ -3,7 +3,7 @@ import Modal from '../common/Modal';
 import Spinner from '../common/Spinner';
 
 const Location = () => (
-    <Modal id="location">
+    <Modal id="location" padding={true}>
         <div style={{
             display: 'flex',
             flexDirection: 'column',

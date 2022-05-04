@@ -45,7 +45,7 @@ class MySharedMaps extends Component {
         let myMaps = this.props.myMaps.filter((map) => map.access === 'READ');
         if (this.state.trash) {
             return (
-                <Modal id="mySharedMaps">
+                <Modal id="mySharedMaps" padding={true}>
                     <div className="modal-title">Shared Maps</div>
                     <div className="modal-content modal-content-trash">
                         {`Delete "${this.state.active.name}"? This cannot be undone.`}
@@ -91,7 +91,7 @@ class MySharedMaps extends Component {
             )
         } else if (this.state.load) {
             return (
-                <Modal id="mySharedMaps">
+                <Modal id="mySharedMaps" padding={true}>
                     <div className="modal-title">Shared Maps</div>
                     <div className="modal-content modal-content-trash"
                         style={{ textAlign: 'center' }}>
@@ -163,7 +163,7 @@ class MySharedMaps extends Component {
             )
         } else if (myMaps.length) {
             return (
-                <Modal id="mySharedMaps">
+                <Modal id="mySharedMaps" padding={true}>
                     <div className="modal-title">Shared Maps</div>
                     <div className="modal-content">
                         <table>
@@ -209,7 +209,7 @@ class MySharedMaps extends Component {
             );
         } else {
             return (
-                <Modal id="mySharedMaps">
+                <Modal id="mySharedMaps" padding={true}>
                     <div className="modal-title">Shared Maps</div>
                     <div className="modal-content modal-content-trash">
                         <p>There are no shared maps.</p>

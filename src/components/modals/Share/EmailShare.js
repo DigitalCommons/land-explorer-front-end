@@ -102,7 +102,7 @@ class EmailShare extends Component {
                     style={{ position: 'absolute' }}
                     onClick={this.addEmail}
                 />
-                <div className="modal-buttons">
+                <div className="modal-buttons-float">
                     <div className="button button-cancel rounded-button-full modal-button-cancel"
                         onClick={cancel}
                     >

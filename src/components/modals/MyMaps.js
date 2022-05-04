@@ -61,7 +61,7 @@ class MyMaps extends Component {
         let myMaps = this.props.myMaps.filter((map) => map.access === 'WRITE');
         if (this.state.trash) {
             return (
-                <Modal id="myMaps">
+                <Modal id="myMaps" padding={true}>
                     <div className="modal-title">My Maps</div>
                     <div className="modal-content modal-content-trash">
                         {`Delete "${this.state.active.name}"? This cannot be undone.`}
@@ -106,7 +106,7 @@ class MyMaps extends Component {
             )
         } else if (this.state.load) {
             return (
-                <Modal id="myMaps">
+                <Modal id="myMaps" padding={true}>
                     <div className="modal-title">My Maps</div>
                     <div className="modal-content modal-content-trash"
                         style={{ textAlign: 'center' }}>
@@ -175,7 +175,7 @@ class MyMaps extends Component {
             )
         } else if (myMaps.length) {
             return (
-                <Modal id="myMaps">
+                <Modal id="myMaps" padding={true}>
                     <div className="modal-title">My Maps</div>
                     <div className="modal-content">
                         <table>
@@ -222,7 +222,7 @@ class MyMaps extends Component {
             );
         } else {
             return (
-                <Modal id="myMaps">
+                <Modal id="myMaps" padding={true}>
                     <div className="modal-title">My Maps</div>
                     <div className="modal-content modal-content-trash">
                         <p>There are no maps.</p>
