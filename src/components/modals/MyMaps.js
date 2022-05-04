@@ -44,7 +44,8 @@ class MyMaps extends Component {
                                 type: 'SET_MAP_TO_SHARE',
                                 payload: item
                             })
-                            this.props.dispatch({ type: 'OPEN_SHARE_MODAL' })
+                            this.props.dispatch({ type: "CLOSE_MODAL", payload: "myMaps" })
+                            this.props.dispatch({ type: 'OPEN_MODAL', payload: "share" })
                         }}
                     />
                     <td className="table-icon table-trash"
