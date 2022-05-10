@@ -57,7 +57,7 @@ class Login extends Component {
     };
 
     axios
-      .post(`${constants.ROOT_URL}/token`, loginDetails, config)
+      .post(`${constants.ROOT_URL}/api/token`, loginDetails, config)
       .then(response => {
         console.log(response.data);
 
