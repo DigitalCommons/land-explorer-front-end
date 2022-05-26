@@ -17,6 +17,7 @@ import mapSources from "../data/mapSources";
 import MapCommunityAssets from "./MapCommunityAssets";
 import MapCouncilLayers from "./MapCouncilLayers";
 import MapProperties from "./MapProperties";
+import MapDataGroups from "./MapDataGroups";
 
 const StaticMode = require("@mapbox/mapbox-gl-draw-static-mode");
 
@@ -251,7 +252,7 @@ class MapboxMap extends Component {
       zoom,
       lngLat,
       baseLayer,
-      activeLayers,
+      landDataLayers,
       name,
       navOpen,
       movingMethod,
@@ -302,6 +303,8 @@ class MapboxMap extends Component {
         >
           {/* Map Layers (greenbelt etc.)*/}
           <MapLayers />
+          {/* Map Data Groups displaying My Data */}
+          <MapDataGroups />
           {council &&  /* Map Council Layers (wards etc.)*/
             <MapCouncilLayers zoom={zoom} />
           }
@@ -321,7 +324,7 @@ class MapboxMap extends Component {
             /* Shows zoom warning if active layers are out of view */
           <ZoomWarning
             show={
-              (zoom < 9 && activeLayers.length > 0) ||
+              (zoom < 9 && landDataLayers.length > 0) ||
               (zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL && this.props.propertiesDisplay && constants.LR_POLYGONS_ENABLED)
             }
           />
@@ -392,7 +395,7 @@ const mapStateToProps = ({
   currentMarker: markers.currentMarker,
   markerCount: markers.id,
   baseLayer: mapBaseLayer.layer,
-  activeLayers: mapLayers.activeLayers,
+  landDataLayers: mapLayers.landDataLayers,
   activeTool: navigation.activeTool,
   activePolygon: drawings.activePolygon,
   polygons: drawings.polygons,

@@ -283,6 +283,15 @@
     margin-left: 12px;
   }
 }
+
+.modal-buttons-float{
+  float:right;
+  .button {
+    display: inline-block;
+    margin-left: 12px;
+  }
+}
+
 a {
   text-decoration: none;
 }

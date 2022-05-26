@@ -51,23 +51,6 @@ export default (state = INITIAL_STATE, action) => {
                     open: true,
                 }
             }
-        case 'OPEN_SHARE_MODAL':
-            return {
-                ...state,
-                myMaps: {
-                    open: false,
-                },
-                share: {
-                    open: true
-                }
-            }
-        case 'CLOSE_SHARE_MODAL':
-            return {
-                ...state,
-                share: {
-                    open: false
-                }
-            }
         default:
             return state;
     }

@@ -44,7 +44,8 @@ class MyMaps extends Component {
                                 type: 'SET_MAP_TO_SHARE',
                                 payload: item
                             })
-                            this.props.dispatch({ type: 'OPEN_SHARE_MODAL' })
+                            this.props.dispatch({ type: "CLOSE_MODAL", payload: "myMaps" })
+                            this.props.dispatch({ type: 'OPEN_MODAL', payload: "share" })
                         }}
                     />
                     <td className="table-icon table-trash"
@@ -60,7 +61,7 @@ class MyMaps extends Component {
         let myMaps = this.props.myMaps.filter((map) => map.access === 'WRITE');
         if (this.state.trash) {
             return (
-                <Modal id="myMaps">
+                <Modal id="myMaps" padding={true}>
                     <div className="modal-title">My Maps</div>
                     <div className="modal-content modal-content-trash">
                         {`Delete "${this.state.active.name}"? This cannot be undone.`}
@@ -105,7 +106,7 @@ class MyMaps extends Component {
             )
         } else if (this.state.load) {
             return (
-                <Modal id="myMaps">
+                <Modal id="myMaps" padding={true}>
                     <div className="modal-title">My Maps</div>
                     <div className="modal-content modal-content-trash"
                         style={{ textAlign: 'center' }}>
@@ -132,6 +133,16 @@ class MyMaps extends Component {
                                     axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
                                         "eid": this.state.active.id,
                                     }, getAuthHeader())
+                                    //pick up the old name for the landDataLayers
+                                    if (savedMap.mapLayers.activeLayers) {
+                                        console.log("happening")
+                                        savedMap.mapLayers.landDataLayers = savedMap.mapLayers.activeLayers;
+                                    }
+                                    //fix that some have no dataLayers
+                                    if (!savedMap.mapLayers.myDataLayers) {
+                                        savedMap.mapLayers.myDataLayers = [];
+                                    }
+
                                     this.props.dispatch({
                                         type: 'LOAD_MAP',
                                         payload: savedMap,
@@ -164,7 +175,7 @@ class MyMaps extends Component {
             )
         } else if (myMaps.length) {
             return (
-                <Modal id="myMaps">
+                <Modal id="myMaps" padding={true}>
                     <div className="modal-title">My Maps</div>
                     <div className="modal-content">
                         <table>
@@ -211,7 +222,7 @@ class MyMaps extends Component {
             );
         } else {
             return (
-                <Modal id="myMaps">
+                <Modal id="myMaps" padding={true}>
                     <div className="modal-title">My Maps</div>
                     <div className="modal-content modal-content-trash">
                         <p>There are no maps.</p>

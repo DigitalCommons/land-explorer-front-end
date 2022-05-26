@@ -45,7 +45,7 @@ class MySharedMaps extends Component {
         let myMaps = this.props.myMaps.filter((map) => map.access === 'READ');
         if (this.state.trash) {
             return (
-                <Modal id="mySharedMaps">
+                <Modal id="mySharedMaps" padding={true}>
                     <div className="modal-title">Shared Maps</div>
                     <div className="modal-content modal-content-trash">
                         {`Delete "${this.state.active.name}"? This cannot be undone.`}
@@ -91,7 +91,7 @@ class MySharedMaps extends Component {
             )
         } else if (this.state.load) {
             return (
-                <Modal id="mySharedMaps">
+                <Modal id="mySharedMaps" padding={true}>
                     <div className="modal-title">Shared Maps</div>
                     <div className="modal-content modal-content-trash"
                         style={{ textAlign: 'center' }}>
@@ -118,6 +118,19 @@ class MySharedMaps extends Component {
                                     axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
                                         "eid": this.state.active.id,
                                     }, getAuthHeader());
+
+                                    //pick up the old name for the landDataLayers
+                                    if (savedMap.mapLayers.activeLayers) {
+                                        console.log("happening")
+                                        savedMap.mapLayers.landDataLayers = savedMap.mapLayers.activeLayers;
+                                    }
+                                    //fix that some have no dataLayers
+                                    if (!savedMap.mapLayers.myDataLayers) {
+                                        savedMap.mapLayers.myDataLayers = [];
+                                    }
+
+                                    console.log(savedMap.mapLayers.activeLayers)
+                                    console.log(savedMap)
                                     this.props.dispatch({
                                         type: 'LOAD_MAP',
                                         payload: savedMap,
@@ -150,7 +163,7 @@ class MySharedMaps extends Component {
             )
         } else if (myMaps.length) {
             return (
-                <Modal id="mySharedMaps">
+                <Modal id="mySharedMaps" padding={true}>
                     <div className="modal-title">Shared Maps</div>
                     <div className="modal-content">
                         <table>
@@ -196,7 +209,7 @@ class MySharedMaps extends Component {
             );
         } else {
             return (
-                <Modal id="mySharedMaps">
+                <Modal id="mySharedMaps" padding={true}>
                     <div className="modal-title">Shared Maps</div>
                     <div className="modal-content modal-content-trash">
                         <p>There are no shared maps.</p>

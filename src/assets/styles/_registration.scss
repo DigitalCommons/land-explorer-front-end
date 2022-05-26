@@ -14,6 +14,7 @@
 display: flex;
 justify-content: space-evenly;
 margin-bottom: 0.5rem;
+padding: 1rem 0rem;
 }
 
 .account-type-card{
@@ -22,6 +23,7 @@ background-color: #27ae60;
 border-radius: 5%;
 padding: 0.5rem 5rem 1rem 1rem;
 text-align: left;
+max-width: 20%;
 }
 
 .account-type-card:hover{

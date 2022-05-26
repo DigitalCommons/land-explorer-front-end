@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ToggleSwitch from './ToggleSwitch';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 class NavTrayItem extends Component {
     constructor(props) {
@@ -19,15 +19,15 @@ class NavTrayItem extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevState.on !== this.state.on) {
             this.props.dispatch({
-                type: `LAYER_${ this.state.on ? 'ON' : 'OFF' }`,
+                type: `LAYER_${this.state.on ? 'ON' : 'OFF'}`,
                 payload: this.props.layerId
             });
         }
     }
 
     render() {
-        let { title, draggable, layerId, activeLayers } = this.props;
-        let active = activeLayers.indexOf(layerId) !== -1;
+        let { title, draggable, layerId, landDataLayers } = this.props;
+        let active = landDataLayers.indexOf(layerId) !== -1;
         return (
             <div
                 className={`tray-item`}
@@ -49,7 +49,7 @@ NavTrayItem.propTypes = {
 };
 
 const mapStateToProps = ({ mapLayers }) => ({
-    activeLayers: mapLayers.activeLayers
+    landDataLayers: mapLayers.landDataLayers
 })
 
 export default connect(mapStateToProps)(NavTrayItem);

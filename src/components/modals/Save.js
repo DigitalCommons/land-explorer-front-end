@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { VERSION } from '../constants';
-import Modal from './common/Modal';
+import { VERSION } from '../../constants';
+import Modal from '../common/Modal';
 import axios from 'axios';
-import constants from '../constants';
-import { getAuthHeader } from "../components/Auth";
+import constants from '../../constants';
+import { getAuthHeader } from "../Auth";
 
 class Save extends Component {
     constructor(props) {
@@ -15,8 +15,8 @@ class Save extends Component {
     }
 
     saveMap = (withId) => {
-        let { map, drawings, markers, mapLayers, readOnly, currentMapId, saveAs } = this.props;
-        let saveData = {
+        let { map, drawings, markers, mapLayers, activeDataGroups, readOnly, currentMapId, saveAs } = this.props;
+        const saveData = {
             map: {
                 ...map,
                 gettingLocation: false,
@@ -26,17 +26,19 @@ class Save extends Component {
             },
             drawings: drawings,
             markers: markers,
-            mapLayers: mapLayers,
+            mapLayers: {
+                landDataLayers: mapLayers.landDataLayers,
+                myDataLayers: activeDataGroups
+            },
             version: VERSION,
             name: withId ? map.name : this.state.name,
         };
-        saveData = JSON.stringify(saveData);
 
         this.setState({ name: '' });
-        let body = {
-            "eid": withId ? currentMapId : "",
+        const body = {
+            "eid": withId ? currentMapId : null,
             "name": withId ? map.name : this.state.name,
-            "data": saveData
+            "data": JSON.stringify(saveData)
         }
         console.log(JSON.stringify(body));
         axios.post(`${constants.ROOT_URL}/api/user/map/save/`, body, getAuthHeader())
@@ -76,11 +78,11 @@ class Save extends Component {
     }
 
     render() {
-        let { map, readOnly, saveAs } = this.props;
+        const { map, readOnly, saveAs } = this.props;
         console.log("save - readOnly?", readOnly);
         if (readOnly) {
             return (
-                <Modal id="save" customClose={() => {
+                <Modal id="save" padding={true} customClose={() => {
                     this.props.dispatch({ type: 'SAVE_AS_OFF' })
                 }}>
                     <div className="modal-title">Save copy of "{map.name}"</div>
@@ -127,7 +129,7 @@ class Save extends Component {
             )
         } else {
             return (
-                <Modal id="save" customClose={() => {
+                <Modal id="save" padding={true} customClose={() => {
                     this.props.dispatch({ type: 'SAVE_AS_OFF' })
                 }}>
                     <div className="modal-title">Save</div>
@@ -246,9 +248,10 @@ class Save extends Component {
     }
 }
 
-const mapStateToProps = ({ drawings, map, markers, mapLayers, readOnly, mapMeta, save }) => ({
+const mapStateToProps = ({ drawings, map, markers, mapLayers, dataGroups, readOnly, mapMeta, save }) => ({
     drawings: drawings,
     mapLayers: mapLayers,
+    activeDataGroups: dataGroups.activeDataGroups,
     map: map,
     markers: markers,
     readOnly: readOnly.readOnly,

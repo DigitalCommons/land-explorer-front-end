@@ -4,7 +4,7 @@ import { Source, Layer } from 'react-mapbox-gl';
 
 class MapLayers extends Component {
     render() {
-        let { activeLayers } = this.props;
+        let { landDataLayers } = this.props;
 
         return (
             <React.Fragment>
@@ -49,7 +49,7 @@ class MapLayers extends Component {
                             "#b2b2b2",
                             "hsl(0, 83%, 56%)"
                         ],
-                        "fill-opacity": activeLayers.indexOf('provisional-agricultural-land-ab795l') !== -1 ? .4 : 0,
+                        "fill-opacity": landDataLayers.indexOf('provisional-agricultural-land-ab795l') !== -1 ? .4 : 0,
                     }}
                 />
                 <Layer
@@ -102,7 +102,7 @@ class MapLayers extends Component {
                             "#8d8ead",
                             "#3980d0"
                         ],
-                        "fill-opacity": activeLayers.indexOf('national-forest-estate-soil-g-18j2ga') !== -1 ? .4 : 0,
+                        "fill-opacity": landDataLayers.indexOf('national-forest-estate-soil-g-18j2ga') !== -1 ? .4 : 0,
                     }}
                 />
                 <Layer
@@ -116,7 +116,7 @@ class MapLayers extends Component {
                     }}
                     paint={{
                         "fill-color": "hsl(196, 80%, 70%)",
-                        "fill-opacity": activeLayers.indexOf('historic-flood-map-5y05ao') !== -1 ? .4 : 0,
+                        "fill-opacity": landDataLayers.indexOf('historic-flood-map-5y05ao') !== -1 ? .4 : 0,
                     }}
                 />
                 <Layer
@@ -130,7 +130,7 @@ class MapLayers extends Component {
                     }}
                     paint={{
                         "fill-color": "hsl(1, 40%, 40%)",
-                        "fill-opacity": activeLayers.indexOf('sites-of-special-scientific-i-09kaq4') !== -1 ? .4 : 0,
+                        "fill-opacity": landDataLayers.indexOf('sites-of-special-scientific-i-09kaq4') !== -1 ? .4 : 0,
                     }}
                 />
                 <Layer
@@ -144,7 +144,7 @@ class MapLayers extends Component {
                     }}
                     paint={{
                         "fill-color": "hsl(51, 40%, 40%)",
-                        "fill-opacity": activeLayers.indexOf('special-protection-areas-engl-71pdjg') !== -1 ? .4 : 0,
+                        "fill-opacity": landDataLayers.indexOf('special-protection-areas-engl-71pdjg') !== -1 ? .4 : 0,
                     }}
                 />
                 <Layer
@@ -158,7 +158,7 @@ class MapLayers extends Component {
                     }}
                     paint={{
                         "fill-color": "hsl(101, 40%, 40%)",
-                        "fill-opacity": activeLayers.indexOf('special-areas-of-conservation-bm41zr') !== -1 ? .4 : 0,
+                        "fill-opacity": landDataLayers.indexOf('special-areas-of-conservation-bm41zr') !== -1 ? .4 : 0,
                     }}
                 />
                 <Layer
@@ -172,7 +172,7 @@ class MapLayers extends Component {
                     }}
                     paint={{
                         "fill-color": "hsla(113, 97%, 50%, 0.4)",
-                        "fill-opacity": activeLayers.indexOf('local-authority-greenbelt-bou-9r44t6') !== -1 ? .4 : 0,
+                        "fill-opacity": landDataLayers.indexOf('local-authority-greenbelt-bou-9r44t6') !== -1 ? .4 : 0,
                     }}
                 />
                 <Layer
@@ -186,7 +186,7 @@ class MapLayers extends Component {
                     }}
                     paint={{
                         "fill-color": "hsla(0, 24%, 20%, 0.5)",
-                        "fill-opacity": activeLayers.indexOf('ncc-brownfield-sites') !== -1 ? .4 : 0,
+                        "fill-opacity": landDataLayers.indexOf('ncc-brownfield-sites') !== -1 ? .4 : 0,
                     }}
                 />
                 <Layer
@@ -200,7 +200,7 @@ class MapLayers extends Component {
                     }}
                     paint={{
                         "fill-color": "hsla(0, 100%, 0%, 0.8)",
-                        "fill-opacity": activeLayers.indexOf('wards-may-2019-boundaries-uk-d9ukjy') !== -1 ? .4 : 0,
+                        "fill-opacity": landDataLayers.indexOf('wards-may-2019-boundaries-uk-d9ukjy') !== -1 ? .4 : 0,
                     }}
                 />
             </React.Fragment>
@@ -213,7 +213,7 @@ MapLayers.propTypes = {
 };
 
 const mapStateToProps = ({ mapLayers }) => ({
-    activeLayers: mapLayers.activeLayers,
+    landDataLayers: mapLayers.landDataLayers,
 });
 
 export default connect(mapStateToProps)(MapLayers);

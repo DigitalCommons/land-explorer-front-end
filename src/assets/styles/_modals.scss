@@ -56,8 +56,11 @@
   transition: transform 400ms;
   width: 360px;
   max-width: 75vw;
-  padding-bottom: 56px;
   box-sizing: border-box;
+}
+
+.modal-padding{
+  padding-bottom: 56px;
 }
 
 #myMaps {
@@ -68,7 +71,7 @@
     width: 511px;
     height: 320px;
     min-width: 511px !important;
-    @media ('max-width: 480px') {
+    @media (max-width: 480px) {
       min-width: 100vw !important;
     }
     table {
@@ -78,13 +81,13 @@
       user-select: none;
       th {
         font-size: 14px;
-        @media ('max-width: 480px') {
+        @media (max-width: 480px) {
           font-size: 12px !important;
         }
         height: 32px;
       }
       tr {
-        @media ('max-width: 480px') {
+        @media (max-width: 480px) {
           font-size: 12px !important;
         }
         height: 28px;
@@ -98,7 +101,7 @@
           background-size: auto 18px;
           background-repeat: no-repeat;
           background-position: 50%;
-          @media ('max-width: 480px') {
+          @media (max-width: 480px) {
             margin-left: 6px;
           }
         }
@@ -138,7 +141,7 @@
     width: 430px;
     height: 320px;
     min-width: 430px !important;
-    @media ('max-width: 480px') {
+    @media (max-width: 480px) {
       min-width: 100vw !important;
     }
     table {
@@ -149,13 +152,13 @@
       th {
         font-size: 14px;
         height: 32px;
-        @media ('max-width: 480px') {
+        @media (max-width: 480px) {
           font-size: 12px !important;
         }
       }
       tr {
         height: 28px;
-        @media ('max-width: 480px') {
+        @media (max-width: 480px) {
           font-size: 12px !important;
         }
       }
@@ -202,4 +205,53 @@
   align-items: center;
   justify-content: center;
   height: 65%;
+}
+
+.share-options-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.share-option{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.share-option-icon{
+  height: 55px;
+  width: auto;
+}
+
+.share-option-divider{
+  height: 121px;
+  border-left: 1px #707070 solid;
+}
+
+.share-option-text{
+  width: auto;
+  max-width: 138px;
+  text-align: center;
+}
+
+.link-text-input{
+  background: #E3E3E5 0% 0% no-repeat padding-box;
+  font-size: 16px;
+  border-radius: 4px;
+  color: #78838E;
+  width: 90%;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  padding: 4px;
+}
+
+.modal-warning{
+  font-size: 12px;
+  margin: 0px;
+}
+
+.download-text{
+  text-align: center;
 }

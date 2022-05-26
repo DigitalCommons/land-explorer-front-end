@@ -21,30 +21,30 @@ class Modal extends Component {
         }
     }
     closeModal = () => {
-        this.setState({opacity: 0, translateY: '-100%'});
+        this.setState({ opacity: 0, translateY: '-100%' });
         setTimeout(() => {
-            this.props.dispatch({type: 'CLOSE_MODAL', payload: this.props.id});
+            this.props.dispatch({ type: 'CLOSE_MODAL', payload: this.props.id });
             if (this.props.customClose) {
                 this.props.customClose();
             }
         }, 300);
     }
-    render(){
+    render() {
         let { opacity, translateY } = this.state;
-        let { title, style, canToggle } = this.props;
+        let { title, style, canToggle, padding } = this.props;
         return (
             <div id={this.props.id} className="Modal modal"
-                 style={ Object.assign({}, style, this.props.open === false ? { display: 'none' } : {opacity: this.state.opacity})}
+                style={Object.assign({}, style, this.props.open === false ? { display: 'none' } : { opacity: this.state.opacity })}
             >
                 <div className="ModalBackground"
-                     onClick={() => {
-                         if (canToggle === true) {
+                    onClick={() => {
+                        if (canToggle === true) {
                             this.closeModal();
-                         }
-                     }}
+                        }
+                    }}
                 />
-                <div className="ModalContent modal"
-                    style={{transform: `translateX(-50%) translateY(${translateY})`}}
+                <div className={"ModalContent modal" + (padding ? " modal-padding" : "")}
+                    style={{ transform: `translateX(-50%) translateY(${translateY})` }}
                 >
                     {
                         canToggle === true && (
