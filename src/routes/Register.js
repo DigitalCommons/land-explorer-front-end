@@ -540,18 +540,18 @@ class Register extends Component {
               })
             }}>
             <p className="account-type-title">Free</p>
-            <p className="account-type-text">- Lorum ipsum</p>
-            <p className="account-type-text">- Lorum ipsum</p>
+            <p className="account-type-text">Land Explorer is currently free for everyone!</p>
           </div>
           <div className={`account-type-card ${accountType == "paid" ? "active" : "inactive"}`}
             onClick={() => {
+              /* disable the payment flow
               this.setState({
                 accountType: "paid"
               })
+              */
             }}>
-            <p className="account-type-title">£30/month</p>
-            <p className="account-type-text">- Lorum ipsum</p>
-            <p className="account-type-text">- Lorum ipsum</p>
+            <p className="account-type-title">Solidarity Supporter</p>
+            <p className="account-type-text">Coming soon</p>
           </div>
         </div>
 
@@ -663,7 +663,6 @@ class Register extends Component {
         >Register</button>
       </Fragment>
 
-    console.log("organisation", organisation);
     return (
       <div
         style={{
