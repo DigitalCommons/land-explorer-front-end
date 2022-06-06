@@ -253,6 +253,7 @@ class MapboxMap extends Component {
       lngLat,
       baseLayer,
       landDataLayers,
+      propertiesDisplay,
       name,
       navOpen,
       movingMethod,
@@ -325,7 +326,7 @@ class MapboxMap extends Component {
           <ZoomWarning
             show={
               (zoom < 9 && landDataLayers.length > 0) ||
-              (zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL && this.props.propertiesDisplay && constants.LR_POLYGONS_ENABLED)
+              (zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL && propertiesDisplay && constants.LR_POLYGONS_ENABLED)
             }
           />
             /* Drawing tools */
@@ -359,6 +360,12 @@ class MapboxMap extends Component {
         <div className="os-accreditation">
           Contains OS data © Crown copyright and database rights 2022 OS
           0100059691
+          {(propertiesDisplay && zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL) && <>
+            <br />
+            This information is subject to Crown copyright and database rights 2022 and is reproduced with the permission of HM Land Registry.
+            <br />
+            The polygons (including the associated geometry, namely x, y co-ordinates) are subject to <a href="https://use-land-property-data.service.gov.uk/datasets/inspire#conditions">Crown copyright and database rights</a> 2022 Ordnance Survey 100026316.
+          </>}
         </div>
         {/* If menus are open, this invisible layer covers the whole app, when clicked, closes menus */}
         {/*<div
