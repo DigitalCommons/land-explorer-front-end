@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import constants from '../../../constants';
 import { getAuthHeader } from "../../Auth";
 
 const Download = ({ mapId }) => {
+    const mapName = useSelector((state) => state.map.name);
+
     const downloadMap = async () => {
         const headers = getAuthHeader();
         headers['Content-Disposition'] = 'attachment';
@@ -16,7 +19,7 @@ const Download = ({ mapId }) => {
         const blob = new Blob([response.data], { type: type, encoding: 'UTF-8' })
         const link = document.createElement('a')
         link.href = window.URL.createObjectURL(blob)
-        link.download = `map ${mapId} shapefile.zip`
+        link.download = `${mapName}-shapefile.zip`
         link.click()
 
 
