@@ -1,15 +1,23 @@
 const INITIAL_STATE = {
+    userGroupTitlesAndIDs: [],
     dataGroupTitlesAndIDs: [],
     activeGroups: [],
     activeDataGroups: []
 }
 
+let userGroupTitlesAndIDs;
 let dataGroupTitlesAndIDs;
 let activeGroups;
 let activeDataGroups;
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case 'SET_USER_GROUP_TITLES':
+            userGroupTitlesAndIDs = action.payload;
+            return {
+                ...state,
+                userGroupTitlesAndIDs
+            };
         case 'SET_DATA_GROUP_TITLES':
             dataGroupTitlesAndIDs = action.payload;
             return {

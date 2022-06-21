@@ -61,11 +61,28 @@ const MapDataGroups = () => {
     const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
 
     const loadDataGroups = async () => {
-        const result = await axios.get(`${constants.ROOT_URL}/api/datagroups`, getAuthHeader())
-        setDataGroups(result.data);
+        const result = await axios.get(`${constants.ROOT_URL}/api/userdatagroups`, getAuthHeader())
+        const userGroupsData = result.data;
 
-        const dataGroupTitlesAndIDs = result.data.map(dataGroup =>
-            ({ title: dataGroup.title, id: dataGroup.iddata_groups }));
+        const mergedDataGroups = [];
+
+        userGroupsData.forEach(userGroup => {
+            userGroup.dataGroups.forEach(dataGroup => {
+                dataGroup.userGroupId = userGroup.id;
+                mergedDataGroups.push(dataGroup);
+            })
+        });
+        setDataGroups(mergedDataGroups);
+
+        const userGroupTitlesAndIDs = userGroupsData.map(userGroup =>
+            ({ title: userGroup.name, id: userGroup.id }));
+        dispatch({
+            type: "SET_USER_GROUP_TITLES",
+            payload: userGroupTitlesAndIDs
+        });
+
+        const dataGroupTitlesAndIDs = mergedDataGroups.map(dataGroup =>
+            ({ title: dataGroup.title, id: dataGroup.iddata_groups, userGroupId: dataGroup.userGroupId }));
         dispatch({
             type: "SET_DATA_GROUP_TITLES",
             payload: dataGroupTitlesAndIDs
