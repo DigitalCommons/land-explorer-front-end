@@ -15,7 +15,7 @@ class Save extends Component {
     }
 
     saveMap = (withId) => {
-        let { map, drawings, markers, mapLayers, activeDataGroups, readOnly, currentMapId, saveAs } = this.props;
+        const { map, drawings, markers, mapLayers, activeDataGroups, readOnly, currentMapId, saveAs, dispatch } = this.props;
         const saveData = {
             map: {
                 ...map,
@@ -40,46 +40,39 @@ class Save extends Component {
             "name": withId ? map.name : this.state.name,
             "data": JSON.stringify(saveData)
         }
-        console.log(JSON.stringify(body));
         axios.post(`${constants.ROOT_URL}/api/user/map/save/`, body, getAuthHeader())
-            .then((response) => {
-                console.log("save response", response);
+            .then(() => {
                 axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
                     .then((response) => {
-                        this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
-                        this.props.dispatch({
+                        dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
+                        dispatch({
                             type: 'CLOSE_MODAL',
                             payload: 'save'
                         });
-                        if (this.props.currentMapId === null) {
-                            let newMap = response.data[response.data.length - 1];
-                            console.log("THE NEW MAP", newMap);
-                            let newMapId = newMap.map.eid;
-                            console.log("newmapid", newMapId);
-                            this.props.dispatch({
-                                type: 'SET_MAP_ID',
-                                payload: newMapId
-                            });
-                            this.props.dispatch({
-                                type: 'LOAD_MAP',
-                                payload: JSON.parse(newMap.map.data),
-                                id: newMapId
-                            });
-                            setTimeout(() => {
-                                this.props.dispatch({
-                                    type: 'CHANGE_MOVING_METHOD',
-                                    payload: 'flyTo',
-                                })
-                                this.props.dispatch({ type: 'LOADED_DRAWINGS' })
-                            }, 1000);
-                        }
+                        const newMap = response.data[response.data.length - 1];
+                        const newMapId = newMap.map.eid;
+                        dispatch({
+                            type: 'SET_MAP_ID',
+                            payload: newMapId
+                        });
+                        dispatch({
+                            type: 'LOAD_MAP',
+                            payload: JSON.parse(newMap.map.data),
+                            id: newMapId
+                        });
+                        setTimeout(() => {
+                            dispatch({
+                                type: 'CHANGE_MOVING_METHOD',
+                                payload: 'flyTo',
+                            })
+                            dispatch({ type: 'LOADED_DRAWINGS' })
+                        }, 1000);
                     })
             })
     }
 
     render() {
         const { map, readOnly, saveAs } = this.props;
-        console.log("save - readOnly?", readOnly);
         if (readOnly) {
             return (
                 <Modal id="save" padding={true} customClose={() => {
@@ -176,7 +169,7 @@ class Save extends Component {
                                         flexDirection: 'column',
                                         justifyContent: 'center',
                                         alignItems: 'center',
-                                        display: 'flex'
+                                        display: 'flex',
                                     }}>
                                         <p style={{ marginBottom: 0 }}>or,</p>
                                         <p
@@ -184,7 +177,8 @@ class Save extends Component {
                                                 marginBottom: 0,
                                                 borderBottom: '1px solid grey',
                                                 width: '120px',
-                                                paddingBottom: '2px'
+                                                paddingBottom: '2px',
+                                                cursor: 'pointer'
                                             }}
                                             onClick={() => {
                                                 this.props.dispatch({ type: 'SAVE_AS_ON' })
