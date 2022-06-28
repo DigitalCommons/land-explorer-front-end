@@ -33,7 +33,7 @@ ReactDOM.render(
         <BrowserRouter>
             <Routes>
                 <Route path="/app" element={<MapApp />} />
-                <Route path="/app/my-account" element={<MyAccount />} />
+                <Route path="/app/my-account/*" element={<MyAccount />} />
                 <Route path="/auth/*" element={<Authentication />} />
                 <Route exact path="/" element={<Navigate to="/app" replace={true} />} />
                 <Route path="*" element={<FourOhFour />} />
