@@ -23,8 +23,7 @@ const StaticMode = require("@mapbox/mapbox-gl-draw-static-mode");
 
 // Create Map Component with settings
 const Map = ReactMapboxGl({
-  accessToken:
-    constants.MAPBOX_TOKEN,
+  accessToken: constants.MAPBOX_TOKEN,
   scrollZoom: true,
   dragRotate: false,
   minzoom: 6,
@@ -33,8 +32,6 @@ const Map = ReactMapboxGl({
   touchZoomRotate: false,
   doubleClickZoom: true,
 });
-
-
 
 class MapboxMap extends Component {
   constructor(props) {
@@ -45,6 +42,7 @@ class MapboxMap extends Component {
       styleLoaded: false,
       drawings: null,
       redrawing: false,
+      markerVisible: 0,
     };
     // ref to the mapbox map
     this.map = null;
@@ -63,9 +61,11 @@ class MapboxMap extends Component {
   }
 
   onClick = (map, evt) => {
-    let mode = this.drawControl.draw.getMode();
+    this.setState({ markerVisible: 0 });
+
+    const mode = this.drawControl.draw.getMode();
     if (mode === "simple_select") {
-      let features = this.drawControl.draw.getFeatureIdsAt(evt.point);
+      const features = this.drawControl.draw.getFeatureIdsAt(evt.point);
       /* If there are no features where clicked, deselect tools */
       if (features.length === 0) {
         this.drawControl.draw.changeMode("static");
@@ -248,6 +248,7 @@ class MapboxMap extends Component {
   };
 
   render() {
+    const { markerVisible } = this.state;
     const {
       zoom,
       lngLat,
@@ -286,8 +287,8 @@ class MapboxMap extends Component {
               baseLayer === "aerial"
                 ? "#091324"
                 : constants.USE_OS_TILES
-                  ? "#aadeef"
-                  : "#72b6e6",
+                ? "#aadeef"
+                : "#72b6e6",
           }}
           zoom={zoom}
           onZoomEnd={this.onZoomEnd}
@@ -305,31 +306,38 @@ class MapboxMap extends Component {
           {/* Map Layers (greenbelt etc.)*/}
           <MapLayers />
           {/* Map Data Groups displaying My Data */}
-          <MapDataGroups />
-          {council &&  /* Map Council Layers (wards etc.)*/
+          <MapDataGroups
+            markerVisible={markerVisible}
+            setMarkerVisible={(markerId) =>
+              this.setState({ markerVisible: markerId })
+            }
+          />
+          {council /* Map Council Layers (wards etc.)*/ && (
             <MapCouncilLayers zoom={zoom} />
-          }
-          {council && /*For displaying community assets*/
+          )}
+          {council /*For displaying community assets*/ && (
             <MapCommunityAssets zoom={zoom} center={lngLat} map={this.map} />
-          }
+          )}
           {/*For displaying the property boundaries*/}
-          {constants.LR_POLYGONS_ENABLED &&
+          {constants.LR_POLYGONS_ENABLED && (
             <MapProperties center={lngLat} map={this.map} />
-          }
+          )}
           {/* Geocoder - For location search */}
           <GeoCoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
           {/* Markers */}
           {this.state.styleLoaded && <Markers map={this.map} />}
-            /* Map name in lower left corner */
+          /* Map name in lower left corner */
           {this.renderMapName(name, navOpen)}
-            /* Shows zoom warning if active layers are out of view */
+          /* Shows zoom warning if active layers are out of view */
           <ZoomWarning
             show={
               (zoom < 9 && landDataLayers.length > 0) ||
-              (zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL && propertiesDisplay && constants.LR_POLYGONS_ENABLED)
+              (zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL &&
+                propertiesDisplay &&
+                constants.LR_POLYGONS_ENABLED)
             }
           />
-            /* Drawing tools */
+          /* Drawing tools */
           <DrawControl
             addControl={this.map}
             ref={(drawControl) => {
@@ -360,12 +368,22 @@ class MapboxMap extends Component {
         <div className="os-accreditation">
           Contains OS data © Crown copyright and database rights 2022 OS
           0100059691
-          {(propertiesDisplay && zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL) && <>
-            <br />
-            This information is subject to Crown copyright and database rights 2022 and is reproduced with the permission of HM Land Registry.
-            <br />
-            The polygons (including the associated geometry, namely x, y co-ordinates) are subject to <a href="https://use-land-property-data.service.gov.uk/datasets/inspire#conditions">Crown copyright and database rights</a> 2022 Ordnance Survey 100026316.
-          </>}
+          {propertiesDisplay &&
+            zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL && (
+              <>
+                <br />
+                This information is subject to Crown copyright and database
+                rights 2022 and is reproduced with the permission of HM Land
+                Registry.
+                <br />
+                The polygons (including the associated geometry, namely x, y
+                co-ordinates) are subject to{" "}
+                <a href="https://use-land-property-data.service.gov.uk/datasets/inspire#conditions">
+                  Crown copyright and database rights
+                </a>{" "}
+                2022 Ordnance Survey 100026316.
+              </>
+            )}
         </div>
         {/* If menus are open, this invisible layer covers the whole app, when clicked, closes menus */}
         {/*<div
