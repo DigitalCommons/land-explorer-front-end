@@ -308,3 +308,25 @@ h6 {
   background-position: center;
   background-repeat: no-repeat;
 }
+
+.marker-icon-blue {
+  background-image: url("../img/markers-sea-blue.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  z-index: 2;
+}
+
+.marker-shadow{
+  background-image: url("../img/markers-shadow.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  top: 13px;
+  left: -10px;
+  height: 40px;
+  width: 40px;
+  z-index: 1;
+}

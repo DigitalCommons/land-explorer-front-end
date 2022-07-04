@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCertificate } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios/index";
 import constants from "../constants";
 import { getAuthHeader } from "./Auth";
@@ -26,7 +28,7 @@ const dummyData = [
           {
             idmarkers: 2,
             name: "Second Great Marker",
-            description: "This marker truly rivals the first!",
+            description: "This marker truly rivals the first! Extra long and extra salty Extra long and extra salty Extra long and extra salty Extra long and extra salty Extra long and extra salty Extra long and extra salty",
             location: {
               coordinates: [-1.6, 55],
             },
@@ -47,39 +49,39 @@ const dummyData = [
 ];
 
 const DataGroupMarkerContent = ({ marker, visible, closeDescription }) => (
-  <div
-    style={{
-      backgroundColor: visible ? "white" : "rgba(255,255,255,0)",
-      position: "absolute",
-    }}
-  >
-    <div
-      data-tooltip={marker.name}
-      className="marker-icon pointer"
-      style={{
-        height: 40,
-        width: 40,
-        zIndex: 1,
-        position: "absolute",
-        top: 0,
-        left: 0,
-      }}
-    ></div>
-    {visible && (
+  <div>
+    <div data-tooltip={marker.name} className="pointer">
       <div
+        className="marker-icon-blue"
         style={{
+          height: 40,
+          width: 40,
           zIndex: 2,
           position: "absolute",
-          bottom: "0px",
-          left: "-75px",
-          backgroundColor: "white",
-          width: "200px",
-          height: "100px",
+          top: '0px',
+          left: '-20px',
         }}
+      ></div>
+      <span
+        style={{
+          color: 'white',
+          position: 'absolute',
+          top: '4px',
+          left: '-6px',
+          zIndex: 3,
+        }}
+      >
+        <FontAwesomeIcon icon={faCertificate} />
+      </span>
+      <span className="marker-shadow"></span>
+    </div>
+    {visible && (
+      <div
+        className="popup-content"
       >
         <div className="popup-close" onClick={() => closeDescription()} />
         <h3>{marker.name}</h3>
-        <p>{marker.description}</p>
+        <p className="description-text">{marker.description}</p>
       </div>
     )}
   </div>
@@ -92,7 +94,11 @@ const ClusterMarker = (coordinates, pointCount) => {
       coordinates={coordinates}
       style={{ height: "40px", zIndex: 1 }}
     >
-      <div style={{ backgroundColor: "white" }}>Cluster: {pointCount}</div>
+      <div className="cluster-container">
+        <div className="cluster-background">
+          <p className="cluster-text">{pointCount}</p>
+        </div>
+      </div>
     </Marker>
   );
 };
@@ -103,14 +109,15 @@ const MapDataGroups = ({ markerVisible, setMarkerVisible }) => {
   const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
 
   const loadDataGroups = async () => {
+
     /*
     const result = await axios.get(
       `${constants.ROOT_URL}/api/userdatagroups`,
       getAuthHeader()
     );
-    
+
     const userGroupsData = result.data;
-    */
+*/
 
     const userGroupsData = dummyData;
 
@@ -183,8 +190,6 @@ const MapDataGroups = ({ markerVisible, setMarkerVisible }) => {
         );
       });
     });
-
-  console.log(markerVisible);
 
   return (
     <>

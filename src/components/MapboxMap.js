@@ -42,7 +42,7 @@ class MapboxMap extends Component {
       styleLoaded: false,
       drawings: null,
       redrawing: false,
-      markerVisible: 0,
+      markerVisible: -1,
     };
     // ref to the mapbox map
     this.map = null;
@@ -61,7 +61,7 @@ class MapboxMap extends Component {
   }
 
   onClick = (map, evt) => {
-    this.setState({ markerVisible: 0 });
+    this.setState({ markerVisible: -1 });
 
     const mode = this.drawControl.draw.getMode();
     if (mode === "simple_select") {
@@ -287,8 +287,8 @@ class MapboxMap extends Component {
               baseLayer === "aerial"
                 ? "#091324"
                 : constants.USE_OS_TILES
-                ? "#aadeef"
-                : "#72b6e6",
+                  ? "#aadeef"
+                  : "#72b6e6",
           }}
           zoom={zoom}
           onZoomEnd={this.onZoomEnd}
