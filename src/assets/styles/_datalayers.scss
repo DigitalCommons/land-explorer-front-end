@@ -37,6 +37,7 @@
 }
 
 .cluster-container{
+  z-index: 2;
   background-color: #00800087;
   border-radius: 50%;
   padding: 5px;
@@ -64,7 +65,7 @@
 }
 
 .popup-content{
-  z-index: 2;
+  z-index: 4;
   position: absolute;
   bottom: 45px;
   left: -110px;
