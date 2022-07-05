@@ -51,7 +51,7 @@ const ClusterMarker = (coordinates, pointCount) => {
     <Marker
       key={coordinates.toString()}
       coordinates={coordinates}
-      style={{ height: "40px", zIndex: 1 }}
+      style={{ height: "40px" }}
     >
       <div className="cluster-container">
         <div className="cluster-background">
@@ -129,7 +129,7 @@ const MapDataGroups = ({ markerVisible, setMarkerVisible }) => {
             name={marker.name}
             description={marker.description}
             anchor="bottom"
-            style={{ height: "40px", zIndex: 1 }}
+            style={{ height: "40px" }}
             onClick={() => {
               if (markerVisible != marker.idmarkers)
                 setMarkerVisible(marker.idmarkers);
