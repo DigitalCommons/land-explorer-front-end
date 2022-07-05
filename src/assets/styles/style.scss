@@ -28,7 +28,13 @@ body {
   overflow: hidden;
 }
 
-body, h1, h2, h3, h4, h5, h6 {
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: Lato;
   font-weight: 400;
   color: $secondaryColor;
@@ -40,16 +46,14 @@ body, h1, h2, h3, h4, h5, h6 {
 
 .toggle-switch {
   height: 14px;
-  
-  .switch input 
-  {
-    display:none;
+
+  .switch input {
+    display: none;
   }
-  .switch input 
-  {
-    display:none;
+  .switch input {
+    display: none;
   }
-  
+
   .slider {
     position: absolute;
     cursor: pointer;
@@ -58,8 +62,8 @@ body, h1, h2, h3, h4, h5, h6 {
     right: 0;
     bottom: 0;
     background-color: $secondaryColor;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
   }
 
   .slider:before {
@@ -70,17 +74,14 @@ body, h1, h2, h3, h4, h5, h6 {
     left: 3px;
     top: 2px;
     background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
   }
 
-  input:checked + .slider:before 
-  {
+  input:checked + .slider:before {
     background-color: $buttonGreen;
   }
-  
 
-  
   input:checked + .slider:before {
     -webkit-transform: translateX(9px);
     -ms-transform: translateX(9px);
@@ -100,7 +101,7 @@ body, h1, h2, h3, h4, h5, h6 {
   height: 100vh;
   position: fixed;
   top: 0;
-  left:0;
+  left: 0;
 }
 
 #map-overlay {
@@ -108,8 +109,8 @@ body, h1, h2, h3, h4, h5, h6 {
   height: 100vh;
   position: fixed;
   top: 0;
-  left:0;
-  background: rgba(79,90,109,.65);
+  left: 0;
+  background: rgba(79, 90, 109, 0.65);
 }
 
 .mapboxgl-ctrl-bottom-right {
@@ -121,7 +122,7 @@ body, h1, h2, h3, h4, h5, h6 {
   width: 30px;
   background: white;
   border: 1px solid black;
-  background-image: url('../img/icon-drawing-tools.svg');
+  background-image: url("../img/icon-drawing-tools.svg");
   border-radius: 50%;
   background-position: center;
   background-repeat: no-repeat;
@@ -197,7 +198,7 @@ body, h1, h2, h3, h4, h5, h6 {
 }
 
 .trash-tool {
-  background-image: url('../img/icon-trash.svg');
+  background-image: url("../img/icon-trash.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 30%;
@@ -205,7 +206,7 @@ body, h1, h2, h3, h4, h5, h6 {
   display: inline-block;
 }
 
-.loading-circle{
+.loading-circle {
   z-index: 3;
   height: 100px;
   width: 100px;
@@ -222,14 +223,14 @@ body, h1, h2, h3, h4, h5, h6 {
 
 @keyframes gradient-change {
   0% {
-		background-color: rgba(39,174,96,0.5);
-	}
-	100% {
-		background-color: rgba(39,174,96,0);
-	}
+    background-color: rgba(39, 174, 96, 0.5);
+  }
+  100% {
+    background-color: rgba(39, 174, 96, 0);
+  }
 }
 
-.loading-text{
+.loading-text {
   z-index: 3;
   color: white;
   opacity: 1;
@@ -244,7 +245,8 @@ body, h1, h2, h3, h4, h5, h6 {
   margin: 100px auto;
 }
 
-.double-bounce1, .double-bounce2 {
+.double-bounce1,
+.double-bounce2 {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -253,45 +255,78 @@ body, h1, h2, h3, h4, h5, h6 {
   position: absolute;
   top: 0;
   left: 0;
-  
-  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
-  animation: sk-bounce 2.0s infinite ease-in-out;
+
+  -webkit-animation: sk-bounce 2s infinite ease-in-out;
+  animation: sk-bounce 2s infinite ease-in-out;
 }
 
 .double-bounce2 {
-  -webkit-animation-delay: -1.0s;
-  animation-delay: -1.0s;
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
 }
 
 @-webkit-keyframes sk-bounce {
-  0%, 100% { -webkit-transform: scale(0.0) }
-  50% { -webkit-transform: scale(1.0) }
-}
-
-@keyframes sk-bounce {
-  0%, 100% { 
-    transform: scale(0.0);
-    -webkit-transform: scale(0.0);
-  } 50% { 
-    transform: scale(1.0);
-    -webkit-transform: scale(1.0);
+  0%,
+  100% {
+    -webkit-transform: scale(0);
+  }
+  50% {
+    -webkit-transform: scale(1);
   }
 }
 
-.marker-icon{
-  background-image: url('../img/icon-marker-new--dark-grey.svg');
+@keyframes sk-bounce {
+  0%,
+  100% {
+    transform: scale(0);
+    -webkit-transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.marker-icon {
+  background-image: url("../img/icon-marker-new--dark-grey.svg");
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.marker-icon-active{
-  background-image: url('../img/icon-marker-new--green.svg');
+.marker-icon-active {
+  background-image: url("../img/icon-marker-new--green.svg");
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.marker-icon-aerial{
-  background-image: url('../img/icon-marker-new--white.svg');
+.marker-icon-aerial {
+  background-image: url("../img/icon-marker-new--white.svg");
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.marker-icon-blue {
+  background-image: url("../img/markers-sea-blue.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  z-index: 2;
+}
+
+.marker-shadow{
+  background-image: url("../img/markers-shadow.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  top: 13px;
+  left: -10px;
+  height: 40px;
+  width: 40px;
+  z-index: 1;
 }
