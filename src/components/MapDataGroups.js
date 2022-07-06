@@ -11,7 +11,7 @@ const DataGroupMarkerContent = ({ marker, visible, closeDescription }) => (
   <div>
     <div data-tooltip={marker.name} className="pointer">
       <div
-        className="marker-icon-blue"
+        className="marker-icon-green"
         style={{
           height: 40,
           width: 40,
