@@ -110,7 +110,7 @@ class Save extends Component {
                         </div>
                         <div className="button rounded-button-full modal-button-confirm"
                             onClick={() => {
-                                if ((this.state.name !== '') && (this.state.name !== 'New Map')) {
+                                if ((this.state.name !== '') && (this.state.name)) {
                                     this.saveMap(false);
                                 }
                             }}
@@ -128,7 +128,7 @@ class Save extends Component {
                     <div className="modal-title">Save</div>
                     <div className="modal-content">
                         {
-                            ((map.name !== 'New Map') && !saveAs) && (
+                            ((map.name) && !saveAs) && (
                                 <div>
                                     <div style={{
                                         textAlign: 'center',
@@ -192,7 +192,7 @@ class Save extends Component {
                         }
                     </div>
                     {
-                        ((map.name === 'New Map') || saveAs) && (
+                        ((!map.name) || saveAs) && (
                             <div>
                                 <div className="modal-content">
                                     <input
@@ -225,7 +225,7 @@ class Save extends Component {
                                     </div>
                                     <div className="button rounded-button-full modal-button-confirm"
                                         onClick={() => {
-                                            if ((this.state.name !== '') && (this.state.name !== 'New Map')) {
+                                            if ((this.state.name !== '') && (this.state.name)) {
                                                 this.saveMap(false);
                                             }
                                         }}

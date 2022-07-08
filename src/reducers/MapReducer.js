@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   gettingLocation: false,
   currentLocation: null,
   movingMethod: "flyTo",
-  name: "New Map",
+  name: null,
 };
 
 export default (state = INITIAL_STATE, action) => {

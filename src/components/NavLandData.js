@@ -23,9 +23,9 @@ const NavLandData = ({ open, active, onClose }) => {
     const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
 
     const userGroupSections = userGroupTitlesAndIDs && userGroupTitlesAndIDs.map(userGroup =>
-        <DataLayersContainer title={userGroup.title}>
+        <DataLayersContainer title={userGroup.title} key={userGroup.id}>
             {dataGroupTitlesAndIDs && dataGroupTitlesAndIDs.filter(dataGroup => dataGroup.userGroupId == userGroup.id).map(dataGroup =>
-                <DataGroupToggle title={dataGroup.title} layerId={dataGroup.id} active={activeGroups.includes(dataGroup.id)} />)}
+                <DataGroupToggle title={dataGroup.title} layerId={dataGroup.id} active={activeGroups.includes(dataGroup.id)} key={dataGroup.id} />)}
         </DataLayersContainer>
     )
 

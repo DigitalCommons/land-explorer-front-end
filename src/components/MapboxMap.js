@@ -10,7 +10,6 @@ import MapLayers from "./MapLayers";
 import DrawingLayers from "./DrawingLayers";
 import ZoomWarning from "./ZoomWarning";
 import Nav from "./Nav";
-import GeoCoder from "./Geocoder";
 import Modals from "./Modals";
 import constants from "../constants";
 import mapSources from "../data/mapSources";
@@ -237,16 +236,6 @@ class MapboxMap extends Component {
     }, 300);
   };
 
-  renderMapName = (name, navOpen) => {
-    if (name !== "New Map") {
-      return (
-        <div className="map-name" style={{ left: navOpen ? "86px" : "14px" }}>
-          {name}
-        </div>
-      );
-    }
-  };
-
   render() {
     const { markerVisible } = this.state;
     const {
@@ -294,12 +283,12 @@ class MapboxMap extends Component {
           onZoomEnd={this.onZoomEnd}
           onDragEnd={this.onDragEnd}
           center={lngLat}
-          onStyleLoad={(map) => {
+          onStyleLoad={(map, evt) => {
             this.map = map;
             this.setState({ styleLoaded: true });
           }}
           onClick={this.onClick}
-          //maxBounds={constants.MAP_BOUNDS}
+          maxBounds={constants.MAP_BOUNDS}
           // this is how the map moves automatically from one location to another (default is jumpTo, but we disable this temporarily when we load a new map)
           movingMethod={movingMethod}
         >
@@ -322,13 +311,13 @@ class MapboxMap extends Component {
           {constants.LR_POLYGONS_ENABLED && (
             <MapProperties center={lngLat} map={this.map} />
           )}
-          {/* Geocoder - For location search */}
-          <GeoCoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
           {/* Markers */}
           {this.state.styleLoaded && <Markers map={this.map} />}
-          /* Map name in lower left corner */
-          {this.renderMapName(name, navOpen)}
-          /* Shows zoom warning if active layers are out of view */
+          {/* Map name in lower left corner */}
+          {name && <div className="map-name" style={{ left: navOpen ? "86px" : "14px" }}>
+            {name}
+          </div>}
+          {/* Shows zoom warning if active layers are out of view */}
           <ZoomWarning
             show={
               (zoom < 9 && landDataLayers.length > 0) ||
@@ -337,7 +326,7 @@ class MapboxMap extends Component {
                 constants.LR_POLYGONS_ENABLED)
             }
           />
-          /* Drawing tools */
+          {/* Drawing tools */}
           <DrawControl
             addControl={this.map}
             ref={(drawControl) => {
@@ -385,16 +374,6 @@ class MapboxMap extends Component {
               </>
             )}
         </div>
-        {/* If menus are open, this invisible layer covers the whole app, when clicked, closes menus */}
-        {/*<div
-            className="map-click-layer"
-            style={{
-              display: this.isMenuOpen() ? "block" : "none",
-            }}
-            onClick={() => {
-              this.props.dispatch({ type: "CLOSE_MENUS" });
-            }}>
-          </div>*/}
       </div>
     );
   }
