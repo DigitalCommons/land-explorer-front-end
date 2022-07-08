@@ -16,7 +16,11 @@ class Save extends Component {
 
     saveMap = (withId) => {
         const { map, drawings, markers, mapLayers, activeDataGroups, readOnly, currentMapId, saveAs, dispatch } = this.props;
-        activeDataGroups.forEach(group => { group.markers = []; });
+        const activeDataGroupsInfo = activeDataGroups.map(group => ({
+            iddata_groups: group.iddata_groups,
+            title: group.title,
+            userGroupId: group.userGroupId
+        }));
         const saveData = {
             map: {
                 ...map,
@@ -29,7 +33,7 @@ class Save extends Component {
             markers: markers,
             mapLayers: {
                 landDataLayers: mapLayers.landDataLayers,
-                myDataLayers: activeDataGroups
+                myDataLayers: activeDataGroupsInfo
             },
             version: VERSION,
             name: withId ? map.name : this.state.name,
