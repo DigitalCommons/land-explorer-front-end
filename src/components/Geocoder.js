@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
@@ -11,16 +11,13 @@ class GeoCoder extends Component {
     super(props);
   }
   componentDidMount() {
-    const { map } = this.context;
-    var geocoder = new MapboxGeocoder({
+    const geocoder = new MapboxGeocoder({
       accessToken: constants.GEOCODER_TOKEN,
       placeholder: " Enter Location",
       countries: "gb",
       zoom: 13,
       reverseGeocode: true
     });
-
-    document.getElementById("geocoder").appendChild(geocoder.onAdd(map));
 
     geocoder.on("result", result => {
       this.props.setSearchMarker({
@@ -33,15 +30,13 @@ class GeoCoder extends Component {
       })
     });
     geocoder.on("clear", this.props.clearSearchMarker);
+
+    document.getElementById("geocoder").appendChild(geocoder.onAdd());
   }
 
   render() {
-    return null;
+    return <span id="geocoder"></span>
   }
-
-  static contextTypes = {
-    map: PropTypes.object.isRequired
-  };
 }
 
 const mapStateToProps = ({ map }) => ({

@@ -16,6 +16,11 @@ class Save extends Component {
 
     saveMap = (withId) => {
         const { map, drawings, markers, mapLayers, activeDataGroups, readOnly, currentMapId, saveAs, dispatch } = this.props;
+        const activeDataGroupsInfo = activeDataGroups.map(group => ({
+            iddata_groups: group.iddata_groups,
+            title: group.title,
+            userGroupId: group.userGroupId
+        }));
         const saveData = {
             map: {
                 ...map,
@@ -28,11 +33,13 @@ class Save extends Component {
             markers: markers,
             mapLayers: {
                 landDataLayers: mapLayers.landDataLayers,
-                myDataLayers: activeDataGroups
+                myDataLayers: activeDataGroupsInfo
             },
             version: VERSION,
             name: withId ? map.name : this.state.name,
         };
+
+        console.log(saveData)
 
         this.setState({ name: '' });
         const body = {
@@ -110,7 +117,7 @@ class Save extends Component {
                         </div>
                         <div className="button rounded-button-full modal-button-confirm"
                             onClick={() => {
-                                if ((this.state.name !== '') && (this.state.name !== 'New Map')) {
+                                if ((this.state.name !== '') && (this.state.name)) {
                                     this.saveMap(false);
                                 }
                             }}
@@ -128,7 +135,7 @@ class Save extends Component {
                     <div className="modal-title">Save</div>
                     <div className="modal-content">
                         {
-                            ((map.name !== 'New Map') && !saveAs) && (
+                            ((map.name) && !saveAs) && (
                                 <div>
                                     <div style={{
                                         textAlign: 'center',
@@ -192,7 +199,7 @@ class Save extends Component {
                         }
                     </div>
                     {
-                        ((map.name === 'New Map') || saveAs) && (
+                        ((!map.name) || saveAs) && (
                             <div>
                                 <div className="modal-content">
                                     <input
@@ -225,7 +232,7 @@ class Save extends Component {
                                     </div>
                                     <div className="button rounded-button-full modal-button-confirm"
                                         onClick={() => {
-                                            if ((this.state.name !== '') && (this.state.name !== 'New Map')) {
+                                            if ((this.state.name !== '') && (this.state.name)) {
                                                 this.saveMap(false);
                                             }
                                         }}
