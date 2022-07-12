@@ -25,7 +25,6 @@ class MyMaps extends Component {
     renderMapList = () => {
         let myMaps = this.props.myMaps.filter((map) => map.access === 'WRITE');
         return myMaps.map((item, i) => {
-            console.log("render map list", item);
             let map = item.map;
             let momentDate = moment(map.lastModified).format("DD/MM/YYYY");
             return (
@@ -89,7 +88,6 @@ class MyMaps extends Component {
                                         }
                                         axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
                                             .then((response) => {
-                                                console.log("maps response", response);
                                                 this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
                                                 this.setState({ trash: false });
                                             })
@@ -135,7 +133,6 @@ class MyMaps extends Component {
                                     }, getAuthHeader())
                                     //pick up the old name for the landDataLayers
                                     if (savedMap.mapLayers.activeLayers) {
-                                        console.log("happening")
                                         savedMap.mapLayers.landDataLayers = savedMap.mapLayers.activeLayers;
                                     }
                                     //fix that some have no dataLayers

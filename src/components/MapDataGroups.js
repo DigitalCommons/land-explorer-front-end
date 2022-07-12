@@ -9,7 +9,9 @@ import { Cluster, Marker } from "react-mapbox-gl";
 
 const DataGroupMarkerContent = ({ marker, visible, closeDescription }) => (
   <div>
-    <div data-tooltip={marker.name} className="pointer">
+    <div
+      data-tooltip={marker.name}
+      className="pointer">
       <div
         className="marker-icon-green"
         style={{
@@ -35,9 +37,7 @@ const DataGroupMarkerContent = ({ marker, visible, closeDescription }) => (
       <span className="marker-shadow"></span>
     </div>
     {visible && (
-      <div
-        className="popup-content"
-      >
+      <div className="popup-content">
         <div className="popup-close" onClick={() => closeDescription()} />
         <h3>{marker.name}</h3>
         <p className="description-text">{marker.description}</p>
@@ -141,7 +141,7 @@ const MapDataGroups = ({ markerVisible, setMarkerVisible }) => {
             <DataGroupMarkerContent
               marker={marker}
               visible={markerVisible == marker.idmarkers}
-              closeDescription={() => setMarkerVisible(0)}
+              closeDescription={() => setMarkerVisible(-1)}
             />
           </Marker>
         );

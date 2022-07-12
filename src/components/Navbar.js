@@ -10,6 +10,7 @@ import ProfilePic from "./ProfilePic";
 import { connect } from "react-redux";
 import MenuKey from "./MenuKey";
 import CouncilMenuKey from "./CouncilMenuKey";
+import Geocoder from "./Geocoder";
 import analytics from "../analytics";
 
 class Navbar extends Component {
@@ -27,7 +28,7 @@ class Navbar extends Component {
             </div>
           </Link>
           <div className="search-bar">
-            <span id="geocoder"></span>
+            <Geocoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
           </div>
           <div className="navbar-right">
             <div className="navbar--username">{`${user.firstName} ${user.lastName}`}</div>
