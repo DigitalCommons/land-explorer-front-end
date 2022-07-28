@@ -79,7 +79,7 @@ class MenuProfile extends Component {
                         <div className="button button-medium"
                             onClick={(e) => {
                                 e.preventDefault();
-                                window.open(constants.WP_URL + '/#donate');
+                                window.open(constants.STATIC_SITE_URL + '/#donate');
                             }}
                         >Donate</div>
                     </div>
