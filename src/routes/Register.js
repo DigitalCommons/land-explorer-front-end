@@ -666,7 +666,9 @@ class Register extends Component {
     return (
       <div
         style={{
-          minHeight: "100vh"
+          height: "100vh",
+          overflowY: "scroll",
+          position: "relative"
         }}
       >
         <Navbar limited={true} />
