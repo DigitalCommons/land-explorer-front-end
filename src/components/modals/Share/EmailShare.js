@@ -9,41 +9,37 @@ class EmailShare extends Component {
         super(props);
         this.state = {
             input: '',
+            emails: []
         }
     }
 
     removeEmail = (i) => {
-        this.props.dispatch({
-            type: 'REMOVE_SHARE_EMAIL',
-            payload: i
-        })
+        const emails = this.state.emails.slice();
+        this.setState({ emails: emails.splice(i, 1) });
     }
 
     addEmail = () => {
         if (emailRegexp.test(this.state.input)) {
-            this.props.dispatch({
-                type: 'ADD_SHARE_EMAIL',
-                payload: this.state.input
-            });
-            this.setState({ input: '' })
+            const emails = this.state.emails.slice();
+            emails.push(this.state.input);
+            this.setState({ input: '', emails: emails });
         }
     }
 
     closeModal = () => {
         this.props.dispatch({ type: 'CLOSE_MODAL', payload: 'share' });
-        this.props.dispatch({ type: 'CLEAR_MAP_TO_SHARE' });
+        this.setState({ input: '', emails: [] });
     }
 
     share(id) {
-        let dt = {
+        const { emails } = this.props;
+        if (emails.length == 0)
+            return;
+        const shareData = {
             "eid": id,
-            "emailAddresses": this.props.emails
+            "emailAddresses": emails
         };
-        console.log(dt);
-        axios.post(`${constants.ROOT_URL}/api/user/map/share/sync/`, {
-            "eid": id,
-            "emailAddresses": this.props.emails
-        }, getAuthHeader())
+        axios.post(`${constants.ROOT_URL}/api/user/map/share/sync/`, shareData, getAuthHeader())
             .then((response) => {
                 if (response.status === 200) {
                     this.closeModal();
@@ -67,7 +63,7 @@ class EmailShare extends Component {
     }
 
     render() {
-        let { mapToShare, mapId, emails, cancel } = this.props;
+        const { mapToShare, mapId, emails, cancel } = this.props;
         console.log("EMAILS", emails);
         return (
             <>
@@ -109,7 +105,11 @@ class EmailShare extends Component {
                         Cancel
                     </div>
                     <div className={`button rounded-button-full modal-button-confirm`}
-                        onClick={() => this.share(mapId)}
+                        onClick={() => {
+                            if (this.state.input != '')
+                                this.addEmail();
+                            this.share(mapId);
+                        }}
                     >
                         Share
                     </div>
