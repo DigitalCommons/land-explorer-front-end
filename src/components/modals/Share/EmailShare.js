@@ -67,7 +67,7 @@ class EmailShare extends Component {
     }
 
     render() {
-        let { mapToShare, emails, cancel } = this.props;
+        let { mapToShare, mapId, emails, cancel } = this.props;
         console.log("EMAILS", emails);
         return (
             <>
