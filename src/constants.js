@@ -4,8 +4,8 @@
     ROOT_URL
         if production, should be empty string
         if developing locally, wherever the land-map-server is running on]
-    WP_URL
-        the wordpress url
+    STATIC_SITE_URL
+        the url for the static site
     GA_ID
         google analytics
     OS_KEY
@@ -18,7 +18,7 @@
 
 const constants = {
     PROD: true,
-    WP_URL: 'https://www.landexplorer.cc',
+    STATIC_SITE_URL: 'https://landexplorer.coop',
     ROOT_URL: process.env.ROOT_URL,
     PAYMENTS_URL: process.env.PAYMENTS_URL,
     GA_ID: process.env.GA_ID,
