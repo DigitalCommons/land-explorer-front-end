@@ -9,13 +9,36 @@ class EmailShare extends Component {
         super(props);
         this.state = {
             input: '',
-            emails: []
+            emails: [],
+            mapName: ''
         }
+    }
+
+    componentDidMount() {
+        const { myMaps, mapId } = this.props;
+        myMaps.forEach(map => {
+            if (map.map.eid == mapId) {
+                this.populateEmails(map.map.sharedWith);
+                this.setState({ mapName: map.map.name });
+            }
+        })
+    }
+
+    componentDidUpdate(prevProps) {
+        if ((prevProps.mapToShare === null) && (this.props.mapToShare !== null)) {
+            console.log("MAP TO SHARE VIA MYMAPS");
+            console.log("share", this.props.mapToShare);
+        }
+    }
+
+    populateEmails = (emails) => {
+        this.setState({ emails: emails.map(email => email.emailAddress) });
     }
 
     removeEmail = (i) => {
         const emails = this.state.emails.slice();
-        this.setState({ emails: emails.splice(i, 1) });
+        emails.splice(i, 1)
+        this.setState({ emails: emails });
     }
 
     addEmail = () => {
@@ -32,7 +55,13 @@ class EmailShare extends Component {
     }
 
     share(id) {
-        const { emails } = this.props;
+        const emails = this.state.emails.slice();
+        if (this.state.input != '') {
+            if (emailRegexp.test(this.state.input)) {
+                emails.push(this.state.input);
+                this.setState({ input: '', emails: emails });
+            }
+        }
         if (emails.length == 0)
             return;
         const shareData = {
@@ -55,19 +84,15 @@ class EmailShare extends Component {
             .catch((err) => console.log("share error", err));
     }
 
-    componentDidUpdate(prevProps) {
-        if ((prevProps.mapToShare === null) && (this.props.mapToShare !== null)) {
-            console.log("MAP TO SHARE VIA MYMAPS");
-            console.log("share", this.props.mapToShare);
-        }
-    }
-
     render() {
-        const { mapToShare, mapId, emails, cancel } = this.props;
+        const { mapId, cancel } = this.props;
+        const { emails, mapName } = this.state;
+        const emailsShared = this.props.emails;
         console.log("EMAILS", emails);
+        console.log("EMAILS shared", emailsShared)
         return (
             <>
-                <div className="modal-title">Share{mapToShare ? ` "${mapToShare.map.name}"` : ""}</div>
+                <div className="modal-title">Share {mapName}</div>
                 <div className="modal-content">
                     <input
                         className="text-input"
@@ -106,8 +131,6 @@ class EmailShare extends Component {
                     </div>
                     <div className={`button rounded-button-full modal-button-confirm`}
                         onClick={() => {
-                            if (this.state.input != '')
-                                this.addEmail();
                             this.share(mapId);
                         }}
                     >

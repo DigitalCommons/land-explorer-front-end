@@ -184,6 +184,11 @@ class Nav extends Component {
                                 analytics.event(analytics._event.SIDE_NAV + ' Share', 'Clicked');
                                 analytics.pageview('/app/my-maps/share');
                                 this.props.dispatch({ type: 'OPEN_MODAL', payload: "share" })
+                                if (this.props.currentMapId)
+                                    this.props.dispatch({
+                                        type: 'SET_MAP_TO_SHARE',
+                                        payload: this.props.maps.filter(map => map.map.eid == this.props.currentMapId)[0]
+                                    })
                             }
                         }}
                     />
@@ -228,7 +233,7 @@ Nav.propTypes = {
     active: PropTypes.string
 };
 
-const mapStateToProps = ({ navigation, information, informationSections, readOnly, drawings, markers, mapMeta, user }) => ({
+const mapStateToProps = ({ navigation, information, informationSections, readOnly, drawings, markers, mapMeta, user, myMaps }) => ({
     open: navigation.open,
     active: navigation.active,
     information,
@@ -239,6 +244,7 @@ const mapStateToProps = ({ navigation, information, informationSections, readOnl
     activePolygon: drawings.activePolygon,
     currentMapId: mapMeta.currentMapId,
     user: user,
+    maps: myMaps.maps,
 });
 
 export default connect(mapStateToProps, null)(Nav);
