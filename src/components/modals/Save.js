@@ -21,6 +21,7 @@ class Save extends Component {
             title: group.title,
             userGroupId: group.userGroupId
         }));
+        console.log(map);
         const saveData = {
             map: {
                 ...map,
@@ -37,6 +38,7 @@ class Save extends Component {
             },
             version: VERSION,
             name: withId ? map.name : this.state.name,
+            // markersInDB: 
         };
 
         console.log(saveData)
