@@ -76,9 +76,7 @@ class MapApp extends Component {
             }
             // populate user maps
             if (maps.status === 200) {
-                //this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: maps.data })
                 this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: maps.data })
-                //this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: JSON.parse(maps.data) })
             }
         }).catch((err) => {
             console.log("There was an error", err);
