@@ -7,7 +7,6 @@ const INITIAL_STATE = {
   currentLocation: null,
   movingMethod: "flyTo",
   name: null,
-  markersInDB: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -82,12 +81,8 @@ export default (state = INITIAL_STATE, action) => {
     case "SAVE_MAP":
       return action.payload.map;
     case "LOAD_MAP":
-      console.log(action.payload.map)
-      console.log(action.payload.markersInDB)
-
       return {
         ...action.payload.map,
-        markersInDB: action.payload.markersInDB,
         movingMethod: "jumpTo",
       };
     case "NEW_MAP":
