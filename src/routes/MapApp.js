@@ -23,39 +23,31 @@ class MapApp extends Component {
             errors: false,
             success: false
         }
-
-        //If uuser does not have valid token, redirect to auth
-
-        //console.log(Auth.isTokenActive());
     }
 
     logoutUser() {
         logout();
-        //this.props.history.push('/auth');
         this.props.router.navigate("/auth", { replace: true });
     }
 
     componentDidMount() {
         if (!Auth.isTokenActive()) {
             console.log("no token, redirecting")
-            //this.props.history.push('/auth');
             this.props.router.navigate("/auth", { replace: true });
         }
-        // let details = JSON.parse('{"eid": "e4389df1310f15f1bf883bd2528beb0af9b50be7b0bb1cd8e120087535317b52","username": "testing@wearespork.net","firstName": "Testing","lastName": "User","marketing": false,"organisation": "","organisationNumber": "","organisationType": "not-for-profit","organisationActivity": "community-development","address1": "","address2": "","city": "","postcode": "","phone": ""}');
 
+        this.fetchUserDetails();
+        this.fetchUserMaps();
 
+        if (isMobile) {
+            this.props.dispatch({ type: 'READ_ONLY_ON' });
+        }
+    }
 
-        // Populate user details and maps
-        Promise.all([
-            axios.get(`${constants.ROOT_URL}/api/user/details/`, getAuthHeader()),
-            axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
-        ]).then(([details, maps]) => {
+    async fetchUserDetails() {
+        try {
+            const details = await axios.get(`${constants.ROOT_URL}/api/user/details/`, getAuthHeader());
 
-            //console.log("Logging here ============");
-            //console.log(details.data[0]);
-            //details.data = JSON.parse(details.data);
-            //details.data = details.data);
-            // populate user details
             if (details.status === 200) {
                 analytics.setDimension(analytics._dimension.ORG_TYPE, details.data.organisationType);
                 analytics.setDimension(analytics._dimension.ORG_ACTIVITY, details.data.organisationActivity);
@@ -70,33 +62,37 @@ class MapApp extends Component {
             } else {
                 this.setState({ errors: details.data.errors })
             }
-            // if mobile, disable drawing tools
-            if (isMobile) {
-                this.props.dispatch({ type: 'READ_ONLY_ON' });
-            }
-            // populate user maps
-            if (maps.status === 200) {
-                //this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: maps.data })
-                this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: maps.data })
-                //this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: JSON.parse(maps.data) })
-            }
-        }).catch((err) => {
+        }
+        catch (err) {
             console.log("There was an error", err);
-            this.logoutUser();
-            /*
-            //The response.status
+
             if (err.response.status === 401) {
                 //Service denied due to auth denied
                 //Most probably token expired
                 this.logoutUser();
             }
-            */
-        })
+        }
+    }
 
+    async fetchUserMaps() {
+        try {
+            const maps = await axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
+
+            if (maps.status === 200) {
+                this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: maps.data })
+            }
+
+            throw "test error"
+        }
+        catch (err) {
+            console.log("There was an error", err);
+
+            this.props.dispatch({ type: 'MAP_ERROR', payload: err });
+        }
     }
 
     render() {
-        let { populated } = this.props.user;
+        const { populated } = this.props.user;
         console.log(this.props.user)
         // If user details and maps have been populated render map
         if (populated) {
