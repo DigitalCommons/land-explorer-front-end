@@ -56,6 +56,7 @@ class Save extends Component {
                             type: 'CLOSE_MODAL',
                             payload: 'save'
                         });
+                        //this is causing a bug, change to load the map that has just been saved
                         const newMap = response.data[response.data.length - 1];
                         const newMapId = newMap.map.eid;
                         dispatch({
