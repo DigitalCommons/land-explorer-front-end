@@ -618,10 +618,12 @@ class Register extends Component {
             type="submit"
             value={accountType == "free" ? "Register" : "Next"}
             className="button button-medium"
+            disabled={!this.state.agree}
             style={{
               paddingTop: 0,
               marginLeft: "10px",
-              display: "inline-block"
+              display: "inline-block",
+              opacity: this.state.agree ? 1 : 0.5,
             }}
           />
         </div>
