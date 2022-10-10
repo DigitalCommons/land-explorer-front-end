@@ -19,7 +19,7 @@ class MarkerSection extends Component {
     }
     render() {
         let { marker, currentMarker, dispatch } = this.props;
-        let open = marker.id === currentMarker;
+        let open = marker.uuid === currentMarker;
         console.log("marker", marker);
         return (
             <div className="nav-tray-section">
@@ -32,7 +32,7 @@ class MarkerSection extends Component {
                         } else {
                             dispatch({
                                 type: 'SET_CURRENT_MARKER',
-                                payload: marker.id
+                                payload: marker.uuid
                             })
                         }
                     }}

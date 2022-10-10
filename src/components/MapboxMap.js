@@ -397,7 +397,7 @@ const mapStateToProps = ({
   searchMarker: map.searchMarker,
   markers: markers.markers,
   currentMarker: markers.currentMarker,
-  markerCount: markers.id,
+  markersDrawn: markers.markersDrawn,
   baseLayer: mapBaseLayer.layer,
   landDataLayers: mapLayers.landDataLayers,
   activeTool: navigation.activeTool,

@@ -10,7 +10,7 @@ class Markers extends Component {
         if (this.props.activeTool === 'trash') {
             dispatch({
                 type: 'CLEAR_MARKER',
-                payload: marker.id
+                payload: marker.uuid
             })
         } else {
             let coords = marker.coordinates;
@@ -40,7 +40,7 @@ class Markers extends Component {
             console.log("features", features);
             dispatch({
                 type: 'SET_CURRENT_MARKER',
-                payload: marker.id
+                payload: marker.uuid
             })
             dispatch({ type: 'OPEN_NAVIGATION' });
             dispatch({
@@ -88,7 +88,7 @@ class Markers extends Component {
                 }
                 {markers && markers.map((marker) => (
                     <MarkerPin
-                        key={marker.id}
+                        key={marker.uuid}
                         marker={marker}
                         handleMarkerClick={this.handleMarkerClick}
                     />
