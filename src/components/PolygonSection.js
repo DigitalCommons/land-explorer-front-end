@@ -1,9 +1,8 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import convert from 'convert-units';
 
-
+/** Info section for polygons and lines */
 class PolygonSection extends Component {
     constructor(props) {
         super(props);
@@ -27,17 +26,17 @@ class PolygonSection extends Component {
     areaHectares = (m2) => {
         return `${this.roundTo(convert(m2).from('m2').to('ha'), 3)} hectares`
     }
-    areaAcres = (m2)  => {
+    areaAcres = (m2) => {
         return `${this.roundTo(convert(m2).from('m2').to('ac'), 3)} acres`
     }
 
     roundTo(num, scale) {
-        if(!(("" + num).indexOf("e") !== -1)) {
-            return +(Math.round(num + "e+" + scale)  + "e-" + scale);
+        if (!(("" + num).indexOf("e") !== -1)) {
+            return +(Math.round(num + "e+" + scale) + "e-" + scale);
         } else {
             var arr = ("" + num).split("e");
             var sig = ""
-            if(+arr[1] + scale > 0) {
+            if (+arr[1] + scale > 0) {
                 sig = "+";
             }
             return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + scale)) + "e-" + scale);
@@ -45,22 +44,22 @@ class PolygonSection extends Component {
     }
     render() {
         let { polygon, activePolygon, dispatch } = this.props;
-        let open = polygon.id === activePolygon;
+        let open = polygon.data.id === activePolygon;
         return (
             <div className="nav-tray-section">
-                <div className={`nav-tray-section-title polygon-section${polygon.type === 'Polygon' ? '' : '-line' }`}
-                     onClick={() => {
-                         if (open) {
-                             dispatch({
-                                 type: 'CLEAR_ACTIVE_POLYGON',
-                             })
-                         } else {
-                             dispatch({
-                                 type: 'SET_ACTIVE_POLYGON',
-                                 payload: polygon.id
-                             })
-                         }
-                     }}
+                <div className={`nav-tray-section-title polygon-section${polygon.type === 'Polygon' ? '' : '-line'}`}
+                    onClick={() => {
+                        if (open) {
+                            dispatch({
+                                type: 'CLEAR_ACTIVE_POLYGON',
+                            })
+                        } else {
+                            dispatch({
+                                type: 'SET_ACTIVE_POLYGON',
+                                payload: polygon.data.id
+                            })
+                        }
+                    }}
                 >
                     <h4 style={{
                         marginLeft: '48px',
@@ -94,15 +93,17 @@ class PolygonSection extends Component {
                         background: '#78838f',
                         color: 'white'
                     }}>
-                    <p style={{ marginBottom: '6px', fontWeight: 'bold'}}>{`${polygon.type === 'Polygon' ? 'Perimeter' : 'Length'}`}</p>
-                    <p style={{ marginTop: '6px'}}>{this.perimeter(polygon.length)}</p>
+                    <p style={{ marginBottom: '6px', fontWeight: 'bold' }}>
+                        {`${polygon.type === 'Polygon' ? 'Perimeter' : 'Length'}`}
+                    </p>
+                    <p style={{ marginTop: '6px' }}>{this.perimeter(polygon.length)}</p>
                     {
                         polygon.type === 'Polygon' && (
                             <React.Fragment>
-                                <p style={{ marginBottom: '6px', fontWeight: 'bold'}}>Area</p>
-                                <p style={{marginBottom: 0, marginTop: '6px'}}>{this.area(polygon.area)}</p>
-                                <p style={{marginTop: 0, marginBottom: 0}}>{this.areaHectares(polygon.area)}</p>
-                                <p style={{marginTop: 0}}>{this.areaAcres(polygon.area)}</p>
+                                <p style={{ marginBottom: '6px', fontWeight: 'bold' }}>Area</p>
+                                <p style={{ marginBottom: 0, marginTop: '6px' }}>{this.area(polygon.area)}</p>
+                                <p style={{ marginTop: 0, marginBottom: 0 }}>{this.areaHectares(polygon.area)}</p>
+                                <p style={{ marginTop: 0 }}>{this.areaAcres(polygon.area)}</p>
                             </React.Fragment>
                         )
                     }
