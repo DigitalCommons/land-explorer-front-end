@@ -212,7 +212,12 @@ class MySharedMaps extends Component {
                 <Modal id="mySharedMaps" padding={true}>
                     <div className="modal-title">Shared Maps</div>
                     <div className="modal-content modal-content-trash">
-                        <p>There are no shared maps.</p>
+                        {
+                            this.props.error ?
+                                <p>Map loading encountered the following error: {this.props.error}.</p>
+                                :
+                                <p>There are no shared maps.</p>
+                        }
                     </div>
                 </Modal>
             )
@@ -224,6 +229,7 @@ const mapStateToProps = ({ user, save, myMaps, mapMeta }) => ({
     user: user,
     savedMaps: save.savedMaps,
     myMaps: myMaps.maps,
+    error: myMaps.error,
     currentMapId: mapMeta.currentMapId
 });
 
