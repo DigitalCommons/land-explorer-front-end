@@ -71,7 +71,8 @@ class MapApp extends Component {
             if (maps.status === 200) {
                 this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: maps.data })
             }
-        }).catch((err) => {
+        }
+        catch (err) {
             console.log("There was an error", err);
 
             if (err.response.status === 401) {
