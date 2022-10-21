@@ -15,6 +15,7 @@ export const dummyData = [
                         location: {
                             coordinates: [-1.5, 55],
                         },
+                        uuid: "1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed",
                     },
                     {
                         idmarkers: 2,
@@ -23,6 +24,7 @@ export const dummyData = [
                         location: {
                             coordinates: [-1.6, 55],
                         },
+                        uuid: "e30954eb-50f1-4576-b180-0eca7804bdbf",
                     },
                     {
                         idmarkers: 3,
@@ -32,6 +34,7 @@ export const dummyData = [
                         location: {
                             coordinates: [-1.6, 54.8],
                         },
+                        uuid: "7af834f8-32b7-412f-9234-f39402ca1282",
                     },
                 ],
             },

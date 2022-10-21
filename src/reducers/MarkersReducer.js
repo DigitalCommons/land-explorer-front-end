@@ -1,31 +1,34 @@
+import { v4 as uuidv4 } from 'uuid';
+
 const INITIAL_STATE = {
     searchMarker: [-0.2416815, 51.5285582],
     currentMarker: null,
-    id: 1,
+    markersDrawn: 0,
     markers: [],
 }
 
 export default (state = INITIAL_STATE, action) => {
     let markers;
     let currentMarker;
-    switch(action.type) {
+    switch (action.type) {
         case 'SET_MARKER':
             markers = state.markers.slice();
+            const uuid = uuidv4();
             markers.push({
-                id: state.id + 1,
+                uuid: uuid,
                 coordinates: action.payload,
-                name: `Marker ${state.id + 1}`,
+                name: `Marker ${state.markersDrawn + 1}`,
                 description: ""
             });
             return {
                 ...state,
                 markers,
-                id: state.id + 1,
-                currentMarker: state.id + 1
+                markersDrawn: state.markersDrawn + 1,
+                currentMarker: uuid
             }
         case 'CLEAR_MARKER':
             markers = state.markers.slice();
-            markers = markers.filter((marker) => marker.id !== action.payload);
+            markers = markers.filter((marker) => marker.uuid !== action.payload);
             currentMarker = action.payload === state.currentMarker ? null : state.currentMarker;
             return {
                 ...state,
@@ -35,7 +38,7 @@ export default (state = INITIAL_STATE, action) => {
         case 'RENAME_MARKER':
             markers = state.markers.slice();
             markers = markers.map((marker) => {
-                if (marker.id === action.payload.id) {
+                if (marker.uuid === action.payload.uuid) {
                     return {
                         ...marker,
                         name: action.payload.name

@@ -62,8 +62,16 @@ class MapApp extends Component {
             } else {
                 this.setState({ errors: details.data.errors })
             }
-        }
-        catch (err) {
+
+            // if mobile, disable drawing tools
+            if (isMobile) {
+                this.props.dispatch({ type: 'READ_ONLY_ON' });
+            }
+            // populate user maps
+            if (maps.status === 200) {
+                this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: maps.data })
+            }
+        }).catch((err) => {
             console.log("There was an error", err);
 
             if (err.response.status === 401) {

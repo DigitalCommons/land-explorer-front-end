@@ -13,7 +13,7 @@ class MarkerPin extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if ((prevProps.currentMarker === this.props.marker.id) && (this.props.currentMarker !== this.props.marker.id)) {
+        if ((prevProps.currentMarker === this.props.marker.uuid) && (this.props.currentMarker !== this.props.marker.uuid)) {
             this.setState({ hidden: false });
         }
     }
@@ -21,13 +21,13 @@ class MarkerPin extends Component {
     render() {
         let { marker, currentMarker, activeTool, readOnly, baseLayer } = this.props;
         let { hidden, input, editing } = this.state;
-        let active = currentMarker === marker.id;
+        let active = currentMarker === marker.uuid;
         let showPopup = active && !activeTool;
         console.log("active", active);
         return (
             <div>
                 <Marker
-                    key={marker.id}
+                    key={marker.uuid}
                     coordinates={marker.coordinates}
                     name={marker.name}
                     description={marker.description}
@@ -42,13 +42,13 @@ class MarkerPin extends Component {
                         }}
                         onClick={(evt) => {
                             if (!activeTool) {
-                                if (marker.id === currentMarker) {
+                                if (marker.uuid === currentMarker) {
                                     this.props.dispatch({ type: 'CLEAR_CURRENT_MARKER' });
                                     this.setState({ hidden: false });
                                 } else {
                                     this.props.dispatch({
                                         type: 'SET_CURRENT_MARKER',
-                                        payload: marker.id
+                                        payload: marker.uuid
                                     })
                                 }
                             }
@@ -125,7 +125,7 @@ class MarkerPin extends Component {
                                                     type: 'RENAME_MARKER',
                                                     payload: {
                                                         name: this.state.input,
-                                                        id: marker.id
+                                                        uuid: marker.uuid
                                                     }
                                                 })
                                                 this.setState({

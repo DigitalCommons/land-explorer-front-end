@@ -10,7 +10,7 @@ class DrawingLayers extends Component {
             console.log("type", type);
             return (<Drawing
                 type={type}
-                key={polygon.id}
+                key={polygon.data.id}
                 polygon={polygon}
                 name={polygon.name}
             />)
