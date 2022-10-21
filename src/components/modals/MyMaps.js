@@ -83,7 +83,9 @@ class MyMaps extends Component {
         const myMaps = this.props.myMaps.filter((map) => map.access === 'WRITE');
         if (this.state.trash) {
             return (
-                <Modal id="myMaps" padding={true}>
+                <Modal id="myMaps" padding={true} customClose={() => {
+                    this.setState({ trash: false })
+                }}>
                     <div className="modal-title">My Maps</div>
                     <div className="modal-content modal-content-trash">
                         {`Delete "${this.state.active.name}"? This cannot be undone.`}
@@ -106,7 +108,9 @@ class MyMaps extends Component {
             )
         } else if (this.state.load) {
             return (
-                <Modal id="myMaps" padding={true}>
+                <Modal id="myMaps" padding={true} customClose={() => {
+                    this.setState({ load: false })
+                }}>
                     <div className="modal-title">My Maps</div>
                     <div className="modal-content modal-content-trash"
                         style={{ textAlign: 'center' }}>
