@@ -55,12 +55,37 @@ class MyMaps extends Component {
         });
     }
 
+    deleteMap() {
+        axios.post(`${constants.ROOT_URL}/api/user/map/delete/`, {
+            "eid": this.state.active.id
+        }, getAuthHeader())
+            .then((response) => {
+                if (this.state.active.id === currentMapId) {
+                    this.props.dispatch({ type: 'NEW_MAP' });
+                    this.props.drawControl.draw.deleteAll();
+                    setTimeout(() => {
+                        this.props.dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo' })
+                    });
+                }
+                axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
+                    .then((response) => {
+                        this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
+                        this.setState({ trash: false });
+                    })
+                    .catch(() => {
+                        this.setState({ trash: false });
+                    })
+            });
+    }
+
     render() {
-        let { currentMapId } = this.props;
-        let myMaps = this.props.myMaps.filter((map) => map.access === 'WRITE');
+        const { currentMapId } = this.props;
+        const myMaps = this.props.myMaps.filter((map) => map.access === 'WRITE');
         if (this.state.trash) {
             return (
-                <Modal id="myMaps" padding={true}>
+                <Modal id="myMaps" padding={true} customClose={() => {
+                    this.setState({ trash: false })
+                }}>
                     <div className="modal-title">My Maps</div>
                     <div className="modal-content modal-content-trash">
                         {`Delete "${this.state.active.name}"? This cannot be undone.`}
@@ -74,28 +99,7 @@ class MyMaps extends Component {
                             Cancel
                         </div>
                         <div className="button button-small"
-                            onClick={() => {
-                                axios.post(`${constants.ROOT_URL}/api/user/map/delete/`, {
-                                    "eid": this.state.active.id
-                                }, getAuthHeader())
-                                    .then((response) => {
-                                        if (this.state.active.id === currentMapId) {
-                                            this.props.dispatch({ type: 'NEW_MAP' });
-                                            this.props.drawControl.draw.deleteAll();
-                                            setTimeout(() => {
-                                                this.props.dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo' })
-                                            });
-                                        }
-                                        axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
-                                            .then((response) => {
-                                                this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
-                                                this.setState({ trash: false });
-                                            })
-                                            .catch(() => {
-                                                this.setState({ trash: false });
-                                            })
-                                    });
-                            }}
+                            onClick={this.deleteMap}
                         >
                             Delete
                         </div>
@@ -104,7 +108,9 @@ class MyMaps extends Component {
             )
         } else if (this.state.load) {
             return (
-                <Modal id="myMaps" padding={true}>
+                <Modal id="myMaps" padding={true} customClose={() => {
+                    this.setState({ load: false })
+                }}>
                     <div className="modal-title">My Maps</div>
                     <div className="modal-content modal-content-trash"
                         style={{ textAlign: 'center' }}>
@@ -222,7 +228,12 @@ class MyMaps extends Component {
                 <Modal id="myMaps" padding={true}>
                     <div className="modal-title">My Maps</div>
                     <div className="modal-content modal-content-trash">
-                        <p>There are no maps.</p>
+                        {
+                            this.props.error ?
+                                <p>Map loading encountered the following error: {this.props.error}.</p>
+                                :
+                                <p>There are no maps.</p>
+                        }
                     </div>
                 </Modal>
             )
@@ -234,6 +245,7 @@ const mapStateToProps = ({ user, save, myMaps, mapMeta }) => ({
     user: user,
     savedMaps: save.savedMaps,
     myMaps: myMaps.maps,
+    error: myMaps.error,
     currentMapId: mapMeta.currentMapId
 });
 

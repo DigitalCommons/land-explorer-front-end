@@ -59,6 +59,7 @@ class Save extends Component {
                         dispatch({ type: 'SAVE_AS_OFF' });
                         const newMap = withId ? response.data.find(e => e.map.eid === currentMapId)
                             : response.data[response.data.length - 1];
+
                         const newMapId = newMap.map.eid;
                         dispatch({
                             type: 'SET_MAP_ID',

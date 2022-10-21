@@ -62,7 +62,8 @@ Modal.propTypes = {
     open: PropTypes.bool,
     canToggle: PropTypes.bool,
     id: PropTypes.string,
-}
+    customClose: PropTypes.func,
+};
 
 const mapStateToProps = (state, ownProps) => ({
     open: state.modal[ownProps.id].open,
