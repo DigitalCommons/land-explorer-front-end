@@ -24,6 +24,33 @@ const DataGroupMarkerContent = ({ marker, visible, closeDescription }) => {
         axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
           .then((response) => {
             dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
+
+            const maps = response.data;
+
+            maps.forEach(map => {
+              if (map.map.eid === selectedMap.map.eid) {
+                // this bit doesn't work
+                axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
+                  "eid": map.map.eid,
+                }, getAuthHeader())
+                //pick up the old name for the landDataLayers
+                console.log(map)
+                const savedMap = JSON.parse(map.map.data);
+
+                if (savedMap.mapLayers.activeLayers) {
+                  savedMap.mapLayers.landDataLayers = savedMap.mapLayers.activeLayers;
+                }
+                //fix that some have no dataLayers
+                if (!savedMap.mapLayers.myDataLayers) {
+                  savedMap.mapLayers.myDataLayers = [];
+                }
+                dispatch({
+                  type: 'LOAD_MAP',
+                  payload: savedMap,
+                  id: map.map.eid
+                });
+              }
+            })
           })
       });
 
