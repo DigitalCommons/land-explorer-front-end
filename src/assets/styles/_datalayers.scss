@@ -67,7 +67,7 @@
 .popup-content{
   z-index: 4;
   position: absolute;
-  bottom: 45px;
+  bottom: 12px;
   left: -110px;
   background-color: white;
   width: 200px;
@@ -88,6 +88,11 @@
     border-width: 0 12px 12px 12px;
     border-color: transparent transparent white transparent;
     z-index: 99999;
+}
+
+.popup-with-marker{
+  position: absolute;
+  bottom: 45px;
 }
 
 .popup-title{

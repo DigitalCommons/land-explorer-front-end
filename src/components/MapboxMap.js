@@ -41,7 +41,7 @@ class MapboxMap extends Component {
       styleLoaded: false,
       drawings: null,
       redrawing: false,
-      markerVisible: -1,
+      popupVisible: -1,
     };
     // ref to the mapbox map
     this.map = null;
@@ -60,7 +60,7 @@ class MapboxMap extends Component {
   }
 
   onClick = (map, evt) => {
-    this.setState({ markerVisible: -1 });
+    this.setState({ popupVisible: -1 });
 
     const mode = this.drawControl.draw.getMode();
     if (mode === "simple_select") {
@@ -230,7 +230,7 @@ class MapboxMap extends Component {
   };
 
   render() {
-    const { markerVisible } = this.state;
+    const { popupVisible } = this.state;
     const {
       zoom,
       lngLat,
@@ -289,9 +289,9 @@ class MapboxMap extends Component {
           <MapLayers />
           {/* Map Data Groups displaying My Data */}
           <MapDataGroups
-            markerVisible={markerVisible}
-            setMarkerVisible={(markerId) =>
-              this.setState({ markerVisible: markerId })
+            popupVisible={popupVisible}
+            setPopupVisible={(markerId) =>
+              this.setState({ popupVisible: markerId })
             }
           />
           {council /* Map Council Layers (wards etc.)*/ && (

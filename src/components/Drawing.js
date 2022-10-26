@@ -21,18 +21,20 @@ class Drawing extends Component {
     }
 
     render() {
-        let { polygon, type, activePolygon, activeTool, readOnly, baseLayer } = this.props;
-        let { editing, hidden } = this.state;
-        let polygonId = polygon.data.id;
+        let { polygon } = this.props;
+        const { type, activePolygon, activeTool, readOnly, baseLayer } = this.props;
+        const { editing, hidden } = this.state;
+        const polygonId = polygon.data.id;
         polygon = polygon.data;
-        let isActive = polygonId === activePolygon;
-        let center = turf.pointOnFeature(polygon);
-        let showPopup = isActive && !activeTool;
-        let popup = {
+        const isActive = polygonId === activePolygon;
+        const center = turf.pointOnFeature(polygon);
+        const showPopup = isActive && !activeTool;
+        const popup = {
             coordinates: center.geometry.coordinates,
             name: this.props.name,
         };
         console.log("ACTIVE TOOL", activeTool);
+        console.log(polygon)
         return (
             <div>
                 {
@@ -53,8 +55,8 @@ class Drawing extends Component {
                                 if (activeTool !== 'drop-pin') {
                                     if (!(activeTool)) {
                                         console.log("the polygon was clicked", e);
-                                        let area = turf.area(polygon);
-                                        let roundedArea = Math.round(area * 100) / 100;
+                                        const area = turf.area(polygon);
+                                        const roundedArea = Math.round(area * 100) / 100;
                                         if (isActive) {
                                             this.props.dispatch({
                                                 type: 'CLEAR_ACTIVE_POLYGON',
