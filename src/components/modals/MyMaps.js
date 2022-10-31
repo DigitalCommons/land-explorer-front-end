@@ -23,10 +23,10 @@ class MyMaps extends Component {
     }
 
     renderMapList = () => {
-        let myMaps = this.props.myMaps.filter((map) => map.access === 'WRITE');
+        const myMaps = this.props.myMaps.filter((map) => map.access === 'WRITE');
         return myMaps.map((item, i) => {
-            let map = item.map;
-            let momentDate = moment(map.lastModified).format("DD/MM/YYYY");
+            const map = item.map;
+            const momentDate = moment(map.lastModified).format("DD/MM/YYYY");
             return (
                 <tr key={`map-${i}`}
                     className={`table-map ${this.state.active.id === map.eid ? 'active' : ''}`}
@@ -36,6 +36,9 @@ class MyMaps extends Component {
                 >
                     <td style={{ width: '230px' }}>{map.name}</td>
                     <td>{momentDate}</td>
+                    <td className={item.isSnapshot ? "snapshot-icon" : "map-icon"} style={{ width: '30px' }}
+                        title={item.isSnapshot ? "snapshot" : "map"}
+                    />
                     <td className="table-icon table-share" style={{ width: '24px' }}
                         onClick={() => {
                             analytics.pageview('/app/my-maps/share');
@@ -129,8 +132,10 @@ class MyMaps extends Component {
                         </div>
                         <div className="button button-small"
                             onClick={() => {
-                                let savedMap = this.props.myMaps.filter((item) => item.map.eid === this.state.active.id);
-                                savedMap = JSON.parse(savedMap[0].map.data);
+                                const mapResult = this.props.myMaps.filter((item) => item.map.eid === this.state.active.id);
+                                const savedMap = JSON.parse(mapResult[0].map.data);
+                                savedMap.isSnapshot = mapResult[0].isSnapshot;
+
                                 console.log("saved map", savedMap);
                                 if (savedMap) {
                                     this.props.drawControl.draw.deleteAll();
@@ -155,10 +160,20 @@ class MyMaps extends Component {
                                         type: 'CLOSE_MODAL',
                                         payload: 'myMaps'
                                     });
+
                                     this.setState({ load: false });
-                                    if (!isMobile) {
+
+                                    if (!isMobile && !savedMap.isSnapshot) {
                                         this.props.dispatch({ type: 'READ_ONLY_OFF' });
                                     }
+
+                                    if (savedMap.isSnapshot) {
+                                        this.props.dispatch({
+                                            type: 'READ_ONLY_ON'
+                                        });
+                                    }
+
+
                                     setTimeout(() => {
                                         this.props.redrawPolygons();
                                     }, 200);
@@ -186,6 +201,7 @@ class MyMaps extends Component {
                                 <tr>
                                     <th style={{ width: '230px' }}>Name</th>
                                     <th>Modified</th>
+                                    <th>Type</th>
                                     <th className="table-icon" style={{ width: '24px' }}></th>
                                     <th className="table-icon"></th>
                                 </tr>

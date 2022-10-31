@@ -11,11 +11,13 @@ class Save extends Component {
         super(props);
         this.state = {
             name: '',
+            isSnapshot: null
         }
     }
 
     saveMap = (withId) => {
         const { map, drawings, markers, mapLayers, activeDataGroups, readOnly, currentMapId, saveAs, dispatch } = this.props;
+        const { name, isSnapshot } = this.state;
         const activeDataGroupsInfo = activeDataGroups.map(group => ({
             iddata_groups: group.iddata_groups,
             title: group.title,
@@ -25,7 +27,7 @@ class Save extends Component {
             map: {
                 ...map,
                 gettingLocation: false,
-                name: withId ? map.name : this.state.name,
+                name: withId ? map.name : name,
                 currentLocation: null,
                 searchMarker: null,
             },
@@ -36,16 +38,17 @@ class Save extends Component {
                 myDataLayers: activeDataGroupsInfo
             },
             version: VERSION,
-            name: withId ? map.name : this.state.name,
+            name: withId ? map.name : name,
+
         };
 
         console.log(saveData)
 
-        this.setState({ name: '' });
         const body = {
             "eid": withId ? currentMapId : null,
-            "name": withId ? map.name : this.state.name,
-            "data": JSON.stringify(saveData)
+            "name": withId ? map.name : name,
+            "data": JSON.stringify(saveData),
+            "isSnapshot": isSnapshot
         }
         axios.post(`${constants.ROOT_URL}/api/user/map/save/`, body, getAuthHeader())
             .then(() => {
@@ -65,11 +68,18 @@ class Save extends Component {
                             type: 'SET_MAP_ID',
                             payload: newMapId
                         });
+                        const mapData = JSON.parse(newMap.map.data);
+                        mapData.isSnapshot = isSnapshot;
                         dispatch({
                             type: 'LOAD_MAP',
-                            payload: JSON.parse(newMap.map.data),
+                            payload: mapData,
                             id: newMapId
                         });
+                        if (isSnapshot) {
+                            this.props.dispatch({
+                                type: 'READ_ONLY_ON'
+                            });;
+                        }
                         setTimeout(() => {
                             dispatch({
                                 type: 'CHANGE_MOVING_METHOD',
@@ -79,15 +89,22 @@ class Save extends Component {
                         }, 1000);
                     })
             })
+
+        this.setState({ name: '', isSnapshot: null });
     }
 
     render() {
         const { map, readOnly, saveAs } = this.props;
+        const { isSnapshot } = this.state;
+
+        const closeModal = () => {
+            this.props.dispatch({ type: 'SAVE_AS_OFF' });
+            this.setState({ isSnapshot: null });
+        }
+
         if (readOnly) {
             return (
-                <Modal id="save" padding={true} customClose={() => {
-                    this.props.dispatch({ type: 'SAVE_AS_OFF' })
-                }}>
+                <Modal id="save" padding={true} customClose={closeModal}>
                     <div className="modal-title">Save copy of "{map.name}"</div>
                     <div className="modal-content">
                         <input
@@ -130,125 +147,143 @@ class Save extends Component {
                     </div>
                 </Modal>
             )
-        } else {
-            return (
-                <Modal id="save" padding={true} customClose={() => {
-                    this.props.dispatch({ type: 'SAVE_AS_OFF' })
-                }}>
-                    <div className="modal-title">Save</div>
-                    <div className="modal-content">
-                        {
-                            ((map.name) && !saveAs) && (
-                                <div>
-                                    <div style={{
-                                        textAlign: 'center',
-                                        marginBottom: '24px'
-                                    }}>
-                                        Save changes to "{map.name}"?
-                                    </div>
-                                    <div style={{
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        marginBottom: '12px'
-                                    }}>
-                                        <div className="button button-cancel button-small"
-                                            style={{
-                                                marginRight: '12px'
-                                            }}
-                                            onClick={() => {
-                                                this.props.dispatch({
-                                                    type: 'CLOSE_MODAL',
-                                                    payload: 'save'
-                                                });
-                                                this.props.dispatch({ type: 'SAVE_AS_OFF' });
-                                            }}
-                                        >
-                                            Cancel
-                                        </div>
-                                        <div className="button button-small"
-                                            onClick={() => {
-                                                this.saveMap(true);
-                                            }}
-                                        >
-                                            Save
-                                        </div>
-                                    </div>
-                                    <div style={{
-                                        textAlign: 'center',
-                                        marginBottom: '12px',
-                                        flexDirection: 'column',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        display: 'flex',
-                                    }}>
-                                        <p style={{ marginBottom: 0 }}>or,</p>
-                                        <p
-                                            style={{
-                                                marginBottom: 0,
-                                                borderBottom: '1px solid grey',
-                                                width: '120px',
-                                                paddingBottom: '2px',
-                                                cursor: 'pointer'
-                                            }}
-                                            onClick={() => {
-                                                this.props.dispatch({ type: 'SAVE_AS_ON' })
-                                            }}
-                                        >
-                                            Save as new map
-                                        </p>
-                                    </div>
-                                </div>
-                            )
-                        }
+        }
+
+        if (isSnapshot == null) {
+            return <Modal id="save" padding={false} customClose={closeModal}>
+                <div className="modal-title">Save map as:</div>
+                <div className='modal-options-container'>
+                    <div onClick={() => this.setState({ isSnapshot: false })} className="modal-option">
+                        <img src={require("../../assets/img/icon-map.svg")} className='modal-option-icon' />
+                        <p className='modal-option-text'>Editable Map</p>
                     </div>
+                    <div className='modal-option-divider'></div>
+                    <div onClick={() => this.setState({ isSnapshot: true })} className="modal-option">
+                        <img src={require("../../assets/img/icon-snapshot.svg")} className='modal-option-icon' />
+                        <p className='modal-option-text'>Snapshot</p>
+                    </div>
+                </div>
+
+            </Modal>
+        }
+
+        return (
+            <Modal id="save" padding={true} customClose={closeModal}>
+                <div className="modal-title">Save {isSnapshot ? "as snapshot" : "map"}</div>
+                <div className="modal-content">
                     {
-                        ((!map.name) || saveAs) && (
+                        ((map.name) && !saveAs) && (
                             <div>
-                                <div className="modal-content">
-                                    <input
-                                        className="text-input"
-                                        type="text"
-                                        placeholder="Name"
-                                        style={{ marginBottom: '22px' }}
-                                        value={this.state.name}
-                                        onChange={(e) => {
-                                            let value = e.target.value;
-                                            this.setState({ name: value });
-                                        }}
-                                    />
+                                <div style={{
+                                    textAlign: 'center',
+                                    marginBottom: '24px'
+                                }}>
+                                    Save changes to "{map.name}"?
                                 </div>
-                                <div className="modal-buttons">
-                                    <div className="button button-cancel rounded-button-full modal-button-cancel"
+                                <div style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    marginBottom: '12px'
+                                }}>
+                                    <div className="button button-cancel button-small"
+                                        style={{
+                                            marginRight: '12px'
+                                        }}
                                         onClick={() => {
-                                            if (saveAs) {
-                                                this.props.dispatch({ type: 'SAVE_AS_OFF' })
-                                            } else {
-                                                this.props.dispatch({
-                                                    type: 'CLOSE_MODAL',
-                                                    payload: 'save'
-                                                });
-                                                this.setState({ name: '' });
-                                            }
+                                            this.props.dispatch({
+                                                type: 'CLOSE_MODAL',
+                                                payload: 'save'
+                                            });
+                                            this.props.dispatch({ type: 'SAVE_AS_OFF' });
                                         }}
                                     >
                                         Cancel
                                     </div>
-                                    <div className="button rounded-button-full modal-button-confirm"
+                                    <div className="button button-small"
                                         onClick={() => {
-                                            if ((this.state.name !== '') && (this.state.name)) {
-                                                this.saveMap(false);
-                                            }
+                                            this.saveMap(true);
                                         }}
                                     >
                                         Save
                                     </div>
                                 </div>
+                                <div style={{
+                                    textAlign: 'center',
+                                    marginBottom: '12px',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    display: 'flex',
+                                }}>
+                                    <p style={{ marginBottom: 0 }}>or,</p>
+                                    <p
+                                        style={{
+                                            marginBottom: 0,
+                                            borderBottom: '1px solid grey',
+                                            width: '120px',
+                                            paddingBottom: '2px',
+                                            cursor: 'pointer'
+                                        }}
+                                        onClick={() => {
+                                            this.props.dispatch({ type: 'SAVE_AS_ON' })
+                                        }}
+                                    >
+                                        Save as new map
+                                    </p>
+                                </div>
                             </div>
                         )
                     }
-                </Modal>
-            );
-        }
+                </div>
+                {
+                    ((!map.name) || saveAs) && (
+                        <div>
+                            <div className="modal-content">
+                                <input
+                                    className="text-input"
+                                    type="text"
+                                    placeholder="Name"
+                                    style={{ marginBottom: '22px' }}
+                                    value={this.state.name}
+                                    onChange={(e) => {
+                                        let value = e.target.value;
+                                        this.setState({ name: value });
+                                    }}
+                                />
+                            </div>
+                            <div className="modal-buttons">
+                                <div className="button button-cancel rounded-button-full modal-button-cancel"
+                                    onClick={() => {
+                                        if (saveAs) {
+                                            this.props.dispatch({ type: 'SAVE_AS_OFF' })
+                                        } else {
+                                            this.props.dispatch({
+                                                type: 'CLOSE_MODAL',
+                                                payload: 'save'
+                                            });
+                                            this.setState({ name: '', isSnapshot: null });
+                                        }
+                                    }}
+                                >
+                                    Cancel
+                                </div>
+                                <div className="button rounded-button-full modal-button-confirm"
+                                    onClick={() => {
+                                        if ((this.state.name !== '') && (this.state.name)) {
+                                            this.saveMap(false);
+                                        }
+                                    }}
+                                >
+                                    Save
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+            </Modal>
+        );
+
+
     }
 }
 

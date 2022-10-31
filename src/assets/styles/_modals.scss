@@ -207,30 +207,30 @@
   height: 65%;
 }
 
-.share-options-container{
+.modal-options-container{
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
 }
 
-.share-option{
+.modal-option{
   display: flex;
   flex-direction: column;
   align-content: center;
 }
 
-.share-option-icon{
+.modal-option-icon{
   height: 55px;
   width: auto;
 }
 
-.share-option-divider{
+.modal-option-divider{
   height: 121px;
   border-left: 1px #707070 solid;
 }
 
-.share-option-text{
+.modal-option-text{
   width: auto;
   max-width: 138px;
   text-align: center;
@@ -254,4 +254,30 @@
 
 .download-text{
   text-align: center;
+}
+
+.snapshot-icon{
+  background-image: url('../img/icon-snapshot.svg');
+          background-size: 24px 25px;
+          background-repeat: no-repeat;
+}
+
+.map-icon{
+  background-image: url('../img/icon-map.svg');
+  background-size: 24px 21px;
+  background-repeat: no-repeat;
+}
+
+.snapshot-icon-large{
+  background-image: url('../img/icon-snapshot.svg');
+  height: 50px;
+          background-size: 24px 25px;
+          background-repeat: no-repeat;
+}
+
+.map-icon-large{
+  background-image: url('../img/icon-map.svg');
+  height: 50px;
+  background-size: 24px 21px;
+  background-repeat: no-repeat;
 }

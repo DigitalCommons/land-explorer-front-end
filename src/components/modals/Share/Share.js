@@ -23,28 +23,28 @@ const Share = () => {
     let modalContent;
 
     if (stage == "share")
-        modalContent = <div className='share-options-container'>
-            <div onClick={() => setStage("email")} className="share-option">
-                <img src={require("../../../assets/img/icon-share.svg")} className='share-option-icon' />
-                <p className='share-option-text'>Share Invite</p>
+        modalContent = <div className='modal-options-container'>
+            <div onClick={() => setStage("email")} className="modal-option">
+                <img src={require("../../../assets/img/icon-share.svg")} className='modal-option-icon' />
+                <p className='modal-option-text'>Share Invite</p>
             </div>
-            <div className='share-option-divider'></div>
-            <div onClick={() => setStage("export")} className="share-option">
-                <img src={require("../../../assets/img/icon-export.svg")} className='share-option-icon' />
-                <p className='share-option-text'>Export Data</p>
+            <div className='modal-option-divider'></div>
+            <div onClick={() => setStage("export")} className="modal-option">
+                <img src={require("../../../assets/img/icon-export.svg")} className='modal-option-icon' />
+                <p className='modal-option-text'>Export Data</p>
             </div>
         </div>
 
     if (stage == "export")
-        modalContent = <div className='share-options-container'>
-            <div onClick={() => setStage("link")} className="share-option">
-                <img src={require("../../../assets/img/icon-link.svg")} className='share-option-icon' />
-                <p className='share-option-text'>Generate GEOJson link</p>
+        modalContent = <div className='modal-options-container'>
+            <div onClick={() => setStage("link")} className="modal-option">
+                <img src={require("../../../assets/img/icon-link.svg")} className='modal-option-icon' />
+                <p className='modal-option-text'>Generate GEOJson link</p>
             </div>
-            <div className='share-option-divider'></div>
-            <div onClick={() => setStage("download")} className="share-option">
-                <img src={require("../../../assets/img/icon-download.svg")} className='share-option-icon' />
-                <p className='share-option-text'>Download Shapefile</p>
+            <div className='modal-option-divider'></div>
+            <div onClick={() => setStage("download")} className="modal-option">
+                <img src={require("../../../assets/img/icon-download.svg")} className='modal-option-icon' />
+                <p className='modal-option-text'>Download Shapefile</p>
             </div>
         </div>
 

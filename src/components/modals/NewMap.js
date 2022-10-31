@@ -28,6 +28,7 @@ const NewMap = (props) => (
                         type: 'CLOSE_MODAL',
                         payload: 'newMap'
                     });
+                    props.dispatch({ type: 'READ_ONLY_OFF' });
                     props.drawControl.draw.deleteAll();
                     setTimeout(() => {
                         props.dispatch({
