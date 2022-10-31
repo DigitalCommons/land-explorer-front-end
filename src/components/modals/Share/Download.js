@@ -30,8 +30,8 @@ const Download = ({ mapId }) => {
         downloadMap();
     }, [])
 
-    return <div className='share-option'>
-        <img src={require('../../../assets/img/icon-download-complete.svg')} className='share-option-icon' />
+    return <div className='modal-option'>
+        <img src={require('../../../assets/img/icon-download-complete.svg')} className='modal-option-icon' />
         <p className='download-text'>Download Complete</p>
     </div>
 }

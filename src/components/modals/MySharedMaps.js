@@ -20,11 +20,11 @@ class MySharedMaps extends Component {
     }
 
     renderMapList = () => {
-        let myMaps = this.props.myMaps.filter((map) => map.access === 'READ');
+        const myMaps = this.props.myMaps.filter((map) => map.access === 'READ');
         return myMaps.map((item, i) => {
             console.log("render map list", item);
-            let map = item.map;
-            let momentDate = moment(map.lastModified).format("DD/MM/YYYY");
+            const map = item.map;
+            const momentDate = moment(map.lastModified).format("DD/MM/YYYY");
             return (
                 <tr key={`map-${i}`}
                     className={`table-map ${this.state.active.id === map.eid ? 'active' : ''}`}
@@ -32,9 +32,11 @@ class MySharedMaps extends Component {
                         this.setState({ active: { id: map.eid, name: map.name } })
                     }}
                 >
-                    <th style={{ width: '24px' }}>{` `}</th>
                     <td style={{ width: '230px' }}>{map.name}</td>
                     <td>{momentDate}</td>
+                    <td className={item.isSnapshot ? "snapshot-icon" : "map-icon"} style={{ width: '30px' }}
+                        title={item.isSnapshot ? "snapshot" : "map"}
+                    />
                 </tr>
             )
         });
@@ -110,8 +112,10 @@ class MySharedMaps extends Component {
                         </div>
                         <div className="button button-small"
                             onClick={() => {
-                                let savedMap = this.props.myMaps.filter((item) => item.map.eid === this.state.active.id);
-                                savedMap = JSON.parse(savedMap[0].map.data);
+                                const mapResult = this.props.myMaps.filter((item) => item.map.eid === this.state.active.id);
+                                const savedMap = JSON.parse(mapResult[0].map.data);
+                                savedMap.isSnapshot = mapResult[0].isSnapshot;
+
                                 console.log("saved map", savedMap);
                                 if (savedMap) {
                                     this.props.drawControl.draw.deleteAll();
@@ -169,9 +173,9 @@ class MySharedMaps extends Component {
                         <table>
                             <thead>
                                 <tr>
-                                    <th style={{ width: '24px' }}>{` `}</th>
                                     <th style={{ width: '230px' }}>Name</th>
                                     <th>Modified</th>
+                                    <th>Type</th>
                                 </tr>
                             </thead>
                         </table>

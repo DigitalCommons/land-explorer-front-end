@@ -86,9 +86,11 @@ class Nav extends Component {
     }
 
     render() {
-        const { dispatch, open, active, drawControl, readOnly, user: { type } } = this.props;
+        const { dispatch, open, active, drawControl, readOnly, user: { type }, isSnapshot } = this.props;
         const { ownership } = this.state;
         const council = type == 'council';
+
+        console.log(isSnapshot)
 
         return (
             <nav>
@@ -177,10 +179,10 @@ class Nav extends Component {
                         data-tip
                         data-for="ttShare"
                         style={{
-                            opacity: readOnly ? .5 : 1
+                            opacity: readOnly && !isSnapshot ? .5 : 1
                         }}
                         onClick={() => {
-                            if (!readOnly) {
+                            if (!readOnly || isSnapshot) {
                                 analytics.event(analytics._event.SIDE_NAV + ' Share', 'Clicked');
                                 analytics.pageview('/app/my-maps/share');
                                 this.props.dispatch({ type: 'OPEN_MODAL', payload: "share" })
@@ -243,6 +245,7 @@ const mapStateToProps = ({ navigation, information, informationSections, readOnl
     currentMarker: markers.currentMarker,
     activePolygon: drawings.activePolygon,
     currentMapId: mapMeta.currentMapId,
+    isSnapshot: mapMeta.isSnapshot,
     user: user,
     maps: myMaps.maps,
 });
