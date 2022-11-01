@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import constants from '../../../constants';
-import { getAuthHeader } from "../../Auth";
+import { getAuthHeader } from "../../../utils/Auth";
 
 const Download = ({ mapId }) => {
     const mapName = useSelector((state) => state.map.name);

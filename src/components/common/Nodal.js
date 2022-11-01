@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Marker } from "react-mapbox-gl";
 import { connect } from "react-redux";
 import axios from "axios";
-import { getAuthHeader } from "../Auth";
+import { getAuthHeader } from "../../utils/Auth";
 import constants from "../../constants";
 import Swal from "sweetalert2";
 
@@ -381,7 +381,7 @@ class Nodal extends Component {
                     ""
                   )}
                   {this.props.community_space &&
-                  this.props.community_space !== "" ? (
+                    this.props.community_space !== "" ? (
                     <tr>
                       <td>Community space:</td>
                       <td>{this.props.community_space}</td>
@@ -390,7 +390,7 @@ class Nodal extends Component {
                     ""
                   )}
                   {this.props.council_facility &&
-                  this.props.council_facility !== "" ? (
+                    this.props.council_facility !== "" ? (
                     <tr>
                       <td>Council facility:</td>
                       <td>{this.props.council_facility}</td>
@@ -407,7 +407,7 @@ class Nodal extends Component {
                     ""
                   )}
                   {this.props.spaceAvailable &&
-                  this.props.spaceAvailable !== "" ? (
+                    this.props.spaceAvailable !== "" ? (
                     <tr>
                       <td>Space Available:</td>
                       <td>{this.props.spaceAvailable}</td>
@@ -416,7 +416,7 @@ class Nodal extends Component {
                     ""
                   )}
                   {this.props.specialistSpace &&
-                  this.props.specialistSpace !== "" ? (
+                    this.props.specialistSpace !== "" ? (
                     <tr>
                       <td>Specialist Space:</td>
                       <td>{this.props.specialistSpace}</td>

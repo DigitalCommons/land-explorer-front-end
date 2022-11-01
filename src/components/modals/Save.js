@@ -4,7 +4,7 @@ import { VERSION } from '../../constants';
 import Modal from '../common/Modal';
 import axios from 'axios';
 import constants from '../../constants';
-import { getAuthHeader } from "../Auth";
+import { getAuthHeader } from "../../utils/Auth";
 
 class Save extends Component {
     constructor(props) {

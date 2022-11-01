@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import constants from '../constants';
 import analytics from "../analytics";
-import { logout } from '../components/Auth';
+import { logout } from '../utils/Auth';
 
 class MenuMain extends Component {
     constructor(props) {

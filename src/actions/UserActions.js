@@ -1,10 +1,10 @@
 import axios from 'axios';
 import constants from "../constants";
-import {getAuthHeader} from "../components/Auth";
+import { getAuthHeader } from "../utils/Auth";
 
 export const getUserDetails = () => {
     return dispatch => {
-        axios.get(`${constants.ROOT_URL}/api/user/details/`,getAuthHeader())
+        axios.get(`${constants.ROOT_URL}/api/user/details/`, getAuthHeader())
             .then((response) => {
                 if (response.status === 200) {
                     if (response.status === 200) {
@@ -21,7 +21,7 @@ export const changeUser = (newUserType) => {
     return {
         type: 'CHANGE_USER_TYPE',
         payload: {
-            userType:   newUserType,
+            userType: newUserType,
         }
-      }
+    }
 }

@@ -3,13 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCertificate } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios/index";
 import constants from "../constants";
-import { getAuthHeader } from "./Auth";
+import { getAuthHeader } from "../utils/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import { Marker } from "react-mapbox-gl";
+import { saveExistingMap } from "../utils/saveMap";
 
 const DataGroupMarkerContent = ({ marker, visible, closeDescription }) => {
     const [mode, setMode] = useState("display");
-    const maps = useSelector((state) => state.myMaps.maps);
+    const allMaps = useSelector((state) => state.myMaps.maps);
+    const maps = allMaps.filter(map => !map.isSnapshot);
     const [selectedMap, setSelectedMap] = useState();
     const dispatch = useDispatch();
 
@@ -19,40 +21,46 @@ const DataGroupMarkerContent = ({ marker, visible, closeDescription }) => {
             map: selectedMap
         };
 
-        axios.post(`${constants.ROOT_URL}/api/user/map/save/marker`, body, getAuthHeader())
-            .then(() => {
-                axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
-                    .then((response) => {
-                        dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
+        await saveExistingMap(selectedMap);
+        await axios.post(`${constants.ROOT_URL}/api/user/map/save/marker`, body, getAuthHeader());
 
-                        const maps = response.data;
+        axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
+            .then((response) => {
+                dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
 
-                        maps.forEach(map => {
-                            if (map.map.eid === selectedMap.map.eid) {
-                                // this bit doesn't work
-                                axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
-                                    "eid": map.map.eid,
-                                }, getAuthHeader())
-                                //pick up the old name for the landDataLayers
-                                console.log(map)
-                                const savedMap = JSON.parse(map.map.data);
+                /*
 
-                                if (savedMap.mapLayers.activeLayers) {
-                                    savedMap.mapLayers.landDataLayers = savedMap.mapLayers.activeLayers;
-                                }
-                                //fix that some have no dataLayers
-                                if (!savedMap.mapLayers.myDataLayers) {
-                                    savedMap.mapLayers.myDataLayers = [];
-                                }
-                                dispatch({
-                                    type: 'LOAD_MAP',
-                                    payload: savedMap,
-                                    id: map.map.eid
-                                });
-                            }
-                        })
-                    })
-            });
+                don't load the map you just saved to any more
+
+                const maps = response.data;
+
+                maps.forEach(map => {
+                    if (map.map.eid === selectedMap.map.eid) {
+                        // this bit doesn't work
+                        axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
+                            "eid": map.map.eid,
+                        }, getAuthHeader())
+                        //pick up the old name for the landDataLayers
+                        console.log(map)
+                        const savedMap = JSON.parse(map.map.data);
+
+                        if (savedMap.mapLayers.activeLayers) {
+                            savedMap.mapLayers.landDataLayers = savedMap.mapLayers.activeLayers;
+                        }
+                        //fix that some have no dataLayers
+                        if (!savedMap.mapLayers.myDataLayers) {
+                            savedMap.mapLayers.myDataLayers = [];
+                        }
+                        dispatch({
+                            type: 'LOAD_MAP',
+                            payload: savedMap,
+                            id: map.map.eid
+                        });
+                    }
+                })
+                */
+            })
+
 
     }
 

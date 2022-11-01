@@ -3,7 +3,7 @@ import Modal from '../common/Modal';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import constants from '../../constants';
-import { getAuthHeader } from "../Auth";
+import { getAuthHeader } from "../../utils/Auth";
 const moment = require('moment/moment.js');
 
 class MySharedMaps extends Component {

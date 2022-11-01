@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Marker } from "react-mapbox-gl";
 import { connect } from "react-redux";
 import axios from "axios";
-import { getAuthHeader } from "../Auth";
+import { getAuthHeader } from "../../utils/Auth";
 import constants from "../../constants";
 import Swal from "sweetalert2";
 
@@ -384,7 +384,7 @@ class MultipleNodal extends Component {
                       <td>{companyData.ward}</td>
                     </tr>
                     {companyData.contact_name &&
-                    companyData.contact_name !== "" ? (
+                      companyData.contact_name !== "" ? (
                       <tr>
                         <td>Contact name:</td>
                         <td>{companyData.contact_name}</td>
@@ -409,7 +409,7 @@ class MultipleNodal extends Component {
                       ""
                     )}
                     {companyData.web_address &&
-                    companyData.web_address !== "" ? (
+                      companyData.web_address !== "" ? (
                       <tr>
                         <td>Website:</td>
                         <td>{companyData.web_address}</td>
@@ -418,7 +418,7 @@ class MultipleNodal extends Component {
                       ""
                     )}
                     {companyData.community_space &&
-                    companyData.community_space !== "" ? (
+                      companyData.community_space !== "" ? (
                       <tr>
                         <td>Community space:</td>
                         <td>{companyData.community_space}</td>
@@ -427,7 +427,7 @@ class MultipleNodal extends Component {
                       ""
                     )}
                     {companyData.council_facility &&
-                    companyData.council_facility !== "" ? (
+                      companyData.council_facility !== "" ? (
                       <tr>
                         <td>Council facility:</td>
                         <td>{companyData.council_facility}</td>
@@ -444,7 +444,7 @@ class MultipleNodal extends Component {
                       ""
                     )}
                     {companyData.space_available &&
-                    companyData.space_available !== "" ? (
+                      companyData.space_available !== "" ? (
                       <tr>
                         <td>Space Available:</td>
                         <td>{companyData.space_available}</td>
@@ -453,7 +453,7 @@ class MultipleNodal extends Component {
                       ""
                     )}
                     {companyData.specialist_spaces &&
-                    companyData.specialist_spaces !== "" ? (
+                      companyData.specialist_spaces !== "" ? (
                       <tr>
                         <td>Specialist Space:</td>
                         <td>{companyData.specialist_spaces}</td>
@@ -474,7 +474,7 @@ class MultipleNodal extends Component {
                       ""
                     )}
                     {companyData.disabled_access &&
-                    companyData.disabled_access !== "" ? (
+                      companyData.disabled_access !== "" ? (
                       <tr>
                         <td>Disabled Access:</td>
                         <td>
@@ -487,7 +487,7 @@ class MultipleNodal extends Component {
                       ""
                     )}
                     {companyData.price_range &&
-                    companyData.price_range !== "" ? (
+                      companyData.price_range !== "" ? (
                       <tr>
                         <td>Price Range:</td>
                         <td>{companyData.price_range}</td>

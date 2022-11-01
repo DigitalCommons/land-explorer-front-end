@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import constants from '../constants';
 import { getUserDetails } from '../actions/UserActions';
 import analytics from "../analytics";
-import { getAuthHeader } from '../components/Auth';
+import { getAuthHeader } from '../utils/Auth';
 
 
 class ChangeDetails extends Component {
