@@ -3,9 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCertificate } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios/index";
 import constants from "../constants";
-import { getAuthHeader } from "./Auth";
+import { getAuthHeader } from "../utils/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import { Marker } from "react-mapbox-gl";
+import { saveExistingMap } from "../utils/saveMap";
 
 const DataGroupMarkerContent = ({ marker, visible, closeDescription }) => {
     const [mode, setMode] = useState("display");
@@ -19,6 +20,7 @@ const DataGroupMarkerContent = ({ marker, visible, closeDescription }) => {
             map: selectedMap
         };
 
+        await saveExistingMap(selectedMap);
         axios.post(`${constants.ROOT_URL}/api/user/map/save/marker`, body, getAuthHeader())
             .then(() => {
                 axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())

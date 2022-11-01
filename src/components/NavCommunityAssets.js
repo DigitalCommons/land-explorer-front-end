@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import NavTray from "./NavTray";
 import axios from "axios";
 import constants from "../constants";
-import { getAuthHeader } from "../components/Auth";
+import { getAuthHeader } from "../utils/Auth";
 import { turnOnLayer, turnOffLayer } from "../actions/CommunityAssetsActions";
 import { connect } from "react-redux";
 import CouncilNavTrayItem from "./common/CouncilNavTrayItem";

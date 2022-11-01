@@ -4,7 +4,7 @@ import Nodal from "./common/Nodal";
 import MultipleNodal from "./common/MultipleNodal";
 
 import axios from "axios";
-import { getAuthHeader } from "./Auth";
+import { getAuthHeader } from "../utils/Auth";
 import constants from "../constants";
 
 import { Marker, Cluster } from "react-mapbox-gl";
@@ -37,7 +37,7 @@ class MapCommunityAssets extends Component {
         let arr = [];
         //API return data from all layer
         //Optimise by grouping the data according to its category id
-        
+
         //First index of arr would be marker objects with category_id 1, and so on
         response.data.forEach(el => {
           //Each element has a category_id
@@ -405,7 +405,7 @@ class MapCommunityAssets extends Component {
     return nodes;
   }
 
-  updateNodal(nodeID) {}
+  updateNodal(nodeID) { }
 
   removeNodal(nodeID) {
     //find the nodal in the array

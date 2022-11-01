@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios/index";
 import constants from "../constants";
-import { getAuthHeader } from "./Auth";
+import { getAuthHeader } from "../utils/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import { Cluster, Marker } from "react-mapbox-gl";
 import DataGroupMarker from "./DataGroupMarker";
@@ -85,36 +85,39 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
 
   activeDataGroups &&
     activeDataGroups.forEach((dataGroup) => {
-      dataGroup.markers.forEach((marker) => {
-        dataGroupMarkers.push(
-          <DataGroupMarker
-            key={marker.idmarkers}
-            coordinates={marker.location.coordinates}
-            name={marker.name}
-            description={marker.description}
-            marker={marker}
-            popupVisible={popupVisible}
-            setPopupVisible={setPopupVisible}
-          />)
-      });
-      dataGroup.polygons.forEach((polygon) => {
-        dataGroupPolygons.push(
-          <DataGroupPolygon
-            polygon={polygon}
-            setPopupVisible={setPopupVisible}
-            popupVisible={popupVisible}
-          />
-        )
-      });
-      dataGroup.lines.forEach((line) => {
-        dataGroupLines.push(
-          <DataGroupLine
-            line={line}
-            setPopupVisible={setPopupVisible}
-            popupVisible={popupVisible}
-          />
-        )
-      })
+      if (dataGroup.markers)
+        dataGroup.markers.forEach((marker) => {
+          dataGroupMarkers.push(
+            <DataGroupMarker
+              key={marker.idmarkers}
+              coordinates={marker.location.coordinates}
+              name={marker.name}
+              description={marker.description}
+              marker={marker}
+              popupVisible={popupVisible}
+              setPopupVisible={setPopupVisible}
+            />)
+        });
+      if (dataGroup.polygons)
+        dataGroup.polygons.forEach((polygon) => {
+          dataGroupPolygons.push(
+            <DataGroupPolygon
+              polygon={polygon}
+              setPopupVisible={setPopupVisible}
+              popupVisible={popupVisible}
+            />
+          )
+        });
+      if (dataGroup.lines)
+        dataGroup.lines.forEach((line) => {
+          dataGroupLines.push(
+            <DataGroupLine
+              line={line}
+              setPopupVisible={setPopupVisible}
+              popupVisible={popupVisible}
+            />
+          )
+        })
     });
 
   return (

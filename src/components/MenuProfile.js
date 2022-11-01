@@ -7,7 +7,7 @@ import { openModal } from '../actions/ModalActions';
 import { changeUser } from '../actions/UserActions'
 import analytics from '../analytics';
 import constants from '../constants';
-import { logout } from '../components/Auth';
+import { logout } from '../utils/Auth';
 import withRouter from "../components/common/withRouter";
 
 class MenuProfile extends Component {

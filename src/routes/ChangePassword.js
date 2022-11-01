@@ -5,7 +5,7 @@ import Spinner from "../components/common/Spinner";
 import { Link } from "react-router-dom";
 import constants from "../constants";
 import analytics from "../analytics";
-import { getAuthHeader } from "../components/Auth";
+import { getAuthHeader } from "../utils/Auth";
 
 class ChangePassword extends Component {
   constructor(props) {
@@ -153,13 +153,12 @@ class ChangePassword extends Component {
               <input
                 type="password"
                 className={`text-input
-                                ${
-                                  newPassword.valid !== ""
-                                    ? newPassword.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${newPassword.valid !== ""
+                    ? newPassword.valid
+                      ? "valid"
+                      : "invalid"
+                    : ""
+                  }`}
                 placeholder="New password"
                 value={newPassword.value}
                 onChange={(e) => {
@@ -171,13 +170,12 @@ class ChangePassword extends Component {
               <input
                 type="password"
                 className={`text-input
-                                ${
-                                  confirmNewPassword.valid !== ""
-                                    ? confirmNewPassword.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${confirmNewPassword.valid !== ""
+                    ? confirmNewPassword.valid
+                      ? "valid"
+                      : "invalid"
+                    : ""
+                  }`}
                 placeholder="Confirm new password"
                 value={confirmNewPassword.value}
                 onChange={(e) => {
@@ -190,11 +188,10 @@ class ChangePassword extends Component {
                 <input
                   type="submit"
                   value="Save Changes"
-                  className={`button button-full ${
-                    newPassword.valid && confirmNewPassword.valid
+                  className={`button button-full ${newPassword.valid && confirmNewPassword.valid
                       ? ""
                       : "button-grey"
-                  }`}
+                    }`}
                   style={{
                     paddingTop: 0,
                     marginBottom: "12px",

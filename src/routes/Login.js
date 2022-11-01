@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import * as Auth from "../components/Auth";
+import * as Auth from "../utils/Auth";
 import Spinner from "../components/common/Spinner";
 import withRouter from "../components/common/withRouter";
 import Navbar from "../components/Navbar";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios/index";
 import constants from "../constants";
-import { getAuthHeader } from "./Auth";
+import { getAuthHeader } from "../utils/Auth";
 import { useDispatch, useSelector } from "react-redux";
 
 const DataGroupPopup = ({ object, type, visible, closeDescription }) => {

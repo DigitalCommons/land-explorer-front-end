@@ -5,7 +5,7 @@ import axios from 'axios';
 import constants from '../../constants';
 import { isMobile } from 'react-device-detect';
 import analytics from "../../analytics";
-import { getAuthHeader } from "../Auth";
+import { getAuthHeader } from "../../utils/Auth";
 const moment = require('moment/moment.js');
 
 

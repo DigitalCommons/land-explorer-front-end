@@ -11,9 +11,9 @@ import Navbar from '../components/Navbar';
 import '../assets/styles/style.scss';
 import Tooltips from '../components/Tooltips';
 import Controls from '../components/Controls';
-import * as Auth from '../components/Auth';
+import * as Auth from '../utils/Auth';
 import Spinner from '../components/common/Spinner';
-import { logout, getAuthHeader } from '../components/Auth';
+import { logout, getAuthHeader } from '../utils/Auth';
 
 class MapApp extends Component {
 
