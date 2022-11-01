@@ -1,7 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MarkerPin from './MarkerPin';
-import { Marker } from 'react-mapbox-gl';
+import { Cluster, Marker } from 'react-mapbox-gl';
+
+const ClusterMarker = (coordinates, pointCount) => {
+    return (
+        <Marker
+            key={coordinates.toString()}
+            coordinates={coordinates}
+            style={{ height: "40px", zIndex: 2 }}
+        >
+            <div className="cluster-container cluster-grey-transparent">
+                <div className="cluster-background cluster-grey">
+                    <p className="cluster-text">{pointCount}</p>
+                </div>
+            </div>
+        </Marker>
+    );
+};
 
 class Markers extends Component {
 
@@ -86,13 +102,18 @@ class Markers extends Component {
                         </Marker>
                     )
                 }
-                {markers && markers.map((marker) => (
-                    <MarkerPin
-                        key={marker.uuid}
-                        marker={marker}
-                        handleMarkerClick={this.handleMarkerClick}
-                    />
-                ))}
+                {
+                    markers && <Cluster ClusterMarkerFactory={ClusterMarker}>
+                        {markers.map((marker) => (
+                            <MarkerPin
+                                key={marker.uuid}
+                                coordinates={marker.coordinates}
+                                marker={marker}
+                                handleMarkerClick={this.handleMarkerClick}
+                            />
+                        ))}
+                    </Cluster>
+                }
             </React.Fragment>
         );
     }
