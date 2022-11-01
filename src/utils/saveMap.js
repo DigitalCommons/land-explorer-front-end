@@ -3,38 +3,29 @@ import constants, { VERSION } from "../constants";
 import { getAuthHeader } from "./Auth";
 
 export const saveExistingMap = async (existingMap) => {
-    const { map, drawings, markers, mapLayers, activeDataGroups, currentMapId } = existingMap;
-    const { name } = existingMap;
+    const { map } = existingMap;
+    const { name, eid } = existingMap.map;
 
-    const activeDataGroupsInfo = activeDataGroups.map(group => ({
-        iddata_groups: group.iddata_groups,
-        title: group.title,
-        userGroupId: group.userGroupId
-    }));
+    const mapData = JSON.parse(map.data);
+    console.log(mapData)
+
     const saveData = {
         map: {
-            ...map,
             gettingLocation: false,
             name: name,
             currentLocation: null,
             searchMarker: null,
         },
-        drawings: drawings,
-        markers: markers,
-        mapLayers: {
-            landDataLayers: mapLayers.landDataLayers,
-            myDataLayers: activeDataGroupsInfo
-        },
+        ...mapData,
         version: VERSION,
         name: name,
-
     };
 
     console.log(saveData)
 
     const body = {
-        "eid": withId ? currentMapId : null,
-        "name": withId ? map.name : name,
+        "eid": eid,
+        "name": name,
         "data": JSON.stringify(saveData),
         "isSnapshot": false
     }
