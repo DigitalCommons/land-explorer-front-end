@@ -98,7 +98,7 @@ const DataGroupPopup = ({ object, type, visible, closeDescription }) => {
             {visible && (mode === "complete") && (
                 <div className="popup-content">
                     <p className="popup-save-success-text">
-                        {type == "polygon" ? "Polygon" : "Line"} successfully saved to
+                        {type.slice(0, 1).toUpperCase() + type.slice(1)} successfully saved to
                         <br />
                         '{selectedMap.map.name}'
                     </p>
