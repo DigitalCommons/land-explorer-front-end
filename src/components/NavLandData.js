@@ -9,9 +9,25 @@ const DataLayersContainer = ({ children, title }) => {
     const [expanded, setExpanded] = useState(true);
 
     return <div>
-        <div className='data-section-title-container'>
-            <h3 className='data-section-title' onClick={() => setExpanded(!expanded)}>{title}</h3>
-            <p className='expand-button' onClick={() => setExpanded(!expanded)}>{expanded ? "v" : "<"}</p>
+        <div className='data-section-title' onClick={() => setExpanded(!expanded)}>
+            <h4 style={{ fontWeight: 'bold' }}>{title}</h4>
+            <div style={{
+                position: 'absolute',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                right: '12px',
+                width: '24px',
+                height: '24px',
+                textAlign: 'center'
+            }}>
+                <img
+                    src={require('../assets/img/chevron.svg')} alt=""
+                    style={{
+                        transformOrigin: 'center',
+                        transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                    }}
+                />
+            </div>
         </div>
         {expanded && children}
     </div>

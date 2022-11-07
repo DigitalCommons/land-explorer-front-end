@@ -1,18 +1,10 @@
-.data-section-title-container {
+.data-section-title {
+  cursor: pointer;
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 0px 25px;
-}
-
-.data-section-title {
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.expand-button {
-  cursor: pointer;
 }
 
 /* Tooltips for data group markers  */
