@@ -14,11 +14,13 @@ export default (state = INITIAL_STATE, action) => {
             polygons.push(action.payload);
             // So the smaller ones are on top, so all the polygons can be clicked!
             polygons = polygons.sort((a, b) => a.area < b.area);
+            const polygonsDrawn = state.polygonsDrawn || 0;
+            const linesDrawn = state.linesDrawn || 0;
             return {
                 ...state,
                 polygons: polygons,
-                polygonsDrawn: action.payload.type === 'Polygon' ? state.polygonsDrawn + 1 : state.polygonsDrawn,
-                linesDrawn: action.payload.type === 'LineString' ? state.linesDrawn + 1 : state.linesDrawn,
+                polygonsDrawn: action.payload.type === 'Polygon' ? polygonsDrawn + 1 : polygonsDrawn,
+                linesDrawn: action.payload.type === 'LineString' ? linesDrawn + 1 : linesDrawn,
                 activePolygon: action.payload.data.id
             };
         case 'UPDATE_POLYGON':
