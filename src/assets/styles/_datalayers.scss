@@ -106,16 +106,33 @@
 .popup-title{
   margin: 0px;
   font-weight: bold;
+  width: 170px;
 }
 
 .description-text{
-  height: 50px;
-  overflow-y: auto;
+ /* height: 50px;
+  overflow-y: auto;*/
 }
 
-.popup-save-map-container{
+.editable{
+  background-color: #F3F3F3;
+  border-radius: 10px;
+}
+
+.no-popup-title{
+  margin-top: 20px;
+}
+
+.popup-body-container{
+  display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+  
+.popup-body-main{
   height: 80px;
-  width: 125px;
+  width: 170px;
   overflow-y: auto;
 }
 
@@ -123,6 +140,11 @@
   margin: 0px;
   padding-left: 5px;
   cursor: pointer;
+}
+
+.popup-sidebar{
+  display: flex;
+    flex-direction: column;
 }
 
 .save-map-highlighted{
@@ -147,6 +169,11 @@
     background: $primaryColor;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.25);
   }
+}
+
+.popup-sidebar-button{
+  padding-top: 10px;
+  cursor: pointer;
 }
 
 .popup-save-success-text{
