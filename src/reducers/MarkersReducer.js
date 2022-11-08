@@ -14,16 +14,17 @@ export default (state = INITIAL_STATE, action) => {
         case 'SET_MARKER':
             markers = state.markers.slice();
             const uuid = uuidv4();
+            const markersDrawn = state.markersDrawn || 0;
             markers.push({
                 uuid: uuid,
                 coordinates: action.payload,
-                name: `Marker ${state.markersDrawn + 1}`,
+                name: `Marker ${markersDrawn + 1}`,
                 description: ""
             });
             return {
                 ...state,
                 markers,
-                markersDrawn: state.markersDrawn + 1,
+                markersDrawn: markersDrawn + 1,
                 currentMarker: uuid
             }
         case 'CLEAR_MARKER':
