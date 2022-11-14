@@ -11,9 +11,9 @@ import Navbar from '../components/Navbar';
 import '../assets/styles/style.scss';
 import Tooltips from '../components/Tooltips';
 import Controls from '../components/Controls';
-import * as Auth from '../components/Auth';
+import * as Auth from '../utils/Auth';
 import Spinner from '../components/common/Spinner';
-import { logout, getAuthHeader } from '../components/Auth';
+import { logout, getAuthHeader } from '../utils/Auth';
 
 class MapApp extends Component {
 
@@ -61,6 +61,15 @@ class MapApp extends Component {
 
             } else {
                 this.setState({ errors: details.data.errors })
+            }
+
+            // if mobile, disable drawing tools
+            if (isMobile) {
+                this.props.dispatch({ type: 'READ_ONLY_ON' });
+            }
+            // populate user maps
+            if (maps.status === 200) {
+                this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: maps.data })
             }
         }
         catch (err) {

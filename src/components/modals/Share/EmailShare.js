@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import constants from '../../../constants';
-import { getAuthHeader } from "../../Auth";
+import { getAuthHeader } from "../../../utils/Auth";
 
 class EmailShare extends Component {
     constructor(props) {

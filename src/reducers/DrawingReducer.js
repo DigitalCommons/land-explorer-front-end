@@ -1,29 +1,31 @@
 const INITIAL_STATE = {
     polygons: [],
     activePolygon: null,
-    polygonCount: 1,
-    lineCount: 1,
+    polygonsDrawn: 0,
+    linesDrawn: 0,
     loadingDrawings: false,
 }
 
 export default (state = INITIAL_STATE, action) => {
     let polygons;
-    switch(action.type) {
+    switch (action.type) {
         case 'ADD_POLYGON':
             polygons = state.polygons.slice();
             polygons.push(action.payload);
             // So the smaller ones are on top, so all the polygons can be clicked!
-            polygons = polygons.sort((a,b) => a.area < b.area);
+            polygons = polygons.sort((a, b) => a.area < b.area);
+            const polygonsDrawn = state.polygonsDrawn || 0;
+            const linesDrawn = state.linesDrawn || 0;
             return {
                 ...state,
                 polygons: polygons,
-                polygonCount: action.payload.type === 'Polygon' ? state.polygonCount + 1 : state.polygonCount,
-                lineCount: action.payload.type !== 'Polygon' ? state.lineCount + 1 : state.lineCount,
-                activePolygon: action.payload.id
+                polygonsDrawn: action.payload.type === 'Polygon' ? polygonsDrawn + 1 : polygonsDrawn,
+                linesDrawn: action.payload.type === 'LineString' ? linesDrawn + 1 : linesDrawn,
+                activePolygon: action.payload.data.id
             };
         case 'UPDATE_POLYGON':
             polygons = state.polygons.map((polygon) => {
-                if (polygon.id === action.payload.id) {
+                if (polygon.data.id === action.payload.data.id) {
                     return {
                         ...polygon,
                         data: action.payload.data,
@@ -35,15 +37,15 @@ export default (state = INITIAL_STATE, action) => {
                     return polygon;
                 }
             });
-            polygons = polygons.sort((a,b) => a.area < b.area);
+            polygons = polygons.sort((a, b) => a.area < b.area);
             return {
                 ...state,
                 polygons: polygons
             }
         case 'DELETE_POLYGON':
             polygons = state.polygons.filter((polygon) => {
-                console.log("delete polygon", polygon);
-                if (polygon["data"]["properties"]["id"] === action.payload) {
+                if (polygon.data.id === action.payload) {
+                    console.log("delete polygon", polygon);
                     return false;
                 } else {
                     return true;
@@ -56,7 +58,7 @@ export default (state = INITIAL_STATE, action) => {
             }
         case 'RENAME_POLYGON':
             polygons = state.polygons.map((polygon) => {
-                if (polygon.id === action.payload.id) {
+                if (polygon.data.id === action.payload.id) {
                     return {
                         ...polygon,
                         name: action.payload.name

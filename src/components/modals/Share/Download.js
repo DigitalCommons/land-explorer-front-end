@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import constants from '../../../constants';
-import { getAuthHeader } from "../../Auth";
+import { getAuthHeader } from "../../../utils/Auth";
 
 const Download = ({ mapId }) => {
     const mapName = useSelector((state) => state.map.name);
@@ -30,8 +30,8 @@ const Download = ({ mapId }) => {
         downloadMap();
     }, [])
 
-    return <div className='share-option'>
-        <img src={require('../../../assets/img/icon-download-complete.svg')} className='share-option-icon' />
+    return <div className='modal-option'>
+        <img src={require('../../../assets/img/icon-download-complete.svg')} className='modal-option-icon' />
         <p className='download-text'>Download Complete</p>
     </div>
 }

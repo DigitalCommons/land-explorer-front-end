@@ -1,7 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MarkerPin from './MarkerPin';
-import { Marker } from 'react-mapbox-gl';
+import { Cluster, Marker } from 'react-mapbox-gl';
+
+const ClusterMarker = (coordinates, pointCount) => {
+    return (
+        <Marker
+            key={coordinates.toString()}
+            coordinates={coordinates}
+            style={{ height: "40px", zIndex: 2 }}
+        >
+            <div className="cluster-container cluster-grey-transparent">
+                <div className="cluster-background cluster-grey">
+                    <p className="cluster-text">{pointCount}</p>
+                </div>
+            </div>
+        </Marker>
+    );
+};
 
 class Markers extends Component {
 
@@ -10,7 +26,7 @@ class Markers extends Component {
         if (this.props.activeTool === 'trash') {
             dispatch({
                 type: 'CLEAR_MARKER',
-                payload: marker.id
+                payload: marker.uuid
             })
         } else {
             let coords = marker.coordinates;
@@ -40,7 +56,7 @@ class Markers extends Component {
             console.log("features", features);
             dispatch({
                 type: 'SET_CURRENT_MARKER',
-                payload: marker.id
+                payload: marker.uuid
             })
             dispatch({ type: 'OPEN_NAVIGATION' });
             dispatch({
@@ -86,13 +102,18 @@ class Markers extends Component {
                         </Marker>
                     )
                 }
-                {markers && markers.map((marker) => (
-                    <MarkerPin
-                        key={marker.id}
-                        marker={marker}
-                        handleMarkerClick={this.handleMarkerClick}
-                    />
-                ))}
+                {
+                    markers && <Cluster ClusterMarkerFactory={ClusterMarker}>
+                        {markers.map((marker) => (
+                            <MarkerPin
+                                key={marker.uuid}
+                                coordinates={marker.coordinates}
+                                marker={marker}
+                                handleMarkerClick={this.handleMarkerClick}
+                            />
+                        ))}
+                    </Cluster>
+                }
             </React.Fragment>
         );
     }

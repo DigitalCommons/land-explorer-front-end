@@ -1,11 +1,11 @@
 const INITIAL_STATE = {
-    open: false,
+    open: true,
     active: '',
     activeTool: '',
 }
 
 export default (state = INITIAL_STATE, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case 'TOGGLE_NAVIGATION':
             return {
                 ...state,
@@ -48,14 +48,11 @@ export default (state = INITIAL_STATE, action) => {
             }
 
         case 'CLOSE_TRAY':
-          
-        //    state.active = ''
-        //    console.log(state.active)
-        return {
+            return {
                 ...state,
                 active: '',
                 activeTool: '',
-                   
+
             }
         case 'LOAD_MAP':
             return INITIAL_STATE;

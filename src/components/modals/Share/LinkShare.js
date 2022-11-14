@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import constants from '../../../constants';
-import { getAuthHeader } from "../../Auth";
+import { getAuthHeader } from "../../../utils/Auth";
 
 const LinkShare = ({ cancel, mapId }) => {
     const [stage, setStage] = useState("generate");

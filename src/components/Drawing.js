@@ -14,28 +14,27 @@ class Drawing extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        let polygonId = this.props.polygon.data.properties.id;
+        let polygonId = this.props.polygon.data.id;
         if ((prevProps.activePolygon === polygonId) && (this.props.activePolygon !== polygonId)) {
             this.setState({ hidden: false });
         }
     }
 
     render() {
-        let { polygon, type, activePolygon, activeTool, readOnly, baseLayer } = this.props;
-        let { editing, hidden } = this.state;
-        let polygonId = polygon.data.properties.id;
+        let { polygon } = this.props;
+        const { type, activePolygon, activeTool, readOnly, baseLayer } = this.props;
+        const { editing, hidden } = this.state;
+        const polygonId = polygon.data.id;
         polygon = polygon.data;
-        let isActive = polygonId === activePolygon;
-        let center = turf.pointOnFeature(polygon);
-        let line = type === 'polygon' ? turf.polygonToLine(polygon.geometry) : polygon;
-        let length = turf.length(line, { units: 'kilometers' });
-        let showPopup = isActive && !activeTool;
-        let marker = {
-            id: 23123,
+        const isActive = polygonId === activePolygon;
+        const center = turf.pointOnFeature(polygon);
+        const showPopup = isActive && !activeTool;
+        const popup = {
             coordinates: center.geometry.coordinates,
             name: this.props.name,
         };
         console.log("ACTIVE TOOL", activeTool);
+        console.log(polygon)
         return (
             <div>
                 {
@@ -56,8 +55,8 @@ class Drawing extends Component {
                                 if (activeTool !== 'drop-pin') {
                                     if (!(activeTool)) {
                                         console.log("the polygon was clicked", e);
-                                        let area = turf.area(polygon);
-                                        let roundedArea = Math.round(area * 100) / 100;
+                                        const area = turf.area(polygon);
+                                        const roundedArea = Math.round(area * 100) / 100;
                                         if (isActive) {
                                             this.props.dispatch({
                                                 type: 'CLEAR_ACTIVE_POLYGON',
@@ -99,7 +98,7 @@ class Drawing extends Component {
                     )
                 }
                 <Popup
-                    coordinates={marker.coordinates}
+                    coordinates={popup.coordinates}
                     offset={{
                         'bottom': [0, -10]
                     }}
@@ -142,7 +141,7 @@ class Drawing extends Component {
                                 }}
                             />
                         ) : (
-                            <h2>{marker.name}</h2>
+                            <h2>{popup.name}</h2>
                         )}
                         {
                             this.state.editing ? (
@@ -202,7 +201,7 @@ class Drawing extends Component {
                                             if (!readOnly) {
                                                 this.setState({
                                                     editing: !this.state.editing,
-                                                    input: marker.name
+                                                    input: popup.name
                                                 });
                                             }
                                         }}

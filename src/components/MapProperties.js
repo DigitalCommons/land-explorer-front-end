@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Layer, Feature } from 'react-mapbox-gl';
 import axios from "axios";
 import constants from "../constants";
-import { getAuthHeader } from "./Auth";
+import { getAuthHeader } from "../utils/Auth";
 import Loading from "../components/common/Loading";
 import { highlightProperty } from "../actions/LandOwnershipActions";
 

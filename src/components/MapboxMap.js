@@ -41,7 +41,7 @@ class MapboxMap extends Component {
       styleLoaded: false,
       drawings: null,
       redrawing: false,
-      markerVisible: -1,
+      popupVisible: -1,
     };
     // ref to the mapbox map
     this.map = null;
@@ -60,7 +60,7 @@ class MapboxMap extends Component {
   }
 
   onClick = (map, evt) => {
-    this.setState({ markerVisible: -1 });
+    this.setState({ popupVisible: -1 });
 
     const mode = this.drawControl.draw.getMode();
     if (mode === "simple_select") {
@@ -125,29 +125,25 @@ class MapboxMap extends Component {
       // features are the shapes themselves (the geometry is the 'points/nodes' of the shapes)
       let feature = e.features[0];
       let featureCopy = {
+        id: feature.id,
         type: feature.type,
         geometry: feature.geometry,
-        properties: {
-          // This is is created by the javascript drawing tools, we store it to keep them in sync
-          id: feature.id,
-        },
-        id: feature.id,
+        properties: {},
       };
       let type = feature.geometry.type;
-      // Use turf to convert the polygon to a line (so we can get the length of it (perimeter)
+      // Use turf to convert the polygon to a line so we can get the length of it (perimeter)
       let line =
         type === "Polygon"
           ? turf.polygonToLine(featureCopy.geometry)
           : featureCopy;
       let name =
         type === "Polygon"
-          ? `Polygon ${this.props.polygonCount}`
-          : `Line ${this.props.lineCount}`;
+          ? `Polygon ${this.props.polygonsDrawn + 1}`
+          : `Line ${this.props.linesDrawn + 1}`;
       // Create polygon object with length, area and centre point worked out by turf
       let polygon = {
         data: featureCopy,
         name: name,
-        id: feature.id,
         center: turf.pointOnFeature(featureCopy).geometry.coordinates,
         type: type,
         length: turf.length(line, { units: "kilometers" }),
@@ -174,12 +170,10 @@ class MapboxMap extends Component {
     let { features } = e;
     features.map((feature) => {
       let featureCopy = {
+        id: feature.id,
         type: feature.type,
         geometry: feature.geometry,
-        properties: {
-          id: feature.id,
-        },
-        id: feature.id,
+        properties: {},
       };
       let type = feature.geometry.type;
       let line =
@@ -189,7 +183,6 @@ class MapboxMap extends Component {
       this.props.dispatch({
         type: "UPDATE_POLYGON",
         payload: {
-          id: feature.id,
           data: featureCopy,
           center: turf.pointOnFeature(featureCopy).geometry.coordinates,
           length: turf.length(line, { units: "kilometers" }),
@@ -225,7 +218,7 @@ class MapboxMap extends Component {
       this.props.polygons.map((polygon) => {
         this.drawControl.draw.add({
           ...polygon.data,
-          id: polygon.id,
+          id: polygon.data.id,
         });
       });
       this.drawControl.draw.changeMode("static");
@@ -237,7 +230,7 @@ class MapboxMap extends Component {
   };
 
   render() {
-    const { markerVisible } = this.state;
+    const { popupVisible } = this.state;
     const {
       zoom,
       lngLat,
@@ -296,9 +289,9 @@ class MapboxMap extends Component {
           <MapLayers />
           {/* Map Data Groups displaying My Data */}
           <MapDataGroups
-            markerVisible={markerVisible}
-            setMarkerVisible={(markerId) =>
-              this.setState({ markerVisible: markerId })
+            popupVisible={popupVisible}
+            setPopupVisible={(markerId) =>
+              this.setState({ popupVisible: markerId })
             }
           />
           {council /* Map Council Layers (wards etc.)*/ && (
@@ -397,14 +390,13 @@ const mapStateToProps = ({
   searchMarker: map.searchMarker,
   markers: markers.markers,
   currentMarker: markers.currentMarker,
-  markerCount: markers.id,
   baseLayer: mapBaseLayer.layer,
   landDataLayers: mapLayers.landDataLayers,
   activeTool: navigation.activeTool,
   activePolygon: drawings.activePolygon,
   polygons: drawings.polygons,
-  polygonCount: drawings.polygonCount,
-  lineCount: drawings.lineCount,
+  polygonsDrawn: drawings.polygonsDrawn || 0,
+  linesDrawn: drawings.linesDrawn || 0,
   lines: drawings.lines,
   loadingDrawings: drawings.loadingDrawings,
   name: map.name,
