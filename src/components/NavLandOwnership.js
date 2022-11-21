@@ -418,9 +418,9 @@ class NavLandOwnership extends Component {
             <div className={"close-card"}
               onClick={() => this.props.clearHighlight(house)}
             ></div>
-            {/*<b>{this.displayHouse(house)}</b>*/}
+            {/*<b>{this.displayHouse(house)}</b>
             <p className="purchase-detail">{house.post_town}</p>
-            <p className="purchase-detail">{house.postcode}</p>
+            <p className="purchase-detail">{house.postcode}</p>*/}
             {house.commercialInformation &&
               <div>
                 <p>Property Address: {house.commercialInformation.property_address}</p>
@@ -429,12 +429,11 @@ class NavLandOwnership extends Component {
                 <p>Proprietor Address: {house.commercialInformation.proprietor_1_address_1}</p>
                 <p>Tenure: {house.commercialInformation.tenure}</p>
                 <p>Date Proprietor Added: {house.commercialInformation.date_proprietor_added}</p>
-                <p title="The Title Register gives information on who owns the property or land, and any rights of way">Title register ID: {house.line_1}</p>
-                <p title="The Title Plan includes the property or land's location and boundaries">Title plan ID: {house.line_2}</p>
-                <p>You can access these documents for a small fee by visiting the LandRegistry website using the above IDs:
-                  https://search-property-information.service.gov.uk/search/search-by-inspire-id_</p>
               </div>
             }
+            <p title="The Title Register gives information on who owns the property or land, and any rights of way">Title register ID: {house.line_1}</p>
+            <p title="The Title Plan includes the property or land's location and boundaries">Title plan ID: {house.line_2}</p>
+            <p>You can access these documents for a small fee by visiting the <a href="https://search-property-information.service.gov.uk/search/search-by-inspire-id">LandRegistry website</a> using the above IDs.</p>
           </span>
           {
             /*
