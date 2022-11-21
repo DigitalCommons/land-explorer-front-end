@@ -120,10 +120,21 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
         })
     });
 
+  const clusterRadius = 60;
+  // Zoom in to the minimum level that separates a cluster, if the nodes are exactly aligned
+  // along the shortest screen axis. We will zoom in too much if this isn't the case, but the
+  // Cluster component doesn't give us enough control to do any better.
+  const paddingOnZoom = Math.min(window.innerHeight, window.innerWidth) / 2 - clusterRadius - 40;
+
   return (
     <>
       {dataGroupMarkers && (
-        <Cluster ClusterMarkerFactory={ClusterMarker}>
+        <Cluster
+          ClusterMarkerFactory={ClusterMarker}
+          radius={clusterRadius}
+          zoomOnClick={true}
+          zoomOnClickPadding={paddingOnZoom}
+        >
           {dataGroupMarkers}
         </Cluster>
       )}

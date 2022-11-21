@@ -70,40 +70,46 @@ class Markers extends Component {
         let { markers, searchMarker, currentLocation } = this.props;
         console.log("marker map?", this.props.map);
         console.log("search marker", searchMarker);
+        let clusterRadius = 60;
+        // Zoom in to the minimum level that separates a cluster, if the nodes are exactly aligned
+        // along the shortest screen axis. We will zoom in too much if this isn't the case, but the
+        // Cluster component doesn't give us enough control to do any better.
+        let paddingOnZoom = Math.min(window.innerHeight, window.innerWidth) / 2 - clusterRadius - 40;
         return (
             <React.Fragment>
-                {
-                    searchMarker && (
-                        <Marker
-                            coordinates={searchMarker}
-                            style={{ zIndex: 1 }}
-                        >
-                            <img src={require('../assets/img/icon-marker-new--red.svg')} alt=""
-                                style={{
-                                    height: 40,
-                                    width: 40
-                                }}
-                            />
-                        </Marker>
-                    )
-                }
-                {
-                    currentLocation && (
-                        <Marker
-                            coordinates={currentLocation}
-                            style={{ zIndex: 1 }}
-                        >
-                            <img src={require('../assets/img/icon-current-location--blue.svg')} alt=""
-                                style={{
-                                    height: 30,
-                                    width: 30
-                                }}
-                            />
-                        </Marker>
-                    )
-                }
-                {
-                    markers && <Cluster ClusterMarkerFactory={ClusterMarker}>
+                {searchMarker && (
+                    <Marker
+                        coordinates={searchMarker}
+                        style={{ zIndex: 1 }}
+                    >
+                        <img src={require('../assets/img/icon-marker-new--red.svg')} alt=""
+                            style={{
+                                height: 40,
+                                width: 40
+                            }}
+                        />
+                    </Marker>
+                )}
+                {currentLocation && (
+                    <Marker
+                        coordinates={currentLocation}
+                        style={{ zIndex: 1 }}
+                    >
+                        <img src={require('../assets/img/icon-current-location--blue.svg')} alt=""
+                            style={{
+                                height: 30,
+                                width: 30
+                            }}
+                        />
+                    </Marker>
+                )}
+                {markers && (
+                    <Cluster
+                        ClusterMarkerFactory={ClusterMarker}
+                        radius={clusterRadius}
+                        zoomOnClick={true}
+                        zoomOnClickPadding={paddingOnZoom}
+                    >
                         {markers.map((marker) => (
                             <MarkerPin
                                 key={marker.uuid}
@@ -113,7 +119,7 @@ class Markers extends Component {
                             />
                         ))}
                     </Cluster>
-                }
+                )}
             </React.Fragment>
         );
     }

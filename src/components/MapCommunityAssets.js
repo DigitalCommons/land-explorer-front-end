@@ -391,11 +391,18 @@ class MapCommunityAssets extends Component {
 
     activeLayers = this.packDuplicateCoordinate(activeLayers);
     if (activeLayers.length > 0) {
+      let { radius } = this.state;
+      // Zoom in to the minimum level that separates a cluster, if the nodes are exactly aligned
+      // along the shortest screen axis. We will zoom in too much if this isn't the case, but the
+      // Cluster component doesn't give us enough control to do any better.
+      let paddingOnZoom = Math.min(window.innerHeight, window.innerWidth) / 2 - radius - 30;
       nodes.push(
         <Cluster
           key="1"
           ClusterMarkerFactory={this[activeLayersId[0]]}
-          radius={this.state.radius}
+          radius={radius}
+          zoomOnClick={true}
+          zoomOnClickPadding={paddingOnZoom}
         >
           {activeLayers.map(this.createNodalBackEnd)}
         </Cluster>
