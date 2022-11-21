@@ -4,6 +4,8 @@ import NavTray from './NavTray';
 import NavTrayItem from './common/NavTrayItem';
 import DataGroupToggle from './common/DataGroupToggle';
 import Draggable from './Draggable';
+import ToggleSwitch from './common/ToggleSwitch';
+import { useDispatch } from 'react-redux';
 
 const DataLayersContainer = ({ children, title }) => {
     const [expanded, setExpanded] = useState(true);
@@ -45,6 +47,29 @@ const NavLandData = ({ open, active, onClose }) => {
         </DataLayersContainer>
     )
 
+    const displayOwnership = useSelector((state) => state.landOwnership.displayActive);
+    const dispatch = useDispatch();
+
+    const toggleLandOwnership = () => {
+        if (displayOwnership)
+            dispatch({ type: "STOP_DISPLAYING_PROPERTIES" });
+        else
+            dispatch({ type: "DISPLAY_PROPERTIES" });
+    }
+
+    const landOwnershipSection = <DataLayersContainer title={"Land Ownership"}>
+        <div
+            className={`tray-item`}
+        >
+            <div className={`tray-item-title`}
+                onClick={toggleLandOwnership}
+            >
+                Land Registry
+            </div>
+            <ToggleSwitch on={displayOwnership} tooltip="showHideData" toggle={toggleLandOwnership} />
+        </div>
+    </DataLayersContainer>
+
     return (
         <NavTray
             title="Data Layers"
@@ -64,6 +89,7 @@ const NavLandData = ({ open, active, onClose }) => {
                 </Draggable>
             </DataLayersContainer>
             {userGroupSections}
+            {landOwnershipSection}
         </NavTray>
     );
 }
