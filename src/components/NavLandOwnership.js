@@ -30,7 +30,7 @@ class NavLandOwnership extends Component {
       //2. User select the list of property based on search results. Mode: select
       //3. User add to cart (title or plan). Mode: cart
       //4. Payment area. Mode: pay
-      mode: "search",
+      mode: "cart",
       cart: [],
       err_msg: "",
     };
@@ -418,9 +418,9 @@ class NavLandOwnership extends Component {
             <div className={"close-card"}
               onClick={() => this.props.clearHighlight(house)}
             ></div>
-            <b>{this.displayHouse(house)}</b>
+            {/*<b>{this.displayHouse(house)}</b>
             <p className="purchase-detail">{house.post_town}</p>
-            <p className="purchase-detail">{house.postcode}</p>
+            <p className="purchase-detail">{house.postcode}</p>*/}
             {house.commercialInformation &&
               <div>
                 <p>Property Address: {house.commercialInformation.property_address}</p>
@@ -431,9 +431,16 @@ class NavLandOwnership extends Component {
                 <p>Date Proprietor Added: {house.commercialInformation.date_proprietor_added}</p>
               </div>
             }
+            <p title="The Title Register gives information on who owns the property or land, and any rights of way">INSPIRE ID: {house.line_1}</p>
+            <p title="The Title Plan includes the property or land's location and boundaries">Title number: {house.line_2}</p>
+            <p>You can access these documents for a small fee by visiting the <a href="https://search-property-information.service.gov.uk/search/search-by-inspire-id" target="_blank" rel="noopener noreferrer">LandRegistry website</a> using the above IDs.</p>
           </span>
-          {this.createCartButton(this.makeCartItem(house, "title"))}
-          {this.createCartButton(this.makeCartItem(house, "plan"))}
+          {
+            /*
+              {this.createCartButton(this.makeCartItem(house, "title"))}
+              {this.createCartButton(this.makeCartItem(house, "plan"))}
+            */
+          }
         </div>
       </div>
     );
@@ -588,10 +595,10 @@ class NavLandOwnership extends Component {
       return (
         <div>
           <NavTray
-            title="Purchase Documents"
+            title="Land Ownership Data"
             open={this.props.open && this.props.active === "Land Ownership"}
             onClose={this.closeTray}
-            footer={this.navFooter()}
+            //footer={this.navFooter()}
             css="nav-left-tray-ownership"
           >
             {this.controlBar()}
