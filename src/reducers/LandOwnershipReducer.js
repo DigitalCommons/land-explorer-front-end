@@ -46,7 +46,7 @@ export default (state = INITIAL_STATE, action) => {
       console.log(propertyToRemove);
       console.log(state.highlightedProperty)
       state.highlightedProperty = state.highlightedProperty.filter(
-        property => property.poly_id != propertyToRemove.line_1
+        property => property.poly_id != propertyToRemove.poly_id
       );
       return { ...state };
     case "CLEAR_ALL_HIGHLIGHT":
