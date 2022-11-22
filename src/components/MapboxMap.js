@@ -156,7 +156,7 @@ class MapboxMap extends Component {
       // change drawing mode back to static and deselct all tools
       setTimeout(() => {
         this.drawControl.draw.changeMode("static");
-        this.props.dispatch({ type: "DESELECT_TOOLS" });
+        // this.props.dispatch({ type: "DESELECT_TOOLS" });
       }, 100);
       this.setState({ drawings: this.drawControl.draw.getAll() });
     }

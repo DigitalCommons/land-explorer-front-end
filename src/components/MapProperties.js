@@ -14,7 +14,7 @@ const MapProperties = ({ center, map }) => {
   const zoom = useSelector(state => state.map.zoom);
   const highlightedProperty = useSelector(state => state.landOwnership.highlightedProperty);
 
-  const activeTool = useSelector(state => state.navigation.activeTool);
+  const activePanel = useSelector(state => state.navigation.active);
 
   const dispatch = useDispatch();
 
@@ -58,7 +58,8 @@ const MapProperties = ({ center, map }) => {
   }, [center, map, zoom, displayActive])
 
   const highlightProperty = (property) => {
-    if (activeTool === '') {
+    console.log("activpl", activePanel)
+    if (activePanel !== 'Drawing Tools') {
       dispatch({
         type: "HIGHLIGHT_PROPERTY",
         payload: {
