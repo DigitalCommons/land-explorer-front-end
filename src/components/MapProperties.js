@@ -1,34 +1,27 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Layer, Feature } from 'react-mapbox-gl';
 import axios from "axios";
 import constants from "../constants";
 import { getAuthHeader } from "../utils/Auth";
 import Loading from "../components/common/Loading";
-import { highlightProperty } from "../actions/LandOwnershipActions";
 
-class MapProperties extends Component {
-  constructor(props) {
-    super(props);
+const MapProperties = ({ center, map }) => {
+  const [propertiesArray, setPropertiesArray] = useState([]);
+  const [loadingProperties, setLoadingProperties] = useState(false);
 
-    this.state = {
-      propertiesArray: [],
-      loadingProperties: false,
-    };
-  }
+  const displayActive = useSelector(state => state.landOwnership.displayActive);
+  const zoom = useSelector(state => state.map.zoom);
+  const highlightedProperty = useSelector(state => state.landOwnership.highlightedProperty);
 
-  componentDidUpdate(prevProps) {
-    if (prevProps != this.props &&
-      prevProps.highlightedProperty == this.props.highlightedProperty &&
-      this.props.displayActive &&
-      this.props.zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL)
-      this.getProperties();
-  }
+  const activeTool = useSelector(state => state.navigation.activeTool);
 
-  async getProperties() {
-    const mapBoundaries = this.props.map.getBounds();
+  const dispatch = useDispatch();
 
-    this.setState({ loadingProperties: true });
+  const getProperties = async () => {
+    const mapBoundaries = map.getBounds();
+
+    setLoadingProperties(true);
 
     const response = await axios
       .get(
@@ -43,40 +36,55 @@ class MapProperties extends Component {
         getAuthHeader()
       );
 
-    let properties = [];
+    const properties = [];
 
     const propertiesData = response.data;
 
     propertiesData.map((property) => {
-      let json = JSON.parse(property.geojson);
+      const json = JSON.parse(property.geojson);
       property.coordinates = json.coordinates[0];
       properties.push(property);
     });
 
     if (properties.length > 0)
-      this.setState({
-        propertiesArray: properties
-      });
+      setPropertiesArray(properties);
 
-    this.setState({ loadingProperties: false });
+    setLoadingProperties(false);
   }
 
-  createProperties() {
+  useEffect(() => {
+    if (displayActive && zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL)
+      getProperties();
+  }, [center, map, zoom, displayActive])
+
+  const highlightProperty = (property) => {
+    if (activeTool === '') {
+      dispatch({
+        type: "HIGHLIGHT_PROPERTY",
+        payload: {
+          highlightedProperty: property
+        }
+      })
+      dispatch({ type: 'SET_ACTIVE', payload: 'Land Information' });
+    }
+  }
+
+  const createProperties = () => {
     const detailedProperties = [];
     const basicProperties = [];
 
-    this.state.propertiesArray.forEach(property => {
+    propertiesArray.forEach(property => {
       if (property.date_proprietor_added)
         detailedProperties.push(<Feature
           coordinates={[property.coordinates]}
           key={property.coordinates[0][0]}
-          onClick={() => this.props.highlightProperty(property)}
+          onClick={() => highlightProperty(property)}
         />)
       else
         basicProperties.push(<Feature
           coordinates={[property.coordinates]}
           key={property.coordinates[0][0]}
-          onClick={() => this.props.highlightProperty(property)}
+          onClick={() => highlightProperty(property)}
         />)
     })
 
@@ -102,12 +110,11 @@ class MapProperties extends Component {
         {basicProperties}
       </Layer>
     </>
-
   }
 
-  createHighlightedProperties() {
-    let properties = []
-    this.props.highlightedProperty.forEach(highlightedProperty =>
+  const createHighlightedProperties = () => {
+    const properties = []
+    highlightedProperty.forEach(highlightedProperty =>
       properties.push(<Feature
         coordinates={[highlightedProperty.coordinates]}
         key={highlightedProperty.coordinates[0][0]}
@@ -122,28 +129,17 @@ class MapProperties extends Component {
     </Layer>
   }
 
-  render() {
-    const { loadingProperties, propertiesArray } = this.state;
-    const { highlightedProperty } = this.props;
-
-    if (this.props.displayActive && this.props.zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL)
-      return <>
-        {loadingProperties && <Loading message={"fetching property boundaries"} />}
-        {propertiesArray && this.createProperties()}
-        {highlightedProperty && this.createHighlightedProperties()}
-      </>;
-    if (highlightedProperty.length > 0)
-      return <>
-        {highlightedProperty && this.createHighlightedProperties()}
-      </>
-    else return null;
-  }
+  if (displayActive && zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL)
+    return <>
+      {loadingProperties && <Loading message={"fetching property boundaries"} />}
+      {propertiesArray && createProperties()}
+      {highlightedProperty && createHighlightedProperties()}
+    </>;
+  if (highlightedProperty.length > 0)
+    return <>
+      {createHighlightedProperties()}
+    </>
+  else return null;
 }
 
-const mapStateToProps = ({ landOwnership, map }) => ({
-  displayActive: landOwnership.displayActive,
-  zoom: map.zoom,
-  highlightedProperty: landOwnership.highlightedProperty
-});
-
-export default connect(mapStateToProps, { highlightProperty })(MapProperties);
+export default MapProperties;
