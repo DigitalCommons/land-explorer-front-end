@@ -18,6 +18,9 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         propertyInformation: propertyInformation,
       };
+    case "TOGGLE_PROPERTY_DISPLAY":
+      state.displayActive = !state.displayActive;
+      return { ...state };
     case "DISPLAY_PROPERTIES":
       state.displayActive = true;
       return { ...state };
