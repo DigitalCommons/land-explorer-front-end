@@ -1,7 +1,7 @@
 const INITIAL_STATE = {
   propertyInformation: {},
   displayActive: false,
-  highlightMultiple: false,
+  highlightMultiple: true,
   highlightedProperty: [],
 };
 

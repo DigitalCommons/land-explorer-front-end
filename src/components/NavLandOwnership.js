@@ -5,7 +5,6 @@ import ToggleSwitch from './common/ToggleSwitch';
 import {
   displayProperties,
   stopDisplayingProperties,
-  highlightProperty,
   clearHighlight,
   clearAllHighlight,
   toggleHighlightMultiple,
@@ -433,7 +432,7 @@ class NavLandOwnership extends Component {
             }
             <p title="The Title Register gives information on who owns the property or land, and any rights of way">INSPIRE ID: {house.line_1}</p>
             <p title="The Title Plan includes the property or land's location and boundaries">Title number: {house.line_2}</p>
-            <p>You can access these documents for a small fee by visiting the <a href="https://search-property-information.service.gov.uk/search/search-by-inspire-id" target="_blank" rel="noopener noreferrer">LandRegistry website</a> using the above IDs.</p>
+            <p>You can access these documents for a small fee by visiting the <a href="https://search-property-information.service.gov.uk/search/search-by-inspire-id" target="_blank" rel="noopener noreferrer">Land Registry website</a> using the above IDs.</p>
           </span>
           {
             /*
@@ -692,7 +691,6 @@ const mapStateToProps = ({ landOwnership }) => ({
 export default connect(mapStateToProps, {
   displayProperties,
   stopDisplayingProperties,
-  highlightProperty,
   clearHighlight,
   clearAllHighlight,
   toggleHighlightMultiple
