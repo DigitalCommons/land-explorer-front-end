@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 const PropertySection = ({ property }) => {
     const dispatch = useDispatch();
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     const {
         poly_id,

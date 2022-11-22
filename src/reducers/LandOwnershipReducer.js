@@ -42,7 +42,7 @@ export default (state = INITIAL_STATE, action) => {
         highlightedProperty: state.highlightedProperty
       };
     case "CLEAR_HIGHLIGHT":
-      propertyToRemove = action.payload.property;
+      propertyToRemove = action.payload;
       console.log(propertyToRemove);
       console.log(state.highlightedProperty)
       state.highlightedProperty = state.highlightedProperty.filter(
