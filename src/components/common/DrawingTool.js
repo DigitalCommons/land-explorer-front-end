@@ -21,34 +21,32 @@ class DrawingTool extends Component {
                 type: 'SET_ACTIVE_TOOL',
                 payload: this.props.tool
             })
-            // If this tool uses a specific drawing mode
-            if (this.props.mode) {
-                // If mode is simple_select
-                if (this.props.mode === 'simple_select') {
-                    // if a polygon has been selected in the UI
-                    if (this.props.activePolygon) {
-                        // change to direct_select and set the featureId to the active polygon
-                        this.props.drawControl.draw.changeMode('direct_select', {
-                            featureId: this.props.activePolygon
-                        })
-                    } else {
-                        // change to the specific drawing mode
-                        this.props.drawControl.draw.changeMode(this.props.mode);
-                    }
+            // If mode is simple_select
+            if (this.props.mode === 'simple_select') {
+                // if a polygon has been selected in the UI
+                if (this.props.activePolygon) {
+                    // change to direct_select and set the featureId to the active polygon
+                    this.props.drawControl.draw.changeMode('direct_select', {
+                        featureId: this.props.activePolygon
+                    })
                 } else {
                     // change to the specific drawing mode
                     this.props.drawControl.draw.changeMode(this.props.mode);
                 }
+            } else {
+                // change to the specific drawing mode
+                this.props.drawControl.draw.changeMode(this.props.mode);
             }
         }
     }
 
     render() {
-        let { activeTool, tool, size, name, drawControl } = this.props;
-        let image = require('../../assets/img/icon-' + tool + (activeTool === tool ? '--white' : '') + '.svg');
+        const { activeTool, tool, size, name, drawControl } = this.props;
+        const isToolActive = activeTool === tool;
+        const image = require(`../../assets/img/icon-${tool}${isToolActive ? '--white' : ''}.svg`);
         return (
             <div
-                className={`drawing-tool-section ${activeTool === tool ? 'active' : ''}`}
+                className={`drawing-tool-section ${isToolActive ? 'active' : ''}`}
                 onClick={this.handleClick}
                 style={{
                     display: 'flex',
@@ -56,7 +54,7 @@ class DrawingTool extends Component {
                 }}
             >
                 <div
-                    className={`drawing-tool ${activeTool === tool ? 'active' : ''}`}
+                    className={`drawing-tool ${isToolActive ? 'active' : ''}`}
                     style={{
                         backgroundImage: `url(${image})`,
                         backgroundRepeat: 'no-repeat',
@@ -67,7 +65,7 @@ class DrawingTool extends Component {
                     }}
                 >
                 </div>
-                <div style={{ display: 'inline-block', userSelect: 'none', color: activeTool === tool ? 'white' : '#78838f' }}>{name}</div>
+                <div style={{ display: 'inline-block', userSelect: 'none', color: isToolActive ? 'white' : '#78838f' }}>{name}</div>
             </div>
         );
     }
