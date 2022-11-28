@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import NavTray from './NavTray';
 import NavTrayItem from './common/NavTrayItem';
-import DataGroupToggle from './common/DataGroupToggle';
+import DataToggle from './common/DataToggle';
 import Draggable from './Draggable';
 
 const DataLayersContainer = ({ children, title }) => {
@@ -34,16 +34,12 @@ const DataLayersContainer = ({ children, title }) => {
 }
 
 const NavLandData = ({ open, active, onClose }) => {
+    const dispatch = useDispatch();
+
     const userGroupTitlesAndIDs = useSelector((state) => state.dataGroups.userGroupTitlesAndIDs);
     const dataGroupTitlesAndIDs = useSelector((state) => state.dataGroups.dataGroupTitlesAndIDs);
     const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
-
-    const userGroupSections = userGroupTitlesAndIDs && userGroupTitlesAndIDs.map(userGroup =>
-        <DataLayersContainer title={userGroup.title} key={userGroup.id}>
-            {dataGroupTitlesAndIDs && dataGroupTitlesAndIDs.filter(dataGroup => dataGroup.userGroupId == userGroup.id).map(dataGroup =>
-                <DataGroupToggle title={dataGroup.title} layerId={dataGroup.id} active={activeGroups.includes(dataGroup.id)} key={dataGroup.id} />)}
-        </DataLayersContainer>
-    )
+    const displayProperties = useSelector((state) => state.landOwnership.displayActive);
 
     return (
         <NavTray
@@ -63,7 +59,27 @@ const NavLandData = ({ open, active, onClose }) => {
                     <NavTrayItem draggable={true} title="Brownfield" layerId='ncc-brownfield-sites' />
                 </Draggable>
             </DataLayersContainer>
-            {userGroupSections}
+            {userGroupTitlesAndIDs && userGroupTitlesAndIDs.map(userGroup =>
+                <DataLayersContainer title={userGroup.title} key={userGroup.id}>
+                    {dataGroupTitlesAndIDs && dataGroupTitlesAndIDs.filter(dataGroup => dataGroup.userGroupId == userGroup.id).map(dataGroup =>
+                        <DataToggle
+                            title={dataGroup.title}
+                            active={activeGroups.includes(dataGroup.id)}
+                            key={dataGroup.id}
+                            onToggle={() => dispatch({
+                                type: "TOGGLE_DATA_GROUP",
+                                payload: dataGroup.id
+                            })}
+                        />)}
+                </DataLayersContainer>
+            )}
+            <DataLayersContainer title={"Land Ownership"}>
+                <DataToggle
+                    title={"Land Registry"}
+                    active={displayProperties}
+                    onToggle={() => dispatch({ type: "TOGGLE_PROPERTY_DISPLAY" })}
+                />
+            </DataLayersContainer>
         </NavTray>
     );
 }

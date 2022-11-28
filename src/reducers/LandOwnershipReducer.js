@@ -1,7 +1,7 @@
 const INITIAL_STATE = {
   propertyInformation: {},
   displayActive: false,
-  highlightMultiple: false,
+  highlightMultiple: true,
   highlightedProperty: [],
 };
 
@@ -18,6 +18,9 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         propertyInformation: propertyInformation,
       };
+    case "TOGGLE_PROPERTY_DISPLAY":
+      state.displayActive = !state.displayActive;
+      return { ...state };
     case "DISPLAY_PROPERTIES":
       state.displayActive = true;
       return { ...state };
@@ -39,11 +42,11 @@ export default (state = INITIAL_STATE, action) => {
         highlightedProperty: state.highlightedProperty
       };
     case "CLEAR_HIGHLIGHT":
-      propertyToRemove = action.payload.property;
+      propertyToRemove = action.payload;
       console.log(propertyToRemove);
       console.log(state.highlightedProperty)
       state.highlightedProperty = state.highlightedProperty.filter(
-        property => property.poly_id != propertyToRemove.line_1
+        property => property.poly_id != propertyToRemove.poly_id
       );
       return { ...state };
     case "CLEAR_ALL_HIGHLIGHT":

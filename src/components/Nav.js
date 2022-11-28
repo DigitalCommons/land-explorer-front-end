@@ -4,7 +4,6 @@ import axios from "axios/index";
 import constants from "../constants";
 import { PropTypes } from 'prop-types';
 import NavInformation from './NavInformation';
-import NavLandOwnership from './NavLandOwnership';
 import NavLandData from './NavLandData';
 import NavCommunityAssets from './NavCommunityAssets';
 import NavDrawingTools from './NavDrawingTools';
@@ -143,7 +142,7 @@ class Nav extends Component {
                         data-tip
                         data-for="ttInfo"
                     />
-                    {
+                    {/*
                         ownership &&
                         <div className={`nav-left-icon property-search ${active === 'Land Ownership' && 'active'}`}
                             onClick={() => {
@@ -152,7 +151,7 @@ class Nav extends Component {
                             }}
                             data-tip
                             data-for="ttLandOwnership"
-                        />
+                        />*/
                     }
                     <div className="nav-left-icon new-map-icon"
                         onClick={() => {
@@ -216,11 +215,6 @@ class Nav extends Component {
                     active={active}
                     onClose={this.closeTray}
                 />}
-                <NavLandOwnership
-                    open={open}
-                    active={active}
-                    onClose={this.closeTray}
-                />
                 <NavInformation
                     open={open && active === 'Land Information'}
                     onClose={this.closeTray}
