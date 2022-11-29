@@ -73,6 +73,8 @@
   width: 200px;
   height: 100px;
   padding: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .popup-content:after{
@@ -117,7 +119,7 @@
 
 .popup-body-container{
   display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
 }
@@ -137,6 +139,7 @@
 .popup-sidebar{
   display: flex;
     flex-direction: column;
+    justify-content: flex-end;
 }
 
 .save-map-highlighted{
@@ -170,4 +173,5 @@
 
 .popup-save-success-text{
   text-align: center;
+  margin-left: 1.2rem;
 }
