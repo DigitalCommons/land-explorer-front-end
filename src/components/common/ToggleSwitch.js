@@ -21,7 +21,7 @@ class ToggleSwitch extends Component {
                     <input
                         type="checkbox"
                         checked={on}
-                        onChange={this.handleChange}
+                        onChange={e => { }}
                     />
                     <span className="slider round"></span>
                 </label>

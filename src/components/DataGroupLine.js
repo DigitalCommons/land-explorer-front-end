@@ -47,7 +47,6 @@ const DataGroupLine = ({ line, setPopupVisible, popupVisible }) => {
                 <DataGroupPopup
                     object={line}
                     type={"line"}
-                    visible={popupVisible == line.uuid}
                     closeDescription={() => setPopupVisible(-1)}
                 />
             </Marker>

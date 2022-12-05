@@ -35,7 +35,7 @@ const DrawingTool = ({ tool, name, mode, size, drawControl }) => {
                     // change to the specific drawing mode
                     drawControl.draw.changeMode(mode);
                 }
-            } else {
+            } else if (mode) {
                 // change to the specific drawing mode
                 drawControl.draw.changeMode(mode);
             }

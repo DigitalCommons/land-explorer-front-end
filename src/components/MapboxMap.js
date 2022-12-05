@@ -41,7 +41,7 @@ class MapboxMap extends Component {
       styleLoaded: false,
       drawings: null,
       redrawing: false,
-      popupVisible: -1,
+      dataGroupPopupVisible: -1,
     };
     // ref to the mapbox map
     this.map = null;
@@ -53,14 +53,18 @@ class MapboxMap extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // when the map tiles change, rerender all polygons (as they are a different colour)
     if (prevProps.baseLayer !== this.props.baseLayer) {
+      // when the map tiles change, rerender all polygons (as they are a different colour)
       this.redrawPolygons();
+    }
+    if (this.props.currentMarker && this.state.dataGroupPopupVisible !== -1) {
+      // hide data group popup if a marker is active
+      this.setState({ dataGroupPopupVisible: -1 });
     }
   }
 
   onClick = (map, evt) => {
-    this.setState({ popupVisible: -1 });
+    this.setState({ dataGroupPopupVisible: -1 });
 
     const mode = this.drawControl.draw.getMode();
     if (mode === "simple_select") {
@@ -148,6 +152,7 @@ class MapboxMap extends Component {
         type: type,
         length: turf.length(line, { units: "kilometers" }),
         area: type === "Polygon" ? turf.area(featureCopy) : 0,
+        uuid: feature.id,
       };
       this.props.dispatch({
         type: "ADD_POLYGON",
@@ -187,6 +192,7 @@ class MapboxMap extends Component {
           center: turf.pointOnFeature(featureCopy).geometry.coordinates,
           length: turf.length(line, { units: "kilometers" }),
           area: turf.area(featureCopy),
+          uuid: feature.id,
         },
       });
       this.props.dispatch({
@@ -218,7 +224,7 @@ class MapboxMap extends Component {
       this.props.polygons.map((polygon) => {
         this.drawControl.draw.add({
           ...polygon.data,
-          id: polygon.data.id,
+          id: polygon.uuid,
         });
       });
       this.drawControl.draw.changeMode("static");
@@ -230,7 +236,7 @@ class MapboxMap extends Component {
   };
 
   render() {
-    const { popupVisible } = this.state;
+    const { dataGroupPopupVisible } = this.state;
     const {
       zoom,
       lngLat,
@@ -289,10 +295,13 @@ class MapboxMap extends Component {
           <MapLayers />
           {/* Map Data Groups displaying My Data */}
           <MapDataGroups
-            popupVisible={popupVisible}
-            setPopupVisible={(markerId) =>
-              this.setState({ popupVisible: markerId })
-            }
+            popupVisible={dataGroupPopupVisible}
+            setPopupVisible={(markerId) => {
+              if (this.props.currentMarker) {
+                this.props.dispatch({ type: "CLEAR_CURRENT_MARKER" });
+              }
+              this.setState({ dataGroupPopupVisible: markerId })
+            }}
           />
           {council /* Map Council Layers (wards etc.)*/ && (
             <MapCouncilLayers zoom={zoom} />

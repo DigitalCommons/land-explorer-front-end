@@ -89,7 +89,7 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
         dataGroup.markers.forEach((marker) => {
           dataGroupMarkers.push(
             <DataGroupMarker
-              key={marker.idmarkers}
+              key={marker.uuid}
               coordinates={marker.location.coordinates}
               name={marker.name}
               description={marker.description}
@@ -102,6 +102,7 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
         dataGroup.polygons.forEach((polygon) => {
           dataGroupPolygons.push(
             <DataGroupPolygon
+              key={polygon.uuid}
               polygon={polygon}
               setPopupVisible={setPopupVisible}
               popupVisible={popupVisible}
@@ -112,6 +113,7 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
         dataGroup.lines.forEach((line) => {
           dataGroupLines.push(
             <DataGroupLine
+              key={line.uuid}
               line={line}
               setPopupVisible={setPopupVisible}
               popupVisible={popupVisible}
