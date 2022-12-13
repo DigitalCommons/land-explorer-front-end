@@ -59,6 +59,13 @@ const NavLandData = ({ open, active, onClose }) => {
                     <NavTrayItem draggable={true} title="Brownfield" layerId='ncc-brownfield-sites' />
                 </Draggable>
             </DataLayersContainer>
+            <DataLayersContainer title={"Land Ownership"}>
+                <DataToggle
+                    title={"Land Registry"}
+                    active={displayProperties}
+                    onToggle={() => dispatch({ type: "TOGGLE_PROPERTY_DISPLAY" })}
+                />
+            </DataLayersContainer>
             {userGroupTitlesAndIDs && userGroupTitlesAndIDs.map(userGroup =>
                 <DataLayersContainer title={userGroup.title} key={userGroup.id}>
                     {dataGroupTitlesAndIDs && dataGroupTitlesAndIDs.filter(dataGroup => dataGroup.userGroupId == userGroup.id).map(dataGroup =>
@@ -73,13 +80,6 @@ const NavLandData = ({ open, active, onClose }) => {
                         />)}
                 </DataLayersContainer>
             )}
-            <DataLayersContainer title={"Land Ownership"}>
-                <DataToggle
-                    title={"Land Registry"}
-                    active={displayProperties}
-                    onToggle={() => dispatch({ type: "TOGGLE_PROPERTY_DISPLAY" })}
-                />
-            </DataLayersContainer>
         </NavTray>
     );
 }
