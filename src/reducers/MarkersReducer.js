@@ -42,7 +42,8 @@ export default (state = INITIAL_STATE, action) => {
                 if (marker.uuid === action.payload.uuid) {
                     return {
                         ...marker,
-                        name: action.payload.name
+                        name: action.payload.name,
+                        description: action.payload.description,
                     }
                 } else {
                     return marker;

@@ -44,7 +44,7 @@ class PolygonSection extends Component {
     }
     render() {
         let { polygon, activePolygon, dispatch } = this.props;
-        let open = polygon.data.id === activePolygon;
+        let open = polygon.uuid === activePolygon;
         return (
             <div className="nav-tray-section">
                 <div className={`nav-tray-section-title polygon-section${polygon.type === 'Polygon' ? '' : '-line'}`}
@@ -56,7 +56,7 @@ class PolygonSection extends Component {
                         } else {
                             dispatch({
                                 type: 'SET_ACTIVE_POLYGON',
-                                payload: polygon.data.id
+                                payload: polygon.uuid
                             })
                         }
                     }}

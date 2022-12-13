@@ -49,7 +49,6 @@ const DataGroupPolygon = ({ polygon, setPopupVisible, popupVisible }) => {
                 <DataGroupPopup
                     object={polygon}
                     type={"polygon"}
-                    visible={popupVisible == polygon.uuid}
                     closeDescription={() => setPopupVisible(-1)}
                 />
             </Marker>

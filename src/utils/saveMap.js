@@ -2,6 +2,7 @@ import axios from "axios/index";
 import constants, { VERSION } from "../constants";
 import { getAuthHeader } from "./Auth";
 
+/** Resave a map without changing any data */
 export const saveExistingMap = async (existingMap) => {
     const { map } = existingMap;
     const { name, eid } = existingMap.map;

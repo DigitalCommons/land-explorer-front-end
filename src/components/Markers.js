@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import MarkerPin from './MarkerPin';
 import { Cluster, Marker } from 'react-mapbox-gl';
 
-const ClusterMarker = (coordinates, pointCount) => {
+const ClusterMarker = (coordinates, pointCount, getLeaves) => {
+    const containsActiveMarker = getLeaves(Infinity).some((marker) => marker.props.active);
     return (
         <Marker
             key={coordinates.toString()}
@@ -12,7 +13,7 @@ const ClusterMarker = (coordinates, pointCount) => {
         >
             <div className="cluster-container cluster-grey-transparent">
                 <div className="cluster-background cluster-grey">
-                    <p className="cluster-text">{pointCount}</p>
+                    <p className={containsActiveMarker ? "cluster-text cluster-text-active" : "cluster-text"}>{pointCount}</p>
                 </div>
             </div>
         </Marker>
@@ -67,7 +68,7 @@ class Markers extends Component {
     }
 
     render() {
-        let { markers, searchMarker, currentLocation } = this.props;
+        let { markers, searchMarker, currentLocation, currentMarker } = this.props;
         console.log("marker map?", this.props.map);
         console.log("search marker", searchMarker);
         let clusterRadius = 60;
@@ -116,6 +117,7 @@ class Markers extends Component {
                                 coordinates={marker.coordinates}
                                 marker={marker}
                                 handleMarkerClick={this.handleMarkerClick}
+                                active={currentMarker === marker.uuid}
                             />
                         ))}
                     </Cluster>
@@ -131,6 +133,7 @@ const mapStateToProps = ({ map, markers }) => ({
     searchMarker: map.searchMarker,
     currentLocation: map.currentLocation,
     markers: markers.markers,
+    currentMarker: markers.currentMarker,
 });
 
 export default connect(mapStateToProps)(Markers);

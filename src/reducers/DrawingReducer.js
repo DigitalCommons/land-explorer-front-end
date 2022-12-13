@@ -21,11 +21,11 @@ export default (state = INITIAL_STATE, action) => {
                 polygons: polygons,
                 polygonsDrawn: action.payload.type === 'Polygon' ? polygonsDrawn + 1 : polygonsDrawn,
                 linesDrawn: action.payload.type === 'LineString' ? linesDrawn + 1 : linesDrawn,
-                activePolygon: action.payload.data.id
+                activePolygon: action.payload.uuid
             };
         case 'UPDATE_POLYGON':
             polygons = state.polygons.map((polygon) => {
-                if (polygon.data.id === action.payload.data.id) {
+                if (polygon.uuid === action.payload.uuid) {
                     return {
                         ...polygon,
                         data: action.payload.data,
@@ -44,7 +44,7 @@ export default (state = INITIAL_STATE, action) => {
             }
         case 'DELETE_POLYGON':
             polygons = state.polygons.filter((polygon) => {
-                if (polygon.data.id === action.payload) {
+                if (polygon.uuid === action.payload) {
                     console.log("delete polygon", polygon);
                     return false;
                 } else {
@@ -58,10 +58,11 @@ export default (state = INITIAL_STATE, action) => {
             }
         case 'RENAME_POLYGON':
             polygons = state.polygons.map((polygon) => {
-                if (polygon.data.id === action.payload.id) {
+                if (polygon.uuid === action.payload.uuid) {
                     return {
                         ...polygon,
-                        name: action.payload.name
+                        name: action.payload.name,
+                        description: action.payload.description,
                     };
                 } else {
                     return polygon;
