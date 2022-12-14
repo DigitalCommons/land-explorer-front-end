@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { GeoJSONLayer, Popup } from 'react-mapbox-gl';
+import { GeoJSONLayer, Marker } from 'react-mapbox-gl';
 import { connect } from "react-redux";
-import * as turf from '@turf/turf';
+import DrawingPopup from './DrawingPopup';
+import * as turf from "@turf/turf";
 
 class Drawing extends Component {
     constructor(props) {
@@ -9,211 +10,99 @@ class Drawing extends Component {
         this.state = {
             editing: false,
             input: '',
-            hidden: false
+            popupClosed: false
         }
     }
 
     componentDidUpdate(prevProps) {
-        let polygonId = this.props.polygon.data.id;
-        if ((prevProps.activePolygon === polygonId) && (this.props.activePolygon !== polygonId)) {
-            this.setState({ hidden: false });
+        let uuid = this.props.polygon.uuid;
+        if ((prevProps.activePolygon === uuid) && (this.props.activePolygon !== uuid)) {
+            this.setState({ popupClosed: false });
         }
     }
 
     render() {
         let { polygon } = this.props;
-        const { type, activePolygon, activeTool, readOnly, baseLayer } = this.props;
-        const { editing, hidden } = this.state;
-        const polygonId = polygon.data.id;
-        polygon = polygon.data;
-        const isActive = polygonId === activePolygon;
-        const center = turf.pointOnFeature(polygon);
-        const showPopup = isActive && !activeTool;
-        const popup = {
-            coordinates: center.geometry.coordinates,
-            name: this.props.name,
-        };
+        const { type, activePolygon, activeTool, baseLayer } = this.props;
+        const isActive = polygon.uuid === activePolygon;
+        const showPopup = !this.state.popupClosed && isActive && !activeTool;
         console.log("ACTIVE TOOL", activeTool);
-        console.log(polygon)
-        return (
-            <div>
-                {
-                    type === 'polygon' ? (
-                        <GeoJSONLayer
-                            data={polygon}
-                            linePaint={{
-                                "line-color": isActive ? "red" : (baseLayer === 'aerial') ? 'white' : "black",
-                                "line-width": 2,
-                                "line-opacity": (activeTool && (activeTool !== 'drop-pin')) ? 0 : 1,
-                            }}
-                            fillPaint={{
-                                "fill-color": isActive ? "red" : (baseLayer === 'aerial') ? 'white' : "black",
-                                "fill-opacity": (activeTool && (activeTool !== 'drop-pin')) ? 0 : .05,
-                            }}
-                            fillOnClick={(e) => {
-                                console.log("Active tool on click", activeTool);
-                                if (activeTool !== 'drop-pin') {
-                                    if (!(activeTool)) {
-                                        console.log("the polygon was clicked", e);
-                                        const area = turf.area(polygon);
-                                        const roundedArea = Math.round(area * 100) / 100;
-                                        if (isActive) {
-                                            this.props.dispatch({
-                                                type: 'CLEAR_ACTIVE_POLYGON',
-                                            })
-                                        } else {
-                                            this.props.dispatch({
-                                                type: 'SET_ACTIVE_POLYGON',
-                                                payload: polygonId
-                                            });
-                                            this.setState({ hidden: false });
-                                        }
-                                    }
-                                }
-                            }}
-                        />
-                    ) : (
-                        <GeoJSONLayer
-                            data={polygon}
-                            linePaint={{
-                                "line-color": isActive ? "red" : (baseLayer === 'aerial') ? 'white' : "black",
-                                "line-width": 3,
-                                "line-opacity": activeTool ? 0 : 1,
-                            }}
-                            lineOnClick={(e) => {
-                                console.log("the line was clicked", e);
-                                if (isActive) {
-                                    this.props.dispatch({
-                                        type: 'CLEAR_ACTIVE_POLYGON',
-                                    })
-                                } else {
-                                    this.props.dispatch({
-                                        type: 'SET_ACTIVE_POLYGON',
-                                        payload: polygonId
-                                    });
-                                    this.setState({ hidden: false });
-                                }
-                            }}
-                        />
-                    )
-                }
-                <Popup
-                    coordinates={popup.coordinates}
-                    offset={{
-                        'bottom': [0, -10]
-                    }}
-                    anchor="bottom"
-                    className="drawing-popup"
-                    style={{
-                        display: !hidden && showPopup ? 'block' : 'none',
-                        zIndex: 2
-                    }}
-                >
-                    <div
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                        }}
-                        className="drawing-popup-content"
-                    >
-                        {!this.state.editing && (
-                            <div
-                                className="popup-close"
-                                onClick={() => {
-                                    this.setState({ hidden: true })
-                                }}
-                            />
-                        )}
-                        {this.state.editing ? (
-                            <input
-                                type="text"
-                                className="text-input"
-                                style={{
-                                    textAlign: 'center',
-                                    padding: 0
-                                }}
-                                value={this.state.input}
-                                onChange={(e) => {
-                                    let value = e.target.value;
-                                    if (value.length < 18) {
-                                        this.setState({ input: value })
-                                    }
-                                }}
-                            />
-                        ) : (
-                            <h2>{popup.name}</h2>
-                        )}
-                        {
-                            this.state.editing ? (
-                                <div className="popup-buttons">
-                                    <div className="left"
-                                        style={{
-                                            color: 'rgba(208, 2, 78, 0.95)'
-                                        }}
-                                        onClick={() => {
-                                            this.setState({
-                                                editing: !this.state.editing,
-                                                input: null
-                                            });
-                                        }}
-                                    >Cancel
-                                    </div>
-                                    <div className="right"
-                                        style={{
-                                            color: '#2ecc71'
-                                        }}
-                                        onClick={() => {
-                                            if (this.state.input) {
-                                                this.props.dispatch({
-                                                    type: 'RENAME_POLYGON',
-                                                    payload: {
-                                                        name: this.state.input,
-                                                        id: polygonId
-                                                    }
-                                                })
-                                                this.setState({
-                                                    editing: !this.state.editing,
-                                                    input: null
-                                                });
-                                            }
-                                        }}
-                                    >OK
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="popup-buttons">
-                                    <div className="left"
-                                        style={{
-                                            color: '#2ecc71'
-                                        }}
-                                        onClick={() => {
-                                            this.props.dispatch({ type: 'OPEN_NAVIGATION' });
-                                            this.props.dispatch({
-                                                type: 'SET_ACTIVE',
-                                                payload: 'Land Information'
-                                            })
-                                        }}
-                                    >Info
-                                    </div>
-                                    <div className="right"
-                                        style={{ color: readOnly ? 'rgb(200,200,200)' : '#2ecc71' }}
-                                        onClick={() => {
-                                            if (!readOnly) {
-                                                this.setState({
-                                                    editing: !this.state.editing,
-                                                    input: popup.name
-                                                });
-                                            }
-                                        }}
-                                    >Rename
-                                    </div>
-                                </div>
-                            )
+        console.log(polygon.data)
+
+        const drawingLayer = (
+            <GeoJSONLayer
+                key={polygon.uuid}
+                data={polygon.data}
+                linePaint={{
+                    "line-color": isActive ? "red" : (baseLayer === 'aerial') ? 'white' : "black",
+                    "line-width": (type === "polygon") ? 2 : 3,
+                    "line-opacity": activeTool ? 0 : 1,
+                }}
+                fillPaint={(type === "polygon") && {
+                    "fill-color": isActive ? "red" : (baseLayer === 'aerial') ? 'white' : "black",
+                    "fill-opacity": activeTool ? 0 : .05,
+                }}
+                fillOnClick={(e) => {
+                    console.log("Active tool on fill click", activeTool);
+                    if (activeTool !== 'drop-pin') {
+                        if (!(activeTool)) {
+                            console.log("the polygon was clicked", e);
+                            if (isActive) {
+                                this.props.dispatch({
+                                    type: 'CLEAR_ACTIVE_POLYGON',
+                                })
+                            } else {
+                                this.props.dispatch({
+                                    type: 'SET_ACTIVE_POLYGON',
+                                    payload: polygon.uuid
+                                });
+                                this.setState({ popupClosed: false });
+                            }
                         }
-                    </div>
-                </Popup>
-            </div>
+                    }
+                }}
+                lineOnClick={(e) => {
+                    console.log("Active tool on line click", activeTool);
+                    if (activeTool !== 'drop-pin') {
+                        if (isActive) {
+                            this.props.dispatch({
+                                type: 'CLEAR_ACTIVE_POLYGON',
+                            })
+                        } else {
+                            this.props.dispatch({
+                                type: 'SET_ACTIVE_POLYGON',
+                                payload: polygon.uuid
+                            });
+                            this.setState({ popupClosed: false });
+                        }
+                    }
+                }}
+            />
         )
+
+        return <>
+            {drawingLayer}
+            {showPopup && (
+                <Marker
+                    key={polygon.uuid + "2"}
+                    coordinates={polygon.centre || turf.pointOnFeature(polygon.data).geometry.coordinates}
+                    name={polygon.name}
+                    description={polygon.description}
+                    anchor="bottom"
+                    style={{
+                        height: "40px",
+                        zIndex: 4
+                    }}
+                    onClick={() => this.setState({ popupClosed: false })}
+                >
+                    <DrawingPopup
+                        object={polygon}
+                        type={polygon.type}
+                        closeDescription={() => this.setState({ popupClosed: true })}
+                    />
+                </Marker>
+            )}
+        </>;
     }
 }
 

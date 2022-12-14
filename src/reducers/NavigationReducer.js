@@ -39,7 +39,6 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 activeTool: '',
-                active: '',
             }
         case 'TOGGLE_TOOL':
             return {

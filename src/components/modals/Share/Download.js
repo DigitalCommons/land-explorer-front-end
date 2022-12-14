@@ -3,11 +3,15 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import constants from '../../../constants';
 import { getAuthHeader } from "../../../utils/Auth";
+import { saveExistingMap } from "../../../utils/saveMap";
 
 const Download = ({ mapId }) => {
-    const mapName = useSelector((state) => state.map.name);
+    const mapToDownload = useSelector((state) => state.myMaps.maps).find(map => map.map.eid === mapId);
+    const mapName = mapToDownload.map.name;
 
     const downloadMap = async () => {
+        await saveExistingMap(mapToDownload);
+
         const headers = getAuthHeader();
         headers['Content-Disposition'] = 'attachment';
         headers.responseType = 'blob'
@@ -22,8 +26,7 @@ const Download = ({ mapId }) => {
         link.download = `${mapName}-shapefile.zip`
         link.click()
 
-
-        console.log(result.data);
+        console.log(`Download map ${mapId}`, response.status);
     }
 
     useEffect(() => {

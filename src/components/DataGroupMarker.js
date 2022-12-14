@@ -38,12 +38,11 @@ const DataGroupMarkerContent = ({ marker, visible, closeDescription }) => {
                 position: "relative",
                 bottom: "-5px",
             }}>
-                <DataGroupPopup
+                {visible && <DataGroupPopup
                     object={marker}
                     type={"marker"}
-                    visible={visible}
                     closeDescription={closeDescription}
-                />
+                />}
             </div>
 
         </div>
@@ -59,7 +58,7 @@ const DataGroupMarker = ({ coordinates, name, description, marker, popupVisible,
         anchor="bottom"
         style={{
             height: "40px",
-            zIndex: popupVisible == marker.uuid ? 4 : 3
+            zIndex: popupVisible === marker.uuid ? 4 : 3
         }}
         onClick={() => {
             if (popupVisible !== marker.uuid)
@@ -68,7 +67,7 @@ const DataGroupMarker = ({ coordinates, name, description, marker, popupVisible,
     >
         <DataGroupMarkerContent
             marker={marker}
-            visible={popupVisible == marker.uuid}
+            visible={popupVisible === marker.uuid}
             closeDescription={() => setPopupVisible(-1)}
         />
     </Marker>

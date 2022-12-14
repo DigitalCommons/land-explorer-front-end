@@ -1,64 +1,44 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import NavTray from './NavTray';
 import MarkerSection from './MarkerSection';
 import PolygonSection from './PolygonSection';
+import PropertySection from './PropertySection';
 
+const NavInformation = ({ onClose, open }) => {
+    const markers = useSelector(state => state.markers.markers);
+    const polygons = useSelector(state => state.drawings.polygons);
+    const properties = useSelector(state => state.landOwnership.highlightedProperty);
 
-class NavInformation extends Component {
-
-    renderMarkers = () => {
-        return this.props.markers.map((marker, i) => {
-            return (
-                <MarkerSection marker={marker} key={`marker-${i}`} />
+    return <NavTray
+        title="Land Information"
+        open={open}
+        onClose={onClose}
+    >
+        {
+            (polygons.length || markers.length || properties.length) ? (
+                <>
+                    {markers.map((marker, i) =>
+                        <MarkerSection marker={marker} key={`marker-${i}`} />
+                    )}
+                    {polygons.map((polygon, i) =>
+                        <PolygonSection polygon={polygon} key={`polygon-${i}`} />
+                    )}
+                    {properties.map((property, i) =>
+                        <PropertySection property={property} key={`property-${i}`} />
+                    )}
+                </>
+            ) : (
+                <div style={{
+                    width: '100%',
+                    textAlign: 'center',
+                    marginTop: '24px'
+                }}>
+                    No drawn objects or selected properties.
+                </div>
             )
-        });
-    }
-
-    renderPolygons = () => {
-        return this.props.polygons.map((polygon, i) => {
-            return (
-                <PolygonSection polygon={polygon} key={`polygon-${i}`} />
-            )
-        })
-    }
-
-    render() {
-        let { onClose, polygons, activePolygon, markers, currentMarker } = this.props;
-        return (
-            <NavTray
-                title="Land Information"
-                open={this.props.open}
-                onClose={onClose}
-            >
-                {
-                    (polygons.length || markers.length) ? (
-                        <React.Fragment>
-                            {this.renderMarkers()}
-                            {this.renderPolygons()}
-                        </React.Fragment>
-                    ) : (
-                        <div style={{
-                            width: '100%',
-                            textAlign: 'center',
-                            marginTop: '24px'
-                        }}>
-                            No markers or polygons
-                        </div>
-                    )
-                }
-            </NavTray>
-        );
-    }
+        }
+    </NavTray>
 }
 
-const mapStateToProps = ({ information, informationSections, markers, drawings }) => ({
-    information,
-    informationSections,
-    markers: markers.markers,
-    currentMarker: markers.currentMarker,
-    polygons: drawings.polygons,
-    activePolygon: drawings.activePolygon,
-});
-
-export default connect(mapStateToProps)(NavInformation);
+export default NavInformation;
