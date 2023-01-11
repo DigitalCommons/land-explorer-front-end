@@ -43,7 +43,7 @@ class MenuMain extends Component {
                                 <a target="_blank" href={`${constants.STATIC_SITE_URL}/#partners`}>
                                     <div className="tooltip-menu-item">Partners</div>
                                 </a>
-                                <a target="_blank" href={`${constants.STATIC_SITE_URL}/community-forum-register/`}>
+                                <a target="_blank" href={`${constants.STATIC_SITE_URL}/#community`}>
                                     <div className="tooltip-menu-item">Community</div>
                                 </a>
                                 <a target="_blank" href={`${constants.STATIC_SITE_URL}/#news`}>
