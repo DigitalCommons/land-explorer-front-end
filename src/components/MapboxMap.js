@@ -313,7 +313,15 @@ class MapboxMap extends Component {
             <MapProperties center={lngLat} map={this.map} />
           )}
           {/* Markers */}
-          {this.state.styleLoaded && <Markers map={this.map} />}
+          {this.state.styleLoaded && <Markers
+            map={this.map}
+            popupVisible={dataGroupPopupVisible}
+            setPopupVisible={(markerId) => {
+              if (this.props.currentMarker) {
+                this.props.dispatch({ type: "CLEAR_CURRENT_MARKER" });
+              }
+              this.setState({ dataGroupPopupVisible: markerId })
+            }} />}
           {/* Shows zoom warning if active layers are out of view */}
           <ZoomWarning
             show={

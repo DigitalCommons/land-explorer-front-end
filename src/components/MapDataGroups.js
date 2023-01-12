@@ -3,26 +3,8 @@ import axios from "axios/index";
 import constants from "../constants";
 import { getAuthHeader } from "../utils/Auth";
 import { useDispatch, useSelector } from "react-redux";
-import { Cluster, Marker } from "react-mapbox-gl";
-import DataGroupMarker from "./DataGroupMarker";
 import DataGroupPolygon from "./DataGroupPolygon";
 import DataGroupLine from "./DataGroupLine";
-
-const ClusterMarker = (coordinates, pointCount) => {
-  return (
-    <Marker
-      key={coordinates.toString()}
-      coordinates={coordinates}
-      style={{ height: "40px", zIndex: 2 }}
-    >
-      <div className="cluster-container">
-        <div className="cluster-background">
-          <p className="cluster-text">{pointCount}</p>
-        </div>
-      </div>
-    </Marker>
-  );
-};
 
 const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
   const dispatch = useDispatch();
@@ -74,30 +56,17 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
   const activeDataGroups =
     dataGroups &&
     dataGroups.filter((group) => activeGroups.includes(group.iddata_groups));
+
   dispatch({
     type: "STORE_ACTIVE_DATA_GROUPS",
     payload: activeDataGroups,
   });
 
-  const dataGroupMarkers = [];
   const dataGroupPolygons = [];
   const dataGroupLines = [];
 
   activeDataGroups &&
     activeDataGroups.forEach((dataGroup) => {
-      if (dataGroup.markers)
-        dataGroup.markers.forEach((marker) => {
-          dataGroupMarkers.push(
-            <DataGroupMarker
-              key={marker.uuid}
-              coordinates={marker.location.coordinates}
-              name={marker.name}
-              description={marker.description}
-              marker={marker}
-              popupVisible={popupVisible}
-              setPopupVisible={setPopupVisible}
-            />)
-        });
       if (dataGroup.polygons)
         dataGroup.polygons.forEach((polygon) => {
           dataGroupPolygons.push(
@@ -122,24 +91,8 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
         })
     });
 
-  const clusterRadius = 60;
-  // Zoom in to the minimum level that separates a cluster, if the nodes are exactly aligned
-  // along the shortest screen axis. We will zoom in too much if this isn't the case, but the
-  // Cluster component doesn't give us enough control to do any better.
-  const paddingOnZoom = Math.min(window.innerHeight, window.innerWidth) / 2 - clusterRadius - 40;
-
   return (
     <>
-      {dataGroupMarkers && (
-        <Cluster
-          ClusterMarkerFactory={ClusterMarker}
-          radius={clusterRadius}
-          zoomOnClick={true}
-          zoomOnClickPadding={paddingOnZoom}
-        >
-          {dataGroupMarkers}
-        </Cluster>
-      )}
       {dataGroupPolygons}
       {dataGroupLines}
     </>
