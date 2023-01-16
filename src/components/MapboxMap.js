@@ -243,7 +243,6 @@ class MapboxMap extends Component {
       baseLayer,
       landDataLayers,
       propertiesDisplay,
-      name,
       navOpen,
       movingMethod,
       user: { type },
@@ -315,10 +314,6 @@ class MapboxMap extends Component {
           )}
           {/* Markers */}
           {this.state.styleLoaded && <Markers map={this.map} />}
-          {/* Map name in lower left corner */}
-          {name && <div className="map-name" style={{ left: navOpen ? "86px" : "14px" }}>
-            {name}
-          </div>}
           {/* Shows zoom warning if active layers are out of view */}
           <ZoomWarning
             show={
@@ -408,7 +403,6 @@ const mapStateToProps = ({
   linesDrawn: drawings.linesDrawn || 0,
   lines: drawings.lines,
   loadingDrawings: drawings.loadingDrawings,
-  name: map.name,
   navOpen: navigation.open,
   movingMethod: map.movingMethod,
   menu: menu,

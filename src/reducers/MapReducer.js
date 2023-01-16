@@ -90,6 +90,11 @@ export default (state = INITIAL_STATE, action) => {
         ...INITIAL_STATE,
         movingMethod: "jumpTo",
       };
+    case "SET_MAP_NAME":
+      return {
+        ...state,
+        name: action.payload
+      }
     default:
       return state;
   }
