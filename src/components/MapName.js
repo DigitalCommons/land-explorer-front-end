@@ -33,7 +33,7 @@ const MapName = ({ }) => {
         className={`map-name-text ${editing && "editable"}`}
         contentEditable={editing}
         onClick={() => setEditing(true)}
-    >{mapName || "Untitled Document"}</p>
+    >{mapName || "Untitled Map"}</p>
 
 }
 
