@@ -134,25 +134,6 @@ h6 {
   background-color: transparent;
 }
 
-/*
-.map-name {
-  position: fixed;
-  bottom: 12px;
-  left: 86px;
-  color: white;
-  padding: 6px;
-  padding-left: 12px;
-  padding-right: 12px;
-  background: #78838e;
-  font-size: 12px;
-  font-weight: bold;
-  width: auto;
-  height: auto;
-  border-radius: 40px;
-  z-index: 1;
-  transition: opacity 300ms, transform 300ms, left 300ms ease;
-}*/
-
 .map-name-text{
   cursor: pointer;
   margin: 0% 5%;
@@ -167,8 +148,6 @@ h6 {
 .map-name-text.editable{
   cursor: text;
 }
-
-
 
 .os-accreditation {
   position: fixed;
