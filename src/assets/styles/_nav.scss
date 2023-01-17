@@ -542,3 +542,16 @@ a.mapboxgl-ctrl-logo {
   margin-top: 0;
     margin-left: 15px;
 }
+
+.map-menu-container{
+  position: relative;
+  top: 142px;
+  left: -20px;
+}
+
+.map-menu{
+  position: relative;
+  box-shadow: 0px 3px 6px #00000029;
+  background-color: white;
+  padding: 8px;
+}
