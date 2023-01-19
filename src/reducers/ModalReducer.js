@@ -22,6 +22,10 @@ const INITIAL_STATE = {
     newMap: {
         open: false,
         canToggle: true,
+    },
+    openMap: {
+        open: false,
+        canToggle: true
     }
 }
 

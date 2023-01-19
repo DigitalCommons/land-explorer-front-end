@@ -1,247 +1,180 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import axios from "axios/index";
-import constants from "../constants";
-import { PropTypes } from 'prop-types';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import NavInformation from './NavInformation';
 import NavLandData from './NavLandData';
 import NavCommunityAssets from './NavCommunityAssets';
 import NavDrawingTools from './NavDrawingTools';
 import analytics from '../analytics';
 
-class Nav extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            animating: false,
-            ownership: true
-        }
+const Nav = ({ drawControl }) => {
+    const dispatch = useDispatch();
+    const { open, active, activeTool } = useSelector(state => state.navigation);
+    const { isSnapshot, currentMapId } = useSelector(state => state.mapMeta)
+    const readOnly = useSelector(state => state.readOnly.readOnly);
+    const currentMarker = useSelector(state => state.markers.currentMarker);
+    const activePolygon = useSelector(state => state.drawings.activePolygon);
+    const maps = useSelector(state => state.myMaps.maps);
+    const type = useSelector(state => state.user.type);
+
+    const council = type == 'council';
+
+    const closeTray = () => {
+        dispatch({ type: 'CLOSE_TRAY' });
     }
 
-    componentDidMount() {
-        const LX_SUBSCRIPTION_ID = "1";
-        const SUBSCRIPTION_ACTIVE = "1";
-
-        axios.get(`${constants.PAYMENTS_URL}/subscription/${this.props.user.username}/${LX_SUBSCRIPTION_ID}`)
-            .then(res => {
-                const { data: { subscription } } = res;
-                if (subscription)
-                    if (subscription.status_type == SUBSCRIPTION_ACTIVE)
-                        this.setState({ ownership: true });
-            });
-    }
-
-    closeTray = () => {
-        this.props.dispatch({ type: 'CLOSE_TRAY' })
-
-    }
-
-    closeNav = () => {
-        if (this.props.active !== '') {
-            this.props.dispatch({ type: 'CLOSE_TRAY' });
-            console.log(this.props.active)
+    const closeNav = () => {
+        if (active !== '') {
+            dispatch({ type: 'CLOSE_TRAY' });
 
             setTimeout(() => {
-                this.props.dispatch({ type: 'CLOSE_NAVIGATION' });
+                dispatch({ type: 'CLOSE_NAVIGATION' });
             }, 200);
         } else {
-            this.props.dispatch({ type: 'CLOSE_NAVIGATION' });
-
+            dispatch({ type: 'CLOSE_NAVIGATION' });
         }
     }
 
-    clickIcon = (tray) => {
-        let { active, dispatch } = this.props;
+    const clickIcon = (tray) => {
         active === tray ?
             dispatch({ type: 'CLOSE_TRAY' }) :
             dispatch({ type: 'SET_ACTIVE', payload: tray });
     }
 
-    handleTrashClick = () => {
-        if (this.props.activeTool === 'edit') {
-            let selected = this.props.drawControl.draw.getSelected();
+    const handleTrashClick = () => {
+        if (activeTool === 'edit') {
+            const selected = drawControl.draw.getSelected();
             if (selected.features[0]) {
-                let id = selected.features[0].id;
-                this.props.drawControl.draw.delete(id);
-                this.props.dispatch({
+                const id = selected.features[0].id;
+                drawControl.draw.delete(id);
+                dispatch({
                     type: 'DELETE_POLYGON',
                     payload: id
                 })
             }
-        } else if (this.props.activePolygon !== null) {
+        } else if (activePolygon !== null) {
             // Delete the active Polygon
-            this.props.drawControl.draw.delete(this.props.activePolygon);
-            this.props.dispatch({
+            drawControl.draw.delete(activePolygon);
+            dispatch({
                 type: 'DELETE_POLYGON',
-                payload: this.props.activePolygon
+                payload: activePolygon
             })
-        } else if (this.props.currentMarker !== null) {
+        } else if (currentMarker !== null) {
             // Delete the current marker
-            this.props.dispatch({
+            dispatch({
                 type: 'CLEAR_MARKER',
-                payload: this.props.currentMarker
+                payload: currentMarker
             })
         }
     }
 
-    render() {
-        const { dispatch, open, active, drawControl, readOnly, user: { type }, isSnapshot } = this.props;
-        const { ownership } = this.state;
-        const council = type == 'council';
-
-        console.log(isSnapshot)
-
-        return (
-            <nav>
-                <div className="toggle-nav"
-                    onClick={() => {
-                        analytics.event(analytics._event.SIDE_NAV, 'Open');
-                        dispatch({ type: 'TOGGLE_NAVIGATION' })
-                    }}
-                >
-                </div>
-                <div className="nav-left"
-                    style={{ transform: open ? 'translateX(0)' : 'translateX(-100%)' }}
-                >
-                    <div className="nav-left-icon close"
-                        onClick={this.closeNav}
-                    />
-                    <div id="drawing-tools-icon"
-                        className={`nav-left-icon drawing-tools ${active === 'Drawing Tools' && 'active'}`}
-                        style={{ opacity: readOnly ? .5 : 1 }}
-                        onClick={() => {
-                            if (!readOnly) {
-                                analytics.event(analytics._event.SIDE_NAV + ' Drawing', 'Open');
-                                this.clickIcon('Drawing Tools')
-                            }
-                        }}
-                        data-tip
-                        data-for="ttDrawingTools"
-                    />
-                    {council ? <div className={`nav-left-icon data-layers ${active === 'Community Assets' && 'active'}`}
-                        onClick={() => {
-                            analytics.event(analytics._event.SIDE_NAV + ' Community Assets', 'Open');
-                            this.clickIcon('Community Assets')
-                        }}
-                        data-tip
-                        data-for="ttCommunityAssets"
-                    /> :
-                        <div className={`nav-left-icon data-layers ${active === 'Land Data' && 'active'}`}
-                            onClick={() => {
-                                analytics.event(analytics._event.SIDE_NAV + ' Land Data', 'Open');
-                                this.clickIcon('Land Data')
-                            }}
-                            data-tip
-                            data-for="ttLandData"
-                        />}
-                    <div className={`nav-left-icon info ${active === 'Land Information' && 'active'}`}
-                        onClick={() => {
-                            analytics.event(analytics._event.SIDE_NAV + ' Land Information', 'Open');
-                            this.clickIcon('Land Information')
-                        }}
-                        data-tip
-                        data-for="ttInfo"
-                    />
-                    {/*
-                        ownership &&
-                        <div className={`nav-left-icon property-search ${active === 'Land Ownership' && 'active'}`}
-                            onClick={() => {
-                                analytics.event(analytics._event.SIDE_NAV + ' Land Ownership', 'Open');
-                                this.clickIcon('Land Ownership')
-                            }}
-                            data-tip
-                            data-for="ttLandOwnership"
-                        />*/
-                    }
-                    <div className="nav-left-icon new-map-icon"
-                        onClick={() => {
-                            analytics.event(analytics._event.SIDE_NAV + ' New Map', 'Clicked');
-                            this.props.dispatch({
-                                type: 'OPEN_MODAL',
-                                payload: 'newMap'
-                            });
-                        }}
-                        data-tip
-                        data-for="ttNewMap"
-                    />
-                    <div className="nav-left-icon save"
-                        data-tip
-                        data-for="ttSave"
-                        onClick={() => {
-                            analytics.event(analytics._event.SIDE_NAV + ' Save', 'Clicked');
-                            this.props.dispatch({ type: 'OPEN_MODAL', payload: "save" })
-                        }}
-                    />
-                    <div
-                        id="share-icon"
-                        className="nav-left-icon share"
-                        data-tip
-                        data-for="ttShare"
-                        style={{
-                            opacity: readOnly && !isSnapshot ? .5 : 1
-                        }}
-                        onClick={() => {
-                            if (!readOnly || isSnapshot) {
-                                analytics.event(analytics._event.SIDE_NAV + ' Share', 'Clicked');
-                                analytics.pageview('/app/my-maps/share');
-                                this.props.dispatch({ type: 'OPEN_MODAL', payload: "share" })
-                                if (this.props.currentMapId)
-                                    this.props.dispatch({
-                                        type: 'SET_MAP_TO_SHARE',
-                                        payload: this.props.maps.filter(map => map.map.eid == this.props.currentMapId)[0]
-                                    })
-                            }
-                        }}
-                    />
-                </div>
-                {
-                    // If not read only, render drawing tools
-                    !readOnly && (
-                        <NavDrawingTools
-                            active={active}
-                            open={open}
-                            onClose={this.closeTray}
-                            handleTrashClick={this.handleTrashClick}
-                            drawControl={drawControl}
-                        />
-                    )
-                }
-                {council ? <NavCommunityAssets
-                    open={open}
-                    active={active}
-                    onClose={this.closeTray}
-                /> : <NavLandData
-                    open={open}
-                    active={active}
-                    onClose={this.closeTray}
-                />}
-                <NavInformation
-                    open={open && active === 'Land Information'}
-                    onClose={this.closeTray}
+    return (
+        <nav>
+            <div className="toggle-nav"
+                onClick={() => {
+                    analytics.event(analytics._event.SIDE_NAV, 'Open');
+                    dispatch({ type: 'TOGGLE_NAVIGATION' })
+                }}
+            >
+            </div>
+            <div className="nav-left"
+                style={{ transform: open ? 'translateX(0)' : 'translateX(-100%)' }}
+            >
+                <div className="nav-left-icon close"
+                    onClick={closeNav}
                 />
-            </nav>
-        );
-    }
+                <div id="drawing-tools-icon"
+                    className={`nav-left-icon drawing-tools ${active === 'Drawing Tools' && 'active'}`}
+                    style={{ opacity: readOnly ? .5 : 1 }}
+                    onClick={() => {
+                        if (!readOnly) {
+                            analytics.event(analytics._event.SIDE_NAV + ' Drawing', 'Open');
+                            clickIcon('Drawing Tools')
+                        }
+                    }}
+                    data-tip
+                    data-for="ttDrawingTools"
+                />
+                {council ? <div className={`nav-left-icon data-layers ${active === 'Community Assets' && 'active'}`}
+                    onClick={() => {
+                        analytics.event(analytics._event.SIDE_NAV + ' Community Assets', 'Open');
+                        clickIcon('Community Assets')
+                    }}
+                    data-tip
+                    data-for="ttCommunityAssets"
+                /> :
+                    <div className={`nav-left-icon data-layers ${active === 'Land Data' && 'active'}`}
+                        onClick={() => {
+                            analytics.event(analytics._event.SIDE_NAV + ' Land Data', 'Open');
+                            clickIcon('Land Data')
+                        }}
+                        data-tip
+                        data-for="ttLandData"
+                    />}
+                <div className={`nav-left-icon info ${active === 'Land Information' && 'active'}`}
+                    onClick={() => {
+                        analytics.event(analytics._event.SIDE_NAV + ' Land Information', 'Open');
+                        clickIcon('Land Information')
+                    }}
+                    data-tip
+                    data-for="ttInfo"
+                />
+                <div className="nav-left-icon save"
+                    data-tip
+                    data-for="ttSave"
+                    onClick={() => {
+                        analytics.event(analytics._event.SIDE_NAV + ' Save', 'Clicked');
+                        dispatch({ type: 'OPEN_MODAL', payload: "save" })
+                    }}
+                />
+                <div
+                    id="share-icon"
+                    className="nav-left-icon share"
+                    data-tip
+                    data-for="ttShare"
+                    style={{
+                        opacity: readOnly && !isSnapshot ? .5 : 1
+                    }}
+                    onClick={() => {
+                        if (!readOnly || isSnapshot) {
+                            analytics.event(analytics._event.SIDE_NAV + ' Share', 'Clicked');
+                            analytics.pageview('/app/my-maps/share');
+                            dispatch({ type: 'OPEN_MODAL', payload: "share" })
+                            if (currentMapId)
+                                dispatch({
+                                    type: 'SET_MAP_TO_SHARE',
+                                    payload: maps.filter(map => map.map.eid == currentMapId)[0]
+                                })
+                        }
+                    }}
+                />
+            </div>
+            {
+                // If not read only, render drawing tools
+                !readOnly && (
+                    <NavDrawingTools
+                        active={active}
+                        open={open}
+                        onClose={closeTray}
+                        handleTrashClick={handleTrashClick}
+                        drawControl={drawControl}
+                    />
+                )
+            }
+            {council ? <NavCommunityAssets
+                open={open}
+                active={active}
+                onClose={closeTray}
+            /> : <NavLandData
+                open={open}
+                active={active}
+                onClose={closeTray}
+            />}
+            <NavInformation
+                open={open && active === 'Land Information'}
+                onClose={closeTray}
+            />
+        </nav>
+    );
 }
 
-Nav.propTypes = {
-    open: PropTypes.bool,
-    active: PropTypes.string
-};
-
-const mapStateToProps = ({ navigation, information, informationSections, readOnly, drawings, markers, mapMeta, user, myMaps }) => ({
-    open: navigation.open,
-    active: navigation.active,
-    information,
-    informationSections,
-    activeTool: navigation.activeTool,
-    readOnly: readOnly.readOnly,
-    currentMarker: markers.currentMarker,
-    activePolygon: drawings.activePolygon,
-    currentMapId: mapMeta.currentMapId,
-    isSnapshot: mapMeta.isSnapshot,
-    user: user,
-    maps: myMaps.maps,
-});
-
-export default connect(mapStateToProps, null)(Nav);
+export default Nav;

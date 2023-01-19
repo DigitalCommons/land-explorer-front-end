@@ -1,21 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import analytics from '../analytics';
 
 const MapMenu = ({ }) => {
     const [expanded, setExpanded] = useState(false);
+    const dispatch = useDispatch();
 
-    return <div className='map-menu-container'><img
-        src={require('../assets/img/chevron.svg')} alt=""
-        style={{ height: 21, width: 30 }}
-        onClick={() => setExpanded(!expanded)}
-    />
+    const ref = useRef();
+
+    useEffect(() => {
+        const checkIfClickedOutside = e => {
+            if (expanded && ref.current && !ref.current.contains(e.target)) {
+                setExpanded(false);
+            }
+        }
+
+        document.addEventListener("mousedown", checkIfClickedOutside);
+
+        return () => {
+            // Cleanup the event listener
+            document.removeEventListener("mousedown", checkIfClickedOutside);
+        }
+    }, [expanded])
+
+    return <div className='map-menu-container' style={{ top: expanded ? 130 : 0 }} ref={ref}>
+        <img
+            src={require('../assets/img/chevron.svg')} alt="map-menu-icon"
+            style={{ height: 21, width: 30 }}
+            onClick={() => setExpanded(!expanded)}
+        />
         {expanded && <div className='map-menu'>
-            <p>New</p>
-            <p>Open</p>
-            <p>Save a copy</p>
-            <p>Create Snapshot</p>
-            <p>Share</p>
-            <p>Export Shapefile</p>
-            <p>Generate GeoJSON</p>
+            <p className='map-menu-option' onClick={() => {
+                setExpanded(false);
+                analytics.event(analytics._event.SIDE_NAV + ' New Map', 'Clicked');
+                dispatch({
+                    type: 'OPEN_MODAL',
+                    payload: 'newMap'
+                });
+            }}>New</p>
+            <p className='map-menu-option' onClick={() => {
+                setExpanded(false);
+                analytics.event(analytics._event.SIDE_NAV + ' Open Map', 'Clicked');
+                dispatch({
+                    type: 'OPEN_MODAL',
+                    payload: 'openMap'
+                });
+            }}>Open</p>
+            <p className='map-menu-option'>Save a copy</p>
+            <p className='map-menu-option'>Create Snapshot</p>
+            <p className='map-menu-option'>Share</p>
+            <p className='map-menu-option'>Export Shapefile</p>
+            <p className='map-menu-option'>Generate GeoJSON</p>
         </div>}
     </div>
 }
