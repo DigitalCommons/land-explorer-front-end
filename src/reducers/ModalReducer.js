@@ -7,6 +7,10 @@ const INITIAL_STATE = {
         open: false,
         canToggle: true,
     },
+    saveSnapshot: {
+        open: false,
+        canToggle: true,
+    },
     emailShare: {
         open: false,
         canToggle: true,

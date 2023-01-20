@@ -1,26 +1,18 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Modal from "../common/Modal";
 import axios from 'axios';
 import constants, { VERSION } from '../../constants';
 import { getAuthHeader } from "../../utils/Auth";
 
-const SaveCopy = () => {
+const SaveSnapshot = ({ }) => {
     const dispatch = useDispatch();
     const map = useSelector(state => state.map);
     const drawings = useSelector(state => state.drawings);
     const mapLayers = useSelector(state => state.mapLayers);
     const markers = useSelector(state => state.markers);
     const { activeDataGroups } = useSelector(state => state.dataGroups);
-    const { isSnapshot } = useSelector(state => state.mapMeta);
-
-    if (!map.name)
-        return <Modal id="saveCopy">
-            <div className="modal-title">Save a copy</div>
-            <div className="modal-content">
-                <div>Please add a title to save the map first</div>
-            </div>
-        </Modal>
+    const [name, setName] = useState('');
 
     const saveMap = () => {
         const activeDataGroupsInfo = activeDataGroups.map(group => ({
@@ -51,9 +43,9 @@ const SaveCopy = () => {
 
         const body = {
             "eid": null,
-            "name": map.name,
+            "name": name,
             "data": JSON.stringify(saveData),
-            "isSnapshot": isSnapshot
+            "isSnapshot": true
         }
         axios.post(`${constants.ROOT_URL}/api/user/map/save/`, body, getAuthHeader())
             .then(() => {
@@ -62,7 +54,7 @@ const SaveCopy = () => {
                         dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
                         dispatch({
                             type: 'CLOSE_MODAL',
-                            payload: 'saveCopy'
+                            payload: 'saveSnapshot'
                         });
                         dispatch({ type: 'SAVE_AS_OFF' });
                         const newMap = response.data[response.data.length - 1];
@@ -73,13 +65,13 @@ const SaveCopy = () => {
                             payload: newMapId
                         });
                         const mapData = JSON.parse(newMap.map.data);
-                        mapData.isSnapshot = isSnapshot;
+                        mapData.isSnapshot = true;
                         dispatch({
                             type: 'LOAD_MAP',
                             payload: mapData,
                             id: newMapId
                         });
-                        if (isSnapshot) {
+                        if (mapData.isSnapshot) {
                             dispatch({
                                 type: 'READ_ONLY_ON'
                             });;
@@ -97,27 +89,43 @@ const SaveCopy = () => {
         setName('');
     }
 
-    return <Modal id="saveCopy" padding={true}>
-        <div className="modal-title">Save copy of "{map.name}"</div>
-        <div className="modal-buttons">
-            <div className="button button-cancel rounded-button-full modal-button-cancel"
-                onClick={() => {
-                    dispatch({
-                        type: 'CLOSE_MODAL',
-                        payload: 'saveCopy'
-                    });
-                    setName('');
-                }}
-            >
-                Cancel
-            </div>
-            <div className="button rounded-button-full modal-button-confirm"
-                onClick={saveMap}
-            >
-                Save
+    return <Modal id="saveSnapshot" padding={true}>
+        <div className="modal-title">Save as snapshot</div>
+        <div className="modal-content">
+            <div>
+                <div className="modal-content">
+                    <input
+                        className="text-input"
+                        type="text"
+                        placeholder="Name"
+                        style={{ marginBottom: '22px' }}
+                        value={name}
+                        onChange={(e) => {
+                            setName(e.target.value);
+                        }}
+                    />
+                </div>
+                <div className="modal-buttons">
+                    <div className="button button-cancel rounded-button-full modal-button-cancel"
+                        onClick={() => {
+                            dispatch({
+                                type: 'CLOSE_MODAL',
+                                payload: 'saveSnapshot'
+                            });
+                            setName('');
+                        }}
+                    >
+                        Cancel
+                    </div>
+                    <div className="button rounded-button-full modal-button-confirm"
+                        onClick={saveMap}
+                    >
+                        Save
+                    </div>
+                </div>
             </div>
         </div>
     </Modal>
 }
 
-export default SaveCopy;
+export default SaveSnapshot;

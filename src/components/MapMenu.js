@@ -26,7 +26,7 @@ const MapMenu = ({ }) => {
     return <div className='map-menu-container' style={{ top: expanded ? 130 : 0 }} ref={ref}>
         <img
             src={require('../assets/img/chevron.svg')} alt="map-menu-icon"
-            style={{ height: 21, width: 30 }}
+            style={{ height: 21, width: 30, cursor: "pointer" }}
             onClick={() => setExpanded(!expanded)}
         />
         {expanded && <div className='map-menu'>
@@ -48,13 +48,20 @@ const MapMenu = ({ }) => {
             }}>Open</p>
             <p className='map-menu-option' onClick={() => {
                 setExpanded(false);
-                analytics.event(analytics._event.SIDE_NAV + ' Share map with email', 'Clicked');
+                analytics.event(analytics._event.SIDE_NAV + ' Save copy', 'Clicked');
                 dispatch({
                     type: 'OPEN_MODAL',
                     payload: 'saveCopy'
                 });
             }}>Save a copy</p>
-            <p className='map-menu-option'>Create Snapshot</p>
+            <p className='map-menu-option' onClick={() => {
+                setExpanded(false);
+                analytics.event(analytics._event.SIDE_NAV + ' Save snapshot', 'Clicked');
+                dispatch({
+                    type: 'OPEN_MODAL',
+                    payload: 'saveSnapshot'
+                });
+            }}>Create Snapshot</p>
             <p className='map-menu-option' onClick={() => {
                 setExpanded(false);
                 analytics.event(analytics._event.SIDE_NAV + ' Share map with email', 'Clicked');
