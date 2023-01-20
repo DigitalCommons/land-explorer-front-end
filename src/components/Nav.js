@@ -126,27 +126,6 @@ const Nav = ({ drawControl }) => {
                         dispatch({ type: 'OPEN_MODAL', payload: "save" })
                     }}
                 />
-                <div
-                    id="share-icon"
-                    className="nav-left-icon share"
-                    data-tip
-                    data-for="ttShare"
-                    style={{
-                        opacity: readOnly && !isSnapshot ? .5 : 1
-                    }}
-                    onClick={() => {
-                        if (!readOnly || isSnapshot) {
-                            analytics.event(analytics._event.SIDE_NAV + ' Share', 'Clicked');
-                            analytics.pageview('/app/my-maps/share');
-                            dispatch({ type: 'OPEN_MODAL', payload: "share" })
-                            if (currentMapId)
-                                dispatch({
-                                    type: 'SET_MAP_TO_SHARE',
-                                    payload: maps.filter(map => map.map.eid == currentMapId)[0]
-                                })
-                        }
-                    }}
-                />
             </div>
             {
                 // If not read only, render drawing tools

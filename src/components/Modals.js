@@ -4,16 +4,20 @@ import Save from './modals/Save';
 import MyMaps from './modals/MyMaps';
 import MySharedMaps from './modals/MySharedMaps';
 import OpenMap from './modals/OpenMap';
-import Share from './modals/Share/Share';
 import NewMap from './modals/NewMap';
 import Location from './modals/Location';
+import EmailShare from './modals/EmailShare';
+import Download from './modals/Download';
+import LinkShare from './modals/LinkShare';
 
 class Modals extends Component {
     render() {
         let { drawControl, redrawPolygons } = this.props;
         return (
             <div>
-                <Share />
+                <EmailShare />
+                <Download />
+                <LinkShare />
                 <Save />
                 <MyMaps drawControl={drawControl} redrawPolygons={redrawPolygons} />
                 <MySharedMaps drawControl={drawControl} redrawPolygons={redrawPolygons} />

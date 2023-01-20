@@ -48,9 +48,30 @@ const MapMenu = ({ }) => {
             }}>Open</p>
             <p className='map-menu-option'>Save a copy</p>
             <p className='map-menu-option'>Create Snapshot</p>
-            <p className='map-menu-option'>Share</p>
-            <p className='map-menu-option'>Export Shapefile</p>
-            <p className='map-menu-option'>Generate GeoJSON</p>
+            <p className='map-menu-option' onClick={() => {
+                setExpanded(false);
+                analytics.event(analytics._event.SIDE_NAV + ' Share map with email', 'Clicked');
+                dispatch({
+                    type: 'OPEN_MODAL',
+                    payload: 'emailShare'
+                });
+            }}>Share</p>
+            <p className='map-menu-option' onClick={() => {
+                setExpanded(false);
+                analytics.event(analytics._event.SIDE_NAV + ' Download shapefile', 'Clicked');
+                dispatch({
+                    type: 'OPEN_MODAL',
+                    payload: 'download'
+                });
+            }}>Export Shapefile</p>
+            <p className='map-menu-option' onClick={() => {
+                setExpanded(false);
+                analytics.event(analytics._event.SIDE_NAV + ' GeoJSON Link', 'Clicked');
+                dispatch({
+                    type: 'OPEN_MODAL',
+                    payload: 'link'
+                });
+            }}>Generate GeoJSON</p>
         </div>}
     </div>
 }

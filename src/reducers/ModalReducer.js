@@ -3,7 +3,15 @@ const INITIAL_STATE = {
         open: false,
         canToggle: true,
     },
-    share: {
+    emailShare: {
+        open: false,
+        canToggle: true,
+    },
+    download: {
+        open: false,
+        canToggle: true,
+    },
+    link: {
         open: false,
         canToggle: true,
     },
