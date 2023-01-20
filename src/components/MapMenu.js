@@ -46,7 +46,14 @@ const MapMenu = ({ }) => {
                     payload: 'openMap'
                 });
             }}>Open</p>
-            <p className='map-menu-option'>Save a copy</p>
+            <p className='map-menu-option' onClick={() => {
+                setExpanded(false);
+                analytics.event(analytics._event.SIDE_NAV + ' Share map with email', 'Clicked');
+                dispatch({
+                    type: 'OPEN_MODAL',
+                    payload: 'saveCopy'
+                });
+            }}>Save a copy</p>
             <p className='map-menu-option'>Create Snapshot</p>
             <p className='map-menu-option' onClick={() => {
                 setExpanded(false);
