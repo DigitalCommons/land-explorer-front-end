@@ -58,7 +58,11 @@ const Download = () => {
                 :
                 <>
                     <p className='download-text'>Are you sure you wish to export this?</p>
-                    <div className="modal-buttons-float">
+                    <div className="modal-buttons-float" style={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        marginRight: 25
+                    }}>
                         <div className="button button-cancel rounded-button-full modal-button-cancel"
                             onClick={closeModal}
                         >
