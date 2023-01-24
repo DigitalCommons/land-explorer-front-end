@@ -9,6 +9,8 @@ const DataGroupPopup = ({ object, type, closeDescription }) => {
     const [mode, setMode] = useState("display");
     const [name, setName] = useState(object.name);
     const [description, setDescription] = useState(object.description);
+    const currentMapId = useSelector(state => state.mapMeta.currentMapId);
+    const { zoom, lngLat } = useSelector(state => state.map);
     const allMaps = useSelector((state) => state.myMaps.maps);
     const maps = allMaps.filter(map => !map.isSnapshot);
     const [selectedMap, setSelectedMap] = useState();
@@ -25,6 +27,27 @@ const DataGroupPopup = ({ object, type, closeDescription }) => {
         axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
             .then((response) => {
                 dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
+
+                if (selectedMap.map.eid === currentMapId) {
+                    console.log("saving to currently open map, reloading");
+                    const currentMap = response.data.find(map => map.map.eid === selectedMap.map.eid);
+                    const savedMap = JSON.parse(currentMap.map.data);
+                    if (savedMap.mapLayers.activeLayers) {
+                        savedMap.mapLayers.landDataLayers = savedMap.mapLayers.activeLayers;
+                    }
+                    //fix that some have no dataLayers
+                    if (!savedMap.mapLayers.myDataLayers) {
+                        savedMap.mapLayers.myDataLayers = [];
+                    }
+                    savedMap.currentLngLat = lngLat;
+                    savedMap.currentZoom = zoom;
+                    dispatch({
+                        type: 'LOAD_MAP_STATIONARY',
+                        payload: savedMap,
+                        id: selectedMap.map.eid
+                    });
+                }
+
             })
     }
 

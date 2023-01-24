@@ -42,6 +42,7 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 activeDataGroups
             }
+        case 'LOAD_MAP_STATIONARY':
         case 'LOAD_MAP':
             const { myDataLayers } = action.payload.mapLayers;
             activeGroups = myDataLayers.map(myDataLayer => myDataLayer.iddata_groups);
