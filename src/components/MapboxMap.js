@@ -58,7 +58,7 @@ class MapboxMap extends Component {
       this.redrawPolygons();
     }
     if (this.props.currentMarker && this.state.dataGroupPopupVisible !== -1) {
-      // hide data group popup if a marker is active
+      // hide data group drawing popup if a marker is active
       this.setState({ dataGroupPopupVisible: -1 });
     }
   }

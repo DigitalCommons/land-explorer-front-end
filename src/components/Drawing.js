@@ -27,7 +27,7 @@ class Drawing extends Component {
         const isActive = polygon.uuid === activePolygon;
         const showPopup = !this.state.popupClosed && isActive && !activeTool;
         console.log("ACTIVE TOOL", activeTool);
-        console.log(polygon.data)
+        console.log(polygon.data);
 
         const drawingLayer = (
             <GeoJSONLayer
@@ -93,11 +93,11 @@ class Drawing extends Component {
                         height: "40px",
                         zIndex: 4
                     }}
-                    onClick={() => this.setState({ popupClosed: false })}
                 >
                     <DrawingPopup
                         object={polygon}
-                        type={polygon.type}
+                        type={type}
+                        source={"map"}
                         closeDescription={() => this.setState({ popupClosed: true })}
                     />
                 </Marker>
