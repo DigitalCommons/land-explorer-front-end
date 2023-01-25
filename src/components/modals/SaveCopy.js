@@ -73,7 +73,6 @@ const SaveCopy = () => {
                             payload: newMapId
                         });
                         const mapData = JSON.parse(newMap.map.data);
-                        mapData.isSnapshot = isSnapshot;
                         dispatch({
                             type: 'LOAD_MAP',
                             payload: mapData,
