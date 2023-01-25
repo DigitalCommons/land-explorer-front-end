@@ -236,14 +236,14 @@ class MapboxMap extends Component {
   };
 
   render() {
-    const { dataGroupPopupVisible } = this.state;
+    const { dataGroupPopupVisible, styleLoaded } = this.state;
     const {
       zoom,
       lngLat,
       baseLayer,
       landDataLayers,
       propertiesDisplay,
-      navOpen,
+      currentMarker,
       movingMethod,
       user: { type },
     } = this.props;
@@ -292,7 +292,7 @@ class MapboxMap extends Component {
         >
           {/* Map Layers (greenbelt etc.)*/}
           <MapLayers />
-          {/* Map Data Groups displaying My Data */}
+          {/* Map Data Groups displaying My Data, except data group markers, which are in Markers */}
           <MapDataGroups
             popupVisible={dataGroupPopupVisible}
             setPopupVisible={(markerId) => {
@@ -312,12 +312,12 @@ class MapboxMap extends Component {
           {constants.LR_POLYGONS_ENABLED && (
             <MapProperties center={lngLat} map={this.map} />
           )}
-          {/* Markers */}
-          {this.state.styleLoaded && <Markers
+          {/* Markers, including markers from data groups */}
+          {styleLoaded && <Markers
             map={this.map}
             popupVisible={dataGroupPopupVisible}
             setPopupVisible={(markerId) => {
-              if (this.props.currentMarker) {
+              if (currentMarker) {
                 this.props.dispatch({ type: "CLEAR_CURRENT_MARKER" });
               }
               this.setState({ dataGroupPopupVisible: markerId })
