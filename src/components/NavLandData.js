@@ -42,7 +42,7 @@ const NavLandData = ({ open, active, onClose }) => {
     const displayProperties = useSelector((state) => state.landOwnership.displayActive);
 
     const description = <p className='land-data-description'>
-        Want to add your own data to Land Explorer? <a href="https://landexplorer.coop/#contact">Contact Us.</a>
+        Want to add your own data to Land Explorer? <a href="https://landexplorer.coop/#contact" target="_blank">Contact Us.</a>
     </p>
 
     return (
