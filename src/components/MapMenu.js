@@ -23,6 +23,15 @@ const MapMenu = ({ }) => {
         }
     }, [expanded])
 
+    const openModal = (analyticsMessage, modalId) => {
+        setExpanded(false);
+        analytics.event(analytics._event.SIDE_NAV + analyticsMessage, 'Clicked');
+        dispatch({
+            type: 'OPEN_MODAL',
+            payload: modalId
+        });
+    }
+
     return <div className='map-menu-container' style={{ top: expanded ? 130 : 0 }} ref={ref}>
         <img
             src={require('../assets/img/chevron.svg')} alt="map-menu-icon"
@@ -30,62 +39,13 @@ const MapMenu = ({ }) => {
             onClick={() => setExpanded(!expanded)}
         />
         {expanded && <div className='map-menu'>
-            <p className='map-menu-option' onClick={() => {
-                setExpanded(false);
-                analytics.event(analytics._event.SIDE_NAV + ' New Map', 'Clicked');
-                dispatch({
-                    type: 'OPEN_MODAL',
-                    payload: 'newMap'
-                });
-            }}>New</p>
-            <p className='map-menu-option' onClick={() => {
-                setExpanded(false);
-                analytics.event(analytics._event.SIDE_NAV + ' Open Map', 'Clicked');
-                dispatch({
-                    type: 'OPEN_MODAL',
-                    payload: 'openMap'
-                });
-            }}>Open</p>
-            <p className='map-menu-option' onClick={() => {
-                setExpanded(false);
-                analytics.event(analytics._event.SIDE_NAV + ' Save copy', 'Clicked');
-                dispatch({
-                    type: 'OPEN_MODAL',
-                    payload: 'saveCopy'
-                });
-            }}>Save a copy</p>
-            <p className='map-menu-option' onClick={() => {
-                setExpanded(false);
-                analytics.event(analytics._event.SIDE_NAV + ' Save snapshot', 'Clicked');
-                dispatch({
-                    type: 'OPEN_MODAL',
-                    payload: 'saveSnapshot'
-                });
-            }}>Create Snapshot</p>
-            <p className='map-menu-option' onClick={() => {
-                setExpanded(false);
-                analytics.event(analytics._event.SIDE_NAV + ' Share map with email', 'Clicked');
-                dispatch({
-                    type: 'OPEN_MODAL',
-                    payload: 'emailShare'
-                });
-            }}>Share</p>
-            <p className='map-menu-option' onClick={() => {
-                setExpanded(false);
-                analytics.event(analytics._event.SIDE_NAV + ' Download shapefile', 'Clicked');
-                dispatch({
-                    type: 'OPEN_MODAL',
-                    payload: 'download'
-                });
-            }}>Export Shapefile</p>
-            <p className='map-menu-option' onClick={() => {
-                setExpanded(false);
-                analytics.event(analytics._event.SIDE_NAV + ' GeoJSON Link', 'Clicked');
-                dispatch({
-                    type: 'OPEN_MODAL',
-                    payload: 'link'
-                });
-            }}>Generate GeoJSON</p>
+            <p className='map-menu-option' onClick={() => openModal(" New Map", "newMap")}>New</p>
+            <p className='map-menu-option' onClick={() => openModal(" Open Map", "openMap")}>Open</p>
+            <p className='map-menu-option' onClick={() => openModal(" Save copy", "saveCopy")}>Save a copy</p>
+            <p className='map-menu-option' onClick={() => openModal(" Save snapshot", "saveSnapshot")}>Create Snapshot</p>
+            <p className='map-menu-option' onClick={() => openModal(" Share map with email", "emailShare")}>Share</p>
+            <p className='map-menu-option' onClick={() => openModal(" Download shapefile", "download")}>Export Shapefile</p>
+            <p className='map-menu-option' onClick={() => openModal(" GeoJSON Link", "link")}>Generate GeoJSON</p>
         </div>}
     </div>
 }
