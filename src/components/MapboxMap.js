@@ -292,7 +292,7 @@ class MapboxMap extends Component {
         >
           {/* Map Layers (greenbelt etc.)*/}
           <MapLayers />
-          {/* Map Data Groups displaying My Data, except data group markers, which are in Markers */}
+          {/* Map Data Groups displaying My Data, except data group markers, which are in Markers to cluster together */}
           <MapDataGroups
             popupVisible={dataGroupPopupVisible}
             setPopupVisible={(markerId) => {
