@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GeoJSONLayer, Marker } from 'react-mapbox-gl';
 import { useSelector, useDispatch } from "react-redux";
 import DrawingPopup from './DrawingPopup';
@@ -12,6 +12,11 @@ const Drawing = ({ type, polygon }) => {
 
     const isActive = polygon.uuid === activePolygon;
     const showPopup = !popupClosed && isActive && !activeTool;
+
+    useEffect(() => {
+        if (isActive)
+            setPopupClosed(false);
+    }, [isActive])
 
     const dispatch = useDispatch();
 
