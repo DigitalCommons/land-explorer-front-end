@@ -35,6 +35,7 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 landDataLayers: landDataLayers
             }
+        case 'LOAD_MAP_STATIONARY':
         case 'LOAD_MAP':
             return action.payload.mapLayers;
         case 'NEW_MAP':

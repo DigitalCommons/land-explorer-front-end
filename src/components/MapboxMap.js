@@ -354,7 +354,7 @@ class MapboxMap extends Component {
             !this.state.redrawing && <DrawingLayers />
           }
         </Map>
-        <Nav drawControl={this.drawControl} user={this.props.user} />
+        <Nav drawControl={this.drawControl} />
         <Modals
           drawControl={this.drawControl}
           redrawPolygons={this.redrawPolygons}
