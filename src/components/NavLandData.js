@@ -42,11 +42,16 @@ const NavLandData = ({ open, active, onClose }) => {
     const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
     const displayProperties = useSelector((state) => state.landOwnership.displayActive);
 
+    const description = <p className='land-data-description'>
+        Want to add your own data to Land Explorer? <a href="https://landexplorer.coop/#contact" target="_blank">Contact Us.</a>
+    </p>
+
     return (
         <NavTray
             title="Data Layers"
             open={open && active === 'Land Data'}
             onClose={onClose}
+            header={description}
         >
             <DataLayersContainer title={"Land Data"}>
                 <Draggable itemHeight={58}>

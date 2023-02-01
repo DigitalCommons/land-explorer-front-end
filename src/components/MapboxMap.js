@@ -236,15 +236,14 @@ class MapboxMap extends Component {
   };
 
   render() {
-    const { dataGroupPopupVisible } = this.state;
+    const { dataGroupPopupVisible, styleLoaded } = this.state;
     const {
       zoom,
       lngLat,
       baseLayer,
       landDataLayers,
       propertiesDisplay,
-      name,
-      navOpen,
+      currentMarker,
       movingMethod,
       user: { type },
     } = this.props;
@@ -293,7 +292,7 @@ class MapboxMap extends Component {
         >
           {/* Map Layers (greenbelt etc.)*/}
           <MapLayers />
-          {/* Map Data Groups displaying My Data */}
+          {/* Map Data Groups displaying My Data, except data group markers, which are in Markers to cluster together */}
           <MapDataGroups
             popupVisible={dataGroupPopupVisible}
             setPopupVisible={(markerId) => {
@@ -313,12 +312,16 @@ class MapboxMap extends Component {
           {constants.LR_POLYGONS_ENABLED && (
             <MapProperties center={lngLat} map={this.map} />
           )}
-          {/* Markers */}
-          {this.state.styleLoaded && <Markers map={this.map} />}
-          {/* Map name in lower left corner */}
-          {name && <div className="map-name" style={{ left: navOpen ? "86px" : "14px" }}>
-            {name}
-          </div>}
+          {/* Markers, including markers from data groups */}
+          {styleLoaded && <Markers
+            map={this.map}
+            popupVisible={dataGroupPopupVisible}
+            setPopupVisible={(markerId) => {
+              if (currentMarker) {
+                this.props.dispatch({ type: "CLEAR_CURRENT_MARKER" });
+              }
+              this.setState({ dataGroupPopupVisible: markerId })
+            }} />}
           {/* Shows zoom warning if active layers are out of view */}
           <ZoomWarning
             show={
@@ -351,7 +354,7 @@ class MapboxMap extends Component {
             !this.state.redrawing && <DrawingLayers />
           }
         </Map>
-        <Nav drawControl={this.drawControl} user={this.props.user} />
+        <Nav drawControl={this.drawControl} />
         <Modals
           drawControl={this.drawControl}
           redrawPolygons={this.redrawPolygons}
@@ -408,7 +411,6 @@ const mapStateToProps = ({
   linesDrawn: drawings.linesDrawn || 0,
   lines: drawings.lines,
   loadingDrawings: drawings.loadingDrawings,
-  name: map.name,
   navOpen: navigation.open,
   movingMethod: map.movingMethod,
   menu: menu,

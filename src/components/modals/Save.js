@@ -15,6 +15,7 @@ class Save extends Component {
         }
     }
 
+    // TODO: Use saveCurrentMap thunk in MapActions
     saveMap = (withId) => {
         const { map, drawings, markers, mapLayers, activeGroups, dataGroupTitlesAndIDs, readOnly, currentMapId, saveAs, dispatch } = this.props;
         const { name, isSnapshot } = this.state;
@@ -67,10 +68,6 @@ class Save extends Component {
                             : response.data[response.data.length - 1];
 
                         const newMapId = newMap.map.eid;
-                        dispatch({
-                            type: 'SET_MAP_ID',
-                            payload: newMapId
-                        });
                         const mapData = JSON.parse(newMap.map.data);
                         mapData.isSnapshot = isSnapshot;
                         dispatch({

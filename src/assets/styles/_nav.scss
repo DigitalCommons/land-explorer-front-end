@@ -283,14 +283,18 @@ body {
   overflow-x: hidden;
 }
 
+.tray-top{
+  width: 100%;
+  background-color: #e4e6ea;
+  border-bottom: solid 1px #d1d1d1;
+}
+
 .tray-title {
   height: 58px;
-  background-color: #e4e6ea;
   background-size: cover;
   width: 100%;
   display: flex;
   align-items: center;
-  border-bottom: solid 1px #d1d1d1;
 
   .title {
     font-weight: bold;
@@ -532,4 +536,31 @@ a.mapboxgl-ctrl-logo {
   width: 100%;
     border: 1px solid;
     display: block;
+}
+
+.land-data-description{
+  margin-top: 0;
+    margin-left: 15px;
+}
+
+.map-menu-container{
+  position: relative;
+  left: -20px;
+}
+
+.map-menu{
+  position: relative;
+  box-shadow: 0px 3px 6px #00000029;
+  background-color: white;
+  margin: 0px;
+}
+
+.map-menu-option{
+  padding: 8px;
+  margin: 2px 0px;
+}
+
+.map-menu-option:hover{
+  background-color: #D2D2D2;
+  cursor: pointer;
 }
