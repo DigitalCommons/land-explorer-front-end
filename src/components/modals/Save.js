@@ -16,13 +16,16 @@ class Save extends Component {
     }
 
     saveMap = (withId) => {
-        const { map, drawings, markers, mapLayers, activeDataGroups, readOnly, currentMapId, saveAs, dispatch } = this.props;
+        const { map, drawings, markers, mapLayers, activeGroups, dataGroupTitlesAndIDs, readOnly, currentMapId, saveAs, dispatch } = this.props;
         const { name, isSnapshot } = this.state;
-        const activeDataGroupsInfo = activeDataGroups.map(group => ({
-            iddata_groups: group.iddata_groups,
-            title: group.title,
-            userGroupId: group.userGroupId
-        }));
+
+        const activeDataGroupsInfo = dataGroupTitlesAndIDs
+            .filter(group => activeGroups.includes(group.id))
+            .map(group => ({
+                iddata_groups: group.id,
+                title: group.title,
+                userGroupId: group.userGroupId
+            }));
         const saveData = {
             map: {
                 ...map,
@@ -149,7 +152,7 @@ class Save extends Component {
             )
         }
 
-        if (isSnapshot == null) {
+        if (isSnapshot === null) {
             return <Modal id="save" padding={false} customClose={closeModal}>
                 <div className="modal-title">Save map as:</div>
                 <div className='modal-options-container'>
@@ -290,7 +293,8 @@ class Save extends Component {
 const mapStateToProps = ({ drawings, map, markers, mapLayers, dataGroups, readOnly, mapMeta, save }) => ({
     drawings: drawings,
     mapLayers: mapLayers,
-    activeDataGroups: dataGroups.activeDataGroups,
+    activeGroups: dataGroups.activeGroups,
+    dataGroupTitlesAndIDs: dataGroups.dataGroupTitlesAndIDs,
     map: map,
     markers: markers,
     readOnly: readOnly.readOnly,

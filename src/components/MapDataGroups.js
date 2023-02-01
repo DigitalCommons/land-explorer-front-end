@@ -1,94 +1,55 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios/index";
-import constants from "../constants";
-import { getAuthHeader } from "../utils/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import DataGroupPolygon from "./DataGroupPolygon";
 import DataGroupLine from "./DataGroupLine";
+import { loadDataGroups } from '../actions/DataGroupActions';
 
 const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
   const dispatch = useDispatch();
-  const [dataGroups, setDataGroups] = useState();
-  const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
-
-  const loadDataGroups = async () => {
-    const result = await axios.get(
-      `${constants.ROOT_URL}/api/userdatagroups`,
-      getAuthHeader()
-    );
-
-    const userGroupsData = result.data;
-
-    const mergedDataGroups = [];
-
-    userGroupsData.forEach((userGroup) => {
-      userGroup.dataGroups.forEach((dataGroup) => {
-        dataGroup.userGroupId = userGroup.id;
-        mergedDataGroups.push(dataGroup);
-      });
-    });
-    setDataGroups(mergedDataGroups);
-
-    const userGroupTitlesAndIDs = userGroupsData.map((userGroup) => ({
-      title: userGroup.name,
-      id: userGroup.id,
-    }));
-    dispatch({
-      type: "SET_USER_GROUP_TITLES",
-      payload: userGroupTitlesAndIDs,
-    });
-
-    const dataGroupTitlesAndIDs = mergedDataGroups.map((dataGroup) => ({
-      title: dataGroup.title,
-      id: dataGroup.iddata_groups,
-      userGroupId: dataGroup.userGroupId,
-    }));
-    dispatch({
-      type: "SET_DATA_GROUP_TITLES",
-      payload: dataGroupTitlesAndIDs,
-    });
-  };
 
   useEffect(() => {
-    loadDataGroups();
+    dispatch(loadDataGroups());
   }, []);
 
-  const activeDataGroups =
-    dataGroups &&
-    dataGroups.filter((group) => activeGroups.includes(group.iddata_groups));
-
-  dispatch({
-    type: "STORE_ACTIVE_DATA_GROUPS",
-    payload: activeDataGroups,
-  });
+  const allDataGroups = useSelector((state) => state.dataGroups.dataGroupsData);
+  const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
+  const activeDataGroups = allDataGroups.filter(group => activeGroups.includes(group.iddata_groups));
 
   const dataGroupPolygons = [];
   const dataGroupLines = [];
 
   activeDataGroups &&
     activeDataGroups.forEach((dataGroup) => {
-      if (dataGroup.polygons)
+      if (dataGroup.polygons) {
         dataGroup.polygons.forEach((polygon) => {
+          let polygonCopy = {
+            ...polygon,
+            dataGroupId: dataGroup.iddata_groups,
+          };
           dataGroupPolygons.push(
             <DataGroupPolygon
               key={polygon.uuid}
-              polygon={polygon}
+              polygon={polygonCopy}
               setPopupVisible={setPopupVisible}
               popupVisible={popupVisible}
-            />
-          )
+            />);
         });
-      if (dataGroup.lines)
+      }
+      if (dataGroup.lines) {
         dataGroup.lines.forEach((line) => {
+          let lineCopy = {
+            ...line,
+            dataGroupId: dataGroup.iddata_groups,
+          };
           dataGroupLines.push(
             <DataGroupLine
               key={line.uuid}
-              line={line}
+              line={lineCopy}
               setPopupVisible={setPopupVisible}
               popupVisible={popupVisible}
-            />
-          )
-        })
+            />);
+        });
+      }
     });
 
   return (

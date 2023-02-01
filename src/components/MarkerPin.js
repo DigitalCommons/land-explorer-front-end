@@ -68,6 +68,7 @@ class MarkerPin extends Component {
                             <DrawingPopup
                                 object={marker}
                                 type={"marker"}
+                                source={"map"}
                                 closeDescription={() => this.setState({ popupClosed: true })}
                             />
                         </div>

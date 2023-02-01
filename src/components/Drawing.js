@@ -87,7 +87,8 @@ const Drawing = ({ type, polygon }) => {
             >
                 <DrawingPopup
                     object={polygon}
-                    type={polygon.type}
+                    type={type}
+                    source={"map"}
                     closeDescription={() => setPopupClosed(true)}
                 />
             </Marker>
