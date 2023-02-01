@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DataGroupPolygon from "./DataGroupPolygon";
 import DataGroupLine from "./DataGroupLine";
@@ -22,14 +22,10 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
     activeDataGroups.forEach((dataGroup) => {
       if (dataGroup.polygons) {
         dataGroup.polygons.forEach((polygon) => {
-          let polygonCopy = {
-            ...polygon,
-            dataGroupId: dataGroup.iddata_groups,
-          };
           dataGroupPolygons.push(
             <DataGroupPolygon
               key={polygon.uuid}
-              polygon={polygonCopy}
+              polygon={polygon}
               setPopupVisible={setPopupVisible}
               popupVisible={popupVisible}
             />);
@@ -37,14 +33,10 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
       }
       if (dataGroup.lines) {
         dataGroup.lines.forEach((line) => {
-          let lineCopy = {
-            ...line,
-            dataGroupId: dataGroup.iddata_groups,
-          };
           dataGroupLines.push(
             <DataGroupLine
               key={line.uuid}
-              line={lineCopy}
+              line={line}
               setPopupVisible={setPopupVisible}
               popupVisible={popupVisible}
             />);

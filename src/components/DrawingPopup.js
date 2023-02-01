@@ -4,7 +4,7 @@ import constants from "../constants";
 import { getAuthHeader } from "../utils/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import { saveExistingMap } from "../utils/saveMap";
-import { getMyMaps } from '../actions/MapActions';
+import { saveCurrentMap, reloadCurrentMap } from '../actions/MapActions';
 import { loadDataGroups } from '../actions/DataGroupActions';
 
 /**
@@ -36,7 +36,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
         // All editable maps
         maps = allMaps.filter(map => !map.isSnapshot);
         // All data groups apart from this one
-        dataGroups = allDataGroups.filter(dataGroup => dataGroup.id != object.dataGroupId);
+        dataGroups = allDataGroups.filter(dataGroup => dataGroup.id != object.data_group_id);
     }
 
     const copyObjectToMap = async (object, map) => {
@@ -45,13 +45,18 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
             eid: map.map.eid,
         }
 
-        await saveExistingMap(map);
+        const copyToCurrentMap = map.map.eid === currentMapId;
+
+        if (copyToCurrentMap) {
+            await dispatch(saveCurrentMap());
+        } else {
+            await saveExistingMap(map);
+        }
+
         await axios.post(`${constants.ROOT_URL}/api/user/map/save/${type}`, body, getAuthHeader());
 
-        if (map.map.eid === currentMapId) {
-            // TODO: autosave current map data. We should first move business logic in Save.js toa new method in MapActions
-            dispatch(getMyMaps());
-            // TODO: reload the map
+        if (copyToCurrentMap) {
+            dispatch(reloadCurrentMap());
         }
     }
 
@@ -87,6 +92,10 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                 object
             };
             await axios.post(`${constants.ROOT_URL}/api/user/edit/${type}`, body, getAuthHeader());
+
+            if (source === "datagroup") {
+                dispatch(loadDataGroups());
+            }
         }
     }
 

@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 }
 
 export default (state = INITIAL_STATE, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case 'TOGGLE_MENU_MAIN':
             return {
                 ...state,
@@ -85,16 +85,16 @@ export default (state = INITIAL_STATE, action) => {
             }
         case 'OPEN_MENU_COUNCILKEY':
             return {
-                    ...state,
-                    councilKey: true,
-                    layers: false,
-                }
+                ...state,
+                councilKey: true,
+                layers: false,
+            }
         case 'CLOSE_MENU_COUNCILKEY':
             return {
-                    ...state,
-                    councilKey: false,
-                    layers: false,
-                }            
+                ...state,
+                councilKey: false,
+                layers: false,
+            }
         case 'CLOSE_MENUS':
             return {
                 ...state,
