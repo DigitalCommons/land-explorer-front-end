@@ -104,7 +104,6 @@ export default (state = INITIAL_STATE, action) => {
                 key: false,
             }
         case 'OPEN_MODAL':
-        case 'LOAD_MAP_STATIONARY':
         case 'LOAD_MAP':
         case 'NEW_MAP':
             return INITIAL_STATE;

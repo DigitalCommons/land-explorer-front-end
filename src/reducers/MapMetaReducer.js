@@ -5,7 +5,6 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case 'LOAD_MAP_STATIONARY':
         case 'LOAD_MAP':
             return {
                 ...state,

@@ -80,12 +80,6 @@ export default (state = INITIAL_STATE, action) => {
       };
     case "SAVE_MAP":
       return action.payload.map;
-    case 'LOAD_MAP_STATIONARY':
-      return {
-        ...action.payload.map,
-        lngLat: action.payload.currentLngLat,
-        zoom: action.payload.currentZoom
-      }
     case "LOAD_MAP":
       return {
         ...action.payload.map,

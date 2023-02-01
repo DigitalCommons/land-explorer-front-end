@@ -42,7 +42,6 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 dataGroupsData
             }
-        case 'LOAD_MAP_STATIONARY':
         case 'LOAD_MAP':
             const { myDataLayers } = action.payload.mapLayers;
             // Old version contains array of objects, but now just contains array of data group IDs

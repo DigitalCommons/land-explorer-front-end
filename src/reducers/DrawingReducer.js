@@ -88,7 +88,6 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 activePolygon: null
             }
-        case 'LOAD_MAP_STATIONARY':
         case 'LOAD_MAP':
             return {
                 ...action.payload.drawings,

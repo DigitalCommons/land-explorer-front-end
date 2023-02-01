@@ -53,7 +53,6 @@ export default (state = INITIAL_STATE, action) => {
                 activeTool: '',
 
             }
-        case 'LOAD_MAP_STATIONARY':
         case 'LOAD_MAP':
             return INITIAL_STATE;
         case 'NEW_MAP':

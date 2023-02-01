@@ -79,7 +79,7 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
 
     activeDataGroups && activeDataGroups.forEach((dataGroup) => {
         console.log(dataGroup)
-        if (dataGroup.markers)
+        if (dataGroup.markers) {
             dataGroup.markers.forEach((marker) => {
                 dataGroupMarkers.push(
                     <DataGroupMarker
@@ -92,6 +92,7 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
                         setPopupVisible={setPopupVisible}
                     />)
             });
+        }
     });
 
     const drawnMarkers = markers.map((marker) => (
