@@ -23,7 +23,9 @@ const ClusterMarker = (coordinates, pointCount, getLeaves) => {
 
 const Markers = ({ map, popupVisible, setPopupVisible }) => {
     const dispatch = useDispatch();
-    const activeDataGroups = useSelector((state) => state.dataGroups.activeDataGroups);
+    const allDataGroups = useSelector((state) => state.dataGroups.dataGroupsData);
+    const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
+    const activeDataGroups = allDataGroups.filter(group => activeGroups.includes(group.iddata_groups));
 
     const searchMarker = useSelector((state) => state.map.searchMarker);
     const currentLocation = useSelector((state) => state.map.currentLocation);
