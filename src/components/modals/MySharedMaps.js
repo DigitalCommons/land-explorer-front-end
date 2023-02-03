@@ -1,240 +1,170 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import Modal from '../common/Modal';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import constants from '../../constants';
 import { getAuthHeader } from "../../utils/Auth";
 const moment = require('moment/moment.js');
 
-class MySharedMaps extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            active: {
-                id: null,
-                name: null
-            },
-            trash: false,
-            load: false,
-        }
-    }
+export const MySharedMaps = ({ stage, setStage, drawControl, redrawPolygons, closeModal }) => {
+    const dispatch = useDispatch();
+    const [active, setActive] = useState({ id: null, name: null });
 
-    renderMapList = () => {
-        const myMaps = this.props.myMaps.filter((map) => map.access === 'READ');
-        return myMaps.map((item, i) => {
-            console.log("render map list", item);
-            const map = item.map;
-            const momentDate = moment(map.lastModified).format("DD/MM/YYYY");
-            return (
-                <tr key={`map-${i}`}
-                    className={`table-map ${this.state.active.id === map.eid ? 'active' : ''}`}
+    const maps = useSelector(state => state.myMaps.maps);
+    const error = useSelector(state => state.myMaps.error);
+    const currentMapId = useSelector(state => state.mapMeta.currentMapId);
+
+    const mapList = maps.map((item, i) => {
+        const map = item.map;
+        const momentDate = moment(map.lastModified).format("DD/MM/YYYY");
+        return (
+            <tr key={`map-${i}`}
+                className={`table-map ${active.id === map.eid ? 'active' : ''}`}
+                onClick={() => {
+                    setActive({ id: map.eid, name: map.name });
+                }}
+            >
+                <td style={{ width: '230px' }}>{map.name}</td>
+                <td>{momentDate}</td>
+                <td className={item.isSnapshot ? "snapshot-icon" : "map-icon"} style={{ width: '30px' }}
+                    title={item.isSnapshot ? "snapshot" : "map"}
+                />
+            </tr>
+        )
+    });
+
+    return stage === "load" ?
+        <>
+            <div className="modal-content modal-content-trash"
+                style={{ textAlign: 'center' }}>
+                {`Load "${active.name}"?`}
+                <br />
+                <br />
+                Any unsaved changes to the current map will be lost.
+            </div>
+            <div className="modal-buttons">
+                <div className="button button-cancel button-small"
                     onClick={() => {
-                        this.setState({ active: { id: map.eid, name: map.name } })
+                        setStage("list");
                     }}
                 >
-                    <td style={{ width: '230px' }}>{map.name}</td>
-                    <td>{momentDate}</td>
-                    <td className={item.isSnapshot ? "snapshot-icon" : "map-icon"} style={{ width: '30px' }}
-                        title={item.isSnapshot ? "snapshot" : "map"}
-                    />
-                </tr>
-            )
-        });
-    }
+                    Cancel
+                </div>
+                <div className="button button-small"
+                    onClick={() => {
+                        const mapResult = maps.filter((item) => item.map.eid === active.id);
+                        const savedMap = JSON.parse(mapResult[0].map.data);
+                        savedMap.isSnapshot = mapResult[0].isSnapshot;
 
-    render() {
-        let { currentMapId } = this.props;
-        let myMaps = this.props.myMaps.filter((map) => map.access === 'READ');
-        if (this.state.trash) {
-            return (
-                <Modal id="mySharedMaps" padding={true}>
-                    <div className="modal-title">Shared Maps</div>
-                    <div className="modal-content modal-content-trash">
-                        {`Delete "${this.state.active.name}"? This cannot be undone.`}
-                    </div>
-                    <div className="modal-buttons">
-                        <div className="button button-cancel button-small"
-                            onClick={() => {
-                                this.setState({ trash: false })
-                            }}
-                        >
-                            Cancel
-                        </div>
-                        <div className="button button-small"
-                            onClick={() => {
-                                axios.post(`${constants.ROOT_URL}/api/user/map/delete/`, {
-                                    "eid": this.state.active.id
-                                }, getAuthHeader())
-                                    .then((response) => {
-                                        console.log("delete response", response);
-                                        if (this.state.active.id === currentMapId) {
-                                            this.props.dispatch({ type: 'NEW_MAP' });
-                                            this.props.drawControl.draw.deleteAll();
-                                            setTimeout(() => {
-                                                this.props.dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo' })
-                                            }, 1000);
-                                        }
-                                        axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
-                                            .then((response) => {
-                                                console.log("maps response", response);
-                                                this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
-                                                this.setState({ trash: false });
-                                            })
-                                            .catch(() => {
-                                                this.setState({ trash: false });
-                                            })
-                                    });
-                            }}
-                        >
-                            Delete
-                        </div>
-                    </div>
-                </Modal>
-            )
-        } else if (this.state.load) {
-            return (
-                <Modal id="mySharedMaps" padding={true}>
-                    <div className="modal-title">Shared Maps</div>
-                    <div className="modal-content modal-content-trash"
-                        style={{ textAlign: 'center' }}>
-                        {`Load "${this.state.active.name}"?`}
-                        <br />
-                        <br />
-                        Any unsaved changes to the current map will be lost.
-                    </div>
-                    <div className="modal-buttons">
-                        <div className="button button-cancel button-small"
-                            onClick={() => {
-                                this.setState({ load: false })
-                            }}
-                        >
-                            Cancel
-                        </div>
-                        <div className="button button-small"
-                            onClick={() => {
-                                const mapResult = this.props.myMaps.filter((item) => item.map.eid === this.state.active.id);
-                                const savedMap = JSON.parse(mapResult[0].map.data);
-                                savedMap.isSnapshot = mapResult[0].isSnapshot;
+                        console.log("saved map", savedMap);
+                        if (savedMap) {
+                            drawControl.draw.deleteAll();
+                            axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
+                                "eid": active.id,
+                            }, getAuthHeader());
 
-                                console.log("saved map", savedMap);
-                                if (savedMap) {
-                                    this.props.drawControl.draw.deleteAll();
-                                    axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
-                                        "eid": this.state.active.id,
-                                    }, getAuthHeader());
+                            //pick up the old name for the landDataLayers
+                            if (savedMap.mapLayers.activeLayers) {
+                                console.log("happening")
+                                savedMap.mapLayers.landDataLayers = savedMap.mapLayers.activeLayers;
+                            }
+                            //fix that some have no dataLayers
+                            if (!savedMap.mapLayers.myDataLayers) {
+                                savedMap.mapLayers.myDataLayers = [];
+                            }
 
-                                    //pick up the old name for the landDataLayers
-                                    if (savedMap.mapLayers.activeLayers) {
-                                        console.log("happening")
-                                        savedMap.mapLayers.landDataLayers = savedMap.mapLayers.activeLayers;
-                                    }
-                                    //fix that some have no dataLayers
-                                    if (!savedMap.mapLayers.myDataLayers) {
-                                        savedMap.mapLayers.myDataLayers = [];
-                                    }
-
-                                    console.log(savedMap.mapLayers.activeLayers)
-                                    console.log(savedMap)
-                                    this.props.dispatch({
-                                        type: 'LOAD_MAP',
-                                        payload: savedMap,
-                                        id: this.state.active.id
-                                    });
-                                    this.props.dispatch({
-                                        type: 'CLOSE_MODAL',
-                                        payload: 'mySharedMaps'
-                                    });
-                                    this.setState({ load: false });
-                                    this.props.dispatch({
-                                        type: 'READ_ONLY_ON'
-                                    });
-                                    setTimeout(() => {
-                                        this.props.redrawPolygons();
-                                    }, 200);
-                                    setTimeout(() => {
-                                        this.props.dispatch({
-                                            type: 'CHANGE_MOVING_METHOD',
-                                            payload: 'flyTo'
-                                        })
-                                    }, 1000)
-                                }
-                            }}
-                        >
-                            Ok
-                        </div>
-                    </div>
-                </Modal>
-            )
-        } else if (myMaps.length) {
-            return (
-                <Modal id="mySharedMaps" padding={true}>
-                    <div className="modal-title">Shared Maps</div>
-                    <div className="modal-content">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th style={{ width: '230px' }}>Name</th>
-                                    <th>Modified</th>
-                                    <th>Type</th>
-                                </tr>
-                            </thead>
-                        </table>
-                        <div style={{
-                            height: '130px',
-                            overflowY: 'scroll',
-                        }}>
-                            <table>
-                                <tbody>
-                                    {this.renderMapList()}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div className="modal-buttons">
-                        <div className="button button-cancel button-small"
-                            onClick={() => this.props.dispatch({
-                                type: 'CLOSE_MODAL',
-                                payload: 'mySharedMaps'
-                            })}
-                        >
-                            Cancel
-                        </div>
-                        <div className="button button-small"
-                            onClick={() => {
-                                if (this.state.active !== null) {
-                                    this.setState({ load: true });
-                                }
-                            }}
-                        >
-                            Open
-                        </div>
-                    </div>
-                </Modal>
-            );
-        } else {
-            return (
-                <Modal id="mySharedMaps" padding={true}>
-                    <div className="modal-title">Shared Maps</div>
-                    <div className="modal-content modal-content-trash">
-                        {
-                            this.props.error ?
-                                <p>Map loading encountered the following error: {this.props.error}.</p>
-                                :
-                                <p>There are no shared maps.</p>
+                            console.log(savedMap.mapLayers.activeLayers)
+                            console.log(savedMap)
+                            dispatch({
+                                type: 'LOAD_MAP',
+                                payload: savedMap,
+                                id: active.id
+                            });
+                            closeModal();
+                            setStage("list");
+                            dispatch({
+                                type: 'READ_ONLY_ON'
+                            });
+                            setTimeout(() => {
+                                redrawPolygons();
+                            }, 200);
+                            setTimeout(() => {
+                                dispatch({
+                                    type: 'CHANGE_MOVING_METHOD',
+                                    payload: 'flyTo'
+                                })
+                            }, 1000)
                         }
+                    }}
+                >
+                    Ok
+                </div>
+            </div>
+        </> :
+        maps.length ?
+            <>
+                <div className="modal-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style={{ width: '230px' }}>Name</th>
+                                <th>Modified</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div style={{
+                        height: '130px',
+                        overflowY: 'scroll',
+                    }}>
+                        <table>
+                            <tbody>
+                                {mapList}
+                            </tbody>
+                        </table>
                     </div>
-                </Modal>
-            )
-        }
-    }
+                </div>
+                <div className="modal-buttons">
+                    <div className="button button-cancel button-small"
+                        onClick={closeModal}
+                    >
+                        Cancel
+                    </div>
+                    <div className="button button-small"
+                        onClick={() => {
+                            if (active !== null) {
+                                setStage("load");
+                            }
+                        }}
+                    >
+                        Open
+                    </div>
+                </div>
+            </> :
+            <>
+                <div className="modal-content modal-content-trash">
+                    {
+                        error ?
+                            <p>Map loading encountered the following error: {error}.</p>
+                            :
+                            <p>There are no shared maps.</p>
+                    }
+                </div>
+            </>
 }
 
-const mapStateToProps = ({ user, save, myMaps, mapMeta }) => ({
-    user: user,
-    savedMaps: save.savedMaps,
-    myMaps: myMaps.maps,
-    error: myMaps.error,
-    currentMapId: mapMeta.currentMapId
-});
+const MySharedMapsModal = ({ drawControl, redrawPolygons }) => {
+    const dispatch = useDispatch();
+    const [stage, setStage] = useState("list");
+    const closeModal = () => dispatch({
+        type: 'CLOSE_MODAL',
+        payload: 'mySharedMaps'
+    });
 
-export default connect(mapStateToProps)(MySharedMaps);
+    return <Modal id="mySharedMaps" padding={true} drawControl={drawControl} customClose={() => setStage("list")}>
+        <div className="modal-title">Shared Maps</div>
+        <MySharedMaps stage={stage} setStage={setStage} drawControl={drawControl} redrawPolygons={redrawPolygons} closeModal={closeModal} />
+    </Modal>
+}
+
+export default MySharedMapsModal;

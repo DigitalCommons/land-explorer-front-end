@@ -79,23 +79,20 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
 
     activeDataGroups && activeDataGroups.forEach((dataGroup) => {
         console.log(dataGroup)
-        if (dataGroup.markers)
+        if (dataGroup.markers) {
             dataGroup.markers.forEach((marker) => {
-                let markerCopy = {
-                    ...marker,
-                    dataGroupId: dataGroup.iddata_groups,
-                };
                 dataGroupMarkers.push(
                     <DataGroupMarker
                         key={marker.uuid}
                         coordinates={marker.location.coordinates}
                         name={marker.name}
                         description={marker.description}
-                        marker={markerCopy}
+                        marker={marker}
                         popupVisible={popupVisible}
                         setPopupVisible={setPopupVisible}
                     />)
             });
+        }
     });
 
     const drawnMarkers = markers.map((marker) => (
