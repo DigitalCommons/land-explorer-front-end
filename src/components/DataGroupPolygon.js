@@ -1,6 +1,6 @@
 import React from "react";
 import { Marker, GeoJSONLayer } from "react-mapbox-gl";
-import DataGroupPopup from "./DataGroupPopup";
+import DrawingPopup from "./DrawingPopup";
 
 const DataGroupPolygon = ({ polygon, setPopupVisible, popupVisible }) => {
     const polygonData = {
@@ -46,9 +46,10 @@ const DataGroupPolygon = ({ polygon, setPopupVisible, popupVisible }) => {
                         setPopupVisible(polygon.uuid);
                 }}
             >
-                <DataGroupPopup
+                <DrawingPopup
                     object={polygon}
                     type={"polygon"}
+                    source={"datagroup"}
                     closeDescription={() => setPopupVisible(-1)}
                 />
             </Marker>

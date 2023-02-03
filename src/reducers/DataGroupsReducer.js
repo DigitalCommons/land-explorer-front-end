@@ -2,13 +2,13 @@ const INITIAL_STATE = {
     userGroupTitlesAndIDs: [],
     dataGroupTitlesAndIDs: [],
     activeGroups: [],
-    activeDataGroups: []
+    dataGroupsData: []
 }
 
 let userGroupTitlesAndIDs;
 let dataGroupTitlesAndIDs;
 let activeGroups;
-let activeDataGroups;
+let dataGroupsData;
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -31,16 +31,16 @@ export default (state = INITIAL_STATE, action) => {
             else {
                 activeGroups = state.activeGroups.concat([action.payload]);
             }
-            console.log(activeGroups)
+            console.log('Active groups', activeGroups);
             return {
                 ...state,
                 activeGroups
             }
-        case 'STORE_ACTIVE_DATA_GROUPS':
-            activeDataGroups = action.payload;
+        case 'STORE_DATA_GROUPS_DATA':
+            dataGroupsData = action.payload;
             return {
                 ...state,
-                activeDataGroups
+                dataGroupsData
             }
         case 'LOAD_MAP':
             const { myDataLayers } = action.payload.mapLayers;

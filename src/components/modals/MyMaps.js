@@ -220,10 +220,10 @@ class MyMaps extends Component {
                     </div>
                     <div className="modal-buttons">
                         <div className="button button-cancel button-small"
-                            onClick={() => this.props.dispatch({
-                                type: 'CLOSE_MODAL',
-                                payload: 'myMaps'
-                            })}
+                            onClick={() => {
+                                this.props.dispatch({ type: 'CLOSE_MODAL', payload: 'myMaps' });
+                                this.setState({ load: false, active: { id: null, name: null } });
+                            }}
                         >
                             Cancel
                         </div>

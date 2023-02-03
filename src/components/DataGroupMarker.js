@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCertificate } from '@fortawesome/free-solid-svg-icons';
 import { Marker } from "react-mapbox-gl";
-import DataGroupPopup from "./DataGroupPopup";
+import DrawingPopup from "./DrawingPopup";
 
 const DataGroupMarkerContent = ({ marker, visible, closeDescription }) => {
     return (
@@ -38,9 +38,10 @@ const DataGroupMarkerContent = ({ marker, visible, closeDescription }) => {
                 position: "relative",
                 bottom: "-5px",
             }}>
-                {visible && <DataGroupPopup
+                {visible && <DrawingPopup
                     object={marker}
                     type={"marker"}
+                    source={"datagroup"}
                     closeDescription={closeDescription}
                 />}
             </div>
