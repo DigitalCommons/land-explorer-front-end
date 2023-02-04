@@ -57,7 +57,6 @@ export const saveCurrentMap = (copy = false, snapshot = false, name = undefined)
         const saveData = {
             map: {
                 ...map,
-                gettingLocation: false,
                 name: saveName,
                 currentLocation: null,
                 searchMarker: null,

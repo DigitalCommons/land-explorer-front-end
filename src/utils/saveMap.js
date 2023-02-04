@@ -13,7 +13,6 @@ export const saveExistingMap = async (existingMap) => {
 
     const saveData = {
         map: {
-            gettingLocation: false,
             name: name,
             currentLocation: null,
             searchMarker: null,

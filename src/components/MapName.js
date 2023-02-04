@@ -13,6 +13,7 @@ const MapName = ({ }) => {
         const checkIfClickedOutside = e => {
             if (editing && ref.current && !ref.current.contains(e.target)) {
                 setEditing(false);
+                console.log('Set map name', ref.current.textContent);
                 dispatch({
                     type: "SET_MAP_NAME",
                     payload: ref.current.textContent

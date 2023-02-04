@@ -3,7 +3,6 @@ const INITIAL_STATE = {
   lngLat: [-1.5, 53],
   searchMarker: null,
   marker: [-0.2416815, 51.5285582],
-  gettingLocation: false,
   currentLocation: null,
   movingMethod: "flyTo",
   name: null,
@@ -42,11 +41,6 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         lngLat: [action.payload.lng, action.payload.lat],
-      };
-    case "GETTING_LOCATION":
-      return {
-        ...state,
-        gettingLocation: action.payload,
       };
     case "SET_CURRENT_LOCATION":
       return {
