@@ -1,5 +1,4 @@
 import React from 'react';
-import Save from './modals/Save';
 import MyMaps from './modals/MyMaps';
 import MySharedMaps from './modals/MySharedMaps';
 import OpenMap from './modals/OpenMap';
@@ -15,7 +14,6 @@ const Modals = ({ drawControl, redrawPolygons }) => <div>
     <EmailShare />
     <Download />
     <LinkShare />
-    <Save />
     <SaveCopy />
     <SaveSnapshot />
     <MyMaps drawControl={drawControl} redrawPolygons={redrawPolygons} />

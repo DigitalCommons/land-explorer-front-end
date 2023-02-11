@@ -191,26 +191,6 @@
   }
 }
 
-.save-map-button{
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  border-radius: 35px;
-  width: 71px;
-  height: 24px;
-  font-size: 14px;
-  color: white;
-  background-color: #2ECC71;
-  text-align: center;
-  cursor: pointer;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0);
-  transition: box-shadow 300ms, background-color 300ms;
-  &:hover {
-    background: $primaryColor;
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.25);
-  }
-}
-
 .popup-sidebar-button{
   padding-top: 10px;
   cursor: pointer;

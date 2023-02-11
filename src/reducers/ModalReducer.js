@@ -1,8 +1,4 @@
 const INITIAL_STATE = {
-    save: {
-        open: false,
-        canToggle: true,
-    },
     saveCopy: {
         open: false,
         canToggle: true,
