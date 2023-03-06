@@ -4,14 +4,16 @@ import { Source, Layer } from 'react-mapbox-gl';
 
 class MapLayers extends Component {
     render() {
-        let { landDataLayers } = this.props;
+        const { landDataLayers } = this.props;
+
+        console.log(landDataLayers)
 
         return (
             <React.Fragment>
                 <Source
                     tileJsonSource={{
                         "type": "vector",
-                        "url": "mapbox://joolzt.ay7acj73,joolzt.9edhyytu,joolzt.6dd4p92w,joolzt.50odxxr1,joolzt.cpacrvmx,joolzt.c3j1rh4t,joolzt.75llshed,joolzt.4i2tzpgj,kingmob.8cgpa2xi,joolzt.6s8qdvfi"
+                        "url": "mapbox://joolzt.ay7acj73,joolzt.9edhyytu,joolzt.6dd4p92w,joolzt.50odxxr1,joolzt.cpacrvmx,joolzt.c3j1rh4t,joolzt.75llshed,joolzt.4i2tzpgj,kingmob.8cgpa2xi,"
                     }}
                     id="composite"
                 />
@@ -189,24 +191,38 @@ class MapLayers extends Component {
                         "fill-opacity": landDataLayers.indexOf('ncc-brownfield-sites') !== -1 ? .4 : 0,
                     }}
                 />
+                <Source
+                    tileJsonSource={{
+                        "type": "vector",
+                        "url": "mapbox://joolzt.25vn26he"
+                    }}
+                    id="wards"
+                />
                 <Layer
-                    id="wards-may-2019-boundaries-uk-d9ukjy"
+                    id="wards-cu4dni"
                     type="fill"
-                    sourceId="composite"
-                    sourceLayer="Wards_May_2019_Boundaries_UK_-d9ukjy"
-                    minZoom={9}
+                    sourceId="wards"
+                    sourceLayer="wards-cu4dni"
+                    minZoom={6}
                     layout={{
                         "visibility": "visible"
                     }}
                     paint={{
-                        "fill-color": "hsla(0, 100%, 0%, 0.8)",
-                        "fill-opacity": landDataLayers.indexOf('wards-may-2019-boundaries-uk-d9ukjy') !== -1 ? .4 : 0,
+                        "fill-color": "hsla(245, 100%, 50%, 0.3)",
+                        "fill-opacity": landDataLayers.indexOf('wards-cu4dni') !== -1 ? 1 : 0,
                     }}
+                />
+                <Source
+                    tileJsonSource={{
+                        "type": "vector",
+                        "url": "mapbox://joolzt.6s8qdvfi"
+                    }}
+                    id="county"
                 />
                 <Layer
                     id="county-4ef4ik"
                     type="fill"
-                    sourceId="composite"
+                    sourceId="county"
                     sourceLayer="county-4ef4ik"
                     minZoom={6}
                     layout={{
@@ -214,7 +230,70 @@ class MapLayers extends Component {
                     }}
                     paint={{
                         "fill-color": "hsla(113, 97%, 50%, 0.4)",
-                        "fill-opacity": landDataLayers.indexOf('county-4ef4iky') !== -1 ? .4 : 0
+                        "fill-opacity": landDataLayers.indexOf('county-4ef4ik') !== -1 ? 1 : 0
+                    }}
+                />
+                <Source
+                    tileJsonSource={{
+                        "type": "vector",
+                        "url": "mapbox://joolzt.2d1u9n5a"
+                    }}
+                    id="constituency"
+                />
+                <Layer
+                    id="westminster_const_region-8r33ph"
+                    type="fill"
+                    sourceId="constituency"
+                    sourceLayer="westminster_const_region-8r33ph"
+                    minZoom={6}
+                    layout={{
+                        "visibility": "visible"
+                    }}
+                    paint={{
+                        "fill-color": "hsla(183, 97%, 50%, 0.4)",
+                        "fill-opacity": landDataLayers.indexOf('westminster_const_region-8r33ph') !== -1 ? 1 : 0
+                    }}
+                />
+                <Source
+                    tileJsonSource={{
+                        "type": "vector",
+                        "url": "mapbox://joolzt.2d1u9n5a"
+                    }}
+                    id="constituency"
+                />
+                <Layer
+                    id="westminster_const_region-8r33ph"
+                    type="fill"
+                    sourceId="constituency"
+                    sourceLayer="westminster_const_region-8r33ph"
+                    minZoom={6}
+                    layout={{
+                        "visibility": "visible"
+                    }}
+                    paint={{
+                        "fill-color": "hsla(183, 97%, 50%, 0.4)",
+                        "fill-opacity": landDataLayers.indexOf('westminster_const_region-8r33ph') !== -1 ? 1 : 0
+                    }}
+                />
+                <Source
+                    tileJsonSource={{
+                        "type": "vector",
+                        "url": "mapbox://joolzt.c5ulw4oz"
+                    }}
+                    id="councils"
+                />
+                <Layer
+                    id="district_borough_unitary_regi-bquzqt"
+                    type="fill"
+                    sourceId="councils"
+                    sourceLayer="district_borough_unitary_regi-bquzqt"
+                    minZoom={6}
+                    layout={{
+                        "visibility": "visible"
+                    }}
+                    paint={{
+                        "fill-color": "hsla(56, 97%, 50%, 0.4)",
+                        "fill-opacity": landDataLayers.indexOf('district_borough_unitary_regi-bquzqt') !== -1 ? 1 : 0
                     }}
                 />
             </React.Fragment>
