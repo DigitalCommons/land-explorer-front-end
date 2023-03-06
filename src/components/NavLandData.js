@@ -74,6 +74,9 @@ const NavLandData = ({ open, active, onClose }) => {
             </DataLayersContainer>
             <DataLayersContainer title={"Administrative Boundaries"}>
                 <NavTrayItem draggable={false} title="Counties" layerId='county-4ef4ik' />
+                <NavTrayItem draggable={false} title="Wards" layerId='wards-cu4dni' />
+                <NavTrayItem draggable={false} title="Constituencies" layerId='westminster_const_region-8r33ph' />
+                <NavTrayItem draggable={false} title="Councils" layerId='district_borough_unitary_regi-bquzqt' />
             </DataLayersContainer>
             {userGroupTitlesAndIDs && userGroupTitlesAndIDs.map(userGroup =>
                 <DataLayersContainer title={userGroup.title} key={userGroup.id}>
