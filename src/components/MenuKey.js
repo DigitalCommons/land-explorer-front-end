@@ -83,6 +83,12 @@ class MenuKey extends Component {
                     "Wards": "hsl(0, 100%, 0%)"
                 }
             },
+            "county-4ef4ik": {
+                name: "Counties",
+                data: {
+                    "Counties": "hsla(113, 97%, 50%, 0.4)"
+                }
+            }
         }
     }
 

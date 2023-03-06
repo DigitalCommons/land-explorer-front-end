@@ -11,7 +11,7 @@ class MapLayers extends Component {
                 <Source
                     tileJsonSource={{
                         "type": "vector",
-                        "url": "mapbox://joolzt.ay7acj73,joolzt.9edhyytu,joolzt.6dd4p92w,joolzt.50odxxr1,joolzt.cpacrvmx,joolzt.c3j1rh4t,joolzt.75llshed,joolzt.4i2tzpgj,kingmob.8cgpa2xi"
+                        "url": "mapbox://joolzt.ay7acj73,joolzt.9edhyytu,joolzt.6dd4p92w,joolzt.50odxxr1,joolzt.cpacrvmx,joolzt.c3j1rh4t,joolzt.75llshed,joolzt.4i2tzpgj,kingmob.8cgpa2xi,joolzt.6s8qdvfi"
                     }}
                     id="composite"
                 />
@@ -201,6 +201,20 @@ class MapLayers extends Component {
                     paint={{
                         "fill-color": "hsla(0, 100%, 0%, 0.8)",
                         "fill-opacity": landDataLayers.indexOf('wards-may-2019-boundaries-uk-d9ukjy') !== -1 ? .4 : 0,
+                    }}
+                />
+                <Layer
+                    id="county-4ef4ik"
+                    type="fill"
+                    sourceId="composite"
+                    sourceLayer="county-4ef4ik"
+                    minZoom={6}
+                    layout={{
+                        "visibility": "visible"
+                    }}
+                    paint={{
+                        "fill-color": "hsla(113, 97%, 50%, 0.4)",
+                        "fill-opacity": landDataLayers.indexOf('county-4ef4iky') !== -1 ? .4 : 0
                     }}
                 />
             </React.Fragment>

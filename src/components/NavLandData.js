@@ -72,6 +72,9 @@ const NavLandData = ({ open, active, onClose }) => {
                     onToggle={() => dispatch({ type: "TOGGLE_PROPERTY_DISPLAY" })}
                 />
             </DataLayersContainer>
+            <DataLayersContainer title={"Administrative Boundaries"}>
+                <NavTrayItem draggable={false} title="Counties" layerId='county-4ef4ik' />
+            </DataLayersContainer>
             {userGroupTitlesAndIDs && userGroupTitlesAndIDs.map(userGroup =>
                 <DataLayersContainer title={userGroup.title} key={userGroup.id}>
                     {dataGroupTitlesAndIDs && dataGroupTitlesAndIDs.filter(dataGroup => dataGroup.userGroupId == userGroup.id).map(dataGroup =>
