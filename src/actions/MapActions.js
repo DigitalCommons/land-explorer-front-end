@@ -4,10 +4,15 @@ import { getAuthHeader } from "../utils/Auth";
 
 export const getMyMaps = () => {
     return async dispatch => {
-        const response = await axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader());
-        console.log("Got maps, response", response);
+        try {
+            const response = await axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader());
 
-        return dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
+            console.log("Got maps, response", response);
+            return dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
+        } catch (err) {
+            console.error("There was an error getting maps", err);
+        }
+        dispatch({ type: 'MY_MAPS_ERROR' });
     }
 }
 

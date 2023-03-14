@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getMyMaps } from '../actions/MapActions';
 import { openModal } from '../actions/ModalActions';
 import { changeUser } from '../actions/UserActions'
 import analytics from '../analytics';
@@ -40,7 +39,7 @@ class MenuProfile extends Component {
     }
 
     render() {
-        let { open, getMyMaps, openModal, privileged } = this.props;
+        let { open, openModal, privileged } = this.props;
         return (
             <div style={{
                 display: open ? 'block' : 'none',
@@ -53,7 +52,6 @@ class MenuProfile extends Component {
                     </Link>
                     <div className="tooltip-menu-item"
                         onClick={() => {
-                            getMyMaps();
                             analytics.pageview('/app/my-maps');
                             openModal('myMaps');
                         }}
@@ -62,7 +60,6 @@ class MenuProfile extends Component {
                     </div>
                     <div className="tooltip-menu-item"
                         onClick={() => {
-                            getMyMaps();
                             analytics.pageview('/app/my-shared-maps');
                             openModal('mySharedMaps');
                         }}
@@ -110,4 +107,4 @@ const mapStateToProps = ({ menu, user }) => ({
     privileged: user.privileged
 });
 
-export default connect(mapStateToProps, { getMyMaps, openModal, changeUser })(withRouter(MenuProfile));
+export default connect(mapStateToProps, { openModal, changeUser })(withRouter(MenuProfile));

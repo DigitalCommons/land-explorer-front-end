@@ -11,9 +11,9 @@ import Navbar from '../components/Navbar';
 import '../assets/styles/style.scss';
 import Tooltips from '../components/Tooltips';
 import Controls from '../components/Controls';
-import * as Auth from '../utils/Auth';
 import Spinner from '../components/common/Spinner';
-import { logout, getAuthHeader } from '../utils/Auth';
+import { logout, getAuthHeader, isTokenActive } from '../utils/Auth';
+import { getMyMaps } from '../actions/MapActions'
 
 class MapApp extends Component {
 
@@ -31,13 +31,13 @@ class MapApp extends Component {
     }
 
     componentDidMount() {
-        if (!Auth.isTokenActive()) {
+        if (!isTokenActive()) {
             console.log("no token, redirecting")
             this.props.router.navigate("/auth", { replace: true });
         }
 
         this.fetchUserDetails();
-        this.fetchUserMaps();
+        this.props.dispatch(getMyMaps());
 
         // if mobile, disable drawing tools
         if (isMobile) {
@@ -71,21 +71,6 @@ class MapApp extends Component {
                 //Most probably token expired
                 this.logoutUser();
             }
-        }
-    }
-
-    async fetchUserMaps() {
-        try {
-            const maps = await axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
-
-            if (maps.status === 200) {
-                this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: maps.data })
-            }
-        }
-        catch (err) {
-            console.log("There was an error", err);
-
-            this.props.dispatch({ type: 'MAP_ERROR', payload: err });
         }
     }
 
