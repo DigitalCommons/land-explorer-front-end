@@ -59,18 +59,15 @@ class Login extends Component {
     axios
       .post(`${constants.ROOT_URL}/api/token`, loginDetails, config)
       .then(response => {
-        console.log(response.data);
-
-        if (response.status === 200) {
-          Auth.setToken(response.data.access_token, response.data.expires_in);
-          this.props.router.navigate("/app");
-        } else if (response.status === 400) {
-          console.log("wrong credentials");
-          this.setState({ loggingIn: false, error: true });
-        }
+        console.log('login successful');
+        Auth.setToken(response.data.access_token, response.data.expires_in);
+        this.props.router.navigate("/app");
       })
       .catch(err => {
         console.log(err);
+        if (err.response.status === 400) {
+          console.log("wrong credentials");
+        }
         this.setState({ loggingIn: false, error: true });
       });
   };
