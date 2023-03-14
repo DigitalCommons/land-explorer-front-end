@@ -200,16 +200,17 @@ class MapLayers extends Component {
                 />
                 <Layer
                     id="wards-cu4dni"
-                    type="fill"
+                    type="line"
                     sourceId="wards"
                     sourceLayer="wards-cu4dni"
-                    minZoom={6}
+                    //minZoom={6}
                     layout={{
                         "visibility": "visible"
                     }}
                     paint={{
-                        "fill-color": "hsla(245, 100%, 50%, 0.3)",
-                        "fill-opacity": landDataLayers.indexOf('wards-cu4dni') !== -1 ? 1 : 0,
+                        "line-color": "hsla(245, 100%, 50%, 0.3)",
+                        "line-width": 3,
+                        "line-opacity": landDataLayers.indexOf('wards-cu4dni') !== -1 ? 1 : 0,
                     }}
                 />
                 <Source
@@ -221,7 +222,7 @@ class MapLayers extends Component {
                 />
                 <Layer
                     id="county-4ef4ik"
-                    type="fill"
+                    type="line"
                     sourceId="county"
                     sourceLayer="county-4ef4ik"
                     minZoom={6}
@@ -229,8 +230,9 @@ class MapLayers extends Component {
                         "visibility": "visible"
                     }}
                     paint={{
-                        "fill-color": "hsla(113, 97%, 50%, 0.4)",
-                        "fill-opacity": landDataLayers.indexOf('county-4ef4ik') !== -1 ? 1 : 0
+                        "line-color": "hsla(113, 97%, 50%, 0.4)",
+                        "line-width": 3,
+                        "line-opacity": landDataLayers.indexOf('county-4ef4ik') !== -1 ? 1 : 0
                     }}
                 />
                 <Source
@@ -242,7 +244,7 @@ class MapLayers extends Component {
                 />
                 <Layer
                     id="westminster_const_region-8r33ph"
-                    type="fill"
+                    type="line"
                     sourceId="constituency"
                     sourceLayer="westminster_const_region-8r33ph"
                     minZoom={6}
@@ -250,29 +252,9 @@ class MapLayers extends Component {
                         "visibility": "visible"
                     }}
                     paint={{
-                        "fill-color": "hsla(183, 97%, 50%, 0.4)",
-                        "fill-opacity": landDataLayers.indexOf('westminster_const_region-8r33ph') !== -1 ? 1 : 0
-                    }}
-                />
-                <Source
-                    tileJsonSource={{
-                        "type": "vector",
-                        "url": "mapbox://joolzt.2d1u9n5a"
-                    }}
-                    id="constituency"
-                />
-                <Layer
-                    id="westminster_const_region-8r33ph"
-                    type="fill"
-                    sourceId="constituency"
-                    sourceLayer="westminster_const_region-8r33ph"
-                    minZoom={6}
-                    layout={{
-                        "visibility": "visible"
-                    }}
-                    paint={{
-                        "fill-color": "hsla(183, 97%, 50%, 0.4)",
-                        "fill-opacity": landDataLayers.indexOf('westminster_const_region-8r33ph') !== -1 ? 1 : 0
+                        "line-color": "hsla(183, 97%, 50%, 0.4)",
+                        "line-width": 3,
+                        "line-opacity": landDataLayers.indexOf('westminster_const_region-8r33ph') !== -1 ? 1 : 0
                     }}
                 />
                 <Source
@@ -284,7 +266,7 @@ class MapLayers extends Component {
                 />
                 <Layer
                     id="district_borough_unitary_regi-bquzqt"
-                    type="fill"
+                    type="line"
                     sourceId="councils"
                     sourceLayer="district_borough_unitary_regi-bquzqt"
                     minZoom={6}
@@ -292,8 +274,113 @@ class MapLayers extends Component {
                         "visibility": "visible"
                     }}
                     paint={{
-                        "fill-color": "hsla(56, 97%, 50%, 0.4)",
-                        "fill-opacity": landDataLayers.indexOf('district_borough_unitary_regi-bquzqt') !== -1 ? 1 : 0
+                        "line-color": "hsla(56, 97%, 50%, 0.4)",
+                        "line-width": 3,
+                        "line-opacity": landDataLayers.indexOf('district_borough_unitary_regi-bquzqt') !== -1 ? 1 : 0
+                    }}
+                />
+                <Source
+                    tileJsonSource={{
+                        "type": "vector",
+                        "url": "mapbox://joolzt.6kicmrlr,joolzt.b1kdveqs"
+                    }}
+                    id="devolved-composite"
+                />
+                <Layer
+                    id="greater_london_const_region-aplvbp"
+                    type="line"
+                    sourceId="devolved-composite"
+                    sourceLayer="greater_london_const_region-aplvbp"
+                    minZoom={6}
+                    layout={{
+                        "visibility": "visible"
+                    }}
+                    paint={{
+                        "line-color": "hsla(320, 97%, 50%, 0.4)",
+                        "line-width": 3,
+                        "line-opacity": landDataLayers.indexOf('devolved-powers') !== -1 ? 1 : 0
+                    }}
+                />
+                <Layer
+                    id="scotland_and_wales-8wahad"
+                    type="line"
+                    sourceId="devolved-composite"
+                    sourceLayer="scotland_and_wales-8wahad"
+                    minZoom={6}
+                    layout={{
+                        "visibility": "visible"
+                    }}
+                    paint={{
+                        "line-color": "hsla(320, 97%, 50%, 0.4)",
+                        "line-width": 3,
+                        "line-opacity": landDataLayers.indexOf('devolved-powers') !== -1 ? 1 : 0
+                    }}
+                />
+                <Source
+                    tileJsonSource={{
+                        "type": "vector",
+                        "url": "mapbox://joolzt.cq0hagq5,joolzt.dj4c79tf,joolzt.0bha665k,joolzt.b68bzxbu"
+                    }}
+                    id="parishes-composite"
+                />
+                <Layer
+                    id="parish_1-bcfcla"
+                    type="line"
+                    sourceId="parishes-composite"
+                    sourceLayer="parish_1-bcfcla"
+                    minZoom={9}
+                    layout={{
+                        "visibility": "visible"
+                    }}
+                    paint={{
+                        "line-color": "hsla(280, 60%, 70%, 0.4)",
+                        "line-width": 3,
+                        "line-opacity": landDataLayers.indexOf('parish') !== -1 ? 1 : 0
+                    }}
+                />
+                <Layer
+                    id="parish_2-c6mbmy"
+                    type="line"
+                    sourceId="parishes-composite"
+                    sourceLayer="parish_2-c6mbmy"
+                    minZoom={9}
+                    layout={{
+                        "visibility": "visible"
+                    }}
+                    paint={{
+                        "line-color": "hsla(280, 60%, 70%, 0.4)",
+                        "line-width": 3,
+                        "line-opacity": landDataLayers.indexOf('parish') !== -1 ? 1 : 0
+                    }}
+                />
+                <Layer
+                    id="parish_3-chtvqw"
+                    type="line"
+                    sourceId="parishes-composite"
+                    sourceLayer="parish_3-chtvqw"
+                    minZoom={9}
+                    layout={{
+                        "visibility": "visible"
+                    }}
+                    paint={{
+                        "line-color": "hsla(280, 60%, 70%, 0.4)",
+                        "line-width": 3,
+                        "line-opacity": landDataLayers.indexOf('parish') !== -1 ? 1 : 0
+                    }}
+                />
+                <Layer
+                    id="parish_4-cwfy3j"
+                    type="line"
+                    sourceId="parishes-composite"
+                    sourceLayer="parish_4-cwfy3j"
+                    minZoom={9}
+                    layout={{
+                        "visibility": "visible"
+                    }}
+                    paint={{
+                        "line-color": "hsla(280, 60%, 70%, 0.4)",
+                        "line-width": 3,
+                        "line-opacity": landDataLayers.indexOf('parish') !== -1 ? 1 : 0
                     }}
                 />
             </React.Fragment>
