@@ -4,7 +4,7 @@ import ReactTooltip from "react-tooltip";
 import MenuMain from "./MenuMain";
 import MenuProfile from "./MenuProfile";
 import MenuLayers from "./MenuLayers";
-import MapName from "./MapName";
+import MapTitleBar from "./MapTitleBar";
 import MapMenu from "./MapMenu";
 import ProfilePic from "./ProfilePic";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +28,7 @@ const Navbar = ({ limited }) => {
         <div className="search-bar">
           <Geocoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
         </div>
-        <MapName />
+        <MapTitleBar />
         <MapMenu />
         <div className="navbar-right">
           <div className="navbar--username">{`${user.firstName} ${user.lastName}`}</div>

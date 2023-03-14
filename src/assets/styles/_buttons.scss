@@ -233,9 +233,14 @@
 }
 
 .button.button-disabled {
-  background-color: rgba(208, 2, 78, 0.95);
+  cursor: auto;
+  color: #e0e0e0;
+  background-color: #83dba8;
   &:hover {
-    background-color: rgba(193, 1, 72, 0.95);
+    user-select: none;
+    -webkit-user-select: none;
+    background-color: #83dba8;
+    box-shadow: none;
   }
 }
 
