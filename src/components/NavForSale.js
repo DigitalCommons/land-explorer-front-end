@@ -248,10 +248,7 @@ class NavForSale extends Component {
   }
 }
 
-const mapStateToProps = ({ map, markers, forSale }) => ({
-  searchMarker: map.searchMarker,
-  currentLocation: map.currentLocation,
-  markers: markers.markers,
+const mapStateToProps = ({ forSale }) => ({
   currentView: forSale.currentView,
 });
 

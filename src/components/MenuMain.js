@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import constants from '../constants';
 import analytics from "../analytics";
 import { logout } from '../utils/Auth';
+import { openModal } from '../actions/ModalActions';
 
 class MenuMain extends Component {
     constructor(props) {
@@ -67,7 +68,7 @@ class MenuMain extends Component {
                             <div
                                 onClick={() => {
                                     analytics.pageview('/app/my-maps');
-                                    this.props.dispatch({ type: 'OPEN_MODAL', payload: 'myMaps' })
+                                    this.props.dispatch(openModal('myMaps'));
                                 }
                                 }
                                 className="tooltip-menu-item"
@@ -79,7 +80,7 @@ class MenuMain extends Component {
                             <div
                                 onClick={() => {
                                     analytics.pageview('/app/my-shared-maps');
-                                    this.props.dispatch({ type: 'OPEN_MODAL', payload: 'mySharedMaps' })
+                                    this.props.dispatch(openModal('mySharedMaps'));
                                 }
                                 }
                                 className="tooltip-menu-item"
