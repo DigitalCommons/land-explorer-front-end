@@ -10,17 +10,17 @@ import LinkShare from './modals/LinkShare';
 import SaveCopy from './modals/SaveCopy';
 import SaveSnapshot from './modals/SaveSnapshot';
 
-const Modals = ({ drawControl, redrawPolygons }) => <div>
+const Modals = () => <div>
     <EmailShare />
     <Download />
     <LinkShare />
     <SaveCopy />
     <SaveSnapshot />
-    <MyMaps drawControl={drawControl} redrawPolygons={redrawPolygons} />
-    <MySharedMaps drawControl={drawControl} redrawPolygons={redrawPolygons} />
-    <OpenMap drawControl={drawControl} redrawPolygons={redrawPolygons} />
+    <MyMaps />
+    <MySharedMaps />
+    <OpenMap />
     <Location />
-    <NewMap drawControl={drawControl} />
+    <NewMap />
 </div>
 
 export default Modals;

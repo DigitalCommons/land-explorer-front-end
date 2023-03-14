@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import Modal from '../common/Modal';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import constants from '../../constants';
-import { isMobile } from 'react-device-detect';
 import analytics from "../../analytics";
-import { getAuthHeader } from "../../utils/Auth";
-const moment = require('moment/moment.js');
+import { openMap, deleteMap } from '../../actions/MapActions';
+import { openModal } from '../../actions/ModalActions';
+import moment from 'moment';
 
-export const MyMaps = ({ stage, setStage, drawControl, redrawPolygons, closeModal }) => {
+export const MyMaps = ({ stage, setStage, closeModal }) => {
     const dispatch = useDispatch();
     const [active, setActive] = useState({ id: null, name: null })
 
-    const currentMapId = useSelector(state => state.mapMeta.currentMapId);
     const allMaps = useSelector(state => state.myMaps.maps);
+    const myMaps = allMaps.filter((map) => map.access === 'WRITE');
     const error = useSelector(state => state.myMaps.error);
 
     const close = () => {
@@ -22,30 +20,10 @@ export const MyMaps = ({ stage, setStage, drawControl, redrawPolygons, closeModa
         setActive({ id: null, name: null });
     }
 
-    const deleteMap = () => {
-        axios.post(`${constants.ROOT_URL}/api/user/map/delete/`, {
-            "eid": active.id
-        }, getAuthHeader())
-            .then((response) => {
-                if (active.id === currentMapId) {
-                    dispatch({ type: 'NEW_MAP' });
-                    drawControl.draw.deleteAll();
-                    setTimeout(() => {
-                        dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo' })
-                    });
-                }
-                axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
-                    .then((response) => {
-                        dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
-                        setStage("list");
-                    })
-                    .catch(() => {
-                        setStage("list");
-                    })
-            });
+    const deleteActiveMap = async () => {
+        await dispatch(deleteMap(active.id));
+        setStage("list");
     }
-
-    const myMaps = allMaps.filter((map) => map.access === 'WRITE');
 
     const mapList = myMaps.map((item, i) => {
         const map = item.map;
@@ -59,8 +37,8 @@ export const MyMaps = ({ stage, setStage, drawControl, redrawPolygons, closeModa
             >
                 <td style={{ width: '230px' }}>{map.name}</td>
                 <td>{momentDate}</td>
-                <td className={item.isSnapshot ? "snapshot-icon" : "map-icon"} style={{ width: '30px' }}
-                    title={item.isSnapshot ? "snapshot" : "map"}
+                <td className={map.isSnapshot ? "snapshot-icon" : "map-icon"} style={{ width: '30px' }}
+                    title={map.isSnapshot ? "snapshot" : "map"}
                 />
                 <td className="table-icon table-share" style={{ width: '24px' }}
                     onClick={() => {
@@ -70,7 +48,7 @@ export const MyMaps = ({ stage, setStage, drawControl, redrawPolygons, closeModa
                             payload: item
                         })
                         close();
-                        dispatch({ type: 'OPEN_MODAL', payload: "share" })
+                        this.props.dispatch(openModal('share'));
                     }}
                 />
                 <td className="table-icon table-trash"
@@ -93,7 +71,7 @@ export const MyMaps = ({ stage, setStage, drawControl, redrawPolygons, closeModa
                 Cancel
             </div>
             <div className="button button-small"
-                onClick={deleteMap}
+                onClick={deleteActiveMap}
             >
                 Delete
             </div>
@@ -117,53 +95,9 @@ export const MyMaps = ({ stage, setStage, drawControl, redrawPolygons, closeModa
             </div>
             <div className="button button-small"
                 onClick={() => {
-                    const mapResult = myMaps.filter((item) => item.map.eid === active.id);
-                    const savedMap = JSON.parse(mapResult[0].map.data);
-                    savedMap.isSnapshot = mapResult[0].isSnapshot;
-
-                    console.log("Open saved map", savedMap);
-                    if (savedMap) {
-                        drawControl.draw.deleteAll();
-                        axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
-                            "eid": active.id,
-                        }, getAuthHeader())
-                        //pick up the old name for the landDataLayers
-                        if (savedMap.mapLayers.activeLayers) {
-                            savedMap.mapLayers.landDataLayers = savedMap.mapLayers.activeLayers;
-                        }
-                        //fix that some have no dataLayers
-                        if (!savedMap.mapLayers.myDataLayers) {
-                            savedMap.mapLayers.myDataLayers = [];
-                        }
-
-                        dispatch({
-                            type: 'LOAD_MAP',
-                            payload: savedMap,
-                            id: active.id
-                        });
-
-                        close()
-
-                        if (!isMobile && !savedMap.isSnapshot) {
-                            dispatch({ type: 'READ_ONLY_OFF' });
-                        }
-
-                        if (savedMap.isSnapshot) {
-                            dispatch({
-                                type: 'READ_ONLY_ON'
-                            });
-                        }
-
-                        setTimeout(() => {
-                            redrawPolygons();
-                        }, 200);
-                        setTimeout(() => {
-                            dispatch({
-                                type: 'CHANGE_MOVING_METHOD',
-                                payload: 'flyTo'
-                            })
-                        }, 1000)
-                    }
+                    console.log("Open saved map", active.id);
+                    dispatch(openMap(active.id));
+                    close();
                 }}
             >
                 Ok
@@ -174,7 +108,7 @@ export const MyMaps = ({ stage, setStage, drawControl, redrawPolygons, closeModa
         <div className="modal-content modal-content-trash">
             {
                 error ?
-                    <p>Map loading encountered the following error: {error}.</p>
+                    <p>There was an error loading maps.</p>
                     :
                     <p>There are no maps.</p>
             }
@@ -182,7 +116,7 @@ export const MyMaps = ({ stage, setStage, drawControl, redrawPolygons, closeModa
 
     return stage === "trash" ? trash
         : stage === "load" ? load
-            : mapList ?
+            : mapList.length ?
                 <>
                     <div className="modal-content">
                         <table>
@@ -227,7 +161,7 @@ export const MyMaps = ({ stage, setStage, drawControl, redrawPolygons, closeModa
                 : noMaps
 }
 
-const MyMapsModal = ({ drawControl, redrawPolygons }) => {
+const MyMapsModal = () => {
     const [stage, setStage] = useState("list");
     const dispatch = useDispatch();
     const closeModal = () => dispatch({
@@ -235,9 +169,9 @@ const MyMapsModal = ({ drawControl, redrawPolygons }) => {
         payload: 'myMaps'
     });
 
-    return <Modal id="myMaps" padding={true} customClose={() => setStage("list")} drawControl={drawControl}>
+    return <Modal id="myMaps" padding={true} customClose={() => setStage("list")}>
         <div className="modal-title">My Maps</div>
-        <MyMaps stage={stage} setStage={setStage} drawControl={drawControl} redrawPolygons={redrawPolygons} closeModal={closeModal} />
+        <MyMaps stage={stage} setStage={setStage} closeModal={closeModal} />
     </Modal>
 }
 

@@ -10,7 +10,7 @@ class Modal extends Component {
             opacity: 0,
         }
     }
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps) {
         if (prevProps.open === false && this.props.open === true) {
             setTimeout(() => {
                 this.setState({
@@ -31,10 +31,10 @@ class Modal extends Component {
     }
     render() {
         let { opacity, translateY } = this.state;
-        let { title, style, canToggle, padding } = this.props;
+        let { style, canToggle, padding } = this.props;
         return (
             <div id={this.props.id} className="Modal modal"
-                style={Object.assign({}, style, this.props.open === false ? { display: 'none' } : { opacity: this.state.opacity })}
+                style={Object.assign({}, style, this.props.open === false ? { display: 'none' } : { opacity: opacity })}
             >
                 <div className="ModalBackground"
                     onClick={() => {

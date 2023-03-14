@@ -11,7 +11,7 @@ class ToggleSwitch extends Component {
             <div className="toggle-switch"
                 onClick={(e) => {
                     e.preventDefault();
-                    toggle();
+                    toggle && toggle();
                 }}
 
                 data-tip

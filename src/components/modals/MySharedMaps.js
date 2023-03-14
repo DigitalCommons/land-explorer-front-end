@@ -1,20 +1,19 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import Modal from '../common/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import constants from '../../constants';
-import { getAuthHeader } from "../../utils/Auth";
-const moment = require('moment/moment.js');
+import { openMap } from '../../actions/MapActions';
+import moment from 'moment';
 
-export const MySharedMaps = ({ stage, setStage, drawControl, redrawPolygons, closeModal }) => {
+// TODO: share some common code with MyMaps?
+export const MySharedMaps = ({ stage, setStage, closeModal }) => {
     const dispatch = useDispatch();
     const [active, setActive] = useState({ id: null, name: null });
 
-    const maps = useSelector(state => state.myMaps.maps);
+    const allMaps = useSelector(state => state.myMaps.maps);
+    const sharedMaps = allMaps.filter((map) => map.access === 'READ');
     const error = useSelector(state => state.myMaps.error);
-    const currentMapId = useSelector(state => state.mapMeta.currentMapId);
 
-    const mapList = maps.map((item, i) => {
+    const mapList = sharedMaps.map((item, i) => {
         const map = item.map;
         const momentDate = moment(map.lastModified).format("DD/MM/YYYY");
         return (
@@ -26,8 +25,8 @@ export const MySharedMaps = ({ stage, setStage, drawControl, redrawPolygons, clo
             >
                 <td style={{ width: '230px' }}>{map.name}</td>
                 <td>{momentDate}</td>
-                <td className={item.isSnapshot ? "snapshot-icon" : "map-icon"} style={{ width: '30px' }}
-                    title={item.isSnapshot ? "snapshot" : "map"}
+                <td className={map.isSnapshot ? "snapshot-icon" : "map-icon"} style={{ width: '30px' }}
+                    title={map.isSnapshot ? "snapshot" : "map"}
                 />
             </tr>
         )
@@ -52,56 +51,17 @@ export const MySharedMaps = ({ stage, setStage, drawControl, redrawPolygons, clo
                 </div>
                 <div className="button button-small"
                     onClick={() => {
-                        const mapResult = maps.filter((item) => item.map.eid === active.id);
-                        const savedMap = JSON.parse(mapResult[0].map.data);
-                        savedMap.isSnapshot = mapResult[0].isSnapshot;
-
-                        console.log("saved map", savedMap);
-                        if (savedMap) {
-                            drawControl.draw.deleteAll();
-                            axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
-                                "eid": active.id,
-                            }, getAuthHeader());
-
-                            //pick up the old name for the landDataLayers
-                            if (savedMap.mapLayers.activeLayers) {
-                                console.log("happening")
-                                savedMap.mapLayers.landDataLayers = savedMap.mapLayers.activeLayers;
-                            }
-                            //fix that some have no dataLayers
-                            if (!savedMap.mapLayers.myDataLayers) {
-                                savedMap.mapLayers.myDataLayers = [];
-                            }
-
-                            console.log(savedMap.mapLayers.activeLayers)
-                            console.log(savedMap)
-                            dispatch({
-                                type: 'LOAD_MAP',
-                                payload: savedMap,
-                                id: active.id
-                            });
-                            closeModal();
-                            setStage("list");
-                            dispatch({
-                                type: 'READ_ONLY_ON'
-                            });
-                            setTimeout(() => {
-                                redrawPolygons();
-                            }, 200);
-                            setTimeout(() => {
-                                dispatch({
-                                    type: 'CHANGE_MOVING_METHOD',
-                                    payload: 'flyTo'
-                                })
-                            }, 1000)
-                        }
+                        console.log("Open shared map", active.id);
+                        dispatch(openMap(active.id));
+                        closeModal();
+                        setStage("list");
                     }}
                 >
                     Ok
                 </div>
             </div>
         </> :
-        maps.length ?
+        mapList.length ?
             <>
                 <div className="modal-content">
                     <table>
@@ -145,7 +105,7 @@ export const MySharedMaps = ({ stage, setStage, drawControl, redrawPolygons, clo
                 <div className="modal-content modal-content-trash">
                     {
                         error ?
-                            <p>Map loading encountered the following error: {error}.</p>
+                            <p>There was an error loading shared maps.</p>
                             :
                             <p>There are no shared maps.</p>
                     }
@@ -153,7 +113,7 @@ export const MySharedMaps = ({ stage, setStage, drawControl, redrawPolygons, clo
             </>
 }
 
-const MySharedMapsModal = ({ drawControl, redrawPolygons }) => {
+const MySharedMapsModal = () => {
     const dispatch = useDispatch();
     const [stage, setStage] = useState("list");
     const closeModal = () => dispatch({
@@ -161,9 +121,9 @@ const MySharedMapsModal = ({ drawControl, redrawPolygons }) => {
         payload: 'mySharedMaps'
     });
 
-    return <Modal id="mySharedMaps" padding={true} drawControl={drawControl} customClose={() => setStage("list")}>
+    return <Modal id="mySharedMaps" padding={true} customClose={() => setStage("list")}>
         <div className="modal-title">Shared Maps</div>
-        <MySharedMaps stage={stage} setStage={setStage} drawControl={drawControl} redrawPolygons={redrawPolygons} closeModal={closeModal} />
+        <MySharedMaps stage={stage} setStage={setStage} closeModal={closeModal} />
     </Modal>
 }
 
