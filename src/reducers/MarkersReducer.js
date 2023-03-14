@@ -1,7 +1,5 @@
-import { v4 as uuidv4 } from 'uuid';
-
 const INITIAL_STATE = {
-    searchMarker: [-0.2416815, 51.5285582],
+    searchMarker: null,
     currentMarker: null,
     markersDrawn: 0,
     markers: [],
@@ -13,18 +11,17 @@ export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case 'SET_MARKER':
             markers = state.markers.slice();
-            const uuid = uuidv4();
-            const markersDrawn = state.markersDrawn || 0;
+            const { uuid, coordinates } = action.payload;
             markers.push({
-                uuid: uuid,
-                coordinates: action.payload,
-                name: `Marker ${markersDrawn + 1}`,
+                uuid,
+                coordinates,
+                name: `Marker ${state.markersDrawn + 1}`,
                 description: ""
             });
             return {
                 ...state,
                 markers,
-                markersDrawn: markersDrawn + 1,
+                markersDrawn: state.markersDrawn + 1,
                 currentMarker: uuid
             }
         case 'CLEAR_MARKER':
