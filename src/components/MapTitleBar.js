@@ -53,8 +53,8 @@ const MapTitleBar = () => {
         });
 
         await dispatch(saveCurrentMap(false, false, name));
-        if (currentMapId !== null) {
-            // Load the map that was just saved
+        if (currentMapId === null) {
+            // If this was a new map, load the map that we just saved
             dispatch(loadNewestMap());
         }
     }

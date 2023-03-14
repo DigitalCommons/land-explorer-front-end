@@ -83,6 +83,7 @@ export const MyMaps = ({ stage, setStage, closeModal }) => {
             {`Load "${active.name}"?`}
             <br />
             <br />
+            {/* Skip this prompt if the changes are saved and there's no saving error */}
             Any unsaved changes to the current map will be lost.
         </div>
         <div className="modal-buttons">
