@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios/index";
-import constants from "../constants";
-import { getAuthHeader } from "../utils/Auth";
 import { useDispatch, useSelector } from "react-redux";
-import { saveExistingMap } from "../utils/saveMap";
-import { saveCurrentMap, reloadCurrentMap } from '../actions/MapActions';
-import { loadDataGroups } from '../actions/DataGroupActions';
+import { saveObjectToMap, editMapObjectInfo } from '../actions/MapActions';
+import { saveObjectToDataGroup, editDataGroupObjectInfo } from '../actions/DataGroupActions';
 
 /**
  * 
@@ -30,72 +26,31 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
     let maps, dataGroups;
     if (source === "map") {
         // All editable maps that aren't this one
-        maps = allMaps.filter(map => !map.isSnapshot && map.map.eid !== currentMapId);
+        maps = allMaps.filter(map => !map.map.isSnapshot && map.map.eid !== currentMapId);
         dataGroups = allDataGroups;
     } else {
         // All editable maps
-        maps = allMaps.filter(map => !map.isSnapshot);
+        maps = allMaps.filter(map => !map.map.isSnapshot);
         // All data groups apart from this one
         dataGroups = allDataGroups.filter(dataGroup => dataGroup.id != object.data_group_id);
     }
 
     const copyObjectToMap = async (object, map) => {
-        const body = {
-            object: regulariseObjectData(object),
-            eid: map.map.eid,
-        }
-
-        const copyToCurrentMap = map.map.eid === currentMapId;
-
-        if (copyToCurrentMap) {
-            await dispatch(saveCurrentMap());
-        } else {
-            await saveExistingMap(map);
-        }
-
-        await axios.post(`${constants.ROOT_URL}/api/user/map/save/${type}`, body, getAuthHeader());
-
-        if (copyToCurrentMap) {
-            dispatch(reloadCurrentMap());
-        }
+        const data = regulariseObjectData(object);
+        const success = dispatch(saveObjectToMap(type, data, map.map.eid));
+        // TODO: show 'unable to save' if not successful. Ditto for other functions below.
     }
 
     const copyObjectToDataGroup = async (object, dataGroup) => {
-        const body = {
-            object: regulariseObjectData(object),
-            dataGroupId: dataGroup.id,
-        }
-
-        axios.post(`${constants.ROOT_URL}/api/user/datagroup/save/${type}`, body, getAuthHeader())
-
-        // reload data groups with the new object
-        dispatch(loadDataGroups());
+        const data = regulariseObjectData(object);
+        dispatch(saveObjectToDataGroup(type, data, dataGroup.id));
     }
 
-    const editObject = async (newName, newDescription) => {
+    const editObjectInfo = async (newName, newDescription) => {
         if (source === "map") {
-            dispatch({
-                type: (type === "marker") ? 'RENAME_MARKER' : 'RENAME_POLYGON',
-                payload: {
-                    name: newName,
-                    description: newDescription,
-                    uuid: object.uuid
-                }
-            })
-        }
-
-        if (source === "datagroup" || currentMapId !== null) {
-            // Save to a datagroup or autosave to a saved map
-            const body = {
-                name: newName,
-                description: newDescription,
-                object
-            };
-            await axios.post(`${constants.ROOT_URL}/api/user/edit/${type}`, body, getAuthHeader());
-
-            if (source === "datagroup") {
-                dispatch(loadDataGroups());
-            }
+            dispatch(editMapObjectInfo(type, object.uuid, newName, newDescription));
+        } else {
+            dispatch(editDataGroupObjectInfo(type, object.uuid, newName, newDescription));
         }
     }
 
@@ -147,7 +102,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                                 setName(newName);
                                 setDescription(newDescription);
                                 setMode("display");
-                                editObject(newName, newDescription);
+                                editObjectInfo(newName, newDescription);
                             }}
                         />
                     </div>
@@ -228,6 +183,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                     </div>
                 </>
             )}
+            {/* TODO: add 'saving' and 'unable to save' modes, so that user knows when unsuccessful */}
             {(mode === "complete") && (
                 <>
                     <p className="popup-save-success-text">

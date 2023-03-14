@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MarkerPin from './MarkerPin';
 import DataGroupMarker from './DataGroupMarker';
 import { Cluster, Marker } from 'react-mapbox-gl';
+import { autoSave } from '../actions/MapActions';
 
 const ClusterMarker = (coordinates, pointCount, getLeaves) => {
     const containsActiveMarker = getLeaves(Infinity).some((marker) => marker.props.active);
@@ -37,7 +38,8 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
             dispatch({
                 type: 'CLEAR_MARKER',
                 payload: marker.uuid
-            })
+            });
+            dispatch(autoSave());
         } else {
             const point = map.project(marker.coordinates);
             const features = map.queryRenderedFeatures(point);

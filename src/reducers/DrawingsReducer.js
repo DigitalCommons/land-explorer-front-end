@@ -86,7 +86,7 @@ export default (state = INITIAL_STATE, action) => {
             }
         case 'LOAD_MAP':
             return {
-                ...action.payload.drawings,
+                ...action.payload.data.drawings,
                 loadingDrawings: true
             };
         case 'LOADED_DRAWINGS':

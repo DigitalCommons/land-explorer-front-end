@@ -8,7 +8,7 @@ export default (state = INITIAL_STATE, action) => {
         case 'TOGGLE_LAYER':
             landDataLayers = state.landDataLayers.slice();
             layerId = action.payload;
-            if (landDataLayers.indexOf(layerId) !== -1) {
+            if (landDataLayers.includes(layerId)) {
                 landDataLayers = landDataLayers.filter(e => e !== layerId);
             } else {
                 landDataLayers.push(layerId);
@@ -17,26 +17,8 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 landDataLayers: landDataLayers
             }
-        case 'LAYER_OFF':
-            landDataLayers = state.landDataLayers.slice();
-            layerId = action.payload;
-            if (landDataLayers.indexOf(layerId) !== -1) {
-                landDataLayers = landDataLayers.filter(e => e !== layerId);
-            }
-            return {
-                ...state,
-                landDataLayers: landDataLayers
-            }
-        case 'LAYER_ON':
-            landDataLayers = state.landDataLayers.slice();
-            layerId = action.payload;
-            landDataLayers.push(layerId);
-            return {
-                ...state,
-                landDataLayers: landDataLayers
-            }
         case 'LOAD_MAP':
-            return action.payload.mapLayers;
+            return action.payload.data.mapLayers;
         case 'NEW_MAP':
             return INITIAL_STATE;
         default:

@@ -65,7 +65,7 @@ export default (state = INITIAL_STATE, action) => {
       return action.payload.map;
     case "LOAD_MAP":
       return {
-        ...action.payload.map,
+        ...action.payload.data.map,
         movingMethod: "jumpTo",
       };
     case "NEW_MAP":

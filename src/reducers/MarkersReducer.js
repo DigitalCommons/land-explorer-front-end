@@ -58,18 +58,17 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 currentMarker: action.payload
             }
+        case 'SET_ACTIVE_POLYGON':
         case 'CLEAR_CURRENT_MARKER':
             return {
                 ...state,
                 currentMarker: null,
             }
-        case 'SET_ACTIVE_POLYGON':
-            return {
-                ...state,
-                currentMarker: null
-            }
         case 'LOAD_MAP':
-            return action.payload.markers;
+            return {
+                ...INITIAL_STATE,
+                ...action.payload.data.markers
+            }
         case 'NEW_MAP':
             return INITIAL_STATE;
         default:

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import * as MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
@@ -20,14 +19,8 @@ class GeoCoder extends Component {
     });
 
     geocoder.on("result", result => {
-      this.props.setSearchMarker({
-        lng: result.result.center[0],
-        lat: result.result.center[1]
-      });
-      this.props.setLngLat({
-        lng: result.result.center[0],
-        lat: result.result.center[1]
-      })
+      this.props.setSearchMarker(result.result.center[0], result.result.center[1]);
+      this.props.setLngLat(result.result.center[0], result.result.center[1]);
     });
     geocoder.on("clear", this.props.clearSearchMarker);
 
