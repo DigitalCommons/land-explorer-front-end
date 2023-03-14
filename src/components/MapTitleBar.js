@@ -47,6 +47,10 @@ const MapTitleBar = () => {
         window.getSelection().removeAllRanges();
 
         console.log('Set map name', name);
+        dispatch({
+            type: 'SET_MAP_NAME',
+            payload: name
+        });
 
         await dispatch(saveCurrentMap(false, false, name));
         if (currentMapId !== null) {
