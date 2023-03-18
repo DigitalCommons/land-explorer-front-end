@@ -107,6 +107,7 @@ export const deleteMap = (mapId) => {
  * @param {boolean} snapshot true if we are saving a snapshot of the current map
  * @param {string | undefined} name the name of the map that we want to save. If left undefined, we
  * will use the name of the existing map.
+ * @return {boolean} true if save was successful.
  */
 export const saveCurrentMap = (copy = false, snapshot = false, name = undefined) => {
     return async (dispatch, getState) => {
@@ -138,16 +139,17 @@ export const saveCurrentMap = (copy = false, snapshot = false, name = undefined)
             isSnapshot: snapshot || getState().mapMeta.isSnapshot
         };
 
-        await dispatch(saveMapRequest('/api/user/map/save/', body));
+        return await dispatch(saveMapRequest('/api/user/map/save/', body));
     }
 }
 
-/** Save the current map if it is saved, otherwise do nothing. */
+/** Save the current map if it is saved, otherwise do nothing. Return false iff error when saving */
 export const autoSave = () => {
     return async (dispatch, getState) => {
         if (getState().mapMeta.currentMapId) {
             return await dispatch(saveCurrentMap());
         }
+        return true;
     }
 }
 
@@ -157,7 +159,11 @@ export const saveObjectToMap = (type, data, mapId) => {
         const copyToCurrentMap = mapId === getState().mapMeta.currentMapId;
 
         if (copyToCurrentMap) {
-            await dispatch(autoSave());
+            // First save current changes, in case there are any new, unsaved objects.
+            // Otherwise, they will later overwrite the object that is being copied.
+            // TODO: can remove this when saving to backend no longer overwrites all existing objects
+            const success = await dispatch(autoSave());
+            if (!success) return false;
         }
 
         const body = {
