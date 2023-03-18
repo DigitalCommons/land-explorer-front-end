@@ -54,9 +54,9 @@ class Save extends Component {
             "data": JSON.stringify(saveData),
             "isSnapshot": isSnapshot
         }
-        axios.post(`${constants.ROOT_URL}/api/user/map/save/`, body, getAuthHeader())
+        axios.post(`${constants.ROOT_URL}/api/user/map/save`, body, getAuthHeader())
             .then(() => {
-                axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
+                axios.get(`${constants.ROOT_URL}/api/user/maps`, getAuthHeader())
                     .then((response) => {
                         dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
                         dispatch({

@@ -66,11 +66,11 @@ const EmailShare = () => {
             "eid": id,
             "emailAddresses": newEmails
         };
-        axios.post(`${constants.ROOT_URL}/api/user/map/share/sync/`, shareData, getAuthHeader())
+        axios.post(`${constants.ROOT_URL}/api/user/map/share/sync`, shareData, getAuthHeader())
             .then((response) => {
                 if (response.status === 200) {
                     closeModal();
-                    axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
+                    axios.get(`${constants.ROOT_URL}/api/user/maps`, getAuthHeader())
                         .then((response) => {
                             console.log("maps response", response);
                             dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data })

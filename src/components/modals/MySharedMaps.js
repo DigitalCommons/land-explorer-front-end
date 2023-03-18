@@ -59,7 +59,7 @@ export const MySharedMaps = ({ stage, setStage, drawControl, redrawPolygons, clo
                         console.log("saved map", savedMap);
                         if (savedMap) {
                             drawControl.draw.deleteAll();
-                            axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
+                            axios.post(`${constants.ROOT_URL}/api/user/map/view`, {
                                 "eid": active.id,
                             }, getAuthHeader());
 

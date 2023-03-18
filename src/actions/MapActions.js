@@ -4,7 +4,7 @@ import { getAuthHeader } from "../utils/Auth";
 
 export const getMyMaps = () => {
     return async dispatch => {
-        const response = await axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader());
+        const response = await axios.get(`${constants.ROOT_URL}/api/user/maps`, getAuthHeader());
         console.log("Got maps, response", response);
 
         return dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
@@ -82,7 +82,7 @@ export const saveCurrentMap = (copy = false, snapshot = false, name = undefined)
             "isSnapshot": snapshot || getState().mapMeta.isSnapshot
         };
 
-        return await axios.post(`${constants.ROOT_URL}/api/user/map/save/`, body, getAuthHeader());
+        return await axios.post(`${constants.ROOT_URL}/api/user/map/save`, body, getAuthHeader());
     }
 }
 

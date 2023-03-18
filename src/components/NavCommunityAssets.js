@@ -117,7 +117,7 @@ class NavCommunityAssets extends Component {
       preConfirm: () => {
         return axios
           .post(
-            `${constants.ROOT_URL}/api/council/upload/replace/`,
+            `${constants.ROOT_URL}/api/council/upload/replace`,
             formData,
             getAuthHeader()
           )
@@ -153,7 +153,7 @@ class NavCommunityAssets extends Component {
   submitForm(data, setResponse) {
     axios
       .post(
-        `${constants.ROOT_URL}/api/council/upload/replace/`,
+        `${constants.ROOT_URL}/api/council/upload/replace`,
         data,
         getAuthHeader()
       )
