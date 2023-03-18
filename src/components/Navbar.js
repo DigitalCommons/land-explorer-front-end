@@ -21,7 +21,7 @@ const Navbar = ({ limited }) => {
     <div>
       <div className="navbar-shadow"></div>
       <div className="navbar">
-        <Link to="/app/">
+        <Link to="/app">
           <div className="logo">
           </div>
         </Link>
@@ -54,7 +54,7 @@ const Navbar = ({ limited }) => {
     <div>
       <div className="navbar-shadow"></div>
       <div className="navbar">
-        <Link to="/app/">
+        <Link to="/app">
           <div className="big-logo"></div>
         </Link>
         <div className="navbar-right">
