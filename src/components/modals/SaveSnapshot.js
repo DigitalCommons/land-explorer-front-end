@@ -13,7 +13,7 @@ const SaveSnapshot = () => {
     const saveMap = () => {
         dispatch(saveCurrentMap(false, true, name))
             .then(() => {
-                axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
+                axios.get(`${constants.ROOT_URL}/api/user/maps`, getAuthHeader())
                     .then((response) => {
                         dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
                         dispatch({

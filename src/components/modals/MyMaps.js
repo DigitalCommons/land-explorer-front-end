@@ -23,7 +23,7 @@ export const MyMaps = ({ stage, setStage, drawControl, redrawPolygons, closeModa
     }
 
     const deleteMap = () => {
-        axios.post(`${constants.ROOT_URL}/api/user/map/delete/`, {
+        axios.post(`${constants.ROOT_URL}/api/user/map/delete`, {
             "eid": active.id
         }, getAuthHeader())
             .then((response) => {
@@ -34,7 +34,7 @@ export const MyMaps = ({ stage, setStage, drawControl, redrawPolygons, closeModa
                         dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo' })
                     });
                 }
-                axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
+                axios.get(`${constants.ROOT_URL}/api/user/maps`, getAuthHeader())
                     .then((response) => {
                         dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
                         setStage("list");
@@ -124,7 +124,7 @@ export const MyMaps = ({ stage, setStage, drawControl, redrawPolygons, closeModa
                     console.log("Open saved map", savedMap);
                     if (savedMap) {
                         drawControl.draw.deleteAll();
-                        axios.post(`${constants.ROOT_URL}/api/user/map/view/`, {
+                        axios.post(`${constants.ROOT_URL}/api/user/map/view`, {
                             "eid": active.id,
                         }, getAuthHeader())
                         //pick up the old name for the landDataLayers

@@ -96,7 +96,7 @@ class MultipleNodal extends Component {
       preConfirm: () => {
         axios
           .post(
-            `${constants.ROOT_URL}/api/council/markers/delete/`,
+            `${constants.ROOT_URL}/api/council/markers/delete`,
             {
               id: this.props.id
             },
@@ -222,7 +222,7 @@ class MultipleNodal extends Component {
       preConfirm: () => {
         axios
           .post(
-            `${constants.ROOT_URL}/api/council/markers/update/`,
+            `${constants.ROOT_URL}/api/council/markers/update`,
             {
               id: this.props.id,
               name: document.getElementById("nameForm").value,

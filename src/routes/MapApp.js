@@ -47,13 +47,13 @@ class MapApp extends Component {
 
     async fetchUserDetails() {
         try {
-            const details = await axios.get(`${constants.ROOT_URL}/api/user/details/`, getAuthHeader());
+            const details = await axios.get(`${constants.ROOT_URL}/api/user/details`, getAuthHeader());
 
             if (details.status === 200) {
                 analytics.setDimension(analytics._dimension.ORG_TYPE, details.data.organisationType);
                 analytics.setDimension(analytics._dimension.ORG_ACTIVITY, details.data.organisationActivity);
                 //fire the initial page load analytics
-                analytics.pageview('/app/');
+                analytics.pageview('/app');
                 this.props.dispatch({ type: 'POPULATE_USER', payload: details.data[0] })
             } if (details.status === 401) {
                 //Service denied due to auth denied
@@ -76,7 +76,7 @@ class MapApp extends Component {
 
     async fetchUserMaps() {
         try {
-            const maps = await axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
+            const maps = await axios.get(`${constants.ROOT_URL}/api/user/maps`, getAuthHeader())
 
             if (maps.status === 200) {
                 this.props.dispatch({ type: 'POPULATE_MY_MAPS', payload: maps.data })

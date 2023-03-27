@@ -22,7 +22,7 @@ const SaveCopy = () => {
     const saveMap = () => {
         dispatch(saveCurrentMap(true))
             .then(() => {
-                axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader())
+                axios.get(`${constants.ROOT_URL}/api/user/maps`, getAuthHeader())
                     .then((response) => {
                         dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
                         dispatch({

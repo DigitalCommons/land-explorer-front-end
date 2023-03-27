@@ -28,7 +28,7 @@ class ResetPassword extends Component {
         let request = {
             username: this.state.email.value,
         }
-        axios.post(`${constants.ROOT_URL}/api/user/password-reset/`, request)
+        axios.post(`${constants.ROOT_URL}/api/user/password-reset`, request)
             .then((response) => {
                 console.log("reset response", response);
                 this.setState({ success: true });

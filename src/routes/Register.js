@@ -154,7 +154,7 @@ class Register extends Component {
     };
     console.log("registration request", request);
     axios
-      .post(`${constants.ROOT_URL}/api/user/register/`, request)
+      .post(`${constants.ROOT_URL}/api/user/register`, request)
       .then(response => {
         console.log("register response", response);
         if (response.status === 200) {

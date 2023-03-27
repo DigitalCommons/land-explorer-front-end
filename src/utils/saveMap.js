@@ -32,5 +32,5 @@ export const saveExistingMap = async (existingMap) => {
         "isSnapshot": false
     }
 
-    return axios.post(`${constants.ROOT_URL}/api/user/map/save/`, body, getAuthHeader());
+    return axios.post(`${constants.ROOT_URL}/api/user/map/save`, body, getAuthHeader());
 }
