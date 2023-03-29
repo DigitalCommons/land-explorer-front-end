@@ -44,7 +44,7 @@ class ChangeEmail extends Component {
             let body = {
                 username: this.state.newEmail.value
             }
-            axios.post(`${constants.ROOT_URL}/api/user/email/`, body, getAuthHeader())
+            axios.post(`${constants.ROOT_URL}/api/user/email`, body, getAuthHeader())
                 .then((response) => {
                     console.log("change email", response);
                     if (response.status === 200) {

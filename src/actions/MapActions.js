@@ -7,7 +7,7 @@ import moment from 'moment';
 export const getMyMaps = () => {
     return async dispatch => {
         try {
-            const response = await axios.get(`${constants.ROOT_URL}/api/user/maps/`, getAuthHeader());
+            const response = await axios.get(`${constants.ROOT_URL}/api/user/maps`, getAuthHeader());
 
             console.log("Got maps, response", response);
             return dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
@@ -78,14 +78,14 @@ export const openMap = (mapId) => {
                 });
             }, 1000);
 
-            axios.post(`${constants.ROOT_URL}/api/user/map/view/`, { "eid": mapId, }, getAuthHeader());
+            axios.post(`${constants.ROOT_URL}/api/user/map/view`, { "eid": mapId, }, getAuthHeader());
         }
     }
 }
 
 export const deleteMap = (mapId) => {
     return async (dispatch, getState) => {
-        await axios.post(`${constants.ROOT_URL}/api/user/map/delete/`, { "eid": mapId }, getAuthHeader());
+        await axios.post(`${constants.ROOT_URL}/api/user/map/delete`, { "eid": mapId }, getAuthHeader());
         const currentMapId = getState().mapMeta.currentMapId;
 
         if (mapId === currentMapId) {
@@ -139,7 +139,7 @@ export const saveCurrentMap = (copy = false, snapshot = false, name = undefined)
             isSnapshot: snapshot || getState().mapMeta.isSnapshot
         };
 
-        return await dispatch(saveMapRequest('/api/user/map/save/', body));
+        return await dispatch(saveMapRequest('/api/user/map/save', body));
     }
 }
 
@@ -317,7 +317,7 @@ const saveMapRequest = (endpoint, body) => {
                 }
             });
 
-            if (currentSaveError && endpoint !== '/api/user/map/save/') {
+            if (currentSaveError && endpoint !== '/api/user/map/save') {
                 console.log('There was previously a save error so save the whole map');
                 dispatch(saveCurrentMap());
             }

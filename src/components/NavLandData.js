@@ -54,17 +54,15 @@ const NavLandData = ({ open, active, onClose }) => {
             header={description}
         >
             <DataLayersContainer title={"Land Data"}>
-                <LandDataLayerToggle title="Agricultural land classification" layerId="provisional-agricultural-land-ab795l" />
-
                 <Draggable itemHeight={58}>
-                    <LandDataLayerToggle title="Agricultural land classification" layerId="provisional-agricultural-land-ab795l" />
-                    <LandDataLayerToggle title="National Forest Estate soils" layerId="national-forest-estate-soil-g-18j2ga" />
-                    <LandDataLayerToggle title="Historic flood map" layerId="historic-flood-map-5y05ao" />
-                    <LandDataLayerToggle title="Sites of special scientific interest" layerId="sites-of-special-scientific-i-09kaq4" />
-                    <LandDataLayerToggle title="Special protection areas" layerId="special-protection-areas-engl-71pdjg" />
-                    <LandDataLayerToggle title="Special areas of conservation" layerId="special-areas-of-conservation-bm41zr" />
-                    <LandDataLayerToggle title="Greenbelt" layerId="local-authority-greenbelt-bou-9r44t6" />
-                    <LandDataLayerToggle title="Brownfield" layerId="ncc-brownfield-sites" />
+                    <LandDataLayerToggle draggable title="Agricultural land classification" layerId="provisional-agricultural-land-ab795l" />
+                    <LandDataLayerToggle draggable title="National Forest Estate soils" layerId="national-forest-estate-soil-g-18j2ga" />
+                    <LandDataLayerToggle draggable title="Historic flood map" layerId="historic-flood-map-5y05ao" />
+                    <LandDataLayerToggle draggable title="Sites of special scientific interest" layerId="sites-of-special-scientific-i-09kaq4" />
+                    <LandDataLayerToggle draggable title="Special protection areas" layerId="special-protection-areas-engl-71pdjg" />
+                    <LandDataLayerToggle draggable title="Special areas of conservation" layerId="special-areas-of-conservation-bm41zr" />
+                    <LandDataLayerToggle draggable title="Greenbelt" layerId="local-authority-greenbelt-bou-9r44t6" />
+                    <LandDataLayerToggle draggable title="Brownfield" layerId="ncc-brownfield-sites" />
                 </Draggable>
             </DataLayersContainer>
             <DataLayersContainer title={"Land Ownership"}>
@@ -73,6 +71,14 @@ const NavLandData = ({ open, active, onClose }) => {
                     on={landOwnershipActive}
                     onToggle={() => dispatch({ type: "TOGGLE_PROPERTY_DISPLAY" })}
                 />
+            </DataLayersContainer>
+            <DataLayersContainer title={"Administrative Boundaries"}>
+                <LandDataLayerToggle title="Wards" layerId='wards-cu4dni' />
+                <LandDataLayerToggle title="Parishes" layerId='parish' />
+                <LandDataLayerToggle title="Local Councils" layerId='district_borough_unitary_regi-bquzqt' />
+                <LandDataLayerToggle title="Parliamentary Constituencies" layerId='westminster_const_region-8r33ph' />
+                <LandDataLayerToggle title="Devolved Powers" layerId='devolved-powers' />
+                <LandDataLayerToggle title="Counties" layerId='county-4ef4ik' />
             </DataLayersContainer>
             {userGroupTitlesAndIDs && userGroupTitlesAndIDs.map(userGroup =>
                 <DataLayersContainer title={userGroup.title} key={userGroup.id}>

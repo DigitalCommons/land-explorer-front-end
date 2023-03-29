@@ -146,7 +146,7 @@ class ChangeDetails extends Component {
             postcode: this.state.postcode.value,
             phone: this.state.phone.value,
         }
-        axios.post(`${constants.ROOT_URL}/api/user/details/`, body, getAuthHeader())
+        axios.post(`${constants.ROOT_URL}/api/user/details`, body, getAuthHeader())
             .then((response) => {
                 console.log("response", response);
                 console.log("change details", response);

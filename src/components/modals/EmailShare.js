@@ -66,7 +66,7 @@ const EmailShare = () => {
             "eid": id,
             "emailAddresses": newEmails
         };
-        axios.post(`${constants.ROOT_URL}/api/user/map/share/sync/`, shareData, getAuthHeader())
+        axios.post(`${constants.ROOT_URL}/api/user/map/share/sync`, shareData, getAuthHeader())
             .then(() => {
                 closeModal();
                 dispatch(getMyMaps());

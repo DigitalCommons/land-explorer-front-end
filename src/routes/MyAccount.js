@@ -37,7 +37,7 @@ const AccountView = ({ initials }) => {
             flexDirection: 'column',
             alignItems: 'center'
         }}>
-            <Link to="/app/"
+            <Link to="/app"
                 className="modal-close"
             />
             <div className="my-account--option">

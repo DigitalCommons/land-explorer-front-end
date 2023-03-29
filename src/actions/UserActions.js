@@ -4,7 +4,7 @@ import { getAuthHeader } from "../utils/Auth";
 
 export const getUserDetails = () => {
     return dispatch => {
-        axios.get(`${constants.ROOT_URL}/api/user/details/`, getAuthHeader())
+        axios.get(`${constants.ROOT_URL}/api/user/details`, getAuthHeader())
             .then((response) => {
                 if (response.status === 200) {
                     if (response.status === 200) {

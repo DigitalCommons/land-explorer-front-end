@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { autoSave } from '../actions/MapActions';
 import NavTrayToggle from './common/NavTrayToggle';
 
-const LandDataLayerToggle = ({ title, layerId }) => {
+const LandDataLayerToggle = ({ title, layerId, draggable = false }) => {
     const dispatch = useDispatch();
     const activeLayers = useSelector((state) => state.mapLayers.landDataLayers);
 
@@ -17,7 +17,7 @@ const LandDataLayerToggle = ({ title, layerId }) => {
             title={title}
             on={activeLayers.includes(layerId)}
             onToggle={onToggle}
-            draggable
+            draggable={draggable}
         />
     );
 }
