@@ -54,7 +54,7 @@ const LinkShare = () => {
     return <Modal id="link" customClose={reset}>
         <div className="modal-title">Generate GeoJSON</div>
         <input type="text" disabled={true} value={linkText} className='link-text-input'></input>
-        <p className='modal-warning'>Note: this will make your map data available to anyone with this link</p>
+        <p className='modal-warning'>Note: anyone with this link will be able to view your map's data</p>
         <div className="modal-buttons-float">
             <div className="button button-cancel rounded-button-full modal-button-cancel"
                 onClick={() => { dispatch({ type: 'CLOSE_MODAL', payload: 'link' }); reset(); }}

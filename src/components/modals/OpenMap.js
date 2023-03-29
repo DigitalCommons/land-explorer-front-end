@@ -4,7 +4,7 @@ import Modal from '../common/Modal';
 import { MyMaps } from './MyMaps';
 import { MySharedMaps } from './MySharedMaps';
 
-const OpenMap = ({ drawControl, redrawPolygons }) => {
+const OpenMap = () => {
     const [tab, setTab] = useState("myMaps");
     const [myMapsStage, setMyMapsStage] = useState("list");
     const [sharedMapsStage, setSharedMapsStage] = useState("list");
@@ -20,8 +20,8 @@ const OpenMap = ({ drawControl, redrawPolygons }) => {
             <p className={`open-map-tab ${tab === "myMaps" && "tab-active"}`} onClick={() => setTab("myMaps")}>My Maps</p>
             <p className={`open-map-tab ${tab === "sharedMaps" && "tab-active"}`} onClick={() => setTab("sharedMaps")}>Shared Maps</p>
         </div>
-        {tab === "myMaps" && <MyMaps stage={myMapsStage} setStage={setMyMapsStage} drawControl={drawControl} redrawPolygons={redrawPolygons} closeModal={closeModal} />}
-        {tab === "sharedMaps" && <MySharedMaps stage={sharedMapsStage} setStage={setSharedMapsStage} drawControl={drawControl} redrawPolygons={redrawPolygons} closeModal={closeModal} />}
+        {tab === "myMaps" && <MyMaps stage={myMapsStage} setStage={setMyMapsStage} closeModal={closeModal} />}
+        {tab === "sharedMaps" && <MySharedMaps stage={sharedMapsStage} setStage={setSharedMapsStage} closeModal={closeModal} />}
     </Modal>
 }
 

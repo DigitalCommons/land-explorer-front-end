@@ -5,6 +5,7 @@ import { Source, Layer } from 'react-mapbox-gl';
 const MapLayers = () => {
     const landDataLayers = useSelector(state => state.mapLayers.landDataLayers);
 
+    // TODO: reflect the order that layer toggles have been dragged in NavLandData?
     return (
         <React.Fragment>
             <Source

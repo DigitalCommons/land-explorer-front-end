@@ -21,7 +21,6 @@ class Tooltips extends Component {
                 <ReactTooltip id="ttLandOwnership" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={tooltipDelay}>Land Ownership</ReactTooltip>
                 <ReactTooltip id="ttBoundaries" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={tooltipDelay}>Land Boundaries</ReactTooltip>
                 <ReactTooltip id="ttPoliticalData" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={tooltipDelay}>Political Data</ReactTooltip>
-                <ReactTooltip id="ttSave" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={tooltipDelay}>Save</ReactTooltip>
                 <ReactTooltip id="ttShare" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={tooltipDelay}>{readOnly ? (isSnapshot ? 'Share snapshot' : 'Read only!') : 'Share'}</ReactTooltip>
                 <ReactTooltip id="ttCommunityAssets" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={tooltipDelay}>Community Assets</ReactTooltip>
                 <ReactTooltip id="publicToPrivate" className="tooltip no-xs" place="right" type="light" effect="solid" delayShow={tooltipDelay}>Private / Public</ReactTooltip>

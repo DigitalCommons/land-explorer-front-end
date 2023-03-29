@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import constants from '../../constants';
 import { getAuthHeader } from "../../utils/Auth";
-import { saveExistingMap } from "../../utils/saveMap";
 import Modal from '../common/Modal';
 
 const Download = () => {
@@ -17,8 +16,6 @@ const Download = () => {
     const downloadMap = async () => {
         const mapToDownload = maps.find(map => map.map.eid === mapId);
         const mapName = mapToDownload.map.name;
-
-        await saveExistingMap(mapToDownload);
 
         const headers = getAuthHeader();
         headers['Content-Disposition'] = 'attachment';

@@ -5,15 +5,14 @@ import NavLandData from './NavLandData';
 import NavCommunityAssets from './NavCommunityAssets';
 import NavDrawingTools from './NavDrawingTools';
 import analytics from '../analytics';
+import { autoSave } from '../actions/MapActions';
 
 const Nav = ({ drawControl }) => {
     const dispatch = useDispatch();
     const { open, active, activeTool } = useSelector(state => state.navigation);
-    const { isSnapshot, currentMapId } = useSelector(state => state.mapMeta)
     const readOnly = useSelector(state => state.readOnly.readOnly);
     const currentMarker = useSelector(state => state.markers.currentMarker);
     const activePolygon = useSelector(state => state.drawings.activePolygon);
-    const maps = useSelector(state => state.myMaps.maps);
     const type = useSelector(state => state.user.type);
 
     const council = type == 'council';
@@ -49,7 +48,8 @@ const Nav = ({ drawControl }) => {
                 dispatch({
                     type: 'DELETE_POLYGON',
                     payload: id
-                })
+                });
+                dispatch(autoSave());
             }
         } else if (activePolygon !== null) {
             // Delete the active Polygon
@@ -57,13 +57,15 @@ const Nav = ({ drawControl }) => {
             dispatch({
                 type: 'DELETE_POLYGON',
                 payload: activePolygon
-            })
+            });
+            dispatch(autoSave());
         } else if (currentMarker !== null) {
             // Delete the current marker
             dispatch({
                 type: 'CLEAR_MARKER',
                 payload: currentMarker
-            })
+            });
+            dispatch(autoSave());
         }
     }
 
@@ -117,14 +119,6 @@ const Nav = ({ drawControl }) => {
                     }}
                     data-tip
                     data-for="ttInfo"
-                />
-                <div className="nav-left-icon save"
-                    data-tip
-                    data-for="ttSave"
-                    onClick={() => {
-                        analytics.event(analytics._event.SIDE_NAV + ' Save', 'Clicked');
-                        dispatch({ type: 'OPEN_MODAL', payload: "save" })
-                    }}
                 />
             </div>
             {

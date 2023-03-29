@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ToggleSwitch from './ToggleSwitch';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 class CouncilNavTrayItem extends Component {
     constructor(props) {
@@ -19,9 +19,9 @@ class CouncilNavTrayItem extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevState.on !== this.state.on) {
             this.props.dispatch({
-                type: `ASSET_TYPE_${ this.state.on ? 'ON' : 'OFF' }`,
+                type: `ASSET_TYPE_${this.state.on ? 'ON' : 'OFF'}`,
                 payload: {
-                    communityAssetsType:   this.props.layerId,
+                    communityAssetsType: this.props.layerId,
                 }
             });
         }
@@ -38,7 +38,7 @@ class CouncilNavTrayItem extends Component {
                 <div className={`tray-item-title ${draggable && 'draggable'}`}>
                     {title}
                 </div>
-                <ToggleSwitch on={active} tooltip="showHideData" toggle={this.toggleSwitch} />
+                <ToggleSwitch on={active} tooltip="showHideData" />
             </div>
         );
     }

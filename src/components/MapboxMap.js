@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import ReactMapboxGl from "react-mapbox-gl";
+import { v4 as uuidv4 } from 'uuid';
 import * as turf from "@turf/turf";
 import MapboxDraw from "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.js";
 import DrawControl from "react-mapbox-gl-draw";
@@ -17,6 +18,7 @@ import MapCommunityAssets from "./MapCommunityAssets";
 import MapCouncilLayers from "./MapCouncilLayers";
 import MapProperties from "./MapProperties";
 import MapDataGroups from "./MapDataGroups";
+import { autoSave, setLngLat, setZoom } from '../actions/MapActions';
 
 const StaticMode = require("@mapbox/mapbox-gl-draw-static-mode");
 
@@ -53,8 +55,9 @@ class MapboxMap extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.baseLayer !== this.props.baseLayer) {
-      // when the map tiles change, rerender all polygons (as they are a different colour)
+    if (prevProps.baseLayer !== this.props.baseLayer ||
+      (!prevProps.loadingDrawings && this.props.loadingDrawings)) {
+      // when the map tiles change, or new drawings are loading, rerender all polygons
       this.redrawPolygons();
     }
     if (this.props.currentMarker && this.state.dataGroupPopupVisible !== -1) {
@@ -82,8 +85,12 @@ class MapboxMap extends Component {
     if (this.props.activeTool === "drop-pin") {
       this.props.dispatch({
         type: "SET_MARKER",
-        payload: [evt.lngLat.lng, evt.lngLat.lat],
+        payload: {
+          coordinates: [evt.lngLat.lng, evt.lngLat.lat],
+          uuid: uuidv4()
+        }
       });
+      this.props.dispatch(autoSave());
     } else {
       // if polygon or marker is selected, deselect them
       if (this.props.activePolygon) {
@@ -98,18 +105,15 @@ class MapboxMap extends Component {
     // Keeps map zoom in sync
     if (this.state.styleLoaded) {
       let zoom = this.map.getZoom();
-      this.props.dispatch({
-        type: "SET_ZOOM",
-        payload: [zoom],
-      });
+      this.props.dispatch(setZoom([zoom]));
     }
   };
 
   onDragEnd = () => {
     // Keeps map position in sync
     if (this.state.styleLoaded) {
-      let lngLat = this.map.getCenter();
-      this.props.dispatch({ type: "SET_LNG_LAT", payload: lngLat });
+      let { lng, lat } = this.map.getCenter();
+      this.props.dispatch(setLngLat(lng, lat));
     }
   };
 
@@ -125,7 +129,7 @@ class MapboxMap extends Component {
             This takes the feature created in drawing and creates a copy of it
             and stores it in the redux store, so that it can be rendered as a react GeoJSON component
         */
-    if (!this.props.loadingDrawings) {
+    if (!this.state.redrawing) {
       // features are the shapes themselves (the geometry is the 'points/nodes' of the shapes)
       let feature = e.features[0];
       let featureCopy = {
@@ -158,6 +162,7 @@ class MapboxMap extends Component {
         type: "ADD_POLYGON",
         payload: polygon,
       });
+      this.props.dispatch(autoSave());
       // change drawing mode back to static and deselct all tools
       setTimeout(() => {
         this.drawControl.draw.changeMode("static");
@@ -198,6 +203,7 @@ class MapboxMap extends Component {
       this.props.dispatch({
         type: "CLEAR_ACTIVE_POLYGON",
       });
+      this.props.dispatch(autoSave());
     });
   };
 
@@ -216,10 +222,8 @@ class MapboxMap extends Component {
   };
 
   redrawPolygons = () => {
-    /*
-           This is used when a map is loaded (redraws all the polygons on the map)
-        */
     this.setState({ redrawing: true });
+    this.drawControl.draw.deleteAll();
     if (this.props.polygons) {
       this.props.polygons.map((polygon) => {
         this.drawControl.draw.add({
@@ -228,8 +232,8 @@ class MapboxMap extends Component {
         });
       });
       this.drawControl.draw.changeMode("static");
-      this.props.dispatch({ type: "LOADED_DRAWINGS" });
     }
+    this.props.dispatch({ type: "LOADED_DRAWINGS" });
     setTimeout(() => {
       this.setState({ redrawing: false });
     }, 300);
@@ -355,10 +359,7 @@ class MapboxMap extends Component {
           }
         </Map>
         <Nav drawControl={this.drawControl} />
-        <Modals
-          drawControl={this.drawControl}
-          redrawPolygons={this.redrawPolygons}
-        />
+        <Modals />
         <div className="os-accreditation">
           Contains OS data © Crown copyright and database rights 2022 OS
           0100059691
@@ -399,7 +400,6 @@ const mapStateToProps = ({
 }) => ({
   zoom: map.zoom,
   lngLat: map.lngLat,
-  searchMarker: map.searchMarker,
   markers: markers.markers,
   currentMarker: markers.currentMarker,
   baseLayer: mapBaseLayer.layer,

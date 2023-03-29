@@ -4,6 +4,7 @@ import axios from 'axios';
 import constants from '../../constants';
 import { getAuthHeader } from "../../utils/Auth";
 import Modal from '../common/Modal';
+import { getMyMaps } from '../../actions/MapActions';
 
 const EmailShare = () => {
     const [input, setInput] = useState('');
@@ -43,7 +44,7 @@ const EmailShare = () => {
 
     useEffect(() => {
         myMaps.forEach(map => {
-            if (map.map.eid == mapId) {
+            if (map.map.eid === mapId) {
                 populateEmails(map.map.sharedWith);
                 setMapName(map.map.name);
             }
@@ -57,27 +58,18 @@ const EmailShare = () => {
                 newEmails.push(input);
                 setInput('');
                 setEmails(newEmails);
-                setEmails(newEmails);
             }
         }
-        if (newEmails.length == 0)
+        if (newEmails.length === 0)
             return;
         const shareData = {
             "eid": id,
             "emailAddresses": newEmails
         };
         axios.post(`${constants.ROOT_URL}/api/user/map/share/sync`, shareData, getAuthHeader())
-            .then((response) => {
-                if (response.status === 200) {
-                    closeModal();
-                    axios.get(`${constants.ROOT_URL}/api/user/maps`, getAuthHeader())
-                        .then((response) => {
-                            console.log("maps response", response);
-                            dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data })
-                        })
-                } else {
-                    console.log("There was an error sharing this map.")
-                }
+            .then(() => {
+                closeModal();
+                dispatch(getMyMaps());
             })
             .catch((err) => console.log("share error", err));
     }

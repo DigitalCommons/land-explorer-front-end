@@ -79,7 +79,7 @@ MAPBOX_TOKEN=replacethiskey
     ![alt text](./docs/mapboxstylejson.png "paint json")
     * fillOpacity is used to toggle the layers when active
         ```"fill-opacity": activeLayers.indexOf('historic-flood-map-5y05ao') !== -1 ? .4 : 0,```
-6) Add new NavTrayItem component to NavLandData.js, layerId is the style layer id (e.g. e.g. local-authority-greenbelt-bou-9r44t6)
+6) Add new LandDataLayerToggle component to NavLandData.js, layerId is the style layer id (e.g. e.g. local-authority-greenbelt-bou-9r44t6)
 7) Add layer to MenuKey.js, the key is the style layer id, the data is the layer style json but in object form.
 
 <br/>

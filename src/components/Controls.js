@@ -24,8 +24,8 @@ class Controls extends Component {
                 let lng = position.coords.longitude;
                 this.props.closeModal('location');
                 this.props.setZoom([17]);
-                this.props.setLngLat({ lng, lat });
-                this.props.setCurrentLocation({ lng, lat });
+                this.props.setLngLat(lng, lat);
+                this.props.setCurrentLocation(lng, lat);
             }, (error) => {
                 console.log("There was an error", error);
                 this.props.closeModal('location');

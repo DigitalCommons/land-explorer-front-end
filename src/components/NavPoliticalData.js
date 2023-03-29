@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import NavTray from './NavTray';
-import NavTrayItem from './common/NavTrayItem';
+import LandDataLayerToggle from './common/LandDataLayerToggle';
 import PoliticalInfoDisplay from './PoliticalInfoDisplay';
 
 class NavPoliticalData extends Component {
@@ -121,7 +121,7 @@ class NavPoliticalData extends Component {
 
                     <p id="errorMessage" style={{}}></p>
 
-                    <NavTrayItem draggable={false} title="All Ward Boundaries" layerId='wards-may-2019-boundaries-uk-d9ukjy' />
+                    <LandDataLayerToggle title="All Ward Boundaries" layerId="wards-may-2019-boundaries-uk-d9ukjy" />
 
                     <p id="copyright-footer">
                         Contains National Statistics data
