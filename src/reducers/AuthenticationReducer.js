@@ -1,42 +1,34 @@
 const INITIAL_STATE = {
     authenticated: false,
-    loggedIn: false,
-    token: null
+    error: null
 }
 
 export default (state = INITIAL_STATE, action) => {
-    switch(action.type) {
-        case 'LOG_IN':
+    switch (action.type) {
+        case 'LOGGED_IN': {
             return {
-                ...state,
-                loggedIn: true
-            }
-        case 'LOG_OUT':
-            return {
-                ...state,
-                loggedIn: false
-            }
-        case 'AUTHENTICATE': {
-            return {
-                ...state,
-                authenticated: true
+                authenticated: true,
+                error: null
             }
         }
-        case 'DE_AUTHENTICATE': {
+        case 'FAILED_LOGIN': {
             return {
-                ...state,
-                authenticated: false
+                authenticated: false,
+                error: 'You have entered an invalid username or password.'
             }
         }
-        case 'SET_TOKEN': {
-            console.log("setting token");
+        case 'LOG_OUT': {
             return {
-                ...state,
-                token: action.payload,
-                tokenExpiry: Math.round(new Date().getTime() / 1000) + (24 * 3600),
+                authenticated: false,
+                error: null
             }
         }
-        
+        case 'SESSION_TIMED_OUT': {
+            return {
+                authenticated: false,
+                error: 'Your session has timed out. Please log back in.'
+            }
+        }
         default:
             return state;
     }
