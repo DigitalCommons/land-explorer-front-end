@@ -1,20 +1,17 @@
-import axios from 'axios';
 import { isMobile } from 'react-device-detect';
-import constants, { VERSION } from '../constants';
-import { getAuthHeader } from "../utils/Auth";
+import { VERSION } from '../constants';
 import moment from 'moment';
+import { getRequest, postRequest } from './common/RequestActions';
 
 export const getMyMaps = () => {
     return async dispatch => {
-        try {
-            const response = await axios.get(`${constants.ROOT_URL}/api/user/maps`, getAuthHeader());
-
-            console.log("Got maps, response", response);
-            return dispatch({ type: 'POPULATE_MY_MAPS', payload: response.data });
-        } catch (err) {
-            console.error("There was an error getting maps", err);
+        const mapsData = await dispatch(getRequest('/api/user/maps'));
+        if (mapsData) {
+            console.log("Got my maps", mapsData);
+            dispatch({ type: 'POPULATE_MY_MAPS', payload: mapsData });
+        } else {
+            dispatch({ type: 'MY_MAPS_ERROR' });
         }
-        dispatch({ type: 'MY_MAPS_ERROR' });
     }
 }
 
@@ -78,24 +75,27 @@ export const openMap = (mapId) => {
                 });
             }, 1000);
 
-            axios.post(`${constants.ROOT_URL}/api/user/map/view`, { "eid": mapId, }, getAuthHeader());
+            dispatch(postRequest('/api/user/map/view', { "eid": mapId }));
         }
     }
 }
 
 export const deleteMap = (mapId) => {
     return async (dispatch, getState) => {
-        await axios.post(`${constants.ROOT_URL}/api/user/map/delete`, { "eid": mapId }, getAuthHeader());
-        const currentMapId = getState().mapMeta.currentMapId;
+        const success = await dispatch(postRequest('/api/user/map/delete', { "eid": mapId }));
 
-        if (mapId === currentMapId) {
-            dispatch({ type: 'NEW_MAP' });
-            setTimeout(() => {
-                dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo' })
-            });
+        if (success) {
+            const currentMapId = getState().mapMeta.currentMapId;
+
+            if (mapId === currentMapId) {
+                dispatch({ type: 'NEW_MAP' });
+                setTimeout(() => {
+                    dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo' })
+                });
+            }
+
+            await dispatch(getMyMaps());
         }
-
-        await dispatch(getMyMaps());
     }
 }
 
@@ -307,9 +307,9 @@ const saveMapRequest = (endpoint, body) => {
         const currentSaveError = getState().mapMeta.saveError;
         dispatch({ type: 'MAP_SAVING' });
 
-        try {
-            await axios.post(`${constants.ROOT_URL}${endpoint}`, body, getAuthHeader());
+        const success = await dispatch(postRequest(endpoint, body));
 
+        if (success) {
             dispatch({
                 type: 'MAP_SAVED',
                 payload: {
@@ -323,8 +323,6 @@ const saveMapRequest = (endpoint, body) => {
             }
 
             return true;
-        } catch (err) {
-            console.error(`There was an error in ${endpoint} POST request`, err);
         }
 
         dispatch({ type: 'MAP_SAVE_ERROR' });
