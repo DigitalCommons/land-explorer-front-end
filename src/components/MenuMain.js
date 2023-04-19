@@ -4,17 +4,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import constants from '../constants';
 import analytics from "../analytics";
-import { logout } from '../utils/Auth';
 import { openModal } from '../actions/ModalActions';
 
 class MenuMain extends Component {
     constructor(props) {
         super(props);
-    }
-
-    logoutUser() {
-        logout();
-        this.props.history.push('/auth');
     }
 
     render() {
@@ -94,11 +88,8 @@ class MenuMain extends Component {
                                     marginBottom: '10px'
                                 }}
                             >
-                                <div className="button button-medium" onClick={this.logoutUser}
-                                /*onClick={(e) => {
-                                    e.preventDefault();
-                                    window.location = "/logout";
-                                }}*/
+                                <div className="button button-medium"
+                                    onClick={() => this.props.dispatch({ type: 'LOG_OUT' })}
                                 >Logout</div>
                             </div>
                         )
