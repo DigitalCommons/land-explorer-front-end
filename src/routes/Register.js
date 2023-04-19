@@ -606,7 +606,7 @@ class Register extends Component {
           </label>
         </div>
         <div className="FormControlButtons" style={{ padding: "10px" }}>
-          <Link to="/auth/">
+          <Link to="/auth">
             <div
               className="button button-cancel button-medium"
               style={{ display: "inline-block" }}

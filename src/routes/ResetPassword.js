@@ -71,7 +71,7 @@ class ResetPassword extends Component {
                         }}
                     >
                         <h3 style={{ fontWeight: 600 }}>Password reset requested</h3>
-                        <Link to="/auth/">
+                        <Link to="/auth">
                             <div className="button button-small" style={{ margin: 'auto' }}>Ok</div>
                         </Link>
                     </div>
@@ -122,7 +122,7 @@ class ResetPassword extends Component {
                                         paddingTop: 0,
                                     }}
                                 />
-                                <p><Link to="/auth/" style={{
+                                <p><Link to="/auth" style={{
                                     textDecoration: 'none',
                                     color: 'rgba(208, 2, 78, 0.95)',
                                     fontSize: '14px',
