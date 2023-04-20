@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-    authenticated: false,
+    authenticated: true,
     error: null
 }
 
