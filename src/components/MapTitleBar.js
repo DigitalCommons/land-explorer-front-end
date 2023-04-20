@@ -18,9 +18,11 @@ const MapTitleBar = () => {
     const [isNewMap, setIsNewMap] = useState(currentMapId === null);
 
     // Distinct possibilities for the saving status
-    const saved = !isNewMap && !saving && !saveError;
-    const savingNoError = !isNewMap && saving && !saveError;
-    const unableToSave = !isNewMap && saveError;
+    const readOnly = useSelector(state => state.readOnly.readOnly);
+    const editingNewMap = !readOnly && isNewMap;
+    const saved = !readOnly && !isNewMap && !saving && !saveError;
+    const savingNoError = !readOnly && !isNewMap && saving && !saveError;
+    const unableToSave = !readOnly && !isNewMap && saveError;
 
     const popupOnHover = saved || unableToSave;
     const [popupVisible, setPopupVisible] = useState(false);
@@ -87,7 +89,12 @@ const MapTitleBar = () => {
             {mapName || UNTITLED_NAME}
         </p>
         <div>
-            {isNewMap &&
+            {readOnly &&
+                <p className="map-saving-text">
+                    read-only
+                </p>
+            }
+            {editingNewMap &&
                 <p className="map-saving-text" onClick={onClickTitle}>
                     {editing || 'add title to save map'}
                 </p>

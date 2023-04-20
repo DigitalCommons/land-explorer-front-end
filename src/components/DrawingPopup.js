@@ -19,6 +19,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
     const [description, setDescription] = useState(object.description);
     const [selectedMap, setSelectedMap] = useState();
     const [selectedDataGroup, setSelectedDataGroup] = useState();
+    const readOnly = useSelector(state => state.readOnly.readOnly);
     const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
     const allMaps = useSelector((state) => state.myMaps.maps);
     const allDataGroups = useSelector((state) => state.dataGroups.dataGroupTitlesAndIDs);
@@ -70,8 +71,8 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                             onClick={() => { setMode("copy") }}
                             className="popup-sidebar-button"
                         />
-                        <img src={require("../assets/img/icon-pencil.svg")}
-                            className="popup-sidebar-button"
+                        <img src={require(`../assets/img/icon-pencil--${readOnly ? 'grey' : 'green'}.svg`)}
+                            className={`popup-sidebar-button ${readOnly && 'popup-sidebar-button-inactive'}`}
                             onClick={() => setMode("edit")}
                         />
                     </div>
