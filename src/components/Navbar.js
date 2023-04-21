@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ReactTooltip from "react-tooltip";
 import MenuMain from "./MenuMain";
 import MenuProfile from "./MenuProfile";
 import MenuLayers from "./MenuLayers";
@@ -9,7 +8,6 @@ import MapMenu from "./MapMenu";
 import ProfilePic from "./ProfilePic";
 import { useDispatch, useSelector } from "react-redux";
 import MenuKey from "./MenuKey";
-import CouncilMenuKey from "./CouncilMenuKey";
 import Geocoder from "./Geocoder";
 import analytics from "../analytics";
 
@@ -22,14 +20,17 @@ const Navbar = ({ limited }) => {
       <div className="navbar-shadow"></div>
       <div className="navbar">
         <Link to="/app">
-          <div className="logo">
-          </div>
+          <div className="logo" />
         </Link>
-        <div className="search-bar">
-          <Geocoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
+        <div className="navbar-middle">
+          <div className="navbar-map-interactions">
+            <MapTitleBar />
+            <MapMenu />
+          </div>
+          <div className="search-bar">
+            <Geocoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
+          </div>
         </div>
-        <MapTitleBar />
-        <MapMenu />
         <div className="navbar-right">
           <div className="navbar--username">{`${user.firstName} ${user.lastName}`}</div>
           <ProfilePic initials={user.initials} />
@@ -47,15 +48,14 @@ const Navbar = ({ limited }) => {
       <MenuMain />
       <MenuProfile />
       <MenuLayers />
-
-      {user.type == "council" ? <CouncilMenuKey /> : <MenuKey />}
+      <MenuKey />
     </div>
   ) : (
     <div>
       <div className="navbar-shadow"></div>
       <div className="navbar">
         <Link to="/app">
-          <div className="big-logo"></div>
+          <div className="logo" />
         </Link>
         <div className="navbar-right">
           <div

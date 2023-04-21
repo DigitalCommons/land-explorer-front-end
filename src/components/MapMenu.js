@@ -30,7 +30,7 @@ const MapMenu = ({ }) => {
         dispatch(openModal(modalId));
     }
 
-    return <div className='map-menu-container' style={{ top: expanded ? 130 : 0 }} ref={ref}>
+    return <div className='map-menu-container' style={{ marginTop: expanded ? 280 : 0 }} ref={ref}>
         <img
             src={require('../assets/img/chevron.svg')} alt="map-menu-icon"
             style={{ height: 21, width: 30, margin: 5, cursor: "pointer" }}
