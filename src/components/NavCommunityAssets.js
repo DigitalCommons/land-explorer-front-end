@@ -122,15 +122,13 @@ class NavCommunityAssets extends Component {
             getAuthHeader()
           )
           .then(response => {
-            if (response.status === 200) {
-              Swal.fire({
-                icon: "success",
-                title: "Success",
-                text:
-                  response.data.rows_affected +
-                  " rows of new data added to the system. Please refresh page to reload new data."
-              });
-            }
+            Swal.fire({
+              icon: "success",
+              title: "Success",
+              text:
+                response.data.rows_affected +
+                " rows of new data added to the system. Please refresh page to reload new data."
+            });
           })
           .catch(error => {
             let err_msg =

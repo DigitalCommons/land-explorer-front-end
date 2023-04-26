@@ -15,21 +15,19 @@ const LinkShare = () => {
     const generate = async () => {
         const mapId = mapToShare ? mapToShare.map.eid : currentMapId;
 
-        const result = await axios.post(`${constants.ROOT_URL}/api/user/map/share/public`,
-            {
-                mapId: mapId
-            },
-            getAuthHeader());
+        try {
+            const result = await axios.post(`${constants.ROOT_URL}/api/user/map/share/public`,
+                {
+                    mapId: mapId
+                },
+                getAuthHeader());
 
-        const { success, URI, message } = result.data;
-
-        if (success) {
-            const link = constants.ROOT_URL + URI;
+            const link = constants.ROOT_URL + result.data;
             setLinkText(link);
             setStage("copy");
         }
-        else {
-            setLinkText(message);
+        catch (err) {
+            setLinkText(err.response.data);
         }
     };
 
