@@ -49,12 +49,7 @@ class ChangePassword extends Component {
         .post(`${constants.ROOT_URL}/api/user/password`, body, getAuthHeader())
         .then((response) => {
           console.log("change password", response);
-          if ((response.status = 200)) {
-            console.log("register response 200", response);
-            this.setState({ success: true });
-          } else {
-            this.setState({ errors: response.data.errors });
-          }
+          this.setState({ success: true });
           this.setState({ submitting: false });
         })
         .catch((err) => {
@@ -189,8 +184,8 @@ class ChangePassword extends Component {
                   type="submit"
                   value="Save Changes"
                   className={`button button-full ${newPassword.valid && confirmNewPassword.valid
-                      ? ""
-                      : "button-grey"
+                    ? ""
+                    : "button-grey"
                     }`}
                   style={{
                     paddingTop: 0,
