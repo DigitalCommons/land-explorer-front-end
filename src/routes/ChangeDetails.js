@@ -150,12 +150,7 @@ class ChangeDetails extends Component {
             .then((response) => {
                 console.log("response", response);
                 console.log("change details", response);
-                if (response.status === 200) {
-                    console.log("register response 200", response);
-                    this.setState({ success: true });
-                } else {
-                    this.setState({ errors: true });
-                }
+                this.setState({ success: true });
                 this.setState({ submitting: false })
             })
             .catch(err => {
