@@ -17,17 +17,17 @@ const INITIAL_STATE = {
     phone: '',
     username: '',
     populated: false,
-    type:   '',
+    type: '',
     privileged: false,
 }
 
 export default (state = INITIAL_STATE, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case 'POPULATE_USER':
             let councilType;
             //default is id 0
             //id 1 is rbkc
-            if(action.payload.council_id === 1) councilType = 'council';
+            if (action.payload.council_id === 1) councilType = 'council';
             return {
                 ...state,
                 ...action.payload,
