@@ -15,6 +15,7 @@
   transition: box-shadow 300ms, background-color 300ms;
   box-sizing: border-box;
   padding-top: 6px;
+
   &:hover {
     background: $primaryColor;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.25);
@@ -24,6 +25,7 @@
 .button-reg-disabled {
   opacity: 0.3;
   background: $buttonGreen;
+
   &:hover {
     box-shadow: initial;
   }
@@ -63,6 +65,7 @@
 .rounded-button-split {
   color: white;
   display: flex;
+
   .rounded-button-left {
     border-top-left-radius: 100px;
     border-bottom-left-radius: 100px;
@@ -77,6 +80,7 @@
     margin-right: -2px;
     cursor: default;
   }
+
   .rounded-button-right {
     border-top-right-radius: 100px;
     border-bottom-right-radius: 100px;
@@ -88,6 +92,7 @@
     width: 32px;
     content: ' ';
   }
+
   .rounded-button-close {
     background-image: url("../img/icon-close-small--white.svg");
     background-size: 14px;
@@ -110,6 +115,7 @@
 .controls-slider {
   position: relative;
 }
+
 .zoom-slider-bar {
   width: 3px;
   background-color: white;
@@ -121,6 +127,7 @@
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
   z-index: -1;
 }
+
 .zoom-slider {
   width: 36px;
   height: 8px;
@@ -185,7 +192,7 @@
   margin-bottom: 24px;
 }
 
-.zoom-properties{
+.zoom-properties {
   background-image: url("../img/icon-property-search.svg");
   background-size: 30px;
 }
@@ -225,17 +232,19 @@
   }
 }
 
- .button.button-cancel {
+.button.button-cancel {
   background-color: rgba(208, 2, 78, 0.95);
-   &:hover {
-     background-color: rgba(193, 1, 72, 0.95);
-   }
+
+  &:hover {
+    background-color: rgba(193, 1, 72, 0.95);
+  }
 }
 
 .button.button-disabled {
   cursor: auto;
   color: #e0e0e0;
   background-color: #83dba8;
+
   &:hover {
     user-select: none;
     -webkit-user-select: none;
@@ -244,15 +253,10 @@
   }
 }
 
-.button.button-grey {
-  background-color: rgba(208, 2, 78, 0.95);
-  &:hover {
-    background-color: rgba(193, 1, 72, 0.95);
-  }
-}
-
 .button-grey {
+  cursor: auto;
   background-color: #d3d3d3 !important;
+
   &:hover {
     background-color: #d3d3d3 !important;
     box-shadow: none;
@@ -283,14 +287,16 @@
   position: absolute;
   bottom: 24px;
   right: 24px;
+
   .button {
     display: inline-block;
     margin-left: 12px;
   }
 }
 
-.modal-buttons-float{
-  float:right;
+.modal-buttons-float {
+  float: right;
+
   .button {
     display: inline-block;
     margin-left: 12px;
