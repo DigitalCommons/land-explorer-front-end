@@ -16,6 +16,7 @@ body {
   background-color: #fbfbfb;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   z-index: 100003;
 
   .logo {
@@ -28,7 +29,7 @@ body {
     margin-left: 19px;
   }
 
-  @media  screen and (min-width: 800px ) {
+  @media  screen and (min-width: 1070px ) {
     .logo {
       background-image: url("../img/logo-green-text.svg");
       width: 230px;
@@ -57,7 +58,6 @@ body {
 
 .navbar-map-interactions{
   display: flex;
-  width: 350px;
   flex-direction: row;
   align-items: center;
 }
@@ -212,11 +212,19 @@ body {
   letter-spacing: 2px;
   padding-left: 2px;
   user-select: none;
+
+  @media screen and (max-width: 650px) {
+    margin-right: 5px;
+  }
+
 }
 
-.navbar--username {
+.navbar-username {
   margin-right: 24px;
   user-select: none;
+  @media  screen and (max-width: 900px) {
+    display: none;
+  }
 }
 
 .hamburger {
@@ -228,6 +236,9 @@ body {
   height: 32px;
   cursor: pointer;
   user-select: none;
+  @media  screen and (max-width: 730px) {
+    display: none;
+  }
 }
 
 .nav-left-tray {
@@ -537,6 +548,7 @@ a.mapboxgl-ctrl-logo {
 
 .map-menu-container{
   width: 180px;
+  margin-right: -160px;
 }
 
 .map-menu{
@@ -553,4 +565,64 @@ a.mapboxgl-ctrl-logo {
 .map-menu-option:hover{
   background-color: #D2D2D2;
   cursor: pointer;
+}
+
+.map-title-bar{
+  width: 265px;
+  transition: width .25s, min-width .25s;
+  @media screen and (max-width: 550px){
+    width: 45vw;
+  }
+}
+
+.map-name-text{
+  cursor: pointer;
+  font-size: 17px;
+  margin: 4% 5% 0%;
+  padding: 0.5% 2%;
+  border-radius: 100px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+// Don't show line breaks in map name since these are not saved
+.map-name-text *{
+  display: inline;
+}
+
+.map-name-text br{
+  display: none;
+}
+
+.map-name-text:hover{
+  background-color: #F3F3F3;
+}
+
+.map-name-text.editable{
+  cursor: text;
+  text-overflow:unset;
+}
+
+.map-saving-text{
+  cursor: pointer;
+  font-size: 14px;
+  height: 17px;
+  margin: 0% 5%;
+  padding: 0% 2%;
+  color: #d0024e;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.map-saving-text.saved{
+  color: #2ecc71;
+}
+
+
+.nav-collapsed{
+  @media screen and (max-width: 665px){
+    width: 20vw;
+  }
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import MenuMain from "./MenuMain";
 import MenuProfile from "./MenuProfile";
@@ -14,6 +14,7 @@ import analytics from "../analytics";
 const Navbar = ({ limited }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const [searchExpanded, setSearchExpanded] = useState(false);
 
   return !limited && user.populated ? (
     <div>
@@ -24,15 +25,19 @@ const Navbar = ({ limited }) => {
         </Link>
         <div className="navbar-middle">
           <div className="navbar-map-interactions">
-            <MapTitleBar />
             <MapMenu />
+            <MapTitleBar expanded={!searchExpanded} />
           </div>
           <div className="search-bar">
-            <Geocoder bbox={[-11.535645, 49.109838, 3.493652, 63.144431]} />
+            <Geocoder
+              bbox={[-11.535645, 49.109838, 3.493652, 63.144431]}
+              expanded={searchExpanded}
+              setExpanded={setSearchExpanded}
+            />
           </div>
         </div>
         <div className="navbar-right">
-          <div className="navbar--username">{`${user.firstName} ${user.lastName}`}</div>
+          <div className="navbar-username">{`${user.firstName} ${user.lastName}`}</div>
           <ProfilePic initials={user.initials} />
           <div
             className="hamburger"

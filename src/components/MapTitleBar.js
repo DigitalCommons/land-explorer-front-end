@@ -4,7 +4,7 @@ import { loadNewestMap, saveCurrentMap } from '../actions/MapActions';
 
 const UNTITLED_NAME = 'Untitled Map';
 
-const MapTitleBar = () => {
+const MapTitleBar = ({ expanded }) => {
     const dispatch = useDispatch();
     const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
     const mapName = useSelector((state) => state.map.name);
@@ -39,7 +39,7 @@ const MapTitleBar = () => {
         if (ref.current.textContent.trim() === '') {
             ref.current.textContent = UNTITLED_NAME;
         }
-        const name = ref.current.textContent;
+        const name = ref.current.textContent.slice(0, 30);
 
         setEditing(false);
 
@@ -68,7 +68,7 @@ const MapTitleBar = () => {
         setEditing(true);
     }
 
-    return <div className="map-title-bar">
+    return <div className={`map-title-bar${expanded ? "" : " nav-collapsed"}`}>
         <p
             ref={ref}
             className={`map-name-text ${editing && 'editable'}`}
