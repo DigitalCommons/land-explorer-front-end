@@ -236,6 +236,9 @@ body {
   height: 32px;
   cursor: pointer;
   user-select: none;
+}
+
+.hamburger-logged-in{
   @media  screen and (max-width: 730px) {
     display: none;
   }

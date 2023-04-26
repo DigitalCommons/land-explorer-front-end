@@ -40,7 +40,7 @@ const Navbar = ({ limited }) => {
           <div className="navbar-username">{`${user.firstName} ${user.lastName}`}</div>
           <ProfilePic initials={user.initials} />
           <div
-            className="hamburger"
+            className="hamburger hamburger-logged-in"
             id="hamburger"
             onClick={() => {
               analytics.event(analytics._event.MAIN_MENU, "Open");
