@@ -72,11 +72,12 @@ const Login = ({ updateCarousel }) => {
       })
       .catch(err => {
         console.log(err);
-        if (err.response.status === 400) {
-          console.log("wrong credentials");
+        let errorMessage = 'Log in error. Please try again.';
+        if (err.response.status === 401) {
+          errorMessage = err.response.data.message;
         }
         setLoggingIn(false);
-        dispatch({ type: 'FAILED_LOGIN' });
+        dispatch({ type: 'FAILED_LOGIN', payload: { errorMessage } });
       });
   };
 
