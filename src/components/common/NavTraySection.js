@@ -1,34 +1,32 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class NavTraySection extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             open: false
         }
     }
 
-    toggleChildren = () => 
-    {
-        this.setState ({ open: !this.state.open })
+    toggleChildren = () => {
+        this.setState({ open: !this.state.open })
     }
-    
+
     render() {
         let { title, children, open, dispatch, sectionId } = this.props;
         return (
             <div className="nav-tray-section">
                 <div className="nav-tray-section-title"
-                     onClick={() => 
-                        {
-                         dispatch ({
-                             type: 'TOGGLE_SECTION',
-                             payload: sectionId
-                         })
-                     }}
+                    onClick={() => {
+                        dispatch({
+                            type: 'TOGGLE_SECTION',
+                            payload: sectionId
+                        })
+                    }}
                 >
-                   <h4 style = {{ marginLeft: '42px', fontWeight: 'bold',width: '140px' }} >{ title }</h4>
+                    <h4 style={{ marginLeft: '42px', fontWeight: 'bold', width: '140px' }} >{title}</h4>
                     <div style={{
                         position: 'absolute',
                         top: '50%',
@@ -39,7 +37,7 @@ class NavTraySection extends Component {
                         textAlign: 'center'
                     }}>
                         <img
-                            src={require('../../assets/img/chevron.svg')} alt=""
+                            src={require('../../assets/img/icon-chevron.svg')} alt=""
                             style={{
                                 transformOrigin: 'center',
                                 transform: open ? 'rotate(180deg)' : 'rotate(0deg)',

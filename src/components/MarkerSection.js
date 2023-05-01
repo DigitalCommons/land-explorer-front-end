@@ -53,7 +53,7 @@ class MarkerSection extends Component {
                         textAlign: 'center'
                     }}>
                         <img
-                            src={require('../assets/img/chevron.svg')} alt=""
+                            src={require('../assets/img/icon-chevron.svg')} alt=""
                             style={{
                                 transformOrigin: 'center',
                                 transform: open ? 'rotate(180deg)' : 'rotate(0deg)',

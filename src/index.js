@@ -10,7 +10,6 @@ import {
     Navigate,
     Routes
 } from 'react-router-dom';
-//import '../node_modules/leaflet-draw/dist/leaflet.draw.css';
 import './index.css';
 import MapApp from "./routes/MapApp";
 import MyAccount from "./routes/MyAccount";

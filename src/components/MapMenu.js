@@ -32,7 +32,7 @@ const MapMenu = ({ }) => {
 
     return <div className='map-menu-container' style={{ top: expanded ? 130 : 0 }} ref={ref}>
         <img
-            src={require('../assets/img/chevron.svg')} alt="map-menu-icon"
+            src={require('../assets/img/icon-chevron.svg')} alt="map-menu-icon"
             style={{ height: 21, width: 30, margin: 5, cursor: "pointer" }}
             onClick={() => setExpanded(!expanded)}
         />

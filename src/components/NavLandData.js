@@ -22,7 +22,7 @@ const DataLayersContainer = ({ children, title }) => {
                 textAlign: 'center'
             }}>
                 <img
-                    src={require('../assets/img/chevron.svg')} alt=""
+                    src={require('../assets/img/icon-chevron.svg')} alt=""
                     style={{
                         transformOrigin: 'center',
                         transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
