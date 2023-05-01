@@ -53,7 +53,7 @@ const Login = ({ updateCarousel }) => {
       })
       .catch(err => {
         console.log(err);
-        if (err.response.status === 400) {
+        if (err.response?.status === 400) {
           console.log("wrong credentials");
         }
         setLoggingIn(false);

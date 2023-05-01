@@ -11,6 +11,7 @@ import Spinner from '../components/common/Spinner';
 import * as Auth from "../utils/Auth";
 import { getMyMaps } from '../actions/MapActions'
 import { getUserDetails } from '../actions/UserActions';
+import NoConnectionToast from '../components/NoConnectionToast';
 
 const MapApp = () => {
     const authenticated = useSelector(state => state.authentication.authenticated);
@@ -51,6 +52,7 @@ const MapApp = () => {
                 <Tooltips />
                 <MapboxMap user={user} />
                 <Navbar limited={false} />
+                <NoConnectionToast />
                 <Controls />
             </div>
         )
