@@ -1,4 +1,5 @@
 import { isMobile } from 'react-device-detect';
+import { autoSave } from './MapActions';
 
 export const setOnline = () => {
     return (dispatch, getState) => {

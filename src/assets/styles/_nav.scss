@@ -273,7 +273,7 @@ body {
   overflow-x: hidden;
 }
 
-.tray-top{
+.tray-top {
   width: 100%;
   background-color: #e4e6ea;
   border-bottom: solid 1px #d1d1d1;
@@ -522,35 +522,42 @@ a.mapboxgl-ctrl-logo {
   background-position: 18px 50%;
 }
 
-.horizontal-divider{
+.horizontal-divider {
   width: 100%;
-    border: 1px solid;
-    display: block;
+  border: 1px solid;
+  display: block;
 }
 
-.land-data-description{
+.land-data-description {
   margin-top: 0;
-    margin-left: 15px;
+  margin-left: 15px;
 }
 
-.map-menu-container{
+.map-menu-container {
   position: relative;
   left: -20px;
 }
 
-.map-menu{
+.map-menu {
   position: relative;
   box-shadow: 0px 3px 6px #00000029;
   background-color: white;
   margin: 0px;
 }
 
-.map-menu-option{
+.map-menu-option {
   padding: 8px;
   margin: 2px 0px;
 }
 
-.map-menu-option:hover{
+.map-menu-option-disabled {
+  padding: 8px;
+  margin: 2px 0px;
+  cursor: default;
+  color: #c4cbd3;
+}
+
+.map-menu-option:hover {
   background-color: #D2D2D2;
   cursor: pointer;
 }

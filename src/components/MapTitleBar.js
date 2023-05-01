@@ -110,7 +110,7 @@ const MapTitleBar = () => {
             }
             {status === 'editingNewMap' &&
                 <p className="map-saving-text" onClick={onClickTitle}>
-                    {editing || readOnly || 'add title to save map'}
+                    {editing || !canEditTitle || 'add title to save map'}
                 </p>
             }
             {status === 'savingNoError' &&

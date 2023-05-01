@@ -8,10 +8,9 @@ const NoConnectionToast = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        // window.addEventListener('online', handleConnectionChange);
-        // window.addEventListener('offline', handleConnectionChange);
-        dispatch({ type: navigator.onLine ? 'ONLINE' : 'OFFLINE' });
-        dispatch(setOffline()); // TODO: remove this
+        window.addEventListener('online', handleConnectionChange);
+        window.addEventListener('offline', handleConnectionChange);
+        dispatch(setOnline());
 
         return () => {
             window.removeEventListener('online', handleConnectionChange);
