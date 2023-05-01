@@ -1,15 +1,17 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../common/Modal';
-import { autoSave } from '../../actions/MapActions';
+import { autoSave, newMap } from '../../actions/MapActions';
 
 const NewMap = () => {
     const dispatch = useDispatch();
-    const mapSaved = useSelector((state) => state.mapMeta.currentMapId !== null);
+    const isNewMap = useSelector((state) => state.mapMeta.currentMapId !== null);
+    const { saving, saveError } = useSelector((state) => state.mapMeta);
+    const mapSaved = !isNewMap && !saving && !saveError;
 
     return <Modal id="newMap" canToggle={true} padding={true}>
         <div className="modal-title">New Map</div>
-        <div className="modal-content">
+        <div className="modal-content modal-padding">
             <div>
                 {mapSaved ?
                     'Are you sure you wish to open a new map?' : 'Any unsaved changes to the current map will be lost.'
@@ -27,11 +29,8 @@ const NewMap = () => {
             <div className="button rounded-button-full  modal-button-confirm"
                 onClick={async () => {
                     await dispatch(autoSave());
-                    dispatch({ type: 'NEW_MAP' });
+                    dispatch(newMap());
                     dispatch({ type: 'CLOSE_MODAL', payload: 'newMap' });
-                    setTimeout(() => {
-                        dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo' });
-                    }, 1000);
                 }}
             >
                 {mapSaved ?

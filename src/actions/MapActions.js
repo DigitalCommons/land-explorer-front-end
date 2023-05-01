@@ -52,6 +52,7 @@ export const openMap = (mapId) => {
             const mapData = JSON.parse(map.map.data);
             const isSnapshot = map.map.isSnapshot;
             const lastModified = map.map.lastModified;
+            const writeAccess = map.access === 'WRITE';
 
             dispatch({
                 type: 'LOAD_MAP',
@@ -59,12 +60,13 @@ export const openMap = (mapId) => {
                     data: mapData,
                     id: mapId,
                     isSnapshot: isSnapshot,
+                    writeAccess: writeAccess,
                     lastModified: shortenTimestamp(lastModified)
                 }
             });
-            if (isSnapshot || map.access === 'READ' || isMobile) {
+            if (isSnapshot || !writeAccess || isMobile) {
                 dispatch({ type: 'READ_ONLY_ON' });
-            } else {
+            } else if (getState().connectivity.isOnline) {
                 dispatch({ type: 'READ_ONLY_OFF' });
             }
 
@@ -88,13 +90,21 @@ export const deleteMap = (mapId) => {
             const currentMapId = getState().mapMeta.currentMapId;
 
             if (mapId === currentMapId) {
-                dispatch({ type: 'NEW_MAP' });
-                setTimeout(() => {
-                    dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo' })
-                });
+                dispatch(newMap());
             }
-
             await dispatch(getMyMaps());
+        }
+    }
+}
+
+export const newMap = () => {
+    return (dispatch, getState) => {
+        dispatch({ type: 'NEW_MAP' });
+        setTimeout(() => {
+            dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo' })
+        }, 500);
+        if (!isMobile && getState().connectivity.isOnline) {
+            dispatch({ type: 'READ_ONLY_OFF' });
         }
     }
 }
@@ -112,7 +122,7 @@ export const deleteMap = (mapId) => {
 export const saveCurrentMap = (copy = false, snapshot = false, name = undefined) => {
     return async (dispatch, getState) => {
         const map = getState().map;
-        const saveName = copy ? `Copy of ${map.name}` : name || map.name || '';
+        const saveName = copy ? `Copy of ${map.name}` : name || map.name || 'Untitled Map';
 
         const saveData = {
             map: {

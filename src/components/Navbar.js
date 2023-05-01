@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ReactTooltip from "react-tooltip";
 import MenuMain from "./MenuMain";
 import MenuProfile from "./MenuProfile";
 import MenuLayers from "./MenuLayers";

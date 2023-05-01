@@ -8,7 +8,6 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 readOnly: true
             }
-        case 'NEW_MAP':
         case 'READ_ONLY_OFF':
             return {
                 readOnly: false
