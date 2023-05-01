@@ -1,7 +1,7 @@
-import { isMobile } from 'react-device-detect';
 import { VERSION } from '../constants';
 import moment from 'moment';
 import { getRequest, postRequest } from './common/RequestActions';
+import { updateReadOnly } from './ReadOnlyActions';
 
 export const getMyMaps = () => {
     return async dispatch => {
@@ -64,11 +64,7 @@ export const openMap = (mapId) => {
                     lastModified: shortenTimestamp(lastModified)
                 }
             });
-            if (isSnapshot || !writeAccess || isMobile) {
-                dispatch({ type: 'READ_ONLY_ON' });
-            } else if (getState().connectivity.isOnline) {
-                dispatch({ type: 'READ_ONLY_OFF' });
-            }
+            dispatch(updateReadOnly());
 
             setTimeout(() => {
                 dispatch({
@@ -103,9 +99,7 @@ export const newMap = () => {
         setTimeout(() => {
             dispatch({ type: 'CHANGE_MOVING_METHOD', payload: 'flyTo' })
         }, 500);
-        if (!isMobile && getState().connectivity.isOnline) {
-            dispatch({ type: 'READ_ONLY_OFF' });
-        }
+        dispatch(updateReadOnly());
     }
 }
 

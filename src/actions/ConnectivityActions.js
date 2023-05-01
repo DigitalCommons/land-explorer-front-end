@@ -1,15 +1,10 @@
-import { isMobile } from 'react-device-detect';
 import { autoSave } from './MapActions';
+import { updateReadOnly } from './ReadOnlyActions';
 
 export const setOnline = () => {
-    return (dispatch, getState) => {
+    return dispatch => {
         dispatch({ type: 'ONLINE' });
-
-        const { isSnapshot, writeAccess } = getState().mapMeta;
-        if (!isSnapshot && writeAccess && !isMobile) {
-            dispatch({ type: 'READ_ONLY_OFF' });
-        }
-
+        dispatch(updateReadOnly());
         // Save any unsaved changes
         dispatch(autoSave());
     }
@@ -18,6 +13,6 @@ export const setOnline = () => {
 export const setOffline = () => {
     return dispatch => {
         dispatch({ type: 'OFFLINE' });
-        dispatch({ type: 'READ_ONLY_ON' });
+        dispatch(updateReadOnly());
     }
 }

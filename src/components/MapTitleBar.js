@@ -21,6 +21,8 @@ const MapTitleBar = () => {
     let status;
     let popupOnHover = false;
     if (isSnapshot || !writeAccess || isMobile) {
+        // We don't use the read-only Redux state, because we still want to show the saving status
+        // if we have no internet connection
         status = 'noEdit';
     } else if (isNewMap) {
         status = 'editingNewMap';

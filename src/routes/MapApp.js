@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { isMobile } from 'react-device-detect';
 import MapboxMap from '../components/MapboxMap';
 import Navbar from '../components/Navbar';
 import '../assets/styles/style.scss';
@@ -23,11 +22,6 @@ const MapApp = () => {
     useEffect(() => {
         dispatch(getUserDetails());
         dispatch(getMyMaps());
-
-        // if mobile, disable drawing tools
-        if (isMobile) {
-            dispatch({ type: 'READ_ONLY_ON' });
-        }
     }, [])
 
     useEffect(() => {
