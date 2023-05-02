@@ -39,7 +39,8 @@ const MapTitleBar = ({ expanded }) => {
         if (ref.current.textContent.trim() === '') {
             ref.current.textContent = UNTITLED_NAME;
         }
-        const name = ref.current.textContent.slice(0, 30);
+
+        const name = ref.current.textContent;
 
         setEditing(false);
 
@@ -70,6 +71,7 @@ const MapTitleBar = ({ expanded }) => {
 
     return <div className={`map-title-bar${expanded ? "" : " nav-collapsed"}`}>
         <p
+            id={"map-name"}
             ref={ref}
             className={`map-name-text ${editing && 'editable'}`}
             spellCheck={false}
@@ -81,6 +83,14 @@ const MapTitleBar = ({ expanded }) => {
                     e.preventDefault();
                     e.target.blur();
                 }
+                //limit map name to 30 characters
+                const mapName = document.getElementById("map-name");
+                if (mapName.textContent.length > 30) {
+                    mapName.textContent = mapName.textContent.slice(0, 30);
+                    document.execCommand('selectAll', false, null);
+                    document.getSelection().collapseToEnd();
+                }
+
             }}
             suppressContentEditableWarning={true}
         >
