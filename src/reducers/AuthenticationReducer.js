@@ -14,7 +14,7 @@ export default (state = INITIAL_STATE, action) => {
         case 'FAILED_LOGIN': {
             return {
                 authenticated: false,
-                error: 'You have entered an invalid username or password.'
+                error: action.payload.errorMessage
             }
         }
         case 'LOG_OUT': {
