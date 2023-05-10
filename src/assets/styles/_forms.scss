@@ -58,18 +58,23 @@ form {
 }
 
 .search-bar {
-  margin-left: 48px;
   font-size: 16px;
   max-width: 60vw;
-  @media #{$up-to-small} {
-    margin-left: 18px;
+}
+
+#geocoder{
+  display: flex;
+  justify-content: center;
+  @media screen and (min-width: 650px){
+    width: 263px;
   }
 }
 
 .mapboxgl-ctrl-geocoder {
   background-color: $toolbarAccent;
-  width: 263px;
+  width: 50px;
   height: 36px;
+  line-height: 20px;
   border: solid 1px $trayAccent !important;
   border-radius: 100px;
   color: $secondaryColor;
@@ -83,12 +88,10 @@ form {
   font-weight: normal;
   font-size: 16px;
   max-width: 60vw;
+  min-width: 0px;
   border-image-width: 0px;
   &:focus {
     outline: none;
-  }
-  @media #{$up-to-small} {
-    width: 263px;
   }
   
   input {
@@ -99,9 +102,21 @@ form {
   }
 }
 
+.geocoder-expanded{
+  max-width: 263px;
+  width: 30vw;
+  @media screen and (min-width: 650px) {
+    width: 100%;
+  }
+}
+
 
 .mapboxgl-ctrl-geocoder--icon-search{
   display: none;
+}
+
+.mapboxgl-ctrl-geocoder--input{
+  height: 36px;
 }
 
 .mapboxgl-ctrl-geocoder {

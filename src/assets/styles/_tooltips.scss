@@ -171,13 +171,13 @@
     left: 50%;
     transform: translateX(-50%);
   }
-  @media #{$up-to-small} {
+  @media screen and (max-width: 650px) {
     &:after {
-      left: 56%;
+      left: 94%;
       transform: translateX(-56%);
     }
     &:before {
-      left: 56%;
+      left: 94%;
       transform: translateX(-56%);
     }
   }
