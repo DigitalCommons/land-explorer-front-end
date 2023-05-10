@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
     currentMapId: null,
-    isSnapshot: null,
+    isSnapshot: false,
+    writeAccess: true,
     saving: false,
     saveError: false,
     lastSaved: null
@@ -9,11 +10,12 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case 'LOAD_MAP':
-            const { id, isSnapshot, lastModified } = action.payload;
+            const { id, isSnapshot, writeAccess, lastModified } = action.payload;
             return {
                 ...state,
                 currentMapId: id,
                 isSnapshot: isSnapshot,
+                writeAccess: writeAccess,
                 saving: false,
                 lastSaved: lastModified
             }

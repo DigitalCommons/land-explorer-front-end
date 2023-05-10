@@ -50,6 +50,7 @@ h6 {
   .switch input {
     display: none;
   }
+
   .switch input {
     display: none;
   }
@@ -78,15 +79,16 @@ h6 {
     transition: 0.4s;
   }
 
-  input:checked + .slider:before {
+  input:checked+.slider:before {
     background-color: $buttonGreen;
   }
 
-  input:checked + .slider:before {
+  input:checked+.slider:before {
     -webkit-transform: translateX(9px);
     -ms-transform: translateX(9px);
     transform: translateX(9px);
   }
+
   .slider.round {
     border-radius: 34px;
   }
@@ -134,6 +136,47 @@ h6 {
   background-color: transparent;
 }
 
+.map-title-bar {
+  width: 250px;
+}
+
+.map-name-text {
+  cursor: pointer;
+  font-size: 17px;
+  margin: 4% 5% 0%;
+  padding: 0.5% 2%;
+  border-radius: 100px;
+}
+
+// Don't show line breaks in map name since these are not saved
+.map-name-text * {
+  display: inline;
+}
+
+.map-name-text br {
+  display: none;
+}
+
+.map-name-text:hover {
+  background-color: #F3F3F3;
+}
+
+.map-name-text.editable {
+  cursor: text;
+}
+
+.map-saving-text {
+  cursor: pointer;
+  font-size: 14px;
+  height: 17px;
+  margin: 0% 5%;
+  padding: 0% 2%;
+  color: #d0024e;
+}
+
+.map-saving-text.saved {
+  color: #2ecc71;
+}
 
 .os-accreditation {
   position: fixed;
@@ -208,6 +251,7 @@ h6 {
   0% {
     background-color: rgba(39, 174, 96, 0.5);
   }
+
   100% {
     background-color: rgba(39, 174, 96, 0);
   }
@@ -249,21 +293,25 @@ h6 {
 }
 
 @-webkit-keyframes sk-bounce {
+
   0%,
   100% {
     -webkit-transform: scale(0);
   }
+
   50% {
     -webkit-transform: scale(1);
   }
 }
 
 @keyframes sk-bounce {
+
   0%,
   100% {
     transform: scale(0);
     -webkit-transform: scale(0);
   }
+
   50% {
     transform: scale(1);
     -webkit-transform: scale(1);
@@ -301,7 +349,7 @@ h6 {
   z-index: 2;
 }
 
-.marker-shadow{
+.marker-shadow {
   background-image: url("../img/markers-shadow.png");
   background-position: center;
   background-repeat: no-repeat;
@@ -312,4 +360,19 @@ h6 {
   height: 40px;
   width: 40px;
   z-index: 1;
+}
+
+.toast {
+  z-index: 99999;
+  position: fixed;
+  width: 300px;
+  top: 100px;
+  left: 50%;
+  margin-left: -150px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 4px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32);
+  background-color: #4d4d4d;
+  color: #ffffff;
 }

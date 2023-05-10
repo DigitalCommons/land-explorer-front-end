@@ -72,9 +72,8 @@ const Login = ({ updateCarousel }) => {
       })
       .catch(err => {
         console.log(err);
-        let errorMessage = 'Log in error. Please try again.';
-        if (err.response.status === 401) {
-          errorMessage = err.response.data.message;
+        if (err.response?.status === 400) {
+          console.log("wrong credentials");
         }
         setLoggingIn(false);
         dispatch({ type: 'FAILED_LOGIN', payload: { errorMessage } });

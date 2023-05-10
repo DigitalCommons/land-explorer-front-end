@@ -1,16 +1,16 @@
 const INITIAL_STATE = {
-    readOnly: false
+    isOnline: true
 }
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case 'READ_ONLY_ON':
+        case 'ONLINE':
             return {
-                readOnly: true
+                isOnline: true
             }
-        case 'READ_ONLY_OFF':
+        case 'OFFLINE':
             return {
-                readOnly: false
+                isOnline: false
             }
         default:
             return state;

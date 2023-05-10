@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { saveObjectToMap, editMapObjectInfo } from '../actions/MapActions';
 import { saveObjectToDataGroup, editDataGroupObjectInfo } from '../actions/DataGroupActions';
+import Spinner from './common/Spinner';
 
 /**
  * 
@@ -20,6 +21,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
     const [selectedMap, setSelectedMap] = useState();
     const [selectedDataGroup, setSelectedDataGroup] = useState();
     const readOnly = useSelector(state => state.readOnly.readOnly);
+    const isOnline = useSelector(state => state.connectivity.isOnline);
     const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
     const allMaps = useSelector((state) => state.myMaps.maps);
     const allDataGroups = useSelector((state) => state.dataGroups.dataGroupTitlesAndIDs);
@@ -38,13 +40,14 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
 
     const copyObjectToMap = async (object, map) => {
         const data = regulariseObjectData(object);
-        const success = dispatch(saveObjectToMap(type, data, map.map.eid));
-        // TODO: show 'unable to save' if not successful. Ditto for other functions below.
+        const success = await dispatch(saveObjectToMap(type, data, map.map.eid));
+        setMode(success ? "success" : "error");
     }
 
     const copyObjectToDataGroup = async (object, dataGroup) => {
         const data = regulariseObjectData(object);
-        dispatch(saveObjectToDataGroup(type, data, dataGroup.id));
+        const success = await dispatch(saveObjectToDataGroup(type, data, dataGroup.id));
+        setMode(success ? "success" : "error");
     }
 
     const editObjectInfo = async (newName, newDescription) => {
@@ -52,12 +55,20 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
             dispatch(editMapObjectInfo(type, object.uuid, newName, newDescription));
         } else {
             dispatch(editDataGroupObjectInfo(type, object.uuid, newName, newDescription));
+            // TODO: indicate in the popup when this fails to save?
         }
+    }
+
+    const close = () => {
+        closeDescription();
+        setMode("display");
+        setSelectedMap(undefined);
+        setSelectedDataGroup(undefined);
     }
 
     return (
         <div className="popup-content">
-            <div className="popup-close" onClick={closeDescription} />
+            <div className="popup-close" onClick={close} />
             {(mode === "display") && (
                 <>
                     <div className="popup-body-container">
@@ -67,9 +78,9 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                         </div>
                     </div>
                     <div className="popup-sidebar">
-                        <img src={require("../assets/img/icon-add.svg")}
+                        <img src={require(`../assets/img/icon-add--${isOnline ? 'green' : 'grey'}.svg`)}
+                            className={`popup-sidebar-button ${isOnline || 'popup-sidebar-button-inactive'}`}
                             onClick={() => { setMode("copy") }}
-                            className="popup-sidebar-button"
                         />
                         <img src={require(`../assets/img/icon-pencil--${readOnly ? 'grey' : 'green'}.svg`)}
                             className={`popup-sidebar-button ${readOnly && 'popup-sidebar-button-inactive'}`}
@@ -174,37 +185,47 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                             onClick={() => {
                                 if (selectedMap) {
                                     copyObjectToMap(object, selectedMap);
-                                    setMode("complete");
                                 } else if (selectedDataGroup) {
                                     copyObjectToDataGroup(object, selectedDataGroup);
-                                    setMode("complete");
                                 }
+                                setMode("saving");
                             }}
                         />
                     </div>
                 </>
             )}
-            {/* TODO: add 'saving' and 'unable to save' modes, so that user knows when unsuccessful */}
-            {(mode === "complete") && (
-                <>
-                    <p className="popup-save-success-text">
-                        {type.slice(0, 1).toUpperCase() + type.slice(1)} successfully saved to
+            {(mode === "saving") && (
+                <div className="popup-copy-status-container">
+                    <p className="popup-copy-status-text">
+                        Copying {type} to
                         <br />
                         {selectedMap && `'${selectedMap.map.name}'`}
                         {selectedDataGroup && `'${selectedDataGroup.title}'`}
                     </p>
-                    <div className="popup-sidebar">
-                        <img src={require("../assets/img/icon-tick--green.svg")}
-                            className="popup-sidebar-button"
-                            onClick={() => {
-                                closeDescription();
-                                setMode("display");
-                                setSelectedMap(undefined);
-                                setSelectedDataGroup(undefined);
-                            }}
-                        />
-                    </div>
-                </>
+                    <Spinner className="popup-status-icon" />
+                </div>
+            )}
+            {(mode === "success") && (
+                <div className="popup-copy-status-container">
+                    <p className="popup-copy-status-text">
+                        {type.slice(0, 1).toUpperCase() + type.slice(1)} successfully copied to
+                        <br />
+                        {selectedMap && `'${selectedMap.map.name}'`}
+                        {selectedDataGroup && `'${selectedDataGroup.title}'`}
+                    </p>
+                    <img src={require("../assets/img/icon-tick--green.svg")} className="popup-status-icon" />
+                </div>
+            )}
+            {(mode === "error") && (
+                <div className="popup-copy-status-container">
+                    <p className="popup-copy-status-text">
+                        Unable to copy {type} to
+                        <br />
+                        {selectedMap && `'${selectedMap.map.name}'`}
+                        {selectedDataGroup && `'${selectedDataGroup.title}'`}
+                    </p>
+                    <img src={require("../assets/img/icon-cross.svg")} className="popup-status-icon" />
+                </div>
             )}
         </div>
     );
