@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import * as Auth from "../utils/Auth";
 import Spinner from "../components/common/Spinner";
 import Navbar from "../components/Navbar";
@@ -16,26 +16,41 @@ const Login = ({ updateCarousel }) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
+    if (searchParams.has('reset_token')) {
+      // user has clicked reset password link
+      login(true);
+    }
     updateCarousel(0);
   }, [])
 
   useEffect(() => {
-    //If user is logged in, redirect to app
+    // If user is logged in, redirect to app
     if (authenticated && Auth.isTokenActive()) {
       navigate("/app");
     }
   }, [authenticated])
 
-  const login = () => {
+  const login = (useResetToken = false) => {
     setLoggingIn(true);
 
-    const loginDetails = new URLSearchParams({
-      username: email,
-      password: password,
-      grant_type: "password"
-    });
+    let loginDetails;
+
+    if (useResetToken) {
+      loginDetails = new URLSearchParams({
+        username: decodeURIComponent(searchParams.get("email")),
+        reset_token: decodeURIComponent(searchParams.get("reset_token")),
+        grant_type: "password"
+      });
+    } else {
+      loginDetails = new URLSearchParams({
+        username: email,
+        password: password,
+        grant_type: "password"
+      });
+    }
 
     const config = {
       headers: {
@@ -46,10 +61,14 @@ const Login = ({ updateCarousel }) => {
 
     axios.post(`${constants.ROOT_URL}/api/token`, loginDetails, config)
       .then(response => {
-        console.log('login successful');
         Auth.setToken(response.data.access_token, response.data.expires_in);
-        dispatch({ type: 'LOGGED_IN' })
-        navigate("/app");
+        dispatch({ type: 'LOGGED_IN' });
+        if (useResetToken) {
+          // user needs to set a new password
+          navigate("/app/my-account/password", { state: { mandatory: true } });
+        } else {
+          navigate("/app");
+        }
       })
       .catch(err => {
         console.log(err);
@@ -57,7 +76,7 @@ const Login = ({ updateCarousel }) => {
           console.log("wrong credentials");
         }
         setLoggingIn(false);
-        dispatch({ type: 'FAILED_LOGIN' });
+        dispatch({ type: 'FAILED_LOGIN', payload: { errorMessage } });
       });
   };
 
