@@ -7,8 +7,32 @@ on:
     branches: [ development ]
 
 jobs:
+  test:
+    name: Test application
+    runs-on: ubuntu-latest
+    steps:
+      - name: "☁️ checkout repository"
+        uses: actions/checkout@v3
+
+      - name: "🔧 setup node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'yarn'
+
+      - name: "📦 install dependencies"
+        run: yarn install --immutable --immutable-cache --check-cache
+
+      - name: "📦 build code"
+        run: yarn build
+
+      # We don't have any tests yet
+      # - name: "🔍 run tests"
+      #   run: yarn test
+
   deploy:
     name: Deploy to staging
+    needs: test
     if: github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
     steps:
