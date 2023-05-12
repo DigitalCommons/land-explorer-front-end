@@ -1,0 +1,18 @@
+name: Development
+
+on:
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ development ]
+
+jobs:
+  deploy:
+    name: Deploy to staging
+    if: github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    steps:
+      - name: "🚀 call webhook on staging server"
+        uses: distributhor/workflow-webhook@v3
+        env:
+          webhook_url: https://staging.hook-runner.landexplorer.coop/run.php?target=land-explorer-front-end
