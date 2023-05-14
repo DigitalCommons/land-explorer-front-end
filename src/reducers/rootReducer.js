@@ -16,9 +16,6 @@ import ReadOnlyReducer from "./ReadOnlyReducer";
 import MyMapsReducer from "./MyMapsReducer";
 import MapMetaReducer from "./MapMetaReducer";
 import ShareReducer from "./ShareReducer";
-import ForSaleReducer from "./ForSaleReducer";
-import CommunityAssetsReducer from "./CommunityAssetsReducer";
-import NodalsReducer from "./NodalsReducer";
 import LandOwnershipReducer from "./LandOwnershipReducer";
 import DataGroupsReducer from "./DataGroupsReducer";
 
@@ -27,7 +24,6 @@ export default combineReducers({
   menu: MenuReducer,
   profileMenu: ProfileMenuReducer,
   navigation: NavigationReducer,
-  nodal: NodalsReducer,
   modal: ModalReducer,
   map: MapReducer,
   mapBaseLayer: MapBaseLayerReducer,
@@ -41,8 +37,6 @@ export default combineReducers({
   myMaps: MyMapsReducer,
   mapMeta: MapMetaReducer,
   share: ShareReducer,
-  forSale: ForSaleReducer,
-  communityAssets: CommunityAssetsReducer,
   landOwnership: LandOwnershipReducer,
   dataGroups: DataGroupsReducer,
 });

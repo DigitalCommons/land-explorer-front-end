@@ -5,6 +5,7 @@ import axios from "axios";
 import constants from "../constants";
 import { getAuthHeader } from "../utils/Auth";
 import Loading from "../components/common/Loading";
+import { highlightProperty } from "../actions/LandOwnershipActions";
 
 const MapProperties = ({ center, map }) => {
   const [propertiesArray, setPropertiesArray] = useState([]);
@@ -57,16 +58,9 @@ const MapProperties = ({ center, map }) => {
       getProperties();
   }, [center, map, zoom, displayActive])
 
-  const highlightProperty = (property) => {
-    console.log("activpl", activePanel)
+  const onClickProperty = (property) => {
     if (activePanel !== 'Drawing Tools') {
-      dispatch({
-        type: "HIGHLIGHT_PROPERTY",
-        payload: {
-          highlightedProperty: property
-        }
-      })
-      dispatch({ type: 'SET_ACTIVE', payload: 'Land Information' });
+      dispatch(highlightProperty(property));
     }
   }
 
@@ -79,13 +73,13 @@ const MapProperties = ({ center, map }) => {
         detailedProperties.push(<Feature
           coordinates={[property.coordinates]}
           key={property.coordinates[0][0]}
-          onClick={() => highlightProperty(property)}
+          onClick={() => onClickProperty(property)}
         />)
       else
         basicProperties.push(<Feature
           coordinates={[property.coordinates]}
           key={property.coordinates[0][0]}
-          onClick={() => highlightProperty(property)}
+          onClick={() => onClickProperty(property)}
         />)
     })
 

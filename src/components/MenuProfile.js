@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { openModal } from '../actions/ModalActions';
-import { changeUser } from '../actions/UserActions'
 import analytics from '../analytics';
 import constants from '../constants';
 import withRouter from "../components/common/withRouter";
@@ -14,26 +13,8 @@ class MenuProfile extends Component {
         this.dispatchUserChange = this.dispatchUserChange.bind(this);
     }
 
-    dispatchUserChange(event) {
-        this.props.dispatch(changeUser(event.target.id));
-    }
-
-    ifPrivilegedDisplayButtons(privileged) {
-        if (privileged)
-            return <div>
-                <div className="tooltip-menu-item"
-                    onClick={this.dispatchUserChange}
-                    id="core"
-                >Core</div>
-                <div className="tooltip-menu-item"
-                    onClick={this.dispatchUserChange}
-                    id="council"
-                >Council</div>
-            </div>
-    }
-
     render() {
-        let { dispatch, open, privileged } = this.props;
+        let { dispatch, open } = this.props;
         return (
             <div style={{
                 display: open ? 'block' : 'none',
@@ -60,7 +41,6 @@ class MenuProfile extends Component {
                     >
                         Shared Maps
                     </div>
-                    {this.ifPrivilegedDisplayButtons(privileged)}
                     <div className="tooltip-menu-item no-hover"
                         style={{
                             marginTop: '10px'
@@ -95,7 +75,6 @@ MenuProfile.propTypes = {
 
 const mapStateToProps = ({ menu, user }) => ({
     open: menu.profile,
-    privileged: user.privileged
 });
 
 export default connect(mapStateToProps)(withRouter(MenuProfile));

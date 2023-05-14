@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setLngLat, zoomIn, zoomOut, setZoom, setCurrentLocation } from '../actions/MapActions';
-import { toggleMenuKey, toggleMenuLayers, toggleMenuCouncilKey } from "../actions/MenuActions";
+import { toggleMenuKey, toggleMenuLayers } from "../actions/MenuActions";
 import { openModal, closeModal } from "../actions/ModalActions";
 import constants from '../constants';
 
@@ -50,7 +50,7 @@ class Controls extends Component {
     }
 
     render() {
-        let { landDataLayers, activeCommunityAssets } = this.props;
+        let { landDataLayers } = this.props;
         let { zooming } = this.state;
         return (
             <div>
@@ -62,14 +62,6 @@ class Controls extends Component {
                     landDataLayers.length && (
                         <div className="menu-key-button"
                             onClick={() => this.props.toggleMenuKey()}
-                        />
-                    )
-                }
-                {
-                    // If layers are active show button toggle key menu
-                    activeCommunityAssets.length > 1 && (
-                        <div className="menu-key-button"
-                            onClick={() => this.props.toggleMenuCouncilKey()}
                         />
                     )
                 }
@@ -115,11 +107,10 @@ Controls.propTypes = {
     zoomOut: PropTypes.func
 };
 
-const mapStateToProps = ({ map, mapLayers, communityAssets, landOwnership }) => ({
+const mapStateToProps = ({ map, mapLayers, landOwnership }) => ({
     zoom: map.zoom,
     landDataLayers: mapLayers.landDataLayers,
-    activeCommunityAssets: communityAssets.activeCommunityAssets,
     propertiesDisplay: landOwnership.displayActive,
 });
 
-export default connect(mapStateToProps, { setLngLat, zoomIn, zoomOut, toggleMenuKey, toggleMenuLayers, toggleMenuCouncilKey, setCurrentLocation, closeModal, openModal, setZoom })(Controls);
+export default connect(mapStateToProps, { setLngLat, zoomIn, zoomOut, toggleMenuKey, toggleMenuLayers, setCurrentLocation, closeModal, openModal, setZoom })(Controls);

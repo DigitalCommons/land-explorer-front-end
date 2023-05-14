@@ -8,12 +8,3 @@ export const getUserDetails = () => {
         }
     }
 }
-
-export const changeUser = (newUserType) => {
-    return {
-        type: 'CHANGE_USER_TYPE',
-        payload: {
-            userType: newUserType,
-        }
-    }
-}

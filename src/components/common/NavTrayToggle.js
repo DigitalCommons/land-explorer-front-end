@@ -10,7 +10,7 @@ const NavTrayToggle = ({ title, on, onToggle, draggable = false }) => {
             <div className={`tray-item-title ${draggable && 'draggable'}`}>
                 {title}
             </div>
-            <ToggleSwitch on={on} tooltip="showHideData" />
+            <ToggleSwitch on={on} tooltip="ttShowHideData" />
         </div>
     )
 }

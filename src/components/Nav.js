@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import NavInformation from './NavInformation';
 import NavLandData from './NavLandData';
-import NavCommunityAssets from './NavCommunityAssets';
 import NavDrawingTools from './NavDrawingTools';
 import analytics from '../analytics';
 import { autoSave } from '../actions/MapActions';
@@ -13,9 +12,6 @@ const Nav = ({ drawControl }) => {
     const readOnly = useSelector(state => state.readOnly.readOnly);
     const currentMarker = useSelector(state => state.markers.currentMarker);
     const activePolygon = useSelector(state => state.drawings.activePolygon);
-    const type = useSelector(state => state.user.type);
-
-    const council = type == 'council';
 
     const closeTray = () => {
         dispatch({ type: 'CLOSE_TRAY' });
@@ -96,22 +92,14 @@ const Nav = ({ drawControl }) => {
                     data-tip
                     data-for="ttDrawingTools"
                 />
-                {council ? <div className={`nav-left-icon data-layers ${active === 'Community Assets' && 'active'}`}
+                <div className={`nav-left-icon data-layers ${active === 'Land Data' && 'active'}`}
                     onClick={() => {
-                        analytics.event(analytics._event.SIDE_NAV + ' Community Assets', 'Open');
-                        clickIcon('Community Assets')
+                        analytics.event(analytics._event.SIDE_NAV + ' Land Data', 'Open');
+                        clickIcon('Land Data')
                     }}
                     data-tip
-                    data-for="ttCommunityAssets"
-                /> :
-                    <div className={`nav-left-icon data-layers ${active === 'Land Data' && 'active'}`}
-                        onClick={() => {
-                            analytics.event(analytics._event.SIDE_NAV + ' Land Data', 'Open');
-                            clickIcon('Land Data')
-                        }}
-                        data-tip
-                        data-for="ttLandData"
-                    />}
+                    data-for="ttLandData"
+                />
                 <div className={`nav-left-icon info ${active === 'Land Information' && 'active'}`}
                     onClick={() => {
                         analytics.event(analytics._event.SIDE_NAV + ' Land Information', 'Open');
@@ -133,15 +121,11 @@ const Nav = ({ drawControl }) => {
                     />
                 )
             }
-            {council ? <NavCommunityAssets
+            <NavLandData
                 open={open}
                 active={active}
                 onClose={closeTray}
-            /> : <NavLandData
-                open={open}
-                active={active}
-                onClose={closeTray}
-            />}
+            />
             <NavInformation
                 open={open && active === 'Land Information'}
                 onClose={closeTray}

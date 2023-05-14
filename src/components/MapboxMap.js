@@ -14,8 +14,6 @@ import Nav from "./Nav";
 import Modals from "./Modals";
 import constants from "../constants";
 import mapSources from "../data/mapSources";
-import MapCommunityAssets from "./MapCommunityAssets";
-import MapCouncilLayers from "./MapCouncilLayers";
 import MapProperties from "./MapProperties";
 import MapDataGroups from "./MapDataGroups";
 import { autoSave, setLngLat, setZoom } from '../actions/MapActions';
@@ -262,7 +260,6 @@ class MapboxMap extends Component {
       // these are the base tile sets, aerial or streets
       layers: baseLayers,
     };
-    const council = type == "council";
 
     return (
       <div>
@@ -306,12 +303,6 @@ class MapboxMap extends Component {
               this.setState({ dataGroupPopupVisible: markerId })
             }}
           />
-          {council /* Map Council Layers (wards etc.)*/ && (
-            <MapCouncilLayers zoom={zoom} />
-          )}
-          {council /*For displaying community assets*/ && (
-            <MapCommunityAssets zoom={zoom} center={lngLat} map={this.map} />
-          )}
           {/*For displaying the property boundaries*/}
           {constants.LR_POLYGONS_ENABLED && (
             <MapProperties center={lngLat} map={this.map} />

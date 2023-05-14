@@ -9,7 +9,6 @@ import MapMenu from "./MapMenu";
 import ProfilePic from "./ProfilePic";
 import { useDispatch, useSelector } from "react-redux";
 import MenuKey from "./MenuKey";
-import CouncilMenuKey from "./CouncilMenuKey";
 import Geocoder from "./Geocoder";
 import analytics from "../analytics";
 
@@ -48,7 +47,7 @@ const Navbar = ({ limited }) => {
       <MenuProfile />
       <MenuLayers />
 
-      {user.type == "council" ? <CouncilMenuKey /> : <MenuKey />}
+      <MenuKey />
     </div>
   ) : (
     <div>

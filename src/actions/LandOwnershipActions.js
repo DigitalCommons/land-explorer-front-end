@@ -15,12 +15,17 @@ export const stopDisplayingProperties = () => ({
   payload: {},
 });
 
-export const highlightProperty = (highlightedProperty) => ({
-  type: "HIGHLIGHT_PROPERTY",
-  payload: {
-    highlightedProperty: highlightedProperty
+export const highlightProperty = (property) => {
+  return dispatch => {
+    dispatch({
+      type: "HIGHLIGHT_PROPERTY",
+      payload: {
+        highlightedProperty: property
+      }
+    });
+    dispatch({ type: 'SET_ACTIVE', payload: 'Land Information' });
   }
-});
+}
 
 export const clearHighlight = (property) => ({
   type: "CLEAR_HIGHLIGHT",
