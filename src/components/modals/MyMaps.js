@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Modal from '../common/Modal';
+import Modal from './Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import analytics from "../../analytics";
 import { openMap, deleteMap } from '../../actions/MapActions';

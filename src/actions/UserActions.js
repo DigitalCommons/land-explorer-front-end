@@ -1,4 +1,4 @@
-import { getRequest } from './common/RequestActions';
+import { getRequest } from './RequestActions';
 
 export const getUserDetails = () => {
     return async dispatch => {

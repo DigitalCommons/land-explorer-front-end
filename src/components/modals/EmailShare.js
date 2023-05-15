@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import constants from '../../constants';
 import { getAuthHeader } from "../../utils/Auth";
-import Modal from '../common/Modal';
+import Modal from './Modal';
 import { getMyMaps } from '../../actions/MapActions';
 
 const EmailShare = () => {

@@ -377,6 +377,54 @@ body {
   }
 }
 
+.toggle-switch {
+  height: 14px;
+  width: 25px;
+  position: sticky;
+  display: -webkit-inline-box;
+
+  .switch input {
+    display: none;
+  }
+
+  .switch input {
+    display: none;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $secondaryColor;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    border-radius: 34px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 10px;
+    width: 10px;
+    left: 3px;
+    top: 2px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+
+  input:checked+.slider:before {
+    background-color: $buttonGreen;
+    -webkit-transform: translateX(9px);
+    -ms-transform: translateX(9px);
+    transform: translateX(9px);
+  }
+}
+
 .tray-item {
   border-bottom: 1px solid #ddd;
 }

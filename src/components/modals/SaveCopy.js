@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Modal from "../common/Modal";
+import Modal from "./Modal";
 import { loadNewestMap, saveCurrentMap } from '../../actions/MapActions';
 
 const SaveCopy = () => {

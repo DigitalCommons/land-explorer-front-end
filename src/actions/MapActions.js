@@ -1,7 +1,7 @@
 import { isMobile } from 'react-device-detect';
 import { VERSION } from '../constants';
 import moment from 'moment';
-import { getRequest, postRequest } from './common/RequestActions';
+import { getRequest, postRequest } from './RequestActions';
 
 export const getMyMaps = () => {
     return async dispatch => {
