@@ -17,7 +17,7 @@
 */
 
 const constants = {
-    PROD: true,
+    DEV_MODE: process.env.NODE_ENV === 'development',
     STATIC_SITE_URL: 'https://landexplorer.coop',
     ROOT_URL: process.env.ROOT_URL,
     PAYMENTS_URL: process.env.PAYMENTS_URL,
