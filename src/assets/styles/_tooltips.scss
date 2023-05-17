@@ -19,6 +19,7 @@
 
 .tooltip-stay {
   pointer-events: auto !important;
+
   &:hover {
     visibility: visible !important;
     opacity: 1 !important;
@@ -123,9 +124,10 @@
 
 .tooltip-menu-layers {
   top: auto;
-  bottom: 92px;
+  bottom: 80px;
   right: 76px;
   z-index: 1;
+
   &:before {
     top: auto;
     bottom: -12px;
@@ -143,15 +145,17 @@
 
 .tooltip-menu-key {
   top: auto;
-  bottom: 92px;
+  bottom: 80px;
   right: 76px;
   z-index: 1;
+
   &:before {
     top: auto;
     bottom: -12px;
     left: 61%;
     transform: translateX(-50%) rotate(180deg);
   }
+
   &:after {
     top: auto;
     bottom: -11px;
@@ -163,31 +167,37 @@
 .tooltip-menu-profile {
   top: 85px;
   right: 21px;
+
   &:after {
     left: 50%;
     transform: translateX(-50%);
   }
+
   &:before {
     left: 50%;
     transform: translateX(-50%);
   }
-  @media #{$up-to-small} {
+
+  @media screen and (max-width: 650px) {
     &:after {
-      left: 56%;
+      left: 94%;
       transform: translateX(-56%);
     }
+
     &:before {
-      left: 56%;
+      left: 94%;
       transform: translateX(-56%);
     }
   }
 }
+
 .mapboxgl-popup-tip {
   opacity: 0;
 }
 
 .drawing-popup {
   z-index: 1000000;
+
   &:before {
     content: " ";
     position: absolute;
@@ -202,6 +212,7 @@
     border-color: transparent transparent #d2d2d2 transparent;
     z-index: 99999;
   }
+
   &:after {
     content: " ";
     position: absolute;
@@ -220,6 +231,7 @@
 
 .datagroup-popup {
   z-index: 1000000;
+
   &:before {
     content: " ";
     position: absolute;
@@ -234,6 +246,7 @@
     border-color: transparent transparent #d2d2d2 transparent;
     z-index: 99999;
   }
+
   &:after {
     content: " ";
     position: absolute;
@@ -259,10 +272,12 @@
   width: 180px;
   display: flex;
   justify-content: center;
+
   h2 {
     margin-top: 12px;
     user-select: none;
   }
+
   .close {
     position: absolute;
     top: 12px;
@@ -272,6 +287,7 @@
     border-radius: 50%;
     border: 1px solid red;
   }
+
   .popup-buttons {
     position: absolute;
     bottom: 12px;
@@ -280,11 +296,13 @@
     display: flex;
     justify-content: space-between;
     font-size: 14px;
+
     .left {
       margin-left: 24px;
       cursor: pointer;
       user-select: none;
     }
+
     .right {
       margin-right: 24px;
       cursor: pointer;

@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadNewestMap, saveCurrentMap } from '../../actions/MapActions';
+import { isMobile } from 'react-device-detect';
 
 const UNTITLED_NAME = 'Untitled Map';
 
-const MapTitleBar = () => {
+const MapTitleBar = ({ expanded }) => {
     const dispatch = useDispatch();
     const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
+    const isOnline = useSelector(state => state.connectivity.isOnline);
     const mapName = useSelector((state) => state.map.name);
-    const saving = useSelector((state) => state.mapMeta.saving);
-    const saveError = useSelector((state) => state.mapMeta.saveError);
-    const lastSaved = useSelector((state) => state.mapMeta.lastSaved);
+    const { saving, saveError, lastSaved, isSnapshot, writeAccess } = useSelector((state) => state.mapMeta);
     const [editing, setEditing] = useState(false);
 
     // We use this variable, rather than directly checking currentMapId, so that the 'add title'
@@ -18,13 +18,25 @@ const MapTitleBar = () => {
     const [isNewMap, setIsNewMap] = useState(currentMapId === null);
 
     // Distinct possibilities for the saving status
-    const readOnly = useSelector(state => state.readOnly.readOnly);
-    const editingNewMap = !readOnly && isNewMap;
-    const saved = !readOnly && !isNewMap && !saving && !saveError;
-    const savingNoError = !readOnly && !isNewMap && saving && !saveError;
-    const unableToSave = !readOnly && !isNewMap && saveError;
+    let status;
+    let popupOnHover = false;
+    if (isSnapshot || !writeAccess || isMobile) {
+        // We don't use the read-only Redux state, because we still want to show the saving status
+        // if we have no internet connection
+        status = 'noEdit';
+    } else if (isNewMap) {
+        status = 'editingNewMap';
+    } else if (saveError) {
+        status = 'error';
+        popupOnHover = true;
+    } else if (saving) {
+        status = 'savingNoError';
+    } else {
+        status = 'saved';
+        popupOnHover = true;
+    }
 
-    const popupOnHover = saved || unableToSave;
+    const saved = status === 'saved';
     const [popupVisible, setPopupVisible] = useState(false);
 
     useEffect(() => {
@@ -41,6 +53,7 @@ const MapTitleBar = () => {
         if (ref.current.textContent.trim() === '') {
             ref.current.textContent = UNTITLED_NAME;
         }
+
         const name = ref.current.textContent;
 
         setEditing(false);
@@ -61,21 +74,26 @@ const MapTitleBar = () => {
         }
     }
 
-    const onClickTitle = () => {
-        // Select all text if untitled
-        if (ref.current.textContent === UNTITLED_NAME) {
-            window.getSelection().selectAllChildren(ref.current);
-        }
+    const canEditTitle = writeAccess && isOnline;
 
-        setEditing(true);
+    const onClickTitle = () => {
+        if (canEditTitle) {
+            // Select all text if untitled
+            if (ref.current.textContent === UNTITLED_NAME) {
+                window.getSelection().selectAllChildren(ref.current);
+            }
+
+            setEditing(true);
+        }
     }
 
-    return <div className="map-title-bar">
+    return <div className={`map-title-bar${expanded ? "" : " map-title-bar-collapsed"}`}>
         <p
+            id={"map-name"}
             ref={ref}
             className={`map-name-text ${editing && 'editable'}`}
             spellCheck={false}
-            contentEditable={true}
+            contentEditable={canEditTitle}
             onClick={onClickTitle}
             onBlur={onClickOutside}
             onKeyUp={(e) => {
@@ -83,24 +101,32 @@ const MapTitleBar = () => {
                     e.preventDefault();
                     e.target.blur();
                 }
+                //limit map name to 30 characters
+                const mapName = document.getElementById("map-name");
+                if (mapName.textContent.length > 30) {
+                    mapName.textContent = mapName.textContent.slice(0, 30);
+                    document.execCommand('selectAll', false, null);
+                    document.getSelection().collapseToEnd();
+                }
+
             }}
             suppressContentEditableWarning={true}
         >
             {mapName || UNTITLED_NAME}
         </p>
         <div>
-            {readOnly &&
+            {status === 'noEdit' &&
                 <p className="map-saving-text">
-                    read-only
+                    {`${isMobile ? 'Mobile ' : ''}read-only mode`}
                 </p>
             }
-            {editingNewMap &&
+            {status === 'editingNewMap' &&
                 <p className="map-saving-text" onClick={onClickTitle}>
-                    {editing || 'add title to save map'}
+                    {editing || !canEditTitle || 'add title to save map'}
                 </p>
             }
-            {savingNoError &&
-                <p className={"map-saving-text"}>
+            {status === 'savingNoError' &&
+                <p className="map-saving-text">
                     saving...
                 </p>
             }
@@ -111,7 +137,7 @@ const MapTitleBar = () => {
                     onMouseOut={() => setPopupVisible(false)}
                 >
                     {saved && 'changes saved!'}
-                    {unableToSave && (saving ? 'unsaved changes, retrying...' : 'unable to save')}
+                    {(status === 'error') && (saving ? 'unsaved changes, retrying...' : 'unable to save')}
                 </p>
             }
             {popupVisible &&

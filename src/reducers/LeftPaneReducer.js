@@ -6,17 +6,17 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case 'TOGGLE_NAVIGATION':
+        case 'TOGGLE_LEFT_PANE':
             return {
                 ...state,
                 open: !state.open
             }
-        case 'OPEN_NAVIGATION':
+        case 'OPEN_LEFT_PANE':
             return {
                 ...state,
                 open: true
             }
-        case 'CLOSE_NAVIGATION':
+        case 'CLOSE_LEFT_PANE':
             return {
                 ...state,
                 open: false,

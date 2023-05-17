@@ -46,8 +46,8 @@ class PolygonSection extends Component {
         let { polygon, activePolygon, dispatch } = this.props;
         let open = polygon.uuid === activePolygon;
         return (
-            <div className="nav-tray-section">
-                <div className={`nav-tray-section-title polygon-section${polygon.type === 'Polygon' ? '' : '-line'}`}
+            <div className="left-pane-tray-section">
+                <div className={`left-pane-tray-section-title polygon-section${polygon.type === 'Polygon' ? '' : '-line'}`}
                     onClick={() => {
                         if (open) {
                             dispatch({

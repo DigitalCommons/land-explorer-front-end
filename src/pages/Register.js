@@ -87,7 +87,7 @@ class Register extends Component {
   }
 
   componentDidMount() {
-    this.props.updateCarousel(1);
+    this.props.updateBgImage(1);
   }
 
   handleSubmit = async e => {

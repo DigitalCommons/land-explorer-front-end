@@ -1,51 +1,31 @@
-import React, { Component } from 'react';
+import React, { useState } from "react";
 import { Route, Routes } from 'react-router';
-import withRouter from "../components/common/withRouter";
 import TopBar from '../components/top-bar/TopBar';
 import Register from "./Register";
 import Login from "./Login";
 import ResetPassword from "./ResetPassword";
 import FourOhFour from "./FourOhFour";
-import BackgroundImage from '../components/top-bar/BackgroundImage';
+import BackgroundImage from '../components/common/BackgroundImage';
 
-class Authentication extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            image: 0,
-            prevImage: 0,
-        }
+const Authentication = () => {
+    const [image, setImage] = useState(0);
+
+    const updateBgImage = (n) => {
+        setImage(n);
     }
-    componentDidMount() {
-        let { pathname } = this.props.router.location;
-        if (pathname.includes('register')) {
-            this.setState({ prevImage: 1 })
-        } else if (pathname.includes('reset')) {
-            this.setState({ prevImage: 2 })
-        }
-    }
-    updateCarousel = (n) => {
-        this.setState({
-            image: n,
-        })
-    }
-    render() {
-        console.log("Authentication route", this.props.router.location);
-        return (
-            <div>
-                <TopBar limited={true} />
-                <BackgroundImage image={this.state.image} />
-                <Routes>
-                    <Route exact path="/" element={<Login updateCarousel={this.updateCarousel} />} />
-                    <Route path="/register" element={<Register updateCarousel={this.updateCarousel} />} />
-                    <Route path="/reset-password" element={<ResetPassword updateCarousel={this.updateCarousel} />} />
-                    <Route path="/*" element={<FourOhFour />} />
-                </Routes>
-            </div>
-        );
-    }
+
+    return (
+        <div>
+            <TopBar limited={true} />
+            <BackgroundImage image={image} />
+            <Routes>
+                <Route path="/" element={<Login updateBgImage={updateBgImage} />} />
+                <Route path="/register" element={<Register updateBgImage={updateBgImage} />} />
+                <Route path="/reset-password" element={<ResetPassword updateBgImage={updateBgImage} />} />
+                <Route path="/*" element={<FourOhFour />} />
+            </Routes>
+        </div>
+    );
 }
 
-Authentication.propTypes = {};
-
-export default withRouter(Authentication);
+export default Authentication;

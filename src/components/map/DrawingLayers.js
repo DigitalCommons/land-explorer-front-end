@@ -5,9 +5,7 @@ import Drawing from './Drawing';
 class DrawingLayers extends Component {
     renderPolygons = () => {
         return this.props.polygons.map((polygon, i) => {
-            console.log("polygon", polygon);
             let type = polygon.data.geometry.type === 'Polygon' ? 'polygon' : 'line';
-            console.log("type", type);
             return (<Drawing
                 type={type}
                 key={polygon.uuid}
@@ -27,9 +25,9 @@ class DrawingLayers extends Component {
 
 DrawingLayers.propTypes = {};
 
-const mapStateToProps = ({ drawings, navigation }) => ({
+const mapStateToProps = ({ drawings, leftPane }) => ({
     polygons: drawings.polygons,
-    activeTool: navigation.activeTool
+    activeTool: leftPane.activeTool
 });
 
 export default connect(mapStateToProps)(DrawingLayers);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { autoSave } from '../../actions/MapActions';
-import NavTrayToggle from './NavTrayToggle';
+import LeftPaneToggle from './LeftPaneToggle';
 
 const LandDataLayerToggle = ({ title, layerId, draggable = false }) => {
     const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const LandDataLayerToggle = ({ title, layerId, draggable = false }) => {
     }
 
     return (
-        <NavTrayToggle
+        <LeftPaneToggle
             title={title}
             on={activeLayers.includes(layerId)}
             onToggle={onToggle}

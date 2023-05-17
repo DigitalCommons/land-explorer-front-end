@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import AuthenticationReducer from "./AuthenticationReducer";
 import MenuReducer from "./MenuReducer";
 import ProfileMenuReducer from "./ProfileMenuReducer";
-import NavigationReducer from "./NavigationReducer";
+import LeftPaneReducer from "./LeftPaneReducer";
 import ModalReducer from "./ModalReducer";
 import MapReducer from "./MapReducer";
 import MapBaseLayerReducer from "./MapBaseLayerReducer";
@@ -18,12 +18,13 @@ import MapMetaReducer from "./MapMetaReducer";
 import ShareReducer from "./ShareReducer";
 import LandOwnershipReducer from "./LandOwnershipReducer";
 import DataGroupsReducer from "./DataGroupsReducer";
+import ConnectivityReducer from "./ConnectivityReducer";
 
 export default combineReducers({
   authentication: AuthenticationReducer,
   menu: MenuReducer,
   profileMenu: ProfileMenuReducer,
-  navigation: NavigationReducer,
+  leftPane: LeftPaneReducer,
   modal: ModalReducer,
   map: MapReducer,
   mapBaseLayer: MapBaseLayerReducer,
@@ -39,4 +40,5 @@ export default combineReducers({
   share: ShareReducer,
   landOwnership: LandOwnershipReducer,
   dataGroups: DataGroupsReducer,
+  connectivity: ConnectivityReducer
 });

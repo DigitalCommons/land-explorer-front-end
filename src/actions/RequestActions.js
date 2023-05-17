@@ -18,7 +18,7 @@ export const getRequest = endpoint => {
         } catch (err) {
             console.error(`There was an error in ${endpoint} GET request`, err);
 
-            if (err.response.status === 401) {
+            if (err.response?.status === 401) {
                 dispatch({ type: 'SESSION_TIMED_OUT' });
             }
         }
@@ -43,7 +43,7 @@ export const postRequest = (endpoint, body) => {
         } catch (err) {
             console.error(`There was an error in ${endpoint} POST request`, err);
 
-            if (err.response.status === 401) {
+            if (err.response?.status === 401) {
                 dispatch({ type: 'SESSION_TIMED_OUT' });
             }
         }

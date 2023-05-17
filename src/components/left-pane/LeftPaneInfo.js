@@ -1,16 +1,16 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import NavTray from './NavTray';
+import LeftPaneTray from './LeftPaneTray';
 import MarkerSection from './MarkerSection';
 import PolygonSection from './PolygonSection';
 import PropertySection from './PropertySection';
 
-const NavInformation = ({ onClose, open }) => {
+const LeftPaneInfo = ({ onClose, open }) => {
     const markers = useSelector(state => state.markers.markers);
     const polygons = useSelector(state => state.drawings.polygons);
     const properties = useSelector(state => state.landOwnership.highlightedProperty);
 
-    return <NavTray
+    return <LeftPaneTray
         title="Land Information"
         open={open}
         onClose={onClose}
@@ -38,7 +38,7 @@ const NavInformation = ({ onClose, open }) => {
                 </div>
             )
         }
-    </NavTray>
+    </LeftPaneTray>
 }
 
-export default NavInformation;
+export default LeftPaneInfo;

@@ -15,7 +15,7 @@ const MapProperties = ({ center, map }) => {
   const zoom = useSelector(state => state.map.zoom);
   const highlightedProperty = useSelector(state => state.landOwnership.highlightedProperty);
 
-  const activePanel = useSelector(state => state.navigation.active);
+  const activePanel = useSelector(state => state.leftPane.active);
 
   const dispatch = useDispatch();
 

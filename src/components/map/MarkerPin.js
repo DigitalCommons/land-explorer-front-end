@@ -81,8 +81,8 @@ class MarkerPin extends Component {
 
 MarkerPin.propTypes = {};
 
-const mapStateToProps = ({ navigation, mapBaseLayer }) => ({
-    activeTool: navigation.activeTool,
+const mapStateToProps = ({ leftPane, mapBaseLayer }) => ({
+    activeTool: leftPane.activeTool,
     baseLayer: mapBaseLayer.layer,
 })
 

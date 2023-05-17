@@ -6,7 +6,7 @@ import * as turf from "@turf/turf";
 
 const Drawing = ({ type, polygon }) => {
     const [popupClosed, setPopupClosed] = useState(false);
-    const activeTool = useSelector(state => state.navigation.activeTool);
+    const activeTool = useSelector(state => state.leftPane.activeTool);
     const activePolygon = useSelector(state => state.drawings.activePolygon);
     const baseLayer = useSelector(state => state.mapBaseLayer.layer);
 

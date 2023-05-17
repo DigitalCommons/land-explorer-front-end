@@ -1,15 +1,15 @@
 import React from 'react';
 
-const NavTray = ({ css, open, title, onClose, header, children }) => {
+const LeftPaneTray = ({ css, open, title, onClose, header, children }) => {
 
-    return <div className={css ? css : 'nav-left-tray'}
+    return <div className={css ? css : 'left-pane-tray'}
         style={{
             transform: open ? 'translateX(0%)' : 'translateX(-200%)',
             boxShadow: open ? '3px 0 6px 0 rgba(0, 0, 0, 0.16)' : 'none',
-            overflow: 'scroll'
+            overflowY: 'auto'
         }}
     >
-        <div className="nav-left-tray-container">
+        <div className="left-pane-tray-container">
             <div className="tray-top">
                 <div className="tray-title">
                     <div className="title">{title}</div>
@@ -25,4 +25,4 @@ const NavTray = ({ css, open, title, onClose, header, children }) => {
 
 }
 
-export default NavTray;
+export default LeftPaneTray;

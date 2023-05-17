@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import NavTray from './NavTray';
-import NavTrayToggle from './NavTrayToggle';
+import LeftPaneTray from './LeftPaneTray';
+import LeftPaneToggle from './LeftPaneToggle';
 import Draggable from './Draggable';
 import LandDataLayerToggle from './LandDataLayerToggle'
 import { toggleDataGroup } from '../../actions/DataGroupActions';
@@ -34,7 +34,7 @@ const DataLayersContainer = ({ children, title }) => {
     </div>
 }
 
-const NavLandData = ({ open, active, onClose }) => {
+const LeftPaneLandData = ({ open, active, onClose }) => {
     const dispatch = useDispatch();
 
     const userGroupTitlesAndIDs = useSelector((state) => state.dataGroups.userGroupTitlesAndIDs);
@@ -47,7 +47,7 @@ const NavLandData = ({ open, active, onClose }) => {
     </p>
 
     return (
-        <NavTray
+        <LeftPaneTray
             title="Data Layers"
             open={open && active === 'Land Data'}
             onClose={onClose}
@@ -66,7 +66,7 @@ const NavLandData = ({ open, active, onClose }) => {
                 </Draggable>
             </DataLayersContainer>
             <DataLayersContainer title={"Land Ownership"}>
-                <NavTrayToggle
+                <LeftPaneToggle
                     title={"Land Registry"}
                     on={landOwnershipActive}
                     onToggle={() => dispatch({ type: "TOGGLE_PROPERTY_DISPLAY" })}
@@ -83,7 +83,7 @@ const NavLandData = ({ open, active, onClose }) => {
             {userGroupTitlesAndIDs && userGroupTitlesAndIDs.map(userGroup =>
                 <DataLayersContainer title={userGroup.title} key={userGroup.id}>
                     {dataGroupTitlesAndIDs && dataGroupTitlesAndIDs.filter(dataGroup => dataGroup.userGroupId == userGroup.id).map(dataGroup =>
-                        <NavTrayToggle
+                        <LeftPaneToggle
                             key={dataGroup.id}
                             title={dataGroup.title}
                             on={activeGroups.includes(dataGroup.id)}
@@ -91,8 +91,8 @@ const NavLandData = ({ open, active, onClose }) => {
                         />)}
                 </DataLayersContainer>
             )}
-        </NavTray>
+        </LeftPaneTray>
     );
 }
 
-export default NavLandData;
+export default LeftPaneLandData;

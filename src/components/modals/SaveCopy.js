@@ -25,7 +25,7 @@ const SaveCopy = () => {
     }
 
     return <Modal id="saveCopy" padding={true}>
-        <div className="modal-title">Save copy of "{map.name}"</div>
+        <div className="modal-title modal-padding">Save copy of "{map.name}"</div>
         <div className="modal-buttons">
             <div className="button button-cancel rounded-button-full modal-button-cancel"
                 onClick={() => {

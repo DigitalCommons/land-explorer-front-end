@@ -1,62 +1,4 @@
-html,
-body {
-  overflow: hidden;
-}
-
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 68px;
-  background-color: #fbfbfb;
-  display: flex;
-  align-items: center;
-  z-index: 100003;
-
-  .logo {
-    background-image: url("../img/logo-green.svg");
-    height: 41px;
-    width: 230px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    margin-left: 19px;
-  }
-}
-
-.big-logo {
-  background-image: url("../img/logo-green.svg");
-  height: 41px;
-  width: 230px;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin-left: 19px;
-}
-
-.navbar-shadow {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 68px;
-  background-color: #fbfbfb;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-  z-index: 100002;
-}
-
-.navbar-right {
-  display: flex;
-  justify-self: self-end;
-  width: 100px;
-}
-
-.nav-left {
+.left-pane {
   width: 72px;
   position: fixed;
   left: 0;
@@ -67,7 +9,7 @@ body {
   z-index: 100001;
   transition: transform 300ms ease;
 
-  .nav-left-icon {
+  .left-pane-icon {
     height: 58px;
     width: 100%;
     background-repeat: no-repeat;
@@ -76,13 +18,9 @@ body {
     cursor: pointer;
   }
 
-  .nav-left-icon.active {
+  .left-pane-icon.active {
     background-color: $primaryColor;
     box-shadow: inset 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-
-    .icon-separator {
-      display: none;
-    }
   }
 
   .close {
@@ -150,65 +88,12 @@ body {
   }
 }
 
-.icon-separator {
-  width: calc(100% - 8px);
-  left: 4px;
-  height: 1px;
-  border-bottom: solid 1px white;
-  border-top: solid 1px #e5e5e5;
-  position: absolute;
-  bottom: 0;
+.left-pane-tray-container {
+  position: relative;
+  min-height: 100%;
 }
 
-.navbar-right {
-  display: flex;
-  flex-direction: row;
-  width: auto;
-  align-items: center;
-  position: absolute;
-  right: 0;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-}
-
-.navbar--userlogo {
-  background-color: #78838e;
-  height: 48px;
-  width: 48px;
-  margin-right: 24px;
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.16);
-  border: solid 2px #ffffff;
-  background-size: cover;
-  background-position: center;
-  border-radius: 50%;
-  cursor: pointer;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 600;
-  letter-spacing: 2px;
-  padding-left: 2px;
-  user-select: none;
-}
-
-.navbar--username {
-  margin-right: 24px;
-  user-select: none;
-}
-
-.hamburger {
-  background-image: url('../img/icon-hamburger.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  margin-right: 30px;
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.nav-left-tray {
+.left-pane-tray {
   left: 72px;
   position: fixed;
   width: 250px;
@@ -216,26 +101,11 @@ body {
   top: 68px;
   background-color: #f4f5f7;
   box-shadow: 3px 0 6px 0 rgba(0, 0, 0, 0.16);
-  z-index: 100;
+  z-index: 100000;
   transition: transform 500ms ease;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
-}
-
-.nav-left-tray-wide {
-  left: 72px;
-  position: fixed;
-  width: 600px;
-  bottom: 0;
-  top: 68px;
-  background-color: #f4f5f7;
-  box-shadow: 3px 0 6px 0 rgba(0, 0, 0, 0.16);
-  z-index: 100000;
-  transition: transform 500ms ease;
-  //-webkit-overflow-scrolling: touch;
-  overflow-x: hidden;
-  overflow-y: hidden;
 }
 
 .tray-top {
@@ -273,7 +143,7 @@ body {
   user-select: none !important;
 }
 
-.nav-tray-section-title {
+.left-pane-tray-section-title {
   min-height: 58px;
   box-sizing: border-box;
   position: relative;
@@ -306,12 +176,6 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-}
-
-.drawing-tool.active {
-  .icon-separator {
-    display: none;
-  }
 }
 
 .tray-item {
@@ -353,7 +217,7 @@ body {
   }
 }
 
-.toggle-nav {
+.toggle-left-pane {
   border-radius: 50%;
   height: 50px;
   width: 50px;
@@ -361,7 +225,7 @@ body {
   top: 84px;
   left: 12px;
   z-index: 2;
-  background-image: url("../img/icon-nav-cog.svg");
+  background-image: url("../img/icon-cog.svg");
   background-size: 50%;
   background-position: center;
   background-repeat: no-repeat;
@@ -470,39 +334,6 @@ body {
   -webkit-box-sizing: border-box;
 }
 
-.link {
-  position: absolute;
-  color: rgb(76, 76, 76);
-  text-decoration: none;
-  font: 14px/1em "Helvetica";
-
-  top: 0;
-  left: 0;
-}
-
-.grid-of-listings {
-  height: 95%;
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-column-gap: 10px;
-  grid-row-gap: 25px;
-  padding: 15px;
-  margin: 10px;
-  overflow-x: hidden;
-}
-
-.listing {
-  background-color: white;
-  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2);
-  margin: auto;
-  text-align: center;
-}
-
-.listing-image {
-  width: 240px;
-  height: 240px;
-}
-
 a.mapboxgl-ctrl-logo {
   display: none !important;
 }
@@ -544,26 +375,4 @@ a.mapboxgl-ctrl-logo {
 .land-data-description {
   margin-top: 0;
   margin-left: 15px;
-}
-
-.map-menu-container {
-  position: relative;
-  left: -20px;
-}
-
-.map-menu {
-  position: relative;
-  box-shadow: 0px 3px 6px #00000029;
-  background-color: white;
-  margin: 0px;
-}
-
-.map-menu-option {
-  padding: 8px;
-  margin: 2px 0px;
-}
-
-.map-menu-option:hover {
-  background-color: #D2D2D2;
-  cursor: pointer;
 }

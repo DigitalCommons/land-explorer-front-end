@@ -3,12 +3,12 @@
 @import "buttons";
 @import "tooltips";
 @import "modals";
-@import "nav";
+@import "top-bar";
+@import "left-pane";
 @import "forms";
 @import "select";
 @import "registration";
 @import "my-account";
-@import "land-ownership";
 @import "properties";
 @import "datalayers";
 
@@ -39,6 +39,10 @@ h6 {
 
 .bold {
   font-weight: 700;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 #map {
@@ -77,48 +81,6 @@ h6 {
 
 .mapboxgl-map {
   background-color: transparent;
-}
-
-.map-title-bar {
-  width: 250px;
-}
-
-.map-name-text {
-  cursor: pointer;
-  font-size: 17px;
-  margin: 4% 5% 0%;
-  padding: 0.5% 2%;
-  border-radius: 100px;
-}
-
-// Don't show line breaks in map name since these are not saved
-.map-name-text * {
-  display: inline;
-}
-
-.map-name-text br {
-  display: none;
-}
-
-.map-name-text:hover {
-  background-color: #F3F3F3;
-}
-
-.map-name-text.editable {
-  cursor: text;
-}
-
-.map-saving-text {
-  cursor: pointer;
-  font-size: 14px;
-  height: 17px;
-  margin: 0% 5%;
-  padding: 0% 2%;
-  color: #d0024e;
-}
-
-.map-saving-text.saved {
-  color: #2ecc71;
 }
 
 .os-accreditation {
@@ -303,4 +265,19 @@ h6 {
   height: 40px;
   width: 40px;
   z-index: 1;
+}
+
+.toast {
+  z-index: 99999;
+  position: fixed;
+  width: 300px;
+  top: 100px;
+  left: 50%;
+  margin-left: -150px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 4px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32);
+  background-color: #4d4d4d;
+  color: #ffffff;
 }

@@ -1,18 +1,15 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { isMobile } from 'react-device-detect';
 import MapboxMap from '../components/map/MapboxMap';
 import TopBar from '../components/top-bar/TopBar';
-import '../assets/styles/style.scss';
 import Tooltips from '../components/common/Tooltips';
 import ControlButtons from '../components/map-controls/ControlButtons';
-import MenuKey from '../components/map-controls/MenuKey';
-import MenuLayers from '../components/map-controls/MenuKey';
 import Spinner from '../components/common/Spinner';
 import * as Auth from "../utils/Auth";
 import { getMyMaps } from '../actions/MapActions'
 import { getUserDetails } from '../actions/UserActions';
+import NoConnectionToast from '../components/map/NoConnectionToast';
 
 const MapApp = () => {
     const authenticated = useSelector(state => state.authentication.authenticated);
@@ -24,11 +21,6 @@ const MapApp = () => {
     useEffect(() => {
         dispatch(getUserDetails());
         dispatch(getMyMaps());
-
-        // if mobile, disable drawing tools
-        if (isMobile) {
-            dispatch({ type: 'READ_ONLY_ON' });
-        }
     }, [])
 
     useEffect(() => {
@@ -43,9 +35,9 @@ const MapApp = () => {
     // If user details have been populated, render map, else render loading spinner
     if (user.populated) {
         /*
-            Tooltips - hover tooltips for nav items
-            MapboxMap - MapboxGL instance, drawing tools, nav, ui etc.
-            Navbar - navbar at top of page
+            Tooltips - hover tooltips for buttons
+            MapboxMap - MapboxGL instance, drawing tools, left pane, ui etc.
+            TopBar - navigation bar at top of page
             Controls - map and layer controls in bottom right of app
          */
         return (
@@ -53,9 +45,8 @@ const MapApp = () => {
                 <Tooltips />
                 <MapboxMap user={user} />
                 <TopBar limited={false} />
+                <NoConnectionToast />
                 <ControlButtons />
-                <MenuKey />
-                <MenuLayers />
             </div>
         )
     } else {

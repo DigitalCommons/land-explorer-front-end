@@ -1,14 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import NavInformation from './NavInformation';
-import NavLandData from './NavLandData';
-import NavDrawingTools from './NavDrawingTools';
+import LeftPaneInfo from './LeftPaneInfo';
+import LeftPaneLandData from './LeftPaneLandData';
+import LeftPaneDrawingTools from './LeftPaneDrawingTools';
 import analytics from '../../analytics';
 import { autoSave } from '../../actions/MapActions';
 
 const LeftPane = ({ drawControl }) => {
     const dispatch = useDispatch();
-    const { open, active, activeTool } = useSelector(state => state.navigation);
+    const { open, active, activeTool } = useSelector(state => state.leftPane);
     const readOnly = useSelector(state => state.readOnly.readOnly);
     const currentMarker = useSelector(state => state.markers.currentMarker);
     const activePolygon = useSelector(state => state.drawings.activePolygon);
@@ -17,15 +17,15 @@ const LeftPane = ({ drawControl }) => {
         dispatch({ type: 'CLOSE_TRAY' });
     }
 
-    const closeNav = () => {
+    const closePane = () => {
         if (active !== '') {
             dispatch({ type: 'CLOSE_TRAY' });
 
             setTimeout(() => {
-                dispatch({ type: 'CLOSE_NAVIGATION' });
+                dispatch({ type: 'CLOSE_LEFT_PANE' });
             }, 200);
         } else {
-            dispatch({ type: 'CLOSE_NAVIGATION' });
+            dispatch({ type: 'CLOSE_LEFT_PANE' });
         }
     }
 
@@ -67,42 +67,42 @@ const LeftPane = ({ drawControl }) => {
 
     return (
         <nav>
-            <div className="toggle-nav"
+            <div className="toggle-left-pane"
                 onClick={() => {
-                    analytics.event(analytics._event.SIDE_NAV, 'Open');
-                    dispatch({ type: 'TOGGLE_NAVIGATION' })
+                    analytics.event(analytics._event.LEFT_PANE, 'Open');
+                    dispatch({ type: 'TOGGLE_LEFT_PANE' })
                 }}
             >
             </div>
-            <div className="nav-left"
+            <div className="left-pane"
                 style={{ transform: open ? 'translateX(0)' : 'translateX(-100%)' }}
             >
-                <div className="nav-left-icon close"
-                    onClick={closeNav}
+                <div className="left-pane-icon close"
+                    onClick={closePane}
                 />
                 <div id="drawing-tools-icon"
-                    className={`nav-left-icon drawing-tools ${active === 'Drawing Tools' && 'active'}`}
+                    className={`left-pane-icon drawing-tools ${active === 'Drawing Tools' && 'active'}`}
                     style={{ opacity: readOnly ? .5 : 1 }}
                     onClick={() => {
                         if (!readOnly) {
-                            analytics.event(analytics._event.SIDE_NAV + ' Drawing', 'Open');
+                            analytics.event(analytics._event.LEFT_PANE + ' Drawing', 'Open');
                             clickIcon('Drawing Tools')
                         }
                     }}
                     data-tip
                     data-for="ttDrawingTools"
                 />
-                <div className={`nav-left-icon data-layers ${active === 'Land Data' && 'active'}`}
+                <div className={`left-pane-icon data-layers ${active === 'Land Data' && 'active'}`}
                     onClick={() => {
-                        analytics.event(analytics._event.SIDE_NAV + ' Land Data', 'Open');
+                        analytics.event(analytics._event.LEFT_PANE + ' Land Data', 'Open');
                         clickIcon('Land Data')
                     }}
                     data-tip
                     data-for="ttLandData"
                 />
-                <div className={`nav-left-icon info ${active === 'Land Information' && 'active'}`}
+                <div className={`left-pane-icon info ${active === 'Land Information' && 'active'}`}
                     onClick={() => {
-                        analytics.event(analytics._event.SIDE_NAV + ' Land Information', 'Open');
+                        analytics.event(analytics._event.LEFT_PANE + ' Land Information', 'Open');
                         clickIcon('Land Information')
                     }}
                     data-tip
@@ -112,7 +112,7 @@ const LeftPane = ({ drawControl }) => {
             {
                 // If not read only, render drawing tools
                 !readOnly && (
-                    <NavDrawingTools
+                    <LeftPaneDrawingTools
                         active={active}
                         open={open}
                         onClose={closeTray}
@@ -121,12 +121,12 @@ const LeftPane = ({ drawControl }) => {
                     />
                 )
             }
-            <NavLandData
+            <LeftPaneLandData
                 open={open}
                 active={active}
                 onClose={closeTray}
             />
-            <NavInformation
+            <LeftPaneInfo
                 open={open && active === 'Land Information'}
                 onClose={closeTray}
             />

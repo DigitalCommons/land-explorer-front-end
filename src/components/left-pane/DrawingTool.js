@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const DrawingTool = ({ tool, name, mode, size, drawControl }) => {
     const dispatch = useDispatch();
-    const activeTool = useSelector(state => state.navigation.activeTool);
+    const activeTool = useSelector(state => state.leftPane.activeTool);
     const activePolygon = useSelector(state => state.drawings.activePolygon);
 
     const isToolActive = activeTool === tool;

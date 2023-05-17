@@ -22,8 +22,8 @@ class MarkerSection extends Component {
         let open = marker.uuid === currentMarker;
         console.log("marker", marker);
         return (
-            <div className="nav-tray-section">
-                <div className="nav-tray-section-title marker-section"
+            <div className="left-pane-tray-section">
+                <div className="left-pane-tray-section-title marker-section"
                     onClick={() => {
                         if (open) {
                             dispatch({

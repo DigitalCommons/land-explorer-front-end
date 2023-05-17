@@ -1,9 +1,9 @@
 import React from 'react';
-import NavTray from './NavTray';
+import LeftPaneTray from './LeftPaneTray';
 import DrawingTool from './DrawingTool';
 
-const NavDrawingTools = ({ open, active, onClose, drawControl, handleTrashClick }) => (
-    <NavTray
+const LeftPaneDrawingTools = ({ open, active, onClose, drawControl, handleTrashClick }) => (
+    <LeftPaneTray
         open={open && active === 'Drawing Tools'}
         onClose={onClose}
         title="Drawing Tools"
@@ -30,7 +30,7 @@ const NavDrawingTools = ({ open, active, onClose, drawControl, handleTrashClick 
             />
             <div style={{ display: 'inline-block', userSelect: 'none' }}>Trash</div>
         </div>
-    </NavTray>
+    </LeftPaneTray>
 )
 
-export default NavDrawingTools;
+export default LeftPaneDrawingTools;

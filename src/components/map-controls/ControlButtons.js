@@ -1,119 +1,87 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLngLat, zoomIn, zoomOut, setZoom, setCurrentLocation } from '../../actions/MapActions';
-import { toggleMenuKey, toggleMenuLayers } from "../../actions/MenuActions";
 import { openModal, closeModal } from "../../actions/ModalActions";
 import constants from '../../constants';
+import MenuLayers from './MenuLayers';
+import MenuKey from './MenuKey';
 
-//TODO: move menus into this component
-// rename 'nav'
+const ControlButtons = () => {
+    const [menuLayersOpen, setMenuLayersOpen] = useState(false);
+    const [menuKeyOpen, setMenuKeyOpen] = useState(false);
+    const [zooming, setZooming] = useState(false);
+    const landDataLayers = useSelector((state) => state.mapLayers.landDataLayers);
+    const propertiesDisplayed = useSelector((state) => state.landOwnership.displayActive);
+    const zoom = useSelector((state) => state.map.zoom);
+    const dispatch = useDispatch();
 
-class ControlButtons extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            zooming: false,
-        }
-    }
-
-    getLocation = () => {
+    const getLocation = () => {
         if (navigator.geolocation) {
-            this.props.openModal('location');
+            dispatch(openModal('location'));
             navigator.geolocation.getCurrentPosition((position) => {
                 console.log("geolocation position", position);
                 let lat = position.coords.latitude;
                 let lng = position.coords.longitude;
-                this.props.closeModal('location');
-                this.props.setZoom([17]);
-                this.props.setLngLat(lng, lat);
-                this.props.setCurrentLocation(lng, lat);
+                dispatch(closeModal('location'));
+                dispatch(setZoom([17]));
+                dispatch(setLngLat(lng, lat));
+                dispatch(setCurrentLocation(lng, lat));
             }, (error) => {
                 console.log("There was an error", error);
-                this.props.closeModal('location');
+                dispatch(closeModal('location'));
             });
         }
     }
 
-    zoomIn = () => {
-        this.setState({ zooming: true });
-        this.props.zoomIn();
-        setTimeout(() => {
-            this.setState({ zooming: false })
-        }, 600);
-    }
-
-    zoomOut = () => {
-        this.setState({ zooming: true });
-        this.props.zoomOut();
-        setTimeout(() => {
-            this.setState({ zooming: false })
-        }, 600);
-    }
-
-    render() {
-        let { landDataLayers } = this.props;
-        let { zooming } = this.state;
-        return (
-            <div>
-                <div className="menu-layers-button"
-                    onClick={() => this.props.toggleMenuLayers()}
-                />
-                {
-                    // If layers are active show button toggle key menu
-                    landDataLayers.length && (
-                        <div className="menu-key-button"
-                            onClick={() => this.props.toggleMenuKey()}
-                        />
-                    )
-                }
-                <div id="controls">
-                    <div className="zoom-button zoom-location"
-                        onClick={() => this.getLocation()}
+    return <div>
+        <MenuLayers open={menuLayersOpen} setOpen={(open) => {
+            setMenuLayersOpen(open);
+            open && setMenuKeyOpen(false)
+        }} />
+        {
+            // If layers are active show button toggle key menu
+            landDataLayers.length && <MenuKey open={menuKeyOpen} setOpen={(open) => {
+                setMenuKeyOpen(open);
+                open && setMenuLayersOpen(false)
+            }} />
+        }
+        <div id="controls">
+            <div className="zoom-button zoom-location"
+                onClick={() => getLocation()}
+            />
+            <div className="controls-slider">
+                {propertiesDisplayed &&
+                    <div className="zoom-button zoom-properties"
+                        style={{ marginBottom: '24px' }}
+                        onClick={() => {
+                            if (!zooming) {
+                                dispatch(setZoom([constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL]));
+                            }
+                        }}
                     />
-                    <div className="controls-slider">
-                        {this.props.propertiesDisplay &&
-                            <div className="zoom-button zoom-properties"
-                                style={{ marginBottom: '24px' }}
-                                onClick={() => {
-                                    if (!zooming) {
-                                        this.props.setZoom([constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL]);;
-                                    }
-                                }}
-                            />
+                }
+                <div className="zoom-button zoom-plus"
+                    style={{ marginBottom: '24px' }}
+                    onClick={() => {
+                        if (!zooming) {
+                            setZooming(true);
+                            dispatch(zoomIn());
+                            setTimeout(() => setZooming(false), 600);
                         }
-                        <div className="zoom-button zoom-plus"
-                            style={{ marginBottom: '24px' }}
-                            onClick={() => {
-                                if (!zooming) {
-                                    this.zoomIn();
-                                }
-                            }}
-                        />
-                        <div className="zoom-button zoom-minus"
-                            onClick={() => {
-                                if (!zooming) {
-                                    this.zoomOut();
-                                }
-                            }}
-                        />
-                    </div>
-                </div>
+                    }}
+                />
+                <div className="zoom-button zoom-minus"
+                    onClick={() => {
+                        if (!zooming) {
+                            setZooming(true);
+                            dispatch(zoomOut());
+                            setTimeout(() => setZooming(false), 600);
+                        }
+                    }}
+                />
             </div>
-        );
-    }
+        </div>
+    </div>;
 }
 
-ControlButtons.propTypes = {
-    zoomIn: PropTypes.func,
-    zoomOut: PropTypes.func
-};
-
-const mapStateToProps = ({ map, mapLayers, landOwnership }) => ({
-    zoom: map.zoom,
-    landDataLayers: mapLayers.landDataLayers,
-    propertiesDisplay: landOwnership.displayActive,
-});
-
-export default connect(mapStateToProps, { setLngLat, zoomIn, zoomOut, toggleMenuKey, toggleMenuLayers, setCurrentLocation, closeModal, openModal, setZoom })(ControlButtons);
+export default ControlButtons;

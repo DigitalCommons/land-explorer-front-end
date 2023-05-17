@@ -329,7 +329,7 @@ class MapboxMap extends Component {
           <DrawControl
             addControl={this.map}
             ref={(drawControl) => {
-              // this reference is passed to the Nav and Modals to give them access to the methods
+              // this reference is passed to the Left Pane and Modals to give them access to the methods
               this.drawControl = drawControl;
             }}
             position="bottom-right"
@@ -381,7 +381,7 @@ const mapStateToProps = ({
   map,
   mapBaseLayer,
   mapLayers,
-  navigation,
+  leftPane,
   markers,
   drawings,
   menu,
@@ -394,14 +394,13 @@ const mapStateToProps = ({
   currentMarker: markers.currentMarker,
   baseLayer: mapBaseLayer.layer,
   landDataLayers: mapLayers.landDataLayers,
-  activeTool: navigation.activeTool,
+  activeTool: leftPane.activeTool,
   activePolygon: drawings.activePolygon,
   polygons: drawings.polygons,
   polygonsDrawn: drawings.polygonsDrawn || 0,
   linesDrawn: drawings.linesDrawn || 0,
   lines: drawings.lines,
   loadingDrawings: drawings.loadingDrawings,
-  navOpen: navigation.open,
   movingMethod: map.movingMethod,
   menu: menu,
   user,

@@ -8,7 +8,7 @@ class ProfilePic extends Component {
         let { pic, initials } = this.props;
 
         return (
-            <div className="navbar--userlogo"
+            <div className="topbar--userlogo"
                 style={{
                     backgroundImage: pic ? `url(${pic})` : 'none',
                 }}

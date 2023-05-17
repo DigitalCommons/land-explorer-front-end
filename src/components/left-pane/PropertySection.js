@@ -16,8 +16,8 @@ const PropertySection = ({ property }) => {
         date_proprietor_added
     } = property;
 
-    return <div className="nav-tray-section">
-        <div className="nav-tray-section-title property-section"
+    return <div className="left-pane-tray-section">
+        <div className="left-pane-tray-section-title property-section"
             onClick={() => setOpen(!open)}
         >
             <h4 style={{

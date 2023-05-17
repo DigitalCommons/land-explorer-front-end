@@ -1,7 +1,7 @@
 import React from 'react';
-import ToggleSwitch from './ToggleSwitch';
+import ToggleSwitch from '../common/ToggleSwitch';
 
-const NavTrayToggle = ({ title, on, onToggle, draggable = false }) => {
+const LeftPaneToggle = ({ title, on, onToggle, draggable = false }) => {
     return (
         <div
             className={`tray-item`}
@@ -15,4 +15,4 @@ const NavTrayToggle = ({ title, on, onToggle, draggable = false }) => {
     )
 }
 
-export default NavTrayToggle;
+export default LeftPaneToggle;

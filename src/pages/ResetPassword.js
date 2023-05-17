@@ -39,7 +39,7 @@ class ResetPassword extends Component {
 
     componentDidMount() {
         analytics.pageview(window.location.pathname);
-        this.props.updateCarousel(2);
+        this.props.updateBgImage(2);
     }
 
     render() {

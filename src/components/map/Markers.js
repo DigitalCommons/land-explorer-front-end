@@ -69,7 +69,7 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
                 type: 'SET_CURRENT_MARKER',
                 payload: marker.uuid
             })
-            dispatch({ type: 'OPEN_NAVIGATION' });
+            dispatch({ type: 'OPEN_LEFT_PANE' });
             dispatch({
                 type: 'SET_ACTIVE',
                 payload: 'Land Information'

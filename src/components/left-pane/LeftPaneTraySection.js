@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-class NavTraySection extends Component {
+class LeftPaneTraySection extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,8 +17,8 @@ class NavTraySection extends Component {
     render() {
         let { title, children, open, dispatch, sectionId } = this.props;
         return (
-            <div className="nav-tray-section">
-                <div className="nav-tray-section-title"
+            <div className="left-pane-tray-section">
+                <div className="left-pane-tray-section-title"
                     onClick={() => {
                         dispatch({
                             type: 'TOGGLE_SECTION',
@@ -57,9 +57,9 @@ class NavTraySection extends Component {
     }
 }
 
-NavTraySection.propTypes = {
+LeftPaneTraySection.propTypes = {
     title: PropTypes.string.isRequired,
     sectionId: PropTypes.string.isRequired
 };
 
-export default connect(null)(NavTraySection);
+export default connect(null)(LeftPaneTraySection);
