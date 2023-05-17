@@ -12,6 +12,10 @@ fi
 # Pull latest code
 git pull
 
+# Install dependencies
+# TODO: move to yarn v2 and zero-installs https://yarnpkg.com/features/zero-installs
+yarn install
+
 # Bundle js, this takes 1-2 minutes
 yarn build
 
