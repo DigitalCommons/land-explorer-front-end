@@ -1,11 +1,9 @@
-
-export function isTokenExist(){
+function isTokenExist() {
     return localStorage.getItem('token') !== null && localStorage.getItem('token_expiry') !== null;
 }
 
-export function isTokenActive(){
-    if(isTokenExist())
-    {
+export function isTokenActive() {
+    if (isTokenExist()) {
         let now = new Date();
         let expiry = new Date(localStorage.getItem('token_expiry'));
         return now.getTime() < expiry.getTime();
@@ -13,7 +11,7 @@ export function isTokenActive(){
     return false;
 }
 
-export function setToken(token, expires_in){
+export function setToken(token, expires_in) {
     localStorage.setItem('token', token);
 
     var expiry = new Date();
@@ -22,23 +20,11 @@ export function setToken(token, expires_in){
     localStorage.setItem('token_expiry', expiry.toString());
 }
 
-export function getToken(){
-    return localStorage.getItem('token')
-}
-
-export function logout(){
+export function removeToken() {
     localStorage.removeItem('token');
     localStorage.removeItem('token_expiry');
 }
 
-export function getAuthHeader(){
-    return {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
-}
-
-export function bootstrap(){
-    return {headers: {'Authorization': "bearer " + localStorage.getItem('token')}};
-}
-
-export function test(){
-    return "TESTING CALL TO AUTH CLASS";
+export function getAuthHeader() {
+    return { headers: { 'Authorization': "bearer " + localStorage.getItem('token') } };
 }

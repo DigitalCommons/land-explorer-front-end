@@ -25,7 +25,7 @@ const MapProperties = ({ center, map }) => {
 
     const response = await axios
       .get(
-        `${constants.ROOT_URL}/api/ownership/?sw_lng=` +
+        `${constants.ROOT_URL}/api/ownership?sw_lng=` +
         mapBoundaries._sw.lng +
         "&sw_lat=" +
         mapBoundaries._sw.lat +

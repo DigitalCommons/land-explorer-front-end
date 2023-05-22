@@ -1,47 +1,44 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../common/Modal';
-import { connect } from 'react-redux';
+import { autoSave, newMap } from '../../actions/MapActions';
 
-const NewMap = (props) => (
-    <Modal id="newMap" canToggle={true} padding={true}>
+const NewMap = () => {
+    const dispatch = useDispatch();
+    const isNewMap = useSelector((state) => state.mapMeta.currentMapId !== null);
+    const { saving, saveError } = useSelector((state) => state.mapMeta);
+    const mapSaved = !isNewMap && !saving && !saveError;
+
+    return <Modal id="newMap" canToggle={true} padding={true}>
         <div className="modal-title">New Map</div>
-        <div className="modal-content">
-            <p>Any unsaved changes to the current map will be lost.</p>
+        <div className="modal-content modal-padding">
+            <div>
+                {mapSaved ?
+                    'Are you sure you wish to open a new map?' : 'Any unsaved changes to the current map will be lost.'
+                }
+            </div>
         </div>
         <div className="modal-buttons">
             <div className="button button-cancel rounded-button-full  modal-button-cancel"
                 onClick={() => {
-                    props.dispatch({
-                        type: 'CLOSE_MODAL',
-                        payload: 'newMap'
-                    });
+                    dispatch({ type: 'CLOSE_MODAL', payload: 'newMap' });
                 }}
             >
                 Cancel
             </div>
             <div className="button rounded-button-full  modal-button-confirm"
-                onClick={() => {
-                    props.dispatch({
-                        type: 'NEW_MAP'
-                    });
-                    props.dispatch({
-                        type: 'CLOSE_MODAL',
-                        payload: 'newMap'
-                    });
-                    props.dispatch({ type: 'READ_ONLY_OFF' });
-                    props.drawControl.draw.deleteAll();
-                    setTimeout(() => {
-                        props.dispatch({
-                            type: 'CHANGE_MOVING_METHOD',
-                            payload: 'flyTo'
-                        })
-                    }, 1000);
+                onClick={async () => {
+                    await dispatch(autoSave());
+                    dispatch(newMap());
+                    dispatch({ type: 'CLOSE_MODAL', payload: 'newMap' });
                 }}
             >
-                Ok
+                {mapSaved ?
+                    'Yes' : 'Ok'
+                }
             </div>
         </div>
-    </Modal>
-);
+    </Modal>;
+}
 
-export default connect(null)(NewMap);
+export default NewMap;

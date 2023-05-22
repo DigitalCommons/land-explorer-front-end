@@ -29,7 +29,7 @@ class MapCommunityAssets extends Component {
 
     axios
       .post(
-        `${constants.ROOT_URL}/api/council/markers/all/`,
+        `${constants.ROOT_URL}/api/council/markers/all`,
         {},
         getAuthHeader()
       )

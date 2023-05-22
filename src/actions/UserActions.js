@@ -1,19 +1,11 @@
-import axios from 'axios';
-import constants from "../constants";
-import { getAuthHeader } from "../utils/Auth";
+import { getRequest } from './common/RequestActions';
 
 export const getUserDetails = () => {
-    return dispatch => {
-        axios.get(`${constants.ROOT_URL}/api/user/details/`, getAuthHeader())
-            .then((response) => {
-                if (response.status === 200) {
-                    if (response.status === 200) {
-                        dispatch({ type: 'POPULATE_USER', payload: response.data[0] })
-                    }
-                } else {
-                    console.log("error", response.status);
-                }
-            })
+    return async dispatch => {
+        const userData = await dispatch(getRequest('/api/user/details'));
+        if (userData) {
+            dispatch({ type: 'POPULATE_USER', payload: userData });
+        }
     }
 }
 

@@ -1,15 +1,14 @@
-import axios from 'axios';
-import constants from "../constants";
-import { getAuthHeader } from "../utils/Auth";
+import { getRequest, postRequest } from './common/RequestActions';
+import { autoSave } from './MapActions';
 
 export const loadDataGroups = () => {
     return async dispatch => {
-        const result = await axios.get(`${constants.ROOT_URL}/api/user/datagroups`, getAuthHeader());
-
-        const userGroupsData = result.data;
+        const userGroupsData = await dispatch(getRequest('/api/user/datagroups'));
+        if (userGroupsData === null) {
+            return;
+        }
 
         const mergedDataGroups = [];
-
         userGroupsData.forEach(userGroup => {
             userGroup.dataGroups.forEach(dataGroup => {
                 dataGroup.userGroupId = userGroup.id;
@@ -44,9 +43,47 @@ export const loadDataGroups = () => {
 
 export const toggleDataGroup = dataGroupId => {
     return dispatch => {
+        console.log('Toggle data group', dataGroupId);
         dispatch({
             type: "TOGGLE_DATA_GROUP",
             payload: dataGroupId,
         });
+        return dispatch(autoSave());
     };
+}
+
+/** Save the object data to a specified data group. Return false iff failed to save to backend. */
+export const saveObjectToDataGroup = (type, data, dataGroupId) => {
+    return async dispatch => {
+        const body = {
+            object: data,
+            dataGroupId: dataGroupId,
+        };
+
+        const success = await dispatch(postRequest(`/api/user/datagroup/save/${type}`, body));
+        if (success) {
+            // reload data groups with the new object
+            dispatch(loadDataGroups());
+            return true;
+        }
+        return false;
+    }
+}
+
+/** Edit the specified object's name and description. Return false iff failed to save to backend. */
+export const editDataGroupObjectInfo = (type, uuid, newName, newDescription) => {
+    return async dispatch => {
+        const body = {
+            uuid,
+            name: newName,
+            description: newDescription,
+        };
+
+        const success = await dispatch(postRequest(`/api/user/edit/${type}`, body));
+        if (success) {
+            dispatch(loadDataGroups());
+            return true;
+        }
+        return false;
+    }
 }

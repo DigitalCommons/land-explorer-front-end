@@ -26,12 +26,11 @@ class FourOhFour extends Component {
                 >
                     <h1>Error</h1>
                     <p>This page doesn't exist!</p>
-                    <div className="button button-large" onClick={() => { window.location = '/app/'; }}>Return to site</div>
+                    <div className="button button-large" onClick={() => { window.location = '/app'; }}>Return to site</div>
                 </div>
             </div>
         )
     }
 }
-
 
 export default FourOhFour;

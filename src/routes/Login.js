@@ -1,53 +1,56 @@
 import axios from "axios";
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import * as Auth from "../utils/Auth";
 import Spinner from "../components/common/Spinner";
-import withRouter from "../components/common/withRouter";
 import Navbar from "../components/Navbar";
 import constants from "../constants";
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggingIn: false,
-      error: false,
-      email: {
-        value: "",
-        valid: ""
-      },
-      password: {
-        value: "",
-        valid: ""
-      }
-    };
+const Login = ({ updateCarousel }) => {
+  const [loggingIn, setLoggingIn] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const authenticated = useSelector(state => state.authentication.authenticated);
+  const error = useSelector(state => state.authentication.error);
 
-    //If user is already logged in, redirect to app
-    if (Auth.isTokenActive()) {
-      this.props.history.push("/app");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.has('reset_token')) {
+      // user has clicked reset password link
+      login(true);
     }
-  }
+    updateCarousel(0);
+  }, [])
 
-  componentDidMount() {
-    this.props.updateCarousel(0);
-  }
+  useEffect(() => {
+    // If user is logged in, redirect to app
+    if (authenticated && Auth.isTokenActive()) {
+      navigate("/app");
+    }
+  }, [authenticated])
 
+  const login = (useResetToken = false) => {
+    setLoggingIn(true);
 
-  handleSubmit = e => {
-    e.preventDefault();
-    this.login();
-  };
+    let loginDetails;
 
-  login = () => {
-    this.setState({ error: false, loggingIn: true });
-
-    const loginDetails = new URLSearchParams({
-      username: this.state.email.value,
-      password: this.state.password.value,
-      grant_type: "password"
-    });
+    if (useResetToken) {
+      loginDetails = new URLSearchParams({
+        username: decodeURIComponent(searchParams.get("email")),
+        reset_token: decodeURIComponent(searchParams.get("reset_token")),
+        grant_type: "password"
+      });
+    } else {
+      loginDetails = new URLSearchParams({
+        username: email,
+        password: password,
+        grant_type: "password"
+      });
+    }
 
     const config = {
       headers: {
@@ -56,152 +59,130 @@ class Login extends Component {
       }
     };
 
-    axios
-      .post(`${constants.ROOT_URL}/api/token`, loginDetails, config)
+    axios.post(`${constants.ROOT_URL}/api/token`, loginDetails, config)
       .then(response => {
-        console.log(response.data);
-
-        if (response.status === 200) {
-          Auth.setToken(response.data.access_token, response.data.expires_in);
-          this.props.router.navigate("/app");
-        } else if (response.status === 400) {
-          console.log("wrong credentials");
-          this.setState({ loggingIn: false, error: true });
+        Auth.setToken(response.data.access_token, response.data.expires_in);
+        dispatch({ type: 'LOGGED_IN' });
+        if (useResetToken) {
+          // user needs to set a new password
+          navigate("/app/my-account/password", { state: { mandatory: true } });
+        } else {
+          navigate("/app");
         }
       })
       .catch(err => {
         console.log(err);
-        this.setState({ loggingIn: false, error: true });
+        if (err.response?.status === 400) {
+          console.log("wrong credentials");
+        }
+        setLoggingIn(false);
+        dispatch({ type: 'FAILED_LOGIN', payload: { errorMessage } });
       });
   };
 
-  render() {
-    let { password, email, loggingIn } = this.state;
-    return (
+  return (
+    <div
+      style={{
+        minHeight: "100vh"
+      }}
+    >
+      <Navbar limited={true} />
       <div
         style={{
-          minHeight: "100vh"
+          left: "50%",
+          top: "50%",
+          transform: "translateX(-50%) translateY(-50%)",
+          position: "absolute",
+          textAlign: "center",
+          display: loggingIn ? "block" : "none"
         }}
       >
-        <Navbar limited={true} />
-        <div
-          style={{
-            left: "50%",
-            top: "50%",
-            transform: "translateX(-50%) translateY(-50%)",
-            position: "absolute",
-            textAlign: "center",
-            display: loggingIn ? "block" : "none"
-          }}
-        >
-          <Spinner />
-        </div>
-        <div
-          style={{
-            height: "auto",
-            minHeight: "200px",
-            width: "500px",
-            maxWidth: "90vw",
-            background: "white",
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            boxSizing: "border-box",
-            transform: "translateX(-50%) translateY(-50%)",
-            textAlign: "center",
-            paddingLeft: "24px",
-            paddingRight: "24px",
-            display: loggingIn ? "none" : "block"
-          }}
-        >
-          <h2>Log In</h2>
-          {this.state.error && (
-            <p style={{ marginBottom: "12px" }}>
-              You have entered an invalid username or password
-            </p>
-          )}
-          <br />
-          <form onSubmit={this.handleSubmit}>
-            <input
-              type="text"
-              className="text-input"
-              placeholder="Email address"
-              value={email.value}
-              onChange={e => {
-                let value = e.target.value;
-                let valid = emailRegexp.test(value);
-                this.setState({
-                  email: { value, valid }
-                });
-              }}
-            />
-            <input
-              type="password"
-              className="text-input"
-              placeholder="Password"
-              value={password.value}
-              onChange={e => {
-                let value = e.target.value;
-                let valid = value.length > 5 && value.length < 13;
-                this.setState({
-                  password: { value, valid }
-                });
-              }}
-            />
-            <input
-              type="submit"
-              value="Log In"
-              className="button button-medium"
-              style={{
-                paddingTop: 0,
-                marginTop: "6px"
-              }}
-            />
-          </form>
-          <p>
-            or,{" "}
-            <Link
-              to="/auth/register"
-              style={{
-                textDecoration: "none",
-                color: "rgb(46, 203, 112)",
-                paddingBottom: "4px",
-                borderBottom: "1px solid rgb(46, 203, 112)"
-              }}
-            >
-              register new account
-            </Link>
-          </p>
-          <p>
-            or,{" "}
-            <Link
-              to="/auth/reset-password"
-              style={{
-                textDecoration: "none",
-                color: "rgb(46, 203, 112)",
-                paddingBottom: "4px",
-                borderBottom: "1px solid rgb(46, 203, 112)"
-              }}
-            >
-              reset password
-            </Link>
-          </p>
-        </div>
+        <Spinner />
       </div>
-    );
-  }
+      <div
+        style={{
+          height: "auto",
+          minHeight: "200px",
+          width: "500px",
+          maxWidth: "90vw",
+          background: "white",
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          boxSizing: "border-box",
+          transform: "translateX(-50%) translateY(-50%)",
+          textAlign: "center",
+          paddingLeft: "24px",
+          paddingRight: "24px",
+          display: loggingIn ? "none" : "block"
+        }}
+      >
+        <h2>Log In</h2>
+        {error && (
+          <p style={{ marginBottom: "12px" }}>
+            {error}
+          </p>
+        )}
+        <br />
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          login();
+        }}>
+          <input
+            type="text"
+            className="text-input"
+            placeholder="Email address"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            className="text-input"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+          <input
+            type="submit"
+            value="Log In"
+            className="button button-medium"
+            style={{
+              paddingTop: 0,
+              marginTop: "6px"
+            }}
+          />
+        </form>
+        <p>
+          or,{" "}
+          <Link
+            to="/auth/register"
+            style={{
+              textDecoration: "none",
+              color: "rgb(46, 203, 112)",
+              paddingBottom: "4px",
+              borderBottom: "1px solid rgb(46, 203, 112)"
+            }}
+          >
+            register new account
+          </Link>
+        </p>
+        <p>
+          or,{" "}
+          <Link
+            to="/auth/reset-password"
+            style={{
+              textDecoration: "none",
+              color: "rgb(46, 203, 112)",
+              paddingBottom: "4px",
+              borderBottom: "1px solid rgb(46, 203, 112)"
+            }}
+          >
+            reset password
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
 }
 
-const emailRegexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-Login.propTypes = {};
-
-//export default connect(null)(Login);
-
-const mapStateToProps = ({ authentication, user }) => ({
-  authenticated: authentication.authenticated,
-  loggedIn: authentication.loggedIn,
-  user: user
-});
-
-export default withRouter(connect(mapStateToProps)(Login));
+export default Login;

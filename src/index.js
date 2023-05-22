@@ -21,8 +21,8 @@ import Authentication from './routes/Authentication';
 
 analytics.init();
 
-//Enable REDUX DevTools if not in production
-const composeEnhancers = constants.PROD ? compose : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+//Enable REDUX DevTools if in dev mode
+const composeEnhancers = constants.DEV_MODE ? (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose) : compose;
 // Create store from rootReducer with Thunk middleware
 const store = createStore(rootReducer, {}, composeEnhancers(
     applyMiddleware(ReduxThunk)
@@ -35,7 +35,7 @@ ReactDOM.render(
                 <Route path="/app" element={<MapApp />} />
                 <Route path="/app/my-account/*" element={<MyAccount />} />
                 <Route path="/auth/*" element={<Authentication />} />
-                <Route exact path="/" element={<Navigate to="/app" replace={true} />} />
+                <Route path="/" element={<Navigate to="/app" replace={true} />} />
                 <Route path="*" element={<FourOhFour />} />
             </Routes>
         </BrowserRouter>

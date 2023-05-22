@@ -37,7 +37,7 @@ const AccountView = ({ initials }) => {
             flexDirection: 'column',
             alignItems: 'center'
         }}>
-            <Link to="/app/"
+            <Link to="/app"
                 className="modal-close"
             />
             <div className="my-account--option">
@@ -125,10 +125,10 @@ class MyAccount extends Component {
                 />
                 <div className="my-account-container">
                     <Routes>
-                        <Route exact path="/" element={<AccountView initials={this.props.initials} />} />
-                        <Route exact path="/details" element={<ChangeDetails />} />
-                        <Route exact path="/email" element={<ChangeEmail />} />
-                        <Route exact path="/password" element={<ChangePassword />} />
+                        <Route path="/" element={<AccountView initials={this.props.initials} />} />
+                        <Route path="/details" element={<ChangeDetails />} />
+                        <Route path="/email" element={<ChangeEmail />} />
+                        <Route path="/password" element={<ChangePassword />} />
                     </Routes>
                 </div>
             </div>

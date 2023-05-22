@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios/index";
-import constants from "../constants";
-import { getAuthHeader } from "../utils/Auth";
 import { useDispatch, useSelector } from "react-redux";
-import { saveExistingMap } from "../utils/saveMap";
-import { getMyMaps } from '../actions/MapActions';
-import { loadDataGroups } from '../actions/DataGroupActions';
+import { saveObjectToMap, editMapObjectInfo } from '../actions/MapActions';
+import { saveObjectToDataGroup, editDataGroupObjectInfo } from '../actions/DataGroupActions';
+import Spinner from './common/Spinner';
 
 /**
  * 
@@ -23,6 +20,8 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
     const [description, setDescription] = useState(object.description);
     const [selectedMap, setSelectedMap] = useState();
     const [selectedDataGroup, setSelectedDataGroup] = useState();
+    const readOnly = useSelector(state => state.readOnly.readOnly);
+    const isOnline = useSelector(state => state.connectivity.isOnline);
     const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
     const allMaps = useSelector((state) => state.myMaps.maps);
     const allDataGroups = useSelector((state) => state.dataGroups.dataGroupTitlesAndIDs);
@@ -30,69 +29,46 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
     let maps, dataGroups;
     if (source === "map") {
         // All editable maps that aren't this one
-        maps = allMaps.filter(map => !map.isSnapshot && map.map.eid !== currentMapId);
+        maps = allMaps.filter(map => !map.map.isSnapshot && map.map.eid !== currentMapId);
         dataGroups = allDataGroups;
     } else {
         // All editable maps
-        maps = allMaps.filter(map => !map.isSnapshot);
+        maps = allMaps.filter(map => !map.map.isSnapshot);
         // All data groups apart from this one
-        dataGroups = allDataGroups.filter(dataGroup => dataGroup.id != object.dataGroupId);
+        dataGroups = allDataGroups.filter(dataGroup => dataGroup.id != object.data_group_id);
     }
 
     const copyObjectToMap = async (object, map) => {
-        const body = {
-            object: regulariseObjectData(object),
-            eid: map.map.eid,
-        }
-
-        await saveExistingMap(map);
-        await axios.post(`${constants.ROOT_URL}/api/user/map/save/${type}`, body, getAuthHeader());
-
-        if (map.map.eid === currentMapId) {
-            // TODO: autosave current map data. We should first move business logic in Save.js toa new method in MapActions
-            dispatch(getMyMaps());
-            // TODO: reload the map
-        }
+        const data = regulariseObjectData(object);
+        const success = await dispatch(saveObjectToMap(type, data, map.map.eid));
+        setMode(success ? "success" : "error");
     }
 
     const copyObjectToDataGroup = async (object, dataGroup) => {
-        const body = {
-            object: regulariseObjectData(object),
-            dataGroupId: dataGroup.id,
-        }
-
-        axios.post(`${constants.ROOT_URL}/api/user/datagroup/save/${type}`, body, getAuthHeader())
-
-        // reload data groups with the new object
-        dispatch(loadDataGroups());
+        const data = regulariseObjectData(object);
+        const success = await dispatch(saveObjectToDataGroup(type, data, dataGroup.id));
+        setMode(success ? "success" : "error");
     }
 
-    const editObject = async (newName, newDescription) => {
+    const editObjectInfo = async (newName, newDescription) => {
         if (source === "map") {
-            dispatch({
-                type: (type === "marker") ? 'RENAME_MARKER' : 'RENAME_POLYGON',
-                payload: {
-                    name: newName,
-                    description: newDescription,
-                    uuid: object.uuid
-                }
-            })
+            dispatch(editMapObjectInfo(type, object.uuid, newName, newDescription));
+        } else {
+            dispatch(editDataGroupObjectInfo(type, object.uuid, newName, newDescription));
+            // TODO: indicate in the popup when this fails to save?
         }
+    }
 
-        if (source === "datagroup" || currentMapId !== null) {
-            // Save to a datagroup or autosave to a saved map
-            const body = {
-                name: newName,
-                description: newDescription,
-                object
-            };
-            await axios.post(`${constants.ROOT_URL}/api/user/edit/${type}`, body, getAuthHeader());
-        }
+    const close = () => {
+        closeDescription();
+        setMode("display");
+        setSelectedMap(undefined);
+        setSelectedDataGroup(undefined);
     }
 
     return (
         <div className="popup-content">
-            <div className="popup-close" onClick={closeDescription} />
+            <div className="popup-close" onClick={close} />
             {(mode === "display") && (
                 <>
                     <div className="popup-body-container">
@@ -102,12 +78,12 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                         </div>
                     </div>
                     <div className="popup-sidebar">
-                        <img src={require("../assets/img/icon-add.svg")}
+                        <img src={require(`../assets/img/icon-add--${isOnline ? 'green' : 'grey'}.svg`)}
+                            className={`popup-sidebar-button ${isOnline || 'popup-sidebar-button-inactive'}`}
                             onClick={() => { setMode("copy") }}
-                            className="popup-sidebar-button"
                         />
-                        <img src={require("../assets/img/icon-pencil.svg")}
-                            className="popup-sidebar-button"
+                        <img src={require(`../assets/img/icon-pencil--${readOnly ? 'grey' : 'green'}.svg`)}
+                            className={`popup-sidebar-button ${readOnly && 'popup-sidebar-button-inactive'}`}
                             onClick={() => setMode("edit")}
                         />
                     </div>
@@ -138,7 +114,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                                 setName(newName);
                                 setDescription(newDescription);
                                 setMode("display");
-                                editObject(newName, newDescription);
+                                editObjectInfo(newName, newDescription);
                             }}
                         />
                     </div>
@@ -209,36 +185,47 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                             onClick={() => {
                                 if (selectedMap) {
                                     copyObjectToMap(object, selectedMap);
-                                    setMode("complete");
                                 } else if (selectedDataGroup) {
                                     copyObjectToDataGroup(object, selectedDataGroup);
-                                    setMode("complete");
                                 }
+                                setMode("saving");
                             }}
                         />
                     </div>
                 </>
             )}
-            {(mode === "complete") && (
-                <>
-                    <p className="popup-save-success-text">
-                        {type.slice(0, 1).toUpperCase() + type.slice(1)} successfully saved to
+            {(mode === "saving") && (
+                <div className="popup-copy-status-container">
+                    <p className="popup-copy-status-text">
+                        Copying {type} to
                         <br />
                         {selectedMap && `'${selectedMap.map.name}'`}
                         {selectedDataGroup && `'${selectedDataGroup.title}'`}
                     </p>
-                    <div className="popup-sidebar">
-                        <img src={require("../assets/img/icon-tick--green.svg")}
-                            className="popup-sidebar-button"
-                            onClick={() => {
-                                closeDescription();
-                                setMode("display");
-                                setSelectedMap(undefined);
-                                setSelectedDataGroup(undefined);
-                            }}
-                        />
-                    </div>
-                </>
+                    <Spinner className="popup-status-icon" />
+                </div>
+            )}
+            {(mode === "success") && (
+                <div className="popup-copy-status-container">
+                    <p className="popup-copy-status-text">
+                        {type.slice(0, 1).toUpperCase() + type.slice(1)} successfully copied to
+                        <br />
+                        {selectedMap && `'${selectedMap.map.name}'`}
+                        {selectedDataGroup && `'${selectedDataGroup.title}'`}
+                    </p>
+                    <img src={require("../assets/img/icon-tick--green.svg")} className="popup-status-icon" />
+                </div>
+            )}
+            {(mode === "error") && (
+                <div className="popup-copy-status-container">
+                    <p className="popup-copy-status-text">
+                        Unable to copy {type} to
+                        <br />
+                        {selectedMap && `'${selectedMap.map.name}'`}
+                        {selectedDataGroup && `'${selectedDataGroup.title}'`}
+                    </p>
+                    <img src={require("../assets/img/icon-cross.svg")} className="popup-status-icon" />
+                </div>
             )}
         </div>
     );

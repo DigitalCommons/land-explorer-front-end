@@ -11,9 +11,8 @@ import UserReducer from "./UserReducer";
 import InformationReducer from "./InformationReducer";
 import InformationSectionsReducer from "./InformationSectionsReducer";
 import MarkersReducer from "./MarkersReducer";
-import DrawingReducer from "./DrawingReducer";
+import DrawingsReducer from "./DrawingsReducer";
 import ReadOnlyReducer from "./ReadOnlyReducer";
-import SaveReducer from "./SaveReducer";
 import MyMapsReducer from "./MyMapsReducer";
 import MapMetaReducer from "./MapMetaReducer";
 import ShareReducer from "./ShareReducer";
@@ -22,6 +21,7 @@ import CommunityAssetsReducer from "./CommunityAssetsReducer";
 import NodalsReducer from "./NodalsReducer";
 import LandOwnershipReducer from "./LandOwnershipReducer";
 import DataGroupsReducer from "./DataGroupsReducer";
+import ConnectivityReducer from "./ConnectivityReducer";
 
 export default combineReducers({
   authentication: AuthenticationReducer,
@@ -37,9 +37,8 @@ export default combineReducers({
   user: UserReducer,
   information: InformationReducer,
   informationSections: InformationSectionsReducer,
-  drawings: DrawingReducer,
+  drawings: DrawingsReducer,
   readOnly: ReadOnlyReducer,
-  save: SaveReducer,
   myMaps: MyMapsReducer,
   mapMeta: MapMetaReducer,
   share: ShareReducer,
@@ -47,4 +46,5 @@ export default combineReducers({
   communityAssets: CommunityAssetsReducer,
   landOwnership: LandOwnershipReducer,
   dataGroups: DataGroupsReducer,
+  connectivity: ConnectivityReducer
 });

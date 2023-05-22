@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getMyMaps } from '../actions/MapActions';
 import { openModal } from '../actions/ModalActions';
 import { changeUser } from '../actions/UserActions'
 import analytics from '../analytics';
 import constants from '../constants';
-import { logout } from '../utils/Auth';
 import withRouter from "../components/common/withRouter";
 
 class MenuProfile extends Component {
@@ -16,13 +14,8 @@ class MenuProfile extends Component {
         this.dispatchUserChange = this.dispatchUserChange.bind(this);
     }
 
-    logoutUser(e) {
-        logout();
-        this.props.router.navigate("/auth")
-    }
-
     dispatchUserChange(event) {
-        this.props.changeUser(event.target.id);
+        this.props.dispatch(changeUser(event.target.id));
     }
 
     ifPrivilegedDisplayButtons(privileged) {
@@ -40,7 +33,7 @@ class MenuProfile extends Component {
     }
 
     render() {
-        let { open, getMyMaps, openModal, privileged } = this.props;
+        let { dispatch, open, privileged } = this.props;
         return (
             <div style={{
                 display: open ? 'block' : 'none',
@@ -53,18 +46,16 @@ class MenuProfile extends Component {
                     </Link>
                     <div className="tooltip-menu-item"
                         onClick={() => {
-                            getMyMaps();
                             analytics.pageview('/app/my-maps');
-                            openModal('myMaps');
+                            dispatch(openModal('myMaps'));
                         }}
                     >
                         My Maps
                     </div>
                     <div className="tooltip-menu-item"
                         onClick={() => {
-                            getMyMaps();
                             analytics.pageview('/app/my-shared-maps');
-                            openModal('mySharedMaps');
+                            dispatch(openModal('mySharedMaps'));
                         }}
                     >
                         Shared Maps
@@ -88,11 +79,8 @@ class MenuProfile extends Component {
                             marginBottom: '10px'
                         }}
                     >
-                        <div className="button button-medium" onClick={this.logoutUser.bind(this)}
-                        /*onClick={(e) => {
-                            e.preventDefault();
-                            window.location = "/logout";
-                        }}*/
+                        <div className="button button-medium"
+                            onClick={() => dispatch({ type: 'LOG_OUT' })}
                         >Logout</div>
                     </div>
                 </div>
@@ -110,4 +98,4 @@ const mapStateToProps = ({ menu, user }) => ({
     privileged: user.privileged
 });
 
-export default connect(mapStateToProps, { getMyMaps, openModal, changeUser })(withRouter(MenuProfile));
+export default connect(mapStateToProps)(withRouter(MenuProfile));

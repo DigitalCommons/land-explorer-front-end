@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import NavTray from './NavTray';
-import NavTrayItem from './common/NavTrayItem';
-import DataToggle from './common/DataToggle';
-import Draggable from './Draggable';
+import NavTrayToggle from './common/NavTrayToggle';
+import Draggable from './common/Draggable';
+import LandDataLayerToggle from './LandDataLayerToggle'
 import { toggleDataGroup } from '../actions/DataGroupActions';
 
 const DataLayersContainer = ({ children, title }) => {
@@ -40,7 +40,7 @@ const NavLandData = ({ open, active, onClose }) => {
     const userGroupTitlesAndIDs = useSelector((state) => state.dataGroups.userGroupTitlesAndIDs);
     const dataGroupTitlesAndIDs = useSelector((state) => state.dataGroups.dataGroupTitlesAndIDs);
     const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
-    const displayProperties = useSelector((state) => state.landOwnership.displayActive);
+    const landOwnershipActive = useSelector((state) => state.landOwnership.displayActive);
 
     const description = <p className='land-data-description'>
         Want to add your own data to Land Explorer? <a href="https://landexplorer.coop/#contact" target="_blank">Contact Us.</a>
@@ -55,30 +55,38 @@ const NavLandData = ({ open, active, onClose }) => {
         >
             <DataLayersContainer title={"Land Data"}>
                 <Draggable itemHeight={58}>
-                    <NavTrayItem draggable={true} title="Agricultural land classification" layerId='provisional-agricultural-land-ab795l' />
-                    <NavTrayItem draggable={true} title="National Forest Estate soils" layerId='national-forest-estate-soil-g-18j2ga' />
-                    <NavTrayItem draggable={true} title="Historic flood map" layerId='historic-flood-map-5y05ao' />
-                    <NavTrayItem draggable={true} title="Sites of special scientific interest" layerId='sites-of-special-scientific-i-09kaq4' />
-                    <NavTrayItem draggable={true} title="Special protection areas" layerId='special-protection-areas-engl-71pdjg' />
-                    <NavTrayItem draggable={true} title="Special areas of conservation" layerId='special-areas-of-conservation-bm41zr' />
-                    <NavTrayItem draggable={true} title="Greenbelt" layerId='local-authority-greenbelt-bou-9r44t6' />
-                    <NavTrayItem draggable={true} title="Brownfield" layerId='ncc-brownfield-sites' />
+                    <LandDataLayerToggle draggable title="Agricultural land classification" layerId="provisional-agricultural-land-ab795l" />
+                    <LandDataLayerToggle draggable title="National Forest Estate soils" layerId="national-forest-estate-soil-g-18j2ga" />
+                    <LandDataLayerToggle draggable title="Historic flood map" layerId="historic-flood-map-5y05ao" />
+                    <LandDataLayerToggle draggable title="Sites of special scientific interest" layerId="sites-of-special-scientific-i-09kaq4" />
+                    <LandDataLayerToggle draggable title="Special protection areas" layerId="special-protection-areas-engl-71pdjg" />
+                    <LandDataLayerToggle draggable title="Special areas of conservation" layerId="special-areas-of-conservation-bm41zr" />
+                    <LandDataLayerToggle draggable title="Greenbelt" layerId="local-authority-greenbelt-bou-9r44t6" />
+                    <LandDataLayerToggle draggable title="Brownfield" layerId="ncc-brownfield-sites" />
                 </Draggable>
             </DataLayersContainer>
             <DataLayersContainer title={"Land Ownership"}>
-                <DataToggle
+                <NavTrayToggle
                     title={"Land Registry"}
-                    active={displayProperties}
+                    on={landOwnershipActive}
                     onToggle={() => dispatch({ type: "TOGGLE_PROPERTY_DISPLAY" })}
                 />
+            </DataLayersContainer>
+            <DataLayersContainer title={"Administrative Boundaries"}>
+                <LandDataLayerToggle title="Wards" layerId='wards-cu4dni' />
+                <LandDataLayerToggle title="Parishes" layerId='parish' />
+                <LandDataLayerToggle title="Local Councils" layerId='district_borough_unitary_regi-bquzqt' />
+                <LandDataLayerToggle title="Parliamentary Constituencies" layerId='westminster_const_region-8r33ph' />
+                <LandDataLayerToggle title="Devolved Powers" layerId='devolved-powers' />
+                <LandDataLayerToggle title="Counties" layerId='county-4ef4ik' />
             </DataLayersContainer>
             {userGroupTitlesAndIDs && userGroupTitlesAndIDs.map(userGroup =>
                 <DataLayersContainer title={userGroup.title} key={userGroup.id}>
                     {dataGroupTitlesAndIDs && dataGroupTitlesAndIDs.filter(dataGroup => dataGroup.userGroupId == userGroup.id).map(dataGroup =>
-                        <DataToggle
-                            title={dataGroup.title}
-                            active={activeGroups.includes(dataGroup.id)}
+                        <NavTrayToggle
                             key={dataGroup.id}
+                            title={dataGroup.title}
+                            on={activeGroups.includes(dataGroup.id)}
                             onToggle={() => dispatch(toggleDataGroup(dataGroup.id))}
                         />)}
                 </DataLayersContainer>

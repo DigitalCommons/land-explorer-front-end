@@ -77,12 +77,42 @@ class MenuKey extends Component {
                     "Greenbelt": "hsla(113, 97%, 50%, 0.4)"
                 }
             },
-            "wards-may-2019-boundaries-uk-d9ukjy": {
+            "wards-cu4dni": {
                 name: "Wards",
                 data: {
-                    "Wards": "hsl(0, 100%, 0%)"
+                    "Wards": "hsl(245, 100%, 50%)"
                 }
             },
+            "county-4ef4ik": {
+                name: "Counties",
+                data: {
+                    "Counties": "hsla(113, 97%, 50%, 0.4)"
+                }
+            },
+            "westminster_const_region-8r33ph": {
+                name: "Westminster Constituencies",
+                data: {
+                    "Constituencies": "hsl(183, 97%, 50%)"
+                }
+            },
+            "district_borough_unitary_regi-bquzqt": {
+                name: "Councils",
+                data: {
+                    "Councils": "hsl(56, 97%, 50%)"
+                }
+            },
+            "parish": {
+                name: "Parishes",
+                data: {
+                    "Parish": "hsl(280,60%,70%)"
+                }
+            },
+            "devolved-powers": {
+                name: "Devolved Powers",
+                data: {
+                    "Devolved Powers": "hsl(320,97%,50%)"
+                }
+            }
         }
     }
 

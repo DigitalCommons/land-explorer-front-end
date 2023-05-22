@@ -1,19 +1,19 @@
 const INITIAL_STATE = {
     maps: [],
-    error: null
+    error: false
 }
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case 'POPULATE_MY_MAPS':
             return {
-                ...state,
-                maps: action.payload
+                maps: action.payload,
+                error: false
             }
-        case 'MAP_ERROR':
+        case 'MY_MAPS_ERROR':
             return {
                 ...state,
-                error: action.payload
+                error: true
             }
         default:
             return state;

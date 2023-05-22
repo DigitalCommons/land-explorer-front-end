@@ -171,13 +171,13 @@
     left: 50%;
     transform: translateX(-50%);
   }
-  @media #{$up-to-small} {
+  @media screen and (max-width: 650px) {
     &:after {
-      left: 56%;
+      left: 94%;
       transform: translateX(-56%);
     }
     &:before {
-      left: 56%;
+      left: 94%;
       transform: translateX(-56%);
     }
   }
@@ -306,24 +306,4 @@
 
 canvas {
   cursor: pointer !important;
-}
-
-.popup-save-icon-container {
-  height: 23px;
-  width: 23px;
-  border-radius: 50%;
-  position: absolute;
-  bottom: 12px;
-  cursor: pointer;
-  right: 8px;
-  background-color: #67B065;
-}
-
-.popup-save-icon{
-  background-image: url("../img/icon-save--white.svg");
-  position: relative;
-  height: 13px;
-  width: 13px;
-  left: 5px;
-  top: 5px;
 }

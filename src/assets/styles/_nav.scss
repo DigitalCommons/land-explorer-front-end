@@ -16,27 +16,25 @@ body {
   background-color: #fbfbfb;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   z-index: 100003;
 
   .logo {
     background-image: url("../img/logo-green.svg");
     height: 41px;
-    width: 230px;
+    width: 40px;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     margin-left: 19px;
   }
-}
 
-.big-logo {
-  background-image: url("../img/logo-green.svg");
-  height: 41px;
-  width: 230px;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin-left: 19px;
+  @media  screen and (min-width: 1070px ) {
+    .logo {
+      background-image: url("../img/logo-green-text.svg");
+      width: 230px;
+    }
+  }
 }
 
 .navbar-shadow {
@@ -50,10 +48,18 @@ body {
   z-index: 100002;
 }
 
-.navbar-right {
+.navbar-middle {
   display: flex;
-  justify-self: self-end;
-  width: 100px;
+  flex-grow: 1;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.navbar-map-interactions{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .nav-left {
@@ -159,16 +165,6 @@ body {
     }
   }
 
-  .save {
-    background-image: url("../img/icon-save.svg");
-    background-size: 32px;
-    background-color: #eff0f2;
-  }
-
-  .save.active {
-    background-image: url("../img/icon-save--white.svg");
-  }
-
   .share {
     background-image: url("../img/icon-share.svg");
     background-size: 32px;
@@ -195,10 +191,6 @@ body {
   flex-direction: row;
   width: auto;
   align-items: center;
-  position: absolute;
-  right: 0;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
 }
 
 .navbar--userlogo {
@@ -220,11 +212,19 @@ body {
   letter-spacing: 2px;
   padding-left: 2px;
   user-select: none;
+
+  @media screen and (max-width: 650px) {
+    margin-right: 5px;
+  }
+
 }
 
-.navbar--username {
+.navbar-username {
   margin-right: 24px;
   user-select: none;
+  @media  screen and (max-width: 900px) {
+    display: none;
+  }
 }
 
 .hamburger {
@@ -236,6 +236,12 @@ body {
   height: 32px;
   cursor: pointer;
   user-select: none;
+}
+
+.hamburger-logged-in{
+  @media  screen and (max-width: 730px) {
+    display: none;
+  }
 }
 
 .nav-left-tray {
@@ -283,7 +289,7 @@ body {
   overflow-x: hidden;
 }
 
-.tray-top{
+.tray-top {
   width: 100%;
   background-color: #e4e6ea;
   border-bottom: solid 1px #d1d1d1;
@@ -532,13 +538,101 @@ a.mapboxgl-ctrl-logo {
   background-position: 18px 50%;
 }
 
-.horizontal-divider{
+.horizontal-divider {
   width: 100%;
-    border: 1px solid;
-    display: block;
+  border: 1px solid;
+  display: block;
 }
 
-.land-data-description{
+.land-data-description {
   margin-top: 0;
-    margin-left: 15px;
+  margin-left: 15px;
+}
+
+.map-menu-container{
+  width: 180px;
+  margin-right: -160px;
+}
+
+.map-menu{
+  box-shadow: 0px 3px 6px #00000029;
+  background-color: white;
+  margin: 0px;
+}
+
+.map-menu-option {
+  padding: 8px;
+  margin: 2px 0px;
+}
+
+.map-menu-option-disabled {
+  padding: 8px;
+  margin: 2px 0px;
+  cursor: default;
+  color: #c4cbd3;
+}
+
+.map-menu-option:hover {
+  background-color: #D2D2D2;
+  cursor: pointer;
+}
+
+.map-title-bar{
+  width: 265px;
+  transition: width .25s, min-width .25s;
+  @media screen and (max-width: 550px){
+    width: 45vw;
+  }
+}
+
+.map-name-text{
+  cursor: pointer;
+  font-size: 17px;
+  margin: 4% 5% 0%;
+  padding: 0.5% 2%;
+  border-radius: 100px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+// Don't show line breaks in map name since these are not saved
+.map-name-text *{
+  display: inline;
+}
+
+.map-name-text br{
+  display: none;
+}
+
+.map-name-text:hover{
+  background-color: #F3F3F3;
+}
+
+.map-name-text.editable{
+  cursor: text;
+  text-overflow:unset;
+}
+
+.map-saving-text{
+  cursor: pointer;
+  font-size: 14px;
+  height: 17px;
+  margin: 0% 5%;
+  padding: 0% 2%;
+  color: #d0024e;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.map-saving-text.saved{
+  color: #2ecc71;
+}
+
+
+.nav-collapsed{
+  @media screen and (max-width: 665px){
+    width: 20vw;
+  }
 }

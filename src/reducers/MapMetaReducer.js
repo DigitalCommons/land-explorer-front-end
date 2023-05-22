@@ -1,30 +1,43 @@
 const INITIAL_STATE = {
     currentMapId: null,
-    isSnapshot: null
+    isSnapshot: false,
+    writeAccess: true,
+    saving: false,
+    saveError: false,
+    lastSaved: null
 }
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case 'SET_MAP_ID':
-            return {
-                ...state,
-                currentMapId: action.payload
-            }
-        case 'CLEAR_MAP_ID':
-            return {
-                ...state,
-                currentMapId: null,
-            }
         case 'LOAD_MAP':
+            const { id, isSnapshot, writeAccess, lastModified } = action.payload;
             return {
                 ...state,
-                currentMapId: action.id,
-                isSnapshot: action.payload.isSnapshot
+                currentMapId: id,
+                isSnapshot: isSnapshot,
+                writeAccess: writeAccess,
+                saving: false,
+                lastSaved: lastModified
             }
         case 'NEW_MAP':
+            return INITIAL_STATE;
+        case 'MAP_SAVING':
             return {
                 ...state,
-                currentMapId: null
+                saving: true
+            }
+        case 'MAP_SAVED':
+            return {
+                ...state,
+                saving: false,
+                saveError: false,
+                lastSaved: action.payload.timestamp
+            }
+        case 'MAP_SAVE_ERROR':
+            return {
+                ...state,
+                saving: false,
+                saveError: true
             }
         default:
             return state;

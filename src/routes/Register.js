@@ -154,20 +154,15 @@ class Register extends Component {
     };
     console.log("registration request", request);
     axios
-      .post(`${constants.ROOT_URL}/api/user/register/`, request)
+      .post(`${constants.ROOT_URL}/api/user/register`, request)
       .then(response => {
         console.log("register response", response);
-        if (response.status === 200) {
-          console.log("register response 200", response);
-          this.setState({ registerSuccess: true });
-        } else if (response.status === 400) {
-          this.setState({ registerErrors: response.data.errors });
-        }
+        this.setState({ registerSuccess: true });
         this.setState({ registering: false });
       })
       .catch(err => {
-        //Catch err 400 her
-        let response = err.response;
+        //Catch err 400 here
+        const { response } = err;
         if (response.status === 400) {
           console.log("Hey we get some custom error message from server:");
           console.log(response.data);
@@ -606,7 +601,7 @@ class Register extends Component {
           </label>
         </div>
         <div className="FormControlButtons" style={{ padding: "10px" }}>
-          <Link to="/auth/">
+          <Link to="/auth">
             <div
               className="button button-cancel button-medium"
               style={{ display: "inline-block" }}

@@ -1,9 +1,21 @@
 const INITIAL_STATE = {
-    save: {
+    saveCopy: {
         open: false,
         canToggle: true,
     },
-    share: {
+    saveSnapshot: {
+        open: false,
+        canToggle: true,
+    },
+    emailShare: {
+        open: false,
+        canToggle: true,
+    },
+    download: {
+        open: false,
+        canToggle: true,
+    },
+    link: {
         open: false,
         canToggle: true,
     },
@@ -22,6 +34,10 @@ const INITIAL_STATE = {
     newMap: {
         open: false,
         canToggle: true,
+    },
+    openMap: {
+        open: false,
+        canToggle: true
     }
 }
 
