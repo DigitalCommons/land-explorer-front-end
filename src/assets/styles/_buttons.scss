@@ -116,33 +116,8 @@
   position: relative;
 }
 
-.zoom-slider-bar {
-  width: 3px;
-  background-color: white;
-  top: 48px;
-  bottom: 48px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
-  z-index: -1;
-}
-
-.zoom-slider {
-  width: 36px;
-  height: 8px;
-  border-radius: 4px;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
-  background-color: $secondaryColor;
-  border: solid 2px #ffffff;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%);
-  box-sizing: border-box;
-}
-
 .zoom-button {
+  cursor: pointer;
   width: 48px;
   height: 48px;
   background-color: #fbfbfb;
@@ -154,6 +129,7 @@
 }
 
 .menu-layers-button {
+  cursor: pointer;
   width: 48px;
   height: 48px;
   background-color: $secondaryColor;
@@ -171,6 +147,7 @@
 }
 
 .menu-key-button {
+  cursor: pointer;
   width: 48px;
   height: 48px;
   background-color: $secondaryColor;

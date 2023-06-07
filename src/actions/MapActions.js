@@ -1,6 +1,6 @@
 import { VERSION } from '../constants';
 import moment from 'moment';
-import { getRequest, postRequest } from './common/RequestActions';
+import { getRequest, postRequest } from './RequestActions';
 import { updateReadOnly } from './ReadOnlyActions';
 
 export const getMyMaps = () => {

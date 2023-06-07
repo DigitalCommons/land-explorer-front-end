@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-    useGoCardlessDropin
-} from '@gocardless/react-dropin';
+import { useGoCardlessDropin } from '@gocardless/react-dropin';
 
 const GoCardlessModal = ({ billingRequestFlowID, setMandate, closeModal }) => {
     const config = ({

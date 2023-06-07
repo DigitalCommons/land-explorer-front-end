@@ -3,6 +3,7 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
 .sr-only {
   display: none;
 }
@@ -30,8 +31,8 @@ body {
 }
 
 /*.leaflet-control-layers-toggle {*/
-  /*background: blue;*/
-  /*color: white;*/
+/*background: blue;*/
+/*color: white;*/
 /*}*/
 
 .leaflet-control-layers {
@@ -44,20 +45,20 @@ body {
 }
 
 /*.leaflet-touch .leaflet-bar a {*/
-  /*width: 60px !important;*/
-  /*height: 60px !important;*/
-  /*line-height: 60px;*/
+/*width: 60px !important;*/
+/*height: 60px !important;*/
+/*line-height: 60px;*/
 /*}*/
 
 /*.leaflet-draw-toolbar a {*/
-  /*background: none;*/
+/*background: none;*/
 /*}*/
 
 /*.leaflet-draw-draw-polyline {*/
-  /*background-image: url('http://docs.mcneel.com/rhino/5/help/en-us/image/topic_illustrations/polyline-001.png') !important;*/
-  /*background-size: contain !important;*/
-  /*background-position: center !important;*/
-  /*background-repeat: no-repeat !important;*/
+/*background-image: url('http://docs.mcneel.com/rhino/5/help/en-us/image/topic_illustrations/polyline-001.png') !important;*/
+/*background-size: contain !important;*/
+/*background-position: center !important;*/
+/*background-repeat: no-repeat !important;*/
 /*}*/
 
 #new-zoom {
@@ -65,9 +66,9 @@ body {
 }
 
 .link-underline {
-   text-decoration: none;
-   color: #78838f;
-   display: inline-block;
-   padding-bottom: 2px;
-   border-bottom: 1px solid #cccccc;
- }
+  text-decoration: none;
+  color: #78838f;
+  display: inline-block;
+  padding-bottom: 2px;
+  border-bottom: 1px solid #cccccc;
+}

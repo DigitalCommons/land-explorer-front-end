@@ -23,7 +23,7 @@ class ToggleSwitch extends Component {
                         checked={on}
                         onChange={e => { }}
                     />
-                    <span className="slider round"></span>
+                    <span className="slider"></span>
                 </label>
             </div>
         );

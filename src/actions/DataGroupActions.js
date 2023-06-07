@@ -1,4 +1,4 @@
-import { getRequest, postRequest } from './common/RequestActions';
+import { getRequest, postRequest } from './RequestActions';
 import { autoSave } from './MapActions';
 
 export const loadDataGroups = () => {

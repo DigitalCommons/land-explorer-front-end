@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Modal from '../common/Modal';
+import Modal from './Modal';
 import { autoSave, newMap } from '../../actions/MapActions';
 
 const NewMap = () => {
