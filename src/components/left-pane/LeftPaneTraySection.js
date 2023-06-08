@@ -1,33 +1,23 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
-class LeftPaneTraySection extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: false
-        }
-    }
+const LeftPaneTraySection = ({ title, children, open: initialOpen, sectionId }) => {
+    const dispatch = useDispatch();
 
-    toggleChildren = () => {
-        this.setState({ open: !this.state.open })
-    }
-
-    render() {
-        let { title, children, open, dispatch, sectionId } = this.props;
-        return (
-            <div className="left-pane-tray-section">
-                <div className="left-pane-tray-section-title"
-                    onClick={() => {
-                        dispatch({
-                            type: 'TOGGLE_SECTION',
-                            payload: sectionId
-                        })
-                    }}
-                >
-                    <h4 style={{ marginLeft: '42px', fontWeight: 'bold', width: '140px' }} >{title}</h4>
-                    <div style={{
+    return (
+        <div className="left-pane-tray-section">
+            <div
+                className="left-pane-tray-section-title"
+                onClick={() =>
+                    dispatch({
+                        type: 'TOGGLE_SECTION',
+                        payload: sectionId
+                    })
+                }
+            >
+                <h4 style={{ marginLeft: '42px', fontWeight: 'bold', width: '140px' }}>{title}</h4>
+                <div
+                    style={{
                         position: 'absolute',
                         top: '50%',
                         transform: 'translateY(-50%)',
@@ -35,31 +25,29 @@ class LeftPaneTraySection extends Component {
                         width: '24px',
                         height: '24px',
                         textAlign: 'center'
-                    }}>
-                        <img
-                            src={require('../../assets/img/icon-chevron.svg')} alt=""
-                            style={{
-                                transformOrigin: 'center',
-                                transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
-                            }}
-                        />
-                    </div>
-                </div>
-
-                <div style={{
-                    overflow: open ? '' : 'hidden',
-                    height: open ? 'auto' : '0',
-                }}>
-                    {children}
+                    }}
+                >
+                    <img
+                        src={require('../../assets/img/icon-chevron.svg')}
+                        alt=""
+                        style={{
+                            transformOrigin: 'center',
+                            transform: open ? 'rotate(180deg)' : 'rotate(0deg)'
+                        }}
+                    />
                 </div>
             </div>
-        );
-    }
-}
 
-LeftPaneTraySection.propTypes = {
-    title: PropTypes.string.isRequired,
-    sectionId: PropTypes.string.isRequired
+            <div
+                style={{
+                    overflow: open ? '' : 'hidden',
+                    height: open ? 'auto' : '0'
+                }}
+            >
+                {children}
+            </div>
+        </div>
+    );
 };
 
-export default connect(null)(LeftPaneTraySection);
+export default LeftPaneTraySection;
