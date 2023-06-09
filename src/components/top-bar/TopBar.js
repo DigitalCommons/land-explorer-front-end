@@ -6,7 +6,7 @@ import MapTitleBar from "./MapTitleBar";
 import MapMenu from "./MapMenu";
 import ProfilePic from "./ProfilePic";
 import { useDispatch, useSelector } from "react-redux";
-import Geocoder from "./Geocoder";
+import SearchBar from "./SearchBar";
 import analytics from "../../analytics";
 
 const TopBar = ({ limited }) => {
@@ -26,13 +26,10 @@ const TopBar = ({ limited }) => {
             <MapMenu />
             <MapTitleBar expanded={!searchExpanded} />
           </div>
-          <div className="search-bar">
-            <Geocoder
-              bbox={[-11.535645, 49.109838, 3.493652, 63.144431]}
-              expanded={searchExpanded}
-              setExpanded={setSearchExpanded}
-            />
-          </div>
+          <SearchBar
+            expanded={searchExpanded}
+            setExpanded={setSearchExpanded}
+          />
         </div>
         <div className="topbar-right">
           <div className="topbar-username">{`${user.firstName} ${user.lastName}`}</div>
