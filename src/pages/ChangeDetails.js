@@ -1,5 +1,5 @@
-import React, { Component, useState, useEffect } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import Spinner from '../components/common/Spinner';
 import Select from 'react-select';
