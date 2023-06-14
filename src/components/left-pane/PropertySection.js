@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveProperty } from "../../actions/LandOwnershipActions";
 
 const PropertySection = ({ property }) => {
     const dispatch = useDispatch();
-    const [open, setOpen] = useState(true);
+    const activePropertyId = useSelector(state => state.landOwnership.activePropertyId);
 
     const {
         poly_id,
@@ -16,9 +17,17 @@ const PropertySection = ({ property }) => {
         date_proprietor_added
     } = property;
 
+    const open = poly_id === activePropertyId;
+
     return <div className="left-pane-tray-section">
         <div className="left-pane-tray-section-title property-section"
-            onClick={() => setOpen(!open)}
+            onClick={() => {
+                if (open) {
+                    dispatch({ type: 'CLEAR_ACTIVE_PROPERTY' });
+                } else {
+                    dispatch(setActiveProperty(poly_id));
+                }
+            }}
         >
             <h4 style={{
                 marginLeft: '48px',

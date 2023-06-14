@@ -8,7 +8,7 @@ import PropertySection from './PropertySection';
 const LeftPaneInfo = ({ onClose, open }) => {
     const markers = useSelector(state => state.markers.markers);
     const polygons = useSelector(state => state.drawings.polygons);
-    const properties = useSelector(state => state.landOwnership.highlightedProperty);
+    const properties = useSelector(state => state.landOwnership.highlightedProperties);
 
     return <LeftPaneTray
         title="Land Information"

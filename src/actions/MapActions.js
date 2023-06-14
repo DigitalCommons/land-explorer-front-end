@@ -108,7 +108,7 @@ export const newMap = () => {
  * is a new map.
  * 
  * @param {boolean} copy true if we are saving a copy of the current map
- * @param {boolean} snapshot true if we are saving a snapshot of the current map
+ * @param {boolean} snapshot true if we are saving a new snapshot of the current map
  * @param {string | undefined} name the name of the map that we want to save. If left undefined, we
  * will use the name of the existing map.
  * @return {boolean} true if save was successful.
