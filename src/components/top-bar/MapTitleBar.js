@@ -78,12 +78,14 @@ const MapTitleBar = ({ expanded }) => {
 
     const onClickTitle = () => {
         if (canEditTitle) {
-            // Select all text if untitled
-            if (ref.current.textContent === UNTITLED_NAME) {
-                window.getSelection().selectAllChildren(ref.current);
-            }
-
             setEditing(true);
+        }
+    }
+
+    const onFocusTitle = () => {
+        if (canEditTitle && ref.current.textContent === UNTITLED_NAME) {
+            // Select all text if untitled
+            window.getSelection().selectAllChildren(ref.current);
         }
     }
 
@@ -95,10 +97,15 @@ const MapTitleBar = ({ expanded }) => {
             spellCheck={false}
             contentEditable={canEditTitle}
             onClick={onClickTitle}
-            onBlur={onClickOutside}
+            onFocus={onFocusTitle}
+            onBlur={() => {
+                if (editing) // check that user wasn't just cycling through elements with Tab
+                    onClickOutside();
+            }}
             onKeyUp={(e) => {
                 if (e.key === "Enter") {
                     e.preventDefault();
+                    setEditing(true);
                     e.target.blur();
                 }
                 //limit map name to 30 characters
