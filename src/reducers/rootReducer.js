@@ -15,7 +15,6 @@ import DrawingsReducer from "./DrawingsReducer";
 import ReadOnlyReducer from "./ReadOnlyReducer";
 import MyMapsReducer from "./MyMapsReducer";
 import MapMetaReducer from "./MapMetaReducer";
-import ShareReducer from "./ShareReducer";
 import LandOwnershipReducer from "./LandOwnershipReducer";
 import DataGroupsReducer from "./DataGroupsReducer";
 import ConnectivityReducer from "./ConnectivityReducer";
@@ -37,7 +36,6 @@ export default combineReducers({
   readOnly: ReadOnlyReducer,
   myMaps: MyMapsReducer,
   mapMeta: MapMetaReducer,
-  share: ShareReducer,
   landOwnership: LandOwnershipReducer,
   dataGroups: DataGroupsReducer,
   connectivity: ConnectivityReducer
