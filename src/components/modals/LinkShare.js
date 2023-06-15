@@ -8,17 +8,14 @@ import Modal from './Modal';
 const LinkShare = () => {
     const [stage, setStage] = useState("generate");
     const [linkText, setLinkText] = useState("Generate link...");
-    const mapToShare = useSelector((state) => state.share.mapToShare);
     const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
     const dispatch = useDispatch();
 
     const generate = async () => {
-        const mapId = mapToShare ? mapToShare.map.eid : currentMapId;
-
         try {
             const result = await axios.post(`${constants.ROOT_URL}/api/user/map/share/public`,
                 {
-                    mapId: mapId
+                    mapId: currentMapId
                 },
                 getAuthHeader());
 
@@ -36,7 +33,7 @@ const LinkShare = () => {
         setStage("copied");
     }
 
-    if (!mapToShare && currentMapId == null)
+    if (currentMapId === null)
         return <Modal id="link">
             <div className="modal-title">Generate GeoJSON</div>
             <div className="modal-content">

@@ -2,22 +2,23 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import * as MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import { useMediaQuery } from "react-responsive";
 import constants from "../../constants";
 import { setSearchMarker, clearSearchMarker, setLngLat } from "../../actions/MapActions";
 
-const GeoCoder = ({ expanded, setExpanded }) => {
+const SearchBar = ({ expanded, setExpanded }) => {
   const dispatch = useDispatch();
   const ref = useRef();
 
-  useEffect(() => {
-    const windowClick = (event) => {
-      if (!ref.current?.contains(event.target)) {
-        collapse();
-      }
+  const isSmallScreen = useMediaQuery({ query: '(max-width: 550px)' });
+
+  /** Collapse search bar (with small delay) if on mobile, or if there is no input. */
+  const maybeCollapse = () => {
+    const geocoderInput = document.getElementsByClassName("mapboxgl-ctrl-geocoder--input")[0].value;
+    if (isSmallScreen || geocoderInput.trim() === "") {
+      setTimeout(() => collapse(), 200);
     }
-    window.addEventListener('click', windowClick)
-    return () => window.removeEventListener('click', windowClick)
-  }, [])
+  }
 
   useEffect(() => {
     const geocoder = new MapboxGeocoder({
@@ -29,34 +30,35 @@ const GeoCoder = ({ expanded, setExpanded }) => {
     });
 
     geocoder.on("result", result => {
+      document.activeElement.blur();
       dispatch(setSearchMarker(result.result.center[0], result.result.center[1]));
       dispatch(setLngLat(result.result.center[0], result.result.center[1]));
     });
     geocoder.on("clear", () => dispatch(clearSearchMarker()));
 
-    document.getElementById("geocoder").appendChild(geocoder.onAdd());
+    document.getElementById("search-bar").appendChild(geocoder.onAdd());
   }, []);
 
-  const toggleExpansion = () => {
-    if (expanded)
-      collapse();
-    else
-      expand();
-  }
-
   const expand = () => {
+    if (expanded)
+      return;
     setExpanded(true);
-    const geocoder = document.getElementById("geocoder").children[0];
+    const geocoder = document.getElementById("search-bar").children[0];
+    geocoder.classList.remove("geocoder-collapsed");
     geocoder.classList.add("geocoder-expanded");
   }
 
   const collapse = () => {
+    if (!expanded)
+      return;
     setExpanded(false);
-    const geocoder = document.getElementById("geocoder").children[0];
+    const geocoder = document.getElementById("search-bar").children[0];
     geocoder.classList.remove("geocoder-expanded");
+    geocoder.classList.add("geocoder-collapsed");
+    document.activeElement.blur();
   }
 
-  return <span id="geocoder" onClick={toggleExpansion} ref={ref}></span>
+  return <span id="search-bar" onFocus={expand} onClick={expand} onBlur={maybeCollapse} ref={ref}></span>
 }
 
-export default GeoCoder;
+export default SearchBar;

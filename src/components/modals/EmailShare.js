@@ -11,9 +11,7 @@ const EmailShare = () => {
     const [emails, setEmails] = useState([]);
     const [mapName, setMapName] = useState('');
     const myMaps = useSelector(state => state.myMaps.maps);
-    const mapToShare = useSelector((state) => state.share.mapToShare);
     const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
-    const mapId = mapToShare ? mapToShare.map.eid : currentMapId;
 
     const dispatch = useDispatch();
 
@@ -44,7 +42,7 @@ const EmailShare = () => {
 
     useEffect(() => {
         myMaps.forEach(map => {
-            if (map.map.eid === mapId) {
+            if (map.map.eid === currentMapId) {
                 populateEmails(map.map.sharedWith);
                 setMapName(map.map.name);
             }
@@ -74,7 +72,7 @@ const EmailShare = () => {
             .catch((err) => console.log("share error", err));
     }
 
-    if (!mapToShare && currentMapId == null)
+    if (currentMapId === null)
         return <Modal id="emailShare">
             <div className="modal-title">Share</div>
             <div className="modal-content">
@@ -122,7 +120,7 @@ const EmailShare = () => {
             </div>
             <div className={`button rounded-button-full modal-button-confirm`}
                 onClick={() => {
-                    share(mapId);
+                    share(currentMapId);
                 }}
             >
                 Share

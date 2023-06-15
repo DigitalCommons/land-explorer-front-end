@@ -43,7 +43,7 @@
   display: flex;
   flex-grow: 1;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
 }
 
@@ -64,7 +64,7 @@
   background-color: #78838e;
   height: 48px;
   width: 48px;
-  margin-right: 24px;
+  margin-right: 12px;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.16);
   border: solid 2px #ffffff;
   background-size: cover;
@@ -100,6 +100,7 @@
   background-repeat: no-repeat;
   background-position: center;
   margin-right: 30px;
+  margin-left: 12px;
   width: 32px;
   height: 32px;
   cursor: pointer;
@@ -153,7 +154,11 @@
 
 .map-title-bar-collapsed {
   @media screen and (max-width: 665px) {
-    width: 20vw;
+    width: 30vw;
+  }
+
+  @media screen and (max-width: 550px) {
+    display: none;
   }
 }
 
