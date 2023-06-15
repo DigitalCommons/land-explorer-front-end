@@ -1,73 +1,55 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-class Modal extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            translateY: '-100%',
-            opacity: 0,
-        }
-    }
-    componentDidUpdate(prevProps) {
-        if (prevProps.open === false && this.props.open === true) {
+const Modal = ({ style, padding, id, customClose, children }) => {
+    const dispatch = useDispatch();
+    const { open, canToggle } = useSelector(state => state.modal[id]);
+    const [opacity, setOpacity] = useState(0);
+    const [translateY, setTranslateY] = useState('-100%');
+
+    useEffect(() => {
+        if (open) {
             setTimeout(() => {
-                this.setState({
-                    opacity: 1,
-                    translateY: '-50%'
-                });
+                setOpacity(1);
+                setTranslateY('-50%');
             }, 100);
         }
-    }
-    closeModal = () => {
-        this.setState({ opacity: 0, translateY: '-100%' });
+    }, [open]);
+
+    const closeModal = () => {
+        setOpacity(0);
+        setTranslateY('-100%');
         setTimeout(() => {
-            this.props.dispatch({ type: 'CLOSE_MODAL', payload: this.props.id });
-            if (this.props.customClose) {
-                this.props.customClose();
+            dispatch({ type: 'CLOSE_MODAL', payload: id });
+            if (customClose) {
+                customClose();
             }
         }, 300);
     }
-    render() {
-        let { opacity, translateY } = this.state;
-        let { style, canToggle, padding } = this.props;
-        return (
-            <div id={this.props.id} className="Modal modal"
-                style={Object.assign({}, style, this.props.open === false ? { display: 'none' } : { opacity: opacity })}
-            >
-                <div className="ModalBackground"
-                    onClick={() => {
-                        if (canToggle === true) {
-                            this.closeModal();
-                        }
-                    }}
-                />
-                <div className={"ModalContent modal" + (padding ? " modal-padding" : "")}
-                    style={{ transform: `translateX(-50%) translateY(${translateY})` }}
-                >
-                    {
-                        canToggle === true && (
-                            <div className="modal-close" onClick={this.closeModal} />
-                        )
+
+    return (
+        <div id={id} className="Modal modal"
+            style={Object.assign({}, style, open === false ? { display: 'none' } : { opacity: opacity })}
+        >
+            <div className="ModalBackground"
+                onClick={() => {
+                    if (canToggle === true) {
+                        closeModal();
                     }
-                    {this.props.children}
-                </div>
+                }}
+            />
+            <div className={"ModalContent modal" + (padding ? " modal-padding" : "")}
+                style={{ transform: `translateX(-50%) translateY(${translateY})` }}
+            >
+                {
+                    canToggle === true && (
+                        <div className="modal-close" onClick={closeModal} />
+                    )
+                }
+                {children}
             </div>
-        )
-    }
+        </div>
+    )
 }
 
-Modal.propTypes = {
-    open: PropTypes.bool,
-    canToggle: PropTypes.bool,
-    id: PropTypes.string,
-    customClose: PropTypes.func,
-};
-
-const mapStateToProps = (state, ownProps) => ({
-    open: state.modal[ownProps.id].open,
-    canToggle: state.modal[ownProps.id].canToggle,
-});
-
-export default connect(mapStateToProps)(Modal);
+export default Modal;

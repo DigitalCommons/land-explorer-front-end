@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-class MarkerSection extends Component {
-    constructor(props) {
-        super(props);
-    }
-    roundTo(num, scale) {
+const MarkerSection = ({ marker }) => {
+    const dispatch = useDispatch();
+    const currentMarker = useSelector((state) => state.markers.currentMarker);
+
+    const roundTo = (num, scale) => {
         if (!(("" + num).indexOf("e") !== -1)) {
             return +(Math.round(num + "e+" + scale) + "e-" + scale);
         } else {
@@ -17,33 +17,38 @@ class MarkerSection extends Component {
             return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + scale)) + "e-" + scale);
         }
     }
-    render() {
-        let { marker, currentMarker, dispatch } = this.props;
-        let open = marker.uuid === currentMarker;
-        console.log("marker", marker);
-        return (
-            <div className="left-pane-tray-section">
-                <div className="left-pane-tray-section-title marker-section"
-                    onClick={() => {
-                        if (open) {
-                            dispatch({
-                                type: 'CLEAR_CURRENT_MARKER',
-                            })
-                        } else {
-                            dispatch({
-                                type: 'SET_CURRENT_MARKER',
-                                payload: marker.uuid
-                            })
-                        }
-                    }}
-                >
-                    <h4 style={{
+
+    const open = marker.uuid === currentMarker;
+
+    return (
+        <div className="left-pane-tray-section">
+            <div
+                className="left-pane-tray-section-title marker-section"
+                onClick={() => {
+                    if (open) {
+                        dispatch({
+                            type: 'CLEAR_CURRENT_MARKER'
+                        });
+                    } else {
+                        dispatch({
+                            type: 'SET_CURRENT_MARKER',
+                            payload: marker.uuid
+                        });
+                    }
+                }}
+            >
+                <h4
+                    style={{
                         marginLeft: '48px',
                         fontWeight: 'bold',
                         width: '140px',
                         overflowWrap: 'anywhere'
-                    }}>{marker.name}</h4>
-                    <div style={{
+                    }}
+                >
+                    {marker.name}
+                </h4>
+                <div
+                    style={{
                         position: 'absolute',
                         top: '50%',
                         transform: 'translateY(-50%)',
@@ -51,35 +56,38 @@ class MarkerSection extends Component {
                         width: '24px',
                         height: '24px',
                         textAlign: 'center'
-                    }}>
-                        <img
-                            src={require('../../assets/img/icon-chevron.svg')} alt=""
-                            style={{
-                                transformOrigin: 'center',
-                                transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
-                            }}
-                        />
-                    </div>
+                    }}
+                >
+                    <img
+                        src={require('../../assets/img/icon-chevron.svg')}
+                        alt=""
+                        style={{
+                            transformOrigin: 'center',
+                            transform: open ? 'rotate(180deg)' : 'rotate(0deg)'
+                        }}
+                    />
                 </div>
-                <div style={{
+            </div>
+            <div
+                style={{
                     overflow: open ? '' : 'hidden',
                     height: open ? 'auto' : '0',
                     padding: open ? '24px' : '0',
                     borderBottom: open ? '1px solid #ccc' : 'none',
                     background: '#78838f',
                     color: 'white'
-                }}>
-                    <p style={{ marginBottom: '6px', fontWeight: 'bold' }}>Position</p>
-                    <p style={{ marginTop: 0, marginBottom: 0 }}>{`Longitude:  ${this.roundTo(marker.coordinates[0], 6)}`}</p>
-                    <p style={{ marginTop: 0 }}>{`Latitude: ${this.roundTo(marker.coordinates[1], 6)}`}</p>
-                </div>
+                }}
+            >
+                <p style={{ marginBottom: '6px', fontWeight: 'bold' }}>Position</p>
+                <p style={{ marginTop: 0, marginBottom: 0 }}>{`Longitude:  ${roundTo(
+                    marker.coordinates[0],
+                    6
+                )}`}</p>
+                <p style={{ marginTop: 0 }}>{`Latitude: ${roundTo(marker.coordinates[1], 6)}`}</p>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
-const mapStateToProps = ({ markers }) => ({
-    currentMarker: markers.currentMarker
-})
 
-export default connect(mapStateToProps)(MarkerSection);
+export default MarkerSection;

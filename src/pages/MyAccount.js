@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link, Route, Routes } from 'react-router-dom';
+import React, { Component, useState, useEffect } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { Link, Route, Routes, useSearchParams } from 'react-router-dom';
 import { closeMenus } from '../actions/MenuActions';
 import { getUserDetails } from '../actions/UserActions';
 import analytics from '../analytics';
@@ -95,55 +95,41 @@ const AccountView = ({ initials }) => {
     </div>
 }
 
-class MyAccount extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            background: 0
-        }
-    }
+const MyAccount = () => {
+    const [background, setBackground] = useState(0);
+    const dispatch = useDispatch();
+    const { populated, initials } = useSelector(({ user }) => user);
 
-    componentDidMount() {
+    useEffect(() => {
         analytics.pageview(window.location.pathname);
-        this.props.closeMenus();
-        this.props.getUserDetails();
+        dispatch(closeMenus());
+        dispatch(getUserDetails());
         setTimeout(() => {
-            this.setState({
-                background: 1
-            })
+            setBackground(1);
         }, 50)
-    }
+    }, []);
 
-    render() {
-        return this.props.populated ? (
-            <div>
-                <div className="Modal"
-                    style={{
-                        opacity: this.state.background,
-                        transition: 'opacity 300ms'
-                    }}
-                />
-                <div className="my-account-container">
-                    <Routes>
-                        <Route path="/" element={<AccountView initials={this.props.initials} />} />
-                        <Route path="/details" element={<ChangeDetails />} />
-                        <Route path="/email" element={<ChangeEmail />} />
-                        <Route path="/password" element={<ChangePassword />} />
-                    </Routes>
-                </div>
+    return populated ? (
+        <div>
+            <div className="Modal"
+                style={{
+                    opacity: background,
+                    transition: 'opacity 300ms'
+                }}
+            />
+            <div className="my-account-container">
+                <Routes>
+                    <Route path="/" element={<AccountView initials={initials} />} />
+                    <Route path="/details" element={<ChangeDetails />} />
+                    <Route path="/email" element={<ChangeEmail />} />
+                    <Route path="/password" element={<ChangePassword />} />
+                </Routes>
             </div>
-        ) : (
-            <div> <Spinner /></div>
-
-        );
-    }
+        </div>
+    ) : (
+        <div> <Spinner /></div>
+    );
 }
 
-MyAccount.propTypes = {};
 
-const mapStateToProps = ({ user }) => ({
-    populated: user.populated,
-    initials: user.initials
-});
-
-export default connect(mapStateToProps, { closeMenus, getUserDetails })(MyAccount);
+export default MyAccount;

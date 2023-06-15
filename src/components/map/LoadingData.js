@@ -1,13 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class LoadingData extends Component {
-    render() {
-        const { message } = this.props
-
-        return <div className="loading-circle">
-            <p className="loading-text">{message}</p>
-        </div>
-    }
-}
+const LoadingData = ({ message }) =>
+    <div className="loading-circle">
+        <p className="loading-text">{message}</p>
+    </div>
 
 export default LoadingData;

@@ -1,10 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Key extends Component {
-    renderKeys = () => {
-        let { data } = this.props;
-        let dataKeys = Object.keys(data);
-        return dataKeys.map((key, i) => {
+const Key = ({ data, name }) =>
+    <div style={{
+        marginBottom: '24px'
+    }}>
+        <div style={{
+            display: 'inline-block',
+            paddingBottom: '6px',
+            marginTop: 0,
+            marginBottom: 0,
+        }}>{name}</div>
+        <div style={{
+            borderBottom: '1px solid #d0d0d0',
+            width: '100%',
+            marginBottom: '12px',
+        }} />
+        {Object.keys(data).map((key, i) => {
             return (
                 <div key={i}
                     style={{
@@ -22,31 +33,8 @@ class Key extends Component {
                     <div style={{ fontSize: '14px' }}>{key}</div>
                 </div>
             )
-        })
-    }
-    render() {
-        let { name } = this.props;
-        return (
-            <div style={{
-                marginBottom: '24px'
-            }}>
-                <div style={{
-                    display: 'inline-block',
-                    paddingBottom: '6px',
-                    marginTop: 0,
-                    marginBottom: 0,
-                }}>{name}</div>
-                <div style={{
-                    borderBottom: '1px solid #d0d0d0',
-                    width: '100%',
-                    marginBottom: '12px',
-                }} />
-                {this.renderKeys()}
-            </div>
-        );
-    }
-}
+        })}
+    </div>
 
-Key.propTypes = {};
 
 export default Key;
