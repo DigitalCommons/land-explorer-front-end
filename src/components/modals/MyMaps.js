@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
 import { useSelector, useDispatch } from 'react-redux';
-import analytics from "../../analytics";
 import { openMap, deleteMap } from '../../actions/MapActions';
-import { openModal } from '../../actions/ModalActions';
 import moment from 'moment';
 
 export const MyMaps = ({ stage, setStage, closeModal }) => {
@@ -35,21 +33,10 @@ export const MyMaps = ({ stage, setStage, closeModal }) => {
                     setActive({ id: map.eid, name: map.name });
                 }}
             >
-                <td style={{ width: '230px' }}>{map.name}</td>
-                <td>{momentDate}</td>
-                <td className={map.isSnapshot ? "snapshot-icon" : "map-icon"} style={{ width: '30px' }}
+                <td>{map.name}</td>
+                <td style={{ width: '100px' }}>{momentDate}</td>
+                <td className={`table-icon ${map.isSnapshot ? "snapshot-icon" : "map-icon"}`}
                     title={map.isSnapshot ? "snapshot" : "map"}
-                />
-                <td className="table-icon table-share" style={{ width: '24px' }}
-                    onClick={() => {
-                        analytics.pageview('/app/my-maps/share');
-                        dispatch({
-                            type: 'SET_MAP_TO_SHARE',
-                            payload: item
-                        })
-                        close();
-                        this.props.dispatch(openModal('share'));
-                    }}
                 />
                 <td className="table-icon table-trash"
                     onClick={() => setStage("trash")}
@@ -120,22 +107,19 @@ export const MyMaps = ({ stage, setStage, closeModal }) => {
             : mapList.length ?
                 <>
                     <div className="modal-content">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th style={{ width: '230px' }}>Name</th>
-                                    <th>Modified</th>
-                                    <th>Type</th>
-                                    <th className="table-icon" style={{ width: '24px' }}></th>
-                                    <th className="table-icon"></th>
-                                </tr>
-                            </thead>
-                        </table>
                         <div style={{
-                            height: '130px',
+                            height: '165px',
                             overflowY: 'scroll',
                         }}>
                             <table>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th style={{ width: '100px' }}>Modified</th>
+                                        <th className="table-icon">Type</th>
+                                        <th className="table-icon"></th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     {mapList}
                                 </tbody>
