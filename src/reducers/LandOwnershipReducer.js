@@ -1,60 +1,49 @@
 const INITIAL_STATE = {
-  propertyInformation: {},
   displayActive: false,
-  highlightMultiple: true,
-  highlightedProperty: [],
+  highlightedProperties: [],
+  activePropertyId: null
 };
 
-let propertyInformation;
-let highlightedProperty;
+let propertyToAdd;
+let highlightedProperties;
 let propertyToRemove;
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case "VIEW_ADDRESS_INFO":
-      propertyInformation = action.payload.propertyInformation;
-      state.propertyInformation = propertyInformation;
-      return {
-        ...state,
-        propertyInformation: propertyInformation,
-      };
     case "TOGGLE_PROPERTY_DISPLAY":
-      state.displayActive = !state.displayActive;
-      return { ...state };
-    case "DISPLAY_PROPERTIES":
-      state.displayActive = true;
-      return { ...state };
-    case "STOP_DISPLAYING_PROPERTIES":
-      state.displayActive = false;
-      return { ...state };
-    case "HIGHLIGHT_PROPERTY":
-      highlightedProperty = action.payload.highlightedProperty;
-      if (state.highlightMultiple) {
-        if (!state.highlightedProperty.includes(highlightedProperty))
-          state.highlightedProperty = state.highlightedProperty.concat([highlightedProperty]);
-      }
-      else
-        state.highlightedProperty = [highlightedProperty];
-      console.log("reducer");
-      console.log(state.highlightedProperty);
       return {
         ...state,
-        highlightedProperty: state.highlightedProperty
+        displayActive: !state.displayActive
+      };
+    case "HIGHLIGHT_PROPERTY":
+      propertyToAdd = action.payload;
+      if (!state.highlightedProperties.some(p => p.poly_id === propertyToAdd.poly_id)) {
+        highlightedProperties = state.highlightedProperties.concat([propertyToAdd]);
+      }
+      return {
+        ...state,
+        highlightedProperties
       };
     case "CLEAR_HIGHLIGHT":
       propertyToRemove = action.payload;
-      console.log(propertyToRemove);
-      console.log(state.highlightedProperty)
-      state.highlightedProperty = state.highlightedProperty.filter(
-        property => property.poly_id != propertyToRemove.poly_id
+      highlightedProperties = state.highlightedProperties.filter(
+        property => property.poly_id !== propertyToRemove.poly_id
       );
-      return { ...state };
-    case "CLEAR_ALL_HIGHLIGHT":
-      state.highlightedProperty = [];
-      return { ...state };
-    case "TOGGLE_HIGHLIGHT_MULTIPLE":
-      state.highlightMultiple = !state.highlightMultiple;
-      return { ...state };
+      return {
+        ...state,
+        highlightedProperties,
+        activePropertyId: null
+      };
+    case "SET_ACTIVE_PROPERTY":
+      return {
+        ...state,
+        activePropertyId: action.payload
+      };
+    case "CLEAR_ACTIVE_PROPERTY":
+      return {
+        ...state,
+        activePropertyId: null
+      };
     default:
       return state;
   }

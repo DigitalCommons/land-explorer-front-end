@@ -5,7 +5,7 @@ import axios from "axios";
 import constants from "../../constants";
 import { getAuthHeader } from "../../utils/Auth";
 import LoadingData from "./LoadingData";
-import { highlightProperty } from "../../actions/LandOwnershipActions";
+import { highlightProperty, setActiveProperty } from "../../actions/LandOwnershipActions";
 
 const MapProperties = ({ center, map }) => {
   const [propertiesArray, setPropertiesArray] = useState([]);
@@ -13,7 +13,9 @@ const MapProperties = ({ center, map }) => {
 
   const displayActive = useSelector(state => state.landOwnership.displayActive);
   const zoom = useSelector(state => state.map.zoom);
-  const highlightedProperty = useSelector(state => state.landOwnership.highlightedProperty);
+  const highlightedProperties = useSelector(state => state.landOwnership.highlightedProperties);
+  const activePropertyId = useSelector(state => state.landOwnership.activePropertyId);
+  const activeProperty = activePropertyId !== null ? highlightedProperties.find(p => p.poly_id === activePropertyId) : null;
 
   const activePanel = useSelector(state => state.leftPane.active);
 
@@ -37,14 +39,12 @@ const MapProperties = ({ center, map }) => {
         getAuthHeader()
       );
 
-    const properties = [];
-
-    const propertiesData = response.data;
-
-    propertiesData.map((property) => {
+    const properties = response.data.map((property) => {
       const json = JSON.parse(property.geojson);
-      property.coordinates = json.coordinates[0];
-      properties.push(property);
+      return {
+        ...property,
+        coordinates: json.coordinates[0]
+      }
     });
 
     if (properties.length > 0)
@@ -58,83 +58,89 @@ const MapProperties = ({ center, map }) => {
       getProperties();
   }, [center, map, zoom, displayActive])
 
-  const onClickProperty = (property) => {
+  const onClickNewProperty = (property) => {
     if (activePanel !== 'Drawing Tools') {
       dispatch(highlightProperty(property));
     }
   }
 
-  const createProperties = () => {
-    const detailedProperties = [];
-    const basicProperties = [];
-
-    propertiesArray.forEach(property => {
-      if (property.date_proprietor_added)
-        detailedProperties.push(<Feature
-          coordinates={[property.coordinates]}
-          key={property.coordinates[0][0]}
-          onClick={() => onClickProperty(property)}
-        />)
-      else
-        basicProperties.push(<Feature
-          coordinates={[property.coordinates]}
-          key={property.coordinates[0][0]}
-          onClick={() => onClickProperty(property)}
-        />)
-    })
-
-    return <>
-      <Layer
-        type={"fill"}
-        paint={{
-          "fill-opacity": 0.15,
-          "fill-color": 'green',
-          "fill-outline-color": 'green',
-        }}
-      >
-        {detailedProperties}
-      </Layer>
-      <Layer
-        type={"fill"}
-        paint={{
-          "fill-opacity": 0.15,
-          "fill-color": 'orange',
-          "fill-outline-color": 'green',
-        }}
-      >
-        {basicProperties}
-      </Layer>
-    </>
+  const onClickHighlightedProperty = (property) => {
+    if (activePanel !== 'Drawing Tools') {
+      dispatch(setActiveProperty(property.poly_id));
+    }
   }
 
-  const createHighlightedProperties = () => {
-    const properties = []
-    highlightedProperty.forEach(highlightedProperty =>
-      properties.push(<Feature
-        coordinates={[highlightedProperty.coordinates]}
-        key={highlightedProperty.coordinates[0][0]}
+  const detailedPropertyFeatures = [];
+  const basicPropertyFeatures = [];
+
+  propertiesArray.forEach(property => {
+    if (property.date_proprietor_added)
+      detailedPropertyFeatures.push(<Feature
+        coordinates={[property.coordinates]}
+        key={property.coordinates[0][0]}
+        onClick={() => onClickNewProperty(property)}
       />)
-    )
-    return <Layer type={"fill"}
+    else
+      basicPropertyFeatures.push(<Feature
+        coordinates={[property.coordinates]}
+        key={property.coordinates[0][0]}
+        onClick={() => onClickNewProperty(property)}
+      />)
+  });
+
+  const highlightedPropertyFeatures = highlightedProperties.map(highlightedProperty =>
+    <Feature
+      coordinates={[highlightedProperty.coordinates]}
+      key={highlightedProperty.coordinates[0][0]}
+      onClick={() => onClickHighlightedProperty(highlightedProperty)}
+    />
+  );
+
+  // Add another polygon for the active property so it appears darker
+  if (activeProperty) {
+    highlightedPropertyFeatures.push(<Feature
+      coordinates={[activeProperty.coordinates]}
+      key={activeProperty.coordinates[0][0]}
+    />);
+  }
+
+  return <>
+    {
+      displayActive && zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL && (
+        <>
+          {loadingProperties && <LoadingData message={"fetching property boundaries"} />}
+          <Layer
+            type={"fill"}
+            paint={{
+              "fill-opacity": 0.15,
+              "fill-color": 'green',
+              "fill-outline-color": 'green',
+            }}
+          >
+            {detailedPropertyFeatures}
+          </Layer>
+          <Layer
+            type={"fill"}
+            paint={{
+              "fill-opacity": 0.15,
+              "fill-color": 'orange',
+              "fill-outline-color": 'green',
+            }}
+          >
+            {basicPropertyFeatures}
+          </Layer>
+        </>
+      )
+    }
+    <Layer
+      type={"fill"}
       paint={{
-        "fill-opacity": 0.4,
+        "fill-opacity": 0.3,
         "fill-color": 'red'
       }}>
-      {properties}
+      {highlightedPropertyFeatures}
     </Layer>
-  }
-
-  if (displayActive && zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL)
-    return <>
-      {loadingProperties && <LoadingData message={"fetching property boundaries"} />}
-      {propertiesArray && createProperties()}
-      {highlightedProperty && createHighlightedProperties()}
-    </>;
-  if (highlightedProperty.length > 0)
-    return <>
-      {createHighlightedProperties()}
-    </>
-  else return null;
+  </>;
 }
 
 export default MapProperties;
