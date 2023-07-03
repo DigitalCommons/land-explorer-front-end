@@ -1,48 +1,94 @@
 .registration {
-  left: 30%;
-  width: 40%;
+  width: calc(100vw - 40px);
   top: 6rem;
   position: relative;
   padding: 1rem;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-.title{
+.title {
   margin-top: 0;
 }
 
-.account-type-container{
-display: flex;
-justify-content: space-evenly;
-margin-bottom: 0.5rem;
-padding: 1rem 0rem;
+.account-type-container {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0rem 1.5rem;
 }
 
-.account-type-card{
+.account-type-card {
+  max-width: 100%;
+  box-sizing: border-box;
   color: white;
-background-color: #27ae60;
-border-radius: 5%;
-padding: 0.5rem 5rem 1rem 1rem;
-text-align: left;
-max-width: 20%;
+  background-color: #27ae60;
+  border-radius: 5px;
+  padding: 1rem 2rem;
+  text-align: center;
 }
 
-.account-type-card:hover{
+.account-type-card:hover {
   cursor: pointer;
 }
 
-.active{
-  box-shadow: black 0px 0px 5px;
+.active {
+  box-shadow: #00000080 0px 0px 10px;
 }
 
-.inactive{
+.inactive {
   opacity: 0.75;
 }
 
-.account-type-title{
+.account-type-title {
   margin-top: 0;
+  font-size: 20px;
+  line-height: 20px;
+  margin-bottom: 0.45rem;
 }
 
-.account-type-text{
-  margin-top: 0;
-  margin-bottom: 0;
+.account-type-text {
+  line-height: 1.5em;
+  margin: 0 auto;
+}
+
+.privacy-policy {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+}
+
+/*A little hacky but allows for consistent spacing 
+between outer containers across devices */
+@media screen and (max-width: 768px) {
+  .account-type-card {
+    &:first-child {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+/* Desktop specific, as mobile first */
+@media screen and (min-width: 769px) {
+  .registration {
+    width: 760px;
+  }
+  .account-type-container {
+    flex-direction: row;
+  }
+  .account-type-card {
+    width: 49%;
+  }
+
+  .card-inner {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .account-type-text {
+    margin: 0 auto;
+    width: 80%;
+  }
 }
