@@ -6,8 +6,8 @@ import constants from "../constants";
 import { getAuthHeader } from "../utils/Auth";
 
 const ChangePassword = () => {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordValid, setPasswordValid] = useState(null);
   const [confirmPasswordValid, setConfirmPasswordValid] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -23,10 +23,11 @@ const ChangePassword = () => {
       setSubmitting(true);
 
       const body = {
-        password: password
+        password: password,
       };
 
-      axios.post(`${constants.ROOT_URL}/api/user/password`, body, getAuthHeader())
+      axios
+        .post(`${constants.ROOT_URL}/api/user/password`, body, getAuthHeader())
         .then((response) => {
           setSuccess(true);
           setSubmitting(false);
@@ -55,13 +56,12 @@ const ChangePassword = () => {
           paddingBottom: "24px",
           paddingTop: "28px",
           borderRadius: "8px",
-          margin: "0",
         }}
       >
         <div>
           <div>Your password has been changed successfully.</div>
           <div style={{ marginTop: "24px" }}>
-            <Link to={`/app${mandatory ? '' : '/my-account'}`}>
+            <Link to={`/app${mandatory ? "" : "/my-account"}`}>
               <div
                 className="button button-medium"
                 style={{ display: "inline-block", marginRight: "12px" }}
@@ -104,7 +104,6 @@ const ChangePassword = () => {
           paddingBottom: "12px",
           paddingTop: "6px",
           borderRadius: "8px",
-          margin: "0",
         }}
       >
         <div
@@ -124,7 +123,9 @@ const ChangePassword = () => {
           <form onSubmit={changePassword}>
             <input
               type="password"
-              className={`text-input ${passwordValid !== null && (passwordValid ? 'valid' : 'invalid')}`}
+              className={`text-input ${
+                passwordValid !== null && (passwordValid ? "valid" : "invalid")
+              }`}
               placeholder="New password"
               value={password}
               onChange={(e) => {
@@ -135,7 +136,10 @@ const ChangePassword = () => {
             />
             <input
               type="password"
-              className={`text-input ${confirmPasswordValid !== null && (confirmPasswordValid ? 'valid' : 'invalid')}`}
+              className={`text-input ${
+                confirmPasswordValid !== null &&
+                (confirmPasswordValid ? "valid" : "invalid")
+              }`}
               placeholder="Confirm new password"
               value={confirmPassword}
               onChange={(e) => {
@@ -148,7 +152,9 @@ const ChangePassword = () => {
               <input
                 type="submit"
                 value="Save Changes"
-                className={`button button-full ${passwordValid || confirmPasswordValid || 'button-grey'}`}
+                className={`button button-full ${
+                  passwordValid || confirmPasswordValid || "button-grey"
+                }`}
                 style={{
                   paddingTop: 0,
                   marginBottom: "12px",
@@ -161,6 +167,6 @@ const ChangePassword = () => {
       </div>
     );
   }
-}
+};
 
 export default ChangePassword;

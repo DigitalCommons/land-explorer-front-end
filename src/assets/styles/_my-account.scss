@@ -44,12 +44,10 @@
   -webkit-overflow-scrolling: touch;
   overflow-y: scroll;
   position: absolute;
-  padding-top: 10vh;
+  padding-top: 5vh;
   top: 0;
-  left: 50%;
   height: 100vh;
   width: 100vw;
-  transform: translateX(-50%);
   z-index: 100009;
   @media #{$up-to-small} {
     padding-top: 0;
