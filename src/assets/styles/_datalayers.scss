@@ -201,12 +201,43 @@
 .popup-sidebar {
   width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  flex-direction: row;
+  align-items: center;
+  // justify-content: flex-end;
   box-sizing: border-box;
-  padding: 25px 20px;
+  padding: 20px 20px;
+  position: absolute;
+  bottom: 0px;
   background-color: $primaryColor;
   border-radius: 0px 0px 16px 16px;
+  color: #fff;
+}
+
+.popup-footer-button {
+  padding: 0px;
+  margin: 0px 18px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  position: relative;
+  &:first-child {
+    margin-left: 0px;
+  }
+  &:not(:first-child):before {
+    content: "";
+    width: 1px;
+    height: 20px;
+    display: block;
+    position: relative;
+    right: 18px;
+    cursor: none;
+    pointer-events: none;
+    background-color: #fff;
+    font-size: 20px;
+  }
 }
 
 .popup-copy-to-tabs-container {
@@ -257,8 +288,11 @@
 }
 
 .popup-sidebar-button {
-  display: none;
-  padding-top: 10px;
+  // Temporary dimensions
+  height: 12px;
+  // display: none;
+  // padding-top: 10px;
+  padding-right: 7px;
   cursor: pointer;
 }
 
@@ -290,5 +324,15 @@
   .popup-content-saving {
     left: -300px;
     width: 600px;
+    height: 360px;
+  }
+
+  .marker-active,
+  .marker-inactive {
+    transition: ease-out 0.5s;
+  }
+
+  .marker-active {
+    margin-top: 5vh;
   }
 }
