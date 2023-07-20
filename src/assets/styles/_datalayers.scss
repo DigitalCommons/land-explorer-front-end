@@ -68,6 +68,9 @@
   color: #2ecc71;
 }
 
+/** Pop-up dialogue **/
+
+// Outer container
 .popup-content,
 .popup-content-saving {
   width: 200px;
@@ -123,6 +126,16 @@
   bottom: 45px;
 }
 
+// Description and Title wrapper - is this necessary as the sidebar is now a footer?
+.popup-body-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+// Title
 .popup-title {
   margin: 0px;
   width: 100%;
@@ -135,26 +148,47 @@
   color: $primaryColor;
 }
 
-.popup-saving-text {
-  display: inline-block;
-  vertical-align: middle;
-  font-weight: bold;
-  font-size: 14px;
+.copy-to-title {
+  text-align: center;
 }
 
-.popup-saving-icon-container {
-  display: flex;
-  align-items: center;
-  margin: 7px;
+// Description wrapper
+.popup-body-main {
+  // height: 80px;
+  // height: fit-content;
+  height: 210px;
+  padding: 10px 25px 0;
+  box-sizing: border-box;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  // width: 170px;
+  overflow-y: auto;
 }
 
-.popup-saving-text-container {
-  display: flex;
-  align-items: center;
-  margin-right: 7px;
+// Description wrapper scrollbar
+.popup-body-main::-webkit-scrollbar {
+  width: 5px;
+  margin-right: 5px;
 }
 
+// Desctiption wrapper scrollbar Handle
+.popup-body-main::-webkit-scrollbar-thumb {
+  background: #b4b4b4;
+  border-radius: 10px;
+}
+
+// Description wrapper scrollbar Track
+.popup-body-main::-webkit-scrollbar-track {
+  background: #d8d8d8;
+  border-radius: 10px;
+}
+
+// Description inner wrapper
 .description-text {
+  // height: 200px;
+  height: fit-content;
+  color: #707070;
   &:first-child {
     margin-top: 0px;
   }
@@ -163,11 +197,17 @@
   }
   /* height: 50px;
   overflow-y: auto;*/
+  &.editable {
+    background-color: #fff;
+    padding: 10px;
+    margin: -10px;
+  }
 }
 
 .editable {
-  background-color: #f3f3f3;
-  border-radius: 10px;
+  // box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1) inset;
+  // background-color: #f3f3f3;
+  // border-radius: 10px;
 }
 
 // Don't show line breaks in title/description since these are not saved
@@ -183,63 +223,7 @@
   margin-top: 20px;
 }
 
-.popup-body-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.popup-body-main {
-  height: 80px;
-  padding: 25px;
-  // width: 170px;
-  overflow-y: auto;
-}
-
-.popup-sidebar {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  // justify-content: flex-end;
-  box-sizing: border-box;
-  padding: 20px 20px;
-  position: absolute;
-  bottom: 0px;
-  background-color: $primaryColor;
-  border-radius: 0px 0px 16px 16px;
-  color: #fff;
-}
-
-.popup-footer-button {
-  padding: 0px;
-  margin: 0px 18px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  position: relative;
-  &:first-child {
-    margin-left: 0px;
-  }
-  &:not(:first-child):before {
-    content: "";
-    width: 1px;
-    height: 20px;
-    display: block;
-    position: relative;
-    right: 18px;
-    cursor: none;
-    pointer-events: none;
-    background-color: #fff;
-    font-size: 20px;
-  }
-}
-
+// Copy to screen
 .popup-copy-to-tabs-container {
   width: 100%;
   padding-top: 2px;
@@ -287,19 +271,6 @@
   }
 }
 
-.popup-sidebar-button {
-  // Temporary dimensions
-  height: 12px;
-  // display: none;
-  // padding-top: 10px;
-  padding-right: 7px;
-  cursor: pointer;
-}
-
-.popup-sidebar-button-inactive {
-  cursor: auto;
-}
-
 .popup-copy-status-container {
   display: flex;
   width: 100%;
@@ -319,6 +290,83 @@
   margin-bottom: 6px;
 }
 
+/** Footer **/
+.popup-sidebar {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  // justify-content: flex-end;
+  box-sizing: border-box;
+  padding: 20px 20px;
+  position: absolute;
+  bottom: 0px;
+  background-color: $primaryColor;
+  border-radius: 0px 0px 16px 16px;
+  color: #fff;
+}
+
+.popup-footer-button {
+  padding: 0px;
+  margin: 0px 18px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  position: relative;
+  &:first-child {
+    margin-left: 0px;
+  }
+  &:not(:first-child):before {
+    content: "";
+    width: 1px;
+    height: 20px;
+    display: block;
+    position: relative;
+    right: 18px;
+    cursor: none;
+    pointer-events: none;
+    background-color: #fff;
+    font-size: 20px;
+  }
+}
+
+.popup-sidebar-button {
+  // Temporary dimensions
+  height: 12px;
+  // display: none;
+  // padding-top: 10px;
+  padding-right: 7px;
+  cursor: pointer;
+}
+
+.popup-sidebar-button-inactive {
+  cursor: auto;
+}
+
+/** Popup saving **/
+.popup-saving-text {
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.popup-saving-icon-container {
+  display: flex;
+  align-items: center;
+  margin: 7px;
+}
+
+.popup-saving-text-container {
+  display: flex;
+  align-items: center;
+  margin-right: 7px;
+}
+
+/** Media queries **/
 @media screen and (min-width: $large) {
   .popup-content,
   .popup-content-saving {
