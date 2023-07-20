@@ -25,7 +25,6 @@ const AccountView = ({ initials }) => {
             paddingBottom: '12px',
             paddingTop: '28px',
             borderRadius: '8px',
-            margin: '0',
         }}>
         <div className="my-account--userlogo">
             {initials}
