@@ -86,7 +86,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
         <>
           <div className="popup-body-container">
             <h3 className="popup-title">{name}</h3>
-            <div className="popup-body-main">
+            <div id="popup-body-scroll" className="popup-body-main">
               <p className="description-text">{description}</p>
             </div>
           </div>
@@ -161,18 +161,24 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
             </div>
           </div>
           <div className="popup-sidebar">
-            <img
-              src={require("../../assets/img/icon-cross.svg")}
+            <button
+              type="button"
+              className="popup-footer-button popup-copy"
               onClick={() => {
                 setName(object.name);
                 setDescription(object.description);
                 setMode("display");
               }}
-              className="popup-sidebar-button"
-            />
-            <img
-              src={require("../../assets/img/icon-tick--green.svg")}
-              className="popup-sidebar-button"
+            >
+              <img
+                src={require("../../assets/img/icon-cancel.svg")}
+                className="popup-sidebar-button"
+              />
+              Cancel
+            </button>
+            <button
+              type="button"
+              className="popup-footer-button popup-save"
               onClick={() => {
                 const newName =
                   document.getElementById("popup-name").textContent;
@@ -183,14 +189,20 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                 setMode("display");
                 editObjectInfo(newName, newDescription);
               }}
-            />
+            >
+              <img
+                src={require("../../assets/img/icon-save.svg")}
+                className="popup-sidebar-button"
+              />
+              Save
+            </button>
           </div>
         </>
       )}
       {mode === "copy" && (
         <>
           <div className="popup-body-container">
-            <h3 className="popup-title">Copy {type} to:</h3>
+            <h3 className="popup-title copy-to-title">Copy {type} to:</h3>
 
             <table className="popup-copy-to-tabs-container">
               <tbody>
