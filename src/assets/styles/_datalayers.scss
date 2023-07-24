@@ -301,7 +301,7 @@
   box-sizing: border-box;
   font-size: 14px;
   background-color: #fff;
-    border: 2px solid transparent;
+  border: 2px solid transparent;
   &:hover {
     // background: #f4f5f7;
     border: 2px solid $primaryColor;
@@ -420,7 +420,7 @@
 }
 
 /** Media queries **/
-@media screen and (min-width: $large) {
+@media screen and (min-width: $medium) {
   .popup-content,
   .popup-content-saving {
     left: -300px;
@@ -435,5 +435,29 @@
 
   .marker-active {
     margin-top: 5vh;
+  }
+}
+
+@media screen and (max-width: $medium) {
+  .popup-content,
+  .popup-content-saving {
+    left: -175px;
+    width: 350px;
+    height: 500px;
+  }
+  .popup-body-main {
+    height: 350px;
+  }
+}
+
+@media screen and (max-width: $small) {
+  .popup-content,
+  .popup-content-saving {
+    left: -140px;
+    width: 280px;
+    height: 425px;
+  }
+  .popup-body-main {
+    height: 275px;
   }
 }
