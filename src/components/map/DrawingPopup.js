@@ -113,7 +113,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                   setMode("copy");
                 }}
               /> */}
-              Copy to Map
+              <span className="popup-footer-button-text">Copy to Map</span>
             </button>
             <button
               type="button"
@@ -135,7 +135,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                 }`}
                 onClick={() => setMode("edit")}
               /> */}
-              Edit Marker
+              <span className="popup-footer-button-text">Edit Marker</span>
             </button>
           </div>
         </>
@@ -254,7 +254,9 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                     onClick={() => setSelectedMap(map)}
                     key={map.map.eid}
                   >
-                    <span className="popup-copy-to-map-name">{map.map.name}</span>
+                    <span className="popup-copy-to-map-name">
+                      {map.map.name}
+                    </span>
                     {selectedMap && selectedMap.map.eid === map.map.eid && (
                       <button
                         type="button"

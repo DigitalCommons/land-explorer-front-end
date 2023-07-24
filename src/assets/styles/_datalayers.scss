@@ -381,7 +381,7 @@
     right: 18px;
     cursor: none;
     pointer-events: none;
-    background-color: #fff;
+    background-color: #ffffff66;
     font-size: 20px;
   }
 }
@@ -459,5 +459,13 @@
   }
   .popup-body-main {
     height: 275px;
+  }
+  .popup-sidebar {
+    justify-content: center;
+  }
+  .popup-footer-button {
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }
