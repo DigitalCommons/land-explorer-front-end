@@ -147,9 +147,9 @@
   font-weight: regular;
   color: $primaryColor;
   &:focus-visible {
-      outline: 2px solid #DD7B3C80;
-      color: #707770;
-    }
+    outline: 2px solid #dd7b3c80;
+    color: #707770;
+  }
 }
 
 .copy-to-title {
@@ -161,6 +161,7 @@
   // height: 80px;
   // height: fit-content;
   height: 210px;
+  width: 100%;
   padding: 10px 25px 0;
   box-sizing: border-box;
   margin-top: 10px;
@@ -208,9 +209,8 @@
     &:focus-visible {
       padding: 8px;
       outline: none;
-      border: 2px solid #DD7B3C80;
+      border: 2px solid #dd7b3c80;
     }
-
   }
 }
 
@@ -247,17 +247,22 @@
 
 .popup-copy-to-tab {
   @include button-scaffold();
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
   text-align: center;
   width: 50%;
-  display: block;
+  // display: block;
   font-weight: bold;
-  text-align: center;
+  align-items: center;
   position: relative;
   color: $midNeutral;
 
+  & img {
+    margin-right: 10px;
+  }
   &:hover {
-    // background: #f4f5f7;
-    color: $primaryColor;
+    text-decoration: underline;
   }
   &:not(:first-child):before {
     content: "";
@@ -266,6 +271,7 @@
     display: block;
     position: absolute;
     top: -2px;
+    left: 0;
     cursor: none;
     pointer-events: none;
     background-color: $neutral;
@@ -274,22 +280,31 @@
 }
 
 .tab-active {
-  // background: #73d19b;
   color: $primaryColor;
 
   &:hover {
-    // background: #73d19b;
+    text-decoration: none;
   }
 }
 
 .popup-copy-to-option {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
   margin: 0px;
-  padding-left: 5px;
+  margin-bottom: 12px;
+  // padding-left: 5px;
+  padding: 16px 20px;
+  border-radius: 7px;
   cursor: pointer;
-
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.16);
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: #fff;
+    border: 2px solid transparent;
   &:hover {
-    background: #f4f5f7;
+    // background: #f4f5f7;
+    border: 2px solid $primaryColor;
   }
 }
 
@@ -302,6 +317,10 @@
   }
 }
 
+.popup-copy-to-map-name {
+  display: block;
+}
+
 .popup-copy-status-container {
   display: flex;
   width: 100%;
@@ -312,6 +331,13 @@
 
 .popup-copy-status-text {
   text-align: center;
+}
+
+.popup-copy-to-button {
+  height: 17px;
+  width: 17px;
+  @include button-scaffold();
+  background-image: url("../img/icon-add--white.svg");
 }
 
 .popup-status-icon {

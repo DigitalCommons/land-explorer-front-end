@@ -254,7 +254,21 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                     onClick={() => setSelectedMap(map)}
                     key={map.map.eid}
                   >
-                    {map.map.name}
+                    <span className="popup-copy-to-map-name">{map.map.name}</span>
+                    {selectedMap && selectedMap.map.eid === map.map.eid && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (selectedMap) {
+                            copyObjectToMap(object, selectedMap);
+                          } else if (selectedDataGroup) {
+                            copyObjectToDataGroup(object, selectedDataGroup);
+                          }
+                          setMode("saving");
+                        }}
+                        className="popup-copy-to-button"
+                      />
+                    )}
                   </div>
                 ))}
               {copyTo === "datagroup" &&
@@ -275,7 +289,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
             </div>
           </div>
           <div className="popup-sidebar">
-            <img
+            {/* <img
               src={require("../../assets/img/icon-cross.svg")}
               onClick={() => {
                 setMode("display");
@@ -283,8 +297,23 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                 setSelectedDataGroup(undefined);
               }}
               className="popup-sidebar-button"
-            />
-            <img
+            /> */}
+            <button
+              type="button"
+              className="popup-footer-button popup-copy"
+              onClick={() => {
+                setMode("display");
+                setSelectedMap(undefined);
+                setSelectedDataGroup(undefined);
+              }}
+            >
+              <img
+                src={require("../../assets/img/icon-cancel.svg")}
+                className="popup-sidebar-button"
+              />
+              Cancel
+            </button>
+            {/* <img
               src={require(`../../assets/img/icon-tick--${
                 selectedMap || selectedDataGroup ? "green" : "grey"
               }.svg`)}
@@ -301,7 +330,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                 }
                 setMode("saving");
               }}
-            />
+            /> */}
           </div>
         </>
       )}
