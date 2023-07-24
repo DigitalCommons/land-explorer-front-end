@@ -42,4 +42,22 @@ $toolbarAccent: #e3e3e5;
 $trayBackground: #eff0f2;
 $trayAccent: #e5e7eb;
 
-$lighNeutral: #f5f5f5;
+$neutral: #E9E7E7;
+$midNeutral: #B1B1B1;
+$lightNeutral: #f5f5f5;
+
+/** Mixins **/
+@mixin button-scaffold(
+  $padding: 0px,
+  $margin: 0px,
+  $backgroundColor: transparent,
+  $border: none,
+  $cursor: pointer
+) {
+  padding: $padding;
+  margin: $margin;
+  background-color: $backgroundColor;
+  border: $border;
+  cursor: $cursor;
+  box-sizing: border-box;
+}

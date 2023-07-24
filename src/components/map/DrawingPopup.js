@@ -204,39 +204,47 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
           <div className="popup-body-container">
             <h3 className="popup-title copy-to-title">Copy {type} to:</h3>
 
-            <table className="popup-copy-to-tabs-container">
-              <tbody>
-                <tr>
-                  <td
-                    className={`popup-copy-to-tab ${
-                      copyTo === "map" && "tab-active"
-                    }`}
-                    onClick={() => {
-                      setCopyTo("map");
-                      setSelectedDataGroup(undefined);
-                    }}
-                  >
-                    Map
-                  </td>
-                  <td
-                    className={`popup-copy-to-tab ${
-                      copyTo === "datagroup" && "tab-active"
-                    }`}
-                    onClick={() => {
-                      setCopyTo("datagroup");
-                      setSelectedMap(undefined);
-                    }}
-                  >
-                    Data Layer
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div className="popup-copy-to-tabs-container">
+              <button
+                type="tab"
+                className={`popup-copy-to-tab ${
+                  copyTo === "map" && "tab-active"
+                }`}
+                onClick={() => {
+                  setCopyTo("map");
+                  setSelectedDataGroup(undefined);
+                }}
+              >
+                <img
+                  src={require(`../../assets/img/icon-map--${
+                    copyTo === "map" && "tab-active" ? "green" : "grey"
+                  }.svg`)}
+                />
+                Map Here
+              </button>
+              <button
+                type="tab"
+                className={`popup-copy-to-tab ${
+                  copyTo === "datagroup" && "tab-active"
+                }`}
+                onClick={() => {
+                  setCopyTo("datagroup");
+                  setSelectedMap(undefined);
+                }}
+              >
+                <img
+                  src={require(`../../assets/img/icon-layers--${
+                    copyTo === "datagroup" && "tab-active" ? "green" : "grey"
+                  }.svg`)}
+                />
+                Data Layer
+              </button>
+            </div>
 
             <div className="popup-body-main">
               {copyTo === "map" &&
                 maps.map((map) => (
-                  <p
+                  <div
                     className={`popup-copy-to-option${
                       (selectedMap &&
                         selectedMap.map.eid === map.map.eid &&
@@ -247,11 +255,11 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                     key={map.map.eid}
                   >
                     {map.map.name}
-                  </p>
+                  </div>
                 ))}
               {copyTo === "datagroup" &&
                 dataGroups.map((dataGroup) => (
-                  <p
+                  <div
                     className={`popup-copy-to-option${
                       (selectedDataGroup &&
                         selectedDataGroup.id === dataGroup.id &&
@@ -262,7 +270,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
                     key={dataGroup.id}
                   >
                     {dataGroup.title}
-                  </p>
+                  </div>
                 ))}
             </div>
           </div>

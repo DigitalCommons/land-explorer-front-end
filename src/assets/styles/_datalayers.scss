@@ -81,7 +81,7 @@
   bottom: 12px;
   left: -110px;
   // background-color: white;
-  background-color: $lighNeutral;
+  background-color: $lightNeutral;
   // padding: 10px;
   box-sizing: border-box;
   border-radius: 16px;
@@ -146,6 +146,10 @@
   font-size: 18px;
   font-weight: regular;
   color: $primaryColor;
+  &:focus-visible {
+      outline: 2px solid #DD7B3C80;
+      color: #707770;
+    }
 }
 
 .copy-to-title {
@@ -201,6 +205,12 @@
     background-color: #fff;
     padding: 10px;
     margin: -10px;
+    &:focus-visible {
+      padding: 8px;
+      outline: none;
+      border: 2px solid #DD7B3C80;
+    }
+
   }
 }
 
@@ -223,36 +233,57 @@
   margin-top: 20px;
 }
 
-// Copy to screen
+/** Copy to screen **/
+
+// Tabs
 .popup-copy-to-tabs-container {
   width: 100%;
-  padding-top: 2px;
-  padding-bottom: 2px;
+  display: flex;
   border-spacing: 0px;
+  padding-bottom: 18px;
+  background-color: #fff;
+  align-items: center;
 }
 
 .popup-copy-to-tab {
-  cursor: pointer;
+  @include button-scaffold();
+  text-align: center;
   width: 50%;
-  padding: 0px;
+  display: block;
   font-weight: bold;
   text-align: center;
+  position: relative;
+  color: $midNeutral;
 
   &:hover {
-    background: #f4f5f7;
+    // background: #f4f5f7;
+    color: $primaryColor;
+  }
+  &:not(:first-child):before {
+    content: "";
+    width: 1px;
+    height: 20px;
+    display: block;
+    position: absolute;
+    top: -2px;
+    cursor: none;
+    pointer-events: none;
+    background-color: $neutral;
+    font-size: 20px;
   }
 }
 
 .tab-active {
-  background: #73d19b;
-  color: #4a4a4a;
+  // background: #73d19b;
+  color: $primaryColor;
 
   &:hover {
-    background: #73d19b;
+    // background: #73d19b;
   }
 }
 
 .popup-copy-to-option {
+  width: 100%;
   margin: 0px;
   padding-left: 5px;
   cursor: pointer;
@@ -307,11 +338,7 @@
 }
 
 .popup-footer-button {
-  padding: 0px;
-  margin: 0px 18px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+  @include button-scaffold($margin: 0px 18px);
   color: #fff;
   display: flex;
   align-items: center;
