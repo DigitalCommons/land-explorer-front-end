@@ -68,26 +68,18 @@
   color: #2ecc71;
 }
 
-/** Pop-up dialogue **/
-
-// Outer container
 .popup-content,
 .popup-content-saving {
-  width: 200px;
-  // height: 100px;
-  height: max-content;
   z-index: 4;
   position: absolute;
   bottom: 12px;
   left: -110px;
-  // background-color: white;
-  background-color: $lightNeutral;
-  // padding: 10px;
-  box-sizing: border-box;
-  border-radius: 16px;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
-  // display: flex;
-  // justify-content: space-between;
+  background-color: white;
+  width: 200px;
+  height: 100px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .popup-content-saving {
@@ -138,37 +130,8 @@
 // Title
 .popup-title {
   margin: 0px;
-  width: 100%;
-  background-color: #fff;
-  padding: 25px 20px;
-  box-sizing: border-box;
-  border-radius: 16px 16px 0px 0px;
-  font-size: 18px;
-  font-weight: regular;
-  color: $primaryColor;
-  &:focus-visible {
-    outline: 2px solid #dd7b3c80;
-    color: #707770;
-  }
-}
-
-.copy-to-title {
-  text-align: center;
-}
-
-// Description wrapper
-.popup-body-main {
-  // height: 80px;
-  // height: fit-content;
-  height: 210px;
-  width: 100%;
-  padding: 10px 25px 0;
-  box-sizing: border-box;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  margin-right: 5px;
-  // width: 170px;
-  overflow-y: auto;
+  font-weight: bold;
+  width: 170px;
 }
 
 // Description wrapper scrollbar
@@ -202,16 +165,6 @@
   }
   /* height: 50px;
   overflow-y: auto;*/
-  &.editable {
-    background-color: #fff;
-    padding: 10px;
-    margin: -10px;
-    &:focus-visible {
-      padding: 8px;
-      outline: none;
-      border: 2px solid #dd7b3c80;
-    }
-  }
 }
 
 .editable {
@@ -233,9 +186,25 @@
   margin-top: 20px;
 }
 
-/** Copy to screen **/
+.popup-body-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+}
 
-// Tabs
+.popup-body-main {
+  height: 80px;
+  width: 170px;
+  overflow-y: auto;
+}
+
+.popup-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
 .popup-copy-to-tabs-container {
   width: 100%;
   display: flex;
@@ -317,8 +286,13 @@
   }
 }
 
-.popup-copy-to-map-name {
-  display: block;
+.popup-sidebar-button {
+  padding-top: 10px;
+  cursor: pointer;
+}
+
+.popup-sidebar-button-inactive {
+  cursor: auto;
 }
 
 .popup-copy-status-container {
@@ -345,127 +319,4 @@
   width: 20px;
   height: 20px;
   margin-bottom: 6px;
-}
-
-/** Footer **/
-.popup-sidebar {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  // justify-content: flex-end;
-  box-sizing: border-box;
-  padding: 20px 20px;
-  position: absolute;
-  bottom: 0px;
-  background-color: $primaryColor;
-  border-radius: 0px 0px 16px 16px;
-  color: #fff;
-}
-
-.popup-footer-button {
-  @include button-scaffold($margin: 0px 18px);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  position: relative;
-  &:first-child {
-    margin-left: 0px;
-  }
-  &:not(:first-child):before {
-    content: "";
-    width: 1px;
-    height: 20px;
-    display: block;
-    position: relative;
-    right: 18px;
-    cursor: none;
-    pointer-events: none;
-    background-color: #ffffff66;
-    font-size: 20px;
-  }
-}
-
-.popup-sidebar-button {
-  // Temporary dimensions
-  height: 12px;
-  // display: none;
-  // padding-top: 10px;
-  padding-right: 7px;
-  cursor: pointer;
-}
-
-.popup-sidebar-button-inactive {
-  cursor: auto;
-}
-
-/** Popup saving **/
-.popup-saving-text {
-  display: inline-block;
-  vertical-align: middle;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.popup-saving-icon-container {
-  display: flex;
-  align-items: center;
-  margin: 7px;
-}
-
-.popup-saving-text-container {
-  display: flex;
-  align-items: center;
-  margin-right: 7px;
-}
-
-/** Media queries **/
-@media screen and (min-width: $medium) {
-  .popup-content,
-  .popup-content-saving {
-    left: -300px;
-    width: 600px;
-    height: 360px;
-  }
-
-  .marker-active,
-  .marker-inactive {
-    transition: ease-out 0.5s;
-  }
-
-  .marker-active {
-    margin-top: 5vh;
-  }
-}
-
-@media screen and (max-width: $medium) {
-  .popup-content,
-  .popup-content-saving {
-    left: -175px;
-    width: 350px;
-    height: 500px;
-  }
-  .popup-body-main {
-    height: 350px;
-  }
-}
-
-@media screen and (max-width: $small) {
-  .popup-content,
-  .popup-content-saving {
-    left: -140px;
-    width: 280px;
-    height: 425px;
-  }
-  .popup-body-main {
-    height: 275px;
-  }
-  .popup-sidebar {
-    justify-content: center;
-  }
-  .popup-footer-button {
-    &:last-child {
-      margin-right: 0;
-    }
-  }
 }
