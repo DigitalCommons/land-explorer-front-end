@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { saveObjectToMap, editMapObjectInfo } from "../../actions/MapActions";
+import { saveObjectToMap, editMapObjectInfo } from "../../../actions/MapActions";
 import {
   saveObjectToDataGroup,
   editDataGroupObjectInfo,
-} from "../../actions/DataGroupActions";
-import Spinner from "../common/Spinner";
+} from "../../../actions/DataGroupActions";
+import Spinner from "../../common/Spinner";
 
 /**
  *

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GeoJSONLayer, Marker } from 'react-mapbox-gl';
 import { useSelector, useDispatch } from "react-redux";
-import DrawingPopup from './DrawingPopup';
+import DrawingPopup from './DrawingPopup/DrawingPopup';
 import * as turf from "@turf/turf";
 
 const Drawing = ({ type, polygon }) => {

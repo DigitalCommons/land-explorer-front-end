@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import { Marker } from "react-mapbox-gl";
 import { connect, useDispatch, useSelector } from "react-redux";
-import DrawingPopup from "./DrawingPopup";
+import DrawingPopup from "./DrawingPopup/DrawingPopup";
 
 const MarkerPin = ({ marker, active }) => {
   const dispatch = useDispatch();

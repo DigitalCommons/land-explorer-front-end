@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCertificate } from '@fortawesome/free-solid-svg-icons';
 import { Marker } from "react-mapbox-gl";
-import DrawingPopup from "./DrawingPopup";
+import DrawingPopup from "./DrawingPopup/DrawingPopup";
 
 const DataGroupMarkerContent = ({ marker, visible, closeDescription }) => {
     return (
