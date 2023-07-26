@@ -74,20 +74,15 @@
 .popup-content,
 .popup-content-saving {
   width: 200px;
-  // height: 100px;
   height: max-content;
   z-index: 4;
   position: absolute;
   bottom: 12px;
   left: -110px;
-  // background-color: white;
   background-color: $lightNeutral;
-  // padding: 10px;
   box-sizing: border-box;
   border-radius: 16px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
-  // display: flex;
-  // justify-content: space-between;
 }
 
 .popup-content-saving {
@@ -158,8 +153,6 @@
 
 // Description wrapper
 .popup-body-main {
-  // height: 80px;
-  // height: fit-content;
   height: 210px;
   width: 100%;
   padding: 10px 25px 0;
@@ -167,7 +160,6 @@
   margin-top: 10px;
   margin-bottom: 5px;
   margin-right: 5px;
-  // width: 170px;
   overflow-y: auto;
 }
 
@@ -191,7 +183,6 @@
 
 // Description inner wrapper
 .description-text {
-  // height: 200px;
   height: fit-content;
   color: #707070;
   &:first-child {
@@ -200,8 +191,7 @@
   &:last-child {
     margin-bottom: 0px;
   }
-  /* height: 50px;
-  overflow-y: auto;*/
+
   &.editable {
     background-color: #fff;
     padding: 10px;
@@ -212,12 +202,6 @@
       border: 2px solid #dd7b3c80;
     }
   }
-}
-
-.editable {
-  // box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1) inset;
-  // background-color: #f3f3f3;
-  // border-radius: 10px;
 }
 
 // Don't show line breaks in title/description since these are not saved
@@ -252,7 +236,6 @@
   vertical-align: middle;
   text-align: center;
   width: 50%;
-  // display: block;
   font-weight: bold;
   align-items: center;
   position: relative;
@@ -287,13 +270,13 @@
   }
 }
 
+// Copy to options
 .popup-copy-to-option {
   width: 100%;
   display: flex;
   justify-content: space-between;
   margin: 0px;
   margin-bottom: 12px;
-  // padding-left: 5px;
   padding: 16px 20px;
   border-radius: 7px;
   cursor: pointer;
@@ -303,7 +286,6 @@
   background-color: #fff;
   border: 2px solid transparent;
   &:hover {
-    // background: #f4f5f7;
     border: 2px solid $primaryColor;
   }
 }
@@ -311,13 +293,10 @@
 .copy-to-option-highlighted {
   background-color: #27ae60;
   color: white;
-
-  &:hover {
-    background: #27ae60;
-  }
+  cursor: auto;
 }
 
-.popup-copy-to-map-name {
+.popup-copy-to-name {
   display: block;
 }
 
@@ -348,12 +327,11 @@
 }
 
 /** Footer **/
-.popup-sidebar {
+.popup-footer {
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  // justify-content: flex-end;
   box-sizing: border-box;
   padding: 20px 20px;
   position: absolute;
@@ -386,11 +364,16 @@
   }
 }
 
-.popup-sidebar-button {
-  // Temporary dimensions
+.is-offline {
+  color: #ffffff66;
+  cursor: auto;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.popup-footer-icon {
   height: 12px;
-  // display: none;
-  // padding-top: 10px;
   padding-right: 7px;
   cursor: pointer;
 }
@@ -460,7 +443,7 @@
   .popup-body-main {
     height: 275px;
   }
-  .popup-sidebar {
+  .popup-footer {
     justify-content: center;
   }
   .popup-footer-button {

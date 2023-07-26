@@ -45,53 +45,37 @@ const PopupContent = ({
           </>
         )}
       </div>
-      <div className="popup-sidebar">
+
+      <div className="popup-footer">
         {mode === MODE.DISPLAY && (
           <>
             <button
               type="button"
-              className="popup-footer-button popup-copy"
-              onClick={() => setMode("copy")}
+              className={`popup-footer-button popup-copy  ${
+                !isOnline ? "is-offline" : ""
+              }`}
+              onClick={() => setMode(MODE.COPY)}
+              disabled={!isOnline}
             >
               <img
                 src={require(`../../../../assets/img/icon-copy-new.svg`)}
-                className={`popup-sidebar-button ${
-                  isOnline || "popup-sidebar-button-inactive"
-                }`}
+                className="popup-footer-icon"
               />
-              {/* <img
-                src={require(`../../assets/img/icon-add--${
-                  isOnline ? "green" : "grey"
-                }.svg`)}
-                className={`popup-sidebar-button ${
-                  isOnline || "popup-sidebar-button-inactive"
-                }`}
-                onClick={() => {
-                  setMode("copy");
-                }}
-              /> */}
               <span className="popup-footer-button-text">Copy to Map</span>
             </button>
+
             <button
               type="button"
-              className="popup-footer-button popup-edit"
-              onClick={() => setMode("edit")}
+              className={`popup-footer-button popup-edit  ${
+                readOnly ? "is-offline" : ""
+              }`}
+              onClick={() => setMode(MODE.EDIT)}
+              disabled={readOnly}
             >
               <img
                 src={require(`../../../../assets/img/icon-edit-new.svg`)}
-                className={`popup-sidebar-button ${
-                  readOnly && "popup-sidebar-button-inactive"
-                }`}
+                className="popup-footer-icon"
               />
-              {/* <img
-                src={require(`../../assets/img/icon-pencil--${
-                  readOnly ? "grey" : "green"
-                }.svg`)}
-                className={`popup-sidebar-button ${
-                  readOnly && "popup-sidebar-button-inactive"
-                }`}
-                onClick={() => setMode("edit")}
-              /> */}
               <span className="popup-footer-button-text">Edit Marker</span>
             </button>
           </>
@@ -105,15 +89,16 @@ const PopupContent = ({
               onClick={() => {
                 setName(name);
                 setDescription(description);
-                setMode("display");
+                setMode(MODE.DISPLAY);
               }}
             >
               <img
                 src={require("../../../../assets/img/icon-cancel.svg")}
-                className="popup-sidebar-button"
+                className="popup-footer-icon"
               />
               Cancel
             </button>
+
             <button
               type="button"
               className="popup-footer-button popup-save"
@@ -124,13 +109,13 @@ const PopupContent = ({
                   document.getElementById("popup-description").textContent;
                 setName(newName);
                 setDescription(newDescription);
-                setMode("display");
+                setMode(MODE.DISPLAY);
                 editObjectInfo(newName, newDescription);
               }}
             >
               <img
                 src={require("../../../../assets/img/icon-save.svg")}
-                className="popup-sidebar-button"
+                className="popup-footer-icon"
               />
               Save
             </button>

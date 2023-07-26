@@ -1,6 +1,11 @@
 import React from "react";
 import { MODE } from "../DrawingPopup";
 
+const COPY_TO = {
+  MAP: "map",
+  DATA_GROUP: "datagroup",
+};
+
 const PopupCopy = ({
   object,
   copyTo,
@@ -18,7 +23,7 @@ const PopupCopy = ({
 }) => {
   const handleCopyToChange = (event) => {
     const value = event.target.value;
-    if (value === "map") {
+    if (value === COPY_TO.MAP) {
       setSelectedDataGroup(undefined);
     } else {
       setSelectedMap(undefined);
@@ -35,10 +40,10 @@ const PopupCopy = ({
   };
 
   const handleCopyButtonClick = () => {
-    if (copyTo === "map" && selectedMap) {
+    if (copyTo === COPY_TO.MAP && selectedMap) {
       copyObjectToMap(object, selectedMap);
       setMode(MODE.SAVING);
-    } else if (copyTo === "datagroup" && selectedDataGroup) {
+    } else if (copyTo === COPY_TO.DATA_GROUP && selectedDataGroup) {
       copyObjectToDataGroup(object, selectedDataGroup);
       setMode(MODE.SAVING);
     }
@@ -48,17 +53,19 @@ const PopupCopy = ({
     <>
       <div className="popup-body-container">
         <h3 className="popup-title copy-to-title">Copy {type} to:</h3>
-
+        {/* Tabs */}
         <div className="popup-copy-to-tabs-container">
           <button
             type="button"
-            className={`popup-copy-to-tab ${copyTo === "map" && "tab-active"}`}
+            className={`popup-copy-to-tab ${
+              copyTo === COPY_TO.MAP && "tab-active"
+            }`}
             onClick={handleCopyToChange}
-            value="map"
+            value={COPY_TO.MAP}
           >
             <img
               src={require(`../../../../assets/img/icon-map--${
-                copyTo === "map" && "tab-active" ? "green" : "grey"
+                copyTo === COPY_TO.MAP && "tab-active" ? "green" : "grey"
               }.svg`)}
             />
             Map Here
@@ -66,22 +73,23 @@ const PopupCopy = ({
           <button
             type="button"
             className={`popup-copy-to-tab ${
-              copyTo === "datagroup" && "tab-active"
+              copyTo === COPY_TO.DATA_GROUP && "tab-active"
             }`}
             onClick={handleCopyToChange}
-            value="datagroup"
+            value={COPY_TO.DATA_GROUP}
           >
             <img
               src={require(`../../../../assets/img/icon-layers--${
-                copyTo === "datagroup" && "tab-active" ? "green" : "grey"
+                copyTo === COPY_TO.DATA_GROUP && "tab-active" ? "green" : "grey"
               }.svg`)}
             />
             Data Layer
           </button>
         </div>
 
+        {/* Body */}
         <div className="popup-body-main">
-          {copyTo === "map" &&
+          {copyTo === COPY_TO.MAP &&
             maps.map((map) => (
               <div
                 className={`popup-copy-to-option${
@@ -92,7 +100,7 @@ const PopupCopy = ({
                 onClick={() => handleMapSelection(map)}
                 key={map.map.eid}
               >
-                <span className="popup-copy-to-map-name">{map.map.name}</span>
+                <span className="popup-copy-to-name">{map.map.name}</span>
                 {selectedMap && selectedMap.map.eid === map.map.eid && (
                   <button
                     type="button"
@@ -102,7 +110,7 @@ const PopupCopy = ({
                 )}
               </div>
             ))}
-          {copyTo === "datagroup" &&
+          {copyTo === COPY_TO.DATA_GROUP &&
             dataGroups.map((dataGroup) => (
               <div
                 className={`popup-copy-to-option${
@@ -113,13 +121,21 @@ const PopupCopy = ({
                 onClick={() => handleDataGroupSelection(dataGroup)}
                 key={dataGroup.id}
               >
-                {dataGroup.title}
+                <span className="popup-copy-to-name">{dataGroup.title}</span>
+                {selectedDataGroup && selectedDataGroup.id === dataGroup.id && (
+                  <button
+                    type="button"
+                    onClick={handleCopyButtonClick}
+                    className="popup-copy-to-button"
+                  />
+                )}
               </div>
             ))}
         </div>
       </div>
 
-      <div className="popup-sidebar">
+      {/* Footer */}
+      <div className="popup-footer">
         <button
           type="button"
           className="popup-footer-button popup-copy"
@@ -131,7 +147,7 @@ const PopupCopy = ({
         >
           <img
             src={require("../../../../assets/img/icon-cancel.svg")}
-            className="popup-sidebar-button"
+            className="popup-footer-icon"
           />
           Cancel
         </button>
