@@ -1,4 +1,5 @@
 import React from "react";
+import { MODE } from "../DrawingPopup";
 
 const PopupContent = ({
   mode,
@@ -14,7 +15,7 @@ const PopupContent = ({
   return (
     <>
       <div className="popup-body-container">
-        {mode === "display" && (
+        {mode === MODE.DISPLAY && (
           <>
             <h3 className="popup-title">{name}</h3>
             <div id="popup-body-scroll" className="popup-body-main">
@@ -23,7 +24,7 @@ const PopupContent = ({
           </>
         )}
 
-        {mode === "edit" && (
+        {mode === MODE.EDIT && (
           <>
             <h3
               className="popup-title editable"
@@ -45,7 +46,7 @@ const PopupContent = ({
         )}
       </div>
       <div className="popup-sidebar">
-        {mode === "display" && (
+        {mode === MODE.DISPLAY && (
           <>
             <button
               type="button"
@@ -95,7 +96,8 @@ const PopupContent = ({
             </button>
           </>
         )}
-        {mode === "edit" && (
+
+        {mode === MODE.EDIT && (
           <>
             <button
               type="button"

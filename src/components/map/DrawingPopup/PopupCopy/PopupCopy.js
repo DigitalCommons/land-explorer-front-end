@@ -1,4 +1,5 @@
 import React from "react";
+import { MODE } from "../DrawingPopup";
 
 const PopupCopy = ({
   object,
@@ -36,10 +37,10 @@ const PopupCopy = ({
   const handleCopyButtonClick = () => {
     if (copyTo === "map" && selectedMap) {
       copyObjectToMap(object, selectedMap);
-      setMode("saving");
+      setMode(MODE.SAVING);
     } else if (copyTo === "datagroup" && selectedDataGroup) {
       copyObjectToDataGroup(object, selectedDataGroup);
-      setMode("saving");
+      setMode(MODE.SAVING);
     }
   };
 
@@ -47,6 +48,7 @@ const PopupCopy = ({
     <>
       <div className="popup-body-container">
         <h3 className="popup-title copy-to-title">Copy {type} to:</h3>
+
         <div className="popup-copy-to-tabs-container">
           <button
             type="button"
@@ -122,7 +124,7 @@ const PopupCopy = ({
           type="button"
           className="popup-footer-button popup-copy"
           onClick={() => {
-            setMode("display");
+            setMode(MODE.DISPLAY);
             setSelectedMap(undefined);
             setSelectedDataGroup(undefined);
           }}
@@ -132,23 +134,6 @@ const PopupCopy = ({
             className="popup-sidebar-button"
           />
           Cancel
-        </button>
-        <button
-          type="button"
-          className="popup-footer-button popup-copy"
-          onClick={handleCopyButtonClick}
-        >
-          <img
-            src={require(`../../../../assets/img/icon-tick--${
-              selectedMap || selectedDataGroup ? "green" : "grey"
-            }.svg`)}
-            className={`popup-sidebar-button ${
-              selectedMap ||
-              selectedDataGroup ||
-              "popup-sidebar-button-inactive"
-            }`}
-          />
-          Copy
         </button>
       </div>
     </>

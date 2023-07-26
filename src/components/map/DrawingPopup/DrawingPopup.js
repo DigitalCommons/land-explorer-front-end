@@ -8,6 +8,15 @@ import PopupContent from "./PopupContent/PopupContent";
 import PopupCopy from "./PopupCopy/PopupCopy";
 import PopupStatus from "./PopupStatus/PopupStatus";
 
+export const MODE = {
+  DISPLAY: "display",
+  COPY: "copy",
+  SAVING: "saving",
+  SUCCESS: "success",
+  ERROR: "error",
+  EDIT: "edit",
+};
+
 /***
  * @param object the drawn object that the popup is associated with
  * @param type 'marker', 'polygon' or 'line'
@@ -18,19 +27,21 @@ import PopupStatus from "./PopupStatus/PopupStatus";
 
 const DrawingPopup = ({ object, type, source, closeDescription }) => {
   const dispatch = useDispatch();
-  const [mode, setMode] = useState("display");
+  const [mode, setMode] = useState(MODE.DISPLAY);
   const [name, setName] = useState(object.name);
   const [copyTo, setCopyTo] = useState("map");
   const [description, setDescription] = useState(object.description);
   const [selectedMap, setSelectedMap] = useState();
   const [selectedDataGroup, setSelectedDataGroup] = useState();
-  const readOnly = useSelector((state) => state.readOnly.readOnly);
-  const isOnline = useSelector((state) => state.connectivity.isOnline);
-  const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
-  const allMaps = useSelector((state) => state.myMaps.maps);
-  const allDataGroups = useSelector(
-    (state) => state.dataGroups.dataGroupTitlesAndIDs
-  );
+
+  const { readOnly, isOnline, currentMapId, allMaps, allDataGroups } =
+    useSelector((state) => ({
+      readOnly: state.readOnly.readOnly,
+      isOnline: state.connectivity.isOnline,
+      currentMapId: state.mapMeta.currentMapId,
+      allMaps: state.myMaps.maps,
+      allDataGroups: state.dataGroups.dataGroupTitlesAndIDs,
+    }));
 
   // Logic for determining maps and data groups based on source
   let maps, dataGroups;
@@ -53,7 +64,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
   const copyObjectToMap = async (object, map) => {
     const data = regulariseObjectData(object);
     const success = await dispatch(saveObjectToMap(type, data, map.map.eid));
-    setMode(success ? "success" : "error");
+    setMode(success ? MODE.SUCCESS : MODE.ERROR);
   };
 
   const copyObjectToDataGroup = async (object, dataGroup) => {
@@ -61,7 +72,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
     const success = await dispatch(
       saveObjectToDataGroup(type, data, dataGroup.id)
     );
-    setMode(success ? "success" : "error");
+    setMode(success ? MODE.SUCCESS : MODE.ERROR);
   };
 
   // Function for editing object info
@@ -78,7 +89,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
 
   const close = () => {
     closeDescription();
-    setMode("display");
+    setMode(MODE.DISPLAY);
     setSelectedMap(undefined);
     setSelectedDataGroup(undefined);
   };
@@ -88,8 +99,8 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
       <div className="popup-close" onClick={close} />
       <PopupContent
         mode={mode}
-        name={object.name}
-        description={object.description}
+        name={name}
+        description={description}
         setMode={setMode}
         setDescription={setDescription}
         editObjectInfo={editObjectInfo}
@@ -97,7 +108,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
         isOnline={isOnline}
         readOnly={readOnly}
       />
-      {mode === "copy" && (
+      {mode === MODE.COPY && (
         <PopupCopy
           object={object}
           copyTo={copyTo}
@@ -114,18 +125,18 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
           type={type}
         />
       )}
-      {mode === "saving" && <PopupStatus mode="saving" />}
-      {mode === "success" && (
+      {mode === MODE.SAVING && <PopupStatus mode={MODE.SAVING} />}
+      {mode === MODE.SUCCESS && (
         <PopupStatus
-          mode="success"
+          mode={MODE.SUCCESS}
           selectedMap={selectedMap}
           selectedDataGroup={selectedDataGroup}
           type={type}
         />
       )}
-      {mode === "error" && (
+      {mode === MODE.ERROR && (
         <PopupStatus
-          mode="error"
+          mode={MODE.ERROR}
           selectedMap={selectedMap}
           selectedDataGroup={selectedDataGroup}
           type={type}
