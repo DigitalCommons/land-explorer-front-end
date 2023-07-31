@@ -29,6 +29,7 @@ const PopupContent = ({
             <h3
               className="popup-title editable"
               id="popup-name"
+              suppressContentEditableWarning={true}
               contentEditable
             >
               {name}
@@ -37,6 +38,7 @@ const PopupContent = ({
               <p
                 className="description-text editable"
                 id="popup-description"
+                suppressContentEditableWarning={true}
                 contentEditable
               >
                 {description}
