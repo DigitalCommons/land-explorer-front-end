@@ -1,6 +1,6 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Marker } from "react-mapbox-gl";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DrawingPopup from "./DrawingPopup/DrawingPopup";
 
 const MarkerPin = ({ marker, active }) => {
@@ -11,6 +11,20 @@ const MarkerPin = ({ marker, active }) => {
 
   const showPopup = !popupClosed && active && !activeTool;
 
+  const toggleMarker = () => {
+    if (!activeTool) {
+      if (active) {
+        dispatch({ type: "CLEAR_CURRENT_MARKER" });
+        setPopupClosed(false);
+      } else {
+        dispatch({
+          type: "SET_CURRENT_MARKER",
+          payload: marker.uuid,
+        });
+      }
+    }
+  };
+
   return (
     <Marker
       key={marker.uuid}
@@ -19,9 +33,6 @@ const MarkerPin = ({ marker, active }) => {
       description={marker.description}
       anchor="bottom"
       style={{ height: "40px", zIndex: active ? 4 : 3 }}
-      className={
-        active && !popupClosed ? "marker-active" : "marker-inactive"
-      }
     >
       <div>
         <div data-tooltip={marker.name} className="pointer">
@@ -41,19 +52,7 @@ const MarkerPin = ({ marker, active }) => {
               top: "0px",
               left: "-20px",
             }}
-            onClick={() => {
-              if (!activeTool) {
-                if (active) {
-                  dispatch({ type: "CLEAR_CURRENT_MARKER" });
-                  setPopupClosed(false);
-                } else {
-                  dispatch({
-                    type: "SET_CURRENT_MARKER",
-                    payload: marker.uuid,
-                  });
-                }
-              }
-            }}
+            onClick={toggleMarker}
           />
           <span className="marker-shadow"></span>
         </div>
@@ -68,7 +67,8 @@ const MarkerPin = ({ marker, active }) => {
               object={marker}
               type={"marker"}
               source={"map"}
-              closeDescription={() => setPopupClosed(true)}
+              closeDescription={toggleMarker}
+              // toggleMarker={toggleMarker}
             />
           </div>
         )}
