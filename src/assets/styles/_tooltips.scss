@@ -326,3 +326,12 @@
 canvas {
   cursor: pointer !important;
 }
+
+@media screen and (max-width: $small) {
+  .popup-close {
+    height: 20px;
+    width: 20px;
+    top: 8px;
+    right: 8px;
+  }
+}

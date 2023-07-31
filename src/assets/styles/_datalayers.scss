@@ -139,8 +139,9 @@
   box-sizing: border-box;
   border-radius: 16px 16px 0px 0px;
   font-size: 18px;
-  font-weight: regular;
+  font-weight: normal;
   color: $primaryColor;
+  line-height: 1.35em;
   &:focus-visible {
     outline: 2px solid #dd7b3c80;
     color: #707770;
@@ -412,14 +413,14 @@
     height: 360px;
   }
 
-  .marker-active,
-  .marker-inactive {
-    transition: ease-out 0.5s;
-  }
+  // .marker-active,
+  // .marker-inactive {
+  //   transition: ease-out 0.5s;
+  // }
 
-  .marker-active {
-    margin-top: 5vh;
-  }
+  // .marker-active {
+  //   margin-top: 5vh;
+  // }
 }
 
 @media screen and (max-width: $medium) {
@@ -437,12 +438,16 @@
 @media screen and (max-width: $small) {
   .popup-content,
   .popup-content-saving {
-    left: -140px;
-    width: 280px;
-    height: 425px;
+    left: -130px;
+    width: 260px;
+    height: 405px;
+  }
+  .popup-title {
+    font-size: 16px;
+    padding: 20px;
   }
   .popup-body-main {
-    height: 275px;
+    height: 235px;
   }
   .popup-footer {
     justify-content: center;
