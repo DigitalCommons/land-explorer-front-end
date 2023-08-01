@@ -68,7 +68,6 @@ const MarkerPin = ({ marker, active }) => {
               type={"marker"}
               source={"map"}
               closeDescription={toggleMarker}
-              // toggleMarker={toggleMarker}
             />
           </div>
         )}
