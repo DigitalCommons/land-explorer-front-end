@@ -62,6 +62,7 @@ const MarkerPin = ({ marker, active }) => {
               position: "relative",
               bottom: "-5px",
             }}
+            className="popup-wrapper"
           >
             <DrawingPopup
               object={marker}
