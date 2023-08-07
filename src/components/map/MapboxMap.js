@@ -106,24 +106,6 @@ const MapboxMap = ({ user }) => {
 
   }, [activeTool, activePolygon, currentMarker])
 
-  const onZoomEnd = () => {
-    // Keeps map zoom in sync
-    if (styleLoaded) {
-      const zoom = map.getZoom();
-      dispatch(setZoom([zoom]));
-    }
-  };
-
-  const onDragEnd = () => {
-    // Keeps map position in sync
-    if (styleLoaded) {
-      const { lng, lat } = map.getCenter();
-      dispatch(setLngLat(lng, lat));
-    }
-  };
-
-  console.log(polygons)
-
   const onDrawCreate = (e) => {
     /*
             This takes the feature created in drawing and creates a copy of it
@@ -225,8 +207,6 @@ const MapboxMap = ({ user }) => {
     }
   };
 
-  console.log(drawControlRef.current)
-
   const redrawPolygons = (polygons) => {
     const drawControl = drawControlRef.current;
     setRedrawing(true);
@@ -277,8 +257,8 @@ const MapboxMap = ({ user }) => {
                 : "#72b6e6",
         }}
         zoom={zoom}
-        onZoomEnd={onZoomEnd}
-        onDragEnd={onDragEnd}
+        onZoomEnd={(map) => dispatch(setZoom([map.getZoom()]))}
+        onDragEnd={(map) => dispatch(setLngLat(map.getCenter().lng, map.getCenter().lat))}
         center={lngLat}
         onStyleLoad={(m, evt) => {
           setMap(m);
