@@ -19,7 +19,7 @@ const ProfilePic = () => {
       onClick={() => {
         analytics.event(analytics._event.USER_MENU, "Open");
         dispatch({ type: "TOGGLE_MENU_PROFILE" });
-        // conditional if mobile and tool is active
+        // Close left pane if mobile and tool is active
         if (activeTool != "" && isMobile) dispatch({ type: "CLOSE_TRAY" });
       }}
     >
