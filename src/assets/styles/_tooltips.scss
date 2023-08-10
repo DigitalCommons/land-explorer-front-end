@@ -312,16 +312,26 @@
 }
 
 .popup-close {
-  height: 10px;
-  width: 10px;
-  border-radius: 50%;
+  @include button-scaffold();
+  height: 25px;
+  width: 25px;
+  // border-radius: 50%;
   position: absolute;
   top: 12px;
-  cursor: pointer;
   right: 12px;
-  background-image: url("../img/icon-close-new.svg");
+  background-image: url("../img/icon-close.svg");
+  background-size: cover;
 }
 
 canvas {
   cursor: pointer !important;
+}
+
+@media screen and (max-width: $small) {
+  .popup-close {
+    height: 20px;
+    width: 20px;
+    top: 8px;
+    right: 8px;
+  }
 }

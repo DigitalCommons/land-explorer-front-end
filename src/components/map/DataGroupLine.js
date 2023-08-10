@@ -1,6 +1,6 @@
 import React from "react";
 import { Marker, GeoJSONLayer } from "react-mapbox-gl";
-import DrawingPopup from "./DrawingPopup";
+import DrawingPopup from "./DrawingPopup/DrawingPopup";
 import * as turf from '@turf/turf';
 
 const DataGroupLine = ({ line, setPopupVisible, popupVisible }) => {
@@ -47,7 +47,7 @@ const DataGroupLine = ({ line, setPopupVisible, popupVisible }) => {
                 <DrawingPopup
                     object={line}
                     type={"line"}
-                    soruce={"datagroup"}
+                    source={"datagroup"}
                     closeDescription={() => setPopupVisible(-1)}
                 />
             </Marker>

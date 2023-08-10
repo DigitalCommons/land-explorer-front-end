@@ -68,7 +68,328 @@
   color: #2ecc71;
 }
 
-.popup-content,
+/** Pop-up dialogue **/
+
+// Outer container
+.popup-content {
+  width: 200px;
+  height: max-content;
+  z-index: 4;
+  position: absolute;
+  bottom: 12px;
+  left: -110px;
+  background-color: $lightNeutral;
+  box-sizing: border-box;
+  border-radius: 16px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.popup-content::after {
+  content: " ";
+  position: absolute;
+  top: auto;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(180deg);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 12px 12px 12px;
+  border-color: transparent transparent $primaryColor transparent;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+.popup-with-marker {
+  position: absolute;
+  bottom: 45px;
+}
+
+// Description and Title wrapper - is this necessary as the sidebar is now a footer?
+.popup-body-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+// Title
+.popup-title {
+  margin: 0px;
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 16px 16px 0px 0px;
+  font-size: 18px;
+  font-weight: normal;
+  color: $primaryColor;
+  line-height: 1.35em;
+  &:focus-visible {
+    outline: 2px solid #dd7b3c80;
+    color: #707770;
+  }
+}
+
+.copy-to-title {
+  text-align: center;
+}
+
+// Description wrapper
+.popup-body-main {
+  height: 210px;
+  width: 100%;
+  padding: 10px 25px 0;
+  box-sizing: border-box;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  overflow-y: auto;
+}
+
+// Description wrapper scrollbar
+.popup-body-main::-webkit-scrollbar {
+  width: 5px;
+  margin-right: 5px;
+}
+
+// Desctiption wrapper scrollbar Handle
+.popup-body-main::-webkit-scrollbar-thumb {
+  background: #b4b4b4;
+  border-radius: 10px;
+}
+
+// Description wrapper scrollbar Track
+.popup-body-main::-webkit-scrollbar-track {
+  background: #d8d8d8;
+  border-radius: 10px;
+}
+
+// Description inner wrapper
+.description-text {
+  height: fit-content;
+  color: #707070;
+  &:first-child {
+    margin-top: 0px;
+  }
+  &:last-child {
+    margin-bottom: 0px;
+  }
+
+  &.editable {
+    background-color: #fff;
+    padding: 10px;
+    margin: -10px;
+    &:focus-visible {
+      padding: 8px;
+      outline: none;
+      border: 2px solid #dd7b3c80;
+    }
+  }
+}
+
+// Don't show line breaks in title/description since these are not saved
+.editable * {
+  display: inline;
+}
+
+.editable br {
+  display: none;
+}
+
+.no-popup-title {
+  margin-top: 20px;
+}
+
+/** Copy to screen **/
+
+// Tabs
+.popup-copy-to-tabs-container {
+  width: 100%;
+  display: flex;
+  border-spacing: 0px;
+  padding-bottom: 18px;
+  background-color: #fff;
+  align-items: center;
+}
+
+.popup-copy-to-tab {
+  @include button-scaffold();
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+  text-align: center;
+  width: 50%;
+  font-weight: bold;
+  align-items: center;
+  position: relative;
+  color: $midNeutral;
+
+  & img {
+    margin-right: 10px;
+  }
+  &:hover {
+    text-decoration: underline;
+  }
+  &:not(:first-child):before {
+    content: "";
+    width: 1px;
+    height: 20px;
+    display: block;
+    position: absolute;
+    top: -2px;
+    left: 0;
+    cursor: none;
+    pointer-events: none;
+    background-color: $neutral;
+    font-size: 20px;
+  }
+}
+
+.tab-active {
+  color: $primaryColor;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+// Copy to options
+.popup-copy-to-option {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0px;
+  margin-bottom: 12px;
+  padding: 16px 20px;
+  border-radius: 7px;
+  cursor: pointer;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.16);
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: #fff;
+  border: 2px solid transparent;
+  &:hover {
+    border: 2px solid $primaryColor;
+  }
+}
+
+.copy-to-option-highlighted {
+  background-color: #27ae60;
+  color: white;
+  cursor: auto;
+}
+
+.popup-copy-to-name {
+  display: block;
+  width: calc(100% - 20px);
+}
+
+.popup-copy-status-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-copy-status-text {
+  text-align: center;
+}
+
+.popup-copy-to-button {
+  height: 17px;
+  width: 17px;
+  @include button-scaffold();
+  background-image: url("../img/icon-add--white.svg");
+}
+
+.popup-status-icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-bottom: 6px;
+}
+
+/** Footer **/
+.popup-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 20px 20px;
+  position: absolute;
+  bottom: 0px;
+  background-color: $primaryColor;
+  border-radius: 0px 0px 16px 16px;
+  color: #fff;
+}
+
+.popup-footer-button {
+  @include button-scaffold($margin: 0px 18px);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  position: relative;
+  &:first-child {
+    margin-left: 0px;
+  }
+  &:not(:first-child):before {
+    content: "";
+    width: 1px;
+    height: 20px;
+    display: block;
+    position: relative;
+    right: 18px;
+    cursor: none;
+    pointer-events: none;
+    background-color: #ffffff66;
+    font-size: 20px;
+  }
+}
+
+.is-offline {
+  color: #ffffff66;
+  cursor: auto;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.popup-footer-icon {
+  height: 12px;
+  padding-right: 7px;
+  cursor: pointer;
+}
+
+.popup-sidebar-button-inactive {
+  cursor: auto;
+}
+
+/** Popup saving **/
+.popup-saving-text {
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.popup-saving-icon-container {
+  display: flex;
+  align-items: center;
+  margin: 7px;
+}
+
+.popup-saving-text-container {
+  display: flex;
+  align-items: center;
+  margin-right: 7px;
+}
+
+/** Topbar saving pop up **/
+
 .popup-content-saving {
   z-index: 4;
   position: absolute;
@@ -89,7 +410,6 @@
   justify-content: space-evenly;
 }
 
-.popup-content::after,
 .popup-content-saving::after {
   content: " ";
   position: absolute;
@@ -112,149 +432,73 @@
   border-width: 0 10px 12px 10px;
 }
 
-.popup-with-marker {
-  position: absolute;
-  bottom: 45px;
-}
+/** Media queries **/
+// Desktop
+@media screen and (min-width: $medium) {
+  .popup-content {
+    left: -265px;
+    width: 530px;
+    height: 320px;
+  }
 
-.popup-title {
-  margin: 0px;
-  font-weight: bold;
-  width: 170px;
-}
-
-.popup-saving-text {
-  display: inline-block;
-  vertical-align: middle;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.popup-saving-icon-container {
-  display: flex;
-  align-items: center;
-  margin: 7px;
-}
-
-.popup-saving-text-container {
-  display: flex;
-  align-items: center;
-  margin-right: 7px;
-}
-
-.description-text {
-  /* height: 50px;
-  overflow-y: auto;*/
-}
-
-.editable {
-  background-color: #F3F3F3;
-  border-radius: 10px;
-}
-
-// Don't show line breaks in title/description since these are not saved
-.editable * {
-  display: inline;
-}
-
-.editable br {
-  display: none;
-}
-
-.no-popup-title {
-  margin-top: 20px;
-}
-
-.popup-body-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.popup-body-main {
-  height: 80px;
-  width: 170px;
-  overflow-y: auto;
-}
-
-.popup-sidebar {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-.popup-copy-to-tabs-container {
-  width: 100%;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  border-spacing: 0px;
-}
-
-.popup-copy-to-tab {
-  cursor: pointer;
-  width: 50%;
-  padding: 0px;
-  font-weight: bold;
-  text-align: center;
-
-  &:hover {
-    background: #f4f5f7;
+  .popup-body-main {
+    height: 175px;
   }
 }
 
-.tab-active {
-  background: #73d19b;
-  color: #4a4a4a;
-
-  &:hover {
-    background: #73d19b;
+// Tablet
+@media screen and (max-width: $medium) {
+  .popup-content {
+    left: -170px;
+    width: 340px;
+    height: 440px;
+  }
+  .popup-body-main {
+    height: 270px;
   }
 }
 
-.popup-copy-to-option {
-  margin: 0px;
-  padding-left: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background: #f4f5f7;
+// Mobile
+@media screen and (max-width: $small) {
+  .popup-content {
+    left: -130px;
+    width: 260px;
+    height: 380px;
+  }
+  .popup-title {
+    font-size: 16px;
+    padding: 20px;
+  }
+  .popup-body-main {
+    height: 220px;
+  }
+  .popup-footer {
+    justify-content: center;
+  }
+  .popup-footer-button {
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }
 
-.copy-to-option-highlighted {
-  background-color: #27ae60;
-  color: white;
+// Mobile Landscape
+@media (max-height: 465px) {
+  .popup-content {
+    left: -265px;
+    width: 530px;
+    height: 270px;
 
-  &:hover {
-    background: #27ae60;
+    &::after {
+      display: none;
+    }
   }
-}
 
-.popup-sidebar-button {
-  padding-top: 10px;
-  cursor: pointer;
-}
+  .popup-body-main {
+    height: 125px;
+  }
 
-.popup-sidebar-button-inactive {
-  cursor: auto;
-}
-
-.popup-copy-status-container {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.popup-copy-status-text {
-  text-align: center;
-}
-
-.popup-status-icon {
-  position: relative;
-  width: 20px;
-  height: 20px;
-  margin-bottom: 6px;
+  .popup-wrapper {
+    bottom: -55px !important;
+  }
 }
