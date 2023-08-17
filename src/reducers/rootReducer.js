@@ -19,7 +19,7 @@ import LandOwnershipReducer from "./LandOwnershipReducer";
 import DataGroupsReducer from "./DataGroupsReducer";
 import ConnectivityReducer from "./ConnectivityReducer";
 
-export default combineReducers({
+const appReducer = combineReducers({
   authentication: AuthenticationReducer,
   menu: MenuReducer,
   profileMenu: ProfileMenuReducer,
@@ -38,5 +38,15 @@ export default combineReducers({
   mapMeta: MapMetaReducer,
   landOwnership: LandOwnershipReducer,
   dataGroups: DataGroupsReducer,
-  connectivity: ConnectivityReducer
+  connectivity: ConnectivityReducer,
 });
+
+const rootReducer = (state, action) => {
+  // Clear all data in redux store to initial state when user logs out
+  if (action.type === "LOG_OUT") {
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
+
+export default rootReducer;
