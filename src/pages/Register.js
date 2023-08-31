@@ -503,9 +503,7 @@ const Register = ({ updateBgImage }) => {
           </div>
         </div>
 
-        <div
-          className="privacy-policy"
-        >
+        <div className="privacy-policy">
           <label
             className="control control-checkbox"
             style={{ textAlign: "left", fontSize: "14px" }}
@@ -514,7 +512,7 @@ const Register = ({ updateBgImage }) => {
             <a
               target="_blank"
               className="link-underline"
-              href="http://www.sharedassets.org.uk/about-us/privacy-policy/"
+              href="/privacy-policy.pdf"
             >
               privacy policy
             </a>
