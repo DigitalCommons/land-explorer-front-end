@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ReactMapboxGl from "react-mapbox-gl";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import * as turf from "@turf/turf";
 import MapboxDraw from "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.js";
 import DrawControl from "react-mapbox-gl-draw";
@@ -17,7 +17,7 @@ import constants from "../../constants";
 import mapSources from "../../data/mapSources";
 import MapProperties from "./MapProperties";
 import MapDataGroups from "./MapDataGroups";
-import { autoSave, setLngLat, setZoom } from '../../actions/MapActions';
+import { autoSave, setLngLat, setZoom } from "../../actions/MapActions";
 
 // Create Map Component with settings
 const Map = ReactMapboxGl({
@@ -27,7 +27,7 @@ const Map = ReactMapboxGl({
   minzoom: 6,
   maxzoom: 11,
   keyboard: false,
-  touchZoomRotate: false,
+  touchZoomRotate: true,
   doubleClickZoom: true,
 });
 
@@ -35,13 +35,17 @@ const MapboxMap = ({ user }) => {
   const dispatch = useDispatch();
   const drawControlRef = useRef();
   const mapRef = useRef();
-  const { zoom, lngLat, movingMethod } = useSelector(state => state.map);
-  const { currentMarker } = useSelector(state => state.markers);
-  const baseLayer = useSelector(state => state.mapBaseLayer.layer);
-  const { landDataLayers } = useSelector(state => state.mapLayers);
-  const { activeTool } = useSelector(state => state.leftPane);
-  const { activePolygon, polygons, polygonsDrawn, linesDrawn } = useSelector(state => state.drawings);
-  const propertiesDisplay = useSelector(state => state.landOwnership.displayActive);
+  const { zoom, lngLat, movingMethod } = useSelector((state) => state.map);
+  const { currentMarker } = useSelector((state) => state.markers);
+  const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
+  const { landDataLayers } = useSelector((state) => state.mapLayers);
+  const { activeTool } = useSelector((state) => state.leftPane);
+  const { activePolygon, polygons, polygonsDrawn, linesDrawn } = useSelector(
+    (state) => state.drawings
+  );
+  const propertiesDisplay = useSelector(
+    (state) => state.landOwnership.displayActive
+  );
   const [styleLoaded, setStyleLoaded] = useState(false);
   const [drawings, setDrawings] = useState();
   const [redrawing, setRedrawing] = useState(false);
@@ -54,9 +58,9 @@ const MapboxMap = ({ user }) => {
   const modes = MapboxDraw.modes;
   modes.static = StaticMode;
 
-  const onClick = (evt => {
+  const onClick = (evt) => {
     setDataGroupPopupVisible(-1);
-    console.log("yello", activeTool)
+    console.log("yello", activeTool);
 
     const drawControl = drawControlRef.current;
 
@@ -80,8 +84,8 @@ const MapboxMap = ({ user }) => {
         type: "SET_MARKER",
         payload: {
           coordinates: [evt.lngLat.lng, evt.lngLat.lat],
-          uuid: uuidv4()
-        }
+          uuid: uuidv4(),
+        },
       });
       dispatch(autoSave());
     } else {
@@ -92,19 +96,17 @@ const MapboxMap = ({ user }) => {
         dispatch({ type: "CLEAR_CURRENT_MARKER" });
       }
     }
-  });
+  };
 
   //mapbox event listener is bad, doesn't like hooks
   useEffect(() => {
     if (map) {
-      if (onClickListener[0])
-        map.off('mousedown', onClickListener[0]);
-      map.on('mousedown', onClick);
+      if (onClickListener[0]) map.off("mousedown", onClickListener[0]);
+      map.on("mousedown", onClick);
 
       setOnClickListener([onClick]);
     }
-
-  }, [activeTool, activePolygon, currentMarker])
+  }, [activeTool, activePolygon, currentMarker]);
 
   const onDrawCreate = (e) => {
     /*
@@ -162,7 +164,7 @@ const MapboxMap = ({ user }) => {
       */
     const { features } = e;
     features.map((feature) => {
-      console.log("happening", feature.type)
+      console.log("happening", feature.type);
       const featureCopy = {
         id: feature.id,
         type: feature.type,
@@ -227,9 +229,7 @@ const MapboxMap = ({ user }) => {
   };
 
   const baseLayers = [
-    baseLayer === "aerial"
-      ? satelliteLayer
-      : topographyLayer,
+    baseLayer === "aerial" ? satelliteLayer : topographyLayer,
   ];
   const style = {
     version: 8,
@@ -253,12 +253,14 @@ const MapboxMap = ({ user }) => {
             baseLayer === "aerial"
               ? "#091324"
               : constants.USE_OS_TILES
-                ? "#aadeef"
-                : "#72b6e6",
+              ? "#aadeef"
+              : "#72b6e6",
         }}
         zoom={zoom}
         onZoomEnd={(map) => dispatch(setZoom([map.getZoom()]))}
-        onDragEnd={(map) => dispatch(setLngLat(map.getCenter().lng, map.getCenter().lat))}
+        onDragEnd={(map) =>
+          dispatch(setLngLat(map.getCenter().lng, map.getCenter().lat))
+        }
         center={lngLat}
         onStyleLoad={(m, evt) => {
           setMap(m);
@@ -286,15 +288,18 @@ const MapboxMap = ({ user }) => {
           <MapProperties center={lngLat} map={map} />
         )}
         {/* Markers, including markers from data groups */}
-        {styleLoaded && <Markers
-          map={map}
-          popupVisible={dataGroupPopupVisible}
-          setPopupVisible={(markerId) => {
-            if (currentMarker) {
-              dispatch({ type: "CLEAR_CURRENT_MARKER" });
-            }
-            setDataGroupPopupVisible(markerId);
-          }} />}
+        {styleLoaded && (
+          <Markers
+            map={map}
+            popupVisible={dataGroupPopupVisible}
+            setPopupVisible={(markerId) => {
+              if (currentMarker) {
+                dispatch({ type: "CLEAR_CURRENT_MARKER" });
+              }
+              setDataGroupPopupVisible(markerId);
+            }}
+          />
+        )}
         {/* Shows zoom warning if active layers are out of view */}
         <ZoomWarning
           show={
@@ -332,9 +337,8 @@ const MapboxMap = ({ user }) => {
           zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL && (
             <>
               <br />
-              This information is subject to Crown copyright and database
-              rights 2022 and is reproduced with the permission of HM Land
-              Registry.
+              This information is subject to Crown copyright and database rights
+              2022 and is reproduced with the permission of HM Land Registry.
               <br />
               The polygons (including the associated geometry, namely x, y
               co-ordinates) are subject to{" "}
@@ -347,6 +351,6 @@ const MapboxMap = ({ user }) => {
       </div>
     </div>
   );
-}
+};
 
 export default MapboxMap;
