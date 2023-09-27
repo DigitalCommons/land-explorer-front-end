@@ -72,12 +72,15 @@
 
 // Outer container
 .popup-content {
-  width: 200px;
-  height: max-content;
+  // width: 200px;
+  // height: max-content;
+  left: -150px;
+  width: 300px;
+  height: 420px;
   z-index: 4;
   position: absolute;
   bottom: 12px;
-  left: -110px;
+  // left: -110px;
   background-color: $lightNeutral;
   box-sizing: border-box;
   border-radius: 16px;
@@ -88,7 +91,7 @@
   content: " ";
   position: absolute;
   top: auto;
-  bottom: -12px;
+  bottom: -11px;
   left: 50%;
   transform: translateX(-50%) rotate(180deg);
   width: 0;
@@ -138,7 +141,8 @@
 
 // Description wrapper
 .popup-body-main {
-  height: 210px;
+  // height: 210px;
+  height: 250px;
   width: 100%;
   padding: 10px 25px 0;
   box-sizing: border-box;
@@ -325,6 +329,7 @@
   background-color: $primaryColor;
   border-radius: 0px 0px 16px 16px;
   color: #fff;
+  justify-content: center;
 }
 
 .popup-footer-button {
@@ -335,6 +340,9 @@
   position: relative;
   &:first-child {
     margin-left: 0px;
+  }
+  &:last-child {
+    margin-right: 0px;
   }
   &:not(:first-child):before {
     content: "";
@@ -414,7 +422,7 @@
   content: " ";
   position: absolute;
   top: auto;
-  bottom: -12px;
+  bottom: -11px;
   left: 50%;
   transform: translateX(-50%) rotate(180deg);
   width: 0;
@@ -434,29 +442,33 @@
 
 /** Media queries **/
 // Desktop
-@media screen and (min-width: $medium) {
-  .popup-content {
-    left: -265px;
-    width: 530px;
-    height: 320px;
-  }
+// @media screen and (min-width: $medium) {
+//   .popup-content {
+//     // left: -265px;
+//     // width: 530px;
+//     // height: 320px;
+//     left: -150px;
+//     width: 300px;
+//     height: 420px;
+//   }
 
-  .popup-body-main {
-    height: 175px;
-  }
-}
+//   .popup-body-main {
+//     // height: 175px;
+//     height: 250px;
+//   }
+// }
 
 // Tablet
-@media screen and (max-width: $medium) {
-  .popup-content {
-    left: -170px;
-    width: 340px;
-    height: 440px;
-  }
-  .popup-body-main {
-    height: 270px;
-  }
-}
+// @media screen and (max-width: $medium) {
+//   .popup-content {
+//     left: -170px;
+//     width: 340px;
+//     height: 440px;
+//   }
+//   .popup-body-main {
+//     height: 270px;
+//   }
+// }
 
 // Mobile
 @media screen and (max-width: $small) {
