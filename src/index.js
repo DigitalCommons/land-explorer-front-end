@@ -10,14 +10,17 @@ import {
     Navigate,
     Routes
 } from 'react-router-dom';
-//import '../node_modules/leaflet-draw/dist/leaflet.draw.css';
-import './index.css';
-import MapApp from "./routes/MapApp";
-import MyAccount from "./routes/MyAccount";
-import FourOhFour from './routes/FourOhFour';
+
+import MapApp from "./pages/MapApp";
+import MyAccount from "./pages/MyAccount";
+import FourOhFour from './pages/FourOhFour';
 import analytics from './analytics'
 import constants from './constants';
-import Authentication from './routes/Authentication';
+import Authentication from './pages/Authentication';
+
+// Styles
+import './index.css';
+import './assets/styles/style.scss';
 
 analytics.init();
 

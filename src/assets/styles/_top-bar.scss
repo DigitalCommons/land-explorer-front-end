@@ -1,0 +1,208 @@
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  background-color: #fbfbfb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100003;
+
+  .logo {
+    background-image: url("../img/logo-green.svg");
+    height: 41px;
+    width: 40px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-left: 19px;
+  }
+
+  @media screen and (min-width: 1070px) {
+    .logo {
+      background-image: url("../img/logo-green-text.svg");
+      width: 230px;
+    }
+  }
+}
+
+.topbar-shadow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  background-color: #fbfbfb;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  z-index: 100002;
+}
+
+.topbar-middle {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.topbar-map-interactions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.topbar-right {
+  display: flex;
+  flex-direction: row;
+  width: auto;
+  align-items: center;
+}
+
+.topbar--userlogo {
+  background-color: #78838e;
+  height: 48px;
+  width: 48px;
+  margin-right: 12px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.16);
+  border: solid 2px #ffffff;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  letter-spacing: 2px;
+  padding-left: 2px;
+  user-select: none;
+
+  @media screen and (max-width: 650px) {
+    margin-right: 5px;
+  }
+
+}
+
+.topbar-username {
+  margin-right: 24px;
+  user-select: none;
+
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
+}
+
+.hamburger {
+  background-image: url('../img/icon-hamburger.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 30px;
+  margin-left: 12px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.hamburger-logged-in {
+  @media screen and (max-width: 730px) {
+    display: none;
+  }
+}
+
+.map-menu-container {
+  width: 180px;
+  margin-right: -160px;
+}
+
+.map-menu {
+  position: relative;
+  box-shadow: 0px 3px 6px #00000029;
+  background-color: white;
+  margin: 0px;
+  z-index: 100004;
+}
+
+.map-menu-option {
+  padding: 8px;
+  margin: 2px 0px;
+}
+
+.map-menu-option-disabled {
+  padding: 8px;
+  margin: 2px 0px;
+  cursor: default;
+  color: #c4cbd3;
+}
+
+.map-menu-option:hover {
+  background-color: #D2D2D2;
+  cursor: pointer;
+}
+
+.map-title-bar {
+  width: 265px;
+  transition: width .25s, min-width .25s;
+
+  @media screen and (max-width: 550px) {
+    width: 45vw;
+  }
+}
+
+.map-title-bar-collapsed {
+  @media screen and (max-width: 665px) {
+    width: 30vw;
+  }
+
+  @media screen and (max-width: 550px) {
+    display: none;
+  }
+}
+
+.map-name-text {
+  cursor: pointer;
+  font-size: 17px;
+  margin: 4% 5% 0%;
+  padding: 0.5% 2%;
+  border-radius: 100px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+// Don't show line breaks in map name since these are not saved
+.map-name-text * {
+  display: inline;
+}
+
+.map-name-text br {
+  display: none;
+}
+
+.map-name-text:hover {
+  background-color: #F3F3F3;
+}
+
+.map-name-text.editable {
+  cursor: text;
+  text-overflow: unset;
+}
+
+.map-saving-text {
+  cursor: pointer;
+  font-size: 14px;
+  height: 17px;
+  margin: 0% 5%;
+  padding: 0% 2%;
+  color: #d0024e;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.map-saving-text.saved {
+  color: #2ecc71;
+}

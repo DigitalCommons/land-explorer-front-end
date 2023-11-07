@@ -1,39 +1,25 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
-class ToggleSwitch extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        const { on, toggle, tooltip } = this.props;
-        return (
-            <div className="toggle-switch"
-                onClick={(e) => {
-                    e.preventDefault();
-                    toggle && toggle();
-                }}
+const ToggleSwitch = ({ on, toggle, tooltip }) =>
+    <div className="toggle-switch"
+        onClick={(e) => {
+            e.preventDefault();
+            toggle && toggle();
+        }}
 
-                data-tip
-                data-for={tooltip}
-            >
-                <label className="switch">
-                    <input
-                        type="checkbox"
-                        checked={on}
-                        onChange={e => { }}
-                    />
-                    <span className="slider round"></span>
-                </label>
-            </div>
-        );
-    }
-}
+        data-tip
+        data-for={tooltip}
+    >
+        <label className="switch">
+            <input
+                type="checkbox"
+                checked={on}
+                onChange={e => { }}
+            />
+            <span className="slider"></span>
+        </label>
+    </div>
 
-ToggleSwitch.propTypes = {
-    on: PropTypes.bool.isRequired,
-    toggle: PropTypes.func,
-    tooltip: PropTypes.string
-};
+
 
 export default ToggleSwitch;

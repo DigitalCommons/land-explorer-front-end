@@ -4,19 +4,29 @@ const CopyPlugin = require("copy-webpack-plugin");
 const Dotenv = require('dotenv-webpack');
 
 const config = {
-    entry: [
-        './src/index.js'
-    ],
-    output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, '../dist'),
-        clean: true,
-        //publicPath: '/'
+  entry: ["./src/index.js"],
+  output: {
+    filename: "[name].[contenthash].js",
+    path: path.resolve(__dirname, "../dist"),
+    clean: true,
+  },
+  optimization: {
+    moduleIds: "deterministic",
+    runtimeChunk: "single",
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all",
+        },
+      },
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            templateContent: ({ htmlWebpackPlugin }) =>
-                `<!DOCTYPE html>
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      templateContent: ({ htmlWebpackPlugin }) =>
+        `<!DOCTYPE html>
                     <html>
                         <head>
                             <meta charset="utf-8">
@@ -41,58 +51,52 @@ const config = {
                             <div id=\"root\"></div>
                         </body>
                     </html>`,
-            filename: 'index.html',
-        }),
-        new CopyPlugin({
-            patterns: [
-                {
-                    from: path.resolve(__dirname, "../public"),
-                    to: "../dist"
-                }
-            ],
-        }),
-        new Dotenv({
-            path: './config/.env'
-        })
+      filename: "index.html",
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "../public"),
+          to: "../dist",
+        },
+      ],
+    }),
+    new Dotenv({
+      path: "./config/.env",
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        use: "babel-loader",
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.svg$/,
+        type: "asset/resource",
+      },
+      {
+        test: /\.jpg$/,
+        type: "asset/resource",
+      },
+      {
+        // test: /\.scss$/,
+        test: /\.s[ac]ss$/i,
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
     ],
-    module: {
-        rules: [
-            {
-                test: /\.(js|jsx)$/,
-                use: 'babel-loader',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader'
-                ]
-            },
-            {
-                test: /\.svg$/,
-                type: 'asset/resource'
-            },
-            {
-                test: /\.jpg$/,
-                type: 'asset/resource',
-            },
-            {
-                test: /\.scss$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    'sass-loader'
-                ]
-            }
-        ]
+  },
+  devServer: {
+    historyApiFallback: true,
+    static: {
+      directory: "./dist",
     },
-    devServer: {
-        historyApiFallback: true,
-        'static': {
-            directory: './dist'
-        }
-    }
+  },
 };
 
 module.exports = config;

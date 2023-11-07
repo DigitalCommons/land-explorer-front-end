@@ -5,7 +5,7 @@ const analytics = {
 	_event: {
 		MAIN_MENU: 'Main Menu',
 		SEARCH: 'Search',
-		SIDE_NAV: 'Side Nav',
+		LEFT_PANE: 'Left Pane',
 		USER_MENU: 'User Menu',
 	},
 

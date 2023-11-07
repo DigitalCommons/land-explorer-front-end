@@ -3,26 +3,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import constants from '../../constants';
 import { getAuthHeader } from "../../utils/Auth";
-import Modal from '../common/Modal';
+import Modal from './Modal';
 
 const Download = () => {
-    const mapToShare = useSelector((state) => state.share.mapToShare);
     const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
-    const mapId = mapToShare ? mapToShare.map.eid : currentMapId;
     const maps = useSelector((state) => state.myMaps.maps);
     const [downloaded, setDownloaded] = useState(false);
     const dispatch = useDispatch();
 
     const downloadMap = async () => {
-        const mapToDownload = maps.find(map => map.map.eid === mapId);
+        const mapToDownload = maps.find(map => map.map.eid === currentMapId);
         const mapName = mapToDownload.map.name;
 
         const headers = getAuthHeader();
         headers['Content-Disposition'] = 'attachment';
         headers.responseType = 'blob'
 
-        const response = await axios.get(`${constants.ROOT_URL}/api/user/map/download/${mapId}`, headers);
-        //specific map id to come later
+        const response = await axios.get(`${constants.ROOT_URL}/api/user/map/download/${currentMapId}`, headers);
 
         const type = response.headers['content-type']
         const blob = new Blob([response.data], { type: type, encoding: 'UTF-8' })
@@ -31,7 +28,7 @@ const Download = () => {
         link.download = `${mapName}-shapefile.zip`
         link.click()
 
-        console.log(`Download map ${mapId}`, response.status);
+        console.log(`Download map ${currentMapId}`, response.status);
         setDownloaded(true);
     }
 
@@ -40,7 +37,7 @@ const Download = () => {
         dispatch({ type: 'CLOSE_MODAL', payload: 'download' });
     }
 
-    if (!mapToShare && currentMapId == null)
+    if (currentMapId === null)
         return <Modal id="download">
             <div className="modal-title">Export</div>
             <div className="modal-content">

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Modal from '../common/Modal';
+import Modal from './Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { openMap } from '../../actions/MapActions';
 import moment from 'moment';
 
-// TODO: share some common code with MyMaps?
+// TODO: share some common code with MyMaps
 export const MySharedMaps = ({ stage, setStage, closeModal }) => {
     const dispatch = useDispatch();
     const [active, setActive] = useState({ id: null, name: null });
@@ -25,7 +25,7 @@ export const MySharedMaps = ({ stage, setStage, closeModal }) => {
             >
                 <td style={{ width: '230px' }}>{map.name}</td>
                 <td>{momentDate}</td>
-                <td className={map.isSnapshot ? "snapshot-icon" : "map-icon"} style={{ width: '30px' }}
+                <td className={`table-icon ${map.isSnapshot ? "snapshot-icon" : "map-icon"}`}
                     title={map.isSnapshot ? "snapshot" : "map"}
                 />
             </tr>
@@ -64,20 +64,18 @@ export const MySharedMaps = ({ stage, setStage, closeModal }) => {
         mapList.length ?
             <>
                 <div className="modal-content">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style={{ width: '230px' }}>Name</th>
-                                <th>Modified</th>
-                                <th>Type</th>
-                            </tr>
-                        </thead>
-                    </table>
                     <div style={{
-                        height: '130px',
+                        height: '165px',
                         overflowY: 'scroll',
                     }}>
                         <table>
+                            <thead>
+                                <tr>
+                                    <th style={{ width: '230px' }}>Name</th>
+                                    <th>Modified</th>
+                                    <th className="table-icon">Type</th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 {mapList}
                             </tbody>

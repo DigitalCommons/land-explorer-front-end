@@ -3,15 +3,12 @@
 @import "buttons";
 @import "tooltips";
 @import "modals";
-@import "nav";
+@import "top-bar";
+@import "left-pane";
 @import "forms";
 @import "select";
 @import "registration";
 @import "my-account";
-@import "land-ownership";
-@import "PoliticalData";
-@import "CommunityAssets";
-@import "landForSale";
 @import "properties";
 @import "datalayers";
 
@@ -44,58 +41,8 @@ h6 {
   font-weight: 700;
 }
 
-.toggle-switch {
-  height: 14px;
-
-  .switch input {
-    display: none;
-  }
-
-  .switch input {
-    display: none;
-  }
-
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: $secondaryColor;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-  }
-
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 10px;
-    width: 10px;
-    left: 3px;
-    top: 2px;
-    background-color: white;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-  }
-
-  input:checked+.slider:before {
-    background-color: $buttonGreen;
-  }
-
-  input:checked+.slider:before {
-    -webkit-transform: translateX(9px);
-    -ms-transform: translateX(9px);
-    transform: translateX(9px);
-  }
-
-  .slider.round {
-    border-radius: 34px;
-  }
-
-  .slider.round:before {
-    border-radius: 50%;
-  }
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 #map {
@@ -134,44 +81,6 @@ h6 {
 
 .mapboxgl-map {
   background-color: transparent;
-}
-
-.map-name-text {
-  cursor: pointer;
-  font-size: 17px;
-  margin: 4% 5% 0%;
-  padding: 0.5% 2%;
-  border-radius: 100px;
-}
-
-// Don't show line breaks in map name since these are not saved
-.map-name-text * {
-  display: inline;
-}
-
-.map-name-text br {
-  display: none;
-}
-
-.map-name-text:hover {
-  background-color: #F3F3F3;
-}
-
-.map-name-text.editable {
-  cursor: text;
-}
-
-.map-saving-text {
-  cursor: pointer;
-  font-size: 14px;
-  height: 17px;
-  margin: 0% 5%;
-  padding: 0% 2%;
-  color: #d0024e;
-}
-
-.map-saving-text.saved {
-  color: #2ecc71;
 }
 
 .os-accreditation {

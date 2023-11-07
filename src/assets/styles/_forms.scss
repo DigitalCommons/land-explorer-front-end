@@ -9,6 +9,7 @@
   padding-bottom: 1px;
   box-sizing: border-box;
   font-weight: normal;
+
   &:focus {
     outline: none;
   }
@@ -30,23 +31,29 @@ form {
     //box-sizing: border-box;
     display: block;
     font-weight: normal;
+
     &:focus {
       outline: none;
     }
   }
+
   .text-input-half {
     width: 49%;
     display: inline;
+
     @media (max-width: 480px) {
       width: 100%;
     }
   }
+
   .text-input-first-half {
     margin-right: 2%;
+
     @media (max-width: 480px) {
       margin-right: 0;
     }
   }
+
   select {
     display: block;
     margin: auto;
@@ -57,15 +64,11 @@ form {
   }
 }
 
-.search-bar {
-  font-size: 16px;
-  max-width: 60vw;
-}
-
-#geocoder{
+#search-bar {
   display: flex;
   justify-content: center;
-  @media screen and (min-width: 650px){
+
+  @media screen and (min-width: 665px) {
     width: 263px;
   }
 }
@@ -90,28 +93,44 @@ form {
   max-width: 60vw;
   min-width: 0px;
   border-image-width: 0px;
+
   &:focus {
     outline: none;
   }
-  
   input {
-    padding-left: 28px !important;
-    padding-top: 4px !important;
-    width: 87% !important;
+    padding: 4px 20px 6px 25px;
+    width: 93%;
+    height: 36px;
     font-size: 16px;
+
+    &:focus {
+      outline: none;
+    }
   }
 }
 
-.geocoder-expanded{
+.geocoder-expanded {
   max-width: 263px;
-  width: 30vw;
-  @media screen and (min-width: 650px) {
+  width: 40vw;
+
+  @media screen and (max-width: 550px) {
+    width: 60vw;
+  }
+
+  @media screen and (min-width: 665px) {
     width: 100%;
   }
 }
 
+.geocoder-collapsed {
+  padding: 0;
 
-.mapboxgl-ctrl-geocoder--icon-search{
+  .mapboxgl-ctrl-geocoder--pin-right {
+    display: none;
+  }
+}
+
+.mapboxgl-ctrl-geocoder--icon-search {
   display: none;
 }
 
@@ -122,6 +141,7 @@ form {
 .mapboxgl-ctrl-geocoder {
   -webkit-box-shadow: none;
   box-shadow: none;
+
   ul {
     top: 150% !important;
     font-family: Lato;
@@ -131,6 +151,7 @@ form {
     border-radius: 4px;
     font-size: 14px;
     color: $secondaryColor !important;
+
     &:after {
       content: " ";
       position: absolute;
@@ -144,25 +165,30 @@ form {
       border-color: transparent transparent white transparent;
       z-index: 99999;
     }
+
     li {
       a {
         padding: 12px 12px !important;
         color: $secondaryColor !important;
       }
+
       a:hover {
         background-color: #e5e7eb;
       }
     }
+
     li.active {
       a {
         background-color: transparent;
       }
+
       a:hover {
         background-color: #e5e7eb;
       }
     }
   }
 }
+
 .mapboxgl-ctrl-geocoder .geocoder-pin-right * {
   top: 11px;
   right: 8px;
@@ -172,18 +198,26 @@ form {
   background: transparent !important;
 }
 
-.geocoder-icon-close {
-  background-image: url("../../assets/img/icon-close-new.svg");
-  background-color: transparent !important;
-  background-size: 12px;
-  cursor: pointer !important;
+.mapboxgl-ctrl-geocoder--button {
+  background-color: transparent;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+
+  &:hover {
+    background-color: white;
+  }
+
   &:focus {
-    outline: transparent;
+    outline: none;
   }
 }
 
-.mapboxgl-ctrl-bottom-left {
-  //display: none !important;
+.mapboxgl-ctrl-geocoder--icon-close {
+  width: 16px;
+  height: 16px;
+  margin-top: 0;
+  margin-right: 0;
 }
 
 input[type="text"] {
@@ -199,6 +233,7 @@ input[type="password"] {
 input[type="submit"] {
   -webkit-appearance: none;
   border-color: transparent;
+
   &:focus {
     outline: none;
     -webkit-appearance: none;
@@ -215,11 +250,13 @@ input[type="submit"] {
   cursor: pointer;
   font-size: 16px;
 }
+
 .control input {
   position: absolute;
   z-index: -1;
   opacity: 0;
 }
+
 .control_indicator {
   position: absolute;
   top: 2px;
@@ -229,36 +266,42 @@ input[type="submit"] {
   background: #e6e6e6;
   border: 0px solid #000000;
 }
+
 .control-radio .control_indicator {
   border-radius: 0;
 }
 
-.control:hover input ~ .control_indicator,
-.control input:focus ~ .control_indicator {
+.control:hover input~.control_indicator,
+.control input:focus~.control_indicator {
   background: #cccccc;
 }
 
-.control input:checked ~ .control_indicator {
+.control input:checked~.control_indicator {
   background: #2ecc71;
 }
-.control:hover input:not([disabled]):checked ~ .control_indicator,
-.control input:checked:focus ~ .control_indicator {
+
+.control:hover input:not([disabled]):checked~.control_indicator,
+.control input:checked:focus~.control_indicator {
   background: #2ecc71;
 }
-.control input:disabled ~ .control_indicator {
+
+.control input:disabled~.control_indicator {
   background: #e6e6e6;
   opacity: 0.6;
   pointer-events: none;
 }
+
 .control_indicator:after {
   box-sizing: unset;
   content: "";
   position: absolute;
   display: none;
 }
-.control input:checked ~ .control_indicator:after {
+
+.control input:checked~.control_indicator:after {
   display: block;
 }
+
 .control-checkbox .control_indicator:after {
   left: 8px;
   top: 4px;
@@ -268,7 +311,8 @@ input[type="submit"] {
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
-.control-checkbox input:disabled ~ .control_indicator:after {
+
+.control-checkbox input:disabled~.control_indicator:after {
   border-color: #7b7b7b;
 }
 
@@ -284,7 +328,8 @@ input[type="submit"] {
   border-radius: 50%;
   background: #ffffff;
 }
-.control-radio input:disabled ~ .control_indicator:after {
+
+.control-radio input:disabled~.control_indicator:after {
   background: #7b7b7b;
 }
 
