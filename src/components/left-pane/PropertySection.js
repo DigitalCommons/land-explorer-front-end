@@ -13,18 +13,20 @@ const PropertySection = ({ property }) => {
   );
 
   const getOtherProperties = async () => {
-    const response = await axios.get(
-      `${constants.ROOT_URL}/api/search?proprietorName=` + proprietor_name_1,
-      getAuthHeader()
-    );
-    const properties = response.data.map((property) => {
-      const json = JSON.parse(property.proprietor_name_1);
-      return {
-        ...property,
-      };
-    });
+    try {
+      const response = await axios.get(
+        `${constants.ROOT_URL}/api/search?proprietorName=${proprietor_name_1}`,
+        getAuthHeader()
+      );
 
-    if (properties.length > 0) console.log(properties);
+      if (response.data.length > 0) {
+        console.log(response.data);
+      } else {
+        console.log("No properties found");
+      }
+    } catch (error) {
+      console.error("Error fetching properties:", error.message);
+    }
   };
 
   const {
@@ -132,7 +134,11 @@ const PropertySection = ({ property }) => {
           </button>
 
           <div className="check-for-properties">
-            <Button type={button} buttonAction={getOtherProperties}>
+            <Button
+              buttonClass={"button-new"}
+              type={"button"}
+              buttonAction={getOtherProperties}
+            >
               Check for other properties
             </Button>
           </div>
