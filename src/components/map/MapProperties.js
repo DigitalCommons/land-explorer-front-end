@@ -8,7 +8,7 @@ import LoadingData from "./LoadingData";
 import { highlightProperty, setActiveProperty } from "../../actions/LandOwnershipActions";
 
 const MapProperties = ({ center, map }) => {
-  const [propertiesArray, setPropertiesArray] = useState([]);
+  const [properties, setProperties] = useState([]);
   const [loadingProperties, setLoadingProperties] = useState(false);
 
   const displayActive = useSelector(state => state.landOwnership.displayActive);
@@ -39,16 +39,13 @@ const MapProperties = ({ center, map }) => {
         getAuthHeader()
       );
 
-    const properties = response.data.map((property) => {
-      const json = JSON.parse(property.geojson);
-      return {
-        ...property,
-        coordinates: json.coordinates[0]
-      }
-    });
+    const newProperties = response.data.map((property) => ({
+      ...property,
+      coordinates: property.geom.coordinates[0].map(coordinate => coordinate.reverse()) //mapbox wants [lng,lat] but db gives [lat,lng]
+    }));
 
-    if (properties.length > 0)
-      setPropertiesArray(properties);
+    if (newProperties.length > 0)
+      setProperties(newProperties);
 
     setLoadingProperties(false);
   }
@@ -73,7 +70,7 @@ const MapProperties = ({ center, map }) => {
   const detailedPropertyFeatures = [];
   const basicPropertyFeatures = [];
 
-  propertiesArray.forEach(property => {
+  properties.forEach(property => {
     if (property.date_proprietor_added)
       detailedPropertyFeatures.push(<Feature
         coordinates={[property.coordinates]}
