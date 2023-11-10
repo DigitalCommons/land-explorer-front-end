@@ -5,6 +5,7 @@ import axios from "axios";
 import constants from "../../constants";
 import { getAuthHeader } from "../../utils/Auth";
 import Button from "../common/Button";
+import { getRelatedProperties } from "../../actions/LandOwnershipActions";
 
 const PropertySection = ({ property }) => {
   const dispatch = useDispatch();
@@ -12,22 +13,22 @@ const PropertySection = ({ property }) => {
     (state) => state.landOwnership.activePropertyId
   );
 
-  const getOtherProperties = async () => {
-    try {
-      const response = await axios.get(
-        `${constants.ROOT_URL}/api/search?proprietorName=${proprietor_name_1}`,
-        getAuthHeader()
-      );
+  // const getOtherProperties = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${constants.ROOT_URL}/api/search?proprietorName=${proprietor_name_1}`,
+  //       getAuthHeader()
+  //     );
 
-      if (response.data.length > 0) {
-        console.log(response.data);
-      } else {
-        console.log("No properties found");
-      }
-    } catch (error) {
-      console.error("Error fetching properties:", error.message);
-    }
-  };
+  //     if (response.data.length > 0) {
+  //       console.log(response.data);
+  //     } else {
+  //       console.log("No properties found");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching properties:", error.message);
+  //   }
+  // };
 
   const {
     poly_id,
@@ -134,10 +135,19 @@ const PropertySection = ({ property }) => {
           </button>
 
           <div className="check-for-properties">
-            <Button
+            {/* <Button
               buttonClass={"button-new"}
               type={"button"}
               buttonAction={getOtherProperties}
+            >
+              Check for other properties
+            </Button> */}
+            <Button
+              buttonClass={"button-new"}
+              type={"button"}
+              buttonAction={() =>
+                dispatch(getRelatedProperties(proprietor_name_1))
+              }
             >
               Check for other properties
             </Button>
