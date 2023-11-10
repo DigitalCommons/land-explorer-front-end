@@ -11,9 +11,6 @@ const LeftPaneInfo = ({ onClose, open }) => {
   const properties = useSelector(
     (state) => state.landOwnership.highlightedProperties
   );
-  const otherProperties = useSelector(
-    (state) => state.relatedProperties.properties
-  );
 
   return (
     <LeftPaneTray title="Land Information" open={open} onClose={onClose}>
@@ -26,9 +23,6 @@ const LeftPaneInfo = ({ onClose, open }) => {
             <PolygonSection polygon={polygon} key={`polygon-${i}`} />
           ))}
           {properties.map((property, i) => (
-            <PropertySection property={property} key={`property-${i}`} />
-          ))}
-          {otherProperties.map((property, i) => (
             <PropertySection property={property} key={`property-${i}`} />
           ))}
         </>

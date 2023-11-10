@@ -1,20 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-const RelatedProperties = ({ properties, error, getRelatedProperties }) => {
-  useEffect(() => {
-    getRelatedProperties();
-  }, [getRelatedProperties]);
+const RelatedProperties = ({ property }) => {
+  const { poly_id, title_no, property_address, proprietor_name_1 } = property;
 
   return (
-    <div>
-      {error && <p>{error}</p>}
-      {properties.length > 0 && (
-        <ul>
-          {properties.map((property) => (
-            <li key={property.title_no}>{property.property_address}</li>
-          ))}
-        </ul>
-      )}
+    <div className="relatedProperty">
+      <div key={property.title_no}>
+        <h4>{property.property_address}</h4>
+        <p>{property.proprietor_name_1}</p>
+        <p>{property.title_no}</p>
+      </div>
     </div>
   );
 };
