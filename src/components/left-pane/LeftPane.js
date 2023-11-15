@@ -127,7 +127,7 @@ const LeftPane = ({ drawControl }) => {
           data-for="ttInfo"
         />
         <div
-          className={`left-pane-icon info ${
+          className={`left-pane-icon ownership ${
             active === "Related Properties" && "active"
           }`}
           onClick={() => {
