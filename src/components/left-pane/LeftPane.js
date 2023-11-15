@@ -162,6 +162,7 @@ const LeftPane = ({ drawControl }) => {
       <LeftPaneRelatedProperties
         open={open && active === "Related Properties"}
         onClose={closeTray}
+        itemsPerPage={10}
       />
     </nav>
   );
