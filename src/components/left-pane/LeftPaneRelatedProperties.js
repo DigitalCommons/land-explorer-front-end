@@ -7,12 +7,23 @@ const LeftPaneRelatedProperties = ({ onClose, open }) => {
   const otherProperties = useSelector(
     (state) => state.relatedProperties.properties
   );
+
+  // Use a Set to store unique properties
+  const uniqueProperties = new Set();
+
+  // Filter out duplicates and store unique properties
+  const filteredProperties = otherProperties.filter((property) => {
+    const isDuplicate = uniqueProperties.has(property.title_no);
+    uniqueProperties.add(property.title_no);
+    return !isDuplicate;
+  });
+
   return (
     <LeftPaneTray title="Related Properties" open={open} onClose={onClose}>
-      {otherProperties.length ? (
+      {filteredProperties.length ? (
         <>
-          {otherProperties.map((property, i) => (
-            <RelatedProperties property={property} key={`property-${i}`} />
+          {filteredProperties.map((property, i) => (
+            <RelatedProperties key={property.title_no} property={property} />
           ))}
         </>
       ) : (
