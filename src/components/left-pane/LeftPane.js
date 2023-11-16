@@ -128,14 +128,14 @@ const LeftPane = ({ drawControl }) => {
         />
         <div
           className={`left-pane-icon ownership ${
-            active === "Related Properties" && "active"
+            active === "Ownership Search" && "active"
           }`}
           onClick={() => {
             analytics.event(
-              analytics._event.LEFT_PANE + " Related Properties",
+              analytics._event.LEFT_PANE + " Ownership Search",
               "Open"
             );
-            clickIcon("Related Properties");
+            clickIcon("Ownership Search");
           }}
           data-tip
           data-for="ttRelatedProperties"
@@ -160,7 +160,7 @@ const LeftPane = ({ drawControl }) => {
         onClose={closeTray}
       />
       <LeftPaneRelatedProperties
-        open={open && active === "Related Properties"}
+        open={open && active === "Ownership Search"}
         onClose={closeTray}
         itemsPerPage={10}
       />

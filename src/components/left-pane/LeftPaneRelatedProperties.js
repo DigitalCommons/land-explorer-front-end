@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import LeftPaneTray from "./LeftPaneTray";
 import { useSelector } from "react-redux";
 import RelatedProperties from "./RelatedProperties";
@@ -8,7 +8,10 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
     (state) => state.relatedProperties.properties
   );
 
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageNumberLimit, setPageNumberLimit] = useState(5);
+  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
+  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
 
   // Use a Set to store unique properties
   const uniqueProperties = new Set();
@@ -22,7 +25,7 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
 
   const propertyCount = filteredProperties.length;
 
-  // Index range for pagination
+  // Pagination
   const indexOfLastProperty = currentPage * itemsPerPage;
   const indexOfFirstProperty = indexOfLastProperty - itemsPerPage;
   const currentProperties = filteredProperties.slice(
@@ -39,10 +42,18 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
     if (currentPage < noOfPages) {
       setCurrentPage(currentPage + 1);
     }
+    if (currentPage + 1 > maxPageNumberLimit) {
+      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+    }
   };
   const previousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
+    }
+    if ((currentPage - 1) % pageNumberLimit === 0) {
+      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
     }
   };
 
@@ -51,7 +62,7 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
   console.log("last Page: ", lastPage);
 
   return (
-    <LeftPaneTray title="Related Properties" open={open} onClose={onClose}>
+    <LeftPaneTray title="Ownership Search" open={open} onClose={onClose}>
       {filteredProperties.length ? (
         <>
           <div>{propertyCount} properties</div>
@@ -68,21 +79,42 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
                       onClick={previousPage}
                       disabled={currentPage === firstPage}
                     >
-                      Previous
+                      Prev
                     </button>
                   </li>
-                  {pageNumbers.map((number) => (
-                    <li key={number} className="page-item">
-                      <button
-                        onClick={() => paginate(number)}
-                        className={`page-link ${
-                          currentPage === number ? "active" : ""
-                        }`}
-                      >
-                        {number}
-                      </button>
-                    </li>
-                  ))}
+                  {pageNumbers.length > maxPageNumberLimit &&
+                    currentPage > 5 && (
+                      <li className="ellipsis page-item" onClick={previousPage}>
+                        &hellip;
+                      </li>
+                    )}
+                  {pageNumbers.map((number) => {
+                    if (
+                      number < maxPageNumberLimit + 1 &&
+                      number > minPageNumberLimit
+                    ) {
+                      return (
+                        <li key={number} className="page-item" id={number}>
+                          <button
+                            onClick={() => paginate(number)}
+                            className={`page-link ${
+                              currentPage === number ? "active" : null
+                            }`}
+                          >
+                            {number}
+                          </button>
+                        </li>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
+                  {pageNumbers.length > maxPageNumberLimit &&
+                    currentPage != lastPage && (
+                      <li className="ellipsis page-item" onClick={nextPage}>
+                        &hellip;
+                      </li>
+                    )}
                   <li className="page-item">
                     <button
                       className="page-link"
@@ -98,7 +130,7 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
           </div>
         </>
       ) : (
-        <div>No related Properties</div>
+        <div>No Related Properties</div>
       )}
     </LeftPaneTray>
   );

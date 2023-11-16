@@ -1,0 +1,20 @@
+.pagination {
+  list-style: none;
+  display: flex;
+}
+
+.page-item {
+  padding: 10px;
+  border: 1px solid $primaryColor;
+  cursor: pointer;
+}
+
+.button-style {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.button-style:focus {
+  outline: none;
+}

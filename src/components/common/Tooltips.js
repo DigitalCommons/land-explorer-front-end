@@ -68,7 +68,7 @@ const Tooltips = () => {
         delayShow={tooltipDelay}
         globalEventOff={isMobile ? "click" : undefined}
       >
-        Related Properties
+        Ownership Search
       </ReactTooltip>
     </>
   );
