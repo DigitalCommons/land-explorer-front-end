@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { setActiveProperty } from "../../actions/LandOwnershipActions";
 import Button from "../common/Button";
 import { getRelatedProperties } from "../../actions/LandOwnershipActions";
+import { isMobile } from "react-device-detect";
 
-const PropertySection = ({ property }) => {
+const PropertySection = ({ property, active }) => {
   const dispatch = useDispatch();
   const activePropertyId = useSelector(
     (state) => state.landOwnership.activePropertyId
@@ -22,6 +23,17 @@ const PropertySection = ({ property }) => {
   } = property;
 
   const open = poly_id === activePropertyId;
+
+  const openTray = (tray) => {
+    active === tray
+      ? dispatch({ type: "CLOSE_TRAY" })
+      : dispatch({ type: "SET_ACTIVE", payload: tray });
+  };
+
+  const handleSearch = () => {
+    dispatch(getRelatedProperties(proprietor_name_1));
+    openTray("Ownership Search");
+  };
 
   return (
     <div className="left-pane-tray-section">
@@ -118,9 +130,7 @@ const PropertySection = ({ property }) => {
             <Button
               buttonClass={"button-new"}
               type={"button"}
-              buttonAction={() =>
-                dispatch(getRelatedProperties(proprietor_name_1))
-              }
+              buttonAction={handleSearch}
             >
               Check for other properties
             </Button>
