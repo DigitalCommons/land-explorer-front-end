@@ -2,16 +2,12 @@ import React, { useState } from "react";
 import LeftPaneTray from "./LeftPaneTray";
 import { useSelector } from "react-redux";
 import RelatedProperties from "./RelatedProperties";
+import Pagination from "../common/Pagination";
 
 const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
   const otherProperties = useSelector(
     (state) => state.relatedProperties.properties
   );
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageNumberLimit, setPageNumberLimit] = useState(5);
-  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
-  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
 
   // Use a Set to store unique properties
   const uniqueProperties = new Set();
@@ -25,113 +21,47 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
 
   const propertyCount = filteredProperties.length;
 
-  // Pagination
+  // Pagination values
+  const [currentPage, setCurrentPage] = useState(1);
+  const noOfPages = Math.ceil(propertyCount / itemsPerPage);
   const indexOfLastProperty = currentPage * itemsPerPage;
   const indexOfFirstProperty = indexOfLastProperty - itemsPerPage;
+  // Chop up the properties array into pages
   const currentProperties = filteredProperties.slice(
     indexOfFirstProperty,
     indexOfLastProperty
   );
-  const noOfPages = Math.ceil(propertyCount / itemsPerPage);
-  const pageNumbers = [...Array(noOfPages + 1).keys()].slice(1);
-  const lastPage = pageNumbers[pageNumbers.length - 1];
-  const firstPage = pageNumbers[0];
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const nextPage = () => {
-    if (currentPage < noOfPages) {
-      setCurrentPage(currentPage + 1);
-    }
-    if (currentPage + 1 > maxPageNumberLimit) {
-      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
-      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
-    }
-  };
-  const previousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-    if ((currentPage - 1) % pageNumberLimit === 0) {
-      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
-      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
-    }
-  };
-
-  console.log("Items per page: ", itemsPerPage);
-  console.log("first Page: ", firstPage);
-  console.log("last Page: ", lastPage);
 
   return (
     <LeftPaneTray title="Ownership Search" open={open} onClose={onClose}>
-      {filteredProperties.length ? (
-        <>
-          <div>{propertyCount} properties</div>
-          {currentProperties.map((property, i) => (
-            <RelatedProperties key={property.title_no} property={property} />
-          ))}
-          <div className="pagination">
+      <div className="search-results-container">
+        {filteredProperties.length ? (
+          <>
+            <div className="property-count">
+              <span className="property-count--highlight">
+                {currentProperties[0].proprietor_name_1}
+              </span>{" "}
+              has{" "}
+              <span className="property-count--highlight">{propertyCount}</span>{" "}
+              associated properties
+            </div>
+            {currentProperties.map((property, i) => (
+              <RelatedProperties key={property.title_no} property={property} />
+            ))}
             {noOfPages > 1 && (
-              <nav>
-                <ul className="pagination">
-                  <li className="page-item">
-                    <button
-                      className="page-link"
-                      onClick={previousPage}
-                      disabled={currentPage === firstPage}
-                    >
-                      Prev
-                    </button>
-                  </li>
-                  {pageNumbers.length > maxPageNumberLimit &&
-                    currentPage > 5 && (
-                      <li className="ellipsis page-item" onClick={previousPage}>
-                        &hellip;
-                      </li>
-                    )}
-                  {pageNumbers.map((number) => {
-                    if (
-                      number < maxPageNumberLimit + 1 &&
-                      number > minPageNumberLimit
-                    ) {
-                      return (
-                        <li key={number} className="page-item" id={number}>
-                          <button
-                            onClick={() => paginate(number)}
-                            className={`page-link ${
-                              currentPage === number ? "active" : null
-                            }`}
-                          >
-                            {number}
-                          </button>
-                        </li>
-                      );
-                    } else {
-                      return null;
-                    }
-                  })}
-                  {pageNumbers.length > maxPageNumberLimit &&
-                    currentPage != lastPage && (
-                      <li className="ellipsis page-item" onClick={nextPage}>
-                        &hellip;
-                      </li>
-                    )}
-                  <li className="page-item">
-                    <button
-                      className="page-link"
-                      onClick={nextPage}
-                      disabled={currentPage === lastPage}
-                    >
-                      Next
-                    </button>
-                  </li>
-                </ul>
-              </nav>
+              <Pagination
+                pagesDisplayed={5}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                noOfPages={noOfPages}
+                itemsPerPage={itemsPerPage}
+              />
             )}
-          </div>
-        </>
-      ) : (
-        <div>No Related Properties</div>
-      )}
+          </>
+        ) : (
+          <div>No Related Properties</div>
+        )}
+      </div>
     </LeftPaneTray>
   );
 };

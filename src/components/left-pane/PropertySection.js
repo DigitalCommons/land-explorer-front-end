@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setActiveProperty } from "../../actions/LandOwnershipActions";
 import Button from "../common/Button";
 import { getRelatedProperties } from "../../actions/LandOwnershipActions";
-import { isMobile } from "react-device-detect";
 
 const PropertySection = ({ property, active }) => {
   const dispatch = useDispatch();

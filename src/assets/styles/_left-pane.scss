@@ -83,7 +83,8 @@
   width: 400px;
   bottom: 0;
   top: 68px;
-  background-color: #f4f5f7;
+  // background-color: #f4f5f7;
+  background-color: #fff;
   box-shadow: 3px 0 6px 0 rgba(0, 0, 0, 0.16);
   z-index: 100000;
   transition: transform 500ms ease;
@@ -94,8 +95,9 @@
 
 .tray-top {
   width: 100%;
-  background-color: #e4e6ea;
-  border-bottom: solid 1px #d1d1d1;
+  // background-color: #e4e6ea;
+  // border-bottom: solid 1px #d1d1d1;
+  border-bottom: 1px solid #EEEEEE;
 }
 
 .tray-title {
@@ -106,8 +108,10 @@
   align-items: center;
 
   .title {
-    font-weight: bold;
-    margin-left: 42px;
+    // font-weight: bold;
+    margin-left: 20px;
+    font-size: 24px;
+    color: $primaryColor;
   }
 
   .close-tray {
@@ -292,7 +296,7 @@
   position: absolute;
   width: 100%;
   height: 58px;
-  background-color: #f4f5f7;
+  // background-color: #f4f5f7;
   display: flex;
   justify-content: center;
   align-items: center;
