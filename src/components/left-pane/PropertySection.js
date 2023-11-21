@@ -77,43 +77,86 @@ const PropertySection = ({ property, active }) => {
         </div>
       </div>
       {open && (
-        <div
-          style={{
-            height: "auto",
-            padding: "12px 24px",
-            borderBottom: "1px solid #ccc",
-            background: "#78838f",
-            color: "white",
-          }}
-        >
+        <div className="property-details">
           {proprietor_category_1 && (
             <>
-              <p>Property Address: {property_address}</p>
-              <p>Proprietor Category: {proprietor_category_1}</p>
-              <p>Proprietor Name: {proprietor_name_1}</p>
-              <p>Proprietor Address: {proprietor_1_address_1}</p>
-              <p>Tenure: {tenure}</p>
-              <p>Date Proprietor Added: {date_proprietor_added}</p>
-              <span className="horizontal-divider" />
+              <div className="property-details-title">{property_address}</div>
+              <div className="property-details-section">
+                <div className="Property-details-section__title">
+                  Proprietor Name:
+                </div>
+                <div className="Property-details-section__value">
+                  {proprietor_name_1}
+                </div>
+              </div>
+              <div className="property-details-section">
+                <div className="Property-details-section__title">
+                  Proprietor Address:
+                </div>
+                <div className="Property-details-section__value">
+                  {proprietor_1_address_1}
+                </div>
+              </div>
+              <div className="property-details-section">
+                <div className="property-details-section__inner">
+                  <div className="Property-details-section__title">
+                    Proprietor Category:
+                  </div>
+                  <div className="Property-details-section__value">
+                    {proprietor_category_1}
+                  </div>
+                </div>
+                <div className="property-details-section__inner">
+                  <div className="Property-details-section__title">Tenure:</div>
+                  <div className="Property-details-section__value">
+                    {tenure}
+                  </div>
+                </div>
+                <div className="property-details-section__inner">
+                  <div className="Property-details-section__title">
+                    Date Proprietor Added:
+                  </div>
+                  <div className="Property-details-section__value">
+                    {date_proprietor_added}
+                  </div>
+                </div>
+              </div>
             </>
           )}
-          <p title="The Title Register gives information on who owns the property or land, and any rights of way">
-            <b>INSPIRE ID:</b> {poly_id}
-          </p>
-          <p title="The Title Plan includes the property or land's location and boundaries">
-            <b>Title number:</b> {title_no}
-          </p>
-          <p>
-            You can access these documents for a small fee by visiting the{" "}
-            <a
-              href="https://search-property-information.service.gov.uk/search/search-by-inspire-id"
-              target="_blank"
-              rel="noopener noreferrer"
+          <div className="property-details-section">
+            <div className="property-details-section__inner">
+              <div
+                className="Property-details-section__title"
+                title="The Title Register gives information on who owns the property or land, and any rights of way"
+              >
+                INSPIRE ID:
+              </div>
+              <div className="Property-details-section__value">{poly_id}</div>
+            </div>
+            <div
+              className="property-details-section__inner"
+              title="The Title Plan includes the property or land's location and boundaries"
             >
-              Land Registry website
-            </a>{" "}
-            using the above IDs.
-          </p>
+              <div className="Property-details-section__title">
+                Title Number:
+              </div>
+              <div className="Property-details-section__value">{title_no}</div>
+            </div>
+            <div className="property-details-section__small-print">
+              <p>
+                You can access these documents for a small fee by visiting the{" "}
+                <a
+                  href="https://search-property-information.service.gov.uk/search/search-by-inspire-id"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Land Registry website
+                </a>{" "}
+                using the above IDs.
+              </p>
+            </div>
+          </div>
+
           <button
             onClick={() =>
               dispatch({
@@ -124,7 +167,6 @@ const PropertySection = ({ property, active }) => {
           >
             Clear property
           </button>
-
           <div className="check-for-properties">
             <Button
               buttonClass={"button-new"}

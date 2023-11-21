@@ -80,7 +80,7 @@
   left: 72px;
   position: fixed;
   // width: 250px;
-  width: 400px;
+  width: calc(100vw - 72px);
   bottom: 0;
   top: 68px;
   // background-color: #f4f5f7;
@@ -97,7 +97,7 @@
   width: 100%;
   // background-color: #e4e6ea;
   // border-bottom: solid 1px #d1d1d1;
-  border-bottom: 1px solid #EEEEEE;
+  border-bottom: 1px solid #eeeeee;
 }
 
 .tray-title {
@@ -183,9 +183,11 @@
   }
 
   .tray-item-title {
-    width: 140px;
+    // width: 140px;
     padding-left: 48px;
     cursor: pointer;
+    width: calc(100% - 97px);
+    margin-right: 10px;
   }
 }
 
@@ -313,7 +315,9 @@
   }
 
   .tray-item-title {
-    width: 140px;
+    // width: 140px;
+    width: calc(100% - 97px);
+    margin-right: 10px;
   }
 
   transform-origin: 50% 50% 0px;
@@ -363,4 +367,16 @@ a.mapboxgl-ctrl-logo {
 .land-data-description {
   margin-top: 0;
   margin-left: 15px;
+}
+
+/* Desktop specific, as mobile first */
+@media screen and (min-width: 769px) {
+  .left-pane-tray {
+    width: 400px;
+  }
+
+  .draggable-item .tray-item-title,
+  .tray-item .tray-item-title {
+    width: 302px;
+  }
 }

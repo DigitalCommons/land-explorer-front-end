@@ -59,7 +59,11 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
             )}
           </>
         ) : (
-          <div>No Related Properties</div>
+          <div
+            style={{ width: "100%", marginTop: "24px", textAlign: "center" }}
+          >
+            No Related Properties
+          </div>
         )}
       </div>
     </LeftPaneTray>
