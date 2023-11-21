@@ -11,7 +11,7 @@ const PropertySearchPoly = ({ property }) => {
 
   const polygonData = {
     geometry: {
-      coordinates: propertyCoordinates.map((coord) => coord.reverse()),
+      coordinates: [propertyCoordinates.map((coord) => coord.reverse())],
       type: "Polygon",
     },
     id: polyId,
