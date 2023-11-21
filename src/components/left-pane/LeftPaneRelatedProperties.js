@@ -39,7 +39,8 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
           <>
             <div className="property-count">
               <span className="property-count--highlight">
-                {currentProperties[0].proprietor_name_1}
+                {currentProperties[0].proprietor_name_1 &&
+                  currentProperties[0].proprietor_name_1}
               </span>{" "}
               has{" "}
               <span className="property-count--highlight">{propertyCount}</span>{" "}

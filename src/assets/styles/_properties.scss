@@ -15,16 +15,17 @@
 }
 
 .property-details-title {
-  font-size: 24px;
+  font-size: 20px;
   color: $primaryColor;
   margin-bottom: 20px;
 }
 
 .property-details-section {
   box-sizing: border-box;
-  border-top: 2px solid $midNeutral2;
+  border-top: 1px solid $midNeutral2;
   padding: 20px 0;
-  font-size: 18px;
+  font-size: 16px;
+  line-height: 1.25em;
 }
 
 .property-details-section__inner {
@@ -32,9 +33,8 @@
 }
 
 .property-details-section__title {
-  font-size: 18px;
   color: $primaryColor;
-  margin: 0;
+  margin-bottom: 5px;
 }
 
 .property-details-section__value,

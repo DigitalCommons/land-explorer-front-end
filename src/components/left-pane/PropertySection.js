@@ -30,6 +30,7 @@ const PropertySection = ({ property, active }) => {
   };
 
   const handleSearch = () => {
+    dispatch({ type: "CLEAR_PROPERTIES" });
     dispatch(getRelatedProperties(proprietor_name_1));
     openTray("Ownership Search");
   };
@@ -82,41 +83,41 @@ const PropertySection = ({ property, active }) => {
             <>
               <div className="property-details-title">{property_address}</div>
               <div className="property-details-section">
-                <div className="Property-details-section__title">
+                <div className="property-details-section__title">
                   Proprietor Name:
                 </div>
-                <div className="Property-details-section__value">
+                <div className="property-details-section__value">
                   {proprietor_name_1}
                 </div>
               </div>
               <div className="property-details-section">
-                <div className="Property-details-section__title">
+                <div className="property-details-section__title">
                   Proprietor Address:
                 </div>
-                <div className="Property-details-section__value">
+                <div className="property-details-section__value">
                   {proprietor_1_address_1}
                 </div>
               </div>
               <div className="property-details-section">
                 <div className="property-details-section__inner">
-                  <div className="Property-details-section__title">
+                  <div className="property-details-section__title">
                     Proprietor Category:
                   </div>
-                  <div className="Property-details-section__value">
+                  <div className="property-details-section__value">
                     {proprietor_category_1}
                   </div>
                 </div>
                 <div className="property-details-section__inner">
-                  <div className="Property-details-section__title">Tenure:</div>
-                  <div className="Property-details-section__value">
+                  <div className="property-details-section__title">Tenure:</div>
+                  <div className="property-details-section__value">
                     {tenure}
                   </div>
                 </div>
                 <div className="property-details-section__inner">
-                  <div className="Property-details-section__title">
+                  <div className="property-details-section__title">
                     Date Proprietor Added:
                   </div>
-                  <div className="Property-details-section__value">
+                  <div className="property-details-section__value">
                     {date_proprietor_added}
                   </div>
                 </div>
@@ -126,21 +127,21 @@ const PropertySection = ({ property, active }) => {
           <div className="property-details-section">
             <div className="property-details-section__inner">
               <div
-                className="Property-details-section__title"
+                className="property-details-section__title"
                 title="The Title Register gives information on who owns the property or land, and any rights of way"
               >
                 INSPIRE ID:
               </div>
-              <div className="Property-details-section__value">{poly_id}</div>
+              <div className="property-details-section__value">{poly_id}</div>
             </div>
             <div
               className="property-details-section__inner"
               title="The Title Plan includes the property or land's location and boundaries"
             >
-              <div className="Property-details-section__title">
+              <div className="property-details-section__title">
                 Title Number:
               </div>
-              <div className="Property-details-section__value">{title_no}</div>
+              <div className="property-details-section__value">{title_no}</div>
             </div>
             <div className="property-details-section__small-print">
               <p>

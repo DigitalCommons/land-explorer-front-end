@@ -356,6 +356,7 @@ a.mapboxgl-ctrl-logo {
   background-size: 18px;
   background-repeat: no-repeat;
   background-position: 18px 50%;
+  background-color: $trayBackground;
 }
 
 .horizontal-divider {
@@ -377,6 +378,6 @@ a.mapboxgl-ctrl-logo {
 
   .draggable-item .tray-item-title,
   .tray-item .tray-item-title {
-    width: 302px;
+    width: 286px;
   }
 }

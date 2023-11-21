@@ -17,6 +17,8 @@ export default (state = INITIAL_STATE, action) => {
         properties: [],
         error: action.payload,
       };
+    case "CLEAR_PROPERTIES":
+      return INITIAL_STATE;
     default:
       return state;
   }
