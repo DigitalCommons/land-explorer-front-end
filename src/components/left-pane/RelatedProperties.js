@@ -1,18 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { showPropertyPolygon } from "../../actions/LandOwnershipActions";
+import { setLngLat } from "../../actions/MapActions";
 
 const RelatedProperties = ({ property }) => {
   const dispatch = useDispatch();
+  const [active, setActive] = useState(false);
+
+  const lng = property.geom.coordinates[0][0][1];
+  const lat = property.geom.coordinates[0][0][0];
 
   const handlePropertyClick = () => {
+    dispatch(setLngLat(lng, lat));
     dispatch(showPropertyPolygon(property.geom.coordinates[0]));
     console.log("Property clicked", property.geom.coordinates);
     console.log("title_no", property.title_no);
+    console.log("lat", lat);
+    console.log("lng", lng);
+    // setActive(!active);
   };
 
   return (
     <div
+      // className={`search-result ${active ? 'active' : ''}`}
       className="search-result"
       key={property.title_no}
       onClick={handlePropertyClick}

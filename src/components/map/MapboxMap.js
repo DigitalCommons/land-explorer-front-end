@@ -286,9 +286,6 @@ const MapboxMap = ({ user }) => {
         // this is how the map moves automatically from one location to another (default is jumpTo, but we disable this temporarily when we load a new map)
         movingMethod={movingMethod}
       >
-        {/* Property Search Poly / No clue where this should go */}
-        {propertyCoordinates.length > 0 && <PropertySearchPoly />}
-
         {/* Map Layers (greenbelt etc.)*/}
         <MapLayers />
         {/* Map Data Groups displaying My Data, except data group markers, which are in Markers to cluster together */}
@@ -301,6 +298,10 @@ const MapboxMap = ({ user }) => {
             setDataGroupPopupVisible(markerId);
           }}
         />
+        {/* Property Search Poly / No clue where this should go */}
+        {propertyCoordinates.length > 0 && (
+          <PropertySearchPoly />
+        )}
         {/*For displaying the property boundaries*/}
         {constants.LR_POLYGONS_ENABLED && (
           <MapProperties center={lngLat} map={map} />
