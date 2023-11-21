@@ -1,5 +1,7 @@
 import { getRequest } from "./RequestActions";
 
+export const SHOW_PROPERTY_POLYGON = "SHOW_PROPERTY_POLYGON";
+
 export const highlightProperty = (property) => {
   return (dispatch) => {
     dispatch({
@@ -42,3 +44,14 @@ export const getRelatedProperties = (proprietorName) => {
     }
   };
 };
+
+export const showPropertyPolygon = (propertyCoordinates) => {
+  return (dispatch) => {
+    dispatch({
+      type: SHOW_PROPERTY_POLYGON,
+      payload: propertyCoordinates,
+    });
+  };
+};
+
+

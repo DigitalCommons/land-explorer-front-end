@@ -1,8 +1,22 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { showPropertyPolygon } from "../../actions/LandOwnershipActions";
 
 const RelatedProperties = ({ property }) => {
+  const dispatch = useDispatch();
+
+  const handlePropertyClick = () => {
+    dispatch(showPropertyPolygon(property.geom.coordinates[0]));
+    console.log("Property clicked", property.geom.coordinates);
+    console.log("title_no", property.title_no);
+  };
+
   return (
-    <div className="search-result" key={property.title_no}>
+    <div
+      className="search-result"
+      key={property.title_no}
+      onClick={handlePropertyClick}
+    >
       <i>
         <svg
           className="icon-property"
@@ -16,7 +30,9 @@ const RelatedProperties = ({ property }) => {
         </svg>
       </i>
       <div className="search-result__property">
-        <h4 className="search-result__property-address">{property.property_address}</h4>
+        <h4 className="search-result__property-address">
+          {property.property_address}
+        </h4>
         <div className="search-result__title-no">
           Title no: {property.title_no}
         </div>

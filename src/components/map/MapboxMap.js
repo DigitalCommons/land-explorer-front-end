@@ -18,6 +18,7 @@ import mapSources from "../../data/mapSources";
 import MapProperties from "./MapProperties";
 import MapDataGroups from "./MapDataGroups";
 import { autoSave, setLngLat, setZoom } from "../../actions/MapActions";
+import PropertySearchPoly from "./PropertySearchPoly";
 
 // Create Map Component with settings
 const Map = ReactMapboxGl({
@@ -46,6 +47,20 @@ const MapboxMap = ({ user }) => {
   const propertiesDisplay = useSelector(
     (state) => state.landOwnership.displayActive
   );
+  const propertyCoordinates = useSelector(
+    (state) => state.propertySearchPoly.propertyCoordinates
+  );
+
+  // Check the propertyCoordinates update propagates to the MapboxMap component
+  useEffect(() => {
+    if (propertyCoordinates.length > 0) {
+      console.log(
+        "Property coordinates exist - MapboxMap",
+        propertyCoordinates
+      );
+    }
+  }, [propertyCoordinates]);
+
   const [styleLoaded, setStyleLoaded] = useState(false);
   const [drawings, setDrawings] = useState();
   const [redrawing, setRedrawing] = useState(false);
@@ -271,6 +286,9 @@ const MapboxMap = ({ user }) => {
         // this is how the map moves automatically from one location to another (default is jumpTo, but we disable this temporarily when we load a new map)
         movingMethod={movingMethod}
       >
+        {/* Property Search Poly / No clue where this should go */}
+        {propertyCoordinates.length > 0 && <PropertySearchPoly />}
+
         {/* Map Layers (greenbelt etc.)*/}
         <MapLayers />
         {/* Map Data Groups displaying My Data, except data group markers, which are in Markers to cluster together */}
