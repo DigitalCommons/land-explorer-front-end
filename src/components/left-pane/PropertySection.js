@@ -158,24 +158,27 @@ const PropertySection = ({ property, active }) => {
             </div>
           </div>
 
-          <button
-            onClick={() =>
-              dispatch({
-                type: "CLEAR_HIGHLIGHT",
-                payload: property,
-              })
-            }
-          >
-            Clear property
-          </button>
-          <div className="check-for-properties">
+          <div className="property__check-for-properties">
             <Button
-              buttonClass={"button-new"}
+              buttonClass={"button-new green full-width"}
               type={"button"}
               buttonAction={handleSearch}
             >
               Check for other properties
             </Button>
+          </div>
+          <div className="property__clear-property">
+            <button
+              className="button-new blue full-width"
+              onClick={() =>
+                dispatch({
+                  type: "CLEAR_HIGHLIGHT",
+                  payload: property,
+                })
+              }
+            >
+              Clear property
+            </button>
           </div>
         </div>
       )}

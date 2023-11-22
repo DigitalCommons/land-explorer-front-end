@@ -23,15 +23,29 @@
 }
 
 .button-new {
-  width: 100%;
+  // width: 100%;
   border-radius: 7px;
-  background-color: $primaryColor;
-  font-size: 12px;
-  padding: 10px 20px;
+  // background-color: $primaryColor;
+  text-align: center;
+  font-size: 14px;
+  padding: 12px 30px;
   cursor: pointer;
   text-align: center;
   color: #fff;
   border: none;
+
+  &.green {
+    background-color: $primaryColor;
+  }
+  &.blue {
+    background-color: #4a7abe;
+  }
+  &.full-width {
+    width: 100%;
+  }
+  &.half-width {
+    width: 50%;
+  }
 }
 
 .button-reg-disabled {

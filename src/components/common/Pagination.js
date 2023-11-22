@@ -40,7 +40,7 @@ const Pagination = ({
   console.log("last Page: ", lastPage);
 
   return (
-    <nav>
+    <nav className="pagination-container">
       <ul className="pagination">
         <li className="page-item prev">
           <button

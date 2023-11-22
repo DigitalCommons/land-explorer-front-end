@@ -46,6 +46,12 @@
   font-size: 14px;
 }
 
+.property__clear-property {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
 /* Desktop specific, as mobile first */
 @media screen and (min-width: 769px) {
   .property-details-section__inner {
