@@ -9,6 +9,7 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
     (state) => state.relatedProperties.properties
   );
 
+  const [activeProperty, setActiveProperty] = useState(null);
   // Use a Set to store unique properties
   const uniqueProperties = new Set();
 
@@ -32,6 +33,11 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
     indexOfLastProperty
   );
 
+  // Pass down the active property to the RelatedProperties component
+  const handlePropertyClick = (property) => {
+    setActiveProperty(property);
+  };
+
   return (
     <LeftPaneTray title="Ownership Search" open={open} onClose={onClose}>
       <div className="search-results-container">
@@ -47,7 +53,12 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
               associated properties
             </div>
             {currentProperties.map((property, i) => (
-              <RelatedProperties key={property.title_no} property={property} />
+              <RelatedProperties
+                key={property.title_no}
+                property={property}
+                isActive={property === activeProperty}
+                onPropertyClick={() => handlePropertyClick(property)}
+              />
             ))}
             {noOfPages > 1 && (
               <Pagination

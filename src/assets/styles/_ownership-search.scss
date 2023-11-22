@@ -27,6 +27,15 @@
     display: block;
     fill: #d4d2d2;
   }
+  &.active {
+    & h4 {
+      color: $primaryColor;
+    }
+    box-shadow: none;
+    & > i {
+      fill: $primaryColor;
+    }
+  }
 }
 
 .search-result__property-address {
@@ -37,11 +46,6 @@
 .search-result__property {
   margin: 0 0 5px 10px;
   padding: 0;
-}
-.search-result__proprietor {
-}
-
-.search-result__title-no {
 }
 
 .icon-proprietor {
