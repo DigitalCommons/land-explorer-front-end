@@ -28,6 +28,7 @@
     fill: #d4d2d2;
   }
   &.active {
+    cursor: default;
     & h4 {
       color: $primaryColor;
     }
@@ -58,4 +59,19 @@
   width: 13px;
   height: 18px;
   display: block;
+}
+
+.loading-spinner {
+  border: 6px solid $lightNeutral; /* Light grey */
+  border-top: 6px solid $primaryColor; /* Blue */
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

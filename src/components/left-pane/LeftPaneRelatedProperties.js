@@ -9,6 +9,9 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
     (state) => state.relatedProperties.properties
   );
 
+  // Set loading state
+  const loading = useSelector((state) => state.relatedProperties.loading);
+
   const [activeProperty, setActiveProperty] = useState(null);
   // Use a Set to store unique properties
   const uniqueProperties = new Set();
@@ -41,7 +44,13 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
   return (
     <LeftPaneTray title="Ownership Search" open={open} onClose={onClose}>
       <div className="search-results-container">
-        {filteredProperties.length ? (
+        {loading ? (
+          <div
+            style={{ width: "100%", marginTop: "50px", textAlign: "center" }}
+          >
+            <div className="loading-spinner"></div>
+          </div>
+        ) : filteredProperties.length ? (
           <>
             <div className="property-count">
               <span className="property-count--highlight">

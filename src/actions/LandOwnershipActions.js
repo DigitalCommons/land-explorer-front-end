@@ -27,19 +27,28 @@ export const setActiveProperty = (propertyId) => {
 
 export const getRelatedProperties = (proprietorName) => {
   return async (dispatch) => {
-    const relatedProperties = await dispatch(
-      getRequest(`/api/search?proprietorName=${proprietorName}`)
-    );
+    try {
+      dispatch({ type: "FETCH_PROPERTIES_LOADING" });
 
-    if (relatedProperties.length > 0) {
-      dispatch({
-        type: "FETCH_PROPERTIES_SUCCESS",
-        payload: relatedProperties,
-      });
-    } else {
+      const relatedProperties = await dispatch(
+        getRequest(`/api/search?proprietorName=${proprietorName}`)
+      );
+
+      if (relatedProperties.length > 0) {
+        dispatch({
+          type: "FETCH_PROPERTIES_SUCCESS",
+          payload: relatedProperties,
+        });
+      } else {
+        dispatch({
+          type: "FETCH_PROPERTIES_FAILURE",
+          payload: "No properties found",
+        });
+      }
+    } catch (error) {
       dispatch({
         type: "FETCH_PROPERTIES_FAILURE",
-        payload: "No properties found",
+        payload: "Error fetching properties",
       });
     }
   };
@@ -53,5 +62,3 @@ export const showPropertyPolygon = (propertyCoordinates) => {
     });
   };
 };
-
-
