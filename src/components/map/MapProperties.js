@@ -16,6 +16,7 @@ const MapProperties = ({ center, map }) => {
   const highlightedProperties = useSelector(state => state.landOwnership.highlightedProperties);
   const activePropertyId = useSelector(state => state.landOwnership.activePropertyId);
   const activeProperty = activePropertyId !== null ? highlightedProperties.find(p => p.poly_id === activePropertyId) : null;
+  
 
   const activePanel = useSelector(state => state.leftPane.active);
 

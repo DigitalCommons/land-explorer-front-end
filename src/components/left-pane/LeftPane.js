@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import LeftPaneInfo from "./LeftPaneInfo";
 import LeftPaneLandData from "./LeftPaneLandData";
 import LeftPaneDrawingTools from "./LeftPaneDrawingTools";
+import LeftPaneRelatedProperties from "./LeftPaneRelatedProperties";
 import analytics from "../../analytics";
 import { autoSave } from "../../actions/MapActions";
 import { isMobile } from "react-device-detect";
@@ -125,7 +126,22 @@ const LeftPane = ({ drawControl }) => {
           data-tip
           data-for="ttInfo"
         />
+        <div
+          className={`left-pane-icon ownership ${
+            active === "Ownership Search" && "active"
+          }`}
+          onClick={() => {
+            analytics.event(
+              analytics._event.LEFT_PANE + " Ownership Search",
+              "Open"
+            );
+            clickIcon("Ownership Search");
+          }}
+          data-tip
+          data-for="ttRelatedProperties"
+        />
       </div>
+
       {
         // If not read only, render drawing tools
         !readOnly && (
@@ -142,6 +158,11 @@ const LeftPane = ({ drawControl }) => {
       <LeftPaneInfo
         open={open && active === "Land Information"}
         onClose={closeTray}
+      />
+      <LeftPaneRelatedProperties
+        open={open && active === "Ownership Search"}
+        onClose={closeTray}
+        itemsPerPage={10}
       />
     </nav>
   );
