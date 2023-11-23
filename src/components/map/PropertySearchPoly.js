@@ -11,7 +11,7 @@ const PropertySearchPoly = ({ property }) => {
 
   const polygonData = {
     geometry: {
-      coordinates: [propertyCoordinates.map((coord) => coord.reverse())],
+      coordinates: [propertyCoordinates.map((coord) => [coord[1], coord[0]])], //mapbox expects coords as lng,lat
       type: "Polygon",
     },
     id: polyId,
@@ -36,7 +36,7 @@ const PropertySearchPoly = ({ property }) => {
   );
 
   useEffect(() => {
-    console.log("Property coordinates exist!", propertyCoordinates, polyId);
+    console.log("Property coordinates  exist!", propertyCoordinates, polyId);
     console.log("Polygon Layer", polygonLayer);
   }, [propertyCoordinates, polyId]);
 
