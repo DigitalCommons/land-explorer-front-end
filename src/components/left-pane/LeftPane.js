@@ -7,7 +7,6 @@ import LeftPaneRelatedProperties from "./LeftPaneRelatedProperties";
 import analytics from "../../analytics";
 import { autoSave } from "../../actions/MapActions";
 import { isMobile } from "react-device-detect";
-import constants from "../../constants";
 
 const LeftPane = ({ drawControl }) => {
   const dispatch = useDispatch();
@@ -16,13 +15,8 @@ const LeftPane = ({ drawControl }) => {
   const profileMenuOpen = useSelector((state) => state.menu.profile);
   const currentMarker = useSelector((state) => state.markers.currentMarker);
   const activePolygon = useSelector((state) => state.drawings.activePolygon);
-  const zoom = useSelector((state) => state.map.zoom);
-  const propertyBoundriesZoom = constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL;
   const propertySearch = useSelector(
     (state) => state.relatedProperties.properties
-  );
-  const landOwnershipActive = useSelector(
-    (state) => state.landOwnership.displayActive
   );
 
   const closeTray = () => {
@@ -135,26 +129,23 @@ const LeftPane = ({ drawControl }) => {
           data-tip
           data-for="ttInfo"
         />
-        {/* display land ownership icon only if land ownship layer is active,
-        zoomed-in to sufficient level and search is not empty */}
-        {zoom >= propertyBoundriesZoom &&
-          landOwnershipActive == true &&
-          propertySearch.length > 0 && (
-            <div
-              className={`left-pane-icon ownership ${
-                active === "Ownership Search" && "active"
-              }`}
-              onClick={() => {
-                analytics.event(
-                  analytics._event.LEFT_PANE + " Ownership Search",
-                  "Open"
-                );
-                clickIcon("Ownership Search");
-              }}
-              data-tip
-              data-for="ttRelatedProperties"
-            />
-          )}
+        {/* display land ownership icon only if search is not empty */}
+        {propertySearch.length > 0 && (
+          <div
+            className={`left-pane-icon ownership ${
+              active === "Ownership Search" && "active"
+            }`}
+            onClick={() => {
+              analytics.event(
+                analytics._event.LEFT_PANE + " Ownership Search",
+                "Open"
+              );
+              clickIcon("Ownership Search");
+            }}
+            data-tip
+            data-for="ttRelatedProperties"
+          />
+        )}
       </div>
       {
         // If not read only, render drawing tools
