@@ -1,5 +1,3 @@
-import { SHOW_PROPERTY_POLYGON } from "../actions/LandOwnershipActions";
-
 const INITIAL_STATE = {
   propertyCoordinates: [],
   polyId: null,
@@ -7,7 +5,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SHOW_PROPERTY_POLYGON:
+    case "SHOW_PROPERTY_POLYGON":
       return {
         ...state,
         propertyCoordinates: action.payload,
