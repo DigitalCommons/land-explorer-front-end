@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   loading: false,
   proprietorName: null,
   activePropertyId: null,
-  selectedProperty: null,
+  selectedProperty: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -59,7 +59,7 @@ export default (state = INITIAL_STATE, action) => {
     case "CLEAR_SELECTED_PROPERTY":
       return {
         ...state,
-        selectedProperty: null,
+        selectedProperty: [],
       };
     default:
       return state;

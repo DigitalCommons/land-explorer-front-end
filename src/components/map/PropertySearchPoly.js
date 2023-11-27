@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Feature, Layer } from "react-mapbox-gl";
+import { setActiveProperty } from "../../actions/LandOwnershipActions";
 
 const PropertySearchPoly = () => {
+  const dispatch = useDispatch();
   const propertyCoordinates = useSelector(
     (state) => state.propertySearchPoly.propertyCoordinates
   );
@@ -14,8 +16,16 @@ const PropertySearchPoly = () => {
     propertyCoordinates.map((coord) => [coord[1], coord[0]]),
   ];
 
+  const handlePolygonClick = () => {
+    dispatch(setActiveProperty(property.poly_id));
+    console.log("Polygon clicked!", property.poly_id);
+  };
   const polygonLayer = (
-    <Feature coordinates={coordinates} key={property.poly_id} />
+    <Feature
+      coordinates={coordinates}
+      key={property.poly_id}
+      onClick={handlePolygonClick}
+    />
   );
 
   useEffect(() => {
