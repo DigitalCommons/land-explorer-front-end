@@ -59,11 +59,13 @@ export const setProprietorName = (proprietorName) => {
   }
 };
 
-export const setActivePropertyId = (propertyId) => {
+export const setActivePropertyId = (propertyId) => { }
+
+export const setSelectedProperty = (property) => {
   return (dispatch) => {
     dispatch({
-      type: "SET_ACTIVE_PROPERTY_ID",
-      payload: propertyId,
+      type: "SET_SELECTED_PROPERTY",
+      payload: property,
     });
   };
 };

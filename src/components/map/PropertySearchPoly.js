@@ -1,25 +1,31 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { GeoJSONLayer, Feature, Layer } from "react-mapbox-gl";
+import { Feature, Layer } from "react-mapbox-gl";
 
-const PropertySearchPoly = ({ property }) => {
+const PropertySearchPoly = () => {
   const propertyCoordinates = useSelector(
     (state) => state.propertySearchPoly.propertyCoordinates
   );
-  const polyId = useSelector(
-    (state) => state.relatedProperties.activePropertyId
+  const property = useSelector(
+    (state) => state.relatedProperties.selectedProperty
   );
-  
-  const coordinates = [propertyCoordinates.map((coord) => [coord[1], coord[0]])];
+
+  const coordinates = [
+    propertyCoordinates.map((coord) => [coord[1], coord[0]]),
+  ];
 
   const polygonLayer = (
-    <Feature coordinates={coordinates} key={polyId} />
+    <Feature coordinates={coordinates} key={property.poly_id} />
   );
 
   useEffect(() => {
-    console.log("Property coordinates  exist!", propertyCoordinates, polyId);
+    console.log(
+      "Property coordinates  exist!",
+      propertyCoordinates,
+      property.poly_id
+    );
     console.log("Polygon Layer", polygonLayer);
-  }, [propertyCoordinates, polyId]);
+  }, [propertyCoordinates, property.poly_id]);
 
   // Check if propertyCoordinates exist before rendering GeoJSONLayer
   if (!propertyCoordinates || propertyCoordinates.length === 0) {

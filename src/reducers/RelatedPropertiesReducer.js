@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   loading: false,
   proprietorName: null,
   activePropertyId: null,
+  selectedProperty: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -49,14 +50,16 @@ export default (state = INITIAL_STATE, action) => {
         proprietorName: null
       };
     case "SET_ACTIVE_PROPERTY_ID":
+      return INITIAL_STATE;
+    case "SET_SELECTED_PROPERTY":
       return {
         ...state,
-        activePropertyId: action.payload,
+        selectedProperty: action.payload,
       };
-    case "CLEAR_ACTIVE_PROPERTY_ID":
+    case "CLEAR_SELECTED_PROPERTY":
       return {
         ...state,
-        activePropertyId: null,
+        selectedProperty: null,
       };
     default:
       return state;

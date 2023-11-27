@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { showPropertyPolygon } from "../../actions/LandOwnershipActions";
+import { setSelectedProperty, showPropertyPolygon } from "../../actions/LandOwnershipActions";
 import { setLngLat } from "../../actions/MapActions";
-import { setActivePropertyId } from "../../actions/LandOwnershipActions";
 
 const RelatedProperties = ({ property, isActive, onPropertyClick }) => {
   const dispatch = useDispatch();
@@ -13,8 +12,8 @@ const RelatedProperties = ({ property, isActive, onPropertyClick }) => {
   const handlePropertyClick = () => {
     onPropertyClick();
     dispatch(showPropertyPolygon(property.geom.coordinates[0]));
-    // dispatch(setActiveProperty(property.poly_id));
-    dispatch(setActivePropertyId(property.poly_id));
+    dispatch(setSelectedProperty(property));
+    console.log("Selected Property", property);
   };
 
   const gotoProperty = () => {
