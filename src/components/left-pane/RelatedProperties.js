@@ -12,7 +12,7 @@ const RelatedProperties = ({ property, isActive, onPropertyClick }) => {
   const handlePropertyClick = () => {
     onPropertyClick();
     dispatch(showPropertyPolygon(property.geom.coordinates[0]));
-    dispatch(setSelectedProperty(property));
+    dispatch(setSelectedProperty([property]));
     console.log("Selected Property", property);
   };
 
