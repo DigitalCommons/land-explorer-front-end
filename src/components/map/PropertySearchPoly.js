@@ -1,38 +1,19 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { GeoJSONLayer } from "react-mapbox-gl";
+import { GeoJSONLayer, Feature, Layer } from "react-mapbox-gl";
 
 const PropertySearchPoly = ({ property }) => {
   const propertyCoordinates = useSelector(
     (state) => state.propertySearchPoly.propertyCoordinates
   );
-
-  const polyId = useSelector((state) => state.propertySearchPoly.polyId);
-
-  const polygonData = {
-    geometry: {
-      coordinates: [propertyCoordinates.map((coord) => [coord[1], coord[0]])], //mapbox expects coords as lng,lat
-      type: "Polygon",
-    },
-    id: polyId,
-    properties: {},
-    type: "Feature",
-  };
+  const polyId = useSelector(
+    (state) => state.relatedProperties.activePropertyId
+  );
+  
+  const coordinates = [propertyCoordinates.map((coord) => [coord[1], coord[0]])];
 
   const polygonLayer = (
-    <GeoJSONLayer
-      key={polyId}
-      data={polygonData}
-      linePaint={{
-        "line-color": "red",
-        "line-width": 2,
-        "line-opacity": 1,
-      }}
-      fillPaint={{
-        "fill-color": "red",
-        "fill-opacity": 0.3,
-      }}
-    />
+    <Feature coordinates={coordinates} key={polyId} />
   );
 
   useEffect(() => {
@@ -46,7 +27,20 @@ const PropertySearchPoly = ({ property }) => {
     return null;
   }
 
-  return <>{polygonLayer}</>;
+  return (
+    <>
+      <Layer
+        type={"fill"}
+        paint={{
+          "fill-color": "red",
+          "fill-opacity": 0.3,
+          "fill-outline-color": "red",
+        }}
+      >
+        {polygonLayer}
+      </Layer>
+    </>
+  );
 };
 
 export default PropertySearchPoly;

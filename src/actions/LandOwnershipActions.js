@@ -56,6 +56,15 @@ export const setProprietorName = (proprietorName) => {
   return {
     type: "SET_PROPRIETOR_NAME",
     payload: proprietorName,
+  }
+};
+
+export const setActivePropertyId = (propertyId) => {
+  return (dispatch) => {
+    dispatch({
+      type: "SET_ACTIVE_PROPERTY_ID",
+      payload: propertyId,
+    });
   };
 };
 

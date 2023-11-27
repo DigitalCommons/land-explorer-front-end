@@ -3,6 +3,7 @@ const INITIAL_STATE = {
   error: null,
   loading: false,
   proprietorName: null,
+  activePropertyId: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -45,7 +46,17 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         properties: [],
-        proprietorName: null,
+        proprietorName: null
+      };
+    case "SET_ACTIVE_PROPERTY_ID":
+      return {
+        ...state,
+        activePropertyId: action.payload,
+      };
+    case "CLEAR_ACTIVE_PROPERTY_ID":
+      return {
+        ...state,
+        activePropertyId: null,
       };
     default:
       return state;
