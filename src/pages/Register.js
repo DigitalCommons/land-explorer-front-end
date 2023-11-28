@@ -97,8 +97,8 @@ const Register = ({ updateBgImage }) => {
           ? organisationCommercialOther.value
           : organisationCommunityInterest.value
         : organisationSubType === "other"
-        ? organisationCommercialOther.value
-        : organisationCommercial.value;
+          ? organisationCommercialOther.value
+          : organisationCommercial.value;
 
     const request = {
       address: address1.value,
@@ -150,13 +150,12 @@ const Register = ({ updateBgImage }) => {
         <input
           type="text"
           className={`text-input text-input-half text-input-first-half
-                                ${
-                                  firstName.valid !== ""
-                                    ? firstName.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${firstName.valid !== ""
+              ? firstName.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
           placeholder="First name (Required)"
           value={firstName.value}
           onChange={(e) => {
@@ -170,13 +169,12 @@ const Register = ({ updateBgImage }) => {
         <input
           type="text"
           className={`text-input text-input-half
-                                ${
-                                  lastName.valid !== ""
-                                    ? lastName.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${lastName.valid !== ""
+              ? lastName.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
           placeholder="Last name (Required)"
           value={lastName.value}
           maxLength="101"
@@ -189,9 +187,8 @@ const Register = ({ updateBgImage }) => {
         />
         <input
           type="email"
-          className={`text-input ${
-            email.valid !== "" ? (email.valid ? "valid" : "invalid") : ""
-          }`}
+          className={`text-input ${email.valid !== "" ? (email.valid ? "valid" : "invalid") : ""
+            }`}
           placeholder="Email address (Required)"
           value={email.value}
           maxLength="101"
@@ -205,13 +202,12 @@ const Register = ({ updateBgImage }) => {
         <input
           type="password"
           className={`text-input text-input-half text-input-first-half
-                                ${
-                                  password.valid !== ""
-                                    ? password.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${password.valid !== ""
+              ? password.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
           placeholder="Password (Required)"
           value={password.value}
           style={{ marginRight: "2%" }}
@@ -227,15 +223,14 @@ const Register = ({ updateBgImage }) => {
         <input
           type="password"
           className={`text-input text-input-half
-                                ${
-                                  password.value !== ""
-                                    ? confirmPassword.valid !== ""
-                                      ? confirmPassword.valid
-                                        ? "valid"
-                                        : "invalid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${password.value !== ""
+              ? confirmPassword.valid !== ""
+                ? confirmPassword.valid
+                  ? "valid"
+                  : "invalid"
+                : "invalid"
+              : ""
+            }`}
           placeholder="Confirm password (Required)"
           value={confirmPassword.value}
           minLength="4"
@@ -250,13 +245,12 @@ const Register = ({ updateBgImage }) => {
         <input
           type="tel"
           className={`text-input text-input-half text-input-first-half
-                                ${
-                                  phone.valid !== ""
-                                    ? phone.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${phone.valid !== ""
+              ? phone.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
           placeholder="Tel"
           value={phone.value}
           maxLength={15}
@@ -269,13 +263,12 @@ const Register = ({ updateBgImage }) => {
         <input
           type="number"
           className={`text-input text-input-half
-                                ${
-                                  organisationNumber.valid !== ""
-                                    ? organisationNumber.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${organisationNumber.valid !== ""
+              ? organisationNumber.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
           placeholder="Organisation / Charity number"
           value={organisationNumber.value}
           onChange={(e) => {
@@ -291,13 +284,12 @@ const Register = ({ updateBgImage }) => {
         <input
           type="text"
           className={`text-input
-                                ${
-                                  address1.valid !== ""
-                                    ? address1.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${address1.valid !== ""
+              ? address1.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
           placeholder="Address 1"
           value={address1.value}
           maxLength="101"
@@ -322,13 +314,12 @@ const Register = ({ updateBgImage }) => {
         <input
           type="text"
           className={`text-input text-input-half text-input-first-half
-                                ${
-                                  city.valid !== ""
-                                    ? city.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${city.valid !== ""
+              ? city.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
           placeholder="City"
           value={city.value}
           maxLength="101"
@@ -341,13 +332,12 @@ const Register = ({ updateBgImage }) => {
         <input
           type="text"
           className={`text-input text-input-half
-                                ${
-                                  postcode.valid !== ""
-                                    ? postcode.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${postcode.valid !== ""
+              ? postcode.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
           placeholder="Postcode"
           value={postcode.value}
           maxLength="7"
@@ -360,13 +350,12 @@ const Register = ({ updateBgImage }) => {
         <input
           type="text"
           className={`text-input
-                                ${
-                                  organisation.valid !== ""
-                                    ? organisation.valid
-                                      ? "valid"
-                                      : "invalid"
-                                    : ""
-                                }`}
+                                ${organisation.valid !== ""
+              ? organisation.valid
+                ? "valid"
+                : "invalid"
+              : ""
+            }`}
           placeholder="Organisation Name"
           value={organisation.value}
           maxLength="101"
@@ -451,14 +440,13 @@ const Register = ({ updateBgImage }) => {
             <input
               type="text"
               className={`text-input
-                                        ${
-                                          organisationCommercialOther.valid !==
-                                          ""
-                                            ? organisationCommercialOther.valid
-                                              ? "valid"
-                                              : "invalid"
-                                            : ""
-                                        }`}
+                                        ${organisationCommercialOther.valid !==
+                  ""
+                  ? organisationCommercialOther.valid
+                    ? "valid"
+                    : "invalid"
+                  : ""
+                }`}
               placeholder="Other"
               value={organisationCommercialOther.value}
               onChange={(e) => {
@@ -470,9 +458,8 @@ const Register = ({ updateBgImage }) => {
           )}
         <div className="account-type-container">
           <div
-            className={`account-type-card ${
-              accountType == "free" ? "active" : "inactive"
-            }`}
+            className={`account-type-card ${accountType == "free" ? "active" : "inactive"
+              }`}
             onClick={() => {
               setAccountType("free");
             }}
@@ -485,9 +472,8 @@ const Register = ({ updateBgImage }) => {
             </div>
           </div>
           <div
-            className={`account-type-card ${
-              accountType == "paid" ? "active" : "inactive"
-            }`}
+            className={`account-type-card ${accountType == "paid" ? "active" : "inactive"
+              }`}
             onClick={() => {
               /* disable the payment flow
             this.setState({
@@ -515,7 +501,14 @@ const Register = ({ updateBgImage }) => {
               href="/privacy-policy.pdf"
             >
               privacy policy
-            </a>
+            </a>{" "}and{" "}
+            <a
+              target="_blank"
+              className="link-underline"
+              href="https://digitalcommons.coop/terms-of-use/"
+            >
+              terms of use
+            </a>.
             <input
               name="agree"
               type="checkbox"
