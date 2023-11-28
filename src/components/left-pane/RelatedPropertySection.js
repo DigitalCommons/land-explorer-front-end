@@ -36,6 +36,20 @@ const RelatedPropertySection = ({ property, active }) => {
   };
 
   console.log("RelatedPropertySection", property[0]);
+  const handleClear = () => {
+    // dispatch({ type: "CLEAR_HIGHLIGHT", payload: property[0] });
+    // Clear properties if the property being cleared is the searched property
+    // if (property.proprietor_name_1 === proprietorName) {
+    //   dispatch({ type: "CLEAR_PROPERTIES_AND_PROPRIETOR_NAME" });
+    // }
+    dispatch({
+      type: "CLEAR_SELECTED_PROPERTY",
+      payload: activePropertyId,
+    });
+    console.log("handleClear RelatedProperty", property[0]);
+  };
+
+  console.log("RelatedPropertySection", property[0], activePropertyId);
 
   return (
     <div className="left-pane-tray-section">

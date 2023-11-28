@@ -48,6 +48,7 @@ const PropertySection = ({ property, active }) => {
     if (property.proprietor_name_1 === proprietorName) {
       dispatch({ type: "CLEAR_PROPERTIES_AND_PROPRIETOR_NAME" });
     }
+    console.log("handleClear Property", property);
   };
   console.log("PropertySection", property, [title_no]);
   console.log("PropertySection", property);

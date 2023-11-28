@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setSelectedProperty,
   showPropertyPolygon,
@@ -10,6 +10,10 @@ const RelatedProperties = ({ property }) => {
   // const RelatedProperties = ({ property, isActive, onPropertyClick }) => {
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
+
+  const activePropertyId = useSelector(
+    (state) => state.landOwnership.activePropertyId
+  );
 
   const lng = property.geom.coordinates[0][0][1];
   const lat = property.geom.coordinates[0][0][0];
@@ -22,6 +26,7 @@ const RelatedProperties = ({ property }) => {
     setActive(!active);
     console.log("Selected Property", property);
     console.log("Active", active);
+    console.log("Active Property Id", activePropertyId);
   };
 
   const gotoProperty = () => {
