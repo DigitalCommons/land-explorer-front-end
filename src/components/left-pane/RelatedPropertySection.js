@@ -2,18 +2,12 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveProperty } from "../../actions/LandOwnershipActions";
 import Button from "../common/Button";
-import {
-  getRelatedProperties,
-  setProprietorName,
-} from "../../actions/LandOwnershipActions";
+import { getRelatedProperties } from "../../actions/LandOwnershipActions";
 
-const PropertySection = ({ property, active }) => {
+const RelatedPropertySection = ({ property, active }) => {
   const dispatch = useDispatch();
   const activePropertyId = useSelector(
     (state) => state.landOwnership.activePropertyId
-  );
-  const proprietorName = useSelector(
-    (state) => state.relatedProperties.proprietorName
   );
 
   const {
@@ -25,7 +19,7 @@ const PropertySection = ({ property, active }) => {
     proprietor_1_address_1,
     tenure,
     date_proprietor_added,
-  } = property;
+  } = property[0];
 
   const open = poly_id === activePropertyId;
 
@@ -36,20 +30,12 @@ const PropertySection = ({ property, active }) => {
   };
 
   const handleSearch = () => {
-    dispatch({ type: "CLEAR_PROPERTIES_AND_PROPRIETOR_NAME" });
+    dispatch({ type: "CLEAR_PROPERTIES" });
     dispatch(getRelatedProperties(proprietor_name_1));
-    dispatch(setProprietorName(proprietor_name_1));
     openTray("Ownership Search");
   };
 
-  const handleClear = () => {
-    dispatch({ type: "CLEAR_HIGHLIGHT", payload: property });
-    // Clear properties if the property being cleared is the searched property
-    if (property.proprietor_name_1 === proprietorName) {
-      dispatch({ type: "CLEAR_PROPERTIES_AND_PROPRIETOR_NAME" });
-    }
-  };
-  console.log("PropertySection", property, [title_no]);
+  console.log("PropertySection", property[0]);
 
   return (
     <div className="left-pane-tray-section">
@@ -70,7 +56,7 @@ const PropertySection = ({ property, active }) => {
             width: "140px",
           }}
         >
-          Property {poly_id}
+          Related Property {poly_id}
         </h4>
         <div
           style={{
@@ -171,10 +157,6 @@ const PropertySection = ({ property, active }) => {
                 </a>{" "}
                 using the above IDs.
               </p>
-              <p>Information produced by HM Land Registry. © Crown copyright 2020. <br />
-                Some data is displayed here for evaluation purposes only. For more information{" "}
-                <a target="_blank" href="https://landexplorer.coop/land-ownership-how">click here</a>
-              </p>
             </div>
           </div>
 
@@ -190,7 +172,12 @@ const PropertySection = ({ property, active }) => {
           <div className="property__clear-property">
             <button
               className="button-new blue full-width"
-              onClick={handleClear}
+              onClick={() =>
+                dispatch({
+                  type: "CLEAR_HIGHLIGHT",
+                  payload: property,
+                })
+              }
             >
               Clear property
             </button>
@@ -201,4 +188,4 @@ const PropertySection = ({ property, active }) => {
   );
 };
 
-export default PropertySection;
+export default RelatedPropertySection;

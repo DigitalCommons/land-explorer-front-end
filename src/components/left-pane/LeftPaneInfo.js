@@ -4,6 +4,7 @@ import LeftPaneTray from "./LeftPaneTray";
 import MarkerSection from "./MarkerSection";
 import PolygonSection from "./PolygonSection";
 import PropertySection from "./PropertySection";
+import RelatedPropertySection from "./RelatedPropertySection";
 
 const LeftPaneInfo = ({ onClose, open }) => {
   const markers = useSelector((state) => state.markers.markers);
@@ -34,7 +35,7 @@ const LeftPaneInfo = ({ onClose, open }) => {
             <PropertySection property={property} key={`property-${i}`} />
           ))}
           {selectedProperties.map((property, i) => (
-            <PropertySection property={property} key={`selected-property-${i}`} />
+            <RelatedPropertySection property={property} key={`selected-property-${i}`} />
           ))}
         </>
       ) : (

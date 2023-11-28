@@ -1,19 +1,27 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setSelectedProperty, showPropertyPolygon } from "../../actions/LandOwnershipActions";
+import {
+  setSelectedProperty,
+  showPropertyPolygon,
+} from "../../actions/LandOwnershipActions";
 import { setLngLat } from "../../actions/MapActions";
 
-const RelatedProperties = ({ property, isActive, onPropertyClick }) => {
+const RelatedProperties = ({ property }) => {
+  // const RelatedProperties = ({ property, isActive, onPropertyClick }) => {
   const dispatch = useDispatch();
+  const [active, setActive] = useState(false);
 
   const lng = property.geom.coordinates[0][0][1];
   const lat = property.geom.coordinates[0][0][0];
 
   const handlePropertyClick = () => {
-    onPropertyClick();
+    // onPropertyClick();
+    // dispatch(setLngLat(lng, lat));
     dispatch(showPropertyPolygon(property.geom.coordinates[0]));
     dispatch(setSelectedProperty([property]));
+    setActive(!active);
     console.log("Selected Property", property);
+    console.log("Active", active);
   };
 
   const gotoProperty = () => {
