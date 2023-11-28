@@ -170,6 +170,10 @@ const PropertySection = ({ property, active }) => {
                 </a>{" "}
                 using the above IDs.
               </p>
+              <p>Information produced by HM Land Registry. © Crown copyright 2020. <br />
+                Some data is displayed here for evaluation purposes only. For more information
+                <a target="_blank" href="https://landexplorer.coop/land-ownership-how">click here</a>
+              </p>
             </div>
           </div>
 
