@@ -50,6 +50,7 @@ const PropertySection = ({ property, active }) => {
     }
   };
   console.log("PropertySection", property, [title_no]);
+  console.log("PropertySection", property);
 
   return (
     <div className="left-pane-tray-section">

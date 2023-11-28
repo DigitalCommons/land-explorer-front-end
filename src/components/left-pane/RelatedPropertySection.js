@@ -35,7 +35,7 @@ const RelatedPropertySection = ({ property, active }) => {
     openTray("Ownership Search");
   };
 
-  console.log("PropertySection", property[0]);
+  console.log("RelatedPropertySection", property[0]);
 
   return (
     <div className="left-pane-tray-section">

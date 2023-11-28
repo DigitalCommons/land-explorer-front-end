@@ -7,9 +7,6 @@ const INITIAL_STATE = {
   selectedProperty: [],
 };
 
-let propertyToAdd;
-let selectedProperty;
-
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "FETCH_PROPERTIES_SUCCESS":
@@ -55,14 +52,6 @@ export default (state = INITIAL_STATE, action) => {
     case "SET_ACTIVE_PROPERTY_ID":
       return INITIAL_STATE;
     case "SET_SELECTED_PROPERTY":
-      // propertyToAdd = action.payload;
-      // if (!state.selectedProperty.some((p) => p.poly_id === propertyToAdd.poly_id)) {
-      //   selectedProperty = state.selectedProperty.concat([propertyToAdd]);
-      // }
-      // return {
-      //   ...state,
-      //   selectedProperty,
-      // };
       return {
         ...state,
         selectedProperty: [...state.selectedProperty, action.payload],
