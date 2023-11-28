@@ -86,6 +86,22 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
             No Related Properties
           </div>
         )}
+        <div className="property-details-section__small-print">
+          <p className="small-print-margin">
+            Information produced by HM Land Registry.
+            <br />
+            © Crown copyright 2020
+            <br />
+            Some data is displayed here for evaluation purposes only. For more information
+            {" "}<a
+              href="https://landexplorer.coop/land-ownership-how"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              click here
+            </a>
+          </p>
+        </div>
       </div>
     </LeftPaneTray>
   );
