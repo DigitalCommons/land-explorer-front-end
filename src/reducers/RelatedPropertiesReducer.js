@@ -50,6 +50,11 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         selectedProperty,
       };
+    case "CLEAR_ALL_SELECTED_PROPERTIES":
+      return {
+        ...state,
+        selectedProperty: []
+      }
     case "SET_PROPRIETOR_NAME":
       return {
         ...state,

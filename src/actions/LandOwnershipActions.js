@@ -10,6 +10,14 @@ export const highlightProperty = (property) => {
   };
 };
 
+export const clearAllHighlightedProperties = () => {
+  return (dispatch) => {
+    dispatch({
+      type: "CLEAR_ALL_HIGHLIGHTED_PROPERTIES"
+    })
+  }
+}
+
 export const setActiveProperty = (propertyId) => {
   return (dispatch) => {
     dispatch({
@@ -75,6 +83,14 @@ export const clearSelectedProperty = (property) => {
     dispatch({
       type: "CLEAR_SELECTED_PROPERTY",
       payload: property
+    })
+  }
+}
+
+export const clearAllSelectedProperties = () => {
+  return (dispatch) => {
+    dispatch({
+      type: "CLEAR_ALL_SELECTED_PROPERTIES"
     })
   }
 }

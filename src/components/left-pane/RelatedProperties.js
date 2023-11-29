@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setSelectedProperty,
@@ -8,7 +8,6 @@ import { setLngLat } from "../../actions/MapActions";
 
 const RelatedProperties = ({ property }) => {
   const dispatch = useDispatch();
-  const [active, setActive] = useState(false);
   const { selectedProperty } = useSelector(state => state.relatedProperties);
 
   const lng = property.geom.coordinates[0][0][1];
@@ -22,12 +21,13 @@ const RelatedProperties = ({ property }) => {
     else
       dispatch(setSelectedProperty([property]));
 
-    setActive(!active);
   };
 
   const gotoProperty = () => {
     dispatch(setLngLat(lng, lat));
   }
+
+  const active = selectedProperty.find(item => item[0].id === property.id);
 
   return <div
     className={`search-result ${active && "active"}`}

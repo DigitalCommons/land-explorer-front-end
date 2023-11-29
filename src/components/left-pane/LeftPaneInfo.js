@@ -1,10 +1,11 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import LeftPaneTray from "./LeftPaneTray";
 import MarkerSection from "./MarkerSection";
 import PolygonSection from "./PolygonSection";
 import PropertySection from "./PropertySection";
 import RelatedPropertySection from "./RelatedPropertySection";
+import { clearAllSelectedProperties, clearAllHighlightedProperties } from "../../actions/LandOwnershipActions";
 
 const LeftPaneInfo = ({ onClose, open }) => {
   const markers = useSelector((state) => state.markers.markers);
@@ -16,9 +17,18 @@ const LeftPaneInfo = ({ onClose, open }) => {
     (state) => state.relatedProperties.selectedProperty
   );
 
+  const dispatch = useDispatch();
+
+  const clearAll = () => {
+    console.log("clearing all")
+    dispatch(clearAllSelectedProperties());
+    dispatch(clearAllHighlightedProperties());
+    console.log(selectedProperties)
+  }
 
   return (
     <LeftPaneTray title="Land Information" open={open} onClose={onClose}>
+      {(selectedProperties.length > 0 || properties.length > 0) && <p className="clear-all" onClick={clearAll}>Clear all properties</p>}
       {polygons.length ||
         markers.length ||
         properties.length ||

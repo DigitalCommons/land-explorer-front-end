@@ -34,6 +34,12 @@ export default (state = INITIAL_STATE, action) => {
         highlightedProperties,
         activePropertyId: null
       };
+    case "CLEAR_ALL_HIGHLIGHTED_PROPERTIES":
+      return {
+        ...state,
+        highlightedProperties: [],
+        activePropertyId: null
+      }
     case "SET_ACTIVE_PROPERTY":
       return {
         ...state,
