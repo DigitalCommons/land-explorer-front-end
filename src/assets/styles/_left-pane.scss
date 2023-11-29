@@ -381,3 +381,14 @@ a.mapboxgl-ctrl-logo {
     width: 286px;
   }
 }
+
+.clear-all{
+  text-decoration: underline;
+  margin: 10px 20px;
+  font-size: 14px;
+  color: $blueAccent;
+}
+
+.clear-all:hover{
+  cursor: pointer;
+}
