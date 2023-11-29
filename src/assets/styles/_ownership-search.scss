@@ -47,6 +47,11 @@
 .search-result__property {
   margin: 0 0 5px 10px;
   padding: 0;
+  flex-grow: 1;
+}
+
+.search-result__goto-icon:hover{
+  cursor: pointer;
 }
 
 .icon-proprietor {
