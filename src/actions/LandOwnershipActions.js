@@ -87,6 +87,15 @@ export const clearSelectedProperty = (property) => {
   }
 }
 
+export const setMultipleSelectedProperties = (properties) => {
+  return (dispatch) => {
+    dispatch({
+      type: "SET_MULTIPLE_SELECTED_PROPERTIES",
+      payload: properties,
+    });
+  };
+}
+
 export const clearAllSelectedProperties = () => {
   return (dispatch) => {
     dispatch({

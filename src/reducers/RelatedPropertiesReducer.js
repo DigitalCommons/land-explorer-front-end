@@ -41,6 +41,13 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         selectedProperty: [...state.selectedProperty, action.payload],
       };
+    case "SET_MULTIPLE_SELECTED_PROPERTIES":
+      console.log(action.payload)
+      console.log(state.selectedProperty)
+      return {
+        ...state,
+        selectedProperty: [...state.selectedProperty, ...action.payload]
+      }
     case "CLEAR_SELECTED_PROPERTY":
       propertyToClear = action.payload;
       selectedProperty = state.selectedProperty.filter(

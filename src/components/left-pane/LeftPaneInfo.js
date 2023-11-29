@@ -20,10 +20,8 @@ const LeftPaneInfo = ({ onClose, open }) => {
   const dispatch = useDispatch();
 
   const clearAll = () => {
-    console.log("clearing all")
     dispatch(clearAllSelectedProperties());
     dispatch(clearAllHighlightedProperties());
-    console.log(selectedProperties)
   }
 
   return (
