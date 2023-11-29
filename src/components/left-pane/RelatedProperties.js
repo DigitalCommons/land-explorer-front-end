@@ -15,10 +15,10 @@ const RelatedProperties = ({ property }) => {
   const lat = property.geom.coordinates[0][0][0];
 
   const handlePropertyClick = () => {
-    if (selectedProperty.find(item => item[0].id === property.id)) {
-      console.log("clearing the property");
+    const propertyIsSelected = selectedProperty.find(item => item[0].id === property.id);
+
+    if (propertyIsSelected)
       dispatch(clearSelectedProperty([property]));
-    }
     else
       dispatch(setSelectedProperty([property]));
 
@@ -32,9 +32,8 @@ const RelatedProperties = ({ property }) => {
   return <div
     className={`search-result ${active && "active"}`}
     key={property.title_no}
-    onClick={handlePropertyClick}
   >
-    <i>
+    <i onClick={handlePropertyClick}>
       <svg
         className="icon-property"
         xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +45,7 @@ const RelatedProperties = ({ property }) => {
         />
       </svg>
     </i>
-    <div className="search-result__property">
+    <div className="search-result__property" onClick={handlePropertyClick}>
       <h4 className="search-result__property-address">
         {property.property_address}
       </h4>
