@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setSelectedProperty,
   showPropertyPolygon,
+  clearSelectedProperty
 } from "../../actions/LandOwnershipActions";
 import { setLngLat } from "../../actions/MapActions";
 
@@ -14,6 +15,7 @@ const RelatedProperties = ({ property }) => {
   const activePropertyId = useSelector(
     (state) => state.landOwnership.activePropertyId
   );
+  const { selectedProperty } = useSelector(state => state.relatedProperties);
 
   const lng = property.geom.coordinates[0][0][1];
   const lat = property.geom.coordinates[0][0][0];
@@ -21,12 +23,23 @@ const RelatedProperties = ({ property }) => {
   const handlePropertyClick = () => {
     // onPropertyClick();
     // dispatch(setLngLat(lng, lat));
-    dispatch(showPropertyPolygon(property.geom.coordinates[0]));
-    dispatch(setSelectedProperty([property]));
+    //dispatch(showPropertyPolygon(property.geom.coordinates[0]));
+    console.log(property);
+    console.log(selectedProperty)
+    console.log(selectedProperty.find(item => item[0].id === property.id))
+
+    if (selectedProperty.find(item => item[0].id === property.id)) {
+      console.log("clearing the property");
+      dispatch(clearSelectedProperty([property]));
+    }
+    else
+      dispatch(setSelectedProperty([property]));
+
     setActive(!active);
-    console.log("Selected Property", property);
-    console.log("Active", active);
-    console.log("Active Property Id", activePropertyId);
+
+    //console.log("Selected Property", property);
+    //console.log("Active", active);
+    //console.log("Active Property Id", activePropertyId);
   };
 
   const gotoProperty = () => {

@@ -44,7 +44,7 @@ export default (state = INITIAL_STATE, action) => {
     case "CLEAR_SELECTED_PROPERTY":
       propertyToClear = action.payload;
       selectedProperty = state.selectedProperty.filter(
-        (property) => property[0].poly_id !== propertyToClear
+        (property) => property[0].poly_id !== propertyToClear[0].poly_id
       );
       return {
         ...state,
@@ -73,7 +73,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         selectedProperty: [...state.selectedProperty, action.payload],
       };
-    case "CLEAR_SELECTED_PROPERTY":
+    case "CLEAR_ALL_SELECTED_PROPERTY":
       return {
         ...state,
         selectedProperty: [],

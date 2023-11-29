@@ -50,6 +50,7 @@ const MapboxMap = ({ user }) => {
   const propertyCoordinates = useSelector(
     (state) => state.propertySearchPoly.propertyCoordinates
   );
+  const { selectedProperty } = useSelector(state => state.relatedProperties);
 
   // Check the propertyCoordinates update propagates to the MapboxMap component
   useEffect(() => {
@@ -268,8 +269,8 @@ const MapboxMap = ({ user }) => {
             baseLayer === "aerial"
               ? "#091324"
               : constants.USE_OS_TILES
-              ? "#aadeef"
-              : "#72b6e6",
+                ? "#aadeef"
+                : "#72b6e6",
         }}
         zoom={zoom}
         onZoomEnd={(map) => dispatch(setZoom([map.getZoom()]))}
@@ -299,7 +300,7 @@ const MapboxMap = ({ user }) => {
           }}
         />
         {/* Property Search Poly / No clue where this should go */}
-        {propertyCoordinates.length > 0 && (
+        {selectedProperty.length > 0 && (
           <PropertySearchPoly />
         )}
         {/*For displaying the property boundaries*/}

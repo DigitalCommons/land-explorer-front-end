@@ -16,14 +16,13 @@ const LeftPaneInfo = ({ onClose, open }) => {
     (state) => state.relatedProperties.selectedProperty
   );
 
-  console.log("LeftPaneInfo", properties, selectedProperties);
 
   return (
     <LeftPaneTray title="Land Information" open={open} onClose={onClose}>
       {polygons.length ||
-      markers.length ||
-      properties.length ||
-      selectedProperties.length > 0 ? (
+        markers.length ||
+        properties.length ||
+        selectedProperties.length > 0 ? (
         <>
           {markers.map((marker, i) => (
             <MarkerSection marker={marker} key={`marker-${i}`} />

@@ -70,6 +70,15 @@ export const setSelectedProperty = (property) => {
   };
 };
 
+export const clearSelectedProperty = (property) => {
+  return (dispatch) => {
+    dispatch({
+      type: "CLEAR_SELECTED_PROPERTY",
+      payload: property
+    })
+  }
+}
+
 export const showPropertyPolygon = (propertyCoordinates) => {
   return (dispatch) => {
     dispatch({

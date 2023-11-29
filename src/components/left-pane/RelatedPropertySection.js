@@ -35,7 +35,6 @@ const RelatedPropertySection = ({ property, active }) => {
     openTray("Ownership Search");
   };
 
-  console.log("RelatedPropertySection", property[0]);
   const handleClear = () => {
     // dispatch({ type: "CLEAR_HIGHLIGHT", payload: property[0] });
     // Clear properties if the property being cleared is the searched property
@@ -49,7 +48,6 @@ const RelatedPropertySection = ({ property, active }) => {
     console.log("handleClear RelatedProperty", property[0]);
   };
 
-  console.log("RelatedPropertySection", property[0], activePropertyId);
 
   return (
     <div className="left-pane-tray-section">
