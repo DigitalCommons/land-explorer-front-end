@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import LeftPaneTray from "./LeftPaneTray";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import RelatedProperties from "./RelatedProperties";
 import Pagination from "../common/Pagination";
 
-const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
+const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage, active }) => {
+  const dispatch = useDispatch();
+
   const otherProperties = useSelector(
     (state) => state.relatedProperties.properties
+  );
+
+  const proprietorName = useSelector(
+    (state) => state.relatedProperties.proprietorName
   );
 
   // Set loading state
@@ -36,13 +42,39 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
     indexOfLastProperty
   );
 
+  const openTray = (tray) => {
+    active === tray
+      ? dispatch({ type: "CLOSE_TRAY" })
+      : dispatch({ type: "SET_ACTIVE", payload: tray });
+  };
+
+  // Clear the properties array
+  const clearProperties = () => {
+    setActiveProperty(null);
+    dispatch({ type: "CLEAR_PROPERTIES_AND_PROPRIETOR_NAME" });
+    openTray("Land Information");
+  };
+
   // Pass down the active property to the RelatedProperties component
   const handlePropertyClick = (property) => {
     setActiveProperty(property);
   };
 
+  const clearSearch = (
+    <div className="clear-search">
+      <a href="#" onClick={clearProperties}>
+        Clear Properties
+      </a>
+    </div>
+  );
+
   return (
-    <LeftPaneTray title="Ownership Search" open={open} onClose={onClose}>
+    <LeftPaneTray
+      title="Ownership Search"
+      open={open}
+      onClose={onClose}
+      header={clearSearch}
+    >
       <div className="search-results-container">
         {loading ? (
           <div
@@ -54,8 +86,7 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
           <>
             <div className="property-count">
               <span className="property-count--highlight">
-                {currentProperties[0].proprietor_name_1 &&
-                  currentProperties[0].proprietor_name_1}
+                {proprietorName}
               </span>{" "}
               has{" "}
               <span className="property-count--highlight">{propertyCount}</span>{" "}

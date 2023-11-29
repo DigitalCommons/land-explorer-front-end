@@ -1,3 +1,14 @@
+.clear-search {
+  margin-left: 20px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  & > a {
+    text-decoration: underline;
+    color: $blueAccent;
+  }
+}
+
 .search-results-container {
   width: 100%;
   box-sizing: border-box;
@@ -72,6 +83,10 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
