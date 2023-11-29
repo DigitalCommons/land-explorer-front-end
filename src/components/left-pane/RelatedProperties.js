@@ -7,7 +7,6 @@ import {
 import { setLngLat } from "../../actions/MapActions";
 
 const RelatedProperties = ({ property }) => {
-  // const RelatedProperties = ({ property, isActive, onPropertyClick }) => {
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
   const { selectedProperty } = useSelector(state => state.relatedProperties);
