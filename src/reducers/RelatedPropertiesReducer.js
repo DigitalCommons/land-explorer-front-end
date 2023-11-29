@@ -3,7 +3,12 @@ const INITIAL_STATE = {
   error: null,
   loading: false,
   proprietorName: null,
+  activePropertyId: null,
+  selectedProperty: [],
 };
+
+let propertyToClear;
+let selectedProperty;
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -31,6 +36,20 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         properties: [],
       };
+    case "SET_SELECTED_PROPERTY":
+      return {
+        ...state,
+        selectedProperty: [...state.selectedProperty, action.payload],
+      };
+    case "CLEAR_SELECTED_PROPERTY":
+      propertyToClear = action.payload;
+      selectedProperty = state.selectedProperty.filter(
+        (property) => property[0].poly_id !== propertyToClear[0].poly_id
+      );
+      return {
+        ...state,
+        selectedProperty,
+      };
     case "SET_PROPRIETOR_NAME":
       return {
         ...state,
@@ -45,7 +64,19 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         properties: [],
-        proprietorName: null,
+        proprietorName: null
+      };
+    case "SET_ACTIVE_PROPERTY_ID":
+      return INITIAL_STATE;
+    case "SET_SELECTED_PROPERTY":
+      return {
+        ...state,
+        selectedProperty: [...state.selectedProperty, action.payload],
+      };
+    case "CLEAR_ALL_SELECTED_PROPERTY":
+      return {
+        ...state,
+        selectedProperty: [],
       };
     default:
       return state;

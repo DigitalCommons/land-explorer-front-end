@@ -12,7 +12,9 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
   // Set loading state
   const loading = useSelector((state) => state.relatedProperties.loading);
 
-  const [activeProperty, setActiveProperty] = useState(null);
+  // Move to nested component - to allow multiple properties to be selected
+  // const [activeProperty, setActiveProperty] = useState(null);
+
   // Use a Set to store unique properties
   const uniqueProperties = new Set();
 
@@ -36,10 +38,11 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
     indexOfLastProperty
   );
 
+  // Remove this function and move to nested component
   // Pass down the active property to the RelatedProperties component
-  const handlePropertyClick = (property) => {
-    setActiveProperty(property);
-  };
+  // const handlePropertyClick = (property) => {
+  //   setActiveProperty(property);
+  // };
 
   return (
     <LeftPaneTray title="Ownership Search" open={open} onClose={onClose}>
@@ -65,8 +68,8 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
               <RelatedProperties
                 key={property.title_no}
                 property={property}
-                isActive={property === activeProperty}
-                onPropertyClick={() => handlePropertyClick(property)}
+                // isActive={property === activeProperty}
+                // onPropertyClick={() => handlePropertyClick(property)}
               />
             ))}
             {noOfPages > 1 && (

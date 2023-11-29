@@ -56,8 +56,28 @@ export const setProprietorName = (proprietorName) => {
   return {
     type: "SET_PROPRIETOR_NAME",
     payload: proprietorName,
+  }
+};
+
+export const setActivePropertyId = (propertyId) => { }
+
+export const setSelectedProperty = (property) => {
+  return (dispatch) => {
+    dispatch({
+      type: "SET_SELECTED_PROPERTY",
+      payload: property,
+    });
   };
 };
+
+export const clearSelectedProperty = (property) => {
+  return (dispatch) => {
+    dispatch({
+      type: "CLEAR_SELECTED_PROPERTY",
+      payload: property
+    })
+  }
+}
 
 export const showPropertyPolygon = (propertyCoordinates) => {
   return (dispatch) => {

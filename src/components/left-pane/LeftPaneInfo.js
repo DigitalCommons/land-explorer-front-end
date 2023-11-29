@@ -4,6 +4,7 @@ import LeftPaneTray from "./LeftPaneTray";
 import MarkerSection from "./MarkerSection";
 import PolygonSection from "./PolygonSection";
 import PropertySection from "./PropertySection";
+import RelatedPropertySection from "./RelatedPropertySection";
 
 const LeftPaneInfo = ({ onClose, open }) => {
   const markers = useSelector((state) => state.markers.markers);
@@ -11,10 +12,17 @@ const LeftPaneInfo = ({ onClose, open }) => {
   const properties = useSelector(
     (state) => state.landOwnership.highlightedProperties
   );
+  const selectedProperties = useSelector(
+    (state) => state.relatedProperties.selectedProperty
+  );
+
 
   return (
     <LeftPaneTray title="Land Information" open={open} onClose={onClose}>
-      {polygons.length || markers.length || properties.length ? (
+      {polygons.length ||
+        markers.length ||
+        properties.length ||
+        selectedProperties.length > 0 ? (
         <>
           {markers.map((marker, i) => (
             <MarkerSection marker={marker} key={`marker-${i}`} />
@@ -24,6 +32,9 @@ const LeftPaneInfo = ({ onClose, open }) => {
           ))}
           {properties.map((property, i) => (
             <PropertySection property={property} key={`property-${i}`} />
+          ))}
+          {selectedProperties.map((property, i) => (
+            <RelatedPropertySection property={property} key={`selected-property-${i}`} />
           ))}
         </>
       ) : (

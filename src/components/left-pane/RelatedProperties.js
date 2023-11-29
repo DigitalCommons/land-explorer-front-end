@@ -1,17 +1,28 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { showPropertyPolygon } from "../../actions/LandOwnershipActions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setSelectedProperty,
+  clearSelectedProperty
+} from "../../actions/LandOwnershipActions";
 import { setLngLat } from "../../actions/MapActions";
 
-const RelatedProperties = ({ property, isActive, onPropertyClick }) => {
+const RelatedProperties = ({ property }) => {
   const dispatch = useDispatch();
+  const [active, setActive] = useState(false);
+  const { selectedProperty } = useSelector(state => state.relatedProperties);
 
   const lng = property.geom.coordinates[0][0][1];
   const lat = property.geom.coordinates[0][0][0];
 
   const handlePropertyClick = () => {
-    onPropertyClick();
-    dispatch(showPropertyPolygon(property.geom.coordinates[0]));
+    const propertyIsSelected = selectedProperty.find(item => item[0].id === property.id);
+
+    if (propertyIsSelected)
+      dispatch(clearSelectedProperty([property]));
+    else
+      dispatch(setSelectedProperty([property]));
+
+    setActive(!active);
   };
 
   const gotoProperty = () => {
@@ -19,11 +30,10 @@ const RelatedProperties = ({ property, isActive, onPropertyClick }) => {
   }
 
   return <div
-    className={`search-result ${isActive && "active"}`}
+    className={`search-result ${active && "active"}`}
     key={property.title_no}
-    onClick={handlePropertyClick}
   >
-    <i>
+    <i onClick={handlePropertyClick}>
       <svg
         className="icon-property"
         xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +45,7 @@ const RelatedProperties = ({ property, isActive, onPropertyClick }) => {
         />
       </svg>
     </i>
-    <div className="search-result__property">
+    <div className="search-result__property" onClick={handlePropertyClick}>
       <h4 className="search-result__property-address">
         {property.property_address}
       </h4>
