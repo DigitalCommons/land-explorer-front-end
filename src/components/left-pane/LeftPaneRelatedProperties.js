@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import LeftPaneTray from "./LeftPaneTray";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import RelatedProperties from "./RelatedProperties";
 import Pagination from "../common/Pagination";
+import { clearAllSelectedProperties, setMultipleSelectedProperties } from "../../actions/LandOwnershipActions";
 
 const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
   const otherProperties = useSelector(
     (state) => state.relatedProperties.properties
   );
+  const dispatch = useDispatch();
 
   // Set loading state
   const loading = useSelector((state) => state.relatedProperties.loading);
@@ -38,11 +40,12 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
     indexOfLastProperty
   );
 
-  // Remove this function and move to nested component
-  // Pass down the active property to the RelatedProperties component
-  // const handlePropertyClick = (property) => {
-  //   setActiveProperty(property);
-  // };
+  const selectAll = () => {
+    dispatch(setMultipleSelectedProperties(otherProperties.map(property => [property])))
+  }
+  const clearAll = () => {
+    dispatch(clearAllSelectedProperties());
+  }
 
   return (
     <LeftPaneTray title="Ownership Search" open={open} onClose={onClose}>
@@ -64,12 +67,14 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
               <span className="property-count--highlight">{propertyCount}</span>{" "}
               associated properties
             </div>
+            {/*<p onClick={selectAll} className="clear-all">Select all</p>*/}
+            <p onClick={clearAll} className="clear-all">Clear all</p>
             {currentProperties.map((property, i) => (
               <RelatedProperties
                 key={property.title_no}
                 property={property}
-                // isActive={property === activeProperty}
-                // onPropertyClick={() => handlePropertyClick(property)}
+              // isActive={property === activeProperty}
+              // onPropertyClick={() => handlePropertyClick(property)}
               />
             ))}
             {noOfPages > 1 && (
