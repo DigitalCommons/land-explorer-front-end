@@ -21,6 +21,7 @@
   margin-bottom: 20px;
   padding: 0 20px;
   display: flex;
+  align-items: flex-start;
   cursor: pointer;
   & > i {
     width: 18px;
@@ -45,9 +46,13 @@
 }
 
 .search-result__property {
-  margin: 0 0 5px 10px;
+  margin: 0 10px 5px 10px;
   padding: 0;
   flex-grow: 1;
+}
+
+.search-result__goto-icon{
+  width: 25px;
 }
 
 .search-result__goto-icon:hover{
