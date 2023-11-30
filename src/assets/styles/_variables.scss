@@ -37,6 +37,7 @@ $iphone6plus_l: "(min-device-width: 414px) and (max-device-width: 736px) and (-w
 $primaryColor: #27ae60;
 $secondaryColor: #78838f;
 $buttonGreen: #2ecc71;
+$blueAccent: #4a7abe;
 
 $toolbarBackground: #fbfbfb;
 $toolbarAccent: #e3e3e5;
@@ -44,8 +45,10 @@ $toolbarAccent: #e3e3e5;
 $trayBackground: #eff0f2;
 $trayAccent: #e5e7eb;
 
-$neutral: #E9E7E7;
-$midNeutral: #B1B1B1;
+$neutral: #e9e7e7;
+$darkNeutral: #707070;
+$midNeutral: #b1b1b1;
+$midNeutral2: #d4d2d2;
 $lightNeutral: #f5f5f5;
 
 /** Mixins **/

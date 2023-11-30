@@ -59,6 +59,17 @@ const Tooltips = () => {
       >
         Land Information
       </ReactTooltip>
+      <ReactTooltip
+        id="ttRelatedProperties"
+        className="tooltip no-xs"
+        place="right"
+        type="light"
+        effect="solid"
+        delayShow={tooltipDelay}
+        globalEventOff={isMobile ? "click" : undefined}
+      >
+        Ownership Search
+      </ReactTooltip>
     </>
   );
 };

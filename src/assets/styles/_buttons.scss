@@ -22,6 +22,32 @@
   }
 }
 
+.button-new {
+  // width: 100%;
+  border-radius: 7px;
+  // background-color: $primaryColor;
+  text-align: center;
+  font-size: 14px;
+  padding: 12px 30px;
+  cursor: pointer;
+  text-align: center;
+  color: #fff;
+  border: none;
+
+  &.green {
+    background-color: $primaryColor;
+  }
+  &.blue {
+    background-color: #4a7abe;
+  }
+  &.full-width {
+    width: 100%;
+  }
+  &.half-width {
+    width: 50%;
+  }
+}
+
 .button-reg-disabled {
   opacity: 0.3;
   background: $buttonGreen;
@@ -45,7 +71,7 @@
 }
 
 .round-button-plus {
-  background-image: url('../img/icon-plus-small.svg');
+  background-image: url("../img/icon-plus-small.svg");
   background-size: 14px;
   background-position: center;
   background-repeat: no-repeat;
@@ -90,7 +116,7 @@
     margin-left: 0;
     height: 36px;
     width: 32px;
-    content: ' ';
+    content: " ";
   }
 
   .rounded-button-close {
@@ -137,7 +163,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: 65%;
-  background-image: url('../img/icon-menu-layers--white.svg');
+  background-image: url("../img/icon-menu-layers--white.svg");
   border-radius: 50%;
   z-index: 1000;
   position: fixed;
@@ -155,7 +181,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: 65%;
-  background-image: url('../img/icon-menu-key--white.svg');
+  background-image: url("../img/icon-menu-key--white.svg");
   border-radius: 50%;
   z-index: 1000;
   position: fixed;
