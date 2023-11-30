@@ -41,7 +41,6 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
   );
 
   const selectAll = () => {
-    console.log(otherProperties)
     dispatch(setMultipleSelectedProperties(otherProperties.map(property => [property])))
   }
   const clearAll = () => {
@@ -68,7 +67,7 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
               <span className="property-count--highlight">{propertyCount}</span>{" "}
               associated properties
             </div>
-            <p onClick={selectAll} className="clear-all">Select all</p>
+            {/*<p onClick={selectAll} className="clear-all">Select all</p>*/}
             <p onClick={clearAll} className="clear-all">Clear all</p>
             {currentProperties.map((property, i) => (
               <RelatedProperties
