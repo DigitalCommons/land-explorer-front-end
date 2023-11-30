@@ -179,15 +179,16 @@ const PropertySection = ({ property, active }) => {
             </div>
           </div>
 
-          <div className="property__check-for-properties">
-            <Button
-              buttonClass={"button-new green full-width"}
-              type={"button"}
-              buttonAction={handleSearch}
-            >
-              Check for other properties
-            </Button>
-          </div>
+          {proprietor_category_1 &&
+            <div className="property__check-for-properties">
+              <Button
+                buttonClass={"button-new green full-width"}
+                type={"button"}
+                buttonAction={handleSearch}
+              >
+                Check for other properties
+              </Button>
+            </div>}
           <div className="property__clear-property">
             <button
               className="button-new blue full-width"
