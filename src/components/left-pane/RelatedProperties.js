@@ -53,8 +53,7 @@ const RelatedProperties = ({ property }) => {
         Title no: {property.title_no}
       </div>
     </div>
-    <img
-      src={active ? require("../../assets/img/icon-arrow-green.svg") : require("../../assets/img/icon-arrow-grey.svg")}
+    <button
       alt="move map to property icon"
       title="Go to Property"
       className="search-result__goto-icon"
