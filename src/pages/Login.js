@@ -80,11 +80,8 @@ const Login = ({ updateBgImage }) => {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response?.status === 400) {
-          console.log("wrong credentials");
-        }
         setLoggingIn(false);
-        dispatch({ type: "FAILED_LOGIN", payload: { errorMessage } });
+        dispatch({ type: "FAILED_LOGIN", payload: { errorMessage: err.message } });
       });
   };
 
@@ -169,7 +166,7 @@ const Login = ({ updateBgImage }) => {
               paddingBottom: "4px",
               borderBottom: "1px solid rgb(46, 203, 112)",
             }}
-            // onClick={closeMainMenu}
+          // onClick={closeMainMenu}
           >
             register new account
           </Link>
@@ -184,7 +181,7 @@ const Login = ({ updateBgImage }) => {
               paddingBottom: "4px",
               borderBottom: "1px solid rgb(46, 203, 112)",
             }}
-            // onClick={closeMainMenu}
+          // onClick={closeMainMenu}
           >
             reset password
           </Link>
