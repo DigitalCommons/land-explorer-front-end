@@ -62,7 +62,6 @@ const Login = ({ updateBgImage }) => {
     const config = {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Access-Control-Allow-Origin": "*",
       },
     };
 
@@ -80,8 +79,10 @@ const Login = ({ updateBgImage }) => {
       })
       .catch((err) => {
         console.log(err);
+        const { response } = err;
+        const errorMessage = response?.data.message || "Unable to log in. Please try again later.";
         setLoggingIn(false);
-        dispatch({ type: "FAILED_LOGIN", payload: { errorMessage: err.message } });
+        dispatch({ type: "FAILED_LOGIN", payload: { errorMessage } });
       });
   };
 
