@@ -43,7 +43,7 @@ const MapApp = () => {
         return (
             <div>
                 <Tooltips />
-                <MapboxMap user={user} />
+                <MapboxMap />
                 <TopBar limited={false} />
                 <NoConnectionToast />
                 <ControlButtons />

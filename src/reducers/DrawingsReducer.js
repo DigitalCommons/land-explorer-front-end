@@ -3,7 +3,6 @@ const INITIAL_STATE = {
     activePolygon: null,
     polygonsDrawn: 0,
     linesDrawn: 0,
-    loadingDrawings: false,
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -85,20 +84,9 @@ export default (state = INITIAL_STATE, action) => {
                 activePolygon: null
             }
         case 'LOAD_MAP':
-            return {
-                ...action.payload.data.drawings,
-                loadingDrawings: true
-            };
-        case 'LOADED_DRAWINGS':
-            return {
-                ...state,
-                loadingDrawings: false
-            }
+            return action.payload.data.drawings;
         case 'NEW_MAP':
-            return {
-                ...INITIAL_STATE,
-                loadingDrawings: true
-            };
+            return INITIAL_STATE;
         default:
             return state;
     }
