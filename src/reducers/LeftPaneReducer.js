@@ -33,8 +33,6 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 activeTool: action.payload
             }
-        case 'ADD_POLYGON':
-        case 'SET_MARKER':
         case 'DESELECT_TOOLS':
             return {
                 ...state,
@@ -45,13 +43,13 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 activeTool: action.payload === state.activeTool ? '' : action.payload
             }
-
+        case 'ADD_POLYGON':
+        case 'SET_MARKER':
         case 'CLOSE_TRAY':
             return {
                 ...state,
                 active: '',
                 activeTool: '',
-
             }
         case 'LOAD_MAP':
         case 'NEW_MAP':

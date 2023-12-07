@@ -25,6 +25,7 @@ import './assets/styles/style.scss';
 analytics.init();
 
 //Enable REDUX DevTools if in dev mode
+console.log('dev mode: ', constants.DEV_MODE);
 const composeEnhancers = constants.DEV_MODE ? (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose) : compose;
 // Create store from rootReducer with Thunk middleware
 const store = createStore(rootReducer, {}, composeEnhancers(

@@ -1,10 +1,12 @@
 const INITIAL_STATE = {
     currentMapId: null,
+    unsavedMapUuid: null, // change this when opening new empty map, to differentiate unsaved maps
     isSnapshot: false,
     writeAccess: true,
     saving: false,
     saveError: false,
-    lastSaved: null
+    lastSaved: null,
+    clearingMap: false,
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -14,13 +16,18 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 currentMapId: id,
+                unsavedMapUuid: null,
                 isSnapshot: isSnapshot,
                 writeAccess: writeAccess,
                 saving: false,
                 lastSaved: lastModified
             }
         case 'NEW_MAP':
-            return INITIAL_STATE;
+            const { unsavedMapUuid } = action.payload;
+            return {
+                ...INITIAL_STATE,
+                unsavedMapUuid
+            };
         case 'MAP_SAVING':
             return {
                 ...state,

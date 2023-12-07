@@ -22,15 +22,14 @@ const DrawingTool = ({ tool, name, mode, size, drawControl }) => {
             dispatch({
                 type: 'SET_ACTIVE_TOOL',
                 payload: tool
-            })
-            // If mode is simple_select
+            });
             if (mode === 'simple_select') {
                 // if a polygon has been selected in the UI
                 if (activePolygon) {
                     // change to direct_select and set the featureId to the active polygon
                     drawControl.draw.changeMode('direct_select', {
                         featureId: activePolygon
-                    })
+                    });
                 } else {
                     // change to the specific drawing mode
                     drawControl.draw.changeMode(mode);
