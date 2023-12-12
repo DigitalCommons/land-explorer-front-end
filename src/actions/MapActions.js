@@ -140,6 +140,7 @@ export const saveCurrentMap = (
       mapLayers: {
         landDataLayers: getState().mapLayers.landDataLayers,
         myDataLayers: getState().dataGroups.activeGroups,
+        ownershipDisplay: getState().landOwnership.displayActive,
       },
       version: VERSION,
       name: saveName,
