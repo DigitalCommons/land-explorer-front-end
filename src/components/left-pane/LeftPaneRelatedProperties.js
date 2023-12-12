@@ -3,7 +3,7 @@ import LeftPaneTray from "./LeftPaneTray";
 import { useSelector, useDispatch } from "react-redux";
 import RelatedProperties from "./RelatedProperties";
 import Pagination from "../common/Pagination";
-import { clearAllSelectedProperties, setSelectedProperties } from "../../actions/LandOwnershipActions";
+import { clearAllSelectedProperties, selectRelatedProperties } from "../../actions/LandOwnershipActions";
 
 const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
   const properties = useSelector((state) => state.relatedProperties.properties);
@@ -45,7 +45,7 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
   );
 
   const selectAll = () => {
-    dispatch(setSelectedProperties(properties));
+    dispatch(selectRelatedProperties(properties));
   }
   const clearAll = () => {
     dispatch(clearAllSelectedProperties());

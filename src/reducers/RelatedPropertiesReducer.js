@@ -27,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loading: true,
       };
-    case "SET_SELECTED_PROPERTIES":
+    case "SELECT_PROPERTIES":
       return {
         ...state,
         selectedProperties: {

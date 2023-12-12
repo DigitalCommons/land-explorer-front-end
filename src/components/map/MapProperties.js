@@ -6,7 +6,7 @@ import constants from "../../constants";
 import { getAuthHeader } from "../../utils/Auth";
 import LoadingData from "./LoadingData";
 import {
-  highlightProperty,
+  highlightProperties,
   setActiveProperty,
 } from "../../actions/LandOwnershipActions";
 
@@ -14,20 +14,11 @@ const MapProperties = ({ center, map }) => {
   const [properties, setProperties] = useState([]);
   const [loadingProperties, setLoadingProperties] = useState(false);
 
-  const displayActive = useSelector(
-    (state) => state.landOwnership.displayActive
-  );
+  const displayActive = useSelector((state) => state.landOwnership.displayActive);
   const zoom = useSelector((state) => state.map.zoom);
-  const highlightedProperties = useSelector(
-    (state) => state.landOwnership.highlightedProperties
-  );
-  const activePropertyId = useSelector(
-    (state) => state.landOwnership.activePropertyId
-  );
-  const activeProperty =
-    activePropertyId !== null
-      ? highlightedProperties.find((p) => p.poly_id === activePropertyId)
-      : null;
+  const highlightedProperties = useSelector((state) => state.landOwnership.highlightedProperties);
+  const activePropertyId = useSelector((state) => state.landOwnership.activePropertyId);
+  const activeProperty = highlightedProperties[activePropertyId] || null;
 
   const activePanel = useSelector((state) => state.leftPane.active);
 
@@ -40,13 +31,13 @@ const MapProperties = ({ center, map }) => {
 
     const response = await axios.get(
       `${constants.ROOT_URL}/api/ownership?sw_lng=` +
-        mapBoundaries._sw.lng +
-        "&sw_lat=" +
-        mapBoundaries._sw.lat +
-        "&ne_lng=" +
-        mapBoundaries._ne.lng +
-        "&ne_lat=" +
-        mapBoundaries._ne.lat,
+      mapBoundaries._sw.lng +
+      "&sw_lat=" +
+      mapBoundaries._sw.lat +
+      "&ne_lng=" +
+      mapBoundaries._ne.lng +
+      "&ne_lat=" +
+      mapBoundaries._ne.lat,
       getAuthHeader()
     );
 
@@ -69,7 +60,7 @@ const MapProperties = ({ center, map }) => {
 
   const onClickNewProperty = (property) => {
     if (activePanel !== "Drawing Tools") {
-      dispatch(highlightProperty(property));
+      dispatch(highlightProperties({ [property.poly_id]: property }));
     }
   };
 
@@ -101,7 +92,7 @@ const MapProperties = ({ center, map }) => {
       );
   });
 
-  const highlightedPropertyFeatures = highlightedProperties.map(
+  const highlightedPropertyFeatures = Object.values(highlightedProperties).map(
     (highlightedProperty) => (
       <Feature
         coordinates={[highlightedProperty.coordinates]}

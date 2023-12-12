@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedProperties, clearSelectedProperty } from "../../actions/LandOwnershipActions";
+import { selectRelatedProperties, clearSelectedProperty } from "../../actions/LandOwnershipActions";
 import { setLngLat } from "../../actions/MapActions";
 
 const RelatedProperties = ({ property }) => {
@@ -15,7 +15,7 @@ const RelatedProperties = ({ property }) => {
     if (active)
       dispatch(clearSelectedProperty(property.poly_id));
     else
-      dispatch(setSelectedProperties({ [property.poly_id]: property }));
+      dispatch(selectRelatedProperties({ [property.poly_id]: property }));
 
   };
 

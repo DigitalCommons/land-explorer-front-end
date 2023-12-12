@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveProperty } from "../../actions/LandOwnershipActions";
 import Button from "../common/Button";
-import { getRelatedProperties } from "../../actions/LandOwnershipActions";
+import { getRelatedProperties, clearSelectedProperty } from "../../actions/LandOwnershipActions";
 
 const RelatedPropertySection = ({ property, active }) => {
   const dispatch = useDispatch();
@@ -34,8 +34,7 @@ const RelatedPropertySection = ({ property, active }) => {
   };
 
   const handleClear = () => {
-    dispatch({ type: "CLEAR_HIGHLIGHT", payload: property })
-    dispatch({ type: "CLEAR_SELECTED_PROPERTY", payload: property.poly_id });
+    dispatch(clearSelectedProperty(poly_id));
     console.log("handleClear RelatedProperty", property);
   };
 

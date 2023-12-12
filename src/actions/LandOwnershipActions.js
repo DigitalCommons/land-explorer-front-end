@@ -1,13 +1,23 @@
 import { getRequest } from "./RequestActions";
 
-export const highlightProperty = (property) => {
+export const highlightProperties = (properties) => {
   return dispatch => {
     dispatch({
-      type: "HIGHLIGHT_PROPERTY",
-      payload: property,
+      type: "HIGHLIGHT_PROPERTIES",
+      payload: properties
     });
-    dispatch(setActiveProperty(property.poly_id));
+    // TODO: set multiple active rather than just the 1st. This is kind of related to #296 and #292
+    dispatch(setActiveProperty(Object.keys(properties)[0]));
   };
+};
+
+export const clearHighlightedProperty = (propertyPolyId) => {
+  return dispatch => {
+    dispatch({
+      type: "CLEAR_HIGHLIGHTED_PROPERTY",
+      payload: propertyPolyId
+    })
+  }
 };
 
 export const clearAllHighlightedProperties = () => {
@@ -16,7 +26,7 @@ export const clearAllHighlightedProperties = () => {
       type: "CLEAR_ALL_HIGHLIGHTED_PROPERTIES"
     })
   }
-}
+};
 
 export const setActiveProperty = (propertyId) => {
   return dispatch => {
@@ -73,20 +83,20 @@ export const setProprietorName = (proprietorName) => {
   }
 };
 
-export const setSelectedProperties = (property) => {
+export const selectRelatedProperties = (properties) => {
   return dispatch => {
     dispatch({
-      type: "SET_SELECTED_PROPERTIES",
-      payload: property,
+      type: "SELECT_PROPERTIES",
+      payload: properties,
     });
   };
 };
 
-export const clearSelectedProperty = (property) => {
+export const clearSelectedProperty = (propertyPolyId) => {
   return dispatch => {
     dispatch({
       type: "CLEAR_SELECTED_PROPERTY",
-      payload: property
+      payload: propertyPolyId
     })
   }
 }
