@@ -44,7 +44,7 @@ const PropertySection = ({ property, active }) => {
 
   const handleClear = () => {
     dispatch({ type: "CLEAR_HIGHLIGHT", payload: property });
-    // Clear properties if the property being cleared is the searched property
+    // Clear related properties pane if the property being cleared is the searched property
     if (property.proprietor_name_1 === proprietorName) {
       dispatch({ type: "CLEAR_PROPERTIES_AND_PROPRIETOR_NAME" });
     }

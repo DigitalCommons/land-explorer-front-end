@@ -1,7 +1,7 @@
 import { getRequest } from "./RequestActions";
 
 export const highlightProperty = (property) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: "HIGHLIGHT_PROPERTY",
       payload: property,
@@ -11,7 +11,7 @@ export const highlightProperty = (property) => {
 };
 
 export const clearAllHighlightedProperties = () => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: "CLEAR_ALL_HIGHLIGHTED_PROPERTIES"
     })
@@ -19,7 +19,7 @@ export const clearAllHighlightedProperties = () => {
 }
 
 export const setActiveProperty = (propertyId) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: "SET_ACTIVE_PROPERTY",
       payload: propertyId,
@@ -32,18 +32,24 @@ export const setActiveProperty = (propertyId) => {
 };
 
 export const getRelatedProperties = (proprietorName) => {
-  return async (dispatch) => {
+  return async dispatch => {
     try {
       dispatch({ type: "FETCH_PROPERTIES_LOADING" });
 
-      const relatedProperties = await dispatch(
+      const relatedPropertiesArray = await dispatch(
         getRequest(`/api/search?proprietorName=${proprietorName}`)
       );
 
-      if (relatedProperties.length > 0) {
+      if (relatedPropertiesArray.length > 0) {
+        // Convert array to a map so we can search by poly_id more efficiently
+        const relatedPropertiesMap = relatedPropertiesArray.reduce((map, property) => {
+          map[property.poly_id] = property;
+          return map;
+        }, {});
+
         dispatch({
           type: "FETCH_PROPERTIES_SUCCESS",
-          payload: relatedProperties,
+          payload: relatedPropertiesMap,
         });
       } else {
         dispatch({
@@ -67,19 +73,17 @@ export const setProprietorName = (proprietorName) => {
   }
 };
 
-export const setActivePropertyId = (propertyId) => { }
-
-export const setSelectedProperty = (property) => {
-  return (dispatch) => {
+export const setSelectedProperties = (property) => {
+  return dispatch => {
     dispatch({
-      type: "SET_SELECTED_PROPERTY",
+      type: "SET_SELECTED_PROPERTIES",
       payload: property,
     });
   };
 };
 
 export const clearSelectedProperty = (property) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: "CLEAR_SELECTED_PROPERTY",
       payload: property
@@ -87,28 +91,10 @@ export const clearSelectedProperty = (property) => {
   }
 }
 
-export const setMultipleSelectedProperties = (properties) => {
-  return (dispatch) => {
-    dispatch({
-      type: "SET_MULTIPLE_SELECTED_PROPERTIES",
-      payload: properties,
-    });
-  };
-}
-
 export const clearAllSelectedProperties = () => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: "CLEAR_ALL_SELECTED_PROPERTIES"
     })
   }
 }
-
-export const showPropertyPolygon = (propertyCoordinates) => {
-  return (dispatch) => {
-    dispatch({
-      type: "SHOW_PROPERTY_POLYGON",
-      payload: propertyCoordinates,
-    });
-  };
-};

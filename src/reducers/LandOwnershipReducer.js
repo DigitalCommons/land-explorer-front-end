@@ -50,6 +50,13 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         activePropertyId: null
       };
+    case 'LOAD_MAP':
+      // this could be undefined for old maps
+      const displayActive = action.payload.data.mapLayers.ownershipDisplay || false;
+      return {
+        ...state,
+        displayActive
+      }
     default:
       return state;
   }
