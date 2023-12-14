@@ -53,7 +53,9 @@ export const getRelatedProperties = (proprietorName) => {
       if (relatedPropertiesArray.length > 0) {
         // Convert array to a map so we can search by poly_id more efficiently
         const relatedPropertiesMap = relatedPropertiesArray.reduce((map, property) => {
-          map[property.poly_id] = property;
+          if (property.poly_id) { // filter out bad data with null poly_id
+            map[property.poly_id] = property;
+          }
           return map;
         }, {});
 
