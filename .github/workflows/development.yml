@@ -37,6 +37,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "🚀 call webhook on staging server"
+        id: call_webhook
         uses: distributhor/workflow-webhook@v3
         env:
           webhook_url: https://staging.hook-runner.landexplorer.coop/run.php?target=land-explorer-front-end
+
+      - name: "👂 echo response from webhook"
+        run: echo "${{steps.call_webhook.outputs.response-body}}"

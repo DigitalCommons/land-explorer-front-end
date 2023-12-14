@@ -5,6 +5,7 @@ import LeftPaneToggle from "./LeftPaneToggle";
 import Draggable from "./Draggable";
 import LandDataLayerToggle from "./LandDataLayerToggle";
 import { toggleDataGroup } from "../../actions/DataGroupActions";
+import { togglePropertyDisplay } from "../../actions/LandOwnershipActions";
 
 const DataLayersContainer = ({ children, title }) => {
   const [expanded, setExpanded] = useState(true);
@@ -120,7 +121,7 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
         <LeftPaneToggle
           title={"Property Boundaries"}
           on={landOwnershipActive}
-          onToggle={() => dispatch({ type: "TOGGLE_PROPERTY_DISPLAY" })}
+          onToggle={() => dispatch(togglePropertyDisplay())}
         />
       </DataLayersContainer>
       <DataLayersContainer title={"Administrative Boundaries"}>

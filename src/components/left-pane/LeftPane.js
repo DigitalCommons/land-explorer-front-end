@@ -71,8 +71,6 @@ const LeftPane = ({ drawControl }) => {
     }
   };
 
-  console.log("Is mobile: ", isMobile);
-
   return (
     <nav>
       <div

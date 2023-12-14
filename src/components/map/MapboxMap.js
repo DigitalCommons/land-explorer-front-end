@@ -32,10 +32,11 @@ const Map = ReactMapboxGl({
   doubleClickZoom: true,
 });
 
-const MapboxMap = ({ user }) => {
+const MapboxMap = () => {
   const dispatch = useDispatch();
   const drawControlRef = useRef();
   const mapRef = useRef();
+  const { currentMapId, unsavedMapUuid } = useSelector((state) => state.mapMeta);
   const { zoom, lngLat, movingMethod } = useSelector((state) => state.map);
   const { currentMarker } = useSelector((state) => state.markers);
   const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
@@ -48,8 +49,12 @@ const MapboxMap = ({ user }) => {
     (state) => state.landOwnership.displayActive
   );
 
+  // Redraw polygons when changing maps or clearing an unsaved map
+  useEffect(() => {
+    redrawPolygons(polygons);
+  }, [currentMapId, unsavedMapUuid]);
+
   const [styleLoaded, setStyleLoaded] = useState(false);
-  const [drawings, setDrawings] = useState();
   const [redrawing, setRedrawing] = useState(false);
   const [dataGroupPopupVisible, setDataGroupPopupVisible] = useState(-1);
   const { sources, satelliteLayer, topographyLayer } = mapSources;
@@ -62,20 +67,16 @@ const MapboxMap = ({ user }) => {
 
   const onClick = (evt) => {
     setDataGroupPopupVisible(-1);
-    console.log("yello", activeTool);
-
     const drawControl = drawControlRef.current;
-
     const mode = drawControl.draw.getMode();
-    console.log(mode, activePolygon);
 
     if (mode === "simple_select") {
       const features = drawControl.draw.getFeatureIdsAt(evt.point);
-      /* If there are no features where clicked, deselect tools */
+      /* If there are no features where clicked, deselect Edit tool */
       if (features.length === 0) {
         drawControl.draw.changeMode("static");
-        // this.props.dispatch({ type: "DESELECT_TOOLS" });  // couldn't tell you why this was there
-        redrawPolygons(polygons);
+        dispatch({ type: "DESELECT_TOOLS" });
+        dispatch({ type: "CLOSE_TRAY" });
       }
     }
     // Close all menus (my account, wordpress links, layers, key)
@@ -151,12 +152,10 @@ const MapboxMap = ({ user }) => {
       payload: polygon,
     });
     dispatch(autoSave());
-    // change drawing mode back to static and deselct all tools
+    // change drawing mode back to static
     setTimeout(() => {
       drawControl.draw.changeMode("static");
-      // this.props.dispatch({ type: "DESELECT_TOOLS" });
     }, 100);
-    setDrawings(drawControl.draw.getAll());
   };
 
   const onDrawUpdate = (e) => {
@@ -213,6 +212,7 @@ const MapboxMap = ({ user }) => {
 
   const redrawPolygons = (polygons) => {
     const drawControl = drawControlRef.current;
+    if (!drawControl || redrawing) return; // skip if already redrawing or component hasn't rendered
     setRedrawing(true);
     drawControl.draw.deleteAll();
     if (polygons) {
@@ -224,7 +224,6 @@ const MapboxMap = ({ user }) => {
       });
       drawControl.draw.changeMode("static");
     }
-    dispatch({ type: "LOADED_DRAWINGS" });
     setTimeout(() => {
       setRedrawing(false);
     }, 300);

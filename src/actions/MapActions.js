@@ -1,5 +1,6 @@
 import { VERSION } from "../constants";
 import moment from "moment";
+import { v4 as uuidv4 } from "uuid";
 import { getRequest, postRequest } from "./RequestActions";
 import { updateReadOnly } from "./ReadOnlyActions";
 
@@ -96,8 +97,11 @@ export const deleteMap = (mapId) => {
 };
 
 export const newMap = () => {
-  return (dispatch, getState) => {
-    dispatch({ type: "NEW_MAP" });
+  return dispatch => {
+    dispatch({
+      type: "NEW_MAP",
+      payload: { unsavedMapUuid: uuidv4() }
+    });
     setTimeout(() => {
       dispatch({ type: "CHANGE_MOVING_METHOD", payload: "flyTo" });
     }, 500);
