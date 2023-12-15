@@ -1,4 +1,12 @@
 import { getRequest } from "./RequestActions";
+import { autoSave } from './MapActions';
+
+export const togglePropertyDisplay = () => {
+  return dispatch => {
+    dispatch({ type: "TOGGLE_PROPERTY_DISPLAY" });
+    return dispatch(autoSave());
+  };
+}
 
 export const highlightProperty = (property) => {
   return (dispatch) => {
