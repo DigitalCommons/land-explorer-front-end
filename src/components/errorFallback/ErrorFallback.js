@@ -1,14 +1,23 @@
 import React from "react";
 import TopBar from "../top-bar/TopBar";
-import { ErrorBoundary, FallbackProps } from "react-error-boundary";
+import Button from "../common/Button";
 
 const ErrorFallback = ({ error }) => {
+  console.log("Boundary Error", error);
   return (
     <>
       <TopBar limited={true} />
       <div className="error-page">
-        <h1>Something went wrong!</h1>
-        <p>{error.message}</p>
+        <h1>Oops! Something went wrong...</h1>
+        <Button
+          buttonClass={"button-new blue"}
+          type={"button"}
+          buttonAction={() => {
+            window.location = "/app";
+          }}
+        >
+          Back to LandExplorer
+        </Button>
       </div>
     </>
   );
