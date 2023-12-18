@@ -35,10 +35,6 @@ const Pagination = ({
     }
   };
 
-  console.log("Items per page: ", itemsPerPage);
-  console.log("first Page: ", firstPage);
-  console.log("last Page: ", lastPage);
-
   return (
     <nav className="pagination-container">
       <ul className="pagination">
@@ -62,9 +58,8 @@ const Pagination = ({
               <li key={number} className="page-item" id={number}>
                 <button
                   onClick={() => paginate(number)}
-                  className={`page-link ${
-                    currentPage === number ? "active" : null
-                  }`}
+                  className={`page-link ${currentPage === number ? "active" : null
+                    }`}
                 >
                   {number}
                 </button>

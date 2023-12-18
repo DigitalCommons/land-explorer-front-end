@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveProperty } from "../../actions/LandOwnershipActions";
+import { setActiveProperty, clearHighlightedProperty } from "../../actions/LandOwnershipActions";
 import Button from "../common/Button";
 import {
   getRelatedProperties,
@@ -43,8 +43,8 @@ const PropertySection = ({ property, active }) => {
   };
 
   const handleClear = () => {
-    dispatch({ type: "CLEAR_HIGHLIGHT", payload: property });
-    // Clear properties if the property being cleared is the searched property
+    dispatch(clearHighlightedProperty(poly_id));
+    // Clear related properties pane if the property being cleared is the searched property
     if (property.proprietor_name_1 === proprietorName) {
       dispatch({ type: "CLEAR_PROPERTIES_AND_PROPRIETOR_NAME" });
     }
