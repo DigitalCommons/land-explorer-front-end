@@ -125,7 +125,7 @@ const LeftPane = ({ drawControl }) => {
           data-for="ttInfo"
         />
         {/* display land ownership icon only if search is not empty */}
-        {propertySearch.length > 0 && (
+        {(propertySearch.length > 0 || active === "Ownership Search") && (
           <div
             className={`left-pane-icon ownership ${active === "Ownership Search" && "active"
               }`}

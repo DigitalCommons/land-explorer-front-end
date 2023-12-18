@@ -23,6 +23,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         properties: [],
+        selectedProperty: [],
         error: action.payload,
         loading: false,
       };
