@@ -41,29 +41,16 @@ export const setActiveProperty = (propertyId) => {
 
 export const getRelatedProperties = (proprietorName) => {
   return async (dispatch) => {
-    try {
-      dispatch({ type: "FETCH_PROPERTIES_LOADING" });
+    dispatch({ type: "FETCH_PROPERTIES_LOADING" });
 
-      const relatedProperties = await dispatch(
-        getRequest(`/api/search?proprietorName=${proprietorName}`)
-      );
+    const relatedProperties = await dispatch(
+      getRequest(`/api/search?proprietorName=${proprietorName}`)
+    );
 
-      if (relatedProperties.length > 0) {
-        dispatch({
-          type: "FETCH_PROPERTIES_SUCCESS",
-          payload: relatedProperties,
-        });
-      } else {
-        dispatch({
-          type: "FETCH_PROPERTIES_FAILURE",
-          payload: "No properties found",
-        });
-      }
-    } catch (error) {
-      dispatch({
-        type: "FETCH_PROPERTIES_FAILURE",
-        payload: "Error fetching properties",
-      });
+    if (relatedProperties !== null) {
+      dispatch({ type: "FETCH_PROPERTIES_SUCCESS", payload: relatedProperties });
+    } else {
+      dispatch({ type: "FETCH_PROPERTIES_FAILURE", payload: "Error fetching properties" });
     }
   };
 };
