@@ -12,7 +12,7 @@ import FourOhFour from "./pages/FourOhFour";
 import analytics from "./analytics";
 import constants from "./constants";
 import Authentication from "./pages/Authentication";
-import ErrorFallback from "./components/errorFallback/ErrorFallback";
+import ErrorFallback from "./pages/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";
 
 // Styles

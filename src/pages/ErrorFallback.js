@@ -1,6 +1,6 @@
 import React from "react";
-import TopBar from "../top-bar/TopBar";
-import Button from "../common/Button";
+import TopBar from "../components/top-bar/TopBar";
+import Button from "../components/common/Button";
 
 const ErrorFallback = ({ error }) => {
   console.log("Boundary Error", error);
