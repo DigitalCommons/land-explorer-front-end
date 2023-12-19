@@ -8,26 +8,36 @@ export const togglePropertyDisplay = () => {
   };
 }
 
-export const highlightProperty = (property) => {
-  return (dispatch) => {
+export const highlightProperties = (properties) => {
+  return dispatch => {
     dispatch({
-      type: "HIGHLIGHT_PROPERTY",
-      payload: property,
+      type: "HIGHLIGHT_PROPERTIES",
+      payload: properties
     });
-    dispatch(setActiveProperty(property.poly_id));
+    // TODO: set multiple active rather than just the 1st. This is kind of related to #296 and #292
+    dispatch(setActiveProperty(Object.keys(properties)[0]));
   };
 };
 
+export const clearHighlightedProperty = (propertyPolyId) => {
+  return dispatch => {
+    dispatch({
+      type: "CLEAR_HIGHLIGHTED_PROPERTY",
+      payload: propertyPolyId
+    })
+  }
+};
+
 export const clearAllHighlightedProperties = () => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: "CLEAR_ALL_HIGHLIGHTED_PROPERTIES"
     })
   }
-}
+};
 
 export const setActiveProperty = (propertyId) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: "SET_ACTIVE_PROPERTY",
       payload: propertyId,
@@ -40,18 +50,26 @@ export const setActiveProperty = (propertyId) => {
 };
 
 export const getRelatedProperties = (proprietorName) => {
-  return async (dispatch) => {
+  return async dispatch => {
     try {
       dispatch({ type: "FETCH_PROPERTIES_LOADING" });
 
-      const relatedProperties = await dispatch(
+      const relatedPropertiesArray = await dispatch(
         getRequest(`/api/search?proprietorName=${proprietorName}`)
       );
 
-      if (relatedProperties.length > 0) {
+      if (relatedPropertiesArray.length > 0) {
+        // Convert array to a map so we can search by poly_id more efficiently
+        const relatedPropertiesMap = relatedPropertiesArray.reduce((map, property) => {
+          if (property.poly_id) { // filter out bad data with null poly_id
+            map[property.poly_id] = property;
+          }
+          return map;
+        }, {});
+
         dispatch({
           type: "FETCH_PROPERTIES_SUCCESS",
-          payload: relatedProperties,
+          payload: relatedPropertiesMap,
         });
       } else {
         dispatch({
@@ -75,48 +93,28 @@ export const setProprietorName = (proprietorName) => {
   }
 };
 
-export const setActivePropertyId = (propertyId) => { }
-
-export const setSelectedProperty = (property) => {
-  return (dispatch) => {
+export const selectRelatedProperties = (properties) => {
+  return dispatch => {
     dispatch({
-      type: "SET_SELECTED_PROPERTY",
-      payload: property,
+      type: "SELECT_PROPERTIES",
+      payload: properties,
     });
   };
 };
 
-export const clearSelectedProperty = (property) => {
-  return (dispatch) => {
+export const clearSelectedProperty = (propertyPolyId) => {
+  return dispatch => {
     dispatch({
       type: "CLEAR_SELECTED_PROPERTY",
-      payload: property
+      payload: propertyPolyId
     })
   }
 }
 
-export const setMultipleSelectedProperties = (properties) => {
-  return (dispatch) => {
-    dispatch({
-      type: "SET_MULTIPLE_SELECTED_PROPERTIES",
-      payload: properties,
-    });
-  };
-}
-
 export const clearAllSelectedProperties = () => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: "CLEAR_ALL_SELECTED_PROPERTIES"
     })
   }
 }
-
-export const showPropertyPolygon = (propertyCoordinates) => {
-  return (dispatch) => {
-    dispatch({
-      type: "SHOW_PROPERTY_POLYGON",
-      payload: propertyCoordinates,
-    });
-  };
-};
