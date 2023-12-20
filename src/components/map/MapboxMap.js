@@ -19,6 +19,7 @@ import MapProperties from "./MapProperties";
 import MapDataGroups from "./MapDataGroups";
 import { autoSave, setLngLat, setZoom } from "../../actions/MapActions";
 import MapRelatedProperties from "./MapRelatedProperties";
+import FeedbackTab from "../common/FeedbackTab";
 
 // Create Map Component with settings
 const Map = ReactMapboxGl({
@@ -331,6 +332,7 @@ const MapboxMap = () => {
         }
       </Map>
       <LeftPane drawControl={drawControlRef.current} />
+      <FeedbackTab />
       <Modals />
       <div className="os-accreditation">
         Contains OS data © Crown copyright and database rights 2022 OS

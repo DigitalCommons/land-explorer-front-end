@@ -309,3 +309,43 @@
 a {
   text-decoration: none;
 }
+
+.feedback-tab {
+  background-color: $primaryColor;
+  color: white;
+  box-sizing: border-box;
+  position: fixed;
+  right: -50px; // minus height of tab
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  box-sizing: border-box;
+
+  border-radius: 5px 5px 0 0;
+  // padding: 13px 13px;
+  // padding-left: 16px;
+  padding: 0 20px;
+  height: 44px;
+  margin-right: -2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.05rem;
+  text-align: center;
+  border: none;
+  outline: none;
+  transition: background-color 300ms;
+
+  &:hover {
+    background-color: $buttonGreen;
+  }
+
+  & svg {
+    height: 16px;
+    margin-right: 5px;
+    fill: #fff;
+  }
+}
