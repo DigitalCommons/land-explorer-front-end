@@ -4,6 +4,12 @@
   position: relative;
 }
 
+.search-results__retry {
+  margin: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
 .property-count {
   font-size: 13px;
   padding-bottom: 20px;
