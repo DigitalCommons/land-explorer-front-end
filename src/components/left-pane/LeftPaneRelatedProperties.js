@@ -115,7 +115,7 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
           </p>
         </div>
       </div>
-    </LeftPaneTray>
+      </LeftPaneTray>
   );
 };
 
