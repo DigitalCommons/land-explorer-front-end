@@ -1,33 +1,27 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setSelectedProperty,
-  clearSelectedProperty
-} from "../../actions/LandOwnershipActions";
+import { selectRelatedProperties, clearSelectedProperty } from "../../actions/LandOwnershipActions";
 import { setLngLat } from "../../actions/MapActions";
 
 const RelatedProperties = ({ property }) => {
   const dispatch = useDispatch();
-  const { selectedProperty } = useSelector(state => state.relatedProperties);
+  const { selectedProperties } = useSelector(state => state.relatedProperties);
+  const active = selectedProperties.hasOwnProperty(property.poly_id);
 
   const lng = property.geom.coordinates[0][0][1];
   const lat = property.geom.coordinates[0][0][0];
 
   const handlePropertyClick = () => {
-    const propertyIsSelected = selectedProperty.find(item => item[0].id === property.id);
-
-    if (propertyIsSelected)
-      dispatch(clearSelectedProperty([property]));
+    if (active)
+      dispatch(clearSelectedProperty(property.poly_id));
     else
-      dispatch(setSelectedProperty([property]));
+      dispatch(selectRelatedProperties({ [property.poly_id]: property }));
 
   };
 
   const gotoProperty = () => {
     dispatch(setLngLat(lng, lat));
   }
-
-  const active = selectedProperty.find(item => item[0].id === property.id);
 
   return <div
     className={`search-result ${active && "active"}`}

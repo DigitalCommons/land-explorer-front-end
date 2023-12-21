@@ -2,13 +2,11 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveProperty } from "../../actions/LandOwnershipActions";
 import Button from "../common/Button";
-import { getRelatedProperties } from "../../actions/LandOwnershipActions";
+import { getRelatedProperties, clearSelectedProperty } from "../../actions/LandOwnershipActions";
 
 const RelatedPropertySection = ({ property, active }) => {
   const dispatch = useDispatch();
-  const activePropertyId = useSelector(
-    (state) => state.landOwnership.activePropertyId
-  );
+  const activePropertyId = useSelector((state) => state.landOwnership.activePropertyId);
 
   const {
     poly_id,
@@ -19,7 +17,7 @@ const RelatedPropertySection = ({ property, active }) => {
     proprietor_1_address_1,
     tenure,
     date_proprietor_added,
-  } = property[0];
+  } = property;
 
   const open = poly_id === activePropertyId;
 
@@ -30,22 +28,14 @@ const RelatedPropertySection = ({ property, active }) => {
   };
 
   const handleSearch = () => {
-    dispatch({ type: "CLEAR_PROPERTIES" });
+    dispatch({ type: "CLEAR_PROPERTIES_AND_PROPRIETOR_NAME" });
     dispatch(getRelatedProperties(proprietor_name_1));
     openTray("Ownership Search");
   };
 
   const handleClear = () => {
-    // dispatch({ type: "CLEAR_HIGHLIGHT", payload: property[0] });
-    // Clear properties if the property being cleared is the searched property
-    // if (property.proprietor_name_1 === proprietorName) {
-    //   dispatch({ type: "CLEAR_PROPERTIES_AND_PROPRIETOR_NAME" });
-    // }
-    dispatch({
-      type: "CLEAR_SELECTED_PROPERTY",
-      payload: activePropertyId,
-    });
-    console.log("handleClear RelatedProperty", property[0]);
+    dispatch(clearSelectedProperty(poly_id));
+    console.log("handleClear RelatedProperty", property);
   };
 
 
@@ -184,12 +174,7 @@ const RelatedPropertySection = ({ property, active }) => {
           <div className="property__clear-property">
             <button
               className="button-new blue full-width"
-              onClick={() =>
-                dispatch({
-                  type: "CLEAR_HIGHLIGHT",
-                  payload: property,
-                })
-              }
+              onClick={handleClear}
             >
               Clear property
             </button>
