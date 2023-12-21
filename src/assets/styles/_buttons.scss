@@ -311,21 +311,17 @@ a {
 }
 
 .feedback-tab {
+  height: 40px;
   background-color: $primaryColor;
   color: white;
   box-sizing: border-box;
   position: fixed;
-  right: -50px; // minus height of tab
+  right: -1px;
   top: 50%;
   transform: translateY(-50%) rotate(-90deg);
   box-sizing: border-box;
-
+  padding: 0 12px;
   border-radius: 5px 5px 0 0;
-  // padding: 13px 13px;
-  // padding-left: 16px;
-  padding: 0 20px;
-  height: 44px;
-  margin-right: -2px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -337,7 +333,7 @@ a {
   text-align: center;
   border: none;
   outline: none;
-  transition: background-color 300ms;
+  transition: background-color 500ms;
 
   &:hover {
     background-color: $buttonGreen;
@@ -345,7 +341,25 @@ a {
 
   & svg {
     height: 16px;
-    margin-right: 5px;
     fill: #fff;
+  }
+}
+
+.feedback-text {
+  display: none;
+}
+
+@media screen and (min-width: $medium) {
+  .feedback-tab {
+    height: 44px;
+    right: -52px; // minus height of tab + 8px (?)
+    padding: 0 20px;
+
+    & svg {
+      margin-right: 5px;
+    }
+  }
+  .feedback-text {
+    display: inline;
   }
 }

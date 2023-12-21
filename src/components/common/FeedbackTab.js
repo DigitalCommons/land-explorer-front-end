@@ -36,7 +36,7 @@ const FeedbackTab = () => {
           />
         </g>
       </svg>
-      Feedback
+      <span className="feedback-text">Feedback</span>
     </Button>
   );
 };
