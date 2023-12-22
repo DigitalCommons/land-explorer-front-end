@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "./Modal";
 import InputTextarea from "../common/InputTextarea";
 import Button from "../common/Button";
+import { isMobile } from "react-device-detect";
 
 const FeedbackForm = () => {
+  const textareaRows = isMobile ? "4" : "2";
+
+  console.log("mobile", isMobile);
+
   return (
     <>
       <Modal
@@ -31,22 +36,22 @@ const FeedbackForm = () => {
             <InputTextarea
               name={"question-1"}
               label={"What is LandExplorer helping you to do today?"}
-              rows={2}
+              rows={textareaRows}
             />
             <InputTextarea
               name={"question-2"}
               label={"What impact can this have for you and your community?"}
-              rows={2}
+              rows={textareaRows}
             />
             <InputTextarea
               name={"question-3"}
               label={"Who will benefit from this?"}
-              rows={2}
+              rows={textareaRows}
             />
             <InputTextarea
               name={"question-4"}
               label={"What would make LandExplorer even better?"}
-              rows={2}
+              rows={textareaRows}
             />
             <div className="feedback-form__button-group">
               <Button
