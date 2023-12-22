@@ -23,16 +23,16 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
   // polygons. Currently, we're losing data for additional polgyons, so the user doesn't see them
   // highlighted. https://github.com/DigitalCommons/land-explorer-front-end/issues/296 
 
-  // Use a Set to temporarily store unique property title numers
-  const uniqueTitleNos = new Set();
+  // Group polygons by property title numbers
+  const filteredProperties = properties.reduce((map, property) => {
+    map[property.title_no] = {
+      ...map[property.title_no],
+      property
+    }
+    return map;
+  }, new Map());
 
-  const filteredProperties = Object.values(properties).filter((property) => {
-    const isDuplicate = uniqueTitleNos.has(property.title_no);
-    uniqueTitleNos.add(property.title_no);
-    return !isDuplicate;
-  });
-
-  const propertyCount = filteredProperties.length;
+  const propertyCount = Object.keys(filteredProperties).length;
 
   // Pagination values
   const [currentPage, setCurrentPage] = useState(1);
