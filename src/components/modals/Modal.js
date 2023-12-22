@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-const Modal = ({ style, customClass, padding, id, customClose, children }) => {
+const Modal = ({
+  style,
+  customClass,
+  padding,
+  id,
+  customClose,
+  children,
+  slideDirection,
+}) => {
   const dispatch = useDispatch();
   const { open, canToggle } = useSelector((state) => state.modal[id]);
   const [opacity, setOpacity] = useState(0);
-  const [translateY, setTranslateY] = useState("-100%");
+  const [translateY, setTranslateY] = useState(
+    slideDirection === "right" ? "-50%" : "-100%"
+  );
+  const [translateX, setTranslateX] = useState(
+    slideDirection === "right" ? "100%" : "-50%"
+  );
 
   useEffect(() => {
     if (open) {
       setTimeout(() => {
         setOpacity(1);
         setTranslateY("-50%");
+        setTranslateX("-50%");
       }, 100);
     }
     console.log("open", open);
@@ -19,7 +33,8 @@ const Modal = ({ style, customClass, padding, id, customClose, children }) => {
 
   const closeModal = () => {
     setOpacity(0);
-    setTranslateY("-100%");
+    setTranslateY(slideDirection === "right" ? "-50%" : "-100%");
+    setTranslateX(slideDirection === "right" ? "100%" : "-50%");
     setTimeout(() => {
       dispatch({ type: "CLOSE_MODAL", payload: id });
       if (customClose) {
@@ -50,7 +65,9 @@ const Modal = ({ style, customClass, padding, id, customClose, children }) => {
         className={`ModalContent modal ${customClass ? customClass : ""} ${
           padding ? " modal-padding" : ""
         } `}
-        style={{ transform: `translateX(-50%) translateY(${translateY})` }}
+        style={{
+          transform: `translateX(${translateX}) translateY(${translateY})`,
+        }}
       >
         {canToggle === true && (
           <div className="modal-close" onClick={closeModal} />
