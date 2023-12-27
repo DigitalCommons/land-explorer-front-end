@@ -368,7 +368,7 @@
 }
 
 .ModalContent {
-  &.feedback-form {
+  &.feedback-form__container {
     width: 100%;
     height: 100%;
     max-width: unset;
@@ -376,6 +376,12 @@
     padding: 30px;
     transition: ease-in-out transform 800ms;
   }
+}
+
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .feedback-form__title {
@@ -390,6 +396,10 @@
   line-height: 1.25rem;
 }
 
+.feedback-form__mobile-page {
+  flex-grow: 1;
+}
+
 @media screen and (min-width: $medium) {
   .ModalContent {
     &.feedback-form {
@@ -401,7 +411,7 @@
   .feedback-form__title {
     font-size: 24px;
   }
-.feedback-form__copy {
+  .feedback-form__copy {
     font-size: 14px;
   }
 }
