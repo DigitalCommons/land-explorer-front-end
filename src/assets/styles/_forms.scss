@@ -71,7 +71,7 @@ form {
 
 .form-label {
   color: $primaryColor;
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 10px;
 }
 
@@ -84,13 +84,6 @@ form {
     outline: none;
     border: 2px solid $blueAccent;
   }
-}
-
-.feedback-form__button-group {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 24px;
-  column-gap: 20px;
 }
 
 #search-bar {
@@ -369,4 +362,10 @@ input[type="submit"] {
   border-right: 3px solid rgb(208, 2, 78) !important;
   border-bottom-right-radius: 0 !important;
   border-top-right-radius: 0 !important;
+}
+
+@media screen and (min-width: $medium) {
+  .form-label {
+    font-size: 16px;
+  }
 }
