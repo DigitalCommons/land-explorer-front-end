@@ -10,6 +10,7 @@ import LinkShare from './LinkShare';
 import SaveCopy from './SaveCopy';
 import SaveSnapshot from './SaveSnapshot';
 import FeedbackForm from './FeedbackForm';
+import FeedbackPopUp from './FeedbackPopUp';
 
 const Modals = () => <div>
     <EmailShare />
@@ -23,6 +24,7 @@ const Modals = () => <div>
     <Location />
     <NewMap />
     <FeedbackForm />
+    <FeedbackPopUp />
 </div>
 
 export default Modals;

@@ -43,35 +43,39 @@ const INITIAL_STATE = {
     open: false,
     canToggle: true,
   },
+  feedbackPopUp: {
+    open: false,
+    canToggle: true,
+  },
 };
 
 export default (state = INITIAL_STATE, action) => {
-    switch (action.type) {
-        case 'TOGGLE_MODAL':
-            return {
-                ...state,
-                [action.payload]: {
-                    ...state[action.payload],
-                    open: !this.state[action.payload].open
-                }
-            }
-        case 'CLOSE_MODAL':
-            return {
-                ...state,
-                [action.payload]: {
-                    ...state[action.payload],
-                    open: false,
-                }
-            }
-        case 'OPEN_MODAL':
-            return {
-                ...state,
-                [action.payload]: {
-                    ...state[action.payload],
-                    open: true,
-                }
-            }
-        default:
-            return state;
-    }
-}
+  switch (action.type) {
+    case "TOGGLE_MODAL":
+      return {
+        ...state,
+        [action.payload]: {
+          ...state[action.payload],
+          open: !this.state[action.payload].open,
+        },
+      };
+    case "CLOSE_MODAL":
+      return {
+        ...state,
+        [action.payload]: {
+          ...state[action.payload],
+          open: false,
+        },
+      };
+    case "OPEN_MODAL":
+      return {
+        ...state,
+        [action.payload]: {
+          ...state[action.payload],
+          open: true,
+        },
+      };
+    default:
+      return state;
+  }
+};

@@ -9,7 +9,7 @@ const FeedbackForm = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const noOfPages = 2;
-  const textareaRows = isMobile ? "5" : "2";
+  const textareaRows = isMobile ? "6" : "2";
 
   const nextPage = () => {
     if (currentPage < noOfPages) {
@@ -22,11 +22,12 @@ const FeedbackForm = () => {
     }
   };
 
-  const closeModal = () =>
+  const closeModal = () => {
     dispatch({
       type: "CLOSE_MODAL",
       payload: "feedbackForm",
     });
+  };
 
   console.log("mobile", isMobile);
   console.log("currentPage", currentPage);
@@ -99,7 +100,7 @@ const FeedbackForm = () => {
                         <input
                           type="checkbox"
                           id="expandCollapse"
-                          name="expandCollapes"
+                          name="expandCollapse"
                         />
                         <span>
                           We believe that information about land is powerful,
