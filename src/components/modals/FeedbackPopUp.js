@@ -74,6 +74,7 @@ const FeedbackPopUp = () => {
             name="feedbackPopupCheckbox"
             id="feedbackPopupCheckbox"
             onChange={handleCheckboxChange}
+            checked={!showModal}
           />
           <span className="feedback-popup__checkbox--checkmark"></span>
           <label htmlFor="feedbackPopupCheckbox">Don't show this again</label>
