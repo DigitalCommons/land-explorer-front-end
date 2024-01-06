@@ -3,9 +3,8 @@ import React from "react";
 const InputTextarea = ({
   label,
   name,
-  rows,
-  error,
-  errorClassName,
+  errorText,
+  errorCondition,
   ...inputProps
 }) => {
   const id = "textarea-" + name;
@@ -19,12 +18,9 @@ const InputTextarea = ({
         {...inputProps}
         id={id}
         name={name}
-        rows={rows}
-        onChange={() => {}}
-        onBlur={() => {}}
         className="form-textarea"
       />
-      {error && <span className={classes.error}>{error}</span>}
+      {errorCondition && <span className="error">{errorText}</span>}
     </div>
   );
 };
