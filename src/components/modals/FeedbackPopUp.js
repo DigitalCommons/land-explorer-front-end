@@ -30,7 +30,6 @@ const FeedbackPopUp = () => {
     localStorage.setItem("showModal", JSON.stringify(unChecked));
   };
 
-
   // Show modal on mouseleave
   useEffect(() => {
     const handleMouseLeave = (e) => {
@@ -60,7 +59,11 @@ const FeedbackPopUp = () => {
       setShowModal(true);
       setTimeout(() => {
         dispatch(openModal("feedbackPopUp"));
-      }, 3000);
+      }, 300000);
+
+      return () => {
+        clearTimeout();
+      };
     }
     console.log("propertyLayerActive", propertyLayerActive);
   }, [propertyLayerActive]);
