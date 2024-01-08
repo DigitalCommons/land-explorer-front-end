@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Modal from "./Modal";
 import { openModal } from "../../actions/ModalActions";
 import Button from "../common/Button";
@@ -7,6 +7,9 @@ import Button from "../common/Button";
 const FeedbackPopUp = () => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = React.useState(false);
+  const propertyLayerActive = useSelector(
+    (state) => state.landOwnership.displayActive
+  );
 
   const closeModal = () => {
     setShowModal(false);
@@ -27,6 +30,8 @@ const FeedbackPopUp = () => {
     localStorage.setItem("showModal", JSON.stringify(unChecked));
   };
 
+
+  // Show modal on mouseleave
   useEffect(() => {
     const handleMouseLeave = (e) => {
       if (e.clientY < 0 && !dontShowModal()) {
@@ -48,6 +53,17 @@ const FeedbackPopUp = () => {
     const feedbackModalPreference = localStorage.getItem("showModal");
     return feedbackModalPreference === "false";
   };
+
+  // Show modal after delay if property layer is active
+  useEffect(() => {
+    if (propertyLayerActive) {
+      setShowModal(true);
+      setTimeout(() => {
+        dispatch(openModal("feedbackPopUp"));
+      }, 3000);
+    }
+    console.log("propertyLayerActive", propertyLayerActive);
+  }, [propertyLayerActive]);
 
   return (
     <Modal
