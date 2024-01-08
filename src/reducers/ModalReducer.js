@@ -47,6 +47,10 @@ const INITIAL_STATE = {
     open: false,
     canToggle: true,
   },
+  feedbackSuccess: {
+    open: false,
+    canToggle: true,
+  },
 };
 
 export default (state = INITIAL_STATE, action) => {

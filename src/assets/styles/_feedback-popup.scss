@@ -9,6 +9,10 @@
     transition: ease-in-out transform 800ms;
     color: #fff;
     line-height: 1.55rem;
+
+    &.success {
+      height: 200px;
+    }
   }
 }
 
@@ -42,6 +46,22 @@
   border: 2px solid $midNeutral2;
   padding: unset;
   border-radius: 5px;
+}
+
+.feedback-success {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+
+  & .feedback-popup__title {
+    font-size: 25px;
+    margin: 0;
+    letter-spacing: 0.025rem;
+    text-align: center;
+    line-height: 1.5;
+  }
 }
 
 // Custom checkbox

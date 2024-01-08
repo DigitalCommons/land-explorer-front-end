@@ -9,7 +9,7 @@ const FeedbackTab = () => {
     <Button
       buttonClass={"feedback-tab green"}
       buttonAction={() => dispatch(openModal("feedbackForm"))}
-      // buttonAction={() => dispatch(openModal("feedbackPopUp"))}
+      // buttonAction={() => dispatch(openModal("feedbackSuccess"))}
       type={"button"}
     >
       <svg

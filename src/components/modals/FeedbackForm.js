@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import useFeedbackForm from "../../hooks/useFeedbackForm";
 import Modal from "./Modal";
+import { openModal } from "../../actions/ModalActions";
 import { isMobile } from "react-device-detect";
 import Button from "../common/Button";
 import InputTextarea from "../common/InputTextarea";
+import { set } from "lodash";
 
 const FeedbackForm = () => {
   const dispatch = useDispatch();
@@ -45,6 +47,9 @@ const FeedbackForm = () => {
       console.log("Submitted Data:", submittedData);
 
       closeModal();
+      setTimeout(() => {
+        dispatch(openModal("feedbackSuccess"));
+      }, 300);
     }
   };
 
