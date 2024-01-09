@@ -7,7 +7,6 @@ import { openModal } from "../../actions/ModalActions";
 import { isMobile } from "react-device-detect";
 import Button from "../common/Button";
 import InputTextarea from "../common/InputTextarea";
-import { set } from "lodash";
 
 const FeedbackForm = () => {
   const dispatch = useDispatch();
