@@ -1,16 +1,21 @@
 // FeedbackForm.js
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import useFeedbackForm from "../../hooks/useFeedbackForm";
 import Modal from "./Modal";
 import { openModal } from "../../actions/ModalActions";
 import { isMobile } from "react-device-detect";
 import Button from "../common/Button";
 import InputTextarea from "../common/InputTextarea";
+import constants from "../../constants";
+import { getAuthHeader } from "../../utils/Auth";
 
 const FeedbackForm = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [currentPage, setCurrentPage] = useState(1);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
   const noOfPages = 2;
   const textareaRows = isMobile ? "6" : "2";
 
@@ -37,18 +42,32 @@ const FeedbackForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormSubmitted();
 
     if (isFormValid()) {
       const submittedData = { ...formData };
-      console.log("Submitted Data:", submittedData);
 
-      closeModal();
-      setTimeout(() => {
-        dispatch(openModal("feedbackSuccess"));
-      }, 300);
+      // Send data to API
+      await axios
+        .post(`${constants.ROOT_URL}/api/user/feedback`, submittedData, getAuthHeader())
+        .then((response) => {
+          console.log("Feedback Form Response:", response);
+          console.log("Submitted Data:", submittedData);
+          setSubmitSuccess(true);
+          closeModal();
+        })
+        .catch((err) => {
+          console.log("Feedback Form Error:", err);
+        });
+
+      if (submitSuccess) {
+        setTimeout(() => {
+          dispatch(openModal("feedbackSuccess"));
+        }, 300);
+      }
+      console.log("Form Submitted", submittedData);
     }
   };
 
@@ -71,6 +90,8 @@ const FeedbackForm = () => {
 
   console.log("is form valid?", isFormValid());
   console.log("set form submitted", submitted);
+
+  console.log("User ID:", user);
 
   return (
     <Modal
