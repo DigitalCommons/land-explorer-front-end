@@ -1,6 +1,6 @@
 // FeedbackForm.js
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import useFeedbackForm from "../../hooks/useFeedbackForm";
 import Modal from "./Modal";
@@ -13,9 +13,7 @@ import { getAuthHeader } from "../../utils/Auth";
 
 const FeedbackForm = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
   const [currentPage, setCurrentPage] = useState(1);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
   const noOfPages = 2;
   const textareaRows = isMobile ? "6" : "2";
 
@@ -51,23 +49,21 @@ const FeedbackForm = () => {
 
       // Send data to API
       await axios
-        .post(`${constants.ROOT_URL}/api/user/feedback`, submittedData, getAuthHeader())
+        .post(
+          `${constants.ROOT_URL}/api/user/feedback`,
+          submittedData,
+          getAuthHeader()
+        )
         .then((response) => {
           console.log("Feedback Form Response:", response);
-          console.log("Submitted Data:", submittedData);
-          setSubmitSuccess(true);
           closeModal();
+          setTimeout(() => {
+            dispatch(openModal("feedbackSuccess"));
+          }, 300);
         })
         .catch((err) => {
           console.log("Feedback Form Error:", err);
         });
-
-      if (submitSuccess) {
-        setTimeout(() => {
-          dispatch(openModal("feedbackSuccess"));
-        }, 300);
-      }
-      console.log("Form Submitted", submittedData);
     }
   };
 
@@ -87,11 +83,6 @@ const FeedbackForm = () => {
       setCurrentPage(1);
     }
   }, []);
-
-  console.log("is form valid?", isFormValid());
-  console.log("set form submitted", submitted);
-
-  console.log("User ID:", user);
 
   return (
     <Modal
