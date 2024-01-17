@@ -123,7 +123,7 @@ const LeftPane = ({ drawControl }) => {
           data-for="ttInfo"
         />
         {/* display ownership search icon only if search is not empty */}
-        {Object.keys(relatedProperties).length > 0 && (
+        {(Object.keys(relatedProperties).length > 0 || active === "Ownership Search") && (
           <div
             className={`left-pane-icon ownership ${active === "Ownership Search" && "active"
               }`}

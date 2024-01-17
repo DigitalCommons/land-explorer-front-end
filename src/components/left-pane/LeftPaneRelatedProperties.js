@@ -3,10 +3,11 @@ import LeftPaneTray from "./LeftPaneTray";
 import { useSelector, useDispatch } from "react-redux";
 import RelatedProperties from "./RelatedProperties";
 import Pagination from "../common/Pagination";
-import { clearAllSelectedProperties, selectRelatedProperties } from "../../actions/LandOwnershipActions";
+import { clearAllSelectedProperties, selectRelatedProperties, getRelatedProperties } from "../../actions/LandOwnershipActions";
 
 const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
   const properties = useSelector((state) => state.relatedProperties.properties);
+  const { error, proprietorName } = useSelector((state) => state.relatedProperties);
   const dispatch = useDispatch();
 
   // Set loading state
@@ -51,16 +52,37 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
     dispatch(clearAllSelectedProperties());
   }
 
+  const handleRetrySearch = () => {
+    dispatch(getRelatedProperties(proprietorName));
+  };
+
   return (
     <LeftPaneTray title="Ownership Search" open={open} onClose={onClose}>
       <div className="search-results-container">
         {loading ? (
           <div
-            style={{ width: "100%", marginTop: "50px", textAlign: "center" }}
+            style={{ width: "100%", margin: "50px 0", textAlign: "center" }}
           >
             <div className="loading-spinner"></div>
           </div>
-        ) : filteredProperties.length ? (
+        ) : error ? (
+          <>
+            <div
+              style={{ width: "100%", margin: "24px 0", textAlign: "center" }}
+            >
+              We've experienced an error. Please try again.
+            </div>
+            {proprietorName && <div className="search-results__retry">
+              <button
+                className="button-new blue full-width"
+                onClick={handleRetrySearch}
+              >
+                Retry search
+              </button>
+            </div>}
+          </>
+        ) : (
+          filteredProperties.length ? (
           <>
             <div className="property-count">
               <span className="property-count--highlight">
@@ -71,14 +93,13 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
               <span className="property-count--highlight">{propertyCount}</span>{" "}
               associated properties
             </div>
-            {/*<p onClick={selectAll} className="clear-all">Select all</p>*/}
+            <p onClick={selectAll} className="clear-all">Select all</p>
             <p onClick={clearAll} className="clear-all">Clear all</p>
             {currentProperties.map((property, i) => (
               <RelatedProperties
                 key={property.title_no}
                 property={property}
               // isActive={property === activeProperty}
-              // onPropertyClick={() => handlePropertyClick(property)}
               />
             ))}
             {noOfPages > 1 && (
@@ -93,11 +114,11 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
           </>
         ) : (
           <div
-            style={{ width: "100%", marginTop: "24px", textAlign: "center" }}
+            style={{ width: "100%", margin: "24px 0", textAlign: "center" }}
           >
             No Related Properties
           </div>
-        )}
+        ))}
         <div className="property-details-section__small-print">
           <p className="small-print-margin">
             Information produced by HM Land Registry.

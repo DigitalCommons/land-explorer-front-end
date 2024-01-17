@@ -51,37 +51,24 @@ export const setActiveProperty = (propertyId) => {
 
 export const getRelatedProperties = (proprietorName) => {
   return async dispatch => {
-    try {
-      dispatch({ type: "FETCH_PROPERTIES_LOADING" });
+    dispatch({ type: "FETCH_PROPERTIES_LOADING" });
 
-      const relatedPropertiesArray = await dispatch(
-        getRequest(`/api/search?proprietorName=${proprietorName}`)
-      );
+    const relatedPropertiesArray = await dispatch(
+      getRequest(`/api/search?proprietorName=${proprietorName}`)
+    );
 
-      if (relatedPropertiesArray.length > 0) {
-        // Convert array to a map so we can search by poly_id more efficiently
-        const relatedPropertiesMap = relatedPropertiesArray.reduce((map, property) => {
-          if (property.poly_id) { // filter out bad data with null poly_id
-            map[property.poly_id] = property;
-          }
-          return map;
-        }, {});
+    if (relatedPropertiesArray !== null) {
+      // Convert array to a map so we can search by poly_id more efficiently
+      const relatedPropertiesMap = relatedPropertiesArray.reduce((map, property) => {
+        if (property.poly_id) { // filter out bad data with null poly_id
+          map[property.poly_id] = property;
+        }
+        return map;
+      }, {});
 
-        dispatch({
-          type: "FETCH_PROPERTIES_SUCCESS",
-          payload: relatedPropertiesMap,
-        });
-      } else {
-        dispatch({
-          type: "FETCH_PROPERTIES_FAILURE",
-          payload: "No properties found",
-        });
-      }
-    } catch (error) {
-      dispatch({
-        type: "FETCH_PROPERTIES_FAILURE",
-        payload: "Error fetching properties",
-      });
+      dispatch({ type: "FETCH_PROPERTIES_SUCCESS", payload: relatedPropertiesMap });
+    } else {
+      dispatch({ type: "FETCH_PROPERTIES_FAILURE", payload: "Error fetching properties" });
     }
   };
 };
