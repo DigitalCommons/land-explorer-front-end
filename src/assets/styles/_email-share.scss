@@ -1,0 +1,155 @@
+.ModalContent {
+  &.email-share__container {
+    padding: 30px;
+    border-radius: 6px;
+
+    * {
+      box-sizing: border-box;
+    }
+  }
+}
+
+.email-share__title {
+  color: $primaryColor;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/*** Add user section ***/
+
+// Add user container
+.email-share__add-user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// User input
+.email-share__add-user__input {
+  width: 330px;
+  padding: 15px 20px;
+  margin-right: 10px;
+  margin-bottom: 0;
+  font-size: 16px;
+
+  &:focus-visible {
+    outline: none;
+    border: 2px solid $blueAccent;
+  }
+}
+
+.email-share__add-user__input,
+.email-share__dropdown__select {
+  border: 2px solid $midNeutral2;
+  border-radius: 6px;
+  &:focus-visible {
+    outline: none;
+    border: 2px solid $blueAccent;
+  }
+}
+
+// User permissions dropdown - reintegrate
+// .email-share__dropdown {
+//   min-width: 180px;
+//   height: 50px;
+//   display: flex;
+//   justify-content: center;
+//   position: relative;
+// }
+
+// .email-share__dropdown__select {
+//   width: 100%;
+//   appearance: none;
+//   background-color: #fff;
+//   color: $darkNeutral;
+//   font-size: 16px;
+//   padding: 15px 12px;
+//   cursor: pointer;
+// }
+
+// .email-share__dropdown__arrow {
+//   width: 40px;
+//   height: 100%;
+//   position: absolute;
+//   right: 0;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   border-left: 2px solid $midNeutral2;
+//   pointer-events: none;
+// }
+
+// .email-share__dropdown__arrow svg {
+//   stroke: $darkNeutral;
+//   stroke-width: 2px;
+//   height: 8px;
+// }
+
+// Add user button
+.email-share__add-user__button {
+  // flex: 0 0 100px;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
+  & svg {
+    fill: $darkNeutral;
+    height: 27px;
+  }
+}
+
+// Add user pill badge
+.email-share__user-badge__container {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 15px;
+  column-gap: 15px;
+  margin-bottom: 20px;
+}
+
+// .email-share__user-badge {
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   background-color: $blueAccent;
+//   border-radius: 50rem;
+//   padding: 10px 15px;
+//   margin-bottom: 10px;
+//   font-size: 16px;
+//   color: #fff;
+// }
+
+// .email-share__user-badge__name {
+//   margin-right: 10px;
+// }
+
+// .email-share__user-badge__icon {
+//   flex: 0 0 15px;
+//   margin-left: 10px;
+//   cursor: pointer;
+//   & svg {
+//     fill: #fff;
+//     height: 15px;
+//   }
+// }
+
+// .email-share__user-badge__remove {
+//   border: none;
+//   background-color: transparent;
+//   padding: 0;
+//   cursor: pointer;
+//   & svg {
+//     fill: #fff;
+//     height: 15px;
+//   }
+// }
+
+@media screen and (min-width: $medium) {
+  .ModalContent {
+    &.email-share__container {
+      width: 640px;
+    }
+  }
+}
