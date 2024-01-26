@@ -22,6 +22,12 @@ const Dropdown = ({ options, onSelect, customClass, defaultLabel }) => {
         className="dropdown__selected-option"
         onClick={() => setIsOpen(!isOpen)}
       >
+        {selectedOption.iconClass && (
+          <i
+            className={`dropdown__option__icon ${selectedOption.iconClass}`}
+          ></i>
+        )}
+
         {selectedOption ? selectedOption.label : defaultLabel}
         <div className="dropdown__selected-option__arrow">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.828 8.414">
@@ -40,8 +46,15 @@ const Dropdown = ({ options, onSelect, customClass, defaultLabel }) => {
       {isOpen && (
         <div className="dropdown__options__container">
           {options.map((option, index) => (
-            <div className={`dropdown__option`} key={option.value} onClick={() => handleOptionClick(option)}>
-              {option.label}
+            <div
+              className={`dropdown__option`}
+              key={option.value}
+              onClick={() => handleOptionClick(option)}
+            >
+              {option.iconClass && (
+                <i className={`dropdown__option__icon ${option.iconClass}`}></i>
+              )}
+              <div className="dropdown_option__label">{option.label}</div>
             </div>
           ))}
         </div>

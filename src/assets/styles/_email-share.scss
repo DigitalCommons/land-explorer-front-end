@@ -100,13 +100,67 @@
   }
 }
 
-// Add user pill badge
+// Dropdown icons
+.dropdown .email-share__read-icon {
+  height: 12px;
+  width: 17px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 12'%3E%3Cpath d='M17.891 5.544A10.023 10.023 0 0 0 9 0 10.025 10.025 0 0 0 .109 5.544a1.011 1.011 0 0 0 0 .912A10.023 10.023 0 0 0 9 12a10.025 10.025 0 0 0 8.891-5.544 1.011 1.011 0 0 0 0-.912ZM9 10.5A4.5 4.5 0 1 1 13.5 6 4.5 4.5 0 0 1 9 10.5ZM9 3a2.978 2.978 0 0 0-.791.118 1.5 1.5 0 0 1-2.091 2.091A2.993 2.993 0 1 0 9 3Z' fill='%23707070' opacity='.8'/%3E%3C/svg%3E");
+}
+
+.dropdown .email-share__write-icon {
+  height: 16px;
+  width: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17.999 17.999'%3E%3Cpath d='m17.503 4.995-1.621 1.619a.422.422 0 0 1-.6 0l-3.9-3.9a.422.422 0 0 1 0-.6L13.003.495a1.691 1.691 0 0 1 2.387 0l2.113 2.113a1.685 1.685 0 0 1 0 2.387ZM9.99 3.506.758 12.738.013 17.01a.845.845 0 0 0 .977.977l4.271-.749 9.237-9.232a.422.422 0 0 0 0-.6l-3.9-3.9a.426.426 0 0 0-.6 0Zm-5.628 8.441a.49.49 0 0 1 0-.7l5.414-5.41a.495.495 0 0 1 .7.7l-5.418 5.41a.49.49 0 0 1-.7 0Zm-1.269 2.957H4.78v1.276l-2.268.4-1.093-1.096.4-2.268h1.274Z' fill='%23707070' opacity='.8'/%3E%3C/svg%3E");
+}
+
+// Pill badge container
 .email-share__user-badge__container {
   display: flex;
   flex-wrap: wrap;
   row-gap: 15px;
   column-gap: 15px;
   margin-bottom: 20px;
+
+  &.populated {
+    padding: 20px 0;
+    border-top: 2px solid $midNeutral2;
+    border-bottom: 2px solid $midNeutral2;
+  }
+}
+
+/*** Bottom buttons ***/
+.email-share__share-button__container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  column-gap: 15px;
+}
+
+.email-share__share-button,
+.email-share__cancel-button {
+  padding: 12px 30px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.email-share__share-button {
+  border: none;
+  background-color: $primaryColor;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.email-share__cancel-button {
+  border: none;
+  background-color: $midNeutral2;
+  border-radius: 6px;
+  color: $darkNeutral;
+  cursor: pointer;
 }
 
 // .email-share__user-badge {

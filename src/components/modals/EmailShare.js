@@ -18,8 +18,8 @@ const EmailShare = () => {
   const mapName = useSelector((state) => state.map.name);
 
   const options = [
-    { value: "read", label: "Read Only" },
-    { value: "write", label: "Write" },
+    { value: "read", label: "Read Only", iconClass: "email-share__read-icon" },
+    { value: "write", label: "Write", iconClass: "email-share__write-icon" },
   ];
 
   const [selectedOption, setSelectedOption] = useState(options[0].value);
@@ -148,7 +148,11 @@ const EmailShare = () => {
 
       {selectedOption && <p>Selected Value: {selectedOption}</p>}
       <div className="modal-content">
-        <div className="email-share__user-badge__container">
+        <div
+          className={`email-share__user-badge__container ${
+            emails.length > 0 ? "populated" : ""
+          }`}
+        >
           {emails.map((email, i) => {
             return (
               <PillBadge
@@ -161,21 +165,23 @@ const EmailShare = () => {
           })}
         </div>
       </div>
-      <div className="modal-buttons-float">
-        <div
-          className="button button-cancel rounded-button-full modal-button-cancel"
-          onClick={closeModal}
+      <div className="email-share__share-button__container">
+        <Button
+          buttonClass={"email-share__cancel-button"}
+          type={"button"}
+          buttonAction={closeModal}
         >
           Cancel
-        </div>
-        <div
-          className={`button rounded-button-full modal-button-confirm`}
-          onClick={() => {
+        </Button>
+        <Button
+          buttonClass={"email-share__share-button"}
+          type={"button"}
+          buttonAction={() => {
             share(currentMapId);
           }}
         >
           Share
-        </div>
+        </Button>
       </div>
     </Modal>
   );
