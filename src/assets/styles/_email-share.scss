@@ -12,23 +12,26 @@
 .email-share__title {
   color: $primaryColor;
   font-size: 24px;
+  line-height: 24px;
   margin-bottom: 20px;
 }
 
-/*** Add user section ***/
+/*** ADD USER (top) SECTION ***/
 
 // Add user container
 .email-share__add-user {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 20px;
 }
 
 // User input
 .email-share__add-user__input {
-  width: 330px;
+  width: 100%;
   padding: 15px 20px;
-  margin-right: 10px;
+  margin-right: 0;
   margin-bottom: 0;
   font-size: 16px;
 
@@ -47,45 +50,6 @@
     border: 2px solid $blueAccent;
   }
 }
-
-// User permissions dropdown - reintegrate
-// .email-share__dropdown {
-//   min-width: 180px;
-//   height: 50px;
-//   display: flex;
-//   justify-content: center;
-//   position: relative;
-// }
-
-// .email-share__dropdown__select {
-//   width: 100%;
-//   appearance: none;
-//   background-color: #fff;
-//   color: $darkNeutral;
-//   font-size: 16px;
-//   padding: 15px 12px;
-//   cursor: pointer;
-// }
-
-// .email-share__dropdown__arrow {
-//   width: 40px;
-//   height: 100%;
-//   position: absolute;
-//   right: 0;
-//   top: 50%;
-//   transform: translateY(-50%);
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   border-left: 2px solid $midNeutral2;
-//   pointer-events: none;
-// }
-
-// .email-share__dropdown__arrow svg {
-//   stroke: $darkNeutral;
-//   stroke-width: 2px;
-//   height: 8px;
-// }
 
 // Add user button
 .email-share__add-user__button {
@@ -113,6 +77,8 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17.999 17.999'%3E%3Cpath d='m17.503 4.995-1.621 1.619a.422.422 0 0 1-.6 0l-3.9-3.9a.422.422 0 0 1 0-.6L13.003.495a1.691 1.691 0 0 1 2.387 0l2.113 2.113a1.685 1.685 0 0 1 0 2.387ZM9.99 3.506.758 12.738.013 17.01a.845.845 0 0 0 .977.977l4.271-.749 9.237-9.232a.422.422 0 0 0 0-.6l-3.9-3.9a.426.426 0 0 0-.6 0Zm-5.628 8.441a.49.49 0 0 1 0-.7l5.414-5.41a.495.495 0 0 1 .7.7l-5.418 5.41a.49.49 0 0 1-.7 0Zm-1.269 2.957H4.78v1.276l-2.268.4-1.093-1.096.4-2.268h1.274Z' fill='%23707070' opacity='.8'/%3E%3C/svg%3E");
 }
 
+/*** ADDED USER (middle) SECTION ***/
+
 // Pill badge container
 .email-share__user-badge__container {
   display: flex;
@@ -128,23 +94,23 @@
   }
 }
 
-/*** Bottom buttons ***/
+/*** FOOTER ***/
 .email-share__share-button__container {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   column-gap: 15px;
 }
 
 .email-share__share-button,
 .email-share__cancel-button {
   padding: 12px 30px;
-  margin-bottom: 10px;
   font-size: 16px;
   cursor: pointer;
   border-radius: 6px;
   font-size: 14px;
+  flex-grow: 1;
 }
 
 .email-share__share-button {
@@ -163,47 +129,27 @@
   cursor: pointer;
 }
 
-// .email-share__user-badge {
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   background-color: $blueAccent;
-//   border-radius: 50rem;
-//   padding: 10px 15px;
-//   margin-bottom: 10px;
-//   font-size: 16px;
-//   color: #fff;
-// }
-
-// .email-share__user-badge__name {
-//   margin-right: 10px;
-// }
-
-// .email-share__user-badge__icon {
-//   flex: 0 0 15px;
-//   margin-left: 10px;
-//   cursor: pointer;
-//   & svg {
-//     fill: #fff;
-//     height: 15px;
-//   }
-// }
-
-// .email-share__user-badge__remove {
-//   border: none;
-//   background-color: transparent;
-//   padding: 0;
-//   cursor: pointer;
-//   & svg {
-//     fill: #fff;
-//     height: 15px;
-//   }
-// }
+/*** MEDIA QUERIES ***/
 
 @media screen and (min-width: $medium) {
   .ModalContent {
     &.email-share__container {
       width: 640px;
     }
+  }
+  .email-share__add-user {
+    flex-wrap: nowrap;
+    row-gap: unset;
+    column-gap: 15px;
+  }
+  .email-share__add-user__input {
+    width: 330px;
+  }
+  .email-share__share-button__container {
+    justify-content: flex-end;
+  }
+  .email-share__share-button,
+  .email-share__cancel-button {
+    flex-grow: unset;
   }
 }
