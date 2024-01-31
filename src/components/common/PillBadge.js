@@ -5,7 +5,7 @@ const PillBadge = ({ title, remove, iconClass, customClass, key }) => {
   return (
     <div className={`pill-badge ${customClass ? customClass : ""}`} key={key}>
       {iconClass && (
-        <div className={`pill-badge__icon ${iconClass ? iconClass : ""}`}></div>
+        <i className={"pill-badge__icon"}><span className={iconClass}></span></i>
       )}
       <div className="pill-badge__title">{title}</div>
       {remove && (

@@ -64,6 +64,10 @@
   }
 }
 
+.dropdown .email-share__read-icon, .dropdown .email-share__write-icon {
+  background-size: auto auto;
+}
+
 // Dropdown icons
 .dropdown .email-share__read-icon {
   height: 12px;
@@ -75,6 +79,30 @@
   height: 16px;
   width: 16px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17.999 17.999'%3E%3Cpath d='m17.503 4.995-1.621 1.619a.422.422 0 0 1-.6 0l-3.9-3.9a.422.422 0 0 1 0-.6L13.003.495a1.691 1.691 0 0 1 2.387 0l2.113 2.113a1.685 1.685 0 0 1 0 2.387ZM9.99 3.506.758 12.738.013 17.01a.845.845 0 0 0 .977.977l4.271-.749 9.237-9.232a.422.422 0 0 0 0-.6l-3.9-3.9a.426.426 0 0 0-.6 0Zm-5.628 8.441a.49.49 0 0 1 0-.7l5.414-5.41a.495.495 0 0 1 .7.7l-5.418 5.41a.49.49 0 0 1-.7 0Zm-1.269 2.957H4.78v1.276l-2.268.4-1.093-1.096.4-2.268h1.274Z' fill='%23707070' opacity='.8'/%3E%3C/svg%3E");
+}
+
+// Pill icons
+
+.email-share__pill_icon-container {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.email-share__pill_read-icon {
+  height: 10px;
+  width: 15px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 10'%3E%3Cpath d='M14.909 4.62A8.353 8.353 0 0 0 7.5 0 8.354 8.354 0 0 0 .091 4.62a.842.842 0 0 0 0 .76A8.353 8.353 0 0 0 7.5 10a8.354 8.354 0 0 0 7.409-4.62.842.842 0 0 0 0-.76ZM7.5 8.75A3.75 3.75 0 1 1 11.25 5 3.75 3.75 0 0 1 7.5 8.75Zm0-6.25a2.482 2.482 0 0 0-.659.1A1.246 1.246 0 0 1 5.1 4.341 2.494 2.494 0 1 0 7.5 2.5Z' fill='%234a7abe'/%3E%3C/svg%3E");
+}
+
+.email-share__pill_write-icon {
+  height: 12px;
+  width: 12px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='m11.669 3.329-1.08 1.081a.282.282 0 0 1-.4 0l-2.6-2.6a.282.282 0 0 1 0-.4L8.669.329a1.127 1.127 0 0 1 1.591 0l1.409 1.409a1.123 1.123 0 0 1 0 1.591ZM6.66 2.338.505 8.495l-.5 2.848a.563.563 0 0 0 .655.652l2.848-.5 6.155-6.157a.282.282 0 0 0 0-.4l-2.6-2.6a.284.284 0 0 0-.4 0ZM2.908 7.965a.327.327 0 0 1 0-.464l3.609-3.606a.328.328 0 1 1 .464.464L3.372 7.965a.327.327 0 0 1-.464 0Zm-.846 1.971h1.125v.851l-1.512.265-.729-.729.265-1.512h.851Z' fill='%234a7abe'/%3E%3C/svg%3E");
 }
 
 /*** ADDED USER (middle) SECTION ***/

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import useClickOutside from "../../hooks/useClickOutside";
 
 const Dropdown = ({ options, onSelect, customClass, defaultLabel }) => {
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);
@@ -15,6 +17,11 @@ const Dropdown = ({ options, onSelect, customClass, defaultLabel }) => {
   //     setSelectedOption(options[0]);
   //   }
   // }, [options]);
+  // useEffect(() => {
+  //   setSelectedOption(options[0]);
+  // }, []);
+
+  useClickOutside(dropdownRef, () => setIsOpen(!isOpen));
 
   return (
     <div className={`dropdown ${customClass ? customClass : ""}`}>
@@ -44,8 +51,8 @@ const Dropdown = ({ options, onSelect, customClass, defaultLabel }) => {
         </div>
       </div>
       {isOpen && (
-        <div className="dropdown__options__container">
-          {options.map((option, index) => (
+        <div className="dropdown__options__container" ref={dropdownRef}>
+          {options.map((option, i) => (
             <div
               className={`dropdown__option`}
               key={option.value}

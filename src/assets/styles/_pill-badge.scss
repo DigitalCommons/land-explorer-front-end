@@ -6,7 +6,6 @@
   justify-content: space-between;
   background-color: $blueAccent;
   border-radius: 50rem;
-  //   padding: 10px 15px;
   font-size: 12px;
   color: #fff;
 }
@@ -16,13 +15,19 @@
 }
 
 .pill-badge__icon {
-  flex: 0 0 15px;
-  margin-left: 10px;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  margin-left: 4px;
   cursor: pointer;
-  & svg {
-    fill: #fff;
-    height: 15px;
-  }
+  // & svg {
+  //   fill: #fff;
+  //   height: 15px;
+  // }
 }
 
 .pill-badge__remove {

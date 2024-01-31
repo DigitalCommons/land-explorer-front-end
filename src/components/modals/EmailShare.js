@@ -12,14 +12,20 @@ import PillBadge from "../common/PillBadge";
 const EmailShare = () => {
   const [input, setInput] = useState("");
   const [emails, setEmails] = useState([]);
-  //   const [mapName, setMapName] = useState("");
+  // const [mapName, setMapName] = useState("");
   const myMaps = useSelector((state) => state.myMaps.maps);
   const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
   const mapName = useSelector((state) => state.map.name);
+  const readOnly = 1;
+  const readWrite = 2;
 
   const options = [
-    { value: "read", label: "Read Only", iconClass: "email-share__read-icon" },
-    { value: "write", label: "Write", iconClass: "email-share__write-icon" },
+    {
+      value: readOnly,
+      label: "Read Only",
+      iconClass: "email-share__read-icon",
+    },
+    { value: readWrite, label: "Write", iconClass: "email-share__write-icon" },
   ];
 
   const [selectedOption, setSelectedOption] = useState(options[0].value);
@@ -31,7 +37,12 @@ const EmailShare = () => {
   const dispatch = useDispatch();
 
   const populateEmails = (emails) => {
-    setEmails(emails.map((email) => email.emailAddress));
+    setEmails(
+      emails.map((email) => ({
+        emailAddress: email.emailAddress,
+        access: email.access,
+      }))
+    );
   };
 
   const removeEmail = (i) => {
@@ -43,11 +54,10 @@ const EmailShare = () => {
   const addEmail = () => {
     if (emailRegexp.test(input)) {
       const newEmails = emails.slice();
-      newEmails.push(input);
+      newEmails.push({ emailAddress: input, access: selectedOption });
       setEmails(newEmails);
 
-      setSelectedOption(selectedOption);
-      console.log("selected option", selectedOption);
+      setSelectedOption(options[0].value); // Reset selected option
       setInput("");
     }
   };
@@ -56,43 +66,63 @@ const EmailShare = () => {
     dispatch({ type: "CLOSE_MODAL", payload: "emailShare" });
     setInput("");
     setEmails([]);
+    setSelectedOption(options[0].value);
   };
 
-  // Does not work - hence no map name in email share modal
-  //   useEffect(() => {
-  //     myMaps.forEach((map) => {
-  //       if (map.map.eid === currentMapId) {
-  //         populateEmails(map.map.sharedWith);
-  //         setMapName(map.map.name);
-  //       }
-  //     });
-  //   }, []);
+  useEffect(() => {
+    myMaps.forEach((map) => {
+      if (map.map.eid === currentMapId) {
+        populateEmails(map.map.sharedWith);
+        // setMapName(map.map.name);
+      }
+    });
+  }, []);
 
   const share = (id) => {
-    const newEmails = emails.slice();
-    if (input != "") {
+    const newEmails = emails.map((email) => ({
+      emailAddress: email.emailAddress,
+      access: email.access,
+    }));
+    if (input !== "") {
       if (emailRegexp.test(input)) {
-        newEmails.push(input);
-        setInput("");
-        setEmails(newEmails);
+        newEmails.push({ emailAddress: input, access: selectedOption });
       }
     }
     if (newEmails.length === 0) return;
+
     const shareData = {
       eid: id,
-      emailAddresses: newEmails,
+      emailAddresses: newEmails.map((email) => email.emailAddress),
+      access: newEmails.reduce((acc, email) => {
+        acc[email.emailAddress] = {
+          email: email.emailAddress,
+          value: email.access,
+        };
+        return acc;
+      }, {}),
     };
-    axios
-      .post(
-        `${constants.ROOT_URL}/api/user/map/share/sync`,
-        shareData,
-        getAuthHeader()
-      )
-      .then(() => {
-        closeModal();
-        dispatch(getMyMaps());
-      })
-      .catch((err) => console.log("share error", err));
+
+    // const shareData = {
+    //   eid: id,
+    //   emailAddresses: newEmails.map((email) => email.emailAddress),
+    //   access: newEmails.map((email) => ({
+    //     email: email.emailAddress,
+    //     value: email.access,
+    //   })),
+    // };
+
+    // axios
+    //   .post(
+    //     `${constants.ROOT_URL}/api/user/map/share/sync`,
+    //     shareData,
+    //     getAuthHeader()
+    //   )
+    //   .then(() => {
+    //     closeModal();
+    //     dispatch(getMyMaps());
+    //   })
+    //   .catch((err) => console.log("share error", err));
+    console.log("shareData", shareData);
   };
 
   if (currentMapId === null)
@@ -153,13 +183,18 @@ const EmailShare = () => {
             emails.length > 0 ? "populated" : ""
           }`}
         >
-          {emails.map((email, i) => {
+          {emails.map((emailObj, i) => {
             return (
               <PillBadge
-                key={email + i}
-                title={email}
+                key={emailObj.emailAddress + i}
+                title={emailObj.emailAddress}
                 remove={() => removeEmail(i)}
                 customClass={"pill-badge--email-share"}
+                iconClass={
+                  emailObj.access === readOnly
+                    ? "email-share__pill_read-icon"
+                    : "email-share__pill_write-icon"
+                }
               />
             );
           })}
