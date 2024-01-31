@@ -94,35 +94,24 @@ const EmailShare = () => {
       eid: id,
       emailAddresses: newEmails.map((email) => email.emailAddress),
       access: newEmails.reduce((acc, email) => {
-        acc[email.emailAddress] = {
-          email: email.emailAddress,
-          value: email.access,
-        };
+        acc[email.emailAddress] = email.access;
         return acc;
       }, {}),
     };
 
-    // const shareData = {
-    //   eid: id,
-    //   emailAddresses: newEmails.map((email) => email.emailAddress),
-    //   access: newEmails.map((email) => ({
-    //     email: email.emailAddress,
-    //     value: email.access,
-    //   })),
-    // };
-
-    // axios
-    //   .post(
-    //     `${constants.ROOT_URL}/api/user/map/share/sync`,
-    //     shareData,
-    //     getAuthHeader()
-    //   )
-    //   .then(() => {
-    //     closeModal();
-    //     dispatch(getMyMaps());
-    //   })
-    //   .catch((err) => console.log("share error", err));
+    axios
+      .post(
+        `${constants.ROOT_URL}/api/user/map/share/sync`,
+        shareData,
+        getAuthHeader()
+      )
+      .then(() => {
+        closeModal();
+        dispatch(getMyMaps());
+      })
+      .catch((err) => console.log("share error", err));
     console.log("shareData", shareData);
+    console.log("Frontend payload.access:", shareData.access);
   };
 
   if (currentMapId === null)
