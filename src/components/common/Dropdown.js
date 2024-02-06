@@ -12,15 +12,6 @@ const Dropdown = ({ options, onSelect, customClass, defaultLabel }) => {
     onSelect(option);
   };
 
-  // useEffect(() => {
-  //   if (selectedOption !== options[0]) {
-  //     setSelectedOption(options[0]);
-  //   }
-  // }, [options]);
-  // useEffect(() => {
-  //   setSelectedOption(options[0]);
-  // }, []);
-
   useClickOutside(dropdownRef, () => setIsOpen(!isOpen));
 
   return (
@@ -34,8 +25,11 @@ const Dropdown = ({ options, onSelect, customClass, defaultLabel }) => {
             className={`dropdown__option__icon ${selectedOption.iconClass}`}
           ></i>
         )}
-
-        {selectedOption ? selectedOption.label : defaultLabel}
+        {defaultLabel ? (
+          <div className="dropdown__option__label">{defaultLabel}</div>
+        ) : (
+          <div className="dropdown__option__label">{selectedOption.label}</div>
+        )}
         <div className="dropdown__selected-option__arrow">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.828 8.414">
             <path

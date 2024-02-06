@@ -12,7 +12,6 @@ import PillBadge from "../common/PillBadge";
 const EmailShare = () => {
   const [input, setInput] = useState("");
   const [emails, setEmails] = useState([]);
-  // const [mapName, setMapName] = useState("");
   const myMaps = useSelector((state) => state.myMaps.maps);
   const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
   const mapName = useSelector((state) => state.map.name);
@@ -29,9 +28,11 @@ const EmailShare = () => {
   ];
 
   const [selectedOption, setSelectedOption] = useState(options[0].value);
+  const [selectedOptionLabel, setSelectedOptionLabel] = useState(options[0].label);
 
   const handleSelect = (option) => {
     setSelectedOption(option.value);
+    setSelectedOptionLabel(option.label);
   };
 
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ const EmailShare = () => {
       setEmails(newEmails);
 
       setSelectedOption(options[0].value); // Reset selected option
+      setSelectedOptionLabel(options[0].label); // Reset selected option label
       setInput("");
     }
   };
@@ -144,7 +146,7 @@ const EmailShare = () => {
         <Dropdown
           options={options}
           onSelect={handleSelect}
-          defaultLabel={"Permissions"}
+          defaultLabel={selectedOptionLabel}
         />
 
         <Button
@@ -166,6 +168,7 @@ const EmailShare = () => {
       </div>
 
       {selectedOption && <p>Selected Value: {selectedOption}</p>}
+      {selectedOptionLabel && <p>Selected Label: {selectedOptionLabel}</p>}
       <div className="modal-content">
         <div
           className={`email-share__user-badge__container ${
