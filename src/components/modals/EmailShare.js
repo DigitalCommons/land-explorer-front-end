@@ -28,7 +28,9 @@ const EmailShare = () => {
   ];
 
   const [selectedOption, setSelectedOption] = useState(options[0].value);
-  const [selectedOptionLabel, setSelectedOptionLabel] = useState(options[0].label);
+  const [selectedOptionLabel, setSelectedOptionLabel] = useState(
+    options[0].label
+  );
 
   const handleSelect = (option) => {
     setSelectedOption(option.value);
@@ -75,7 +77,6 @@ const EmailShare = () => {
     myMaps.forEach((map) => {
       if (map.map.eid === currentMapId) {
         populateEmails(map.map.sharedWith);
-        // setMapName(map.map.name);
       }
     });
   }, []);
@@ -126,6 +127,7 @@ const EmailShare = () => {
       </Modal>
     );
 
+  // Remove console.log statements
   console.log("myMaps", myMaps);
   console.log("currentMapId", currentMapId);
 
