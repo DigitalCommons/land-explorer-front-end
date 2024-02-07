@@ -20,12 +20,21 @@ export const MySharedMaps = ({ stage, setStage, closeModal }) => {
     return (
       <tr
         key={`map-${i}`}
-        className={`table-map ${active.id === map.eid ? "active" : ""}`}
+        className={`table-map shared-maps__table ${active.id === map.eid ? "active" : ""}`}
         onClick={() => {
           setActive({ id: map.eid, name: map.name });
         }}
       >
-        <td style={{ width: "230px" }}>{map.name}</td>
+        <td>
+          <i
+            className={
+              item.access === "READ"
+                ? "shared-maps__read-icon"
+                : "shared-maps__write-icon"
+            }
+          ></i>{" "}
+          {map.name}
+        </td>
         <td>{momentDate}</td>
         <td
           className={`table-icon ${
@@ -82,7 +91,7 @@ export const MySharedMaps = ({ stage, setStage, closeModal }) => {
           <table>
             <thead>
               <tr>
-                <th style={{ width: "230px" }}>Name</th>
+                <th>Name</th>
                 <th>Modified</th>
                 <th className="table-icon">Type</th>
               </tr>

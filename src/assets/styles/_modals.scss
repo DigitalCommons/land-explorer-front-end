@@ -145,7 +145,7 @@
   }
 
   .ModalContent {
-    width: 430px;
+    width: 511px;
     height: 320px;
     min-width: 430px !important;
 
@@ -189,6 +189,7 @@
 
       td {
         border: none;
+        vertical-align: baseline;
       }
     }
   }
