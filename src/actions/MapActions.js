@@ -53,7 +53,8 @@ export const openMap = (mapId) => {
       const mapData = JSON.parse(map.map.data);
       const isSnapshot = map.map.isSnapshot;
       const lastModified = map.map.lastModified;
-      const writeAccess = map.access === "WRITE";
+      // access level changed from equalling "WRITE" to excluding "READ"
+      const writeAccess = map.access != "READ";
 
       dispatch({
         type: "LOAD_MAP",
@@ -65,6 +66,7 @@ export const openMap = (mapId) => {
           lastModified: shortenTimestamp(lastModified),
         },
       });
+      console.log("Write access:", writeAccess);
       dispatch(updateReadOnly());
 
       setTimeout(() => {
@@ -97,10 +99,10 @@ export const deleteMap = (mapId) => {
 };
 
 export const newMap = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: "NEW_MAP",
-      payload: { unsavedMapUuid: uuidv4() }
+      payload: { unsavedMapUuid: uuidv4() },
     });
     setTimeout(() => {
       dispatch({ type: "CHANGE_MOVING_METHOD", payload: "flyTo" });

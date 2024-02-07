@@ -9,7 +9,8 @@ export const MyMaps = ({ stage, setStage, closeModal }) => {
     const [active, setActive] = useState({ id: null, name: null })
 
     const allMaps = useSelector(state => state.myMaps.maps);
-    const myMaps = allMaps.filter((map) => map.access === 'WRITE');
+   // Change from 'WRITE' to 'OWNER'
+    const myMaps = allMaps.filter((map) => map.access === 'OWNER');
     const error = useSelector(state => state.myMaps.error);
 
     const close = () => {

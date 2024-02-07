@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import useClickOutside from "../../hooks/useClickOutside";
 
-const Dropdown = ({ options, onSelect, customClass, defaultLabel }) => {
+const Dropdown = ({ options, onSelect, customClass, defaultLabel, defaultIcon }) => {
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -20,11 +20,12 @@ const Dropdown = ({ options, onSelect, customClass, defaultLabel }) => {
         className="dropdown__selected-option"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {selectedOption.iconClass && (
-          <i
-            className={`dropdown__option__icon ${selectedOption.iconClass}`}
-          ></i>
+        {defaultIcon ? (
+          <i className={`dropdown__selected-option__icon ${defaultIcon}`}></i>
+        ) : (
+          <i className={`dropdown__selected-option__icon ${selectedOption.iconClass}`}></i>
         )}
+        
         {defaultLabel ? (
           <div className="dropdown__option__label">{defaultLabel}</div>
         ) : (

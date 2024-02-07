@@ -16,7 +16,7 @@ const EmailShare = () => {
   const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
   const mapName = useSelector((state) => state.map.name);
   const readOnly = 1;
-  const readWrite = 2;
+  const readWrite = 3;
 
   const options = [
     {
@@ -31,10 +31,14 @@ const EmailShare = () => {
   const [selectedOptionLabel, setSelectedOptionLabel] = useState(
     options[0].label
   );
+  const [selectedOptionIcon, setSelectedOptionIcon] = useState(
+    options[0].iconClass
+  );
 
   const handleSelect = (option) => {
     setSelectedOption(option.value);
     setSelectedOptionLabel(option.label);
+    setSelectedOptionIcon(option.iconClass);
   };
 
   const dispatch = useDispatch();
@@ -62,6 +66,7 @@ const EmailShare = () => {
 
       setSelectedOption(options[0].value); // Reset selected option
       setSelectedOptionLabel(options[0].label); // Reset selected option label
+      setSelectedOptionIcon(options[0].iconClass); // Reset selected option icon
       setInput("");
     }
   };
@@ -149,6 +154,7 @@ const EmailShare = () => {
           options={options}
           onSelect={handleSelect}
           defaultLabel={selectedOptionLabel}
+          defaultIcon={selectedOptionIcon}
         />
 
         <Button
@@ -169,8 +175,9 @@ const EmailShare = () => {
         </Button>
       </div>
 
-      {selectedOption && <p>Selected Value: {selectedOption}</p>}
+      {/* {selectedOption && <p>Selected Value: {selectedOption}</p>}
       {selectedOptionLabel && <p>Selected Label: {selectedOptionLabel}</p>}
+      {selectedOptionIcon && <p>Selected Icon: {selectedOptionIcon}</p>} */}
       <div className="modal-content">
         <div
           className={`email-share__user-badge__container ${
