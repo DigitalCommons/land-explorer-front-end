@@ -1,5 +1,8 @@
 import React from "react";
 import { MODE } from "../DrawingPopup";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleMapLock } from "../../../../actions/MapActions";
+import { getAuthHeader } from "../../../../utils/Auth";
 
 const PopupContent = ({
   mode,
@@ -12,6 +15,22 @@ const PopupContent = ({
   isOnline,
   readOnly,
 }) => {
+  const dispatch = useDispatch();
+  const { locked } = useSelector((state) => state.map);
+
+  const handleEditClick = async () => {
+    // Lock the map if it's unlocked
+    if (!locked) {
+      await dispatch(toggleMapLock());
+    }
+    setMode(MODE.EDIT);
+  };
+
+  const handleSaveClick = async () => {
+    await dispatch(toggleMapLock()); // Unlock the map when saving
+    setMode(MODE.DISPLAY);
+  };
+
   return (
     <>
       <div className="popup-body-container">
@@ -71,14 +90,17 @@ const PopupContent = ({
               className={`popup-footer-button popup-edit  ${
                 readOnly ? "is-offline" : ""
               }`}
-              onClick={() => setMode(MODE.EDIT)}
+              // onClick={() => setMode(MODE.EDIT)}
+              onClick={handleEditClick}
               disabled={readOnly}
             >
               <img
                 src={require(`../../../../assets/img/icon-edit-new.svg`)}
                 className="popup-footer-icon"
               />
-              <span className="popup-footer-button-text">Edit Marker</span>
+              <span className="popup-footer-button-text">
+                {locked ? "Map Locked" : "Edit Marker"}
+              </span>
             </button>
           </>
         )}
@@ -113,6 +135,7 @@ const PopupContent = ({
                 setDescription(newDescription);
                 setMode(MODE.DISPLAY);
                 editObjectInfo(newName, newDescription);
+                handleSaveClick();
               }}
             >
               <img

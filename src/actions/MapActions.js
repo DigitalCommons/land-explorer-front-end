@@ -361,3 +361,49 @@ const shortenTimestamp = (timestamp) => {
     return moment(timestamp).format("DD/MM/YY");
   }
 };
+
+const lockMap = (mapId) => {
+  return async (dispatch) => {
+    const success = await dispatch(
+      postRequest("/api/user/map/lock", { mapId: mapId })
+    );
+    if (success) {
+      dispatch({ type: "LOCK_MAP" });
+    }
+  };
+};
+
+const unlockMap = (mapId) => {
+  return async (dispatch) => {
+    const success = await dispatch(
+      postRequest("/api/user/map/unlock", { mapId: mapId })
+    );
+    if (success) {
+      dispatch({ type: "UNLOCK_MAP" });
+    }
+  };
+};
+
+export const toggleMapLock = () => {
+  return async (dispatch, getState) => {
+    const mapId = getState().mapMeta.currentMapId;
+    const locked = getState().map.locked;
+    if (locked) {
+      dispatch(unlockMap(mapId));
+    } else {
+      dispatch(lockMap(mapId));
+    }
+  };
+};
+
+export const checkMapLock = () => {
+  return async (dispatch, getState) => {
+    const mapId = getState().mapMeta.currentMapId;
+    const success = await dispatch(
+      postRequest("/api/user/map/checkLock", { mapId: mapId })
+    );
+    if (success) {
+      dispatch({ type: "LOCK_MAP" });
+    }
+  };
+};

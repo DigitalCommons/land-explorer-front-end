@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   currentLocation: null,
   movingMethod: "flyTo",
   name: null,
+  locked: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -76,8 +77,18 @@ export default (state = INITIAL_STATE, action) => {
     case "SET_MAP_NAME":
       return {
         ...state,
-        name: action.payload
-      }
+        name: action.payload,
+      };
+    case "LOCK_MAP":
+      return {
+        ...state,
+        locked: true,
+      };
+    case "UNLOCK_MAP":
+      return {
+        ...state,
+        locked: false,
+      };
     default:
       return state;
   }
