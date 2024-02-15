@@ -47,7 +47,10 @@ export const loadNewestMap = () => {
 
 /** Open specified map (if it exists in My Maps) */
 export const openMap = (mapId) => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
+    console.log("Opening map", mapId);
+    await dispatch(checkMapLock(mapId));
+
     const map = getState().myMaps.maps.find((item) => item.map.eid === mapId);
     if (map) {
       const mapData = JSON.parse(map.map.data);
@@ -55,6 +58,7 @@ export const openMap = (mapId) => {
       const lastModified = map.map.lastModified;
       // access level changed from equalling "WRITE" to excluding "READ"
       const writeAccess = map.access != "READ";
+      const locked = getState().map.locked;
 
       dispatch({
         type: "LOAD_MAP",
@@ -63,10 +67,12 @@ export const openMap = (mapId) => {
           id: mapId,
           isSnapshot: isSnapshot,
           writeAccess: writeAccess,
+          locked: locked,
           lastModified: shortenTimestamp(lastModified),
         },
       });
       console.log("Write access:", writeAccess);
+      console.log("map data:", mapData, "map id:", mapId);
       dispatch(updateReadOnly());
 
       setTimeout(() => {
@@ -396,14 +402,41 @@ export const toggleMapLock = () => {
   };
 };
 
-export const checkMapLock = () => {
-  return async (dispatch, getState) => {
-    const mapId = getState().mapMeta.currentMapId;
-    const success = await dispatch(
-      postRequest("/api/user/map/checkLock", { mapId: mapId })
-    );
-    if (success) {
-      dispatch({ type: "LOCK_MAP" });
+// export const checkMapLock = (mapId) => {
+//   return async (dispatch) => {
+//     const success = await dispatch(
+//       getRequest(`/api/user/map/lockStatus?mapId=${mapId}`)
+//     );
+//     if (success) {
+//       const locked = success.locked;
+//       if (locked) {
+//         dispatch({ type: "LOCK_MAP" });
+//       } else {
+//         dispatch({ type: "UNLOCK_MAP" });
+//       }
+//     }
+//   };
+// };
+
+export const checkMapLock = (mapId) => {
+  return async (dispatch) => {
+    try {
+      const response = await dispatch(
+        getRequest(`/api/user/map/lockStatus?mapId=${mapId}`)
+      );
+
+      // Access the isLocked property from the response
+      const { isLocked } = response;
+
+      // Dispatch actions based on the lock status
+      if (isLocked) {
+        dispatch({ type: "LOCK_MAP" });
+      } else {
+        dispatch({ type: "UNLOCK_MAP" });
+      }
+    } catch (error) {
+      // Handle error if the request fails
+      console.error("Error checking map lock status:", error);
     }
   };
 };

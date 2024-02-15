@@ -2,7 +2,6 @@ import React from "react";
 import { MODE } from "../DrawingPopup";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMapLock } from "../../../../actions/MapActions";
-import { getAuthHeader } from "../../../../utils/Auth";
 
 const PopupContent = ({
   mode,
