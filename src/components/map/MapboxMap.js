@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ReactMapboxGl from "react-mapbox-gl";
 import { v4 as uuidv4 } from "uuid";
 import * as turf from "@turf/turf";
-import MapboxDraw from "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.js";
+import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import DrawControl from "react-mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import StaticMode from "@mapbox/mapbox-gl-draw-static-mode";
