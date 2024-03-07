@@ -12,7 +12,6 @@ const MapTitleBar = ({ expanded }) => {
     const mapName = useSelector((state) => state.map.name);
     const { saving, saveError, lastSaved, isSnapshot, writeAccess, locked  } = useSelector((state) => state.mapMeta);
     const [editing, setEditing] = useState(false);
-    const isLocked = useSelector((state) => state.map.locked);
 
     // We use this variable, rather than directly checking currentMapId, so that the 'add title'
     // prompt doesn't flicker between a new map being saved then loaded.
@@ -21,7 +20,7 @@ const MapTitleBar = ({ expanded }) => {
     // Distinct possibilities for the saving status
     let status;
     let popupOnHover = false;
-    if (isSnapshot || !writeAccess || isMobile, locked) {
+    if (isSnapshot || !writeAccess || isMobile) {
         // We don't use the read-only Redux state, because we still want to show the saving status
         // if we have no internet connection
         status = 'noEdit';

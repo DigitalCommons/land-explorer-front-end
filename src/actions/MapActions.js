@@ -368,8 +368,12 @@ const shortenTimestamp = (timestamp) => {
   }
 };
 
-const lockMap = (mapId) => {
-  return async (dispatch) => {
+// #306 Enable multiple users to write to a map
+// M.S. Lock and unlock the map when a user writes to it
+
+export const lockMap = () => {
+  return async (dispatch, getState) => {
+    const mapId = getState().mapMeta.currentMapId;
     const success = await dispatch(
       postRequest("/api/user/map/lock", { mapId: mapId })
     );
@@ -379,8 +383,9 @@ const lockMap = (mapId) => {
   };
 };
 
-const unlockMap = (mapId) => {
-  return async (dispatch) => {
+export const unlockMap = () => {
+  return async (dispatch, getState) => {
+    const mapId = getState().mapMeta.currentMapId;
     const success = await dispatch(
       postRequest("/api/user/map/unlock", { mapId: mapId })
     );
@@ -389,6 +394,9 @@ const unlockMap = (mapId) => {
     }
   };
 };
+
+// #306 Enable multiple users to write to a map
+// M.S. Toggle the lock status of the map
 
 export const toggleMapLock = () => {
   return async (dispatch, getState) => {
@@ -402,37 +410,33 @@ export const toggleMapLock = () => {
   };
 };
 
-// export const checkMapLock = (mapId) => {
-//   return async (dispatch) => {
-//     const success = await dispatch(
-//       getRequest(`/api/user/map/lockStatus?mapId=${mapId}`)
-//     );
-//     if (success) {
-//       const locked = success.locked;
-//       if (locked) {
-//         dispatch({ type: "LOCK_MAP" });
-//       } else {
-//         dispatch({ type: "UNLOCK_MAP" });
-//       }
-//     }
-//   };
-// };
+// #306 Enable multiple users to write to a map
+// M.S. Check if the map is locked and dispatch actions based on the lock status
 
 export const checkMapLock = (mapId) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
       const response = await dispatch(
         getRequest(`/api/user/map/lockStatus?mapId=${mapId}`)
       );
 
-      // Access the isLocked property from the response
-      const { isLocked } = response;
+      // Access the isLocked property and userId from the response
+      const { isLocked, userId } = response;
 
-      // Dispatch actions based on the lock status
+      // Get the current user's ID from the Redux state
+      const currentUserID = getState().user.id;
+
+      // Dispatch actions based on the lock status and user ID
       if (isLocked) {
         dispatch({ type: "LOCK_MAP" });
+        if (currentUserID === userId) {
+          dispatch({ type: "SET_CURRENT_USER_LOCKED_MAP" });
+        } else {
+          dispatch({ type: "SET_OTHER_USER_LOCKED_MAP", payload: userId });
+        }
       } else {
         dispatch({ type: "UNLOCK_MAP" });
+        dispatch({ type: "CLEAR_LOCKED_MAP_USER" });
       }
     } catch (error) {
       // Handle error if the request fails

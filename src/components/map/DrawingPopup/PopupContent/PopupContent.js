@@ -1,7 +1,11 @@
 import React from "react";
 import { MODE } from "../DrawingPopup";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleMapLock } from "../../../../actions/MapActions";
+import { lockMap, unlockMap } from "../../../../actions/MapActions";
+import {
+  establishSSEConnection,
+  closeSSEConnection,
+} from "../../../../actions/SSEActions";
 
 const PopupContent = ({
   mode,
@@ -15,18 +19,38 @@ const PopupContent = ({
   readOnly,
 }) => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const map = useSelector((state) => state.map);
   const { locked } = useSelector((state) => state.map);
+
+  // #306 Enable multiple users to write to a map
+  // M.S. Get the SSE connection from the Redux state
+  const sse = useSelector((state) => state.sse.sseConnection);
+
+  console.log("SSE present?", sse);
+
+  // #306 Enable multiple users to write to a map
+  // M.S. lock and unlock the map when editing
+  // and establish and close the SSE connection
 
   const handleEditClick = async () => {
     // Lock the map if it's unlocked
     if (!locked) {
-      await dispatch(toggleMapLock());
+      await dispatch(lockMap());
+      dispatch(establishSSEConnection());
+      console.log(user.id, "locked the map");
     }
     setMode(MODE.EDIT);
   };
 
   const handleSaveClick = async () => {
-    await dispatch(toggleMapLock()); // Unlock the map when saving
+    await dispatch(unlockMap()); // Unlock the map when saving
+    dispatch(closeSSEConnection());
+    // if (sse) {
+    //   dispatch(closeSSEConnection(sse)); // Close the SSE connection
+    // }
+    console.log(user.id, "unlocked the map");
+
     setMode(MODE.DISPLAY);
   };
 
