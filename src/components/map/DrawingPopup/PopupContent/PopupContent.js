@@ -25,9 +25,9 @@ const PopupContent = ({
 
   // #306 Enable multiple users to write to a map
   // M.S. Get the SSE connection from the Redux state
-  const sse = useSelector((state) => state.sse.sseConnection);
+  // const sse = useSelector((state) => state.sse.sseConnection);
 
-  console.log("SSE present?", sse);
+  // console.log("SSE present?", sse);
 
   // #306 Enable multiple users to write to a map
   // M.S. lock and unlock the map when editing
@@ -37,7 +37,7 @@ const PopupContent = ({
     // Lock the map if it's unlocked
     if (!locked) {
       await dispatch(lockMap());
-      dispatch(establishSSEConnection());
+      // dispatch(establishSSEConnection());
       console.log(user.id, "locked the map");
     }
     setMode(MODE.EDIT);

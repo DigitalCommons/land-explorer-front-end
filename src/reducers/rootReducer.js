@@ -20,6 +20,7 @@ import DataGroupsReducer from "./DataGroupsReducer";
 import ConnectivityReducer from "./ConnectivityReducer";
 import RelatedPropertiesReducer from "./RelatedPropertiesReducer";
 import SSEReducer from "./SSEReducer";
+import WebSocketReducer from "./WebSocketReducer";
 
 const appReducer = combineReducers({
   authentication: AuthenticationReducer,
@@ -43,6 +44,7 @@ const appReducer = combineReducers({
   connectivity: ConnectivityReducer,
   relatedProperties: RelatedPropertiesReducer,
   sse: SSEReducer,
+  socket: WebSocketReducer,
 });
 
 const rootReducer = (state, action) => {
