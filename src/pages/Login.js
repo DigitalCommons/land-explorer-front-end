@@ -6,6 +6,7 @@ import * as Auth from "../utils/Auth";
 import Spinner from "../components/common/Spinner";
 import TopBar from "../components/top-bar/TopBar";
 import constants from "../constants";
+import { establishSocketConnection } from "../actions/WebSocketActions";
 
 const Login = ({ updateBgImage }) => {
   const [loggingIn, setLoggingIn] = useState(false);
@@ -70,6 +71,9 @@ const Login = ({ updateBgImage }) => {
       .then((response) => {
         Auth.setToken(response.data.access_token, response.data.expires_in);
         dispatch({ type: "LOGGED_IN" });
+
+        dispatch(establishSocketConnection());
+
         if (useResetToken) {
           // user needs to set a new password
           navigate("/app/my-account/password", { state: { mandatory: true } });
@@ -80,7 +84,8 @@ const Login = ({ updateBgImage }) => {
       .catch((err) => {
         console.log(err);
         const { response } = err;
-        const errorMessage = response?.data.message || "Unable to log in. Please try again later.";
+        const errorMessage =
+          response?.data.message || "Unable to log in. Please try again later.";
         setLoggingIn(false);
         dispatch({ type: "FAILED_LOGIN", payload: { errorMessage } });
       });
@@ -167,7 +172,7 @@ const Login = ({ updateBgImage }) => {
               paddingBottom: "4px",
               borderBottom: "1px solid rgb(46, 203, 112)",
             }}
-          // onClick={closeMainMenu}
+            // onClick={closeMainMenu}
           >
             register new account
           </Link>
@@ -182,7 +187,7 @@ const Login = ({ updateBgImage }) => {
               paddingBottom: "4px",
               borderBottom: "1px solid rgb(46, 203, 112)",
             }}
-          // onClick={closeMainMenu}
+            // onClick={closeMainMenu}
           >
             reset password
           </Link>

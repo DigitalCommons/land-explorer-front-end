@@ -3,11 +3,8 @@ import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
 import { getRequest, postRequest } from "./RequestActions";
 import { updateReadOnly } from "./ReadOnlyActions";
+import { sendCurrentMap } from "./WebSocketActions";
 import constants from "../constants";
-import {
-  closeSocketConnection,
-  establishSocketConnection,
-} from "./WebSocketActions";
 import { io } from "socket.io-client";
 import { getAuthHeader } from "../utils/Auth";
 
@@ -56,13 +53,7 @@ export const loadNewestMap = () => {
 export const openMap = (mapId) => {
   return async (dispatch, getState) => {
     console.log("Opening map", mapId);
-    await dispatch(checkMapLock(mapId));
-    // await dispatch(closeSocketConnection());
-    // await dispatch(
-    //   establishSocketConnection(constants.ROOT_URL)
-    // );
-    const socket = io(constants.ROOT_URL, { auth: getAuthHeader() });
-    dispatch({ type: "SOCKET_CONNECT", payload: socket });
+    // await dispatch(checkMapLock(mapId));
 
     const map = getState().myMaps.maps.find((item) => item.map.eid === mapId);
     if (map) {
@@ -96,6 +87,7 @@ export const openMap = (mapId) => {
       }, 1000);
 
       dispatch(postRequest("/api/user/map/view", { eid: mapId }));
+      dispatch(sendCurrentMap());
     }
   };
 };
