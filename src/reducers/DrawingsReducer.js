@@ -84,6 +84,7 @@ export default (state = INITIAL_STATE, action) => {
                 activePolygon: null
             }
         case 'LOAD_MAP':
+        case 'RELOAD_MAP':
             return action.payload.data.drawings;
         case 'NEW_MAP':
             return INITIAL_STATE;

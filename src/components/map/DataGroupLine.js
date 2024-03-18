@@ -4,6 +4,7 @@ import DrawingPopup from "./DrawingPopup/DrawingPopup";
 import * as turf from '@turf/turf';
 
 const DataGroupLine = ({ line, setPopupVisible, popupVisible }) => {
+    mapId = useSelector((state) => state.mapMeta.currentMapId);
     const lineData = {
         geometry: {
             coordinates: line.vertices.coordinates,

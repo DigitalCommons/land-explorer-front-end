@@ -1,5 +1,6 @@
 import { isMobile } from "react-device-detect";
-import { checkMapLock } from "./MapActions";
+// import { checkMapLock } from "./MapActions";
+
 /**
  * Set the read-only state. Read-only should be enabled if any of the following are true:
  * - we are offline
@@ -8,25 +9,29 @@ import { checkMapLock } from "./MapActions";
  * - we're on a mobile device
  * - the map is locked by another user
  */
-
 export const updateReadOnly = () => {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     const { isSnapshot, writeAccess } = getState().mapMeta;
     const isOnline = getState().connectivity.isOnline;
     const mapId = getState().mapMeta.currentMapId;
 
-    // #306 Enable multiple users to write to a map
-    // M.S. Dispatch the checkMapLock action to get the lock status
-    await dispatch(checkMapLock(mapId));
+    // // #306 Enable multiple users to write to a map
+    // // M.S. Dispatch the checkMapLock action to get the lock status
+    // await dispatch(checkMapLock(mapId));
 
     // #306 Enable multiple users to write to a map
-    // M.S. Get the lock status from the Redux state
-    const isLocked = getState().map.locked;
+    const isLockedByOtherUser = getState().mapMeta.lockUserInitials !== null;
 
-    console.log("UpdateReadOnly isLocked:", isLocked);
+    console.log("UpdateReadOnly isLocked:", isLockedByOtherUser);
 
     // Update the read-only state based on the conditions
-    if (!isOnline || isSnapshot || !writeAccess || isMobile || isLocked) {
+    if (
+      !isOnline ||
+      isSnapshot ||
+      !writeAccess ||
+      isMobile ||
+      isLockedByOtherUser
+    ) {
       dispatch({ type: "READ_ONLY_ON" });
     } else {
       dispatch({ type: "READ_ONLY_OFF" });

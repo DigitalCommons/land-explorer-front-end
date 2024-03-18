@@ -62,6 +62,7 @@ export default (state = INITIAL_STATE, action) => {
                 currentMarker: null,
             }
         case 'LOAD_MAP':
+        case 'RELOAD_MAP':
             return {
                 ...INITIAL_STATE,
                 ...action.payload.data.markers

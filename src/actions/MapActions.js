@@ -49,6 +49,43 @@ export const loadNewestMap = () => {
   };
 };
 
+/** Refresh the map that is currently open. */
+export const refreshMap = () => {
+  return async (dispatch, getState) => {
+    const mapId = getState().mapMeta.currentMapId;
+
+    if (mapId === null) {
+      console.warn('No saved map to refresh');
+      return;
+    }
+
+    console.log("Refreshing current map", mapId);
+
+    // Get latest data from server
+    await dispatch(getMyMaps());
+
+    const map = getState().myMaps.maps.find((item) => item.map.eid === mapId);
+    if (map) {
+      const mapData = JSON.parse(map.map.data);
+      const isSnapshot = map.map.isSnapshot;
+      const lastModified = map.map.lastModified;
+      const writeAccess = map.access !== "READ";
+
+      dispatch({
+        type: "RELOAD_MAP",
+        payload: {
+          data: mapData,
+          id: mapId,
+          isSnapshot: isSnapshot,
+          writeAccess: writeAccess,
+          lastModified: shortenTimestamp(lastModified),
+        },
+      });
+      dispatch(updateReadOnly());
+    }
+  };
+};
+
 /** Open specified map (if it exists in My Maps) */
 export const openMap = (mapId) => {
   return async (dispatch, getState) => {
@@ -61,8 +98,7 @@ export const openMap = (mapId) => {
       const isSnapshot = map.map.isSnapshot;
       const lastModified = map.map.lastModified;
       // access level changed from equalling "WRITE" to excluding "READ"
-      const writeAccess = map.access != "READ";
-      const locked = getState().map.locked;
+      const writeAccess = map.access !== "READ";
 
       dispatch({
         type: "LOAD_MAP",
@@ -71,7 +107,6 @@ export const openMap = (mapId) => {
           id: mapId,
           isSnapshot: isSnapshot,
           writeAccess: writeAccess,
-          locked: locked,
           lastModified: shortenTimestamp(lastModified),
         },
       });
@@ -119,6 +154,7 @@ export const newMap = () => {
       dispatch({ type: "CHANGE_MOVING_METHOD", payload: "flyTo" });
     }, 500);
     dispatch(updateReadOnly());
+    dispatch(sendCurrentMap());
   };
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { MODE } from "../DrawingPopup";
 import { useDispatch, useSelector } from "react-redux";
-import { lockMap, unlockMap } from "../../../../actions/MapActions";
+// import { lockMap, unlockMap } from "../../../../actions/MapActions";
 import {
   establishSSEConnection,
   closeSSEConnection,
@@ -35,21 +35,21 @@ const PopupContent = ({
 
   const handleEditClick = async () => {
     // Lock the map if it's unlocked
-    if (!locked) {
-      await dispatch(lockMap());
-      // dispatch(establishSSEConnection());
-      console.log(user.id, "locked the map");
-    }
+    // if (!locked) {
+    //   await dispatch(lockMap());
+    //   // dispatch(establishSSEConnection());
+    //   console.log(user.id, "locked the map");
+    // }
     setMode(MODE.EDIT);
   };
 
   const handleSaveClick = async () => {
-    await dispatch(unlockMap()); // Unlock the map when saving
-    dispatch(closeSSEConnection());
+    // await dispatch(unlockMap()); // Unlock the map when saving
+    // dispatch(closeSSEConnection());
     // if (sse) {
     //   dispatch(closeSSEConnection(sse)); // Close the SSE connection
     // }
-    console.log(user.id, "unlocked the map");
+    // console.log(user.id, "unlocked the map");
 
     setMode(MODE.DISPLAY);
   };
