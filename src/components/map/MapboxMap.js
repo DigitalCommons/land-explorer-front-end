@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ReactMapboxGl from "react-mapbox-gl";
 import { v4 as uuidv4 } from "uuid";
 import * as turf from "@turf/turf";
-import MapboxDraw from "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.js";
+import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import DrawControl from "react-mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import StaticMode from "@mapbox/mapbox-gl-draw-static-mode";
@@ -19,6 +19,7 @@ import MapProperties from "./MapProperties";
 import MapDataGroups from "./MapDataGroups";
 import { autoSave, setLngLat, setZoom } from "../../actions/MapActions";
 import MapRelatedProperties from "./MapRelatedProperties";
+import FeedbackTab from "../common/FeedbackTab";
 
 // Create Map Component with settings
 const Map = ReactMapboxGl({
@@ -331,6 +332,7 @@ const MapboxMap = () => {
         }
       </Map>
       <LeftPane drawControl={drawControlRef.current} />
+      <FeedbackTab />
       <Modals />
       <div className="os-accreditation">
         Contains OS data © Crown copyright and database rights 2022 OS

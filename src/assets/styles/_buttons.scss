@@ -38,8 +38,13 @@
     background-color: $primaryColor;
   }
   &.blue {
-    background-color: #4a7abe;
+    background-color: $blueAccent;
   }
+  &.grey {
+    background-color: $midNeutral3;
+    color: $darkNeutral;
+  }
+
   &.full-width {
     width: 100%;
   }

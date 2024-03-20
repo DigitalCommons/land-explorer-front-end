@@ -1,0 +1,203 @@
+.feedback-tab {
+  height: 40px;
+  background-color: $primaryColor;
+  color: white;
+  box-sizing: border-box;
+  position: fixed;
+  right: -1px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  box-sizing: border-box;
+  padding: 0 12px;
+  border-radius: 5px 5px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.05rem;
+  text-align: center;
+  border: none;
+  outline: none;
+  transition: background-color 500ms;
+
+  &:hover {
+    background-color: $buttonGreen;
+  }
+
+  & svg {
+    height: 16px;
+    fill: #fff;
+  }
+}
+
+.feedback-text {
+  display: none;
+}
+
+.ModalContent {
+  &.feedback-form__container {
+    width: 100%;
+    height: 100vh;
+    max-width: unset;
+    padding: 20px;
+    transition: ease-in-out transform 800ms;
+  }
+}
+
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.feedback-form__title {
+  font-size: 20px;
+  padding: 0;
+  margin: 0;
+  color: $primaryColor;
+}
+
+.feedback-form__copy {
+  font-size: 13px;
+  line-height: 1.25rem;
+}
+
+// Styling for the expand/collapse copy
+#expandCollapse {
+  display: none;
+}
+
+.feedback-form__copy-expanded {
+  display: block;
+  margin-top: 0.75rem;
+}
+
+.feedback-form__copy-expand,
+.feedback-form__copy-collapse {
+  display: none;
+  cursor: pointer;
+  font-weight: 700;
+  text-decoration: underline;
+  text-align: center;
+  color: $blueAccent;
+  padding: 5px;
+}
+
+.feedback-form__mobile-page {
+  flex-grow: 1;
+}
+
+.feedback-form__pagingation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  color: $midNeutral2;
+  font-size: 14px;
+}
+
+.feedback-form__pagination-number {
+  color: $darkNeutral;
+  &.selected {
+    color: $primaryColor;
+  }
+}
+
+.feedback-form__pagination-button {
+  border: none;
+  background: none;
+  color: $primaryColor;
+  font-size: 20px;
+  cursor: pointer;
+  outline: none;
+  &.next::before {
+    content: "\00BB";
+  }
+  &.previous::after {
+    content: "\00AB";
+  }
+  &.disabled {
+    color: $midNeutral2;
+  }
+}
+
+.feedback-form__mobile-page-bottom {
+  position: sticky;
+  bottom: 0;
+  background-color: #ffffffcc;
+}
+
+.feedback-form__button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  column-gap: 20px;
+}
+
+@media screen and (min-width: $medium) {
+  .feedback-tab {
+    height: 44px;
+    right: -52px; // minus height of tab + 8px (?)
+    padding: 0 20px;
+
+    & svg {
+      margin-right: 5px;
+    }
+  }
+  .feedback-text {
+    display: inline;
+  }
+  .ModalContent {
+    &.feedback-form__container {
+      width: 650px;
+      height: auto;
+      max-width: 75vw;
+      border-radius: 8px;
+      padding: 30px;
+    }
+  }
+  .feedback-form {
+    overflow-y: unset;
+  }
+  .feedback-form__title {
+    font-size: 24px;
+    margin: -10px 0 0;
+  }
+  .feedback-form__copy {
+    font-size: 14px;
+  }
+  .feedback-form__button-group {
+    margin-top: 24px;
+  }
+}
+
+@media (max-height: 812px) {
+  #expandCollapse:checked ~ .feedback-form__copy-expanded {
+    display: block;
+  }
+
+  #expandCollapse:checked ~ .feedback-form__copy-expand {
+    display: none;
+  }
+  .feedback-form__copy-expanded {
+    display: none;
+  }
+
+  .feedback-form__copy-expand,
+  .feedback-form__copy-collapse {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+  .feedback-form__mobile-page-bottom {
+    position: relative;
+  }
+}

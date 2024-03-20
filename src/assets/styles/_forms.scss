@@ -15,7 +15,6 @@
   }
 }
 
-
 form {
   .text-input {
     background-color: $toolbarAccent;
@@ -61,6 +60,29 @@ form {
     margin-bottom: 12px;
     max-width: 400px;
     width: 100%;
+  }
+}
+
+.form-group {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  color: $primaryColor;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.form-textarea {
+  border: 2px solid $midNeutral2;
+  border-radius: 7px;
+  padding: 15px;
+
+  &:focus-visible {
+    outline: none;
+    border: 2px solid $blueAccent;
   }
 }
 
@@ -268,21 +290,21 @@ input[type="submit"] {
   border-radius: 0;
 }
 
-.control:hover input~.control_indicator,
-.control input:focus~.control_indicator {
+.control:hover input ~ .control_indicator,
+.control input:focus ~ .control_indicator {
   background: #cccccc;
 }
 
-.control input:checked~.control_indicator {
+.control input:checked ~ .control_indicator {
   background: #2ecc71;
 }
 
-.control:hover input:not([disabled]):checked~.control_indicator,
-.control input:checked:focus~.control_indicator {
+.control:hover input:not([disabled]):checked ~ .control_indicator,
+.control input:checked:focus ~ .control_indicator {
   background: #2ecc71;
 }
 
-.control input:disabled~.control_indicator {
+.control input:disabled ~ .control_indicator {
   background: #e6e6e6;
   opacity: 0.6;
   pointer-events: none;
@@ -295,7 +317,7 @@ input[type="submit"] {
   display: none;
 }
 
-.control input:checked~.control_indicator:after {
+.control input:checked ~ .control_indicator:after {
   display: block;
 }
 
@@ -309,7 +331,7 @@ input[type="submit"] {
   transform: rotate(45deg);
 }
 
-.control-checkbox input:disabled~.control_indicator:after {
+.control-checkbox input:disabled ~ .control_indicator:after {
   border-color: #7b7b7b;
 }
 
@@ -326,7 +348,7 @@ input[type="submit"] {
   background: #ffffff;
 }
 
-.control-radio input:disabled~.control_indicator:after {
+.control-radio input:disabled ~ .control_indicator:after {
   background: #7b7b7b;
 }
 
@@ -340,4 +362,10 @@ input[type="submit"] {
   border-right: 3px solid rgb(208, 2, 78) !important;
   border-bottom-right-radius: 0 !important;
   border-top-right-radius: 0 !important;
+}
+
+@media screen and (min-width: $medium) {
+  .form-label {
+    font-size: 16px;
+  }
 }
