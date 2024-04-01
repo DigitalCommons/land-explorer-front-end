@@ -3,6 +3,7 @@ import Modal from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { openMap } from "../../actions/MapActions";
 import moment from "moment";
+import constants from "../../constants";
 
 // TODO: share some common code with MyMaps
 export const MySharedMaps = ({ stage, setStage, closeModal }) => {
@@ -10,8 +11,9 @@ export const MySharedMaps = ({ stage, setStage, closeModal }) => {
   const [active, setActive] = useState({ id: null, name: null });
 
   const allMaps = useSelector((state) => state.myMaps.maps);
-  // Changed from only READ (map.access === 'READ') to showing not owned maps
-  const sharedMaps = allMaps.filter((map) => map.access != "OWNER");
+  const sharedMaps = allMaps.filter(
+    (map) => map.access !== constants.MAP_ACCESS_OWNER
+  );
   const error = useSelector((state) => state.myMaps.error);
 
   const mapList = sharedMaps.map((item, i) => {
@@ -20,7 +22,9 @@ export const MySharedMaps = ({ stage, setStage, closeModal }) => {
     return (
       <tr
         key={`map-${i}`}
-        className={`table-map shared-maps__table ${active.id === map.eid ? "active" : ""}`}
+        className={`table-map shared-maps__table ${
+          active.id === map.eid ? "active" : ""
+        }`}
         onClick={() => {
           setActive({ id: map.eid, name: map.name });
         }}
@@ -28,7 +32,7 @@ export const MySharedMaps = ({ stage, setStage, closeModal }) => {
         <td>
           <i
             className={
-              item.access === "READ"
+              item.access === constants.MAP_ACCESS_READ_ONLY
                 ? "shared-maps__read-icon"
                 : "shared-maps__write-icon"
             }

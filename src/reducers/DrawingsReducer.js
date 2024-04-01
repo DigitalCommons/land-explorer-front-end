@@ -5,6 +5,9 @@ const INITIAL_STATE = {
     linesDrawn: 0,
 }
 
+/**
+ * TODO: rename POLYGON since these can also be lines
+ */
 export default (state = INITIAL_STATE, action) => {
     let polygons;
     switch (action.type) {

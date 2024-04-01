@@ -23,9 +23,11 @@ const Dropdown = ({ options, onSelect, customClass, defaultLabel, defaultIcon })
         {defaultIcon ? (
           <i className={`dropdown__selected-option__icon ${defaultIcon}`}></i>
         ) : (
-          <i className={`dropdown__selected-option__icon ${selectedOption.iconClass}`}></i>
+          <i
+            className={`dropdown__selected-option__icon ${selectedOption.iconClass}`}
+          ></i>
         )}
-        
+
         {defaultLabel ? (
           <div className="dropdown__option__label">{defaultLabel}</div>
         ) : (
@@ -38,9 +40,9 @@ const Dropdown = ({ options, onSelect, customClass, defaultLabel, defaultIcon })
               d="m1.414 1.414 6 6 6-6"
               fill="none"
               stroke="#707070"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
             />
           </svg>
         </div>

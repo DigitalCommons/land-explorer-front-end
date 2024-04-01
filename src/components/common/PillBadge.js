@@ -1,11 +1,13 @@
 import React from "react";
 import Button from "./Button";
 
-const PillBadge = ({ title, remove, iconClass, customClass, key }) => {
+const PillBadge = ({ title, remove, iconClass, customClass }) => {
   return (
-    <div className={`pill-badge ${customClass ? customClass : ""}`} key={key}>
+    <div className={`pill-badge ${customClass ? customClass : ""}`}>
       {iconClass && (
-        <i className={"pill-badge__icon"}><span className={iconClass}></span></i>
+        <i className={"pill-badge__icon"}>
+          <span className={iconClass}></span>
+        </i>
       )}
       <div className="pill-badge__title">{title}</div>
       {remove && (

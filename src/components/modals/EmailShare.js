@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { isEqual } from "lodash";
 import axios from "axios";
 import constants from "../../constants";
 import { getAuthHeader } from "../../utils/Auth";
@@ -9,64 +10,71 @@ import Button from "../common/Button";
 import Dropdown from "../common/Dropdown";
 import PillBadge from "../common/PillBadge";
 
+const accessOptions = [
+  {
+    value: constants.MAP_ACCESS_READ_ONLY,
+    label: "Read Only",
+    iconClass: "email-share__read-icon",
+  },
+  {
+    value: constants.MAP_ACCESS_READ_WRITE,
+    label: "Write",
+    iconClass: "email-share__write-icon",
+  },
+];
+
 const EmailShare = () => {
-  const [input, setInput] = useState("");
-  const [emails, setEmails] = useState([]);
-  const myMaps = useSelector((state) => state.myMaps.maps);
-  const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
-  const mapName = useSelector((state) => state.map.name);
-  const readOnly = 1;
-  const readWrite = 3;
-
-  const options = [
-    {
-      value: readOnly,
-      label: "Read Only",
-      iconClass: "email-share__read-icon",
-    },
-    { value: readWrite, label: "Write", iconClass: "email-share__write-icon" },
-  ];
-
-  const [selectedOption, setSelectedOption] = useState(options[0].value);
-  const [selectedOptionLabel, setSelectedOptionLabel] = useState(
-    options[0].label
-  );
-  const [selectedOptionIcon, setSelectedOptionIcon] = useState(
-    options[0].iconClass
-  );
-
-  const handleSelect = (option) => {
-    setSelectedOption(option.value);
-    setSelectedOptionLabel(option.label);
-    setSelectedOptionIcon(option.iconClass);
-  };
-
   const dispatch = useDispatch();
 
-  const populateEmails = (emails) => {
-    setEmails(
-      emails.map((email) => ({
-        emailAddress: email.emailAddress,
-        access: email.access,
-      }))
+  const mapName = useSelector((state) => state.map.name);
+  const myMaps = useSelector((state) => state.myMaps.maps);
+  const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
+  const modalOpen = useSelector((state) => state.modal.emailShare.open);
+  const usersSharedWith =
+    myMaps.find((map) => map.map.eid === currentMapId)?.map.sharedWith ?? [];
+
+  const [input, setInput] = useState("");
+  const [usersToShareWith, setUsersToShareWith] = useState(usersSharedWith);
+
+  const [selectedAccess, setSelectedAccess] = useState(accessOptions[0].value);
+  const [selectedAccessLabel, setSelectedAccessLabel] = useState(
+    accessOptions[0].label
+  );
+  const [selectedAccessIcon, setSelectedAccessIcon] = useState(
+    accessOptions[0].iconClass
+  );
+
+  // when the modal is re-opened, reset to the current set of users that the map is shared with
+  useEffect(() => {
+    setUsersToShareWith(usersSharedWith);
+  }, [modalOpen]);
+
+  const handleSelectAccess = (option) => {
+    setSelectedAccess(option.value);
+    setSelectedAccessLabel(option.label);
+    setSelectedAccessIcon(option.iconClass);
+  };
+
+  const removeEmail = (email) => {
+    setUsersToShareWith(
+      usersToShareWith.filter((user) => user.email !== email)
     );
   };
 
-  const removeEmail = (i) => {
-    const newEmails = emails.slice();
-    newEmails.splice(i, 1);
-    setEmails(newEmails);
-  };
-
-  const addEmail = () => {
+  /** Add email if user has typed a valid email in the input field */
+  const maybeAddEmail = () => {
     if (emailRegexp.test(input)) {
-      const newEmails = emails.slice();
-      newEmails.push({ emailAddress: input, access: selectedOption });
-      setEmails(newEmails);
+      // Remove user if already shared, to avoid duplication
+      const newUsers = usersToShareWith.filter(
+        (user) => user.email.toLowerCase() !== input.toLowerCase()
+      );
+      newUsers.push({ email: input, access: selectedAccess });
+      setUsersToShareWith(newUsers);
 
-      setSelectedOption(options[0].value); // Reset selected option
-      setSelectedOptionLabel(options[0].label); // Reset selected option label
-      setSelectedOptionIcon(options[0].iconClass); // Reset selected option icon
+      // Reset selected access
+      setSelectedAccess(accessOptions[0].value);
+      setSelectedAccessLabel(accessOptions[0].label);
+      setSelectedAccessIcon(accessOptions[0].iconClass);
       setInput("");
     }
   };
@@ -74,52 +82,40 @@ const EmailShare = () => {
   const closeModal = () => {
     dispatch({ type: "CLOSE_MODAL", payload: "emailShare" });
     setInput("");
-    setEmails([]);
-    setSelectedOption(options[0].value);
+    setUsersToShareWith([]);
+    setSelectedAccess(accessOptions[0].value);
   };
 
-  useEffect(() => {
-    myMaps.forEach((map) => {
-      if (map.map.eid === currentMapId) {
-        populateEmails(map.map.sharedWith);
-      }
-    });
-  }, []);
+  /**
+   * Sync with the server so that the map is shared with the set of users that are currently
+   * selected in the UI
+   */
+  const sync = async () => {
+    // first add an email if the user has typed one, since they may not realise that they might not
+    // realise they should click the 'add email' button
+    maybeAddEmail();
 
-  const share = (id) => {
-    const newEmails = emails.map((email) => ({
-      emailAddress: email.emailAddress,
-      access: email.access,
-    }));
-    if (input !== "") {
-      if (emailRegexp.test(input)) {
-        newEmails.push({ emailAddress: input, access: selectedOption });
-      }
+    if (isEqual(usersSharedWith, usersToShareWith)) {
+      return;
     }
-    if (newEmails.length === 0) return;
 
     const shareData = {
-      eid: id,
-      emailAddresses: newEmails.map((email) => email.emailAddress),
-      access: newEmails.reduce((acc, email) => {
-        acc[email.emailAddress] = email.access;
-        return acc;
-      }, {}),
+      eid: currentMapId,
+      users: usersToShareWith,
     };
 
-    axios
-      .post(
+    try {
+      await axios.post(
         `${constants.ROOT_URL}/api/user/map/share/sync`,
         shareData,
         getAuthHeader()
-      )
-      .then(() => {
-        closeModal();
-        dispatch(getMyMaps());
-      })
-      .catch((err) => console.log("share error", err));
-    console.log("shareData", shareData);
-    console.log("Frontend payload.access:", shareData.access);
+      );
+
+      // closeModal();
+      dispatch(getMyMaps());
+    } catch (err) {
+      console.error("share error", err);
+    }
   };
 
   if (currentMapId === null)
@@ -131,10 +127,6 @@ const EmailShare = () => {
         </div>
       </Modal>
     );
-
-  // Remove console.log statements
-  console.log("myMaps", myMaps);
-  console.log("currentMapId", currentMapId);
 
   return (
     <Modal id="emailShare" customClass={"email-share__container"}>
@@ -151,16 +143,16 @@ const EmailShare = () => {
         />
 
         <Dropdown
-          options={options}
-          onSelect={handleSelect}
-          defaultLabel={selectedOptionLabel}
-          defaultIcon={selectedOptionIcon}
+          options={accessOptions}
+          onSelect={handleSelectAccess}
+          defaultLabel={selectedAccessLabel}
+          defaultIcon={selectedAccessIcon}
         />
 
         <Button
           buttonClass={"email-share__add-user__button"}
           type={"button"}
-          buttonAction={addEmail}
+          buttonAction={maybeAddEmail}
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33.75 27">
             <path
@@ -175,24 +167,21 @@ const EmailShare = () => {
         </Button>
       </div>
 
-      {/* {selectedOption && <p>Selected Value: {selectedOption}</p>}
-      {selectedOptionLabel && <p>Selected Label: {selectedOptionLabel}</p>}
-      {selectedOptionIcon && <p>Selected Icon: {selectedOptionIcon}</p>} */}
       <div className="modal-content">
         <div
           className={`email-share__user-badge__container ${
-            emails.length > 0 ? "populated" : ""
+            usersToShareWith.length > 0 ? "populated" : ""
           }`}
         >
-          {emails.map((emailObj, i) => {
+          {usersToShareWith.map((user, index) => {
             return (
               <PillBadge
-                key={emailObj.emailAddress + i}
-                title={emailObj.emailAddress}
-                remove={() => removeEmail(i)}
+                key={user.email + index}
+                title={user.email}
+                remove={() => removeEmail(user.email)}
                 customClass={"pill-badge--email-share"}
                 iconClass={
-                  emailObj.access === readOnly
+                  user.access === constants.MAP_ACCESS_READ_ONLY
                     ? "email-share__pill_read-icon"
                     : "email-share__pill_write-icon"
                 }
@@ -212,11 +201,9 @@ const EmailShare = () => {
         <Button
           buttonClass={"email-share__share-button"}
           type={"button"}
-          buttonAction={() => {
-            share(currentMapId);
-          }}
+          buttonAction={sync}
         >
-          Share
+          Save
         </Button>
       </div>
     </Modal>

@@ -2,23 +2,21 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const MapBeingEditedToast = () => {
-  const lockedByUser = useSelector((state) => state.mapMeta.lockUserInitials);
-  const userInitials = useSelector((state) => state.user.initials);
-
-  console.log("lockedByUser", lockedByUser);
+  const { lockedByOtherUserInitials } = useSelector((state) => state.mapMeta);
 
   return (
     <div
       className="map-being-edited"
       style={{
-        display:
-          lockedByUser && lockedByUser != userInitials ? "block" : "none",
+        display: lockedByOtherUserInitials ? "block" : "none",
       }}
     >
       <div className="map-being-edited__container">
-        <div className="map-being-edited__initials">{lockedByUser}</div>
+        <div className="map-being-edited__initials">
+          {lockedByOtherUserInitials}
+        </div>
         <p className="map-being-edited__message">
-          is currently editing thise map
+          is currently editing this map
         </p>
       </div>
     </div>

@@ -54,36 +54,47 @@ export const toggleDataGroup = dataGroupId => {
 
 /** Save the object data to a specified data group. Return false iff failed to save to backend. */
 export const saveObjectToDataGroup = (type, data, dataGroupId) => {
-    return async dispatch => {
-        const body = {
-            object: data,
-            dataGroupId: dataGroupId,
-        };
+  return async (dispatch) => {
+    const body = {
+      object: data,
+      dataGroupId,
+    };
 
-        const success = await dispatch(postRequest(`/api/user/datagroup/save/${type}`, body));
-        if (success) {
-            // reload data groups with the new object
-            dispatch(loadDataGroups());
-            return true;
-        }
-        return false;
+    const success = await dispatch(
+      postRequest(`/api/user/datagroup/save/${type}`, body)
+    );
+    if (success) {
+      // reload data groups with the new object
+      dispatch(loadDataGroups());
+      return true;
     }
-}
+    return false;
+  };
+};
 
 /** Edit the specified object's name and description. Return false iff failed to save to backend. */
-export const editDataGroupObjectInfo = (type, uuid, newName, newDescription) => {
-    return async dispatch => {
-        const body = {
-            uuid,
-            name: newName,
-            description: newDescription,
-        };
+export const editDataGroupObjectInfo = (
+  type,
+  dataGroupId,
+  uuid,
+  newName,
+  newDescription
+) => {
+  return async (dispatch) => {
+    const body = {
+      dataGroupId,
+      uuid,
+      name: newName,
+      description: newDescription,
+    };
 
-        const success = await dispatch(postRequest(`/api/user/edit/${type}`, body));
-        if (success) {
-            dispatch(loadDataGroups());
-            return true;
-        }
-        return false;
+    const success = await dispatch(
+      postRequest(`/api/user/datagroup/edit/${type}`, body)
+    );
+    if (success) {
+      dispatch(loadDataGroups());
+      return true;
     }
-}
+    return false;
+  };
+};

@@ -10,7 +10,15 @@ const MapTitleBar = ({ expanded }) => {
     const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
     const isOnline = useSelector(state => state.connectivity.isOnline);
     const mapName = useSelector((state) => state.map.name);
-    const { saving, saveError, lastSaved, isSnapshot, writeAccess, locked  } = useSelector((state) => state.mapMeta);
+    const {
+      saving,
+      saveError,
+      lastSaved,
+      isSnapshot,
+      writeAccess,
+      lockedByOtherUserInitials,
+    } = useSelector((state) => state.mapMeta);
+    const isLockedByOtherUser = lockedByOtherUserInitials !== null;
     const [editing, setEditing] = useState(false);
 
     // We use this variable, rather than directly checking currentMapId, so that the 'add title'
@@ -20,61 +28,61 @@ const MapTitleBar = ({ expanded }) => {
     // Distinct possibilities for the saving status
     let status;
     let popupOnHover = false;
-    if (isSnapshot || !writeAccess || isMobile) {
-        // We don't use the read-only Redux state, because we still want to show the saving status
-        // if we have no internet connection
-        status = 'noEdit';
+    if (isSnapshot || !writeAccess || isMobile || isLockedByOtherUser) {
+      // We don't use the read-only Redux state, because we still want to show the saving status
+      // if we have no internet connection
+      status = "noEdit";
     } else if (isNewMap) {
-        status = 'editingNewMap';
+      status = "editingNewMap";
     } else if (saveError) {
-        status = 'error';
-        popupOnHover = true;
+      status = "error";
+      popupOnHover = true;
     } else if (saving) {
-        status = 'savingNoError';
+      status = "savingNoError";
     } else {
-        status = 'saved';
-        popupOnHover = true;
+      status = "saved";
+      popupOnHover = true;
     }
 
-    const saved = status === 'saved';
+    const saved = status === "saved";
     const [popupVisible, setPopupVisible] = useState(false);
 
     useEffect(() => {
-        setIsNewMap(currentMapId === null);
-        setPopupVisible(false);
+      setIsNewMap(currentMapId === null);
+      setPopupVisible(false);
     }, [currentMapId]);
 
     const ref = useRef();
 
     const onClickOutside = async () => {
-        setIsNewMap(false);
+      setIsNewMap(false);
 
-        // Set name to untitled if blank
-        if (ref.current.textContent.trim() === '') {
-            ref.current.textContent = UNTITLED_NAME;
-        }
+      // Set name to untitled if blank
+      if (ref.current.textContent.trim() === "") {
+        ref.current.textContent = UNTITLED_NAME;
+      }
 
-        const name = ref.current.textContent;
+      const name = ref.current.textContent;
 
-        setEditing(false);
+      setEditing(false);
 
-        // Remove highlighting of text
-        window.getSelection().removeAllRanges();
+      // Remove highlighting of text
+      window.getSelection().removeAllRanges();
 
-        console.log('Set map name', name);
-        dispatch({
-            type: 'SET_MAP_NAME',
-            payload: name
-        });
+      console.log("Set map name", name);
+      dispatch({
+        type: "SET_MAP_NAME",
+        payload: name,
+      });
 
-        await dispatch(saveCurrentMap(false, false, name));
-        if (currentMapId === null) {
-            // If this was a new map, load the map that we just saved
-            dispatch(loadNewestMap());
-        }
-    }
+      await dispatch(saveCurrentMap(false, false, name));
+      if (currentMapId === null) {
+        // If this was a new map, load the map that we just saved
+        dispatch(loadNewestMap());
+      }
+    };
 
-    const canEditTitle = writeAccess && isOnline;
+    const canEditTitle = writeAccess && isOnline && !isLockedByOtherUser;
 
     const onClickTitle = () => {
         if (canEditTitle) {

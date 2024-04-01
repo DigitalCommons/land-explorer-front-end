@@ -19,7 +19,6 @@ import LandOwnershipReducer from "./LandOwnershipReducer";
 import DataGroupsReducer from "./DataGroupsReducer";
 import ConnectivityReducer from "./ConnectivityReducer";
 import RelatedPropertiesReducer from "./RelatedPropertiesReducer";
-import SSEReducer from "./SSEReducer";
 import WebSocketReducer from "./WebSocketReducer";
 
 const appReducer = combineReducers({
@@ -43,8 +42,7 @@ const appReducer = combineReducers({
   dataGroups: DataGroupsReducer,
   connectivity: ConnectivityReducer,
   relatedProperties: RelatedPropertiesReducer,
-  sse: SSEReducer,
-  socket: WebSocketReducer,
+  webSocket: WebSocketReducer,
 });
 
 const rootReducer = (state, action) => {

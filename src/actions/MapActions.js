@@ -1,12 +1,9 @@
-import { VERSION } from "../constants";
+import constants, { VERSION } from "../constants";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
 import { getRequest, postRequest } from "./RequestActions";
 import { updateReadOnly } from "./ReadOnlyActions";
-import { sendCurrentMap } from "./WebSocketActions";
-import constants from "../constants";
-import { io } from "socket.io-client";
-import { getAuthHeader } from "../utils/Auth";
+import { notifyServerOfCurrentMap } from "./WebSocketActions";
 
 export const getMyMaps = () => {
   return async (dispatch) => {
@@ -50,12 +47,12 @@ export const loadNewestMap = () => {
 };
 
 /** Refresh the map that is currently open. */
-export const refreshMap = () => {
+export const refreshCurrentMap = () => {
   return async (dispatch, getState) => {
     const mapId = getState().mapMeta.currentMapId;
 
     if (mapId === null) {
-      console.warn('No saved map to refresh');
+      console.warn("No saved map to refresh");
       return;
     }
 
@@ -69,7 +66,8 @@ export const refreshMap = () => {
       const mapData = JSON.parse(map.map.data);
       const isSnapshot = map.map.isSnapshot;
       const lastModified = map.map.lastModified;
-      const writeAccess = map.access !== "READ";
+      const writeAccess = map.access !== constants.MAP_ACCESS_READ_ONLY;
+      const ownMap = map.access === constants.MAP_ACCESS_OWNER;
 
       dispatch({
         type: "RELOAD_MAP",
@@ -78,6 +76,7 @@ export const refreshMap = () => {
           id: mapId,
           isSnapshot: isSnapshot,
           writeAccess: writeAccess,
+          ownMap: ownMap,
           lastModified: shortenTimestamp(lastModified),
         },
       });
@@ -89,16 +88,13 @@ export const refreshMap = () => {
 /** Open specified map (if it exists in My Maps) */
 export const openMap = (mapId) => {
   return async (dispatch, getState) => {
-    console.log("Opening map", mapId);
-    // await dispatch(checkMapLock(mapId));
-
     const map = getState().myMaps.maps.find((item) => item.map.eid === mapId);
     if (map) {
       const mapData = JSON.parse(map.map.data);
       const isSnapshot = map.map.isSnapshot;
       const lastModified = map.map.lastModified;
-      // access level changed from equalling "WRITE" to excluding "READ"
-      const writeAccess = map.access !== "READ";
+      const writeAccess = map.access !== constants.MAP_ACCESS_READ_ONLY;
+      const ownMap = map.access === constants.MAP_ACCESS_OWNER;
 
       dispatch({
         type: "LOAD_MAP",
@@ -107,10 +103,10 @@ export const openMap = (mapId) => {
           id: mapId,
           isSnapshot: isSnapshot,
           writeAccess: writeAccess,
+          ownMap: ownMap,
           lastModified: shortenTimestamp(lastModified),
         },
       });
-      console.log("Write access:", writeAccess);
       console.log("map data:", mapData, "map id:", mapId);
       dispatch(updateReadOnly());
 
@@ -122,7 +118,7 @@ export const openMap = (mapId) => {
       }, 1000);
 
       dispatch(postRequest("/api/user/map/view", { eid: mapId }));
-      dispatch(sendCurrentMap());
+      dispatch(notifyServerOfCurrentMap());
     }
   };
 };
@@ -154,7 +150,7 @@ export const newMap = () => {
       dispatch({ type: "CHANGE_MOVING_METHOD", payload: "flyTo" });
     }, 500);
     dispatch(updateReadOnly());
-    dispatch(sendCurrentMap());
+    dispatch(notifyServerOfCurrentMap());
   };
 };
 
@@ -211,10 +207,15 @@ export const saveCurrentMap = (
   };
 };
 
-/** Save the current map if it is saved, otherwise do nothing. Return false iff error when saving */
+/**
+ * Save the current map if it is saved, writable, and not locked by another user, otherwise do
+ * nothing. Return false iff there is an error when saving.
+ */
 export const autoSave = () => {
   return async (dispatch, getState) => {
-    if (getState().mapMeta.currentMapId) {
+    const { currentMapId, writeAccess, lockedByOtherUserInitials } =
+      getState().mapMeta;
+    if (currentMapId && writeAccess && !lockedByOtherUserInitials) {
       return await dispatch(saveCurrentMap());
     }
     return true;
@@ -251,9 +252,10 @@ export const saveObjectToMap = (type, data, mapId) => {
 };
 
 /** Edit the specified object's name and description. Return false iff failed to save to backend. */
-export const editMapObjectInfo = (type, uuid, newName, newDescription) => {
+export const editMapObjectInfo = (type, eid, uuid, newName, newDescription) => {
   return async (dispatch, getState) => {
     const payload = {
+      eid,
       uuid,
       name: newName,
       description: newDescription,
@@ -266,7 +268,9 @@ export const editMapObjectInfo = (type, uuid, newName, newDescription) => {
 
     // If we are working on a saved map
     if (getState().mapMeta.currentMapId) {
-      return await dispatch(saveMapRequest(`/api/user/edit/${type}`, payload));
+      return await dispatch(
+        saveMapRequest(`/api/user/map/edit/${type}`, payload)
+      );
     }
     return true;
   };
@@ -407,81 +411,4 @@ const shortenTimestamp = (timestamp) => {
   } else {
     return moment(timestamp).format("DD/MM/YY");
   }
-};
-
-// #306 Enable multiple users to write to a map
-// M.S. Lock and unlock the map when a user writes to it
-
-export const lockMap = () => {
-  return async (dispatch, getState) => {
-    const mapId = getState().mapMeta.currentMapId;
-    const success = await dispatch(
-      postRequest("/api/user/map/lock", { mapId: mapId })
-    );
-    if (success) {
-      dispatch({ type: "LOCK_MAP" });
-    }
-  };
-};
-
-export const unlockMap = () => {
-  return async (dispatch, getState) => {
-    const mapId = getState().mapMeta.currentMapId;
-    const success = await dispatch(
-      postRequest("/api/user/map/unlock", { mapId: mapId })
-    );
-    if (success) {
-      dispatch({ type: "UNLOCK_MAP" });
-    }
-  };
-};
-
-// #306 Enable multiple users to write to a map
-// M.S. Toggle the lock status of the map
-
-export const toggleMapLock = () => {
-  return async (dispatch, getState) => {
-    const mapId = getState().mapMeta.currentMapId;
-    const locked = getState().map.locked;
-    if (locked) {
-      dispatch(unlockMap(mapId));
-    } else {
-      dispatch(lockMap(mapId));
-    }
-  };
-};
-
-// #306 Enable multiple users to write to a map
-// M.S. Check if the map is locked and dispatch actions based on the lock status
-
-export const checkMapLock = (mapId) => {
-  return async (dispatch, getState) => {
-    try {
-      const response = await dispatch(
-        getRequest(`/api/user/map/lockStatus?mapId=${mapId}`)
-      );
-
-      // Access the isLocked property and userId from the response
-      const { isLocked, userId } = response;
-
-      // Get the current user's ID from the Redux state
-      const currentUserID = getState().user.id;
-
-      // Dispatch actions based on the lock status and user ID
-      if (isLocked) {
-        dispatch({ type: "LOCK_MAP" });
-        if (currentUserID === userId) {
-          dispatch({ type: "SET_CURRENT_USER_LOCKED_MAP" });
-        } else {
-          dispatch({ type: "SET_OTHER_USER_LOCKED_MAP", payload: userId });
-        }
-      } else {
-        dispatch({ type: "UNLOCK_MAP" });
-        dispatch({ type: "CLEAR_LOCKED_MAP_USER" });
-      }
-    } catch (error) {
-      // Handle error if the request fails
-      console.error("Error checking map lock status:", error);
-    }
-  };
 };

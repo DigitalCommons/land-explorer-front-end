@@ -3,7 +3,8 @@ const INITIAL_STATE = {
   unsavedMapUuid: null, // change this when opening new empty map, to differentiate unsaved maps
   isSnapshot: false,
   writeAccess: true,
-  lockUserInitials: null, // initials of other user if they have the lock to edit the map, else null
+  ownMap: true,
+  lockedByOtherUserInitials: null, // initials if other user if they have lock to edit map, else null
   saving: false,
   saveError: false,
   lastSaved: null,
@@ -13,8 +14,8 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "LOAD_MAP":
-    case 'RELOAD_MAP':
-      const { id, isSnapshot, writeAccess, lastModified } =
+    case "RELOAD_MAP":
+      const { id, isSnapshot, writeAccess, ownMap, lastModified } =
         action.payload;
       return {
         ...state,
@@ -22,6 +23,7 @@ export default (state = INITIAL_STATE, action) => {
         unsavedMapUuid: null,
         isSnapshot: isSnapshot,
         writeAccess: writeAccess,
+        ownMap: ownMap,
         saving: false,
         lastSaved: lastModified,
       };
@@ -52,12 +54,12 @@ export default (state = INITIAL_STATE, action) => {
     case "MAP_LOCKED":
       return {
         ...state,
-        lockUserInitials: action.payload.userInitials,
+        lockedByOtherUserInitials: action.payload.userInitials,
       };
     case "MAP_UNLOCKED":
       return {
         ...state,
-        lockUserInitials: null,
+        lockedByOtherUserInitials: null,
       };
     default:
       return state;
