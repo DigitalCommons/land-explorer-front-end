@@ -146,7 +146,7 @@
   }
 
   .ModalContent {
-    width: 430px;
+    width: 511px;
     height: 320px;
     min-width: 430px !important;
 
@@ -185,11 +185,17 @@
           background: #f4f5f7;
         }
 
+        &.active {
+          background: #27ae60 !important;
+          color: white !important;
+        }
+
         cursor: pointer;
       }
 
       td {
         border: none;
+        vertical-align: baseline;
       }
     }
   }

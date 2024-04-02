@@ -44,8 +44,10 @@
     "redux-thunk": "^2.4.1",
     "sass": "^1.72.0",
     "sass-loader": "^13.3.3",
+    "socket.io-client": "^4.7.4",
     "style-loader": "3.3.1",
     "sweetalert2": "^11.4.0",
+    "usehooks-ts": "^3.0.2",
     "uuid": "^9.0.0",
     "webpack": "^5.88.1",
     "webpack-dev-server": "^4.8.0"

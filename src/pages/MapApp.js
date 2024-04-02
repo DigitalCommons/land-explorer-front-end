@@ -10,55 +10,62 @@ import * as Auth from "../utils/Auth";
 import { getMyMaps } from '../actions/MapActions'
 import { getUserDetails } from '../actions/UserActions';
 import NoConnectionToast from '../components/map/NoConnectionToast';
+import {
+  establishSocketConnection,
+  closeSocketConnection,
+} from "../actions/WebSocketActions";
 
 const MapApp = () => {
-    const authenticated = useSelector(state => state.authentication.authenticated);
-    const user = useSelector(state => state.user);
+  const authenticated = useSelector(
+    (state) => state.authentication.authenticated
+  );
+  const user = useSelector((state) => state.user);
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        dispatch(getUserDetails());
-        dispatch(getMyMaps());
-    }, [])
+  useEffect(() => {
+    if (authenticated && Auth.isTokenActive()) {
+      // If authenticated, get user details, maps, and setup websocket connection with the server
+      dispatch(getUserDetails());
+      dispatch(getMyMaps());
+      dispatch(establishSocketConnection());
+    } else {
+      // If not authenticated, remove token, disconnect websocket, and redirect to login page
+      Auth.removeToken();
+      dispatch(closeSocketConnection());
+      console.log("no token, redirecting to login page");
+      navigate("/auth", { replace: true });
+    }
+  }, [authenticated]);
 
-    useEffect(() => {
-        // If not authenticated, remove token and redirect to login page
-        if (!authenticated || !Auth.isTokenActive()) {
-            Auth.removeToken();
-            console.log("no token, redirecting to login page");
-            navigate("/auth", { replace: true });
-        }
-    }, [authenticated])
-
-    // If user details have been populated, render map, else render loading spinner
-    if (user.populated) {
-        /*
+  // If user details have been populated, render map, else render loading spinner
+  if (user.populated) {
+    /*
             Tooltips - hover tooltips for buttons
             MapboxMap - MapboxGL instance, drawing tools, left pane, ui etc.
             TopBar - navigation bar at top of page
             Controls - map and layer controls in bottom right of app
          */
-        return (
-            <div>
-                <Tooltips />
-                <MapboxMap />
-                <TopBar limited={false} />
-                <NoConnectionToast />
-                <ControlButtons />
-            </div>
-        )
-    } else {
-        return (
-            <div className="full-height overflow-y">
-                <TopBar limited={true} />
-                <div className="centered">
-                    <Spinner />
-                </div>
-            </div>
-        )
-    }
-}
+    return (
+      <div>
+        <MapboxMap />
+        <TopBar limited={false} />
+        <NoConnectionToast />
+        <ControlButtons />
+        <Tooltips />
+      </div>
+    );
+  } else {
+    return (
+      <div className="full-height overflow-y">
+        <TopBar limited={true} />
+        <div className="centered">
+          <Spinner />
+        </div>
+      </div>
+    );
+  }
+};
 
 export default MapApp;

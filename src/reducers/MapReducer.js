@@ -68,6 +68,11 @@ export default (state = INITIAL_STATE, action) => {
         ...action.payload.data.map,
         movingMethod: "jumpTo",
       };
+    case "RELOAD_MAP":
+      return {
+        ...state,
+        name: action.payload.data.map.name,
+      };
     case "NEW_MAP":
       return {
         ...INITIAL_STATE,
@@ -76,8 +81,8 @@ export default (state = INITIAL_STATE, action) => {
     case "SET_MAP_NAME":
       return {
         ...state,
-        name: action.payload
-      }
+        name: action.payload,
+      };
     default:
       return state;
   }

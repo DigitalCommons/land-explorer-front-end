@@ -1,0 +1,47 @@
+.map-being-edited {
+  background-color: $blueAccent;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  position: fixed;
+  top: 78px;
+  right: 10px;
+  padding: 10px 15px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32);
+}
+
+.map-being-edited__container,
+.map-being-edited__initials {
+  display: flex;
+  align-items: center;
+}
+
+.map-being-edited__initials {
+  height: 30px;
+  width: 30px;
+  font-size: 12px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  text-transform: uppercase;
+  justify-content: center;
+}
+
+.map-being-edited__message {
+  margin: 0 0 0 8px;
+  letter-spacing: 0.025em;
+}
+
+@media screen and (min-width: $medium) {
+  .map-being-edited {
+    padding: 15px 20px;
+    font-size: 16px;
+  }
+  .map-being-edited__initials {
+    height: 36px;
+    width: 36px;
+    font-size: 14px;
+  }
+  .map-being-edited__message {
+    margin-left: 8px;
+  }
+}

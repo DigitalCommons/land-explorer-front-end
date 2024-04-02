@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useInterval } from "usehooks-ts";
 import ReactMapboxGl from "react-mapbox-gl";
 import { v4 as uuidv4 } from "uuid";
 import * as turf from "@turf/turf";
@@ -17,9 +18,15 @@ import constants from "../../constants";
 import mapSources from "../../data/mapSources";
 import MapProperties from "./MapProperties";
 import MapDataGroups from "./MapDataGroups";
-import { autoSave, setLngLat, setZoom } from "../../actions/MapActions";
+import {
+  autoSave,
+  refreshCurrentMap,
+  setLngLat,
+  setZoom,
+} from "../../actions/MapActions";
 import MapRelatedProperties from "./MapRelatedProperties";
 import FeedbackTab from "../common/FeedbackTab";
+import MapBeingEditedToast from "./MapBeingEditedToast";
 
 // Create Map Component with settings
 const Map = ReactMapboxGl({
@@ -37,7 +44,8 @@ const MapboxMap = () => {
   const dispatch = useDispatch();
   const drawControlRef = useRef();
   const mapRef = useRef();
-  const { currentMapId, unsavedMapUuid } = useSelector((state) => state.mapMeta);
+  const { currentMapId, unsavedMapUuid, lockedByOtherUserInitials } =
+    useSelector((state) => state.mapMeta);
   const { zoom, lngLat, movingMethod } = useSelector((state) => state.map);
   const { currentMarker } = useSelector((state) => state.markers);
   const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
@@ -48,6 +56,14 @@ const MapboxMap = () => {
   );
   const propertiesDisplay = useSelector(
     (state) => state.landOwnership.displayActive
+  );
+
+  useInterval(
+    () => {
+      dispatch(refreshCurrentMap());
+    },
+    // Refresh map data every 30 seconds if the map is locked by another user who is editing it
+    lockedByOtherUserInitials ? 30000 : null
   );
 
   // Redraw polygons when changing maps or clearing an unsaved map
@@ -255,8 +271,8 @@ const MapboxMap = () => {
             baseLayer === "aerial"
               ? "#091324"
               : constants.USE_OS_TILES
-                ? "#aadeef"
-                : "#72b6e6",
+              ? "#aadeef"
+              : "#72b6e6",
         }}
         zoom={zoom}
         onZoomEnd={(map) => dispatch(setZoom([map.getZoom()]))}
@@ -286,10 +302,12 @@ const MapboxMap = () => {
           }}
         />
         {/*For displaying the property boundaries*/}
-        {constants.LR_POLYGONS_ENABLED && <>
-          <MapProperties center={lngLat} map={map} />
-          <MapRelatedProperties />
-        </>}
+        {constants.LR_POLYGONS_ENABLED && (
+          <>
+            <MapProperties center={lngLat} map={map} />
+            <MapRelatedProperties />
+          </>
+        )}
         {/* Markers, including markers from data groups */}
         {styleLoaded && (
           <Markers
@@ -333,6 +351,7 @@ const MapboxMap = () => {
       </Map>
       <LeftPane drawControl={drawControlRef.current} />
       <FeedbackTab />
+      <MapBeingEditedToast />
       <Modals />
       <div className="os-accreditation">
         Contains OS data © Crown copyright and database rights 2022 OS
