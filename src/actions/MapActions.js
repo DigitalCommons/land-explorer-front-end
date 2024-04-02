@@ -283,9 +283,9 @@ export const setLngLat = (lng, lat) => {
       payload: [lng, lat],
     });
 
-    const currentMapId = getState().mapMeta.currentMapId;
-    // If map is saved, save to back-end
-    if (currentMapId) {
+    const { currentMapId, writeAccess } = getState().mapMeta;
+    // If map is saved and we have write access, save to back-end
+    if (currentMapId && writeAccess) {
       const body = {
         eid: currentMapId,
         lngLat: [lng, lat],
@@ -304,52 +304,42 @@ export const setCurrentLocation = (lng, lat) => {
   };
 };
 
-const saveMapZoom = (mapId, zoom) => {
-  return async (dispatch) => {
-    const body = {
-      eid: mapId,
-      zoom: zoom,
-    };
-    await dispatch(saveMapRequest("/api/user/map/save/zoom", body));
+const saveMapZoom = () => {
+  return async (dispatch, getState) => {
+    const { currentMapId, writeAccess } = getState().mapMeta;
+
+    // If map is saved and we have write access, save to back-end
+    if (currentMapId && writeAccess) {
+      const body = {
+        eid: currentMapId,
+        zoom: getState().map.zoom,
+      };
+      await dispatch(saveMapRequest("/api/user/map/save/zoom", body));
+    }
   };
 };
 
 export const zoomIn = () => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({ type: "ZOOM_IN" });
-
-    // If map is saved, save current Zoom to back-end
-    const currentMapId = getState().mapMeta.currentMapId;
-    if (currentMapId) {
-      dispatch(saveMapZoom(currentMapId, getState().map.zoom));
-    }
+    dispatch(saveMapZoom());
   };
 };
 
 export const zoomOut = () => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({ type: "ZOOM_OUT" });
-
-    // If map is saved, save current Zoom to back-end
-    const currentMapId = getState().mapMeta.currentMapId;
-    if (currentMapId) {
-      dispatch(saveMapZoom(currentMapId, getState().map.zoom));
-    }
+    dispatch(saveMapZoom());
   };
 };
 
 export const setZoom = (zoom) => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({
       type: "SET_ZOOM",
       payload: zoom,
     });
-
-    // If map is saved, save current Zoom to back-end
-    const currentMapId = getState().mapMeta.currentMapId;
-    if (currentMapId) {
-      dispatch(saveMapZoom(currentMapId, getState().map.zoom));
-    }
+    dispatch(saveMapZoom());
   };
 };
 
