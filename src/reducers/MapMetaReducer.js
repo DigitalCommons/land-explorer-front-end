@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   isSnapshot: false,
   writeAccess: true,
   ownMap: true,
-  lockedByOtherUserInitials: null, // initials if other user if they have lock to edit map, else null
+  lockedByOtherUserInitials: null, // initials of other user if they are locking map edits, else null
   saving: false,
   saveError: false,
   lastSaved: null,

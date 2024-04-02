@@ -22,10 +22,6 @@ const Login = ({ updateBgImage }) => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const closeMainMenu = () => {
-    if (mainMenuOpen) dispatch({ type: "CLOSE_MENU_MAIN" });
-  };
-
   useEffect(() => {
     if (searchParams.has("reset_token")) {
       // user has clicked reset password link
@@ -172,7 +168,6 @@ const Login = ({ updateBgImage }) => {
               paddingBottom: "4px",
               borderBottom: "1px solid rgb(46, 203, 112)",
             }}
-            // onClick={closeMainMenu}
           >
             register new account
           </Link>
@@ -187,7 +182,6 @@ const Login = ({ updateBgImage }) => {
               paddingBottom: "4px",
               borderBottom: "1px solid rgb(46, 203, 112)",
             }}
-            // onClick={closeMainMenu}
           >
             reset password
           </Link>

@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { isMobile } from "react-device-detect";
 
 const MapBeingEditedToast = () => {
   const { lockedByOtherUserInitials } = useSelector((state) => state.mapMeta);
@@ -8,7 +9,7 @@ const MapBeingEditedToast = () => {
     <div
       className="map-being-edited"
       style={{
-        display: lockedByOtherUserInitials ? "block" : "none",
+        display: lockedByOtherUserInitials && !isMobile ? "block" : "none",
       }}
     >
       <div className="map-being-edited__container">

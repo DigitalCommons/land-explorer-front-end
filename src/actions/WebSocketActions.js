@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 import constants from "../constants";
-import { getToken } from "../utils/Auth";
+import * as Auth from "../utils/Auth";
 import { refreshCurrentMap } from "./MapActions";
 import { updateReadOnly } from "./ReadOnlyActions";
 
@@ -8,7 +8,7 @@ export const establishSocketConnection = () => {
   return (dispatch, getState) => {
     dispatch(closeSocketConnection());
     console.log("connecting websocket");
-    const socket = io(constants.ROOT_URL, { auth: { token: getToken() } });
+    const socket = io(constants.ROOT_URL, { auth: { token: Auth.getToken() } });
     dispatch({ type: "SOCKET_CONNECT", payload: socket });
 
     socket.on("connect", () => {
