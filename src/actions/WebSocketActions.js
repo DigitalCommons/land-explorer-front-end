@@ -5,9 +5,8 @@ import { refreshCurrentMap } from "./MapActions";
 import { updateReadOnly } from "./ReadOnlyActions";
 
 export const establishSocketConnection = () => {
-  return async (dispatch, getState) => {
-    await dispatch(closeSocketConnection());
-
+  return (dispatch, getState) => {
+    dispatch(closeSocketConnection());
     console.log("connecting websocket");
     const socket = io(constants.ROOT_URL, { auth: { token: Auth.getToken() } });
     dispatch({ type: "SOCKET_CONNECT", payload: socket });
@@ -49,13 +48,9 @@ export const notifyServerOfCurrentMap = () => {
 };
 
 export const closeSocketConnection = () => {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     const socket = getState().webSocket.socketConnection;
-    if (socket) {
-      socket.close();
-      // wait for 1 second to allow the socket to close
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
+    socket?.close();
     dispatch({ type: "SOCKET_DISCONNECT" });
   };
 };
