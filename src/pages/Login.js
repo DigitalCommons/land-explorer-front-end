@@ -6,7 +6,6 @@ import * as Auth from "../utils/Auth";
 import Spinner from "../components/common/Spinner";
 import TopBar from "../components/top-bar/TopBar";
 import constants from "../constants";
-import { establishSocketConnection } from "../actions/WebSocketActions";
 
 const Login = ({ updateBgImage }) => {
   const [loggingIn, setLoggingIn] = useState(false);
@@ -67,8 +66,6 @@ const Login = ({ updateBgImage }) => {
       .then((response) => {
         Auth.setToken(response.data.access_token, response.data.expires_in);
         dispatch({ type: "LOGGED_IN" });
-
-        dispatch(establishSocketConnection());
 
         if (useResetToken) {
           // user needs to set a new password

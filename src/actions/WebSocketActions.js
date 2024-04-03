@@ -4,12 +4,16 @@ import * as Auth from "../utils/Auth";
 import { refreshCurrentMap } from "./MapActions";
 import { updateReadOnly } from "./ReadOnlyActions";
 
+const socket = io(constants.ROOT_URL, {
+  auth: (cb) => {
+    cb({ token: Auth.getToken() });
+  },
+  autoConnect: false,
+});
+
 export const establishSocketConnection = () => {
   return (dispatch, getState) => {
-    dispatch(closeSocketConnection());
-    console.log("connecting websocket");
-    const socket = io(constants.ROOT_URL, { auth: { token: Auth.getToken() } });
-    dispatch({ type: "SOCKET_CONNECT", payload: socket });
+    socket.removeAllListeners(); // to avoid duplicate listeners
 
     socket.on("connect", () => {
       console.log(`Websocket connected ${socket.id}`);
@@ -36,21 +40,22 @@ export const establishSocketConnection = () => {
         }
       }
     });
+
+    console.log("connecting websocket");
+    socket.connect();
   };
 };
 
 export const notifyServerOfCurrentMap = () => {
   return (dispatch, getState) => {
     const { currentMapId } = getState().mapMeta;
-    const socket = getState().webSocket.socketConnection;
     socket.emit("currentMap", currentMapId);
   };
 };
 
 export const closeSocketConnection = () => {
   return (dispatch, getState) => {
-    const socket = getState().webSocket.socketConnection;
-    socket?.close();
-    dispatch({ type: "SOCKET_DISCONNECT" });
+    socket.removeAllListeners();
+    socket.disconnect();
   };
 };
