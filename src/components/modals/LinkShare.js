@@ -19,7 +19,7 @@ const LinkShare = () => {
                 },
                 getAuthHeader());
 
-            const link = constants.ROOT_URL + result.data;
+            const link = `${constants.ROOT_URL}/api/${result.data}`;
             setLinkText(link);
             setStage("copy");
         }
