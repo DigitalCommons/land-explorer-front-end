@@ -1,8 +1,9 @@
-import { VERSION } from "../constants";
+import constants, { VERSION } from "../constants";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
 import { getRequest, postRequest } from "./RequestActions";
 import { updateReadOnly } from "./ReadOnlyActions";
+import { notifyServerOfCurrentMap } from "./WebSocketActions";
 
 export const getMyMaps = () => {
   return async (dispatch) => {
@@ -45,15 +46,55 @@ export const loadNewestMap = () => {
   };
 };
 
-/** Open specified map (if it exists in My Maps) */
-export const openMap = (mapId) => {
-  return (dispatch, getState) => {
+/** Refresh the map that is currently open. */
+export const refreshCurrentMap = () => {
+  return async (dispatch, getState) => {
+    const mapId = getState().mapMeta.currentMapId;
+
+    if (mapId === null) {
+      console.warn("No saved map to refresh");
+      return;
+    }
+
+    console.log("Refreshing current map", mapId);
+
+    // Get latest data from server
+    await dispatch(getMyMaps());
+
     const map = getState().myMaps.maps.find((item) => item.map.eid === mapId);
     if (map) {
       const mapData = JSON.parse(map.map.data);
       const isSnapshot = map.map.isSnapshot;
       const lastModified = map.map.lastModified;
-      const writeAccess = map.access === "WRITE";
+      const writeAccess = map.access !== constants.MAP_ACCESS_READ_ONLY;
+      const ownMap = map.access === constants.MAP_ACCESS_OWNER;
+
+      dispatch({
+        type: "RELOAD_MAP",
+        payload: {
+          data: mapData,
+          id: mapId,
+          isSnapshot: isSnapshot,
+          writeAccess: writeAccess,
+          ownMap: ownMap,
+          lastModified: shortenTimestamp(lastModified),
+        },
+      });
+      dispatch(updateReadOnly());
+    }
+  };
+};
+
+/** Open specified map (if it exists in My Maps) */
+export const openMap = (mapId) => {
+  return async (dispatch, getState) => {
+    const map = getState().myMaps.maps.find((item) => item.map.eid === mapId);
+    if (map) {
+      const mapData = JSON.parse(map.map.data);
+      const isSnapshot = map.map.isSnapshot;
+      const lastModified = map.map.lastModified;
+      const writeAccess = map.access !== constants.MAP_ACCESS_READ_ONLY;
+      const ownMap = map.access === constants.MAP_ACCESS_OWNER;
 
       dispatch({
         type: "LOAD_MAP",
@@ -62,9 +103,11 @@ export const openMap = (mapId) => {
           id: mapId,
           isSnapshot: isSnapshot,
           writeAccess: writeAccess,
+          ownMap: ownMap,
           lastModified: shortenTimestamp(lastModified),
         },
       });
+      console.log("map data:", mapData, "map id:", mapId);
       dispatch(updateReadOnly());
 
       setTimeout(() => {
@@ -75,6 +118,7 @@ export const openMap = (mapId) => {
       }, 1000);
 
       dispatch(postRequest("/api/user/map/view", { eid: mapId }));
+      dispatch(notifyServerOfCurrentMap());
     }
   };
 };
@@ -97,15 +141,16 @@ export const deleteMap = (mapId) => {
 };
 
 export const newMap = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: "NEW_MAP",
-      payload: { unsavedMapUuid: uuidv4() }
+      payload: { unsavedMapUuid: uuidv4() },
     });
     setTimeout(() => {
       dispatch({ type: "CHANGE_MOVING_METHOD", payload: "flyTo" });
     }, 500);
     dispatch(updateReadOnly());
+    dispatch(notifyServerOfCurrentMap());
   };
 };
 
@@ -162,10 +207,15 @@ export const saveCurrentMap = (
   };
 };
 
-/** Save the current map if it is saved, otherwise do nothing. Return false iff error when saving */
+/**
+ * Save the current map if it is saved, writable, and not locked by another user, otherwise do
+ * nothing. Return false iff there is an error when saving.
+ */
 export const autoSave = () => {
   return async (dispatch, getState) => {
-    if (getState().mapMeta.currentMapId) {
+    const { currentMapId, writeAccess, lockedByOtherUserInitials } =
+      getState().mapMeta;
+    if (currentMapId && writeAccess && !lockedByOtherUserInitials) {
       return await dispatch(saveCurrentMap());
     }
     return true;
@@ -202,9 +252,10 @@ export const saveObjectToMap = (type, data, mapId) => {
 };
 
 /** Edit the specified object's name and description. Return false iff failed to save to backend. */
-export const editMapObjectInfo = (type, uuid, newName, newDescription) => {
+export const editMapObjectInfo = (type, eid, uuid, newName, newDescription) => {
   return async (dispatch, getState) => {
     const payload = {
+      eid,
       uuid,
       name: newName,
       description: newDescription,
@@ -217,7 +268,9 @@ export const editMapObjectInfo = (type, uuid, newName, newDescription) => {
 
     // If we are working on a saved map
     if (getState().mapMeta.currentMapId) {
-      return await dispatch(saveMapRequest(`/api/user/edit/${type}`, payload));
+      return await dispatch(
+        saveMapRequest(`/api/user/map/edit/${type}`, payload)
+      );
     }
     return true;
   };
@@ -230,9 +283,9 @@ export const setLngLat = (lng, lat) => {
       payload: [lng, lat],
     });
 
-    const currentMapId = getState().mapMeta.currentMapId;
-    // If map is saved, save to back-end
-    if (currentMapId) {
+    const { currentMapId, writeAccess } = getState().mapMeta;
+    // If map is saved and we have write access, save to back-end
+    if (currentMapId && writeAccess) {
       const body = {
         eid: currentMapId,
         lngLat: [lng, lat],
@@ -251,52 +304,42 @@ export const setCurrentLocation = (lng, lat) => {
   };
 };
 
-const saveMapZoom = (mapId, zoom) => {
-  return async (dispatch) => {
-    const body = {
-      eid: mapId,
-      zoom: zoom,
-    };
-    await dispatch(saveMapRequest("/api/user/map/save/zoom", body));
+const saveMapZoom = () => {
+  return async (dispatch, getState) => {
+    const { currentMapId, writeAccess } = getState().mapMeta;
+
+    // If map is saved and we have write access, save to back-end
+    if (currentMapId && writeAccess) {
+      const body = {
+        eid: currentMapId,
+        zoom: getState().map.zoom,
+      };
+      await dispatch(saveMapRequest("/api/user/map/save/zoom", body));
+    }
   };
 };
 
 export const zoomIn = () => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({ type: "ZOOM_IN" });
-
-    // If map is saved, save current Zoom to back-end
-    const currentMapId = getState().mapMeta.currentMapId;
-    if (currentMapId) {
-      dispatch(saveMapZoom(currentMapId, getState().map.zoom));
-    }
+    dispatch(saveMapZoom());
   };
 };
 
 export const zoomOut = () => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({ type: "ZOOM_OUT" });
-
-    // If map is saved, save current Zoom to back-end
-    const currentMapId = getState().mapMeta.currentMapId;
-    if (currentMapId) {
-      dispatch(saveMapZoom(currentMapId, getState().map.zoom));
-    }
+    dispatch(saveMapZoom());
   };
 };
 
 export const setZoom = (zoom) => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({
       type: "SET_ZOOM",
       payload: zoom,
     });
-
-    // If map is saved, save current Zoom to back-end
-    const currentMapId = getState().mapMeta.currentMapId;
-    if (currentMapId) {
-      dispatch(saveMapZoom(currentMapId, getState().map.zoom));
-    }
+    dispatch(saveMapZoom());
   };
 };
 

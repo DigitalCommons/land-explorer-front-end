@@ -28,7 +28,6 @@ const Modal = ({
         setTranslateX("-50%");
       }, 100);
     }
-    console.log("open", open);
   }, [open]);
 
   const closeModal = () => {

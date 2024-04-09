@@ -1,0 +1,45 @@
+.pill-badge {
+  height: 28px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $blueAccent;
+  border-radius: 50rem;
+  font-size: 12px;
+  color: #fff;
+}
+
+.pill-badge__title {
+  margin: 0 10px;
+}
+
+.pill-badge__icon {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  margin-left: 4px;
+  cursor: pointer;
+  // & svg {
+  //   fill: #fff;
+  //   height: 15px;
+  // }
+}
+
+.pill-badge__remove {
+  height: 100%;
+  border: none;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  padding-right: 10px;
+  cursor: pointer;
+  & svg {
+    fill: #fff;
+    height: 10px;
+  }
+}

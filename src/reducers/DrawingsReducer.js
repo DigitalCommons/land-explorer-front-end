@@ -5,6 +5,9 @@ const INITIAL_STATE = {
     linesDrawn: 0,
 }
 
+/**
+ * TODO: rename POLYGON since these can also be lines
+ */
 export default (state = INITIAL_STATE, action) => {
     let polygons;
     switch (action.type) {
@@ -84,6 +87,7 @@ export default (state = INITIAL_STATE, action) => {
                 activePolygon: null
             }
         case 'LOAD_MAP':
+        case 'RELOAD_MAP':
             return action.payload.data.drawings;
         case 'NEW_MAP':
             return INITIAL_STATE;

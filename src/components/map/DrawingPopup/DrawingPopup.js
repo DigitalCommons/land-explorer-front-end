@@ -4,6 +4,7 @@ import {
   saveObjectToMap,
   editMapObjectInfo,
 } from "../../../actions/MapActions";
+import { editDataGroupObjectInfo } from "../../../actions/DataGroupActions";
 import PopupContent from "./PopupContent/PopupContent";
 import PopupCopy from "./PopupCopy/PopupCopy";
 import PopupStatus from "./PopupStatus/PopupStatus";
@@ -75,13 +76,26 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
     setMode(success ? MODE.SUCCESS : MODE.ERROR);
   };
 
-  // Function for editing object info
   const editObjectInfo = async (newName, newDescription) => {
     if (source === "map") {
-      dispatch(editMapObjectInfo(type, object.uuid, newName, newDescription));
+      dispatch(
+        editMapObjectInfo(
+          type,
+          currentMapId,
+          object.uuid,
+          newName,
+          newDescription
+        )
+      );
     } else {
       dispatch(
-        editDataGroupObjectInfo(type, object.uuid, newName, newDescription)
+        editDataGroupObjectInfo(
+          type,
+          object.data_group_id,
+          object.uuid,
+          newName,
+          newDescription
+        )
       );
       // TODO: indicate in the popup when this fails to save?
     }

@@ -28,3 +28,7 @@ export function removeToken() {
 export function getAuthHeader() {
     return { headers: { 'Authorization': "bearer " + localStorage.getItem('token') } };
 }
+
+export function getToken() {
+    return localStorage.getItem('token');
+}
