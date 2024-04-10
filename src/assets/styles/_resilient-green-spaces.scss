@@ -1,0 +1,122 @@
+.allotments {
+  // Pop up
+  & .popup-title,
+  & .tab-active,
+  & .marker-icon > svg {
+    color: $allotments;
+  }
+  & .popup-footer {
+    background-color: $allotments;
+  }
+  & .popup-content::after {
+    border-color: transparent transparent $allotments transparent;
+  }
+  // Pop up - copy to
+  & .popup-copy-to-option {
+    &:hover {
+      border-color: $allotments;
+    }
+  }
+  & .copy-to-option-highlighted {
+    background-color: $allotments;
+  }
+  //   & .marker-icon > svg {
+  //     color: $allotments;
+  //   }
+}
+
+.community-gardens {
+  // Pop up
+  & .popup-title,
+  & .tab-active,
+  & .marker-icon > svg {
+    color: $communityGardens;
+  }
+  & .popup-footer {
+    background-color: $communityGardens;
+  }
+  & .popup-content::after {
+    border-color: transparent transparent $communityGardens transparent;
+  }
+  // Pop up - copy to
+  & .popup-copy-to-option {
+    &:hover {
+      border-color: $communityGardens;
+    }
+  }
+  & .copy-to-option-highlighted {
+    background-color: $communityGardens;
+  }
+}
+
+.csa-community-farms {
+  // Pop up
+  & .popup-title,
+  & .tab-active,
+  & .marker-icon > svg {
+    color: $communityFarms;
+  }
+  & .popup-footer {
+    background-color: $communityFarms;
+  }
+  & .popup-content::after {
+    border-color: transparent transparent $communityFarms transparent;
+  }
+  // Pop up - copy to
+  & .popup-copy-to-option {
+    &:hover {
+      border-color: $communityFarms;
+    }
+  }
+  & .copy-to-option-highlighted {
+    background-color: $communityFarms;
+  }
+}
+
+.incredible-edible {
+  // Pop up
+  & .popup-title,
+  & .tab-active,
+  & .marker-icon > svg {
+    color: $incredibleEdible;
+  }
+  & .popup-footer {
+    background-color: $incredibleEdible;
+  }
+  & .popup-content::after {
+    border-color: transparent transparent $incredibleEdible transparent;
+  }
+  // Pop up - copy to
+  & .popup-copy-to-option {
+    &:hover {
+      border-color: $incredibleEdible;
+    }
+  }
+  & .copy-to-option-highlighted {
+    background-color: $incredibleEdible;
+  }
+}
+
+.orchards {
+  // Pop up
+  & .popup-title,
+  & .tab-active,
+  & .marker-icon > svg {
+    color: $orchards;
+  }
+  & .popup-footer {
+    background-color: $orchards;
+  }
+  & .popup-content::after {
+    border-color: transparent transparent $orchards transparent;
+  }
+  // Pop up - copy to
+  & .popup-copy-to-option {
+    &:hover {
+      border-color: $orchards;
+    }
+  }
+  & .copy-to-option-highlighted {
+    background-color: $orchards;
+  }
+}

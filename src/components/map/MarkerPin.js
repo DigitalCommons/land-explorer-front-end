@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import { Marker } from "react-mapbox-gl";
 import { useDispatch, useSelector } from "react-redux";
 import DrawingPopup from "./DrawingPopup/DrawingPopup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCertificate,
+  faLocationDot,
+} from "@fortawesome/free-solid-svg-icons";
 
 const MarkerPin = ({ marker, active }) => {
   const dispatch = useDispatch();
@@ -39,21 +44,26 @@ const MarkerPin = ({ marker, active }) => {
           <div
             className={
               active
-                ? "marker-icon-active"
+                ? "marker-icon icon-green"
                 : baseLayer === "aerial"
-                ? "marker-icon-aerial"
+                ? "marker-icon icon-white"
                 : "marker-icon"
             }
-            style={{
-              height: 40,
-              width: 40,
-              zIndex: 2,
-              position: "absolute",
-              top: "0px",
-              left: "-20px",
-            }}
+            // style={{
+            //   height: 40,
+            //   width: 40,
+            //   zIndex: 2,
+            //   position: "absolute",
+            //   top: "0px",
+            //   left: "-20px",
+            // }}
             onClick={toggleMarker}
-          />
+          >
+            <span className="marker-icon-center">
+              <FontAwesomeIcon icon={faCertificate} />
+            </span>
+            <FontAwesomeIcon icon={faLocationDot} />
+          </div>
           <span className="marker-shadow"></span>
         </div>
         {showPopup && (

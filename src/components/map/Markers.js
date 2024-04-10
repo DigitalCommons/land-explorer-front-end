@@ -79,12 +79,18 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
 
     const dataGroupMarkers = [];
 
+    
+
     activeDataGroups && activeDataGroups.forEach((dataGroup) => {
-        console.log(dataGroup)
+        console.log('Data Group from Markers.js', dataGroup)
+        const dataGroupTitle = dataGroup.title;
         if (dataGroup.markers) {
             dataGroup.markers.forEach((marker) => {
+                console.log('Marker from Markers.js', marker)
+                console.log('Data Group Title from Markers.js', dataGroupTitle)
                 dataGroupMarkers.push(
                     <DataGroupMarker
+                        dataGroupTitle={dataGroupTitle}
                         key={marker.uuid}
                         coordinates={marker.location.coordinates}
                         name={marker.name}
