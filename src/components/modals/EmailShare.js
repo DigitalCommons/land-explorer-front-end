@@ -49,6 +49,11 @@ const EmailShare = () => {
     setUsersToShareWith(usersSharedWith);
   }, [modalOpen]);
 
+  // when we change the set of users to share with, sync with the server
+  useEffect(() => {
+    sync();
+  }, [usersToShareWith]);
+
   const handleSelectAccess = (option) => {
     setSelectedAccess(option.value);
     setSelectedAccessLabel(option.label);
@@ -79,22 +84,11 @@ const EmailShare = () => {
     }
   };
 
-  const closeModal = () => {
-    dispatch({ type: "CLOSE_MODAL", payload: "emailShare" });
-    setInput("");
-    setUsersToShareWith([]);
-    setSelectedAccess(accessOptions[0].value);
-  };
-
   /**
    * Sync with the server so that the map is shared with the set of users that are currently
    * selected in the UI
    */
   const sync = async () => {
-    // first add an email if the user has typed one, since they may not realise that they might not
-    // realise they should click the 'add email' button
-    maybeAddEmail();
-
     if (isEqual(usersSharedWith, usersToShareWith)) {
       return;
     }
@@ -189,22 +183,6 @@ const EmailShare = () => {
             );
           })}
         </div>
-      </div>
-      <div className="email-share__share-button__container">
-        <Button
-          buttonClass={"email-share__cancel-button"}
-          type={"button"}
-          buttonAction={closeModal}
-        >
-          Cancel
-        </Button>
-        <Button
-          buttonClass={"email-share__share-button"}
-          type={"button"}
-          buttonAction={sync}
-        >
-          Save
-        </Button>
       </div>
     </Modal>
   );
