@@ -20,9 +20,12 @@
   & .copy-to-option-highlighted {
     background-color: $allotments;
   }
-  //   & .marker-icon > svg {
-  //     color: $allotments;
-  //   }
+  // Toggle switch
+  .toggle-switch {
+    input:checked + .slider:before {
+      background-color: $allotments;
+    }
+  }
 }
 
 .community-gardens {
@@ -46,6 +49,12 @@
   }
   & .copy-to-option-highlighted {
     background-color: $communityGardens;
+  }
+  // Toggle switch
+  .toggle-switch {
+    input:checked + .slider:before {
+      background-color: $communityGardens;
+    }
   }
 }
 
@@ -71,6 +80,12 @@
   & .copy-to-option-highlighted {
     background-color: $communityFarms;
   }
+  // Toggle switch
+  .toggle-switch {
+    input:checked + .slider:before {
+      background-color: $communityFarms;
+    }
+  }
 }
 
 .incredible-edible {
@@ -95,6 +110,12 @@
   & .copy-to-option-highlighted {
     background-color: $incredibleEdible;
   }
+  // Toggle switch
+  .toggle-switch {
+    input:checked + .slider:before {
+      background-color: $incredibleEdible;
+    }
+  }
 }
 
 .orchards {
@@ -118,5 +139,11 @@
   }
   & .copy-to-option-highlighted {
     background-color: $orchards;
+  }
+  // Toggle switch
+  .toggle-switch {
+    input:checked + .slider:before {
+      background-color: $orchards;
+    }
   }
 }
