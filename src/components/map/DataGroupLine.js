@@ -1,9 +1,16 @@
 import React from "react";
 import { Marker, GeoJSONLayer } from "react-mapbox-gl";
 import DrawingPopup from "./DrawingPopup/DrawingPopup";
-import * as turf from '@turf/turf';
+import * as turf from "@turf/turf";
+import useStringToClassName from "../../hooks/useStringToClassName";
 
-const DataGroupLine = ({ line, setPopupVisible, popupVisible }) => {
+const DataGroupLine = ({
+  line,
+  setPopupVisible,
+  popupVisible,
+  dataGroupTitle,
+}) => {
+  const dynamicClass = useStringToClassName(dataGroupTitle);
   const lineData = {
     geometry: {
       coordinates: line.vertices.coordinates,
@@ -15,18 +22,55 @@ const DataGroupLine = ({ line, setPopupVisible, popupVisible }) => {
   };
   line.center = turf.pointOnFeature(lineData);
 
+  // const linePaintData =
+  //   dynamicClass === "allotments"
+  //     ? {
+  //         "line-color": "red",
+  //         "line-width": 2,
+  //         "line-opacity": 1,
+  //       }
+  //     : {
+  //         "line-color": "green",
+  //         "line-width": 2,
+  //         "line-opacity": 1,
+  //       };
+
+  // const lineColor = dynamicClass === "allotments" ? "red" : "green";
+
+  // const linePaintData = {
+  //   "line-color": lineColor,
+  //   "line-width": 2,
+  //   "line-opacity": 1,
+  // };
+
   const lineLayer = (
     <GeoJSONLayer
       key={line.uuid}
       data={lineData}
+      // linePaint={linePaintData}
       linePaint={{
-        "line-color": "green",
+        "line-color": [
+          "case",
+          ["==", dynamicClass, "allotments"],
+          "#8EA637",
+          ["==", dynamicClass, "community-gardens"],
+          "#165F8C",
+          ["==", dynamicClass, "csa-community-farms"],
+          "#403116",
+          ["==", dynamicClass, "incredible-edible"],
+          "#BF800B",
+          ["==", dynamicClass, "orchards"],
+          "#BF573F",
+          "green", // fallback color
+        ],
         "line-width": 2,
         "line-opacity": 1,
       }}
       lineOnClick={() => setPopupVisible(line.uuid)}
     />
   );
+
+  console.log("Datagroup title for line layer", dataGroupTitle);
 
   if (popupVisible === line.uuid)
     return (

@@ -2,7 +2,7 @@ import React from "react";
 import { Marker, GeoJSONLayer } from "react-mapbox-gl";
 import DrawingPopup from "./DrawingPopup/DrawingPopup";
 
-const DataGroupPolygon = ({ polygon, setPopupVisible, popupVisible }) => {
+const DataGroupPolygon = ({ polygon, setPopupVisible, popupVisible, dataGroupTitle }) => {
     const polygonData = {
         geometry: {
             coordinates: polygon.vertices.coordinates,

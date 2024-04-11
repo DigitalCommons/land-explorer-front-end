@@ -20,6 +20,8 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
 
   activeDataGroups &&
     activeDataGroups.forEach((dataGroup) => {
+      const dataGroupTitle = dataGroup.title ? dataGroup.title : '';
+      console.log("dataGroupTitle from lines and polys", dataGroupTitle);
       if (dataGroup.polygons) {
         dataGroup.polygons.forEach((polygon) => {
           dataGroupPolygons.push(
@@ -28,6 +30,7 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
               polygon={polygon}
               setPopupVisible={setPopupVisible}
               popupVisible={popupVisible}
+              dataGroupTitle={dataGroupTitle}
             />);
         });
       }
@@ -39,6 +42,7 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
               line={line}
               setPopupVisible={setPopupVisible}
               popupVisible={popupVisible}
+              dataGroupTitle={dataGroupTitle}
             />);
         });
       }
