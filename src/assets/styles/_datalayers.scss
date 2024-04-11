@@ -230,6 +230,12 @@
   & img {
     margin-right: 10px;
   }
+
+  & svg {
+    margin-right: 10px;
+    font-size: 20px;
+  }
+  
   &:hover {
     text-decoration: underline;
   }

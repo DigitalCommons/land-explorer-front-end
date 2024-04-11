@@ -1,5 +1,8 @@
 import React from "react";
 import { MODE } from "../DrawingPopup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMap, faLayerGroup} from "@fortawesome/free-solid-svg-icons";
 
 const COPY_TO = {
   MAP: "map",
@@ -63,11 +66,12 @@ const PopupCopy = ({
             onClick={handleCopyToChange}
             value={COPY_TO.MAP}
           >
-            <img
+            {/* <img
               src={require(`../../../../assets/img/icon-map--${
                 copyTo === COPY_TO.MAP && "tab-active" ? "green" : "grey"
               }.svg`)}
-            />
+            /> */}
+            <FontAwesomeIcon icon={faMap} />
             Map Here
           </button>
           <button
@@ -78,11 +82,12 @@ const PopupCopy = ({
             onClick={handleCopyToChange}
             value={COPY_TO.DATA_GROUP}
           >
-            <img
+            {/* <img
               src={require(`../../../../assets/img/icon-layers--${
                 copyTo === COPY_TO.DATA_GROUP && "tab-active" ? "green" : "grey"
               }.svg`)}
-            />
+            /> */}
+            <FontAwesomeIcon icon={faLayerGroup} />
             Data Layer
           </button>
         </div>
