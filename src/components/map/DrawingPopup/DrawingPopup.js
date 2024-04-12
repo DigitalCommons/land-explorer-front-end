@@ -8,6 +8,7 @@ import { editDataGroupObjectInfo } from "../../../actions/DataGroupActions";
 import PopupContent from "./PopupContent/PopupContent";
 import PopupCopy from "./PopupCopy/PopupCopy";
 import PopupStatus from "./PopupStatus/PopupStatus";
+import { saveObjectToDataGroup } from "../../../actions/DataGroupActions"; 
 
 export const MODE = {
   DISPLAY: "display",
@@ -70,6 +71,7 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
 
   const copyObjectToDataGroup = async (object, dataGroup) => {
     const data = regulariseObjectData(object);
+    // console.log("copyObjectToDataGroup", type, data, dataGroup.id); 
     const success = await dispatch(
       saveObjectToDataGroup(type, data, dataGroup.id)
     );
