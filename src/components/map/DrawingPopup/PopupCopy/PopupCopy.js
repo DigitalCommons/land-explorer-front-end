@@ -66,11 +66,6 @@ const PopupCopy = ({
             onClick={handleCopyToChange}
             value={COPY_TO.MAP}
           >
-            {/* <img
-              src={require(`../../../../assets/img/icon-map--${
-                copyTo === COPY_TO.MAP && "tab-active" ? "green" : "grey"
-              }.svg`)}
-            /> */}
             <FontAwesomeIcon icon={faMap} />
             Map Here
           </button>
@@ -82,11 +77,6 @@ const PopupCopy = ({
             onClick={handleCopyToChange}
             value={COPY_TO.DATA_GROUP}
           >
-            {/* <img
-              src={require(`../../../../assets/img/icon-layers--${
-                copyTo === COPY_TO.DATA_GROUP && "tab-active" ? "green" : "grey"
-              }.svg`)}
-            /> */}
             <FontAwesomeIcon icon={faLayerGroup} />
             Data Layer
           </button>

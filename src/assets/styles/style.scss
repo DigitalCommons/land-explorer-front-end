@@ -237,9 +237,6 @@ h6 {
 }
 
 .marker-icon {
-  // background-image: url("../img/icon-marker-new--dark-grey.svg");
-  // background-position: center;
-  // background-repeat: no-repeat;
   font-size: 40px;
   position: absolute;
   top: 0;
@@ -252,7 +249,6 @@ h6 {
     color: $secondaryColor;
     position: absolute;
     top: 0;
-    // left: -14px;
     z-index: 3;
   }
 
@@ -276,25 +272,9 @@ h6 {
 }
 
 .marker-icon-active {
-  // background-image: url("../img/icon-marker-new--green.svg");
   background-position: center;
   background-repeat: no-repeat;
 }
-
-// .marker-icon-aerial {
-//   background-image: url("../img/icon-marker-new--white.svg");
-//   background-position: center;
-//   background-repeat: no-repeat;
-// }
-
-// .marker-icon-green {
-//   background-image: url("../img/icon-marker-data-green.png");
-//   background-position: center;
-//   background-repeat: no-repeat;
-//   background-size: contain;
-//   position: absolute;
-//   z-index: 2;
-// }
 
 .marker-shadow {
   background-image: url("../img/markers-shadow.png");

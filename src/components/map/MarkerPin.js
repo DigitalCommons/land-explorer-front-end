@@ -49,14 +49,6 @@ const MarkerPin = ({ marker, active }) => {
                 ? "marker-icon icon-white"
                 : "marker-icon"
             }
-            // style={{
-            //   height: 40,
-            //   width: 40,
-            //   zIndex: 2,
-            //   position: "absolute",
-            //   top: "0px",
-            //   left: "-20px",
-            // }}
             onClick={toggleMarker}
           >
             <span className="marker-icon-center">

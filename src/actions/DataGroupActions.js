@@ -1,56 +1,55 @@
-import { getRequest, postRequest } from './RequestActions';
-import { autoSave } from './MapActions';
+import { getRequest, postRequest } from "./RequestActions";
+import { autoSave } from "./MapActions";
 
 export const loadDataGroups = () => {
-    return async dispatch => {
-        const userGroupsData = await dispatch(getRequest('/api/user/datagroups'));
-        if (userGroupsData === null) {
-            return;
-        }
+  return async (dispatch) => {
+    const userGroupsData = await dispatch(getRequest("/api/user/datagroups"));
+    if (userGroupsData === null) {
+      return;
+    }
 
-        const mergedDataGroups = [];
-        userGroupsData.forEach(userGroup => {
-            userGroup.dataGroups.forEach(dataGroup => {
-                dataGroup.userGroupId = userGroup.id;
-                mergedDataGroups.push(dataGroup);
-            });
-        });
-        dispatch({
-            type: "STORE_DATA_GROUPS_DATA",
-            payload: mergedDataGroups,
-        });
+    const mergedDataGroups = [];
+    userGroupsData.forEach((userGroup) => {
+      userGroup.dataGroups.forEach((dataGroup) => {
+        dataGroup.userGroupId = userGroup.id;
+        mergedDataGroups.push(dataGroup);
+      });
+    });
+    dispatch({
+      type: "STORE_DATA_GROUPS_DATA",
+      payload: mergedDataGroups,
+    });
 
-        const userGroupTitlesAndIDs = userGroupsData.map((userGroup) => ({
-            title: userGroup.name,
-            id: userGroup.id,
-        }));
-        dispatch({
-            type: "SET_USER_GROUP_TITLES",
-            payload: userGroupTitlesAndIDs,
-        });
+    const userGroupTitlesAndIDs = userGroupsData.map((userGroup) => ({
+      title: userGroup.name,
+      id: userGroup.id,
+    }));
+    dispatch({
+      type: "SET_USER_GROUP_TITLES",
+      payload: userGroupTitlesAndIDs,
+    });
 
-        const dataGroupTitlesAndIDs = mergedDataGroups.map((dataGroup) => ({
-            title: dataGroup.title,
-            id: dataGroup.iddata_groups,
-            userGroupId: dataGroup.userGroupId,
-        }));
-        dispatch({
-            type: "SET_DATA_GROUP_TITLES",
-            payload: dataGroupTitlesAndIDs,
-        });
-    };
-}
+    const dataGroupTitlesAndIDs = mergedDataGroups.map((dataGroup) => ({
+      title: dataGroup.title,
+      id: dataGroup.iddata_groups,
+      userGroupId: dataGroup.userGroupId,
+    }));
+    dispatch({
+      type: "SET_DATA_GROUP_TITLES",
+      payload: dataGroupTitlesAndIDs,
+    });
+  };
+};
 
-export const toggleDataGroup = dataGroupId => {
-    return dispatch => {
-        console.log('Toggle data group', dataGroupId);
-        dispatch({
-            type: "TOGGLE_DATA_GROUP",
-            payload: dataGroupId,
-        });
-        return dispatch(autoSave());
-    };
-}
+export const toggleDataGroup = (dataGroupId) => {
+  return (dispatch) => {
+    dispatch({
+      type: "TOGGLE_DATA_GROUP",
+      payload: dataGroupId,
+    });
+    return dispatch(autoSave());
+  };
+};
 
 /** Save the object data to a specified data group. Return false iff failed to save to backend. */
 export const saveObjectToDataGroup = (type, data, dataGroupId) => {

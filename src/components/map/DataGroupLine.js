@@ -22,32 +22,10 @@ const DataGroupLine = ({
   };
   line.center = turf.pointOnFeature(lineData);
 
-  // const linePaintData =
-  //   dynamicClass === "allotments"
-  //     ? {
-  //         "line-color": "red",
-  //         "line-width": 2,
-  //         "line-opacity": 1,
-  //       }
-  //     : {
-  //         "line-color": "green",
-  //         "line-width": 2,
-  //         "line-opacity": 1,
-  //       };
-
-  // const lineColor = dynamicClass === "allotments" ? "red" : "green";
-
-  // const linePaintData = {
-  //   "line-color": lineColor,
-  //   "line-width": 2,
-  //   "line-opacity": 1,
-  // };
-
   const lineLayer = (
     <GeoJSONLayer
       key={line.uuid}
       data={lineData}
-      // linePaint={linePaintData}
       linePaint={{
         "line-color": [
           "case",
@@ -61,7 +39,7 @@ const DataGroupLine = ({
           "#BF800B",
           ["==", dynamicClass, "orchards"],
           "#BF573F",
-          "green", // fallback color
+          "green",
         ],
         "line-width": 2,
         "line-opacity": 1,
@@ -69,8 +47,6 @@ const DataGroupLine = ({
       lineOnClick={() => setPopupVisible(line.uuid)}
     />
   );
-
-  console.log("Datagroup title for line layer", dataGroupTitle);
 
   if (popupVisible === line.uuid)
     return (
@@ -89,6 +65,7 @@ const DataGroupLine = ({
           onClick={() => {
             if (popupVisible !== line.uuid) setPopupVisible(line.uuid);
           }}
+          className={dynamicClass}
         >
           <DrawingPopup
             object={line}

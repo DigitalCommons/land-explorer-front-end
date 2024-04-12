@@ -18,27 +18,6 @@ const DataGroupMarkerContent = ({
   return (
     <div>
       <div data-tooltip={marker.name} className="pointer">
-        {/* <div
-          className={`marker-icon-green`}
-          style={{
-            height: 40,
-            width: 40,
-            zIndex: 2,
-            position: "absolute",
-            top: "0px",
-            left: "-20px",
-          }}
-        ></div> */}
-        {/* <span
-          style={{
-            color: "#27ae60",
-            position: "absolute",
-            top: "0",
-            left: "-14px",
-            zIndex: 3,
-          }}
-        >
-        </span> */}
         <div
           className={`marker-icon ${dynamicClass ? "" : "icon-green"}`}
           onClick={toggleMarker}
@@ -100,10 +79,6 @@ const DataGroupMarker = ({
         height: "40px",
         zIndex: popupVisible === marker.uuid ? 4 : 3,
       }}
-      // onClick={() => {
-      //   if (popupVisible !== marker.uuid) setPopupVisible(marker.uuid);
-      // }}
-      // onClick={toggleMarker}
       className={dynamicClass && dynamicClass}
     >
       <DataGroupMarkerContent
