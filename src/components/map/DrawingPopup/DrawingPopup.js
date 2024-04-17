@@ -71,7 +71,6 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
 
   const copyObjectToDataGroup = async (object, dataGroup) => {
     const data = regulariseObjectData(object);
-    // console.log("copyObjectToDataGroup", type, data, dataGroup.id); 
     const success = await dispatch(
       saveObjectToDataGroup(type, data, dataGroup.id)
     );
