@@ -6,22 +6,21 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Marker } from "react-mapbox-gl";
 import DrawingPopup from "./DrawingPopup/DrawingPopup";
-import useStringToClassName from "../../hooks/useStringToClassName";
 
 const DataGroupMarkerContent = ({
   marker,
   visible,
   closeDescription,
-  dynamicClass,
+  dataGroupColour,
   toggleMarker,
 }) => {
   return (
-    <div>
+    <div
+      className="datagroup-style-wrapper"
+      style={{ "--data-group-colour": dataGroupColour }}
+    >
       <div data-tooltip={marker.name} className="pointer">
-        <div
-          className={`marker-icon ${dynamicClass ? "" : "icon-green"}`}
-          onClick={toggleMarker}
-        >
+        <div className={`marker-icon`} onClick={toggleMarker}>
           <span className="marker-icon-center">
             <FontAwesomeIcon icon={faCertificate} />
           </span>
@@ -56,10 +55,8 @@ const DataGroupMarker = ({
   marker,
   popupVisible,
   setPopupVisible,
-  dataGroupTitle,
+  dataGroupColour,
 }) => {
-  const dynamicClass = useStringToClassName(dataGroupTitle);
-
   const toggleMarker = () => {
     if (popupVisible === marker.uuid) {
       setPopupVisible(-1);
@@ -79,14 +76,13 @@ const DataGroupMarker = ({
         height: "40px",
         zIndex: popupVisible === marker.uuid ? 4 : 3,
       }}
-      className={dynamicClass && dynamicClass}
     >
       <DataGroupMarkerContent
         marker={marker}
         visible={popupVisible === marker.uuid}
         closeDescription={() => setPopupVisible(-1)}
-        dynamicClass={dynamicClass}
         toggleMarker={toggleMarker}
+        dataGroupColour={dataGroupColour}
       />
     </Marker>
   );

@@ -22,7 +22,8 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
 
   activeDataGroups &&
     activeDataGroups.forEach((dataGroup) => {
-      const dataGroupTitle = dataGroup.title;
+      const dataGroupColour = dataGroup.hex_colour;
+      console.log('From MapDataGroups', dataGroup);
 
       if (dataGroup.polygons) {
         dataGroup.polygons.forEach((polygon) => {
@@ -32,7 +33,7 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
               polygon={polygon}
               setPopupVisible={setPopupVisible}
               popupVisible={popupVisible}
-              dataGroupTitle={dataGroupTitle}
+              dataGroupColour={dataGroupColour}
             />
           );
         });
@@ -45,7 +46,7 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
               line={line}
               setPopupVisible={setPopupVisible}
               popupVisible={popupVisible}
-              dataGroupTitle={dataGroupTitle}
+              dataGroupColour={dataGroupColour}
             />
           );
         });

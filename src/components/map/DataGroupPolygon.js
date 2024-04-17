@@ -1,15 +1,13 @@
 import React from "react";
 import { Marker, GeoJSONLayer } from "react-mapbox-gl";
 import DrawingPopup from "./DrawingPopup/DrawingPopup";
-import useStringToClassName from "../../hooks/useStringToClassName";
 
 const DataGroupPolygon = ({
   polygon,
   setPopupVisible,
   popupVisible,
-  dataGroupTitle,
+  dataGroupColour,
 }) => {
-  const dynamicClass = useStringToClassName(dataGroupTitle);
   const polygonData = {
     geometry: {
       coordinates: polygon.vertices.coordinates,
@@ -25,20 +23,7 @@ const DataGroupPolygon = ({
       key={polygon.uuid}
       data={polygonData}
       linePaint={{
-        "line-color": [
-          "case",
-          ["==", dynamicClass, "allotments"],
-          "#8EA637",
-          ["==", dynamicClass, "community-gardens"],
-          "#165F8C",
-          ["==", dynamicClass, "csa-community-farms"],
-          "#403116",
-          ["==", dynamicClass, "incredible-edible"],
-          "#BF800B",
-          ["==", dynamicClass, "orchards"],
-          "#BF573F",
-          "green",
-        ],
+        "line-color": dataGroupColour || "green",
         "line-width": 2,
         "line-opacity": 1,
       }}
@@ -63,11 +48,12 @@ const DataGroupPolygon = ({
           style={{
             height: "40px",
             zIndex: popupVisible == polygon.uuid ? 4 : 3,
+            "--data-group-colour": dataGroupColour,
           }}
           onClick={() => {
             if (popupVisible !== polygon.uuid) setPopupVisible(polygon.uuid);
           }}
-          className={dynamicClass}
+          className={"datagroup-style-wrapper"}
         >
           <DrawingPopup
             object={polygon}

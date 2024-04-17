@@ -16,12 +16,16 @@
 @import "feedback-form";
 @import "feedback-popup";
 @import "errors";
-@import "resilient-green-spaces";
+@import "datagroup-custom-styles";
 @import "email-share";
 @import "dropdown";
 @import "pill-badge";
 @import "shared-maps";
 @import "map-being-edited";
+
+:root {
+  --data-group-colour: #27ae60;
+}
 
 html {
   text-rendering: optimizeLegibility;
@@ -253,7 +257,7 @@ h6 {
   }
 
   &.icon-green > svg {
-   color: $primaryColor;
+    color: $primaryColor;
   }
 
   &.icon-white > svg {

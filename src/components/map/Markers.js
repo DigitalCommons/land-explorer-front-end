@@ -93,12 +93,12 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
 
   activeDataGroups &&
     activeDataGroups.forEach((dataGroup) => {
-      const dataGroupTitle = dataGroup.title;
+      const dataGroupColour = dataGroup.hex_colour;
       if (dataGroup.markers) {
         dataGroup.markers.forEach((marker) => {
           dataGroupMarkers.push(
             <DataGroupMarker
-              dataGroupTitle={dataGroupTitle}
+              dataGroupColour={dataGroupColour}
               key={marker.uuid}
               coordinates={marker.location.coordinates}
               name={marker.name}

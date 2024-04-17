@@ -32,6 +32,7 @@ export const loadDataGroups = () => {
     const dataGroupTitlesAndIDs = mergedDataGroups.map((dataGroup) => ({
       title: dataGroup.title,
       id: dataGroup.iddata_groups,
+      hexColor: dataGroup.hex_colour,
       userGroupId: dataGroup.userGroupId,
     }));
     dispatch({
