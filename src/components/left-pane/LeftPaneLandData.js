@@ -147,14 +147,26 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
             {dataGroupTitlesAndIDs &&
               dataGroupTitlesAndIDs
                 .filter((dataGroup) => dataGroup.userGroupId == userGroup.id)
-                .map((dataGroup) => (
-                  <LeftPaneToggle
-                    key={dataGroup.id}
-                    title={dataGroup.title}
-                    on={activeGroups.includes(dataGroup.id)}
-                    onToggle={() => dispatch(toggleDataGroup(dataGroup.id))}
-                  />
-                ))}
+                .map(
+                  (dataGroup) => (
+                    console.log("From LeftPaneLandData", dataGroup),
+                    (
+                      <div
+                        className={"datagroup-style-wrapper"}
+                        style={{ "--data-group-colour": dataGroup.hexColor }}
+                      >
+                        <LeftPaneToggle
+                          key={dataGroup.id}
+                          title={dataGroup.title}
+                          on={activeGroups.includes(dataGroup.id)}
+                          onToggle={() =>
+                            dispatch(toggleDataGroup(dataGroup.id))
+                          }
+                        />
+                      </div>
+                    )
+                  )
+                )}
           </DataLayersContainer>
         ))}
     </LeftPaneTray>

@@ -1,9 +1,14 @@
 import React from "react";
 import { Marker, GeoJSONLayer } from "react-mapbox-gl";
 import DrawingPopup from "./DrawingPopup/DrawingPopup";
-import * as turf from '@turf/turf';
+import * as turf from "@turf/turf";
 
-const DataGroupLine = ({ line, setPopupVisible, popupVisible }) => {
+const DataGroupLine = ({
+  line,
+  setPopupVisible,
+  popupVisible,
+  dataGroupColour,
+}) => {
   const lineData = {
     geometry: {
       coordinates: line.vertices.coordinates,
@@ -20,7 +25,7 @@ const DataGroupLine = ({ line, setPopupVisible, popupVisible }) => {
       key={line.uuid}
       data={lineData}
       linePaint={{
-        "line-color": "green",
+        "line-color": dataGroupColour || "green",
         "line-width": 2,
         "line-opacity": 1,
       }}
@@ -41,10 +46,12 @@ const DataGroupLine = ({ line, setPopupVisible, popupVisible }) => {
           style={{
             height: "40px",
             zIndex: popupVisible == line.uuid ? 4 : 3,
+            "--data-group-colour": dataGroupColour,
           }}
           onClick={() => {
             if (popupVisible !== line.uuid) setPopupVisible(line.uuid);
           }}
+          className={"datagroup-style-wrapper"}
         >
           <DrawingPopup
             object={line}

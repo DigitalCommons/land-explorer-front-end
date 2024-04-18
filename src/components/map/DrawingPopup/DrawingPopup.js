@@ -8,6 +8,7 @@ import { editDataGroupObjectInfo } from "../../../actions/DataGroupActions";
 import PopupContent from "./PopupContent/PopupContent";
 import PopupCopy from "./PopupCopy/PopupCopy";
 import PopupStatus from "./PopupStatus/PopupStatus";
+import { saveObjectToDataGroup } from "../../../actions/DataGroupActions"; 
 
 export const MODE = {
   DISPLAY: "display",

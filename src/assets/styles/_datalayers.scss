@@ -227,9 +227,11 @@
   position: relative;
   color: $midNeutral;
 
-  & img {
-    margin-right: 10px;
+  & svg {
+    margin-right: 8px;
+    font-size: 18px;
   }
+
   &:hover {
     text-decoration: underline;
   }
@@ -444,6 +446,12 @@
 
   .popup-body-main {
     height: 175px;
+  }
+  .popup-copy-to-tab {
+    & svg {
+      margin-right: 10px;
+      font-size: 20px;
+    }
   }
 }
 
