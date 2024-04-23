@@ -1,0 +1,33 @@
+.datagroup-style-wrapper {
+  // Pop up
+  & .popup-title,
+  & .tab-active {
+    color: var(--data-group-colour);
+  }
+
+  & .marker-icon > svg {
+    color: var(--data-group-colour);
+  }
+
+  & .popup-footer {
+    background-color: var(--data-group-colour);
+  }
+  & .popup-content::after {
+    border-color: transparent transparent var(--data-group-colour) transparent;
+  }
+  // Pop up - copy to
+  & .popup-copy-to-option {
+    &:hover {
+      border-color: var(--data-group-colour);
+    }
+  }
+  & .copy-to-option-highlighted {
+    background-color: var(--data-group-colour);
+  }
+  // Toggle switch
+  .toggle-switch {
+    input:checked + .slider:before {
+      background-color: var(--data-group-colour);
+    }
+  }
+}

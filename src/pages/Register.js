@@ -122,16 +122,16 @@ const Register = ({ updateBgImage }) => {
         setRegistering(false);
       })
       .catch((err) => {
+        console.log(err.message);
         //Catch err 400 here
         const { response } = err;
-        if (response.status === 400) {
+        if (response?.status === 400) {
           console.log("Hey we get some custom error message from server:");
           console.log(response.data);
 
           if (response.data.username)
             Swal.fire({ icon: "error", text: response.data.username[0] });
         }
-        //console.log("err", err.response);
         setRegistering(false);
       });
   };

@@ -21,10 +21,6 @@ const Login = ({ updateBgImage }) => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const closeMainMenu = () => {
-    if (mainMenuOpen) dispatch({ type: "CLOSE_MENU_MAIN" });
-  };
-
   useEffect(() => {
     if (searchParams.has("reset_token")) {
       // user has clicked reset password link
@@ -62,7 +58,6 @@ const Login = ({ updateBgImage }) => {
     const config = {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Access-Control-Allow-Origin": "*",
       },
     };
 
@@ -71,6 +66,7 @@ const Login = ({ updateBgImage }) => {
       .then((response) => {
         Auth.setToken(response.data.access_token, response.data.expires_in);
         dispatch({ type: "LOGGED_IN" });
+
         if (useResetToken) {
           // user needs to set a new password
           navigate("/app/my-account/password", { state: { mandatory: true } });
@@ -80,9 +76,9 @@ const Login = ({ updateBgImage }) => {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response?.status === 400) {
-          console.log("wrong credentials");
-        }
+        const { response } = err;
+        const errorMessage =
+          response?.data.message || "Unable to log in. Please try again later.";
         setLoggingIn(false);
         dispatch({ type: "FAILED_LOGIN", payload: { errorMessage } });
       });
@@ -169,7 +165,6 @@ const Login = ({ updateBgImage }) => {
               paddingBottom: "4px",
               borderBottom: "1px solid rgb(46, 203, 112)",
             }}
-            // onClick={closeMainMenu}
           >
             register new account
           </Link>
@@ -184,7 +179,6 @@ const Login = ({ updateBgImage }) => {
               paddingBottom: "4px",
               borderBottom: "1px solid rgb(46, 203, 112)",
             }}
-            // onClick={closeMainMenu}
           >
             reset password
           </Link>

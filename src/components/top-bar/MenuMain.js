@@ -76,7 +76,7 @@ const MenuMain = ({ limited }) => {
           <div
             onClick={() => {
               analytics.pageview("/app/my-maps");
-              this.props.dispatch(openModal("myMaps"));
+              dispatch(openModal("myMaps"));
             }}
             className="tooltip-menu-item"
           >
@@ -87,7 +87,7 @@ const MenuMain = ({ limited }) => {
           <div
             onClick={() => {
               analytics.pageview("/app/my-shared-maps");
-              this.props.dispatch(openModal("mySharedMaps"));
+              dispatch(openModal("mySharedMaps"));
             }}
             className="tooltip-menu-item"
           >
@@ -103,7 +103,7 @@ const MenuMain = ({ limited }) => {
           >
             <div
               className="button button-medium"
-              onClick={() => this.props.dispatch({ type: "LOG_OUT" })}
+              onClick={() => dispatch({ type: "LOG_OUT" })}
             >
               Logout
             </div>

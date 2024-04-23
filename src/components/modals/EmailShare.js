@@ -1,134 +1,194 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import constants from '../../constants';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { isEqual } from "lodash";
+import axios from "axios";
+import constants from "../../constants";
 import { getAuthHeader } from "../../utils/Auth";
-import Modal from './Modal';
-import { getMyMaps } from '../../actions/MapActions';
+import Modal from "./Modal";
+import { getMyMaps } from "../../actions/MapActions";
+import Button from "../common/Button";
+import Dropdown from "../common/Dropdown";
+import PillBadge from "../common/PillBadge";
+
+const accessOptions = [
+  {
+    value: constants.MAP_ACCESS_READ_ONLY,
+    label: "Read Only",
+    iconClass: "email-share__read-icon",
+  },
+  {
+    value: constants.MAP_ACCESS_READ_WRITE,
+    label: "Write",
+    iconClass: "email-share__write-icon",
+  },
+];
 
 const EmailShare = () => {
-    const [input, setInput] = useState('');
-    const [emails, setEmails] = useState([]);
-    const [mapName, setMapName] = useState('');
-    const myMaps = useSelector(state => state.myMaps.maps);
-    const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
+  const mapName = useSelector((state) => state.map.name);
+  const myMaps = useSelector((state) => state.myMaps.maps);
+  const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
+  const modalOpen = useSelector((state) => state.modal.emailShare.open);
+  const usersSharedWith =
+    myMaps.find((map) => map.map.eid === currentMapId)?.map.sharedWith ?? [];
 
-    const populateEmails = (emails) => {
-        setEmails(emails.map(email => email.emailAddress));
+  const [input, setInput] = useState("");
+  const [usersToShareWith, setUsersToShareWith] = useState(usersSharedWith);
+
+  const [selectedAccess, setSelectedAccess] = useState(accessOptions[0].value);
+  const [selectedAccessLabel, setSelectedAccessLabel] = useState(
+    accessOptions[0].label
+  );
+  const [selectedAccessIcon, setSelectedAccessIcon] = useState(
+    accessOptions[0].iconClass
+  );
+
+  // when the modal is re-opened, reset to the current set of users that the map is shared with
+  useEffect(() => {
+    setUsersToShareWith(usersSharedWith);
+  }, [modalOpen]);
+
+  // when we change the set of users to share with, sync with the server
+  useEffect(() => {
+    sync();
+  }, [usersToShareWith]);
+
+  const handleSelectAccess = (option) => {
+    setSelectedAccess(option.value);
+    setSelectedAccessLabel(option.label);
+    setSelectedAccessIcon(option.iconClass);
+  };
+
+  const removeEmail = (email) => {
+    setUsersToShareWith(
+      usersToShareWith.filter((user) => user.email !== email)
+    );
+  };
+
+  /** Add email if user has typed a valid email in the input field */
+  const maybeAddEmail = () => {
+    if (emailRegexp.test(input)) {
+      // Remove user if already shared, to avoid duplication
+      const newUsers = usersToShareWith.filter(
+        (user) => user.email.toLowerCase() !== input.toLowerCase()
+      );
+      newUsers.push({ email: input, access: selectedAccess });
+      setUsersToShareWith(newUsers);
+
+      // Reset selected access
+      setSelectedAccess(accessOptions[0].value);
+      setSelectedAccessLabel(accessOptions[0].label);
+      setSelectedAccessIcon(accessOptions[0].iconClass);
+      setInput("");
+    }
+  };
+
+  /**
+   * Sync with the server so that the map is shared with the set of users that are currently
+   * selected in the UI
+   */
+  const sync = async () => {
+    if (isEqual(usersSharedWith, usersToShareWith)) {
+      return;
     }
 
-    const removeEmail = (i) => {
-        const newEmails = emails.slice();
-        newEmails.splice(i, 1)
-        setEmails(newEmails);
+    const shareData = {
+      eid: currentMapId,
+      users: usersToShareWith,
+    };
+
+    try {
+      await axios.post(
+        `${constants.ROOT_URL}/api/user/map/share/sync`,
+        shareData,
+        getAuthHeader()
+      );
+
+      // closeModal();
+      dispatch(getMyMaps());
+    } catch (err) {
+      console.error("share error", err);
     }
+  };
 
-    const addEmail = () => {
-        if (emailRegexp.test(input)) {
-            const newEmails = emails.slice();
-            newEmails.push(input);
-            setEmails(newEmails);
-            setInput('');
-        }
-    }
-
-    const closeModal = () => {
-        dispatch({ type: 'CLOSE_MODAL', payload: 'emailShare' });
-        setInput('')
-        setEmails([]);
-    }
-
-    useEffect(() => {
-        myMaps.forEach(map => {
-            if (map.map.eid === currentMapId) {
-                populateEmails(map.map.sharedWith);
-                setMapName(map.map.name);
-            }
-        })
-    }, [])
-
-    const share = (id) => {
-        const newEmails = emails.slice();
-        if (input != '') {
-            if (emailRegexp.test(input)) {
-                newEmails.push(input);
-                setInput('');
-                setEmails(newEmails);
-            }
-        }
-        if (newEmails.length === 0)
-            return;
-        const shareData = {
-            "eid": id,
-            "emailAddresses": newEmails
-        };
-        axios.post(`${constants.ROOT_URL}/api/user/map/share/sync`, shareData, getAuthHeader())
-            .then(() => {
-                closeModal();
-                dispatch(getMyMaps());
-            })
-            .catch((err) => console.log("share error", err));
-    }
-
-    if (currentMapId === null)
-        return <Modal id="emailShare">
-            <div className="modal-title">Share</div>
-            <div className="modal-content">
-                <div>Please save map first!</div>
-            </div>
-        </Modal>
-
-    return <Modal id="emailShare">
-        <div className="modal-title">Share {mapName}</div>
+  if (currentMapId === null)
+    return (
+      <Modal id="emailShare" customClass={"email-share__container"}>
+        <div className="email-share__title">Share</div>
         <div className="modal-content">
-            <input
-                className="text-input"
-                type="text"
-                placeholder="Email address"
-                value={input}
-                onChange={(e) => {
-                    setInput(e.target.value);
-                }}
-                style={{ marginBottom: '22px' }}
-            />
-            <div style={{ marginBottom: '24px' }}>
-                {
-                    emails.map((email, i) => {
-                        return (
-                            <div className="rounded-button-split" style={{ marginBottom: '6px' }} key={email}>
-                                <div className="rounded-button-left">{email}</div>
-                                <div className="rounded-button-right rounded-button-close"
-                                    onClick={() => removeEmail(i)}
-                                />
-                            </div>
-                        )
-                    })
-                }
-            </div>
+          <div>Please save map first!</div>
         </div>
-        <div className="round-button round-button-plus"
-            style={{ position: 'absolute' }}
-            onClick={addEmail}
-        />
-        <div className="modal-buttons-float">
-            <div className="button button-cancel rounded-button-full modal-button-cancel"
-                onClick={closeModal}
-            >
-                Cancel
-            </div>
-            <div className={`button rounded-button-full modal-button-confirm`}
-                onClick={() => {
-                    share(currentMapId);
-                }}
-            >
-                Share
-            </div>
-        </div>
-    </Modal>
-}
+      </Modal>
+    );
 
-const emailRegexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return (
+    <Modal id="emailShare" customClass={"email-share__container"}>
+      <div className="email-share__title">Share - {mapName}</div>
+      <div className="email-share__add-user">
+        <input
+          className="email-share__add-user__input"
+          type="text"
+          placeholder="Email address"
+          value={input}
+          onChange={(e) => {
+            setInput(e.target.value);
+          }}
+        />
+
+        <Dropdown
+          options={accessOptions}
+          onSelect={handleSelectAccess}
+          defaultLabel={selectedAccessLabel}
+          defaultIcon={selectedAccessIcon}
+        />
+
+        <Button
+          buttonClass={"email-share__add-user__button"}
+          type={"button"}
+          buttonAction={maybeAddEmail}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33.75 27">
+            <path
+              d="M20.25 13.5a6.75 6.75 0 1 0-6.75-6.75 6.77 6.77 0 0 0 6.75 6.75Zm0 3.375c-4.472 0-13.5 2.278-13.5 6.75V27h27v-3.375c0-4.472-9.028-6.75-13.5-6.75Z"
+              fill="#707070"
+            />
+            <path
+              d="M6.75 11.25v-4.5H4.5v4.5H0v2.25h4.5V18h2.25v-4.5h4.5v-2.25Z"
+              fill="#707070"
+            />
+          </svg>
+        </Button>
+      </div>
+
+      <div className="modal-content">
+        <div
+          className={`email-share__user-badge__container ${
+            usersToShareWith.length > 0 ? "populated" : ""
+          }`}
+        >
+          {usersToShareWith.map((user, index) => {
+            return (
+              <PillBadge
+                key={user.email + index}
+                title={user.email}
+                remove={() => removeEmail(user.email)}
+                customClass={"pill-badge--email-share"}
+                iconClass={
+                  user.access === constants.MAP_ACCESS_READ_ONLY
+                    ? "email-share__pill_read-icon"
+                    : "email-share__pill_write-icon"
+                }
+              />
+            );
+          })}
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+const emailRegexp =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export default EmailShare;

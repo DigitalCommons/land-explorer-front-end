@@ -1,14 +1,10 @@
 const INITIAL_STATE = {
-  properties: [],
+  properties: {},
   error: null,
   loading: false,
   proprietorName: null,
-  activePropertyId: null,
-  selectedProperty: [],
+  selectedProperties: {},
 };
-
-let propertyToClear;
-let selectedProperty;
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -22,7 +18,8 @@ export default (state = INITIAL_STATE, action) => {
     case "FETCH_PROPERTIES_FAILURE":
       return {
         ...state,
-        properties: [],
+        properties: {},
+        selectedProperties: {},
         error: action.payload,
         loading: false,
       };
@@ -31,36 +28,28 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loading: true,
       };
-    case "CLEAR_PROPERTIES":
+    case "SELECT_PROPERTIES":
       return {
         ...state,
-        properties: [],
+        selectedProperties: {
+          ...state.selectedProperties,
+          ...action.payload
+        },
       };
-    case "SET_SELECTED_PROPERTY":
-      return {
-        ...state,
-        selectedProperty: [...state.selectedProperty, action.payload],
-      };
-    case "SET_MULTIPLE_SELECTED_PROPERTIES":
-      console.log(action.payload)
-      console.log(state.selectedProperty)
-      return {
-        ...state,
-        selectedProperty: [...state.selectedProperty, ...action.payload]
-      }
     case "CLEAR_SELECTED_PROPERTY":
-      propertyToClear = action.payload;
-      selectedProperty = state.selectedProperty.filter(
-        (property) => property[0].poly_id !== propertyToClear[0].poly_id
-      );
+      const propertyToClearId = action.payload;
+      const {
+        [propertyToClearId]: propertyToClear,
+        ...selectedProperties
+      } = state.selectedProperties;
       return {
         ...state,
-        selectedProperty,
+        selectedProperties,
       };
     case "CLEAR_ALL_SELECTED_PROPERTIES":
       return {
         ...state,
-        selectedProperty: []
+        selectedProperties: {}
       }
     case "SET_PROPRIETOR_NAME":
       return {
@@ -75,20 +64,13 @@ export default (state = INITIAL_STATE, action) => {
     case "CLEAR_PROPERTIES_AND_PROPRIETOR_NAME":
       return {
         ...state,
-        properties: [],
+        properties: {},
         proprietorName: null
-      };
-    case "SET_ACTIVE_PROPERTY_ID":
-      return INITIAL_STATE;
-    case "SET_SELECTED_PROPERTY":
-      return {
-        ...state,
-        selectedProperty: [...state.selectedProperty, action.payload],
       };
     case "CLEAR_ALL_SELECTED_PROPERTY":
       return {
         ...state,
-        selectedProperty: [],
+        selectedProperties: {},
       };
     default:
       return state;

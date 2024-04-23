@@ -4,6 +4,12 @@
   position: relative;
 }
 
+.search-results__retry {
+  margin: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
 .property-count {
   font-size: 13px;
   padding-bottom: 20px;
@@ -45,17 +51,23 @@
 }
 
 .search-result__property {
-  margin: 0 10px 5px 10px;
-  padding: 0;
+  margin: 0 0px 5px 0px;
+  padding: 0 10px 0 10px;
+  width: 90%;
   flex-grow: 1;
 }
 
 .search-result__goto-icon{
+  height: 15px;
   width: 25px;
+  background-image: url("../img/icon-arrow-grey.svg");
+  border: none;
+  background-color: unset;
 }
 
 .search-result__goto-icon:hover{
   cursor: pointer;
+  background-image: url("../img/icon-arrow-green.svg");
 }
 
 .icon-proprietor {

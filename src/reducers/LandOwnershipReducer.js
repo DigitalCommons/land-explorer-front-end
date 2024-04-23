@@ -1,12 +1,8 @@
 const INITIAL_STATE = {
   displayActive: false,
-  highlightedProperties: [],
+  highlightedProperties: {},
   activePropertyId: null
 };
-
-let propertyToAdd;
-let highlightedProperties;
-let propertyToRemove;
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -15,20 +11,20 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         displayActive: !state.displayActive
       };
-    case "HIGHLIGHT_PROPERTY":
-      propertyToAdd = action.payload;
-      if (!state.highlightedProperties.some(p => p.poly_id === propertyToAdd.poly_id)) {
-        highlightedProperties = state.highlightedProperties.concat([propertyToAdd]);
-      }
+    case "HIGHLIGHT_PROPERTIES":
       return {
         ...state,
-        highlightedProperties
+        highlightedProperties: {
+          ...state.highlightedProperties,
+          ...action.payload
+        },
       };
-    case "CLEAR_HIGHLIGHT":
-      propertyToRemove = action.payload;
-      highlightedProperties = state.highlightedProperties.filter(
-        property => property.poly_id !== propertyToRemove.poly_id
-      );
+    case "CLEAR_HIGHLIGHTED_PROPERTY":
+      const propertyToClearId = action.payload;
+      const {
+        [propertyToClearId]: propertyToClear,
+        ...highlightedProperties
+      } = state.highlightedProperties;
       return {
         ...state,
         highlightedProperties,
@@ -37,7 +33,7 @@ export default (state = INITIAL_STATE, action) => {
     case "CLEAR_ALL_HIGHLIGHTED_PROPERTIES":
       return {
         ...state,
-        highlightedProperties: [],
+        highlightedProperties: {},
         activePropertyId: null
       }
     case "SET_ACTIVE_PROPERTY":
@@ -50,6 +46,13 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         activePropertyId: null
       };
+    case 'LOAD_MAP':
+      // this could be undefined for old maps
+      const displayActive = action.payload.data.mapLayers.ownershipDisplay || false;
+      return {
+        ...state,
+        displayActive
+      }
     default:
       return state;
   }

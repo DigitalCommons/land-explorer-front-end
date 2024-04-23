@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useInterval } from "usehooks-ts";
 import ReactMapboxGl from "react-mapbox-gl";
 import { v4 as uuidv4 } from "uuid";
 import * as turf from "@turf/turf";
-import MapboxDraw from "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.js";
+import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import DrawControl from "react-mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import StaticMode from "@mapbox/mapbox-gl-draw-static-mode";
@@ -17,8 +18,15 @@ import constants from "../../constants";
 import mapSources from "../../data/mapSources";
 import MapProperties from "./MapProperties";
 import MapDataGroups from "./MapDataGroups";
-import { autoSave, setLngLat, setZoom } from "../../actions/MapActions";
-import PropertySearchPoly from "./PropertySearchPoly";
+import {
+  autoSave,
+  refreshCurrentMap,
+  setLngLat,
+  setZoom,
+} from "../../actions/MapActions";
+import MapRelatedProperties from "./MapRelatedProperties";
+import FeedbackTab from "../common/FeedbackTab";
+import MapBeingEditedToast from "./MapBeingEditedToast";
 
 // Create Map Component with settings
 const Map = ReactMapboxGl({
@@ -32,10 +40,12 @@ const Map = ReactMapboxGl({
   doubleClickZoom: true,
 });
 
-const MapboxMap = ({ user }) => {
+const MapboxMap = () => {
   const dispatch = useDispatch();
   const drawControlRef = useRef();
   const mapRef = useRef();
+  const { currentMapId, unsavedMapUuid, lockedByOtherUserInitials } =
+    useSelector((state) => state.mapMeta);
   const { zoom, lngLat, movingMethod } = useSelector((state) => state.map);
   const { currentMarker } = useSelector((state) => state.markers);
   const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
@@ -47,23 +57,21 @@ const MapboxMap = ({ user }) => {
   const propertiesDisplay = useSelector(
     (state) => state.landOwnership.displayActive
   );
-  const propertyCoordinates = useSelector(
-    (state) => state.propertySearchPoly.propertyCoordinates
-  );
-  const { selectedProperty } = useSelector(state => state.relatedProperties);
 
-  // Check the propertyCoordinates update propagates to the MapboxMap component
+  useInterval(
+    () => {
+      dispatch(refreshCurrentMap());
+    },
+    // Refresh map data every 30 seconds if the map is locked by another user who is editing it
+    lockedByOtherUserInitials ? 30000 : null
+  );
+
+  // Redraw polygons when changing maps or clearing an unsaved map
   useEffect(() => {
-    if (propertyCoordinates.length > 0) {
-      console.log(
-        "Property coordinates exist - MapboxMap",
-        propertyCoordinates
-      );
-    }
-  }, [propertyCoordinates]);
+    redrawPolygons(polygons);
+  }, [currentMapId, unsavedMapUuid]);
 
   const [styleLoaded, setStyleLoaded] = useState(false);
-  const [drawings, setDrawings] = useState();
   const [redrawing, setRedrawing] = useState(false);
   const [dataGroupPopupVisible, setDataGroupPopupVisible] = useState(-1);
   const { sources, satelliteLayer, topographyLayer } = mapSources;
@@ -76,20 +84,16 @@ const MapboxMap = ({ user }) => {
 
   const onClick = (evt) => {
     setDataGroupPopupVisible(-1);
-    console.log("yello", activeTool);
-
     const drawControl = drawControlRef.current;
-
     const mode = drawControl.draw.getMode();
-    console.log(mode, activePolygon);
 
     if (mode === "simple_select") {
       const features = drawControl.draw.getFeatureIdsAt(evt.point);
-      /* If there are no features where clicked, deselect tools */
+      /* If there are no features where clicked, deselect Edit tool */
       if (features.length === 0) {
         drawControl.draw.changeMode("static");
-        // this.props.dispatch({ type: "DESELECT_TOOLS" });  // couldn't tell you why this was there
-        redrawPolygons(polygons);
+        dispatch({ type: "DESELECT_TOOLS" });
+        dispatch({ type: "CLOSE_TRAY" });
       }
     }
     // Close all menus (my account, wordpress links, layers, key)
@@ -165,12 +169,10 @@ const MapboxMap = ({ user }) => {
       payload: polygon,
     });
     dispatch(autoSave());
-    // change drawing mode back to static and deselct all tools
+    // change drawing mode back to static
     setTimeout(() => {
       drawControl.draw.changeMode("static");
-      // this.props.dispatch({ type: "DESELECT_TOOLS" });
     }, 100);
-    setDrawings(drawControl.draw.getAll());
   };
 
   const onDrawUpdate = (e) => {
@@ -227,6 +229,7 @@ const MapboxMap = ({ user }) => {
 
   const redrawPolygons = (polygons) => {
     const drawControl = drawControlRef.current;
+    if (!drawControl || redrawing) return; // skip if already redrawing or component hasn't rendered
     setRedrawing(true);
     drawControl.draw.deleteAll();
     if (polygons) {
@@ -238,7 +241,6 @@ const MapboxMap = ({ user }) => {
       });
       drawControl.draw.changeMode("static");
     }
-    dispatch({ type: "LOADED_DRAWINGS" });
     setTimeout(() => {
       setRedrawing(false);
     }, 300);
@@ -269,8 +271,8 @@ const MapboxMap = ({ user }) => {
             baseLayer === "aerial"
               ? "#091324"
               : constants.USE_OS_TILES
-                ? "#aadeef"
-                : "#72b6e6",
+              ? "#aadeef"
+              : "#72b6e6",
         }}
         zoom={zoom}
         onZoomEnd={(map) => dispatch(setZoom([map.getZoom()]))}
@@ -299,13 +301,12 @@ const MapboxMap = ({ user }) => {
             setDataGroupPopupVisible(markerId);
           }}
         />
-        {/* Property Search Poly / No clue where this should go */}
-        {selectedProperty.length > 0 && (
-          <PropertySearchPoly />
-        )}
         {/*For displaying the property boundaries*/}
         {constants.LR_POLYGONS_ENABLED && (
-          <MapProperties center={lngLat} map={map} />
+          <>
+            <MapProperties center={lngLat} map={map} />
+            <MapRelatedProperties />
+          </>
         )}
         {/* Markers, including markers from data groups */}
         {styleLoaded && (
@@ -349,6 +350,8 @@ const MapboxMap = ({ user }) => {
         }
       </Map>
       <LeftPane drawControl={drawControlRef.current} />
+      <FeedbackTab />
+      <MapBeingEditedToast />
       <Modals />
       <div className="os-accreditation">
         Contains OS data © Crown copyright and database rights 2022 OS

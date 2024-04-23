@@ -5,7 +5,7 @@ import { autoSave, newMap } from '../../actions/MapActions';
 
 const NewMap = () => {
     const dispatch = useDispatch();
-    const isNewMap = useSelector((state) => state.mapMeta.currentMapId !== null);
+    const isNewMap = useSelector((state) => state.mapMeta.currentMapId === null);
     const { saving, saveError } = useSelector((state) => state.mapMeta);
     const mapSaved = !isNewMap && !saving && !saveError;
 
@@ -28,9 +28,9 @@ const NewMap = () => {
             </div>
             <div className="button rounded-button-full  modal-button-confirm"
                 onClick={async () => {
+                    dispatch({ type: 'CLOSE_MODAL', payload: 'newMap' });
                     await dispatch(autoSave());
                     dispatch(newMap());
-                    dispatch({ type: 'CLOSE_MODAL', payload: 'newMap' });
                 }}
             >
                 {mapSaved ?

@@ -5,6 +5,7 @@ import LeftPaneToggle from "./LeftPaneToggle";
 import Draggable from "./Draggable";
 import LandDataLayerToggle from "./LandDataLayerToggle";
 import { toggleDataGroup } from "../../actions/DataGroupActions";
+import { togglePropertyDisplay } from "../../actions/LandOwnershipActions";
 
 const DataLayersContainer = ({ children, title }) => {
   const [expanded, setExpanded] = useState(true);
@@ -120,7 +121,7 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
         <LeftPaneToggle
           title={"Property Boundaries"}
           on={landOwnershipActive}
-          onToggle={() => dispatch({ type: "TOGGLE_PROPERTY_DISPLAY" })}
+          onToggle={() => dispatch(togglePropertyDisplay())}
         />
       </DataLayersContainer>
       <DataLayersContainer title={"Administrative Boundaries"}>
@@ -146,14 +147,26 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
             {dataGroupTitlesAndIDs &&
               dataGroupTitlesAndIDs
                 .filter((dataGroup) => dataGroup.userGroupId == userGroup.id)
-                .map((dataGroup) => (
-                  <LeftPaneToggle
-                    key={dataGroup.id}
-                    title={dataGroup.title}
-                    on={activeGroups.includes(dataGroup.id)}
-                    onToggle={() => dispatch(toggleDataGroup(dataGroup.id))}
-                  />
-                ))}
+                .map(
+                  (dataGroup) => (
+                    console.log("From LeftPaneLandData", dataGroup),
+                    (
+                      <div
+                        className={"datagroup-style-wrapper"}
+                        style={{ "--data-group-colour": dataGroup.hexColor }}
+                      >
+                        <LeftPaneToggle
+                          key={dataGroup.id}
+                          title={dataGroup.title}
+                          on={activeGroups.includes(dataGroup.id)}
+                          onToggle={() =>
+                            dispatch(toggleDataGroup(dataGroup.id))
+                          }
+                        />
+                      </div>
+                    )
+                  )
+                )}
           </DataLayersContainer>
         ))}
     </LeftPaneTray>

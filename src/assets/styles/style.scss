@@ -13,6 +13,19 @@
 @import "datalayers";
 @import "ownership-search";
 @import "pagination";
+@import "feedback-form";
+@import "feedback-popup";
+@import "errors";
+@import "datagroup-custom-styles";
+@import "email-share";
+@import "dropdown";
+@import "pill-badge";
+@import "shared-maps";
+@import "map-being-edited";
+
+:root {
+  --data-group-colour: #27ae60;
+}
 
 html {
   text-rendering: optimizeLegibility;
@@ -200,7 +213,6 @@ h6 {
 }
 
 @-webkit-keyframes sk-bounce {
-
   0%,
   100% {
     -webkit-transform: scale(0);
@@ -212,7 +224,6 @@ h6 {
 }
 
 @keyframes sk-bounce {
-
   0%,
   100% {
     transform: scale(0);
@@ -230,30 +241,43 @@ h6 {
 }
 
 .marker-icon {
-  background-image: url("../img/icon-marker-new--dark-grey.svg");
-  background-position: center;
-  background-repeat: no-repeat;
+  font-size: 40px;
+  position: absolute;
+  top: 0;
+  left: -14px;
+  height: 40px;
+  width: 40px;
+  z-index: 2;
+
+  & > svg {
+    color: $secondaryColor;
+    position: absolute;
+    top: 0;
+    z-index: 3;
+  }
+
+  &.icon-green > svg {
+    color: $primaryColor;
+  }
+
+  &.icon-white > svg {
+    color: white;
+  }
+}
+
+.marker-icon-center {
+  display: block;
+  z-index: 4;
+  position: absolute;
+  font-size: 12px;
+  top: 5px;
+  left: 9px;
+  color: white;
 }
 
 .marker-icon-active {
-  background-image: url("../img/icon-marker-new--green.svg");
   background-position: center;
   background-repeat: no-repeat;
-}
-
-.marker-icon-aerial {
-  background-image: url("../img/icon-marker-new--white.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.marker-icon-green {
-  background-image: url("../img/icon-marker-data-green.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  position: absolute;
-  z-index: 2;
 }
 
 .marker-shadow {
