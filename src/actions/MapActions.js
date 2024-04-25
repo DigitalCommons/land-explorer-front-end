@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getRequest, postRequest } from "./RequestActions";
 import { updateReadOnly } from "./ReadOnlyActions";
 import { notifyServerOfCurrentMap } from "./WebSocketActions";
+import { get } from "lodash";
 
 export const getMyMaps = () => {
   return async (dispatch) => {
@@ -116,6 +117,12 @@ export const openMap = (mapId) => {
           payload: "flyTo",
         });
       }, 1000);
+
+      if (sessionStorage.getItem("currentMapId")) {
+        sessionStorage.removeItem("currentMapId");
+      }
+
+      sessionStorage.setItem("currentMapId", mapId);
 
       dispatch(postRequest("/api/user/map/view", { eid: mapId }));
       dispatch(notifyServerOfCurrentMap());
@@ -401,4 +408,41 @@ const shortenTimestamp = (timestamp) => {
   } else {
     return moment(timestamp).format("DD/MM/YY");
   }
+};
+
+export const loadMapFromStorageId = (mapId) => {
+  return async (dispatch, getState) => {
+    if (mapId === null) {
+      console.warn("No mapId in sessionStorage");
+      return;
+    }
+
+    await dispatch(getMyMaps());
+    const map = getState().myMaps.maps.find((item) => item.map.eid === mapId);
+
+    if (map) {
+      const mapData = JSON.parse(map.map.data);
+      console.log("MapId and data based on sessionStorage", mapId, mapData);
+      const isSnapshot = map.map.isSnapshot;
+      const lastModified = map.map.lastModified;
+      const writeAccess = map.access !== constants.MAP_ACCESS_READ_ONLY;
+      const ownMap = map.access === constants.MAP_ACCESS_OWNER;
+
+      dispatch({
+        type: "LOAD_MAP",
+        payload: {
+          data: mapData,
+          id: mapId,
+          isSnapshot: isSnapshot,
+          writeAccess: writeAccess,
+          ownMap: ownMap,
+          lastModified: shortenTimestamp(lastModified),
+        },
+      });
+      dispatch(postRequest("/api/user/map/view", { eid: mapId }));
+      dispatch(notifyServerOfCurrentMap());
+    } else {
+      console.error("Failed to load map", mapId);
+    }
+  };
 };
