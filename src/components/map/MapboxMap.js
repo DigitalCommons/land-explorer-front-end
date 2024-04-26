@@ -72,15 +72,11 @@ const MapboxMap = () => {
     redrawPolygons(polygons);
   }, [currentMapId, unsavedMapUuid]);
 
+  // Load map from session storage if it exists
   useEffect(() => {
     const storedMapId = parseInt(sessionStorage.getItem("currentMapId"));
     if (storedMapId) {
-      // Dispatch action to load the map from the stored ID
       dispatch(loadMapFromStorageId(storedMapId));
-      console.log(
-        "currentMapId from sessionStorage",
-        sessionStorage.getItem("currentMapId")
-      );
     }
   }, []);
 

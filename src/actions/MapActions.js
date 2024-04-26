@@ -412,17 +412,11 @@ const shortenTimestamp = (timestamp) => {
 
 export const loadMapFromStorageId = (mapId) => {
   return async (dispatch, getState) => {
-    if (mapId === null) {
-      console.warn("No mapId in sessionStorage");
-      return;
-    }
-
     await dispatch(getMyMaps());
     const map = getState().myMaps.maps.find((item) => item.map.eid === mapId);
 
     if (map) {
       const mapData = JSON.parse(map.map.data);
-      console.log("MapId and data based on sessionStorage", mapId, mapData);
       const isSnapshot = map.map.isSnapshot;
       const lastModified = map.map.lastModified;
       const writeAccess = map.access !== constants.MAP_ACCESS_READ_ONLY;
