@@ -140,7 +140,14 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
           type={type}
         />
       )}
-      {mode === MODE.SAVING && <PopupStatus mode={MODE.SAVING} />}
+      {mode === MODE.SAVING && (
+        <PopupStatus
+          mode={MODE.SAVING}
+          selectedMap={selectedMap}
+          selectedDataGroup={selectedDataGroup}
+          type={type}
+        />
+      )}
       {mode === MODE.SUCCESS && (
         <PopupStatus
           mode={MODE.SUCCESS}
