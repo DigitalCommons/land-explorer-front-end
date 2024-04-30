@@ -27,7 +27,6 @@ import {
 import MapRelatedProperties from "./MapRelatedProperties";
 import FeedbackTab from "../common/FeedbackTab";
 import MapBeingEditedToast from "./MapBeingEditedToast";
-import { loadMapFromStorageId } from "../../actions/MapActions";
 
 // Create Map Component with settings
 const Map = ReactMapboxGl({
@@ -71,14 +70,6 @@ const MapboxMap = () => {
   useEffect(() => {
     redrawPolygons(polygons);
   }, [currentMapId, unsavedMapUuid]);
-
-  // Load map from session storage if it exists
-  useEffect(() => {
-    const storedMapId = parseInt(sessionStorage.getItem("currentMapId"));
-    if (storedMapId) {
-      dispatch(loadMapFromStorageId(storedMapId));
-    }
-  }, []);
 
   const [styleLoaded, setStyleLoaded] = useState(false);
   const [redrawing, setRedrawing] = useState(false);
