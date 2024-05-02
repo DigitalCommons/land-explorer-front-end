@@ -117,6 +117,12 @@ export const openMap = (mapId) => {
         });
       }, 1000);
 
+      if (sessionStorage.getItem("currentMapId")) {
+        sessionStorage.removeItem("currentMapId");
+      }
+
+      sessionStorage.setItem("currentMapId", mapId);
+
       dispatch(postRequest("/api/user/map/view", { eid: mapId }));
       dispatch(notifyServerOfCurrentMap());
     }
@@ -142,6 +148,7 @@ export const deleteMap = (mapId) => {
 
 export const newMap = () => {
   return (dispatch) => {
+    sessionStorage.removeItem("currentMapId");
     dispatch({
       type: "NEW_MAP",
       payload: { unsavedMapUuid: uuidv4() },
@@ -149,6 +156,7 @@ export const newMap = () => {
     setTimeout(() => {
       dispatch({ type: "CHANGE_MOVING_METHOD", payload: "flyTo" });
     }, 500);
+
     dispatch(updateReadOnly());
     dispatch(notifyServerOfCurrentMap());
   };

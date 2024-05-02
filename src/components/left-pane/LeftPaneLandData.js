@@ -149,7 +149,6 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
                 .filter((dataGroup) => dataGroup.userGroupId == userGroup.id)
                 .map(
                   (dataGroup) => (
-                    console.log("From LeftPaneLandData", dataGroup),
                     (
                       <div
                         className={"datagroup-style-wrapper"}

@@ -7,7 +7,7 @@ import Tooltips from '../components/common/Tooltips';
 import ControlButtons from '../components/map-controls/ControlButtons';
 import Spinner from '../components/common/Spinner';
 import * as Auth from "../utils/Auth";
-import { getMyMaps } from '../actions/MapActions'
+import { getMyMaps, openMap } from '../actions/MapActions';
 import { getUserDetails } from '../actions/UserActions';
 import NoConnectionToast from '../components/map/NoConnectionToast';
 import {
@@ -24,20 +24,27 @@ const MapApp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (authenticated && Auth.isTokenActive()) {
-      // If authenticated, get user details, maps, and setup websocket connection with the server
-      dispatch(getUserDetails());
-      dispatch(getMyMaps());
-      dispatch(establishSocketConnection());
-    } else {
-      // If not authenticated, remove token, disconnect websocket, and redirect to login page
-      Auth.removeToken();
-      dispatch(closeSocketConnection());
-      console.log("no token, redirecting to login page");
-      navigate("/auth", { replace: true });
-    }
-  }, [authenticated]);
+ useEffect(async () => {
+   if (authenticated && Auth.isTokenActive()) {
+     // If authenticated, get user details, setup websocket connection, and get maps
+     await dispatch(getUserDetails());
+     dispatch(establishSocketConnection());
+     await dispatch(getMyMaps());
+
+     // Open the map that was previously open if the page was refreshed
+     const storedMapId = parseInt(sessionStorage.getItem("currentMapId"));
+     if (storedMapId) {
+       await dispatch(openMap(storedMapId));
+     }
+   } else {
+     // If not authenticated, remove token, disconnect websocket, and redirect to login page
+     Auth.removeToken();
+     dispatch(closeSocketConnection());
+     sessionStorage.removeItem("currentMapId");
+     console.log("no token, redirecting to login page");
+     navigate("/auth", { replace: true });
+   }
+ }, [authenticated]);  
 
   // If user details have been populated, render map, else render loading spinner
   if (user.populated) {
