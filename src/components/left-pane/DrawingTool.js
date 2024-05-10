@@ -5,6 +5,7 @@ const DrawingTool = ({ tool, name, mode, size, drawControl }) => {
     const dispatch = useDispatch();
     const activeTool = useSelector(state => state.leftPane.activeTool);
     const activePolygon = useSelector(state => state.drawings.activePolygon);
+    const activeMarker = useSelector((state) => state.markers.currentMarker);
 
     const isToolActive = activeTool === tool;
 
@@ -29,6 +30,11 @@ const DrawingTool = ({ tool, name, mode, size, drawControl }) => {
                     // change to direct_select and set the featureId to the active polygon
                     drawControl.draw.changeMode('direct_select', {
                         featureId: activePolygon
+                    });
+                } else if (activeMarker) {
+                    // change to direct_select and set the featureId to the active polygon
+                    drawControl.draw.changeMode('direct_select', {
+                        featureId: activeMarker
                     });
                 } else {
                     // change to the specific drawing mode

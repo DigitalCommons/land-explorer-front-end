@@ -227,6 +227,7 @@ const MapboxMap = () => {
     }
   };
 
+  // We need to do this for markers too
   const redrawPolygons = (polygons) => {
     const drawControl = drawControlRef.current;
     if (!drawControl || redrawing) return; // skip if already redrawing or component hasn't rendered

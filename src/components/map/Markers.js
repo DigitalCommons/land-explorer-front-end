@@ -4,6 +4,8 @@ import MarkerPin from "./MarkerPin";
 import DataGroupMarker from "./DataGroupMarker";
 import { Cluster, Marker } from "react-mapbox-gl";
 import { autoSave } from "../../actions/MapActions";
+import { featureCollection } from "@turf/turf";
+import { ReactMapboxGlCluster } from "react-mapbox-gl-cluster";
 
 const ClusterMarker = (coordinates, pointCount, getLeaves) => {
   const containsActiveMarker = getLeaves(Infinity).some(
@@ -122,7 +124,20 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
     />
   ));
 
-  const allMarkers = dataGroupMarkers.concat(drawnMarkers);
+  // const allMarkers = dataGroupMarkers.concat(drawnMarkers);
+
+  // TODO: we should maybe return this GeoJSON format from the backend, like we do for polys and lines
+  const allMarkers = featureCollection(
+    markers.map((marker) => ({
+      id: marker.uuid,
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "Point",
+        coordinates: marker.coordinates,
+      },
+    }))
+  );
 
   const clusterRadius = 60;
   // Zoom in to the minimum level that separates a cluster, if the nodes are exactly aligned
@@ -158,14 +173,15 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
         </Marker>
       )}
       {allMarkers && (
-        <Cluster
-          ClusterMarkerFactory={ClusterMarker}
-          radius={clusterRadius}
-          zoomOnClick={true}
-          zoomOnClickPadding={paddingOnZoom}
-        >
-          {allMarkers}
-        </Cluster>
+        <ReactMapboxGlCluster data={allMarkers} />
+        // <Cluster
+        //   ClusterMarkerFactory={ClusterMarker}
+        //   radius={clusterRadius}
+        //   zoomOnClick={true}
+        //   zoomOnClickPadding={paddingOnZoom}
+        // >
+        //   {allMarkers}
+        // </Cluster>
       )}
     </>
   );
