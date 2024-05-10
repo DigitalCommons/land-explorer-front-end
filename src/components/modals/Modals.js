@@ -1,6 +1,4 @@
 import React from "react";
-import MyMaps from "./MyMaps";
-import MySharedMaps from "./MySharedMaps";
 import OpenMap from "./OpenMap";
 import NewMap from "./NewMap";
 import Location from "./Location";
@@ -20,8 +18,6 @@ const Modals = () => (
     <LinkShare />
     <SaveCopy />
     <SaveSnapshot />
-    <MyMaps />
-    <MySharedMaps />
     <OpenMap />
     <Location />
     <NewMap />

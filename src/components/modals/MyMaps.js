@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Modal from './Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { openMap, deleteMap } from '../../actions/MapActions';
 import moment from 'moment';
@@ -167,19 +166,3 @@ export const MyMaps = ({ stage, setStage, closeModal }) => {
     noMaps
   );
 };
-
-const MyMapsModal = () => {
-    const [stage, setStage] = useState("list");
-    const dispatch = useDispatch();
-    const closeModal = () => dispatch({
-        type: 'CLOSE_MODAL',
-        payload: 'myMaps'
-    });
-
-    return <Modal id="myMaps" padding={true} customClose={() => setStage("list")}>
-        <div className="modal-title">My Maps</div>
-        <MyMaps stage={stage} setStage={setStage} closeModal={closeModal} />
-    </Modal>
-}
-
-export default MyMapsModal;

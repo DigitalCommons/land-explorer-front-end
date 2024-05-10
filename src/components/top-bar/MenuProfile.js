@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../actions/ModalActions";
 import analytics from "../../analytics";
-import constants from "../../constants";
 
 const MenuProfile = () => {
   const dispatch = useDispatch();
@@ -27,7 +26,7 @@ const MenuProfile = () => {
           className="tooltip-menu-item"
           onClick={() => {
             analytics.pageview("/app/my-maps");
-            dispatch(openModal("myMaps"));
+            dispatch(openModal("openMap"));
           }}
         >
           My Maps
@@ -35,11 +34,11 @@ const MenuProfile = () => {
         <div
           className="tooltip-menu-item"
           onClick={() => {
-            analytics.pageview("/app/my-shared-maps");
-            dispatch(openModal("mySharedMaps"));
+            dispatch({ type: "LOG_OUT" });
+            closeProfileMen();
           }}
         >
-          Shared Maps
+          Logout
         </div>
         <div
           className="tooltip-menu-item no-hover"
@@ -51,27 +50,11 @@ const MenuProfile = () => {
             className="button button-medium"
             onClick={(e) => {
               e.preventDefault();
-              window.open(constants.STATIC_SITE_URL + "/#donate");
+              window.open("https://opencollective.com/digitalcommonscoop");
               closeProfileMen();
             }}
           >
             Donate
-          </div>
-        </div>
-        <div
-          className="tooltip-menu-item no-hover"
-          style={{
-            marginBottom: "10px",
-          }}
-        >
-          <div
-            className="button button-medium"
-            onClick={() => {
-              dispatch({ type: "LOG_OUT" });
-              closeProfileMen();
-            }}
-          >
-            Logout
           </div>
         </div>
       </div>
