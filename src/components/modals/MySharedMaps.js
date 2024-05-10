@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Modal from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { openMap } from "../../actions/MapActions";
 import moment from "moment";
