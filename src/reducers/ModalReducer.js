@@ -19,14 +19,6 @@ const INITIAL_STATE = {
     open: false,
     canToggle: true,
   },
-  myMaps: {
-    open: false,
-    canToggle: true,
-  },
-  mySharedMaps: {
-    open: false,
-    canToggle: true,
-  },
   location: {
     open: false,
     canToggle: false,

@@ -132,26 +132,3 @@ export const MySharedMaps = ({ stage, setStage, closeModal }) => {
     </>
   );
 };
-
-const MySharedMapsModal = () => {
-  const dispatch = useDispatch();
-  const [stage, setStage] = useState("list");
-  const closeModal = () =>
-    dispatch({
-      type: "CLOSE_MODAL",
-      payload: "mySharedMaps",
-    });
-
-  return (
-    <Modal
-      id="mySharedMaps"
-      padding={true}
-      customClose={() => setStage("list")}
-    >
-      <div className="modal-title">Shared Maps</div>
-      <MySharedMaps stage={stage} setStage={setStage} closeModal={closeModal} />
-    </Modal>
-  );
-};
-
-export default MySharedMapsModal;
