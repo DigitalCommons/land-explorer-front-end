@@ -71,10 +71,13 @@ const MapboxMap = () => {
     redrawPolygons(polygons);
   }, [currentMapId, unsavedMapUuid]);
 
+ 
+
   const [styleLoaded, setStyleLoaded] = useState(false);
   const [redrawing, setRedrawing] = useState(false);
   const [dataGroupPopupVisible, setDataGroupPopupVisible] = useState(-1);
-  const { sources, satelliteLayer, topographyLayer } = mapSources;
+  const { sources, satelliteLayer, topographyLayer, sprite, glyphs } =
+    mapSources;
   const [onClickListener, setOnClickListener] = useState([]);
 
   const [map, setMap] = useState(null);
@@ -127,6 +130,21 @@ const MapboxMap = () => {
       setOnClickListener([onClick]);
     }
   }, [activeTool, activePolygon, currentMarker]);
+
+  useEffect(() => {
+    if (map) {
+      map.on("load", () => {
+        map.loadImage(
+          "../../assets/img/icon-marker-feature.png",
+          function (error, image) {
+            if (error) throw error;
+            map.addImage("map-marker", image, { sdf: true });
+          }
+        );
+        console.log("map loaded");
+      });
+    }
+  }, [map]);
 
   const onDrawCreate = (e) => {
     /*
@@ -252,9 +270,14 @@ const MapboxMap = () => {
   const style = {
     version: 8,
     sources: sources,
+    // Add the sprite and glyphs to the style to display custom icons
+    sprite: sprite,
+    glyphs: glyphs,
     // these are the base tile sets, aerial or streets
     layers: baseLayers,
   };
+
+  console.log("baseLayers", baseLayers);
 
   return (
     <div>

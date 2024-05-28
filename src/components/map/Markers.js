@@ -1,36 +1,16 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import MarkerPin from "./MarkerPin";
-import DataGroupMarker from "./DataGroupMarker";
-import { Cluster, Marker } from "react-mapbox-gl";
+import { Marker, GeoJSONLayer, Layer } from "react-mapbox-gl";
 import { autoSave } from "../../actions/MapActions";
+import { featureCollection } from "@turf/turf";
+import DataGroupMarker from "./DataGroupMarker";
 
-const ClusterMarker = (coordinates, pointCount, getLeaves) => {
-  const containsActiveMarker = getLeaves(Infinity).some(
-    (marker) => marker.props.active
-  );
-  return (
-    <Marker
-      key={coordinates.toString()}
-      coordinates={coordinates}
-      style={{ height: "40px", zIndex: 2 }}
-    >
-      <div className="cluster-container cluster-grey-transparent">
-        <div className="cluster-background cluster-grey">
-          <p
-            className={
-              containsActiveMarker
-                ? "cluster-text cluster-text-active"
-                : "cluster-text"
-            }
-          >
-            {pointCount}
-          </p>
-        </div>
-      </div>
-    </Marker>
-  );
-};
+// https://docs.mapbox.com/mapbox-gl-js/example/cluster/
+// Create a GeoJSON source with clustered data.
+
+// https://stackoverflow.com/questions/48157193/react-mapbox-gl-supercluster-not-returning-correct-features
+
+// https://medium.com/@droushi/mapbox-cluster-icons-based-on-cluster-content-d462a5a3ad5c
 
 const Markers = ({ map, popupVisible, setPopupVisible }) => {
   const dispatch = useDispatch();
@@ -44,6 +24,8 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
   const currentLocation = useSelector((state) => state.map.currentLocation);
   const markers = useSelector((state) => state.markers.markers);
   const currentMarker = useSelector((state) => state.markers.currentMarker);
+
+  const activeMarker = useSelector((state) => state.drawings.activeMarker);
 
   const handleMarkerClick = (evt, marker) => {
     if (props.activeTool === "trash") {
@@ -89,47 +71,53 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
     }
   };
 
-  const dataGroupMarkers = [];
+  // Combine all markers into one FeatureCollection
+  const combinedMarkers = [];
 
-  activeDataGroups &&
-    activeDataGroups.forEach((dataGroup) => {
-      const dataGroupColour = dataGroup.hex_colour;
-      if (dataGroup.markers) {
-        dataGroup.markers.forEach((marker) => {
-          dataGroupMarkers.push(
-            <DataGroupMarker
-              dataGroupColour={dataGroupColour}
-              key={marker.uuid}
-              coordinates={marker.location.coordinates}
-              name={marker.name}
-              description={marker.description}
-              marker={marker}
-              popupVisible={popupVisible}
-              setPopupVisible={setPopupVisible}
-            />
-          );
-        });
-      }
+  markers.forEach((marker) => {
+    combinedMarkers.push({
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: marker.coordinates,
+      },
+      properties: {
+        uuid: marker.uuid,
+        name: marker.name,
+        description: marker.description,
+        active: activeMarker === marker.uuid,
+        icon: "marker-icon", // This should be the ID of the uploaded icon in Mapbox
+        color: "#27ae60",
+      },
     });
+  });
 
-  const drawnMarkers = markers.map((marker) => (
-    <MarkerPin
-      key={marker.uuid}
-      coordinates={marker.coordinates}
-      marker={marker}
-      handleMarkerClick={handleMarkerClick}
-      active={currentMarker === marker.uuid}
-    />
-  ));
+  activeDataGroups.forEach((dataGroup) => {
+    const dataGroupColour = dataGroup.hex_colour;
+    if (dataGroup.markers) {
+      dataGroup.markers.forEach((marker) => {
+        combinedMarkers.push({
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: marker.location.coordinates,
+          },
+          properties: {
+            uuid: marker.uuid,
+            name: marker.name,
+            description: marker.description,
+            active: activeMarker === marker.uuid,
+            icon: "datagroup-icon", // This should be the ID of the uploaded icon in Mapbox
+            color: dataGroupColour,
+          },
+        });
+      });
+    }
+  });
 
-  const allMarkers = dataGroupMarkers.concat(drawnMarkers);
+  const allMarkers = featureCollection(combinedMarkers);
 
-  const clusterRadius = 60;
-  // Zoom in to the minimum level that separates a cluster, if the nodes are exactly aligned
-  // along the shortest screen axis. We will zoom in too much if this isn't the case, but the
-  // Cluster component doesn't give us enough control to do any better.
-  const paddingOnZoom =
-    Math.min(window.innerHeight, window.innerWidth) / 2 - clusterRadius - 40;
+  console.log("allMarkers", allMarkers);
 
   return (
     <>
@@ -158,14 +146,80 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
         </Marker>
       )}
       {allMarkers && (
-        <Cluster
-          ClusterMarkerFactory={ClusterMarker}
-          radius={clusterRadius}
-          zoomOnClick={true}
-          zoomOnClickPadding={paddingOnZoom}
-        >
-          {allMarkers}
-        </Cluster>
+        <>
+          <GeoJSONLayer
+            id="clustered-points"
+            data={allMarkers}
+            sourceOptions={{
+              cluster: true,
+              clusterMaxZoom: 14,
+              clusterRadius: 50,
+            }}
+          />
+          <Layer
+            id="clusters"
+            type="circle"
+            sourceId="clustered-points"
+            filter={["has", "point_count"]}
+            paint={{
+              "circle-color": "#78838f",
+              "circle-radius": 20,
+
+              "circle-stroke-width": 3,
+              "circle-stroke-color": "#78838f",
+
+              // "circle-translate": [-15, -15],
+            }}
+          />
+          <Layer
+            id="cluster-count"
+            type="symbol"
+            sourceId="clustered-points"
+            filter={["has", "point_count"]}
+            layout={{
+              "text-field": "{point_count_abbreviated}",
+              // "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+              "text-size": 18,
+              // "text-translate": [-15, -15],
+            }}
+            paint={{
+              "text-color": "#fff",
+            }}
+          />
+          <Layer
+            id="unclustered-point"
+            // type="circle"
+            type="symbol"
+            sourceId="clustered-points"
+            filter={["!", ["has", "point_count"]]}
+            // paint={{
+            //   "circle-color": "#11b4da",
+            //   "circle-radius": 4,
+            //   "circle-stroke-width": 1,
+            //   "circle-stroke-color": "#fff",
+            // }}
+            layout={{
+              "text-line-height": 1, // this is to avoid any padding around the "icon"
+              "text-padding": 0,
+              "text-anchor": "center", // center, so when rotating the map, the "icon" stay on the same location
+              "text-offset": [0, -0.3], // give it a little offset on y, so when zooming it stay on the right place
+              "text-allow-overlap": true,
+              "text-ignore-placement": true,
+              "text-field": String.fromCharCode("0xF3C5"),
+              "icon-optional": true, // since we're not using an icon, only text.
+              "text-font": ["Font Awesome 6 Free Solid"],
+              "text-size": 35,
+            }}
+            paint={{
+              "text-color": [
+                "case",
+                ["boolean", ["get", "active"], false],
+                "#ff0000", // red color when active
+                ["get", "color"], // default color from properties
+              ],
+            }}
+          />
+        </>
       )}
     </>
   );
