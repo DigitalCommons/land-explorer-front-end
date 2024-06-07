@@ -75,12 +75,12 @@ const MapProperties = ({ center, map }) => {
     }
   };
 
-  const detailedPropertyFeatures = [];
-  const basicPropertyFeatures = [];
+  const propertyFeaturesWithOwnershipData = [];
+  const propertyFeaturesWithoutOwnershipData = [];
 
   properties.forEach((property) => {
-    if (property.date_proprietor_added)
-      detailedPropertyFeatures.push(
+    if (property.title_no)
+      propertyFeaturesWithOwnershipData.push(
         <Feature
           coordinates={[property.coordinates]}
           key={property.coordinates[0][0]}
@@ -88,7 +88,7 @@ const MapProperties = ({ center, map }) => {
         />
       );
     else
-      basicPropertyFeatures.push(
+      propertyFeaturesWithoutOwnershipData.push(
         <Feature
           coordinates={[property.coordinates]}
           key={property.coordinates[0][0]}
@@ -132,7 +132,7 @@ const MapProperties = ({ center, map }) => {
               "fill-outline-color": "green",
             }}
           >
-            {detailedPropertyFeatures}
+            {propertyFeaturesWithOwnershipData}
           </Layer>
           <Layer
             type={"fill"}
@@ -142,7 +142,7 @@ const MapProperties = ({ center, map }) => {
               "fill-outline-color": "green",
             }}
           >
-            {basicPropertyFeatures}
+            {propertyFeaturesWithoutOwnershipData}
           </Layer>
         </>
       )}
