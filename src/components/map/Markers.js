@@ -28,6 +28,7 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
   const activeMarker = useSelector((state) => state.drawings.activeMarker);
 
   const handleMarkerClick = (evt, marker) => {
+    console.log("marker", marker);
     if (props.activeTool === "trash") {
       dispatch({
         type: "CLEAR_MARKER",
@@ -217,6 +218,9 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
                 "#ff0000", // red color when active
                 ["get", "color"], // default color from properties
               ],
+            }}
+            layerOptions={{
+              onClick: handleMarkerClick,
             }}
           />
         </>
