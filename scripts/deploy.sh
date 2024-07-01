@@ -14,7 +14,7 @@ git pull
 
 # Install dependencies
 # TODO: move to yarn v2 and zero-installs https://yarnpkg.com/features/zero-installs
-yarn install
+yarn install --frozen-lockfile
 
 # Bundle js, this takes 1-2 minutes
 yarn build

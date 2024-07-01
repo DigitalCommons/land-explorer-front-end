@@ -62,9 +62,9 @@ On this project, we like our data in GeoJSON form. However, sometimes it isn't p
 Currently we use ogr2ogr, which comes as a package of tools designed to manipulate geographical data. Installing these tools can be annoying, so I use QGIS to install it for me. This is a graphical GIS manipulation that installs ogr2ogr along with a lot of other stuff.
 
 This is an example of the command you're working towards getting to run. We're running it in the directory with the files in that we want to transform.
-`ogr2ogr -f GeoJSON -skipfailures scotland_and_wales.geojson scotland_and_wales_region.shp -t_srs "EPSG:4269"`
+`ogr2ogr -f GeoJSON -skipfailures scotland_and_wales.geojson scotland_and_wales_region.shp -t_srs "EPSG:4326"`
 
-`scotland_and_wales.geojson` is the output file. `scotland_and_wales_region.sh`p is the input file and `"EPSG:4269"` is the projection that mapbox uses, also known as web-mercator.
+`scotland_and_wales.geojson` is the output file. `scotland_and_wales_region.sh`p is the input file and `EPSG:4326` is one of the most common projections in latitude-longitude format, also used for GPS, based on the WGS84 standard. Note that Mapbox uses a different projection, "Web Mercator" or `EPSG:3857`, so this may lead to slight innaccuracies in the shapes of lines between coordinates when visualised on the map. There isn't really an easy way to solve this, since we are trying to visualise the surface of a 3D ellipsoid on a 2D surface.
 
 ## Land Explorer Database
 
