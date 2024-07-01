@@ -5,7 +5,11 @@ import LeftPaneToggle from "./LeftPaneToggle";
 import Draggable from "./Draggable";
 import LandDataLayerToggle from "./LandDataLayerToggle";
 import { toggleDataGroup } from "../../actions/DataGroupActions";
-import { togglePropertyDisplay } from "../../actions/LandOwnershipActions";
+import {
+  togglePropertyDisplay,
+  togglePendingPropertyDisplay,
+} from "../../actions/LandOwnershipActions";
+import constants from "../../constants";
 
 const DataLayersContainer = ({ children, title }) => {
   const [expanded, setExpanded] = useState(true);
@@ -45,6 +49,7 @@ const DataLayersContainer = ({ children, title }) => {
 
 const LeftPaneLandData = ({ open, active, onClose }) => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const userGroupTitlesAndIDs = useSelector(
     (state) => state.dataGroups.userGroupTitlesAndIDs
@@ -55,6 +60,9 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
   const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
   const landOwnershipActive = useSelector(
     (state) => state.landOwnership.displayActive
+  );
+  const pendingLandOwnershipActive = useSelector(
+    (state) => state.landOwnership.pendingDisplayActive
   );
 
   const description = (
@@ -117,13 +125,22 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
           />
         </Draggable>
       </DataLayersContainer>
-      <DataLayersContainer title={"Land Ownership"}>
-        <LeftPaneToggle
-          title={"Property Boundaries"}
-          on={landOwnershipActive}
-          onToggle={() => dispatch(togglePropertyDisplay())}
-        />
-      </DataLayersContainer>
+      {constants.LR_POLYGONS_ENABLED && (
+        <DataLayersContainer title={"Land Ownership"}>
+          <LeftPaneToggle
+            title={"Property Boundaries"}
+            on={landOwnershipActive}
+            onToggle={() => dispatch(togglePropertyDisplay())}
+          />
+          {user.privileged && (
+            <LeftPaneToggle
+              title={"Pending Property Boundaries"}
+              on={pendingLandOwnershipActive}
+              onToggle={() => dispatch(togglePendingPropertyDisplay())}
+            />
+          )}
+        </DataLayersContainer>
+      )}
       <DataLayersContainer title={"Administrative Boundaries"}>
         <LandDataLayerToggle title="Wards" layerId="wards-cu4dni" />
         <LandDataLayerToggle title="Parishes" layerId="parish" />

@@ -8,6 +8,12 @@ export const togglePropertyDisplay = () => {
   };
 }
 
+export const togglePendingPropertyDisplay = () => {
+  return (dispatch) => {
+    dispatch({ type: "TOGGLE_PENDING_PROPERTY_DISPLAY" });
+  };
+};
+
 export const highlightProperties = (properties) => {
   return dispatch => {
     dispatch({

@@ -28,7 +28,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         ...action.payload,
         populated: true,
-        privileged: action.payload.is_super_user === 1,
+        privileged: !!action.payload.is_super_user,
         initials:
           action.payload.firstName[0].toUpperCase() +
           action.payload.lastName[0].toUpperCase(),
