@@ -17,6 +17,7 @@ import Modals from "../modals/Modals";
 import constants from "../../constants";
 import mapSources from "../../data/mapSources";
 import MapProperties from "./MapProperties";
+import MapPendingProperties from "./MapPendingProperties";
 import MapDataGroups from "./MapDataGroups";
 import {
   autoSave,
@@ -46,6 +47,7 @@ const MapboxMap = () => {
   const mapRef = useRef();
   const { currentMapId, unsavedMapUuid, lockedByOtherUserInitials } =
     useSelector((state) => state.mapMeta);
+  const user = useSelector((state) => state.user);
   const { zoom, lngLat, movingMethod } = useSelector((state) => state.map);
   const { currentMarker } = useSelector((state) => state.markers);
   const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
@@ -55,7 +57,9 @@ const MapboxMap = () => {
     (state) => state.drawings
   );
   const propertiesDisplay = useSelector(
-    (state) => state.landOwnership.displayActive
+    (state) =>
+      state.landOwnership.displayActive ||
+      state.landOwnership.pendingDisplayActive
   );
 
   useInterval(
@@ -307,6 +311,9 @@ const MapboxMap = () => {
             <MapProperties center={lngLat} map={map} />
             <MapRelatedProperties />
           </>
+        )}
+        {constants.LR_POLYGONS_ENABLED && user.privileged && (
+          <MapPendingProperties center={lngLat} map={map} />
         )}
         {/* Markers, including markers from data groups */}
         {styleLoaded && (

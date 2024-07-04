@@ -11,8 +11,11 @@ const ControlButtons = () => {
     const [menuKeyOpen, setMenuKeyOpen] = useState(false);
     const [zooming, setZooming] = useState(false);
     const landDataLayers = useSelector((state) => state.mapLayers.landDataLayers);
-    const propertiesDisplayed = useSelector((state) => state.landOwnership.displayActive);
-    const zoom = useSelector((state) => state.map.zoom);
+    const propertiesDisplayed = useSelector(
+      (state) =>
+        state.landOwnership.displayActive ||
+        state.landOwnership.pendingDisplayActive
+    );
     const dispatch = useDispatch();
 
     const getLocation = () => {
