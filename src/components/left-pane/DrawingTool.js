@@ -33,7 +33,7 @@ const DrawingTool = ({ tool, name, mode, size, drawControl }) => {
           });
         } else if (activeMarker) {
           // change to direct_select and set the featureId to the active polygon
-          drawControl.draw.changeMode("direct_select", {
+          drawControl.draw.changeMode("simple_select", {
             featureId: activeMarker,
           });
           console.log("activeMarker", activeMarker);

@@ -1,10 +1,8 @@
 const INITIAL_STATE = {
   polygons: [],
   activePolygon: null,
-  activeMarker: null,
   polygonsDrawn: 0,
   linesDrawn: 0,
-  markers: [],
 };
 
 /**
@@ -12,7 +10,6 @@ const INITIAL_STATE = {
  */
 export default (state = INITIAL_STATE, action) => {
   let polygons;
-  let markers;
   switch (action.type) {
     case "ADD_POLYGON":
       polygons = state.polygons.slice();
@@ -31,7 +28,6 @@ export default (state = INITIAL_STATE, action) => {
         activePolygon: action.payload.uuid,
       };
     case "UPDATE_POLYGON":
-      debugger;
       polygons = state.polygons.map((polygon) => {
         if (polygon.uuid === action.payload.uuid) {
           return {
@@ -85,45 +81,12 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         activePolygon: action.payload,
       };
-    // case "SET_MARKER":
-    // case "SET_CURRENT_MARKER":
-    // case "UPDATE_MARKER":
-    //   // markers = state.markers.slice();
-    //   debugger;
-    //   markers = state.markers.markers.slice();
-    //   markers = state.markers.markers.map((marker) => {
-    //     if (marker.uuid === action.payload.uuid) {
-    //       return {
-    //         ...marker,
-    //         data: action.payload.data,
-    //         center: action.payload.center,
-    //       };
-    //     } else {
-    //       return marker;
-    //     }
-    //   });
-    // case "UPDATE_MARKER":
-    //   return {
-    //     ...state,
-    //     markers: state.markers.map((marker) =>
-    //       marker.uuid === action.payload.uuid ? action.payload : marker
-    //     ),
-    //   };
-    case "SET_ACTIVE_MARKER":
-      return {
-        ...state,
-        activeMarker: action.payload,
-      };
-
+    case "SET_MARKER":
+    case "SET_CURRENT_MARKER":
     case "CLEAR_ACTIVE_POLYGON":
       return {
         ...state,
         activePolygon: null,
-      };
-    case "CLEAR_ACTIVE_MARKER":
-      return {
-        ...state,
-        activeMarker: null,
       };
     case "LOAD_MAP":
     case "RELOAD_MAP":

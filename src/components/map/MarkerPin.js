@@ -1,5 +1,7 @@
-import React from "react";
-import { GeoJSONLayer } from "react-mapbox-gl";
+import React, { useState } from "react";
+import { Marker } from "react-mapbox-gl";
+import { useDispatch, useSelector } from "react-redux";
+import DrawingPopup from "./DrawingPopup/DrawingPopup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCertificate,
@@ -28,46 +30,53 @@ const MarkerPin = ({ marker, active }) => {
     }
   };
 
-  const markerFeature = {
-    type: "Feature",
-    geometry: {
-      type: "Point",
-      coordinates: marker.coordinates,
-    },
-    properties: {
-      uuid: marker.uuid,
-      name: marker.name,
-      description: marker.description,
-      active,
-    },
-  };
-
-  const markerLayer = (
-    <GeoJSONLayer
+  return (
+    <Marker
       key={marker.uuid}
-      data={markerFeature}
-      symbolLayout={{
-        "icon-image": "map-marker", // Name of the uploaded SVG icon
-        "icon-size": 1.5,
-        "icon-allow-overlap": true,
-        "text-field": ["get", "name"], // Display marker name
-        "text-font": ["Open Sans Bold"],
-        "text-anchor": "top",
-        "text-offset": [0, 1],
-        "text-size": 12,
-      }}
-      symbolPaint={{
-        "icon-color": [
-          "case",
-          ["boolean", ["get", "active"], false], // Check if the marker is active
-          "#FF0000", // Active color (red)
-          "#00FF00", // Default color (green)
-        ],
-      }}
-    />
+      coordinates={marker.coordinates}
+      name={marker.name}
+      description={marker.description}
+      anchor="bottom"
+      style={{ height: "40px", zIndex: active ? 4 : 3 }}
+    >
+      <div>
+        <div data-tooltip={marker.name} className="pointer">
+          <div
+            className={
+              active
+                ? "marker-icon icon-green"
+                : baseLayer === "aerial"
+                ? "marker-icon icon-white"
+                : "marker-icon"
+            }
+            onClick={toggleMarker}
+          >
+            <span className="marker-icon-center">
+              <FontAwesomeIcon icon={faCertificate} />
+            </span>
+            <FontAwesomeIcon icon={faLocationDot} />
+          </div>
+          <span className="marker-shadow"></span>
+        </div>
+        {showPopup && (
+          <div
+            style={{
+              position: "relative",
+              bottom: "-5px",
+            }}
+            className="popup-wrapper"
+          >
+            <DrawingPopup
+              object={marker}
+              type={"marker"}
+              source={"map"}
+              closeDescription={toggleMarker}
+            />
+          </div>
+        )}
+      </div>
+    </Marker>
   );
-
-  return markerLayer;
 };
 
 export default MarkerPin;

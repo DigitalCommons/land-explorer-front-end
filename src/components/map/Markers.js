@@ -1,18 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Marker, GeoJSONLayer, Layer } from "react-mapbox-gl";
 import { autoSave } from "../../actions/MapActions";
 import { featureCollection } from "@turf/turf";
 import DataGroupMarker from "./DataGroupMarker";
 
-// https://docs.mapbox.com/mapbox-gl-js/example/cluster/
-// Create a GeoJSON source with clustered data.
-
-// https://stackoverflow.com/questions/48157193/react-mapbox-gl-supercluster-not-returning-correct-features
-
-// https://medium.com/@droushi/mapbox-cluster-icons-based-on-cluster-content-d462a5a3ad5c
-
-const Markers = ({ map, popupVisible, setPopupVisible }) => {
+const Markers = ({ map, popupVisible, setPopupVisible, drawControlRef }) => {
   const dispatch = useDispatch();
   const allDataGroups = useSelector((state) => state.dataGroups.dataGroupsData);
   const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
@@ -23,102 +16,49 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
   const searchMarker = useSelector((state) => state.map.searchMarker);
   const currentLocation = useSelector((state) => state.map.currentLocation);
   const markers = useSelector((state) => state.markers.markers);
-  const currentMarker = useSelector((state) => state.markers.currentMarker);
+  // const currentMarker = useSelector((state) => state.markers.currentMarker);
+  const activeMarker = useSelector((state) => state.markers.currentMarker);
 
-  const activeMarker = useSelector((state) => state.drawings.activeMarker);
+  // const activeMarker = useSelector((state) => state.drawings.activeMarker);
+  const { activeTool } = useSelector((state) => state.leftPane);
+
+  console.log("Are there markers?", activeMarker);
 
   const handleMarkerClick = (evt, marker) => {
-    console.log("marker", marker);
-    if (props.activeTool === "trash") {
-      dispatch({
-        type: "CLEAR_MARKER",
-        payload: marker.uuid,
-      });
-      dispatch(autoSave());
-    } else {
-      const point = map.project(marker.coordinates);
-      const features = map.queryRenderedFeatures(point);
-      const sourceFeatures = map.querySourceFeatures("composite");
-      console.log("source features", sourceFeatures);
-      dispatch({ type: "CLEAR_INFO" });
-      if (features.length) {
-        features.map((feature) => {
-          if (feature.layer.id === "provisional-agricultural-land-ab795l") {
-            dispatch({
-              type: "SET_INFO_AGRICULTURAL",
-              payload: feature.properties,
-            });
-            dispatch({
-              type: "OPEN_SECTION",
-              payload: "agriculturalGrade",
-            });
-            dispatch({
-              type: "OPEN_SECTION",
-              payload: "siteArea",
-            });
-          }
-        });
-      }
-      console.log("features", features);
-      dispatch({
-        type: "SET_CURRENT_MARKER",
-        payload: marker.uuid,
-      });
-      dispatch({ type: "OPEN_LEFT_PANE" });
-      dispatch({
-        type: "SET_ACTIVE",
-        payload: "Land Information",
-      });
-    }
+    console.log("Marker clicked:", marker);
+    // Handle marker click
   };
 
-  // Combine all markers into one FeatureCollection
-  const combinedMarkers = [];
-
-  markers.forEach((marker) => {
-    combinedMarkers.push({
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: marker.coordinates,
-      },
-      properties: {
-        uuid: marker.uuid,
-        name: marker.name,
-        description: marker.description,
-        active: activeMarker === marker.uuid,
-        icon: "marker-icon", // This should be the ID of the uploaded icon in Mapbox
-        color: "#27ae60",
-      },
-    });
-  });
-
-  activeDataGroups.forEach((dataGroup) => {
-    const dataGroupColour = dataGroup.hex_colour;
-    if (dataGroup.markers) {
-      dataGroup.markers.forEach((marker) => {
-        combinedMarkers.push({
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: marker.location.coordinates,
-          },
-          properties: {
-            uuid: marker.uuid,
-            name: marker.name,
-            description: marker.description,
-            active: activeMarker === marker.uuid,
-            icon: "datagroup-icon", // This should be the ID of the uploaded icon in Mapbox
-            color: dataGroupColour,
-          },
-        });
-      });
-    }
-  });
+  const combinedMarkers = markers.map((marker) => ({
+    type: "Feature",
+    geometry: {
+      type: "Point",
+      coordinates: marker.coordinates,
+    },
+    properties: {
+      uuid: marker.uuid,
+      name: marker.name,
+      description: marker.description,
+      active: activeMarker === marker.uuid,
+      icon: "marker-icon",
+      color: "#27ae60",
+    },
+  }));
 
   const allMarkers = featureCollection(combinedMarkers);
 
-  console.log("allMarkers", allMarkers);
+  useEffect(() => {
+    if (drawControlRef.current) {
+      const drawControl = drawControlRef.current.draw;
+      // Clear existing points
+      const existingPoints = drawControl
+        .getAll()
+        .features.filter((f) => f.geometry.type === "Point");
+      existingPoints.forEach((point) => drawControl.delete(point.id));
+      // Add new points
+      combinedMarkers.forEach((marker) => drawControl.add(marker));
+    }
+  }, [markers]);
 
   return (
     <>
@@ -165,11 +105,8 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
             paint={{
               "circle-color": "#78838f",
               "circle-radius": 20,
-
               "circle-stroke-width": 3,
               "circle-stroke-color": "#78838f",
-
-              // "circle-translate": [-15, -15],
             }}
           />
           <Layer
@@ -179,9 +116,7 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
             filter={["has", "point_count"]}
             layout={{
               "text-field": "{point_count_abbreviated}",
-              // "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
               "text-size": 18,
-              // "text-translate": [-15, -15],
             }}
             paint={{
               "text-color": "#fff",
@@ -189,25 +124,18 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
           />
           <Layer
             id="unclustered-point"
-            // type="circle"
             type="symbol"
             sourceId="clustered-points"
             filter={["!", ["has", "point_count"]]}
-            // paint={{
-            //   "circle-color": "#11b4da",
-            //   "circle-radius": 4,
-            //   "circle-stroke-width": 1,
-            //   "circle-stroke-color": "#fff",
-            // }}
             layout={{
-              "text-line-height": 1, // this is to avoid any padding around the "icon"
+              "text-line-height": 1,
               "text-padding": 0,
-              "text-anchor": "center", // center, so when rotating the map, the "icon" stay on the same location
-              "text-offset": [0, -0.3], // give it a little offset on y, so when zooming it stay on the right place
+              "text-anchor": "center",
+              "text-offset": [0, -0.3],
               "text-allow-overlap": true,
               "text-ignore-placement": true,
               "text-field": String.fromCharCode("0xF3C5"),
-              "icon-optional": true, // since we're not using an icon, only text.
+              "icon-optional": true,
               "text-font": ["Font Awesome 6 Free Solid"],
               "text-size": 35,
             }}
@@ -215,13 +143,11 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
               "text-color": [
                 "case",
                 ["boolean", ["get", "active"], false],
-                "#ff0000", // red color when active
-                ["get", "color"], // default color from properties
+                "#ff0000",
+                ["get", "color"],
               ],
             }}
-            layerOptions={{
-              onClick: handleMarkerClick,
-            }}
+            onClick={handleMarkerClick}
           />
         </>
       )}

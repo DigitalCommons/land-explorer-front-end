@@ -8,7 +8,6 @@ import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import DrawControl from "react-mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import StaticMode from "@mapbox/mapbox-gl-draw-static-mode";
-import mapboxgl from "mapbox-gl"; // Add this import
 import Markers from "./Markers";
 import MapLayers from "./MapLayers";
 import DrawingLayers from "./DrawingLayers";
@@ -29,6 +28,7 @@ import MapRelatedProperties from "./MapRelatedProperties";
 import FeedbackTab from "../common/FeedbackTab";
 import MapBeingEditedToast from "./MapBeingEditedToast";
 
+// Create Map Component with settings
 const Map = ReactMapboxGl({
   accessToken: constants.MAPBOX_TOKEN,
   scrollZoom: true,
@@ -54,7 +54,6 @@ const MapboxMap = () => {
   const { activePolygon, polygons, polygonsDrawn, linesDrawn } = useSelector(
     (state) => state.drawings
   );
-  const { markers } = useSelector((state) => state.markers.markers);
   const propertiesDisplay = useSelector(
     (state) => state.landOwnership.displayActive
   );
@@ -70,8 +69,9 @@ const MapboxMap = () => {
   // Redraw polygons when changing maps or clearing an unsaved map
   useEffect(() => {
     redrawPolygons(polygons);
-    // redrawMarkers(markers);
   }, [currentMapId, unsavedMapUuid]);
+
+ 
 
   const [styleLoaded, setStyleLoaded] = useState(false);
   const [redrawing, setRedrawing] = useState(false);
@@ -126,6 +126,7 @@ const MapboxMap = () => {
     if (map) {
       if (onClickListener[0]) map.off("mousedown", onClickListener[0]);
       map.on("mousedown", onClick);
+
       setOnClickListener([onClick]);
     }
   }, [activeTool, activePolygon, currentMarker]);
@@ -145,151 +146,113 @@ const MapboxMap = () => {
     }
   }, [map]);
 
-  // Helper function to add marker to Draw control
-  const addMarkerToDraw = (lng, lat) => {
-    const point = {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [lng, lat],
-      },
-      properties: {},
-    };
-    drawControlRef.current.draw.add(point);
-  };
+ const onDrawCreate = (e) => {
+   const drawControl = drawControlRef.current;
+   const feature = e.features[0];
+   const featureCopy = {
+     id: feature.id,
+     type: feature.type,
+     geometry: feature.geometry,
+     properties: {},
+   };
+   const type = feature.geometry.type;
 
-  const onDrawCreate = (e) => {
-    const drawControl = drawControlRef.current;
-    const feature = e.features[0];
-    const featureCopy = {
-      id: feature.id,
-      type: feature.type,
-      geometry: feature.geometry,
-      properties: {},
-    };
-    const type = feature.geometry.type;
+   if (type === "Point") {
+     const point = {
+       data: featureCopy,
+       coordinates: feature.geometry.coordinates,
+       uuid: feature.id,
+     };
+     dispatch({
+       type: "ADD_MARKER",
+       payload: point,
+     });
+   } else {
+     const line =
+       type === "Polygon"
+         ? turf.polygonToLine(featureCopy.geometry)
+         : featureCopy;
+     const name =
+       type === "Polygon"
+         ? `Polygon ${polygonsDrawn + 1}`
+         : `Line ${linesDrawn + 1}`;
+     const polygon = {
+       data: featureCopy,
+       name: name,
+       center: turf.pointOnFeature(featureCopy).geometry.coordinates,
+       type: type,
+       length: turf.length(line, { units: "kilometers" }),
+       area: type === "Polygon" ? turf.area(featureCopy) : 0,
+       uuid: feature.id,
+     };
+     dispatch({
+       type: "ADD_POLYGON",
+       payload: polygon,
+     });
+   }
 
-    if (type === "Point") {
-      const point = {
-        data: featureCopy,
-        coordinates: feature.geometry.coordinates,
-        uuid: feature.id,
-      };
-      dispatch({
-        type: "ADD_MARKER",
-        payload: point,
-      });
-      // Add marker to Draw control to keep it in sync
-      addMarkerToDraw(
-        feature.geometry.coordinates[0],
-        feature.geometry.coordinates[1]
-      );
-    } else {
-      const line =
-        type === "Polygon"
-          ? turf.polygonToLine(featureCopy.geometry)
-          : featureCopy;
-      const name =
-        type === "Polygon"
-          ? `Polygon ${polygonsDrawn + 1}`
-          : `Line ${linesDrawn + 1}`;
-      const polygon = {
-        data: featureCopy,
-        name: name,
-        center: turf.pointOnFeature(featureCopy).geometry.coordinates,
-        type: type,
-        length: turf.length(line, { units: "kilometers" }),
-        area: type === "Polygon" ? turf.area(featureCopy) : 0,
-        uuid: feature.id,
-      };
-      dispatch({
-        type: "ADD_POLYGON",
-        payload: polygon,
-      });
-    }
+   dispatch(autoSave());
+   setTimeout(() => {
+     drawControl.draw.changeMode("static");
+   }, 100);
+ };
 
-    dispatch(autoSave());
-    setTimeout(() => {
-      drawControl.draw.changeMode("static");
-    }, 100);
-  };
+ const onDrawUpdate = (e) => {
+   const { features } = e;
+   features.forEach((feature) => {
+     const featureCopy = {
+       id: feature.id,
+       type: feature.type,
+       geometry: feature.geometry,
+       properties: {},
+     };
 
-  const onDrawUpdate = (e) => {
-    /*
-      This takes all the drawing features and creates a copies of them
-      and stores them the redux store, so that they can be rendered as react GeoJSON components
-    */
-    const { features } = e;
-    features.forEach((feature) => {
-      const featureCopy = {
-        id: feature.id,
-        type: feature.type,
-        geometry: feature.geometry,
-        properties: {},
-      };
+     const type = feature.geometry.type;
 
-      const type = feature.geometry.type;
+     if (type === "Point") {
+       const point = {
+         data: featureCopy,
+         coordinates: feature.geometry.coordinates,
+         uuid: feature.id,
+       };
+       dispatch({
+         type: "UPDATE_MARKER",
+         payload: point,
+       });
+     } else {
+       const line =
+         type === "Polygon"
+           ? turf.polygonToLine(featureCopy.geometry)
+           : featureCopy;
+       dispatch({
+         type: "UPDATE_POLYGON",
+         payload: {
+           data: featureCopy,
+           center: turf.pointOnFeature(featureCopy).geometry.coordinates,
+           length: turf.length(line, { units: "kilometers" }),
+           area: type === "Polygon" ? turf.area(featureCopy) : 0,
+           uuid: feature.id,
+         },
+       });
+     }
 
-      if (type === "Point") {
-        const point = {
-          data: featureCopy,
-          coordinates: feature.geometry.coordinates,
-          uuid: feature.id,
-        };
-        // dispatch(updateMarker(point));
-        dispatch({
-          type: "UPDATE_MARKER",
-          payload: point,
-        });
-        // debugger;
-        dispatch({
-          type: "CLEAR_CURRENT_MARKER",
-        });
-      } else {
-        const line =
-          type === "Polygon"
-            ? turf.polygonToLine(featureCopy.geometry)
-            : featureCopy;
+     dispatch({ type: "CLEAR_ACTIVE_POLYGON" });
+     dispatch(autoSave());
+   });
+ };
 
-        dispatch({
-          type: "UPDATE_POLYGON",
-          payload: {
-            data: featureCopy,
-            center: turf.pointOnFeature(featureCopy).geometry.coordinates,
-            length: turf.length(line, { units: "kilometers" }),
-            area: turf.area(featureCopy),
-            uuid: feature.id,
-          },
-        });
-        dispatch({
-          type: "CLEAR_ACTIVE_POLYGON",
-        });
-      }
-      dispatch(autoSave());
-    });
-  };
-
-  // Handle selection change event
+  
   const onDrawSelectionChange = (e) => {
     const drawControl = drawControlRef.current;
     const mode = drawControl.draw.getMode();
     if (mode === "simple_select") {
       if (e.features.length) {
-        const feature = e.features[0];
-        const { id, geometry } = feature;
+        const { id } = e.features[0];
         // We pass the featureId of the feature we want to be automatically selected when
         // the mode changes
-        if (geometry.type === "Point") {
-          // Use simple_select for points
-          drawControl.draw.changeMode("simple_select", { featureIds: [id] });
-        } else {
-          if (id) {
-            // Use direct_select for other features
-            drawControl.draw.changeMode("direct_select", { featureId: id });
-          } else {
-            console.error("Feature does not have a valid id");
-          }
-        }
+        drawControl.draw.changeMode("direct_select", {
+          featureId: id,
+        });
       }
     }
   };
@@ -312,27 +275,6 @@ const MapboxMap = () => {
       setRedrawing(false);
     }, 300);
   };
-
-
-  const redrawMarkers = (markers) => {
-    const drawControl = drawControlRef.current;
-    if (!drawControl || redrawing) return; // skip if already redrawing or component hasn't rendered
-    setRedrawing(true);
-    drawControl.draw.deleteAll();
-    if (markers) {
-      markers.map((marker) => {
-        drawControl.draw.add({
-          ...marker.data,
-          id: marker.uuid,
-        });
-      });
-      drawControl.draw.changeMode("static");
-    }
-    setTimeout(() => {
-      setRedrawing(false);
-    }, 300);
-  };
-
 
   const baseLayers = [
     baseLayer === "aerial" ? satelliteLayer : topographyLayer,
