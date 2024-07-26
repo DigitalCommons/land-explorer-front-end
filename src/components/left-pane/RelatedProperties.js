@@ -21,7 +21,7 @@ const RelatedProperties = ({ property }) => {
 
   const gotoProperty = () => {
     dispatch(setLngLat(lng, lat));
-    handlePropertyClick();
+    dispatch(selectRelatedProperties({ [property.poly_id]: property }));
   }
 
   return (
