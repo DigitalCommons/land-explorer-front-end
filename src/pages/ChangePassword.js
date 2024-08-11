@@ -127,6 +127,7 @@ const ChangePassword = () => {
                 passwordValid !== null && (passwordValid ? "valid" : "invalid")
               }`}
               placeholder="New password"
+              autoComplete="new-password"
               value={password}
               onChange={(e) => {
                 const value = e.target.value;
@@ -141,6 +142,7 @@ const ChangePassword = () => {
                 (confirmPasswordValid ? "valid" : "invalid")
               }`}
               placeholder="Confirm new password"
+              autoComplete="new-password"
               value={confirmPassword}
               onChange={(e) => {
                 const value = e.target.value;

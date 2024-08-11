@@ -190,6 +190,7 @@ const Register = ({ updateBgImage }) => {
           className={`text-input ${email.valid !== "" ? (email.valid ? "valid" : "invalid") : ""
             }`}
           placeholder="Email address (Required)"
+          autoComplete="username"
           value={email.value}
           maxLength="101"
           onChange={(e) => {
@@ -209,6 +210,7 @@ const Register = ({ updateBgImage }) => {
               : ""
             }`}
           placeholder="Password (Required)"
+          autoComplete="new-password"
           value={password.value}
           style={{ marginRight: "2%" }}
           minLength="4"
@@ -232,6 +234,7 @@ const Register = ({ updateBgImage }) => {
               : ""
             }`}
           placeholder="Confirm password (Required)"
+          autoComplete="new-password"
           value={confirmPassword.value}
           minLength="4"
           maxLength="101"

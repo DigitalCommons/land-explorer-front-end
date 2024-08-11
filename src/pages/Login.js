@@ -135,6 +135,7 @@ const Login = ({ updateBgImage }) => {
             type="text"
             className="text-input"
             placeholder="Email address"
+            autoComplete="username"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -142,6 +143,7 @@ const Login = ({ updateBgImage }) => {
             type="password"
             className="text-input"
             placeholder="Password"
+            autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

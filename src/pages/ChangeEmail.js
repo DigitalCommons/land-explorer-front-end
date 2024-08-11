@@ -142,6 +142,7 @@ const ChangeEmail = () => {
               className={`text-input
                             ${newEmail.valid ? "valid" : "invalid"}`}
               placeholder="New email address"
+              autoComplete="username"
               value={newEmail.value}
               onChange={(e) => {
                 const valid = emailRegexp.test(e.target.value);
