@@ -9,6 +9,7 @@ import PopupContent from "./PopupContent/PopupContent";
 import PopupCopy from "./PopupCopy/PopupCopy";
 import PopupStatus from "./PopupStatus/PopupStatus";
 import { saveObjectToDataGroup } from "../../../actions/DataGroupActions"; 
+import constants from "../../../constants";
 
 export const MODE = {
   DISPLAY: "display",
@@ -27,7 +28,7 @@ export const MODE = {
  * @returns a React popup element
  ***/
 
-const DrawingPopup = ({ object, type, source, closeDescription }) => {
+const DrawingPopup = ({ object, type, source, access, closeDescription }) => {
   const dispatch = useDispatch();
   const [mode, setMode] = useState(MODE.DISPLAY);
   const [name, setName] = useState(object.name);
@@ -123,6 +124,9 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
         setDescription={setDescription}
         editObjectInfo={editObjectInfo}
         setName={setName}
+        source={source}
+        type={type}
+        access={access}
         isOnline={isOnline}
         readOnly={readOnly}
       />

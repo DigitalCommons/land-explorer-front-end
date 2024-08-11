@@ -5,9 +5,10 @@ import * as turf from "@turf/turf";
 
 const DataGroupLine = ({
   line,
+  access,
+  dataGroupColour,
   setPopupVisible,
   popupVisible,
-  dataGroupColour,
 }) => {
   const lineData = {
     geometry: {
@@ -57,6 +58,7 @@ const DataGroupLine = ({
             object={line}
             type={"line"}
             source={"datagroup"}
+            access={access}
             closeDescription={() => setPopupVisible(-1)}
           />
         </Marker>

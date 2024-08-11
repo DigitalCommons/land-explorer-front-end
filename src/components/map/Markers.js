@@ -104,6 +104,7 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
               name={marker.name}
               description={marker.description}
               marker={marker}
+              access={dataGroup.access}
               popupVisible={popupVisible}
               setPopupVisible={setPopupVisible}
             />
