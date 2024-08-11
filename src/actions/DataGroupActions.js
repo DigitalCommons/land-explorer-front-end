@@ -11,8 +11,13 @@ export const loadDataGroups = () => {
     const mergedDataGroups = [];
     userGroupsData.forEach((userGroup) => {
       userGroup.dataGroups.forEach((dataGroup) => {
-        dataGroup.userGroupId = userGroup.id;
-        mergedDataGroups.push(dataGroup);
+        const { iddata_groups, ...dataGroupData } = dataGroup;
+        mergedDataGroups.push({
+          ...dataGroupData,
+          id: iddata_groups,
+          userGroupId: userGroup.id,
+          access: userGroup.access,
+        });
       });
     });
     dispatch({
@@ -27,17 +32,6 @@ export const loadDataGroups = () => {
     dispatch({
       type: "SET_USER_GROUP_TITLES",
       payload: userGroupTitlesAndIDs,
-    });
-
-    const dataGroupTitlesAndIDs = mergedDataGroups.map((dataGroup) => ({
-      title: dataGroup.title,
-      id: dataGroup.iddata_groups,
-      hexColor: dataGroup.hex_colour,
-      userGroupId: dataGroup.userGroupId,
-    }));
-    dispatch({
-      type: "SET_DATA_GROUP_TITLES",
-      payload: dataGroupTitlesAndIDs,
     });
   };
 };

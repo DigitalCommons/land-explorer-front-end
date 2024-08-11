@@ -36,28 +36,31 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
   const [selectedMap, setSelectedMap] = useState();
   const [selectedDataGroup, setSelectedDataGroup] = useState();
 
-  const { readOnly, isOnline, currentMapId, allMaps, allDataGroups } =
+  const { readOnly, isOnline, currentMapId, allMaps, allEditableDataGroups } =
     useSelector((state) => ({
       readOnly: state.readOnly.readOnly,
       isOnline: state.connectivity.isOnline,
       currentMapId: state.mapMeta.currentMapId,
       allMaps: state.myMaps.maps,
-      allDataGroups: state.dataGroups.dataGroupTitlesAndIDs,
+      allEditableDataGroups: state.dataGroups.dataGroupsData.filter(
+        (dataGroup) =>
+          dataGroup.access === constants.DATAGROUP_ACCESS_READ_WRITE
+      ),
     }));
 
-  // Logic for determining maps and data groups based on source
-  let maps, dataGroups;
+  // Logic for determining maps and data groups that we can copy to, based on source
+  let copyToMapsList, copyToDataGroupsList;
   if (source === "map") {
     // All editable maps that aren't this one
-    maps = allMaps.filter(
+    copyToMapsList = allMaps.filter(
       (map) => !map.map.isSnapshot && map.map.eid !== currentMapId
     );
-    dataGroups = allDataGroups;
+    copyToDataGroupsList = allEditableDataGroups;
   } else {
     // All editable maps
-    maps = allMaps.filter((map) => !map.map.isSnapshot);
+    copyToMapsList = allMaps.filter((map) => !map.map.isSnapshot);
     // All data groups apart from this one
-    dataGroups = allDataGroups.filter(
+    copyToDataGroupsList = allEditableDataGroups.filter(
       (dataGroup) => dataGroup.id !== object.data_group_id
     );
   }
@@ -132,8 +135,8 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
           setSelectedMap={setSelectedMap}
           selectedDataGroup={selectedDataGroup}
           setSelectedDataGroup={setSelectedDataGroup}
-          maps={maps}
-          dataGroups={dataGroups}
+          maps={copyToMapsList}
+          dataGroups={copyToDataGroupsList}
           copyObjectToMap={copyObjectToMap}
           copyObjectToDataGroup={copyObjectToDataGroup}
           setMode={setMode}
