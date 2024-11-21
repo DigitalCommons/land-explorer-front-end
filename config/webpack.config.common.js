@@ -47,7 +47,7 @@ const config = {
                             <title>Land Explorer</title>
                         </head>
                         <body>
-                        <script async defer data-website-id="adf09492-8408-4d60-85cd-692a012fb72a" src="https://umami.digitalcommons.coop/umami.js"></script>
+                        <script async defer data-website-id="adf09492-8408-4d60-85cd-692a012fb72a" src="https://umami.digitalcommons.coop/script.js"></script>
                             <div id=\"root\"></div>
                         </body>
                     </html>`,
