@@ -18,7 +18,7 @@ const MapPendingProperties = ({ center, map }) => {
   const displayActive = useSelector(
     (state) => state.landOwnership.pendingDisplayActive
   );
-  const zoom = useSelector((state) => state.map.zoom);
+  const { zoom, zooming } = useSelector((state) => state.map);
   const highlightedProperties = useSelector(
     (state) => state.landOwnership.highlightedProperties
   );
@@ -68,9 +68,13 @@ const MapPendingProperties = ({ center, map }) => {
   };
 
   useEffect(() => {
-    if (displayActive && zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL)
+    if (
+      !zooming &&
+      displayActive &&
+      zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL
+    )
       getProperties();
-  }, [center, zoom, displayActive]);
+  }, [center, zooming, displayActive]);
 
   const onClickNewProperty = (property) => {
     if (activePanel !== "Drawing Tools") {
