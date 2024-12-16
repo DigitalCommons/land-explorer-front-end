@@ -351,6 +351,12 @@ export const setZoom = (zoom) => {
   };
 };
 
+export const setZooming = (zooming) => {
+  return (dispatch) => {
+    dispatch({ type: "SET_ZOOMING", payload: zooming });
+  };
+};
+
 export const setSearchMarker = (lng, lat) => {
   return (dispatch) => {
     dispatch({

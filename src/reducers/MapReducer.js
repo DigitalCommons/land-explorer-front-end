@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
   zoom: [6],
+  zooming: false,
   lngLat: [-1.5, 53],
   searchMarker: null,
   currentLocation: null,
@@ -35,6 +36,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         zoom: action.payload,
+      };
+    case "SET_ZOOMING":
+      return {
+        ...state,
+        zooming: action.payload,
       };
     case "SET_LNG_LAT":
       return {

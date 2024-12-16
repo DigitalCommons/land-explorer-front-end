@@ -15,7 +15,7 @@ const MapProperties = ({ center, map }) => {
   const [loadingProperties, setLoadingProperties] = useState(false);
 
   const displayActive = useSelector((state) => state.landOwnership.displayActive);
-  const zoom = useSelector((state) => state.map.zoom);
+  const { zoom, zooming } = useSelector((state) => state.map);
   const highlightedProperties = useSelector((state) => state.landOwnership.highlightedProperties);
   const activePropertyId = useSelector((state) => state.landOwnership.activePropertyId);
   const activeProperty = highlightedProperties[activePropertyId] || null;
@@ -59,9 +59,13 @@ const MapProperties = ({ center, map }) => {
   };
 
   useEffect(() => {
-    if (displayActive && zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL)
+    if (
+      !zooming &&
+      displayActive &&
+      zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL
+    )
       getProperties();
-  }, [center, zoom, displayActive]);
+  }, [center, zooming, displayActive]);
 
   const onClickNewProperty = (property) => {
     if (activePanel !== "Drawing Tools") {
