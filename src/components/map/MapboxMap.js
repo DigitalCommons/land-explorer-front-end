@@ -23,6 +23,7 @@ import {
   refreshCurrentMap,
   setLngLat,
   setZoom,
+  setZooming,
 } from "../../actions/MapActions";
 import MapRelatedProperties from "./MapRelatedProperties";
 import FeedbackTab from "../common/FeedbackTab";
@@ -275,7 +276,11 @@ const MapboxMap = () => {
               : "#72b6e6",
         }}
         zoom={zoom}
-        onZoomEnd={(map) => dispatch(setZoom([map.getZoom()]))}
+        onZoomStart={() => dispatch(setZooming(true))}
+        onZoomEnd={(map) => {
+          dispatch(setZoom([map.getZoom()]));
+          dispatch(setZooming(false));
+        }}
         onDragEnd={(map) =>
           dispatch(setLngLat(map.getCenter().lng, map.getCenter().lat))
         }
