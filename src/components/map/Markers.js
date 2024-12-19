@@ -37,7 +37,7 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
   const allDataGroups = useSelector((state) => state.dataGroups.dataGroupsData);
   const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
   const activeDataGroups = allDataGroups.filter((group) =>
-    activeGroups.includes(group.iddata_groups)
+    activeGroups.includes(group.id)
   );
 
   const searchMarker = useSelector((state) => state.map.searchMarker);
@@ -104,6 +104,7 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
               name={marker.name}
               description={marker.description}
               marker={marker}
+              access={dataGroup.access}
               popupVisible={popupVisible}
               setPopupVisible={setPopupVisible}
             />

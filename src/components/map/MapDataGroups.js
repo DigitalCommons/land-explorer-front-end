@@ -14,7 +14,7 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
   const allDataGroups = useSelector((state) => state.dataGroups.dataGroupsData);
   const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
   const activeDataGroups = allDataGroups.filter((group) =>
-    activeGroups.includes(group.iddata_groups)
+    activeGroups.includes(group.id)
   );
 
   const dataGroupPolygons = [];
@@ -23,7 +23,8 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
   activeDataGroups &&
     activeDataGroups.forEach((dataGroup) => {
       const dataGroupColour = dataGroup.hex_colour;
-      console.log('From MapDataGroups', dataGroup);
+
+      // Note that datagroup markers are added to the Markers component, not here, to allow for clustering
 
       if (dataGroup.polygons) {
         dataGroup.polygons.forEach((polygon) => {
@@ -31,9 +32,10 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
             <DataGroupPolygon
               key={polygon.uuid}
               polygon={polygon}
+              access={dataGroup.access}
+              dataGroupColour={dataGroupColour}
               setPopupVisible={setPopupVisible}
               popupVisible={popupVisible}
-              dataGroupColour={dataGroupColour}
             />
           );
         });
@@ -44,9 +46,10 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
             <DataGroupLine
               key={line.uuid}
               line={line}
+              access={dataGroup.access}
+              dataGroupColour={dataGroupColour}
               setPopupVisible={setPopupVisible}
               popupVisible={popupVisible}
-              dataGroupColour={dataGroupColour}
             />
           );
         });

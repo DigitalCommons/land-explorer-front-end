@@ -1,5 +1,6 @@
 import React from "react";
 import { MODE } from "../DrawingPopup";
+import constants from "../../../../constants";
 
 const PopupContent = ({
   mode,
@@ -9,6 +10,9 @@ const PopupContent = ({
   editObjectInfo,
   name,
   setName,
+  source,
+  type,
+  access,
   isOnline,
   readOnly,
 }) => {
@@ -66,20 +70,23 @@ const PopupContent = ({
               <span className="popup-footer-button-text">Copy to Map</span>
             </button>
 
-            <button
-              type="button"
-              className={`popup-footer-button popup-edit  ${
-                readOnly ? "is-offline" : ""
-              }`}
-              onClick={() => setMode(MODE.EDIT)}
-              disabled={readOnly}
-            >
-              <img
-                src={require(`../../../../assets/img/icon-edit-new.svg`)}
-                className="popup-footer-icon"
-              />
-              <span className="popup-footer-button-text">Edit Marker</span>
-            </button>
+            {(source === "map" ||
+              access === constants.DATAGROUP_ACCESS_READ_WRITE) && (
+              <button
+                type="button"
+                className={`popup-footer-button popup-edit  ${
+                  readOnly ? "is-offline" : ""
+                }`}
+                onClick={() => setMode(MODE.EDIT)}
+                disabled={readOnly}
+              >
+                <img
+                  src={require(`../../../../assets/img/icon-edit-new.svg`)}
+                  className="popup-footer-icon"
+                />
+                <span className="popup-footer-button-text">Edit {type}</span>
+              </button>
+            )}
           </>
         )}
 

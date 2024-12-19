@@ -9,6 +9,7 @@ import PopupContent from "./PopupContent/PopupContent";
 import PopupCopy from "./PopupCopy/PopupCopy";
 import PopupStatus from "./PopupStatus/PopupStatus";
 import { saveObjectToDataGroup } from "../../../actions/DataGroupActions"; 
+import constants from "../../../constants";
 
 export const MODE = {
   DISPLAY: "display",
@@ -27,7 +28,7 @@ export const MODE = {
  * @returns a React popup element
  ***/
 
-const DrawingPopup = ({ object, type, source, closeDescription }) => {
+const DrawingPopup = ({ object, type, source, access, closeDescription }) => {
   const dispatch = useDispatch();
   const [mode, setMode] = useState(MODE.DISPLAY);
   const [name, setName] = useState(object.name);
@@ -36,28 +37,31 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
   const [selectedMap, setSelectedMap] = useState();
   const [selectedDataGroup, setSelectedDataGroup] = useState();
 
-  const { readOnly, isOnline, currentMapId, allMaps, allDataGroups } =
+  const { readOnly, isOnline, currentMapId, allMaps, allEditableDataGroups } =
     useSelector((state) => ({
       readOnly: state.readOnly.readOnly,
       isOnline: state.connectivity.isOnline,
       currentMapId: state.mapMeta.currentMapId,
       allMaps: state.myMaps.maps,
-      allDataGroups: state.dataGroups.dataGroupTitlesAndIDs,
+      allEditableDataGroups: state.dataGroups.dataGroupsData.filter(
+        (dataGroup) =>
+          dataGroup.access === constants.DATAGROUP_ACCESS_READ_WRITE
+      ),
     }));
 
-  // Logic for determining maps and data groups based on source
-  let maps, dataGroups;
+  // Logic for determining maps and data groups that we can copy to, based on source
+  let copyToMapsList, copyToDataGroupsList;
   if (source === "map") {
     // All editable maps that aren't this one
-    maps = allMaps.filter(
+    copyToMapsList = allMaps.filter(
       (map) => !map.map.isSnapshot && map.map.eid !== currentMapId
     );
-    dataGroups = allDataGroups;
+    copyToDataGroupsList = allEditableDataGroups;
   } else {
     // All editable maps
-    maps = allMaps.filter((map) => !map.map.isSnapshot);
+    copyToMapsList = allMaps.filter((map) => !map.map.isSnapshot);
     // All data groups apart from this one
-    dataGroups = allDataGroups.filter(
+    copyToDataGroupsList = allEditableDataGroups.filter(
       (dataGroup) => dataGroup.id !== object.data_group_id
     );
   }
@@ -120,6 +124,9 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
         setDescription={setDescription}
         editObjectInfo={editObjectInfo}
         setName={setName}
+        source={source}
+        type={type}
+        access={access}
         isOnline={isOnline}
         readOnly={readOnly}
       />
@@ -132,8 +139,8 @@ const DrawingPopup = ({ object, type, source, closeDescription }) => {
           setSelectedMap={setSelectedMap}
           selectedDataGroup={selectedDataGroup}
           setSelectedDataGroup={setSelectedDataGroup}
-          maps={maps}
-          dataGroups={dataGroups}
+          maps={copyToMapsList}
+          dataGroups={copyToDataGroupsList}
           copyObjectToMap={copyObjectToMap}
           copyObjectToDataGroup={copyObjectToDataGroup}
           setMode={setMode}

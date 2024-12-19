@@ -12,6 +12,7 @@ const DataGroupMarkerContent = ({
   visible,
   closeDescription,
   dataGroupColour,
+  access,
   toggleMarker,
 }) => {
   return (
@@ -40,6 +41,7 @@ const DataGroupMarkerContent = ({
             object={marker}
             type={"marker"}
             source={"datagroup"}
+            access={access}
             closeDescription={closeDescription}
           />
         )}
@@ -53,9 +55,10 @@ const DataGroupMarker = ({
   name,
   description,
   marker,
+  access,
+  dataGroupColour,
   popupVisible,
   setPopupVisible,
-  dataGroupColour,
 }) => {
   const toggleMarker = () => {
     if (popupVisible === marker.uuid) {
@@ -83,6 +86,7 @@ const DataGroupMarker = ({
         closeDescription={() => setPopupVisible(-1)}
         toggleMarker={toggleMarker}
         dataGroupColour={dataGroupColour}
+        access={access}
       />
     </Marker>
   );
