@@ -13,15 +13,7 @@
     "@mapbox/mapbox-gl-geocoder": "^4.7.4",
     "@turf/turf": "^6.5.0",
     "axios": "^0.26.0",
-    "babel-loader": "^8.2.4",
-    "babel-preset-react-app": "^10.0.1",
     "convert-units": "^2.3.4",
-    "copy-webpack-plugin": "^10.2.4",
-    "css-loader": "6.6.0",
-    "dotenv-webpack": "^7.1.0",
-    "html-webpack-plugin": "5.5.0",
-    "immutability-helper": "^3.1.1",
-    "jest": "27.5.1",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.7.0",
     "moment": "^2.29.1",
@@ -42,15 +34,10 @@
     "react-tooltip": "^4.2.21",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
-    "sass": "^1.72.0",
-    "sass-loader": "^13.3.3",
     "socket.io-client": "^4.7.4",
-    "style-loader": "3.3.1",
     "sweetalert2": "^11.4.0",
     "usehooks-ts": "^3.0.2",
-    "uuid": "^9.0.0",
-    "webpack": "^5.88.1",
-    "webpack-dev-server": "^4.8.0"
+    "uuid": "^9.0.0"
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development npx webpack serve --config ./config/webpack.config.common.js --mode=development",
@@ -100,7 +87,20 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "babel-loader": "^8.2.4",
+    "babel-preset-react-app": "^10.0.1",
+    "copy-webpack-plugin": "^10.2.4",
     "cross-env": "^7.0.3",
-    "webpack-cli": "^4.9.2"
+    "css-loader": "6.6.0",
+    "dotenv-webpack": "^7.1.0",
+    "html-webpack-plugin": "5.5.0",
+    "jest": "27.5.1",
+    "sass": "^1.72.0",
+    "sass-loader": "^13.3.3",
+    "style-loader": "3.3.1",
+    "webpack": "^5.88.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.8.0"
   }
 }
