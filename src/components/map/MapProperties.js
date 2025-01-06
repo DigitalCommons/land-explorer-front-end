@@ -83,7 +83,8 @@ const MapProperties = ({ center, map }) => {
   const propertyFeaturesWithoutOwnershipData = [];
 
   properties.forEach((property) => {
-    if (property.title_no)
+    // tenure is a mandatory field in ownerships data, but will be null if no linked ownership
+    if (property.tenure)
       propertyFeaturesWithOwnershipData.push(
         <Feature
           coordinates={[property.coordinates]}
