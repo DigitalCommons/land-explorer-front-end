@@ -43,7 +43,7 @@ export const clearAllHighlightedProperties = () => {
 };
 
 export const setActiveProperty = (propertyId) => {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({
       type: "SET_ACTIVE_PROPERTY",
       payload: propertyId,
@@ -52,6 +52,10 @@ export const setActiveProperty = (propertyId) => {
       type: "SET_ACTIVE",
       payload: "Land Information",
     });
+    console.log(
+      "setActiveProperty",
+      getState().landOwnership.highlightedProperties[propertyId]
+    );
   };
 };
 
