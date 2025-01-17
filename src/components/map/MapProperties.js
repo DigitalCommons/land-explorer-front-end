@@ -44,9 +44,7 @@ const MapProperties = ({ center, map }) => {
 
       const newProperties = response.data.map((property) => ({
         ...property,
-        coordinates: property.geom.coordinates[0].map((coordinate) =>
-          coordinate.reverse()
-        ), //mapbox wants [lng,lat] but db gives [lat,lng]
+        coordinates: property.geom.coordinates[0],
       }));
 
       if (newProperties.length > 0) {

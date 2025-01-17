@@ -26,7 +26,6 @@ const SearchBar = ({ expanded, setExpanded }) => {
       placeholder: "Enter Location",
       countries: "gb",
       zoom: 13,
-      reverseGeocode: true
     });
 
     geocoder.on("result", result => {
