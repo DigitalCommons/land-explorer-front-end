@@ -4,9 +4,10 @@ import DrawingPopup from "./DrawingPopup/DrawingPopup";
 
 const DataGroupPolygon = ({
   polygon,
+  access,
+  dataGroupColour,
   setPopupVisible,
   popupVisible,
-  dataGroupColour,
 }) => {
   const polygonData = {
     geometry: {
@@ -59,6 +60,7 @@ const DataGroupPolygon = ({
             object={polygon}
             type={"polygon"}
             source={"datagroup"}
+            access={access}
             closeDescription={() => setPopupVisible(-1)}
           />
         </Marker>
