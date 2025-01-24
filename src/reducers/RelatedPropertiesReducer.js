@@ -8,14 +8,14 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case "FETCH_PROPERTIES_SUCCESS":
+    case "FETCH_RELATED_PROPERTIES_SUCCESS":
       return {
         ...state,
         properties: action.payload,
         error: null,
         loading: false,
       };
-    case "FETCH_PROPERTIES_FAILURE":
+    case "FETCH_RELATED_PROPERTIES_FAILURE":
       return {
         ...state,
         properties: {},
@@ -23,7 +23,7 @@ export default (state = INITIAL_STATE, action) => {
         error: action.payload,
         loading: false,
       };
-    case "FETCH_PROPERTIES_LOADING":
+    case "FETCH_RELATED_PROPERTIES_LOADING":
       return {
         ...state,
         loading: true,
@@ -33,15 +33,13 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         selectedProperties: {
           ...state.selectedProperties,
-          ...action.payload
+          ...action.payload,
         },
       };
     case "CLEAR_SELECTED_PROPERTY":
       const propertyToClearId = action.payload;
-      const {
-        [propertyToClearId]: propertyToClear,
-        ...selectedProperties
-      } = state.selectedProperties;
+      const { [propertyToClearId]: propertyToClear, ...selectedProperties } =
+        state.selectedProperties;
       return {
         ...state,
         selectedProperties,
@@ -49,8 +47,8 @@ export default (state = INITIAL_STATE, action) => {
     case "CLEAR_ALL_SELECTED_PROPERTIES":
       return {
         ...state,
-        selectedProperties: {}
-      }
+        selectedProperties: {},
+      };
     case "SET_PROPRIETOR_NAME":
       return {
         ...state,
@@ -65,7 +63,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         properties: {},
-        proprietorName: null
+        proprietorName: null,
       };
     case "CLEAR_ALL_SELECTED_PROPERTY":
       return {

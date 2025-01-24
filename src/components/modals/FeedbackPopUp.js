@@ -8,7 +8,7 @@ const FeedbackPopUp = () => {
   const dispatch = useDispatch();
   const [askForFeedback, setAskForFeedback] = React.useState(false);
   const propertyLayerActive = useSelector(
-    (state) => state.landOwnership.displayActive
+    (state) => state.landOwnership.activeDisplay
   );
 
   const closeModal = () => {

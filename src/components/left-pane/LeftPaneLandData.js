@@ -5,10 +5,7 @@ import LeftPaneToggle from "./LeftPaneToggle";
 import Draggable from "./Draggable";
 import LandDataLayerToggle from "./LandDataLayerToggle";
 import { toggleDataGroup } from "../../actions/DataGroupActions";
-import {
-  togglePropertyDisplay,
-  togglePendingPropertyDisplay,
-} from "../../actions/LandOwnershipActions";
+import { togglePropertyDisplay } from "../../actions/LandOwnershipActions";
 import constants from "../../constants";
 
 const DataLayersContainer = ({ children, title }) => {
@@ -58,11 +55,8 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
     (state) => state.dataGroups.dataGroupTitlesAndIDs
   );
   const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
-  const landOwnershipActive = useSelector(
-    (state) => state.landOwnership.displayActive
-  );
-  const pendingLandOwnershipActive = useSelector(
-    (state) => state.landOwnership.pendingDisplayActive
+  const landOwnershipActiveDisplay = useSelector(
+    (state) => state.landOwnership.activeDisplay
   );
 
   const description = (
@@ -128,17 +122,27 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
       {constants.LR_POLYGONS_ENABLED && (
         <DataLayersContainer title={"Land Ownership"}>
           <LeftPaneToggle
-            title={"Property Boundaries"}
-            on={landOwnershipActive}
-            onToggle={() => dispatch(togglePropertyDisplay())}
+            title={"All Properties"}
+            on={landOwnershipActiveDisplay === "all"}
+            onToggle={() => dispatch(togglePropertyDisplay("all"))}
           />
           {user.privileged && (
             <LeftPaneToggle
-              title={"Pending Property Boundaries"}
-              on={pendingLandOwnershipActive}
-              onToggle={() => dispatch(togglePendingPropertyDisplay())}
+              title={"Pending Properties"}
+              on={landOwnershipActiveDisplay === "pending"}
+              onToggle={() => dispatch(togglePropertyDisplay("pending"))}
             />
           )}
+          <LeftPaneToggle
+            title={"Local Authority"}
+            on={landOwnershipActiveDisplay === "localAuthority"}
+            onToggle={() => dispatch(togglePropertyDisplay("localAuthority"))}
+          />
+          <LeftPaneToggle
+            title={"Church of England"}
+            on={landOwnershipActiveDisplay === "churchOfEngland"}
+            onToggle={() => dispatch(togglePropertyDisplay("churchOfEngland"))}
+          />
         </DataLayersContainer>
       )}
       <DataLayersContainer title={"Administrative Boundaries"}>
@@ -164,25 +168,19 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
             {dataGroupTitlesAndIDs &&
               dataGroupTitlesAndIDs
                 .filter((dataGroup) => dataGroup.userGroupId == userGroup.id)
-                .map(
-                  (dataGroup) => (
-                    (
-                      <div
-                        className={"datagroup-style-wrapper"}
-                        style={{ "--data-group-colour": dataGroup.hexColor }}
-                      >
-                        <LeftPaneToggle
-                          key={dataGroup.id}
-                          title={dataGroup.title}
-                          on={activeGroups.includes(dataGroup.id)}
-                          onToggle={() =>
-                            dispatch(toggleDataGroup(dataGroup.id))
-                          }
-                        />
-                      </div>
-                    )
-                  )
-                )}
+                .map((dataGroup) => (
+                  <div
+                    className={"datagroup-style-wrapper"}
+                    style={{ "--data-group-colour": dataGroup.hexColor }}
+                  >
+                    <LeftPaneToggle
+                      key={dataGroup.id}
+                      title={dataGroup.title}
+                      on={activeGroups.includes(dataGroup.id)}
+                      onToggle={() => dispatch(toggleDataGroup(dataGroup.id))}
+                    />
+                  </div>
+                ))}
           </DataLayersContainer>
         ))}
     </LeftPaneTray>

@@ -29,7 +29,7 @@ console.log("dev mode: ", constants.DEV_MODE);
 const LONG_LIST_THRESHOLD = 20;
 
 const actionSanitizer = (action) =>
-  (action.type === "FETCH_PROPERTIES_SUCCESS" ||
+  (action.type === "FETCH_RELATED_PROPERTIES_SUCCESS" ||
     action.type === "SET_MULTIPLE_SELECTED_PROPERTIES") &&
   action.payload &&
   action.payload.length > LONG_LIST_THRESHOLD

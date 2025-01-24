@@ -35,7 +35,12 @@ const constants = {
     },
   ],
   LR_POLYGONS_ENABLED: true,
-  PROPERTY_BOUNDARIES_ZOOM_LEVEL: 15,
+  PROPERTY_BOUNDARIES_ZOOM_LEVELS: {
+    all: 15,
+    pending: 15,
+    localAuthority: 14,
+    churchOfEngland: 13,
+  },
   // These values match up with the backend UserMapAccess enum
   MAP_ACCESS_READ_ONLY: 1,
   MAP_ACCESS_OWNER: 2,

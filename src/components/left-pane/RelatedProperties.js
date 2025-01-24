@@ -8,8 +8,8 @@ const RelatedProperties = ({ property }) => {
   const { selectedProperties } = useSelector(state => state.relatedProperties);
   const active = selectedProperties.hasOwnProperty(property.poly_id);
 
-  const lng = property.geom.coordinates[0][0][1];
-  const lat = property.geom.coordinates[0][0][0];
+  const lng = property.geom.coordinates[0][0][0];
+  const lat = property.geom.coordinates[0][0][1];
 
   const handlePropertyClick = () => {
     if (active)

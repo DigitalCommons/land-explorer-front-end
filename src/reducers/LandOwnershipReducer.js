@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
-  displayActive: false,
-  pendingDisplayActive: false,
+  activeDisplay: null,
+  visibleProperties: [],
+  loadingProperties: false,
   highlightedProperties: {},
   activePropertyId: null,
 };
@@ -8,14 +9,28 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "TOGGLE_PROPERTY_DISPLAY":
+      const displayType = action.payload;
+      if (state.activeDisplay === displayType) {
+        // if this type was already on, turn it off
+        return {
+          ...state,
+          activeDisplay: null,
+        };
+      }
+      // otherwise, replace the active display with this type
       return {
         ...state,
-        displayActive: !state.displayActive,
+        activeDisplay: displayType,
       };
-    case "TOGGLE_PENDING_PROPERTY_DISPLAY":
+    case "SET_LOADING_PROPERTIES":
       return {
         ...state,
-        pendingDisplayActive: !state.pendingDisplayActive,
+        loadingProperties: action.payload,
+      };
+    case "SET_VISIBLE_PROPERTIES":
+      return {
+        ...state,
+        visibleProperties: action.payload,
       };
     case "HIGHLIGHT_PROPERTIES":
       return {
@@ -51,12 +66,18 @@ export default (state = INITIAL_STATE, action) => {
         activePropertyId: null,
       };
     case "LOAD_MAP":
-      // this could be undefined for old maps
-      const displayActive =
-        action.payload.data.mapLayers.ownershipDisplay || false;
+      // this could be undefined, or just 'true' for old maps
+      const ownershipDisplay =
+        action.payload.data.mapLayers.ownershipDisplay || null;
+      if (ownershipDisplay === true) {
+        return {
+          ...state,
+          activeDisplay: "all",
+        };
+      }
       return {
         ...state,
-        displayActive,
+        activeDisplay: ownershipDisplay,
       };
     default:
       return state;
