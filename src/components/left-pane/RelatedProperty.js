@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import * as turf from "@turf/turf";
 import {
   clearHighlightedProperties,
   highlightProperties,
@@ -13,8 +14,9 @@ const RelatedProperty = ({ property }) => {
     state.landOwnership.highlightedProperties.hasOwnProperty(property.poly_id)
   );
 
-  const lng = property.geom.coordinates[0][0][0];
-  const lat = property.geom.coordinates[0][0][1];
+  const center = turf.pointOnFeature(property.geom).geometry.coordinates;
+  const lng = center[0];
+  const lat = center[1];
 
   const handlePropertyClick = () => {
     if (active) {

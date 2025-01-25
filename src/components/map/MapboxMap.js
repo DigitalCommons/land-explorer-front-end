@@ -279,7 +279,7 @@ const MapboxMap = () => {
         onZoomEnd={(map) => {
           dispatch(setZoom([map.getZoom()]));
           dispatch(setZooming(false));
-          console.log(map.getZoom());
+          // console.log(map.getZoom());
         }}
         onDragEnd={(map) =>
           dispatch(setLngLat(map.getCenter().lng, map.getCenter().lat))
