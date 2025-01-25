@@ -51,9 +51,7 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
   const userGroupTitlesAndIDs = useSelector(
     (state) => state.dataGroups.userGroupTitlesAndIDs
   );
-  const dataGroupTitlesAndIDs = useSelector(
-    (state) => state.dataGroups.dataGroupTitlesAndIDs
-  );
+  const dataGroups = useSelector((state) => state.dataGroups.dataGroupsData);
   const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
   const landOwnershipActiveDisplay = useSelector(
     (state) => state.landOwnership.activeDisplay
@@ -165,16 +163,16 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
       {userGroupTitlesAndIDs &&
         userGroupTitlesAndIDs.map((userGroup) => (
           <DataLayersContainer title={userGroup.title} key={userGroup.id}>
-            {dataGroupTitlesAndIDs &&
-              dataGroupTitlesAndIDs
+            {dataGroups &&
+              dataGroups
                 .filter((dataGroup) => dataGroup.userGroupId == userGroup.id)
                 .map((dataGroup) => (
                   <div
                     className={"datagroup-style-wrapper"}
-                    style={{ "--data-group-colour": dataGroup.hexColor }}
+                    style={{ "--data-group-colour": dataGroup.hex_color }}
+                    key={dataGroup.id}
                   >
                     <LeftPaneToggle
-                      key={dataGroup.id}
                       title={dataGroup.title}
                       on={activeGroups.includes(dataGroup.id)}
                       onToggle={() => dispatch(toggleDataGroup(dataGroup.id))}
