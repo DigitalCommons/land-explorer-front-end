@@ -38,6 +38,7 @@ const MapProperties = ({ center, map }) => {
   const onClickNewProperty = (property) => {
     if (activePanel !== "Drawing Tools") {
       dispatch(highlightProperties({ [property.poly_id]: property }));
+      dispatch(setActiveProperty(property.poly_id));
     }
   };
 

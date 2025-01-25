@@ -1,19 +1,16 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveProperty, clearHighlightedProperty } from "../../actions/LandOwnershipActions";
-import Button from "../common/Button";
 import {
-  getRelatedProperties,
-  setProprietorName,
+  setActiveProperty,
+  clearHighlightedProperties,
 } from "../../actions/LandOwnershipActions";
+import Button from "../common/Button";
+import { fetchRelatedProperties } from "../../actions/LandOwnershipActions";
 
 const PropertySection = ({ property, active }) => {
   const dispatch = useDispatch();
-  const activePropertyId = useSelector(
-    (state) => state.landOwnership.activePropertyId
-  );
-  const proprietorName = useSelector(
-    (state) => state.relatedProperties.proprietorName
+  const { activePropertyId, relatedPropertiesProprietorName } = useSelector(
+    (state) => state.landOwnership
   );
 
   const {
@@ -36,21 +33,19 @@ const PropertySection = ({ property, active }) => {
   };
 
   const handleSearch = () => {
-    dispatch({ type: "CLEAR_PROPERTIES_AND_PROPRIETOR_NAME" });
-    dispatch(getRelatedProperties(proprietor_name_1));
-    dispatch(setProprietorName(proprietor_name_1));
+    dispatch({ type: "CLEAR_RELATED_PROPERTIES_AND_PROPRIETOR_NAME" });
+    dispatch(fetchRelatedProperties(proprietor_name_1));
     openTray("Ownership Search");
   };
 
   const handleClear = () => {
-    dispatch(clearHighlightedProperty(poly_id));
+    dispatch(clearHighlightedProperties([poly_id]));
     // Clear related properties pane if the property being cleared is the searched property
-    if (property.proprietor_name_1 === proprietorName) {
-      dispatch({ type: "CLEAR_PROPERTIES_AND_PROPRIETOR_NAME" });
+    if (property.proprietor_name_1 === relatedPropertiesProprietorName) {
+      dispatch({ type: "CLEAR_RELATED_PROPERTIES_AND_PROPRIETOR_NAME" });
     }
     console.log("handleClear Property", property);
   };
-
 
   return (
     <div className="left-pane-tray-section">
@@ -172,14 +167,22 @@ const PropertySection = ({ property, active }) => {
                 </a>{" "}
                 using the above IDs.
               </p>
-              <p>Information produced by HM Land Registry. © Crown copyright 2020. <br />
-                Some data is displayed here for evaluation purposes only. For more information{" "}
-                <a target="_blank" href="https://landexplorer.coop/land-ownership-how">click here</a>
+              <p>
+                Information produced by HM Land Registry. © Crown copyright
+                2020. <br />
+                Some data is displayed here for evaluation purposes only. For
+                more information{" "}
+                <a
+                  target="_blank"
+                  href="https://landexplorer.coop/land-ownership-how"
+                >
+                  click here
+                </a>
               </p>
             </div>
           </div>
 
-          {proprietor_category_1 &&
+          {proprietor_category_1 && (
             <div className="property__check-for-properties">
               <Button
                 buttonClass={"button-new green full-width"}
@@ -188,7 +191,8 @@ const PropertySection = ({ property, active }) => {
               >
                 Check for other properties
               </Button>
-            </div>}
+            </div>
+          )}
           <div className="property__clear-property">
             <button
               className="button-new blue full-width"

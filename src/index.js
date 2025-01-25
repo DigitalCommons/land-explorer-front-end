@@ -26,32 +26,36 @@ console.log("dev mode: ", constants.DEV_MODE);
 
 // Properties fetched from boundary service can be long, so we should prevent Redux DevTools from
 // displaying the whole list and using excessive memory
-const LONG_LIST_THRESHOLD = 20;
+const LONG_LIST_THRESHOLD = 1000;
 
 const actionSanitizer = (action) =>
   (action.type === "FETCH_RELATED_PROPERTIES_SUCCESS" ||
-    action.type === "SET_MULTIPLE_SELECTED_PROPERTIES") &&
+    action.type === "CLEAR_HIGHLIGHTED_PROPERTIES" ||
+    action.type === "HIGHLIGHT_PROPERTIES" ||
+    action.type === "SET_VISIBLE_PROPERTIES") &&
   action.payload &&
   action.payload.length > LONG_LIST_THRESHOLD
     ? { ...action, payload: "<<LONG_LIST>>" }
     : action;
-const stateSanitizer = (state) => {
-  const landOwnership =
-    state.landOwnership.highlightedProperties.length > LONG_LIST_THRESHOLD
-      ? { ...state.landOwnership, highlightedProperties: "<<LONG_LIST>>" }
-      : state.landOwnership;
-  const relatedProperties =
-    state.relatedProperties.properties.length > LONG_LIST_THRESHOLD
-      ? state.relatedProperties.selectedProperty.length > LONG_LIST_THRESHOLD
-        ? {
-            ...state.relatedProperties,
-            properties: "<<LONG_LIST>>",
-            selectedProperty: "<<LONG_LIST>>",
-          }
-        : { ...state.relatedProperties, properties: "<<LONG_LIST>>" }
-      : state.relatedProperties;
 
-  return { ...state, landOwnership, relatedProperties };
+const stateSanitizer = (state) => {
+  const highlightedProperties =
+    state.landOwnership.highlightedProperties.length > LONG_LIST_THRESHOLD
+      ? "<<LONG_LIST>>"
+      : state.landOwnership.highlightedProperties;
+  const relatedProperties =
+    state.landOwnership.relatedProperties.length > LONG_LIST_THRESHOLD
+      ? "<<LONG_LIST>>"
+      : state.landOwnership.relatedProperties;
+
+  return {
+    ...state,
+    landOwnership: {
+      ...state.landOwnership,
+      highlightedProperties,
+      relatedProperties,
+    },
+  };
 };
 
 const composeEnhancers =

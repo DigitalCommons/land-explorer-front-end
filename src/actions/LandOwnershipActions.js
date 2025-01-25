@@ -38,16 +38,14 @@ export const highlightProperties = (properties) => {
       type: "HIGHLIGHT_PROPERTIES",
       payload: properties,
     });
-    // TODO: set multiple active rather than just the 1st. This is kind of related to #296 and #292
-    dispatch(setActiveProperty(Object.keys(properties)[0]));
   };
 };
 
-export const clearHighlightedProperty = (propertyPolyId) => {
+export const clearHighlightedProperties = (propertyPolyIds) => {
   return (dispatch) => {
     dispatch({
-      type: "CLEAR_HIGHLIGHTED_PROPERTY",
-      payload: propertyPolyId,
+      type: "CLEAR_HIGHLIGHTED_PROPERTIES",
+      payload: propertyPolyIds,
     });
   };
 };
@@ -77,8 +75,12 @@ export const setActiveProperty = (propertyId) => {
   };
 };
 
-export const getRelatedProperties = (proprietorName) => {
+export const fetchRelatedProperties = (proprietorName) => {
   return async (dispatch) => {
+    dispatch({
+      type: "SET_RELATED_PROPERTIES_PROPRIETOR_NAME",
+      payload: proprietorName,
+    });
     dispatch({ type: "FETCH_RELATED_PROPERTIES_LOADING" });
 
     const relatedPropertiesArray = await dispatch(
@@ -105,41 +107,8 @@ export const getRelatedProperties = (proprietorName) => {
     } else {
       dispatch({
         type: "FETCH_RELATED_PROPERTIES_FAILURE",
-        payload: "Error fetching properties",
+        payload: "Error fetching related properties",
       });
     }
   };
 };
-
-export const setProprietorName = (proprietorName) => {
-  return {
-    type: "SET_PROPRIETOR_NAME",
-    payload: proprietorName,
-  }
-};
-
-export const selectRelatedProperties = (properties) => {
-  return dispatch => {
-    dispatch({
-      type: "SELECT_PROPERTIES",
-      payload: properties,
-    });
-  };
-};
-
-export const clearSelectedProperty = (propertyPolyId) => {
-  return dispatch => {
-    dispatch({
-      type: "CLEAR_SELECTED_PROPERTY",
-      payload: propertyPolyId
-    })
-  }
-}
-
-export const clearAllSelectedProperties = () => {
-  return dispatch => {
-    dispatch({
-      type: "CLEAR_ALL_SELECTED_PROPERTIES"
-    })
-  }
-}

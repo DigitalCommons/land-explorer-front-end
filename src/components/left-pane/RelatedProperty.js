@@ -1,28 +1,35 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectRelatedProperties, clearSelectedProperty } from "../../actions/LandOwnershipActions";
-import { setLngLat } from "../../actions/MapActions";
+import {
+  clearHighlightedProperties,
+  highlightProperties,
+  setActiveProperty,
+} from "../../actions/LandOwnershipActions";
+import { setLngLat, setZoom } from "../../actions/MapActions";
 
-const RelatedProperties = ({ property }) => {
+const RelatedProperty = ({ property }) => {
   const dispatch = useDispatch();
-  const { selectedProperties } = useSelector(state => state.relatedProperties);
-  const active = selectedProperties.hasOwnProperty(property.poly_id);
+  const active = useSelector((state) =>
+    state.landOwnership.highlightedProperties.hasOwnProperty(property.poly_id)
+  );
 
   const lng = property.geom.coordinates[0][0][0];
   const lat = property.geom.coordinates[0][0][1];
 
   const handlePropertyClick = () => {
-    if (active)
-      dispatch(clearSelectedProperty(property.poly_id));
-    else
-      dispatch(selectRelatedProperties({ [property.poly_id]: property }));
-
+    if (active) {
+      dispatch(clearHighlightedProperties([property.poly_id]));
+    } else {
+      dispatch(highlightProperties({ [property.poly_id]: property }));
+    }
   };
 
   const gotoProperty = () => {
     dispatch(setLngLat(lng, lat));
-    dispatch(selectRelatedProperties({ [property.poly_id]: property }));
-  }
+    dispatch(setZoom([17]));
+    dispatch(highlightProperties({ [property.poly_id]: property }));
+    dispatch(setActiveProperty(property.poly_id));
+  };
 
   return (
     <div
@@ -41,10 +48,7 @@ const RelatedProperties = ({ property }) => {
           />
         </svg>
       </i>
-      <div
-        className="search-result__property"
-        onClick={handlePropertyClick}
-      >
+      <div className="search-result__property" onClick={handlePropertyClick}>
         <h4 className="search-result__property-address">
           {property.property_address}
         </h4>
@@ -60,7 +64,6 @@ const RelatedProperties = ({ property }) => {
       />
     </div>
   );
-
 };
 
-export default RelatedProperties;
+export default RelatedProperty;

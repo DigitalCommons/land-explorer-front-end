@@ -25,7 +25,6 @@ import {
   setZoom,
   setZooming,
 } from "../../actions/MapActions";
-import MapRelatedProperties from "./MapRelatedProperties";
 import FeedbackTab from "../common/FeedbackTab";
 import MapBeingEditedToast from "./MapBeingEditedToast";
 
@@ -311,7 +310,6 @@ const MapboxMap = () => {
         {constants.LR_POLYGONS_ENABLED && (
           <>
             <MapProperties center={lngLat} map={map} />
-            <MapRelatedProperties />
           </>
         )}
         {/* Markers, including markers from data groups */}

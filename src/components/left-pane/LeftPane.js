@@ -15,7 +15,9 @@ const LeftPane = ({ drawControl }) => {
   const profileMenuOpen = useSelector((state) => state.menu.profile);
   const currentMarker = useSelector((state) => state.markers.currentMarker);
   const activePolygon = useSelector((state) => state.drawings.activePolygon);
-  const relatedProperties = useSelector((state) => state.relatedProperties.properties);
+  const relatedProperties = useSelector(
+    (state) => state.landOwnership.relatedProperties
+  );
 
   const closeTray = () => {
     dispatch({ type: "CLOSE_TRAY" });
