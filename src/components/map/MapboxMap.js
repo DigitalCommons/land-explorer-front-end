@@ -17,7 +17,6 @@ import Modals from "../modals/Modals";
 import constants from "../../constants";
 import mapSources from "../../data/mapSources";
 import MapProperties from "./MapProperties";
-import MapPendingProperties from "./MapPendingProperties";
 import MapDataGroups from "./MapDataGroups";
 import {
   autoSave,
@@ -26,7 +25,6 @@ import {
   setZoom,
   setZooming,
 } from "../../actions/MapActions";
-import MapRelatedProperties from "./MapRelatedProperties";
 import FeedbackTab from "../common/FeedbackTab";
 import MapBeingEditedToast from "./MapBeingEditedToast";
 
@@ -48,7 +46,6 @@ const MapboxMap = () => {
   const mapRef = useRef();
   const { currentMapId, unsavedMapUuid, lockedByOtherUserInitials } =
     useSelector((state) => state.mapMeta);
-  const user = useSelector((state) => state.user);
   const { zoom, lngLat, movingMethod } = useSelector((state) => state.map);
   const { currentMarker } = useSelector((state) => state.markers);
   const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
@@ -58,9 +55,7 @@ const MapboxMap = () => {
     (state) => state.drawings
   );
   const propertiesDisplay = useSelector(
-    (state) =>
-      state.landOwnership.displayActive ||
-      state.landOwnership.pendingDisplayActive
+    (state) => state.landOwnership.activeDisplay
   );
 
   useInterval(
@@ -284,6 +279,7 @@ const MapboxMap = () => {
         onZoomEnd={(map) => {
           dispatch(setZoom([map.getZoom()]));
           dispatch(setZooming(false));
+          // console.log(map.getZoom());
         }}
         onDragEnd={(map) =>
           dispatch(setLngLat(map.getCenter().lng, map.getCenter().lat))
@@ -314,11 +310,7 @@ const MapboxMap = () => {
         {constants.LR_POLYGONS_ENABLED && (
           <>
             <MapProperties center={lngLat} map={map} />
-            <MapRelatedProperties />
           </>
-        )}
-        {constants.LR_POLYGONS_ENABLED && user.privileged && (
-          <MapPendingProperties center={lngLat} map={map} />
         )}
         {/* Markers, including markers from data groups */}
         {styleLoaded && (
@@ -337,7 +329,8 @@ const MapboxMap = () => {
         <ZoomWarning
           show={
             (zoom < 9 && landDataLayers.length > 0) ||
-            (zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL &&
+            (zoom <
+              constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay] &&
               propertiesDisplay &&
               constants.LR_POLYGONS_ENABLED)
           }
@@ -369,7 +362,8 @@ const MapboxMap = () => {
         Contains OS data © Crown copyright and database rights 2022 OS
         0100059691
         {propertiesDisplay &&
-          zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL && (
+          zoom >=
+            constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay] && (
             <>
               <br />
               This information is subject to Crown copyright and database rights

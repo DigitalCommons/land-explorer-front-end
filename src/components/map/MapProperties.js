@@ -1,75 +1,44 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Layer, Feature } from "react-mapbox-gl";
-import axios from "axios";
 import constants from "../../constants";
-import { getAuthHeader } from "../../utils/Auth";
 import LoadingData from "./LoadingData";
 import {
+  fetchPropertiesInBox,
   highlightProperties,
   setActiveProperty,
 } from "../../actions/LandOwnershipActions";
 
 const MapProperties = ({ center, map }) => {
-  const [properties, setProperties] = useState([]);
-  const [loadingProperties, setLoadingProperties] = useState(false);
-
-  const displayActive = useSelector((state) => state.landOwnership.displayActive);
-  const { zoom, zooming } = useSelector((state) => state.map);
-  const highlightedProperties = useSelector((state) => state.landOwnership.highlightedProperties);
-  const activePropertyId = useSelector((state) => state.landOwnership.activePropertyId);
+  const {
+    activeDisplay,
+    visibleProperties,
+    loadingProperties,
+    highlightedProperties,
+    activePropertyId,
+  } = useSelector((state) => state.landOwnership);
   const activeProperty = highlightedProperties[activePropertyId] || null;
-
+  const { zoom, zooming } = useSelector((state) => state.map);
   const activePanel = useSelector((state) => state.leftPane.active);
 
   const dispatch = useDispatch();
 
-  const getProperties = async () => {
-    setLoadingProperties(true);
-
-    try {
-      const mapBoundaries = map.getBounds();
-
-      const response = await axios.get(
-        `${constants.ROOT_URL}/api/ownership?sw_lng=` +
-          mapBoundaries._sw.lng +
-          "&sw_lat=" +
-          mapBoundaries._sw.lat +
-          "&ne_lng=" +
-          mapBoundaries._ne.lng +
-          "&ne_lat=" +
-          mapBoundaries._ne.lat,
-        getAuthHeader()
-      );
-
-      const newProperties = response.data.map((property) => ({
-        ...property,
-        coordinates: property.geom.coordinates[0].map((coordinate) =>
-          coordinate.reverse()
-        ), //mapbox wants [lng,lat] but db gives [lat,lng]
-      }));
-
-      if (newProperties.length > 0) {
-        setProperties(newProperties);
-      }
-      setLoadingProperties(false);
-    } catch (error) {
-      console.error("failed to retrieve property boundaries", error);
-    }
-  };
-
   useEffect(() => {
     if (
       !zooming &&
-      displayActive &&
-      zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL
-    )
-      getProperties();
-  }, [center, zooming, displayActive]);
+      activeDisplay &&
+      map &&
+      zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay]
+    ) {
+      const { _sw, _ne } = map.getBounds();
+      dispatch(fetchPropertiesInBox(_sw.lng, _sw.lat, _ne.lng, _ne.lat));
+    }
+  }, [center, zooming, activeDisplay]);
 
   const onClickNewProperty = (property) => {
     if (activePanel !== "Drawing Tools") {
       dispatch(highlightProperties({ [property.poly_id]: property }));
+      dispatch(setActiveProperty(property.poly_id));
     }
   };
 
@@ -82,21 +51,21 @@ const MapProperties = ({ center, map }) => {
   const propertyFeaturesWithOwnershipData = [];
   const propertyFeaturesWithoutOwnershipData = [];
 
-  properties.forEach((property) => {
+  visibleProperties?.forEach((property) => {
     // tenure is a mandatory field in ownerships data, but will be null if no linked ownership
     if (property.tenure)
       propertyFeaturesWithOwnershipData.push(
         <Feature
-          coordinates={[property.coordinates]}
-          key={property.coordinates[0][0]}
+          coordinates={[property.geom.coordinates]}
+          key={property.geom.coordinates[0][0]}
           onClick={() => onClickNewProperty(property)}
         />
       );
     else
       propertyFeaturesWithoutOwnershipData.push(
         <Feature
-          coordinates={[property.coordinates]}
-          key={property.coordinates[0][0]}
+          coordinates={[property.geom.coordinates]}
+          key={property.geom.coordinates[0][0]}
           onClick={() => onClickNewProperty(property)}
         />
       );
@@ -105,8 +74,8 @@ const MapProperties = ({ center, map }) => {
   const highlightedPropertyFeatures = Object.values(highlightedProperties).map(
     (highlightedProperty) => (
       <Feature
-        coordinates={[highlightedProperty.coordinates]}
-        key={highlightedProperty.coordinates[0][0]}
+        coordinates={[highlightedProperty.geom.coordinates]}
+        key={highlightedProperty.geom.coordinates[0][0]}
         onClick={() => onClickHighlightedProperty(highlightedProperty)}
       />
     )
@@ -116,41 +85,42 @@ const MapProperties = ({ center, map }) => {
   if (activeProperty) {
     highlightedPropertyFeatures.push(
       <Feature
-        coordinates={[activeProperty.coordinates]}
-        key={activeProperty.coordinates[0][0]}
+        coordinates={[activeProperty.geom.coordinates]}
+        key={activeProperty.geom.coordinates[0][0]}
       />
     );
   }
 
   return (
     <>
-      {displayActive && zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL && (
-        <>
-          {loadingProperties && (
-            <LoadingData message={"fetching property boundaries"} />
-          )}
-          <Layer
-            type={"fill"}
-            paint={{
-              "fill-opacity": 0.15,
-              "fill-color": "green",
-              "fill-outline-color": "green",
-            }}
-          >
-            {propertyFeaturesWithOwnershipData}
-          </Layer>
-          <Layer
-            type={"fill"}
-            paint={{
-              "fill-opacity": 0.15,
-              "fill-color": "orange",
-              "fill-outline-color": "green",
-            }}
-          >
-            {propertyFeaturesWithoutOwnershipData}
-          </Layer>
-        </>
-      )}
+      {activeDisplay &&
+        zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay] && (
+          <>
+            {loadingProperties && (
+              <LoadingData message={"fetching property boundaries"} />
+            )}
+            <Layer
+              type={"fill"}
+              paint={{
+                "fill-opacity": 0.15,
+                "fill-color": "green",
+                "fill-outline-color": "green",
+              }}
+            >
+              {propertyFeaturesWithOwnershipData}
+            </Layer>
+            <Layer
+              type={"fill"}
+              paint={{
+                "fill-opacity": 0.15,
+                "fill-color": "orange",
+                "fill-outline-color": "green",
+              }}
+            >
+              {propertyFeaturesWithoutOwnershipData}
+            </Layer>
+          </>
+        )}
       <Layer
         type={"fill"}
         paint={{

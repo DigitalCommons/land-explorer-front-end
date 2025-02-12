@@ -1,21 +1,40 @@
 const INITIAL_STATE = {
-  displayActive: false,
-  pendingDisplayActive: false,
+  activeDisplay: null,
+  visibleProperties: [],
+  loadingProperties: false,
   highlightedProperties: {},
   activePropertyId: null,
+  relatedProperties: {},
+  relatedPropertiesError: null,
+  relatedPropertiesLoading: false,
+  relatedPropertiesProprietorName: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "TOGGLE_PROPERTY_DISPLAY":
+      const displayType = action.payload;
+      if (state.activeDisplay === displayType) {
+        // if this type was already on, turn it off
+        return {
+          ...state,
+          activeDisplay: null,
+        };
+      }
+      // otherwise, replace the active display with this type
       return {
         ...state,
-        displayActive: !state.displayActive,
+        activeDisplay: displayType,
       };
-    case "TOGGLE_PENDING_PROPERTY_DISPLAY":
+    case "SET_LOADING_PROPERTIES":
       return {
         ...state,
-        pendingDisplayActive: !state.pendingDisplayActive,
+        loadingProperties: action.payload,
+      };
+    case "SET_VISIBLE_PROPERTIES":
+      return {
+        ...state,
+        visibleProperties: action.payload,
       };
     case "HIGHLIGHT_PROPERTIES":
       return {
@@ -25,14 +44,20 @@ export default (state = INITIAL_STATE, action) => {
           ...action.payload,
         },
       };
-    case "CLEAR_HIGHLIGHTED_PROPERTY":
-      const propertyToClearId = action.payload;
-      const { [propertyToClearId]: propertyToClear, ...highlightedProperties } =
-        state.highlightedProperties;
+    case "CLEAR_HIGHLIGHTED_PROPERTIES":
+      const propertyIdsToClear = action.payload;
+      const rest = { ...state.highlightedProperties }; // Create a shallow copy
+      propertyIdsToClear.forEach((id) => delete rest[id]);
+      const activePropertyId = propertyIdsToClear.includes(
+        state.activePropertyId
+      )
+        ? null
+        : state.activePropertyId;
+
       return {
         ...state,
-        highlightedProperties,
-        activePropertyId: null,
+        highlightedProperties: rest,
+        activePropertyId,
       };
     case "CLEAR_ALL_HIGHLIGHTED_PROPERTIES":
       return {
@@ -50,13 +75,49 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         activePropertyId: null,
       };
-    case "LOAD_MAP":
-      // this could be undefined for old maps
-      const displayActive =
-        action.payload.data.mapLayers.ownershipDisplay || false;
+    case "FETCH_RELATED_PROPERTIES_SUCCESS":
       return {
         ...state,
-        displayActive,
+        relatedProperties: action.payload,
+        relatedPropertiesError: null,
+        relatedPropertiesLoading: false,
+      };
+    case "FETCH_RELATED_PROPERTIES_FAILURE":
+      return {
+        ...state,
+        relatedProperties: {},
+        relatedPropertiesError: action.payload,
+        relatedPropertiesLoading: false,
+      };
+    case "FETCH_RELATED_PROPERTIES_LOADING":
+      return {
+        ...state,
+        relatedPropertiesLoading: true,
+      };
+    case "SET_RELATED_PROPERTIES_PROPRIETOR_NAME":
+      return {
+        ...state,
+        relatedPropertiesProprietorName: action.payload,
+      };
+    case "CLEAR_RELATED_PROPERTIES_AND_PROPRIETOR_NAME":
+      return {
+        ...state,
+        relatedProperties: {},
+        relatedPropertiesProprietorName: null,
+      };
+    case "LOAD_MAP":
+      // this could be undefined, or just 'true' for old maps
+      const ownershipDisplay =
+        action.payload.data.mapLayers.ownershipDisplay || null;
+      if (ownershipDisplay === true) {
+        return {
+          ...state,
+          activeDisplay: "all",
+        };
+      }
+      return {
+        ...state,
+        activeDisplay: ownershipDisplay,
       };
     default:
       return state;

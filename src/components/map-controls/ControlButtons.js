@@ -13,10 +13,8 @@ const ControlButtons = () => {
     const landDataLayers = useSelector(
       (state) => state.mapLayers.landDataLayers
     );
-    const propertiesDisplayed = useSelector(
-      (state) =>
-        state.landOwnership.displayActive ||
-        state.landOwnership.pendingDisplayActive
+    const propertiesDisplay = useSelector(
+      (state) => state.landOwnership.activeDisplay
     );
     const dispatch = useDispatch();
 
@@ -68,14 +66,18 @@ const ControlButtons = () => {
             onClick={() => getLocation()}
           />
           <div className="controls-slider">
-            {propertiesDisplayed && (
+            {propertiesDisplay && (
               <div
                 className="zoom-button zoom-properties"
                 style={{ marginBottom: "24px" }}
                 onClick={() => {
                   if (!zooming) {
                     dispatch(
-                      setZoom([constants.PROPERTY_BOUNDARIES_ZOOM_LEVEL])
+                      setZoom([
+                        constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[
+                          propertiesDisplay
+                        ],
+                      ])
                     );
                   }
                 }}

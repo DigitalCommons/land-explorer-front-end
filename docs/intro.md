@@ -1,16 +1,17 @@
 # Introduction to Land Explorer
 
-Land Explorer is a web app with 3 repositories of code:
+Land Explorer is a web app with 4 repositories of code:
 
 * A static monopage site
 * A React app
-* A typescript server
+* A typescript back-end server
+* A typescript property-boundaries-service server
 
 And 3 sources of data:
 
 * The Land Explorer MySQL database
+* The Property Boundaries MySQL database, containing property boundary and ownership information
 * Mapbox Studio
-* A separate MySQL database containing property boundary information
 
 First we'll describe the codebases and then the data sources.
 
@@ -51,6 +52,10 @@ We have 2 databases. 1 for LX users and LX generated data like markers, polygons
 
 * We have started using Behaviour Driven Development, so we're writing tests for behaviour before writing code.
 
+## Property Boundaries Service
+
+See more info about this [here](https://github.com/DigitalCommons/property-boundaries-service/blob/development/docs/intro.md).
+
 ## Deployment
 
 We deploy to a Hetzner server. The server is currently procured and configured manually. We use apache to direct requests to the hapi.js node server and to the front-end files.
@@ -75,7 +80,3 @@ We use a library called sequelise-cli to manage migrations and seeding. These co
 ## Mapbox Studio
 
 Mapbox Studio contains custom tilesets that we use to host most of the common Land Data, for example the historic flooding and agricultural soil types. The login details are in the digital commons bitwarden account.
-
-## Property Boundaries Database
-
-The property boundaries database is a separate MySQL instance, used to store property boundary information originally from the Land Registry. The database is separate from the main LX database because of its size.

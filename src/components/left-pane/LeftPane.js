@@ -15,7 +15,9 @@ const LeftPane = ({ drawControl }) => {
   const profileMenuOpen = useSelector((state) => state.menu.profile);
   const currentMarker = useSelector((state) => state.markers.currentMarker);
   const activePolygon = useSelector((state) => state.drawings.activePolygon);
-  const relatedProperties = useSelector((state) => state.relatedProperties.properties);
+  const relatedProperties = useSelector(
+    (state) => state.landOwnership.relatedProperties
+  );
 
   const closeTray = () => {
     dispatch({ type: "CLOSE_TRAY" });
@@ -87,8 +89,9 @@ const LeftPane = ({ drawControl }) => {
         <div className="left-pane-icon close" onClick={closePane} />
         <div
           id="drawing-tools-icon"
-          className={`left-pane-icon drawing-tools ${active === "Drawing Tools" && "active"
-            }`}
+          className={`left-pane-icon drawing-tools ${
+            active === "Drawing Tools" && "active"
+          }`}
           style={{ opacity: readOnly ? 0.5 : 1 }}
           onClick={() => {
             if (!readOnly) {
@@ -100,8 +103,9 @@ const LeftPane = ({ drawControl }) => {
           data-for="ttDrawingTools"
         />
         <div
-          className={`left-pane-icon data-layers ${active === "Land Data" && "active"
-            }`}
+          className={`left-pane-icon data-layers ${
+            active === "Land Data" && "active"
+          }`}
           onClick={() => {
             analytics.event(analytics._event.LEFT_PANE + " Land Data", "Open");
             clickIcon("Land Data");
@@ -110,8 +114,9 @@ const LeftPane = ({ drawControl }) => {
           data-for="ttLandData"
         />
         <div
-          className={`left-pane-icon info ${active === "Land Information" && "active"
-            }`}
+          className={`left-pane-icon info ${
+            active === "Land Information" && "active"
+          }`}
           onClick={() => {
             analytics.event(
               analytics._event.LEFT_PANE + " Land Information",
@@ -122,22 +127,28 @@ const LeftPane = ({ drawControl }) => {
           data-tip
           data-for="ttInfo"
         />
-        {/* display ownership search icon only if search is not empty */}
-        {(Object.keys(relatedProperties).length > 0 || active === "Ownership Search") && (
-          <div
-            className={`left-pane-icon ownership ${active === "Ownership Search" && "active"
-              }`}
-            onClick={() => {
-              analytics.event(
-                analytics._event.LEFT_PANE + " Ownership Search",
-                "Open"
-              );
-              clickIcon("Ownership Search");
-            }}
-            data-tip
-            data-for="ttRelatedProperties"
-          />
-        )}
+        <div
+          style={{
+            /* display ownership search icon only if search is not empty */
+            display:
+              Object.keys(relatedProperties).length > 0 ||
+              active === "Ownership Search"
+                ? "block"
+                : "none",
+          }}
+          className={`left-pane-icon ownership ${
+            active === "Ownership Search" && "active"
+          }`}
+          onClick={() => {
+            analytics.event(
+              analytics._event.LEFT_PANE + " Ownership Search",
+              "Open"
+            );
+            clickIcon("Ownership Search");
+          }}
+          data-tip
+          data-for="ttRelatedProperties"
+        />
       </div>
       {
         // If not read only, render drawing tools
