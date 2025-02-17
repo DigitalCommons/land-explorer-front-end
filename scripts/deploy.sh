@@ -9,9 +9,6 @@ if [ ! -z "$1" ] && [ $1 != $CURRENT_BRANCH ]; then
     exit 1
 fi
 
-# Pull latest code
-git pull
-
 # Install dependencies
 # TODO: move to yarn v2 and zero-installs https://yarnpkg.com/features/zero-installs
 yarn install --frozen-lockfile
