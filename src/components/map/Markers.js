@@ -125,8 +125,8 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
                 description={polygon.description}
                 marker={polygon}
                 access={dataGroup.access}
-                popupVisible={false}
-                setPopupVisible={setPopupVisible}
+                popupVisible={false} // we don't want this additional marker to show a popup of its own
+                setPopupVisible={setPopupVisible} // setPopupVisible will use the UUID of the polygon, toggling the polygon's own popup
               />
             );
           });
