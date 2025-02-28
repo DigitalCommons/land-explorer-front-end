@@ -1,3 +1,34 @@
+.property-section-header {
+  margin: 20px 0 25px 48px;
+  width: 68%;
+}
+
+.property-section-header__address {
+  // margin-left: 48px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  margin: 0;
+  font-weight: bold;
+  line-height: 1.25em;
+}
+
+.property-section-header__title-no, 
+.property-section-header__remove {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.property-section-header__title-no {
+  color: $secondaryColor;
+}
+
+.property-section-header__remove {
+  color: $blueAccent;
+  text-decoration: underline;
+}
+
 .property-id-number {
   cursor: pointer;
   margin: 0;
@@ -58,6 +89,9 @@
 
 /* Desktop specific, as mobile first */
 @media screen and (min-width: 769px) {
+  .property-section-header {
+    width: 75%;
+  }
   .property-details-section__inner {
     display: flex;
 

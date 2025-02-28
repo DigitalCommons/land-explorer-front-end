@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setActiveProperty,
   clearHighlightedProperties,
-} from "../../actions/LandOwnershipActions";
-import Button from "../common/Button";
-import { fetchRelatedProperties } from "../../actions/LandOwnershipActions";
+} from "../../../actions/LandOwnershipActions";
+import Button from "../../common/Button";
+import { fetchRelatedProperties } from "../../../actions/LandOwnershipActions";
+import OwnershipDetails from "./ownership-details/OwnershipDetails";
 
 const PropertySection = ({ property, active }) => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const PropertySection = ({ property, active }) => {
     proprietor_category_1,
     property_address,
     proprietor_name_1,
+    proprietor_name_2,
     proprietor_1_address_1,
     tenure,
     date_proprietor_added,
@@ -59,36 +61,42 @@ const PropertySection = ({ property, active }) => {
           }
         }}
       >
-        <h4
-          style={{
-            marginLeft: "48px",
-            fontWeight: "bold",
-            width: "140px",
-          }}
-        >
-          Property {poly_id}
-        </h4>
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            transform: "translateY(-50%)",
-            right: "12px",
-            width: "24px",
-            height: "24px",
-            textAlign: "center",
-          }}
-        >
-          <img
-            src={require("../../assets/img/icon-chevron.svg")}
-            alt=""
+        <div className="property-section-header">
+          <h4 className="property-section-header__address">
+            {property_address ? property_address : `Property ${poly_id}`}
+          </h4>
+          <div className="property-section-header__title-no">
+            Title no: {title_no}
+          </div>
+          <a className="property-section-header__remove" onClick={handleClear}>
+            Remove Property
+          </a>
+          <div
             style={{
-              transformOrigin: "center",
-              transform: open ? "rotate(180deg)" : "rotate(0deg)",
+              position: "absolute",
+              top: "50%",
+              transform: "translateY(-50%)",
+              right: "12px",
+              width: "24px",
+              height: "24px",
+              textAlign: "center",
             }}
-          />
+          >
+            <img
+              src={require("../../../assets/img/icon-chevron.svg")}
+              alt=""
+              style={{
+                transformOrigin: "center",
+                transform: open ? "rotate(180deg)" : "rotate(0deg)",
+              }}
+            />
+          </div>
         </div>
       </div>
+      {/* Property section ends */}
+
+      {/* <OwnershipDetails property={property} open={open} />
+      {proprietor_name_2} */}
       {open && (
         <div className="property-details">
           {proprietor_category_1 && (
