@@ -71,17 +71,7 @@ const PropertySection = ({ property, active }) => {
           <a className="property-section-header__remove" onClick={handleClear}>
             Remove Property
           </a>
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              transform: "translateY(-50%)",
-              right: "12px",
-              width: "24px",
-              height: "24px",
-              textAlign: "center",
-            }}
-          >
+          <div className="property-section-header__chevron">
             <img
               src={require("../../../assets/img/icon-chevron.svg")}
               alt=""
