@@ -111,6 +111,27 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
           );
         });
       }
+      const showMarkersInPolys = dataGroup.show_marker_in_polys > 0;
+
+      if (showMarkersInPolys) {
+        if (dataGroup.polygons) {
+          dataGroup.polygons.forEach((polygon) => {
+            dataGroupMarkers.push(
+              <DataGroupMarker
+                dataGroupColour={dataGroupColour}
+                key={polygon.uuid}
+                coordinates={polygon.center.coordinates}
+                name={polygon.name}
+                description={polygon.description}
+                marker={polygon}
+                access={dataGroup.access}
+                popupVisible={false} // we don't want this additional marker to show a popup of its own
+                setPopupVisible={setPopupVisible} // setPopupVisible will use the UUID of the polygon, toggling the polygon's own popup
+              />
+            );
+          });
+        }
+      }
     });
 
   const drawnMarkers = markers.map((marker) => (
