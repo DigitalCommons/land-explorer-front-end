@@ -62,7 +62,9 @@
   margin-bottom: 20px;
 }
 
-.property-details-section {
+// change property-details-section to property-details-info
+// repurpose property-details-section for overview and ownership sections
+.property-details-info {
   box-sizing: border-box;
   border-top: 1px solid $midNeutral2;
   padding: 20px 0;
@@ -70,21 +72,21 @@
   line-height: 1.25em;
 }
 
-.property-details-section__inner {
+.property-details-info__inner {
   box-sizing: border-box;
 }
 
-.property-details-section__title {
+.property-details-info__title {
   color: $primaryColor;
   margin-bottom: 5px;
 }
 
-.property-details-section__value,
-.property-details-section__small-print {
+.property-details-info__value,
+.property-details-info__small-print {
   color: $darkNeutral;
 }
 
-.property-details-section__small-print {
+.property-details-info__small-print {
   font-size: 14px;
 }
 
@@ -103,7 +105,7 @@
   .property-section-header {
     width: 75%;
   }
-  .property-details-section__inner {
+  .property-details-info__inner {
     display: flex;
 
     & > div {

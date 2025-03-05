@@ -1,4 +1,5 @@
 import React from 'react'
+import ProprietorCard from './proprietor-card/ProprietorCard'
 
 const OwnershipDetails = ({property}) => {
   return (

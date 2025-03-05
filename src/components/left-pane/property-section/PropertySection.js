@@ -92,68 +92,68 @@ const PropertySection = ({ property, active }) => {
           {proprietor_category_1 && (
             <>
               <div className="property-details-title">{property_address}</div>
-              <div className="property-details-section">
-                <div className="property-details-section__title">
+              <div className="property-details-info">
+                <div className="property-details-info__title">
                   Proprietor Name:
                 </div>
-                <div className="property-details-section__value">
+                <div className="property-details-info__value">
                   {proprietor_name_1}
                 </div>
               </div>
-              <div className="property-details-section">
-                <div className="property-details-section__title">
+              <div className="property-details-info">
+                <div className="property-details-info__title">
                   Proprietor Address:
                 </div>
-                <div className="property-details-section__value">
+                <div className="property-details-info__value">
                   {proprietor_1_address_1}
                 </div>
               </div>
-              <div className="property-details-section">
-                <div className="property-details-section__inner">
-                  <div className="property-details-section__title">
+              <div className="property-details-info">
+                <div className="property-details-info__inner">
+                  <div className="property-details-info__title">
                     Proprietor Category:
                   </div>
-                  <div className="property-details-section__value">
+                  <div className="property-details-info__value">
                     {proprietor_category_1}
                   </div>
                 </div>
-                <div className="property-details-section__inner">
-                  <div className="property-details-section__title">Tenure:</div>
-                  <div className="property-details-section__value">
+                <div className="property-details-info__inner">
+                  <div className="property-details-info__title">Tenure:</div>
+                  <div className="property-details-info__value">
                     {tenure}
                   </div>
                 </div>
-                <div className="property-details-section__inner">
-                  <div className="property-details-section__title">
+                <div className="property-details-info__inner">
+                  <div className="property-details-info__title">
                     Date Proprietor Added:
                   </div>
-                  <div className="property-details-section__value">
+                  <div className="property-details-info__value">
                     {date_proprietor_added}
                   </div>
                 </div>
               </div>
             </>
           )}
-          <div className="property-details-section">
-            <div className="property-details-section__inner">
+          <div className="property-details-info">
+            <div className="property-details-info__inner">
               <div
-                className="property-details-section__title"
+                className="property-details-info__title"
                 title="The Title Register gives information on who owns the property or land, and any rights of way"
               >
                 INSPIRE ID:
               </div>
-              <div className="property-details-section__value">{poly_id}</div>
+              <div className="property-details-info__value">{poly_id}</div>
             </div>
             <div
-              className="property-details-section__inner"
+              className="property-details-info__inner"
               title="The Title Plan includes the property or land's location and boundaries"
             >
-              <div className="property-details-section__title">
+              <div className="property-details-info__title">
                 Title Number:
               </div>
-              <div className="property-details-section__value">{title_no}</div>
+              <div className="property-details-info__value">{title_no}</div>
             </div>
-            <div className="property-details-section__small-print">
+            <div className="property-details-info__small-print">
               <p>
                 You can access these documents for a small fee by visiting the{" "}
                 <a
