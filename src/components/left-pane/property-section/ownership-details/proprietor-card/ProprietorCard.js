@@ -1,9 +1,13 @@
 import React from 'react'
 
-const ProprietorCard = () => {
+const ProprietorCard = ({ name, address, category }) => {
   return (
-    <div>ProprietorCard</div>
-  )
-}
+    <div>
+      <div>{name}</div>
+      <div>{address}</div>
+      <div>{category}</div>
+    </div>
+  );
+};
 
 export default ProprietorCard

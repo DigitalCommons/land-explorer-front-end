@@ -17,14 +17,48 @@ const PropertySection = ({ property, active }) => {
   const {
     poly_id,
     title_no,
-    proprietor_category_1,
     property_address,
     proprietor_name_1,
     proprietor_name_2,
+    proprietor_name_3,
+    proprietor_name_4,
     proprietor_1_address_1,
+    proprietor_2_address_1,
+    proprietor_3_address_1,
+    proprietor_4_address_1,
+    proprietor_category_1,
+    proprietor_category_2,
+    proprietor_category_3,
+    proprietor_category_4,
     tenure,
     date_proprietor_added,
   } = property;
+
+  // Create an array of proprietor objects that are not empty
+  const proprietors = [
+    {
+      name: proprietor_name_1,
+      address: proprietor_1_address_1,
+      category: proprietor_category_1,
+    },
+    {
+      name: proprietor_name_2,
+      address: proprietor_2_address_1,
+      category: proprietor_category_2,
+    },
+    {
+      name: proprietor_name_3,
+      address: proprietor_3_address_1,
+      category: proprietor_category_3,
+    },
+    {
+      name: proprietor_name_4,
+      address: proprietor_4_address_1,
+      category: proprietor_category_4,
+    },
+  ].filter((proprietor) => proprietor.name);
+
+  const proprietorCount = proprietors.length;
 
   const open = poly_id === activePropertyId;
 
@@ -66,7 +100,7 @@ const PropertySection = ({ property, active }) => {
             {property_address ? property_address : `Property ${poly_id}`}
           </h4>
           <div className="property-section-header__title-no">
-            Title no: {title_no}
+            Title no: {title_no} - {proprietorCount}
           </div>
           <a className="property-section-header__remove" onClick={handleClear}>
             Remove Property
@@ -84,13 +118,16 @@ const PropertySection = ({ property, active }) => {
         </div>
       </div>
       {/* Property section ends */}
-
-      {/* <OwnershipDetails property={property} open={open} />
-      {proprietor_name_2} */}
+      {/* {proprietor_name_2} */}
       {open && (
         <div className="property-details">
           {proprietor_category_1 && (
             <>
+              <OwnershipDetails
+                proprietors={proprietors}
+                tenure={tenure}
+                inspireId={poly_id}
+              />
               <div className="property-details-title">{property_address}</div>
               <div className="property-details-info">
                 <div className="property-details-info__title">
@@ -119,9 +156,7 @@ const PropertySection = ({ property, active }) => {
                 </div>
                 <div className="property-details-info__inner">
                   <div className="property-details-info__title">Tenure:</div>
-                  <div className="property-details-info__value">
-                    {tenure}
-                  </div>
+                  <div className="property-details-info__value">{tenure}</div>
                 </div>
                 <div className="property-details-info__inner">
                   <div className="property-details-info__title">
@@ -148,9 +183,7 @@ const PropertySection = ({ property, active }) => {
               className="property-details-info__inner"
               title="The Title Plan includes the property or land's location and boundaries"
             >
-              <div className="property-details-info__title">
-                Title Number:
-              </div>
+              <div className="property-details-info__title">Title Number:</div>
               <div className="property-details-info__value">{title_no}</div>
             </div>
             <div className="property-details-info__small-print">
