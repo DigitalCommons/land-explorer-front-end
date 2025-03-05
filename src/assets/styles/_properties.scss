@@ -66,10 +66,11 @@
 // repurpose property-details-section for overview and ownership sections
 .property-details-info {
   box-sizing: border-box;
-  border-top: 1px solid $midNeutral2;
-  padding: 20px 0;
+  // border-top: 1px solid $midNeutral2;
+  // padding: 20px 0;
   font-size: 16px;
   line-height: 1.25em;
+  margin-bottom: 10px;
 }
 
 .property-details-info__inner {

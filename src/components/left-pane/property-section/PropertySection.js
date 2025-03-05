@@ -40,21 +40,25 @@ const PropertySection = ({ property, active }) => {
       name: proprietor_name_1,
       address: proprietor_1_address_1,
       category: proprietor_category_1,
+      number: "One",
     },
     {
       name: proprietor_name_2,
       address: proprietor_2_address_1,
       category: proprietor_category_2,
+      number: "Two",
     },
     {
       name: proprietor_name_3,
       address: proprietor_3_address_1,
       category: proprietor_category_3,
+      number: "Three",
     },
     {
       name: proprietor_name_4,
       address: proprietor_4_address_1,
       category: proprietor_category_4,
+      number: "Four",
     },
   ].filter((proprietor) => proprietor.name);
 
@@ -127,8 +131,8 @@ const PropertySection = ({ property, active }) => {
                 proprietors={proprietors}
                 tenure={tenure}
                 inspireId={poly_id}
+                active={active}
               />
-              <div className="property-details-title">{property_address}</div>
               <div className="property-details-info">
                 <div className="property-details-info__title">
                   Proprietor Name:
