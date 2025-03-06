@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { fetchRelatedProperties } from "../../../../../actions/LandOwnershipActions";
 import Button from "../../../../common/Button";
 import { useDispatch } from "react-redux";
@@ -18,7 +18,7 @@ const ProprietorCard = ({ name, address, category, number, active }) => {
   };
 
   return (
-    <div>
+    <div className="proprietor-card">
       <h4>Proprietor {number}</h4>
       <div className="property-details-info">
         <div className="property-details-info__title">Proprietor Name:</div>
@@ -32,7 +32,7 @@ const ProprietorCard = ({ name, address, category, number, active }) => {
         <div className="property-details-info__title">Proprietor Category:</div>
         <div className="property-details-info__value">{category}</div>
       </div>
-      <div className="property__check-for-properties">
+      <div className="property-details-info__button">
         <Button
           buttonClass={"button-new blue full-width"}
           type={"button"}
@@ -45,4 +45,4 @@ const ProprietorCard = ({ name, address, category, number, active }) => {
   );
 };
 
-export default ProprietorCard
+export default ProprietorCard;

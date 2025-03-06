@@ -1,20 +1,30 @@
-import React from 'react'
-import ProprietorCard from './proprietor-card/ProprietorCard'
+import React from "react";
+import ProprietorCard from "./proprietor-card/ProprietorCard";
 
-const OwnershipDetails = ({
-  tenure,
-  inspireId,
-  proprietors,
-  active
-}) => {
-
-  const proprietorCount = proprietors.length
+const OwnershipDetails = ({ tenure, inspireId, proprietors, active }) => {
+  const proprietorCount = proprietors.length;
   return (
     <section>
-      <h3>Ownership</h3>
-      <div>Proprietors: {proprietorCount} </div>
-      <div>Tenure: {tenure}</div>
-      <div>INSPIRE IDs: {inspireId}</div>
+      <div className="ownership-overview">
+        <h3>Ownership</h3>
+        <div className="property-details-info">
+          <div className="property-details-info__inner">
+            <div className="property-details-info__title">Proprietors:</div>
+            <div className="property-details-info__value">
+              {proprietorCount}
+            </div>
+          </div>
+          <div className="property-details-info__inner">
+            <div className="property-details-info__title">Tenure:</div>
+            <div className="property-details-info__value">{tenure}</div>
+          </div>
+          <div className="property-details-info__inner">
+            <div className="property-details-info__title">INSPIRE IDs:</div>
+            <div className="property-details-info__value">{inspireId}</div>
+          </div>
+        </div>
+      </div>
+
       {proprietors.map((proprietor, index) => (
         <ProprietorCard
           key={index}
@@ -28,5 +38,5 @@ const OwnershipDetails = ({
     </section>
   );
 };
- 
-export default OwnershipDetails
+
+export default OwnershipDetails;
