@@ -81,6 +81,11 @@
 
 .property-details-info__inner {
   box-sizing: border-box;
+  display: flex;
+
+    & > div {
+      width: 50%;
+    }
 }
 
 .property-details-info__title {
@@ -142,16 +147,14 @@
   margin-bottom: 35px;
 }
 
+.property__show-more-container {
+  margin-top: -20px;
+  margin-bottom: 25px;
+}
+
 /* Desktop specific, as mobile first */
 @media screen and (min-width: 769px) {
   .property-section-header {
     width: 75%;
-  }
-  .property-details-info__inner {
-    display: flex;
-
-    & > div {
-      width: 50%;
-    }
   }
 }
