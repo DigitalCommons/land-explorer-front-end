@@ -6,7 +6,10 @@ const OwnershipDetails = ({ tenure, inspireId, proprietors, active }) => {
   return (
     <section>
       <div className="ownership-overview">
-        <h3>Ownership</h3>
+        <h3 className="ownership-overview__title">
+          <i className="ownership-overview__icon"></i>
+          <span>Ownership</span>
+        </h3>
         <div className="property-details-info">
           <div className="property-details-info__inner">
             <div className="property-details-info__title">Proprietors:</div>
