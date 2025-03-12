@@ -5,8 +5,10 @@ import {
   clearHighlightedProperties,
 } from "../../../actions/LandOwnershipActions";
 import PropertySectionHeader from "./property-section-header/propertySectionHeader";
+import OverviewDetails from "./overview-details/OverviewDetails";
 import OwnershipDetails from "./ownership-details/OwnershipDetails";
 import PropertySectionSmallPrint from "./property-section-small-print/PropertySectionSmallPrint";
+import * as turf from "@turf/turf";
 
 const PropertySection = ({ property, active }) => {
   const dispatch = useDispatch();
@@ -31,8 +33,13 @@ const PropertySection = ({ property, active }) => {
     proprietor_category_3,
     proprietor_category_4,
     tenure,
+    geom,
     date_proprietor_added,
   } = property;
+
+  // calculate area and perimeter
+  const area = Math.round(turf.area(geom));
+  const perimeter = Math.round(turf.length(geom, {units: "meters"}));
 
   const proprietors = [
     {
@@ -99,6 +106,11 @@ const PropertySection = ({ property, active }) => {
         <div className="property-details">
           {proprietor_category_1 && (
             <>
+              <OverviewDetails
+                address={property_address}
+                area={area}
+                perimeter={perimeter}
+              />
               <OwnershipDetails
                 proprietors={proprietors}
                 tenure={tenure}

@@ -7,10 +7,9 @@ const OwnershipDetails = ({ tenure, inspireId, proprietors, active }) => {
 
   return (
     <section>
-      {/* the below `div.ownership-overview` should always visible */}
-      <div className="ownership-overview">
-        <h3 className="ownership-overview__title">
-          <i className="ownership-overview__icon"></i>
+      <div className="property-inner-section">
+        <h3 className="property-inner-section__title">
+          <i className="property-inner-section__icon ownership-icon"></i>
           <span>Ownership</span>
         </h3>
         <div className="property-details-info">
@@ -31,7 +30,6 @@ const OwnershipDetails = ({ tenure, inspireId, proprietors, active }) => {
         </div>
       </div>
 
-      {/* The below should be revealed / hidden when show more / show less is clicked */}
       {showMore && (
         <div className="proprietor-list">
           {proprietors.map((proprietor, index) => (
