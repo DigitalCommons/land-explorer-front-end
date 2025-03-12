@@ -114,6 +114,7 @@ const PropertySection = ({ property, active }) => {
               <OwnershipDetails
                 proprietors={proprietors}
                 tenure={tenure}
+                dateAdded={date_proprietor_added}
                 inspireId={poly_id}
                 active={active}
               />
