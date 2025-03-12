@@ -75,7 +75,7 @@
   // border-top: 1px solid $midNeutral2;
   // padding: 20px 0;
   font-size: 16px;
-  line-height: 1.25em;
+  line-height: 1.35em;
   // margin-bottom: 10px;
   & sup {
     font-size: 0.65em;
@@ -107,6 +107,10 @@
 
 .property-details-info__small-print {
   font-size: 14px;
+  & a {
+    color: $blueAccent;
+    text-decoration: underline;
+  }
 }
 
 .small-print-margin {
