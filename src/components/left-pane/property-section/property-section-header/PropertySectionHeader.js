@@ -4,7 +4,6 @@ const PropertySectionHeader = ({
   address,
   polyId,
   titleNo,
-  count,
   onClick,
   open,
 }) => {
@@ -14,7 +13,7 @@ const PropertySectionHeader = ({
         {address ? address : `Property ${polyId}`}
       </h4>
       <div className="property-section-header__title-no">
-        Title no: {titleNo} - {count}
+        Title no: {titleNo}
       </div>
       <a className="property-section-header__remove" onClick={onClick}>
         Remove Property

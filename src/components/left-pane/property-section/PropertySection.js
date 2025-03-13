@@ -97,7 +97,6 @@ const PropertySection = ({ property, active }) => {
           address={property_address}
           polyId={poly_id}
           titleNo={title_no}
-          count={proprietorCount}
           onClick={handleClear}
           open={open}
         />
