@@ -4,7 +4,7 @@ import {
   setActiveProperty,
   clearHighlightedProperties,
 } from "../../../actions/LandOwnershipActions";
-import PropertySectionHeader from "./property-section-header/propertySectionHeader";
+import PropertySectionHeader from "./property-section-header/PropertySectionHeader";
 import OverviewDetails from "./overview-details/OverviewDetails";
 import OwnershipDetails from "./ownership-details/OwnershipDetails";
 import PropertySectionSmallPrint from "./property-section-small-print/PropertySectionSmallPrint";
