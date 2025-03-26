@@ -103,18 +103,18 @@ const PropertySection = ({ property, active }) => {
       </div>
       {open && (
         <div className="property-details">
+          <OverviewDetails
+            address={property_address}
+            area={area}
+            perimeter={perimeter}
+            inspireId={poly_id}
+          />
           {proprietor_category_1 && (
             <>
-              <OverviewDetails
-                address={property_address}
-                area={area}
-                perimeter={perimeter}
-              />
               <OwnershipDetails
                 proprietors={proprietors}
                 tenure={tenure}
                 dateAdded={date_proprietor_added}
-                inspireId={poly_id}
                 active={active}
               />
             </>

@@ -27,10 +27,6 @@ const OwnershipDetails = ({ tenure, inspireId, dateAdded, proprietors, active })
             <div className="property-details-info__title">Date Added:</div>
             <div className="property-details-info__value">{dateAdded}</div>
           </div>
-          <div className="property-details-info__inner">
-            <div className="property-details-info__title">INSPIRE ID:</div>
-            <div className="property-details-info__value">{inspireId}</div>
-          </div>
         </div>
       </div>
 
