@@ -4,7 +4,7 @@ const PropertySectionHeader = ({
   address,
   polyId,
   titleNo,
-  onClick,
+  onClickRemove,
   open,
 }) => {
   return (
@@ -15,7 +15,7 @@ const PropertySectionHeader = ({
       <div className="property-section-header__title-no">
         Title no: {titleNo}
       </div>
-      <a className="property-section-header__remove" onClick={onClick}>
+      <a className="property-section-header__remove" onClick={onClickRemove}>
         Remove Property
       </a>
       <div className="property-section-header__chevron">

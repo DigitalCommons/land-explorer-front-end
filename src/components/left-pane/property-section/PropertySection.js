@@ -97,7 +97,7 @@ const PropertySection = ({ property, active }) => {
           address={property_address}
           polyId={poly_id}
           titleNo={title_no}
-          onClick={handleClear}
+          onClickRemove={handleClear}
           open={open}
         />
       </div>

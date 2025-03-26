@@ -4,7 +4,6 @@
 }
 
 .property-section-header__address {
-  // margin-left: 48px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -31,8 +30,6 @@
 
 .property-section-header__chevron {
   position: absolute;
-  // top: 50%;
-  // transform: translateY(-50%);
   top: 18px;
   right: 12px;
   width: 24px;
@@ -68,15 +65,10 @@
   margin-bottom: 20px;
 }
 
-// change property-details-section to property-details-info
-// repurpose property-details-section for overview and ownership sections
 .property-details-info {
   box-sizing: border-box;
-  // border-top: 1px solid $midNeutral2;
-  // padding: 20px 0;
   font-size: 16px;
   line-height: 1.35em;
-  // margin-bottom: 10px;
   & sup {
     font-size: 0.65em;
   }
