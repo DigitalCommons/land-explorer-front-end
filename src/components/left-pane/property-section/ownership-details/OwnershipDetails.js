@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ProprietorCard from "./proprietor-card/ProprietorCard";
 
-const OwnershipDetails = ({ tenure, inspireId, dateAdded, proprietors, active }) => {
+const OwnershipDetails = ({ tenure, dateAdded, proprietors }) => {
   const [showMore, setShowMore] = useState(false);
   const proprietorCount = proprietors.length;
 
@@ -24,7 +24,9 @@ const OwnershipDetails = ({ tenure, inspireId, dateAdded, proprietors, active })
             <div className="property-details-info__value">{tenure}</div>
           </div>
           <div className="property-details-info__inner">
-            <div className="property-details-info__title">Date Added:</div>
+            <div className="property-details-info__title">
+              Date Proprietor Added:
+            </div>
             <div className="property-details-info__value">{dateAdded}</div>
           </div>
         </div>
@@ -39,7 +41,6 @@ const OwnershipDetails = ({ tenure, inspireId, dateAdded, proprietors, active })
               address={proprietor.address}
               category={proprietor.category}
               number={proprietor.number}
-              active={active}
             />
           ))}
         </div>

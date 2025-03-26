@@ -3,18 +3,13 @@ import { fetchRelatedProperties } from "../../../../../actions/LandOwnershipActi
 import Button from "../../../../common/Button";
 import { useDispatch } from "react-redux";
 
-const ProprietorCard = ({ name, address, category, number, active }) => {
+const ProprietorCard = ({ name, address, category, number }) => {
   const dispatch = useDispatch();
-  const openTray = (tray) => {
-    active === tray
-      ? dispatch({ type: "CLOSE_TRAY" })
-      : dispatch({ type: "SET_ACTIVE", payload: tray });
-  };
 
   const handleSearch = () => {
     dispatch({ type: "CLEAR_RELATED_PROPERTIES_AND_PROPRIETOR_NAME" });
     dispatch(fetchRelatedProperties(name));
-    openTray("Ownership Search");
+    dispatch({ type: "SET_ACTIVE", payload: "Ownership Search" });
   };
 
   return (
