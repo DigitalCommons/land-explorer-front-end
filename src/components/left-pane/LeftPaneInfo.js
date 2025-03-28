@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import LeftPaneTray from "./LeftPaneTray";
 import MarkerSection from "./MarkerSection";
 import PolygonSection from "./PolygonSection";
-import PropertySection from "./PropertySection";
+import PropertySection from "./property-section/PropertySection";
 import { clearAllHighlightedProperties } from "../../actions/LandOwnershipActions";
 
 const LeftPaneInfo = ({ onClose, open }) => {
