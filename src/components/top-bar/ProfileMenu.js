@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../actions/ModalActions";
-import analytics from "../../analytics";
 
 const ProfileMenu = () => {
   const dispatch = useDispatch();
@@ -25,7 +24,6 @@ const ProfileMenu = () => {
         <div
           className="tooltip-menu-item"
           onClick={() => {
-            analytics.pageview("/app/my-maps");
             dispatch(openModal("openMap"));
           }}
         >

@@ -7,7 +7,7 @@ import MapMenu from "./MapMenu";
 import ProfilePic from "./ProfilePic";
 import { useDispatch, useSelector } from "react-redux";
 import SearchBar from "./SearchBar";
-import analytics from "../../analytics";
+import * as analytics from "../../analytics";
 
 const TopBar = ({ limited }) => {
   const dispatch = useDispatch();
@@ -38,8 +38,8 @@ const TopBar = ({ limited }) => {
             className="hamburger hamburger-logged-in"
             id="hamburger"
             onClick={() => {
-              analytics.event(analytics._event.STATIC_SITE_MENU, "Open");
-              dispatch({ type: "TOGGLE_STATIC_SITE_MENU" });
+              analytics.event(analytics.EventCategory.STATIC_SITE_MENU, "Open");
+              dispatch({ type: "TOGGLE_MENU_MAIN" });
             }}
           ></div>
         </div>
@@ -59,8 +59,8 @@ const TopBar = ({ limited }) => {
             className="hamburger"
             id="hamburger"
             onClick={() => {
-              analytics.event(analytics._event.STATIC_SITE_MENU, "Open");
-              dispatch({ type: "TOGGLE_STATIC_SITE_MENU" });
+              analytics.event(analytics.EventCategory.STATIC_SITE_MENU, "Open");
+              dispatch({ type: "TOGGLE_MENU_MAIN" });
             }}
           >
             <img src={require("../../assets/img/icon-hamburger.svg")} alt="" />

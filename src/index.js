@@ -9,7 +9,7 @@ import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import MapApp from "./pages/MapApp";
 import MyAccount from "./pages/MyAccount";
 import FourOhFour from "./pages/FourOhFour";
-import analytics from "./analytics";
+import * as analytics from "./analytics";
 import constants from "./constants";
 import Authentication from "./pages/Authentication";
 import ErrorFallback from "./pages/ErrorFallback";

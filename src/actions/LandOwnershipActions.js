@@ -1,5 +1,6 @@
 import { getRequest } from "./RequestActions";
 import { autoSave } from "./MapActions";
+import * as analytics from "../analytics";
 
 /**
  * @param {string} type "all", "pending", "localAuthority", "churchOfEngland" or "unregistered"
@@ -32,6 +33,14 @@ export const highlightProperties = (properties) => {
       type: "HIGHLIGHT_PROPERTIES",
       payload: properties,
     });
+
+    analytics.event(
+      analytics.EventCategory.LAND_OWNERSHIP,
+      "Highlight Properties",
+      {
+        propertyCount: Object.keys(properties).length,
+      }
+    );
   };
 };
 
@@ -98,6 +107,12 @@ export const fetchRelatedProperties = (proprietorName) => {
         payload: "Error fetching related properties",
       });
     }
+
+    analytics.event(analytics.EventCategory.LAND_OWNERSHIP, "Backsearch", {
+      proprietorName,
+      success,
+      resultCount: success ? Object.keys(relatedPropertiesArray).length : 0,
+    });
   };
 };
 
