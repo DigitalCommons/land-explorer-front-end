@@ -1,30 +1,36 @@
-import React, { useEffect } from 'react';
-import TopBar from '../components/top-bar/TopBar';
-import analytics from '../analytics';
+import React from "react";
+import TopBar from "../components/top-bar/TopBar";
 
 const FourOhFour = () => {
-    useEffect(() => {
-        analytics.pageview('/app/error');
-    }, [])
-
-    return <div style={{
-        minHeight: '100vh',
-    }}>
-        <TopBar limited={true} />
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+      }}
+    >
+      <TopBar limited={true} />
+      <div
+        style={{
+          left: "50%",
+          top: "50%",
+          transform: "translateX(-50%) translateY(-50%)",
+          position: "absolute",
+          textAlign: "center",
+        }}
+      >
+        <h1>Error</h1>
+        <p>This page doesn't exist!</p>
         <div
-            style={{
-                left: '50%',
-                top: '50%',
-                transform: 'translateX(-50%) translateY(-50%)',
-                position: 'absolute',
-                textAlign: 'center',
-            }}
+          className="button button-large"
+          onClick={() => {
+            window.location = "/app";
+          }}
         >
-            <h1>Error</h1>
-            <p>This page doesn't exist!</p>
-            <div className="button button-large" onClick={() => { window.location = '/app'; }}>Return to site</div>
+          Return to site
         </div>
+      </div>
     </div>
-}
+  );
+};
 
 export default FourOhFour;

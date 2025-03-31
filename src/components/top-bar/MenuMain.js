@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import constants from "../../constants";
-import analytics from "../../analytics";
 import { openModal } from "../../actions/ModalActions";
 import useClickOutside from "../../hooks/useClickOutside";
 import { useDispatch } from "react-redux";
@@ -75,7 +74,6 @@ const MenuMain = ({ limited }) => {
         {!limited && mobile && (
           <div
             onClick={() => {
-              analytics.pageview("/app/my-maps");
               dispatch(openModal("myMaps"));
             }}
             className="tooltip-menu-item"
@@ -86,7 +84,6 @@ const MenuMain = ({ limited }) => {
         {!limited && mobile && (
           <div
             onClick={() => {
-              analytics.pageview("/app/my-shared-maps");
               dispatch(openModal("mySharedMaps"));
             }}
             className="tooltip-menu-item"

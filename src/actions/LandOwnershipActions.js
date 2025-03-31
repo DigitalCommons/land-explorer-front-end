@@ -1,5 +1,6 @@
 import { getRequest } from "./RequestActions";
 import { autoSave } from './MapActions';
+import * as analytics from "../analytics";
 
 /**
  * @param {string} type "all", "pending", "localAuthority" or "churchOfEngland"
@@ -38,6 +39,14 @@ export const highlightProperties = (properties) => {
       type: "HIGHLIGHT_PROPERTIES",
       payload: properties,
     });
+
+    analytics.event(
+      analytics.EventCategory.LAND_OWNERSHIP,
+      "Highlight Properties",
+      {
+        propertyCount: Object.keys(properties).length,
+      }
+    );
   };
 };
 
@@ -86,8 +95,9 @@ export const fetchRelatedProperties = (proprietorName) => {
     const relatedPropertiesArray = await dispatch(
       getRequest(`/api/search?proprietorName=${proprietorName}`)
     );
+    const success = relatedPropertiesArray !== null;
 
-    if (relatedPropertiesArray !== null) {
+    if (success) {
       // Convert array to a map so we can search by poly_id more efficiently
       const relatedPropertiesMap = relatedPropertiesArray.reduce(
         (map, property) => {
@@ -110,5 +120,11 @@ export const fetchRelatedProperties = (proprietorName) => {
         payload: "Error fetching related properties",
       });
     }
+
+    analytics.event(analytics.EventCategory.LAND_OWNERSHIP, "Backsearch", {
+      proprietorName,
+      success,
+      resultCount: success ? Object.keys(relatedPropertiesArray).length : 0,
+    });
   };
 };

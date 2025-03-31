@@ -4,7 +4,7 @@ import LeftPaneInfo from "./LeftPaneInfo";
 import LeftPaneLandData from "./LeftPaneLandData";
 import LeftPaneDrawingTools from "./LeftPaneDrawingTools";
 import LeftPaneRelatedProperties from "./LeftPaneRelatedProperties";
-import analytics from "../../analytics";
+import * as analytics from "../../analytics";
 import { autoSave } from "../../actions/MapActions";
 import { isMobile } from "react-device-detect";
 
@@ -78,7 +78,7 @@ const LeftPane = ({ drawControl }) => {
       <div
         className="toggle-left-pane"
         onClick={() => {
-          analytics.event(analytics._event.LEFT_PANE, "Open");
+          analytics.event(analytics.EventCategory.LEFT_PANE, "Open");
           dispatch({ type: "TOGGLE_LEFT_PANE" });
         }}
       ></div>
@@ -95,7 +95,10 @@ const LeftPane = ({ drawControl }) => {
           style={{ opacity: readOnly ? 0.5 : 1 }}
           onClick={() => {
             if (!readOnly) {
-              analytics.event(analytics._event.LEFT_PANE + " Drawing", "Open");
+              analytics.event(
+                analytics.EventCategory.LEFT_PANE + " Drawing",
+                "Open"
+              );
               clickIcon("Drawing Tools");
             }
           }}
@@ -107,7 +110,10 @@ const LeftPane = ({ drawControl }) => {
             active === "Land Data" && "active"
           }`}
           onClick={() => {
-            analytics.event(analytics._event.LEFT_PANE + " Land Data", "Open");
+            analytics.event(
+              analytics.EventCategory.LEFT_PANE,
+              "Open Land Data"
+            );
             clickIcon("Land Data");
           }}
           data-tip
@@ -119,8 +125,8 @@ const LeftPane = ({ drawControl }) => {
           }`}
           onClick={() => {
             analytics.event(
-              analytics._event.LEFT_PANE + " Land Information",
-              "Open"
+              analytics.EventCategory.LEFT_PANE,
+              "Open Land Information"
             );
             clickIcon("Land Information");
           }}
@@ -141,8 +147,8 @@ const LeftPane = ({ drawControl }) => {
           }`}
           onClick={() => {
             analytics.event(
-              analytics._event.LEFT_PANE + " Ownership Search",
-              "Open"
+              analytics.EventCategory.LEFT_PANE,
+              "Open Ownership Search"
             );
             clickIcon("Ownership Search");
           }}

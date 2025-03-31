@@ -4,7 +4,6 @@ import Spinner from "../components/common/Spinner";
 import { Link } from "react-router-dom";
 import constants from "../constants";
 import { getUserDetails } from "../actions/UserActions";
-import analytics from "../analytics";
 import { getAuthHeader } from "../utils/Auth";
 
 const ChangeEmail = () => {
@@ -19,10 +18,6 @@ const ChangeEmail = () => {
     valid: false,
   });
   const [errors, setErrors] = useState([]);
-
-  useEffect(() => {
-    analytics.pageview(window.location.pathname);
-  }, []);
 
   const changeEmail = (e) => {
     e.preventDefault();

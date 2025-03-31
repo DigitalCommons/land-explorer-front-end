@@ -6,8 +6,6 @@
         if developing locally, wherever the land-map-server is running on]
     STATIC_SITE_URL
         the url for the static site
-    GA_ID
-        google analytics
     OS_KEY
         ordnance survey Enterprise Maps key
     OS_PLACES_KAY
@@ -21,7 +19,6 @@ const constants = {
   STATIC_SITE_URL: "https://landexplorer.coop",
   ROOT_URL: process.env.ROOT_URL,
   PAYMENTS_URL: process.env.PAYMENTS_URL,
-  GA_ID: process.env.GA_ID,
   OS_KEY: process.env.OS_KEY,
   OS_PLACES_KEY: process.env.OS_PLACES_KEY,
   GEOCODER_TOKEN: process.env.GEOCODER_TOKEN,

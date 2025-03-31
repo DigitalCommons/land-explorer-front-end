@@ -7,7 +7,7 @@ import MapMenu from "./MapMenu";
 import ProfilePic from "./ProfilePic";
 import { useDispatch, useSelector } from "react-redux";
 import SearchBar from "./SearchBar";
-import analytics from "../../analytics";
+import * as analytics from "../../analytics";
 
 const TopBar = ({ limited }) => {
   const dispatch = useDispatch();
@@ -38,11 +38,10 @@ const TopBar = ({ limited }) => {
             className="hamburger hamburger-logged-in"
             id="hamburger"
             onClick={() => {
-              analytics.event(analytics._event.MAIN_MENU, "Open");
+              analytics.event(analytics.EventCategory.MAIN_MENU, "Open");
               dispatch({ type: "TOGGLE_MENU_MAIN" });
             }}
-          >
-          </div>
+          ></div>
         </div>
       </div>
       <MenuMain />
@@ -60,7 +59,7 @@ const TopBar = ({ limited }) => {
             className="hamburger"
             id="hamburger"
             onClick={() => {
-              analytics.event(analytics._event.MAIN_MENU, "Open");
+              analytics.event(analytics.EventCategory.MAIN_MENU, "Open");
               dispatch({ type: "TOGGLE_MENU_MAIN" });
             }}
           >
@@ -71,6 +70,6 @@ const TopBar = ({ limited }) => {
       <MenuMain limited={true} />
     </div>
   );
-}
+};
 
 export default TopBar;
