@@ -240,6 +240,36 @@
   }
 }
 
+.button-text {
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  cursor: pointer;
+  background: transparent !important;
+  border: none;
+  box-sizing: border-box;
+  user-select: none;
+  padding: 0;
+}
+
+
+.button-show-more {
+  display: flex;
+  align-items: center;
+  color: $blueAccent;
+  &.more::before {
+    content: "\002B";
+    font-size: 1.5em;
+    margin-right: 5px;
+  }
+  &.less::before {
+    content: "\2212";
+    font-size: 1.5em;
+    margin-right: 5px;
+  }
+}
+
+
 .button.button-cancel {
   background-color: rgba(208, 2, 78, 0.95);
 
