@@ -16,6 +16,7 @@
     "convert-units": "^2.3.4",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.7.0",
+    "mixpanel-browser": "^2.64.0",
     "moment": "^2.29.1",
     "path": "^0.12.7",
     "react": "^17.0.2",

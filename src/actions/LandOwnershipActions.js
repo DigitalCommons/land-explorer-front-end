@@ -1,6 +1,6 @@
 import { getRequest } from "./RequestActions";
-import { autoSave } from './MapActions';
-import * as analytics from "../analytics";
+import { autoSave } from "./MapActions";
+import { EventAction, EventCategory, trackEvent } from "../analytics";
 
 /**
  * @param {string} type "all", "pending", "localAuthority" or "churchOfEngland"
@@ -8,6 +8,11 @@ import * as analytics from "../analytics";
 export const togglePropertyDisplay = (type) => {
   return (dispatch) => {
     dispatch({ type: "TOGGLE_PROPERTY_DISPLAY", payload: type });
+    trackEvent(
+      EventCategory.LAND_OWNERSHIP,
+      EventAction.TOGGLE_PROPERTY_DISPLAY,
+      { type }
+    );
     return dispatch(autoSave());
   };
 };
@@ -40,13 +45,9 @@ export const highlightProperties = (properties) => {
       payload: properties,
     });
 
-    analytics.event(
-      analytics.EventCategory.LAND_OWNERSHIP,
-      "Highlight Properties",
-      {
-        propertyCount: Object.keys(properties).length,
-      }
-    );
+    trackEvent(EventCategory.LAND_OWNERSHIP, EventAction.HIGHLIGHT_PROPERTIES, {
+      propertyCount: Object.keys(properties).length,
+    });
   };
 };
 
@@ -120,11 +121,5 @@ export const fetchRelatedProperties = (proprietorName) => {
         payload: "Error fetching related properties",
       });
     }
-
-    analytics.event(analytics.EventCategory.LAND_OWNERSHIP, "Backsearch", {
-      proprietorName,
-      success,
-      resultCount: success ? Object.keys(relatedPropertiesArray).length : 0,
-    });
   };
 };

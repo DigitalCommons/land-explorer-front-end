@@ -1,12 +1,12 @@
 import { getRequest } from './RequestActions';
-import * as analytics from "../analytics";
+import { setUser } from "../analytics";
 
 export const getUserDetails = () => {
   return async (dispatch) => {
     const userData = await dispatch(getRequest("/api/user/details"));
     if (userData) {
       dispatch({ type: "POPULATE_USER", payload: userData });
-      analytics.setUser(userData.id, userData.username);
+      setUser(userData.id, userData.username);
     }
   };
 };

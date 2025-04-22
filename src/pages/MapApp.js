@@ -14,6 +14,7 @@ import {
   establishSocketConnection,
   closeSocketConnection,
 } from "../actions/WebSocketActions";
+import { resetUser } from "../analytics";
 
 const MapApp = () => {
   const authenticated = useSelector(
@@ -37,10 +38,12 @@ const MapApp = () => {
        await dispatch(openMap(storedMapId));
      }
    } else {
-     // If not authenticated, remove token, disconnect websocket, and redirect to login page
+     // If not authenticated, remove token, disconnect websocket, reset analytics user, and redirect
+     // to login page
      Auth.removeToken();
      dispatch(closeSocketConnection());
      sessionStorage.removeItem("currentMapId");
+     resetUser();
      console.log("no token, redirecting to login page");
      navigate("/auth", { replace: true });
    }

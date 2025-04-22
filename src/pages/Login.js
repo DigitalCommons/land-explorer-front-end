@@ -6,7 +6,6 @@ import * as Auth from "../utils/Auth";
 import Spinner from "../components/common/Spinner";
 import TopBar from "../components/top-bar/TopBar";
 import constants from "../constants";
-import * as analytics from "../analytics";
 
 const Login = ({ updateBgImage }) => {
   const [loggingIn, setLoggingIn] = useState(false);
@@ -67,7 +66,6 @@ const Login = ({ updateBgImage }) => {
       .then((response) => {
         Auth.setToken(response.data.access_token, response.data.expires_in);
         dispatch({ type: "LOGGED_IN" });
-        analytics.event(analytics.EventCategory.LOGIN, "Success");
 
         if (useResetToken) {
           // user needs to set a new password
@@ -83,7 +81,6 @@ const Login = ({ updateBgImage }) => {
           response?.data.message || "Unable to log in. Please try again later.";
         setLoggingIn(false);
         dispatch({ type: "FAILED_LOGIN", payload: { errorMessage } });
-        analytics.event(analytics.EventCategory.LOGIN, "Failed");
       });
   };
 

@@ -7,7 +7,7 @@ import MapMenu from "./MapMenu";
 import ProfilePic from "./ProfilePic";
 import { useDispatch, useSelector } from "react-redux";
 import SearchBar from "./SearchBar";
-import * as analytics from "../../analytics";
+import { EventAction, EventCategory, trackEvent } from "../../analytics";
 
 const TopBar = ({ limited }) => {
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const TopBar = ({ limited }) => {
             className="hamburger hamburger-logged-in"
             id="hamburger"
             onClick={() => {
-              analytics.event(analytics.EventCategory.MAIN_MENU, "Open");
+              trackEvent(EventCategory.MAIN_MENU, EventAction.OPEN);
               dispatch({ type: "TOGGLE_MENU_MAIN" });
             }}
           ></div>
@@ -59,7 +59,7 @@ const TopBar = ({ limited }) => {
             className="hamburger"
             id="hamburger"
             onClick={() => {
-              analytics.event(analytics.EventCategory.MAIN_MENU, "Open");
+              trackEvent(EventCategory.MAIN_MENU, EventAction.OPEN);
               dispatch({ type: "TOGGLE_MENU_MAIN" });
             }}
           >
