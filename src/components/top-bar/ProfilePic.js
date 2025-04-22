@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as analytics from "../../analytics";
+import { EventAction, EventCategory, trackEvent } from "../../analytics";
 import { isMobile } from "react-device-detect";
 
 const ProfilePic = () => {
@@ -15,7 +15,7 @@ const ProfilePic = () => {
         backgroundImage: pic ? `url(${pic})` : "none",
       }}
       onClick={() => {
-        analytics.event(analytics.EventCategory.USER_MENU, "Open");
+        trackEvent(EventCategory.USER_MENU, EventAction.OPEN);
         dispatch({ type: "TOGGLE_MENU_PROFILE" });
         // Close left pane if mobile and tool is active
         if (activeTool != "" && isMobile) dispatch({ type: "CLOSE_TRAY" });

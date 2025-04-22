@@ -9,7 +9,6 @@ import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import MapApp from "./pages/MapApp";
 import MyAccount from "./pages/MyAccount";
 import FourOhFour from "./pages/FourOhFour";
-import * as analytics from "./analytics";
 import constants from "./constants";
 import Authentication from "./pages/Authentication";
 import ErrorFallback from "./pages/ErrorFallback";
@@ -18,8 +17,6 @@ import { ErrorBoundary } from "react-error-boundary";
 // Styles
 import "./index.css";
 import "./assets/styles/style.scss";
-
-analytics.init();
 
 // Enable Redux DevTools if in dev mode
 console.log("dev mode: ", constants.DEV_MODE);

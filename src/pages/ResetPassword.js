@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import * as analytics from "../analytics";
 import constants from "../constants";
 
 const ResetPassword = ({ updateBgImage }) => {
@@ -26,7 +25,6 @@ const ResetPassword = ({ updateBgImage }) => {
       .then((response) => {
         console.log("reset response", response);
         setSuccess(true);
-        analytics.event(analytics.EventCategory.PASSWORD_RESET, "Success");
       })
       .catch((err) => console.log(err));
   };
