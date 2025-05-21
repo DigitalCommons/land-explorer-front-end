@@ -169,7 +169,7 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
                 .map((dataGroup) => (
                   <div
                     className={"datagroup-style-wrapper"}
-                    style={{ "--data-group-colour": dataGroup.hex_colour, "border": "1px solid #fff" }}
+                    style={{ "--data-group-colour": dataGroup.hex_colour }}
                     key={dataGroup.id}
                   >
                     <LeftPaneToggle
