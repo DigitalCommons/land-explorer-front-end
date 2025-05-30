@@ -130,7 +130,7 @@ const MapProperties = ({ center, map }) => {
               {propertyFeaturesWithOwnershipData}
             </Layer> */}
 
-            <Source
+            {/* <Source
               id="properties-with-ownership-data"
               type="geojson"
               data={geoJsonWithOwnership}
@@ -153,7 +153,31 @@ const MapProperties = ({ center, map }) => {
                   "line-width": 5,
                 }}
               />
-            </Source>
+            </Source> */}
+
+            <Layer
+              id="ownership-fill"
+              type="fill"
+              paint={{
+                "fill-opacity": 0.3,
+                "fill-color": "#6A0DAD",
+                "fill-outline-color": "#6A0DAD", // optional if you're also doing a separate line layer
+              }}
+            >
+              {propertyFeaturesWithOwnershipData}
+            </Layer>
+
+            <Layer
+              id="ownership-outline"
+              type="line"
+              paint={{
+                "line-opacity": 1,
+                "line-color": "#000",
+                "line-width": 3,
+              }}
+            >
+              {propertyFeaturesWithOwnershipData}
+            </Layer>
 
             {/* Without Ownership Data */}
 
