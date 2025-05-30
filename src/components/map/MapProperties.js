@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Layer, Feature } from "react-mapbox-gl";
+import { Layer, Feature, Source } from "react-mapbox-gl";
 import constants from "../../constants";
 import LoadingData from "./LoadingData";
 import {
@@ -51,6 +51,19 @@ const MapProperties = ({ center, map }) => {
   const propertyFeaturesWithOwnershipData = [];
   const propertyFeaturesWithoutOwnershipData = [];
 
+  // If no properties are visible, return an empty array
+  const geoJsonWithOwnership = {
+    type: "FeatureCollection",
+    features:
+      visibleProperties
+        ?.filter((property) => property.tenure)
+        .map((property) => ({
+          type: "Feature",
+          geometry: property.geom,
+          properties: { ...property },
+        })) || [],
+  };
+
   visibleProperties?.forEach((property) => {
     // tenure is a mandatory field in ownerships data, but will be null if no linked ownership
     if (property.tenure)
@@ -91,6 +104,13 @@ const MapProperties = ({ center, map }) => {
     );
   }
 
+  // Add this before your render to validate data
+  console.log(
+    "GeoJSON feature count:",
+    geoJsonWithOwnership?.features?.length || 0
+  );
+  console.log("Sample feature:", geoJsonWithOwnership?.features?.[0]);
+
   return (
     <>
       {activeDisplay &&
@@ -99,22 +119,50 @@ const MapProperties = ({ center, map }) => {
             {loadingProperties && (
               <LoadingData message={"fetching property boundaries"} />
             )}
-            <Layer
+            {/* <Layer
               type={"fill"}
               paint={{
-                "fill-opacity": 0.15,
-                "fill-color": "green",
-                "fill-outline-color": "green",
+                "fill-opacity": 0.3,
+                "fill-color": "#6A0DAD",
+                "fill-outline-color": "#6A0DAD",
               }}
             >
               {propertyFeaturesWithOwnershipData}
-            </Layer>
+            </Layer> */}
+
+            <Source
+              id="properties-with-ownership-data"
+              type="geojson"
+              data={geoJsonWithOwnership}
+            >
+              <Layer
+                id="ownership-fill"
+                type="fill"
+                paint={{
+                  "fill-opacity": 0.3,
+                  "fill-color": "#6A0DAD",
+                  "fill-outline-color": "#6A0DAD",
+                }}
+              />
+              <Layer
+                id="ownership-line"
+                type="line"
+                paint={{
+                  "line-opacity": 1,
+                  "line-color": "#000",
+                  "line-width": 5,
+                }}
+              />
+            </Source>
+
+            {/* Without Ownership Data */}
+
             <Layer
               type={"fill"}
               paint={{
-                "fill-opacity": 0.15,
-                "fill-color": "orange",
-                "fill-outline-color": "green",
+                "fill-opacity": 0.3,
+                "fill-color": "#D92546",
+                "fill-outline-color": "#D92546",
               }}
             >
               {propertyFeaturesWithoutOwnershipData}
@@ -125,7 +173,8 @@ const MapProperties = ({ center, map }) => {
         type={"fill"}
         paint={{
           "fill-opacity": 0.3,
-          "fill-color": "red",
+          "fill-color": "#0057B7",
+          "fill-outline-color": "#0057B7",
         }}
       >
         {highlightedPropertyFeatures}
