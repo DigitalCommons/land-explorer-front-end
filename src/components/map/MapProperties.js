@@ -65,6 +65,19 @@ const MapProperties = ({ center, map }) => {
         })) || [],
   };
 
+  // If no properties without ownership are visible, return an empty array
+  const geoJsonWithoutOwnership = {
+    type: "FeatureCollection",
+    features:
+      visibleProperties
+        ?.filter((property) => !property.tenure)
+        .map((property) => ({
+          type: "Feature",
+          geometry: property.geom,
+          properties: { ...property },
+        })) || [],
+  };
+
   visibleProperties?.forEach((property) => {
     // tenure is a mandatory field in ownerships data, but will be null if no linked ownership
     if (property.tenure)
@@ -199,7 +212,19 @@ const MapProperties = ({ center, map }) => {
             />
 
             {/* Without Ownership Data */}
-            <Layer
+            <GeoJSONLayer
+              data={geoJsonWithoutOwnership} // Use this instead
+              fillPaint={{
+                "fill-opacity": 0.3,
+                "fill-color": "#D92546",
+              }}
+              linePaint={{
+                "line-color": "#000",
+                "line-width": 3,
+                "line-opacity": 1,
+              }}
+            />
+            {/* <Layer
               type={"fill"}
               paint={{
                 "fill-opacity": 0.3,
@@ -208,7 +233,7 @@ const MapProperties = ({ center, map }) => {
               }}
             >
               {propertyFeaturesWithoutOwnershipData}
-            </Layer>
+            </Layer> */}
           </>
         )}
       <Layer
