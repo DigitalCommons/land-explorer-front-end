@@ -8,6 +8,7 @@ import {
   highlightProperties,
   setActiveProperty,
 } from "../../actions/LandOwnershipActions";
+import { GeoJSONLayer } from "react-mapbox-gl";
 
 const MapProperties = ({ center, map }) => {
   const {
@@ -119,6 +120,8 @@ const MapProperties = ({ center, map }) => {
             {loadingProperties && (
               <LoadingData message={"fetching property boundaries"} />
             )}
+
+            {/* Original Layer for properties with ownership data */}
             {/* <Layer
               type={"fill"}
               paint={{
@@ -130,6 +133,7 @@ const MapProperties = ({ center, map }) => {
               {propertyFeaturesWithOwnershipData}
             </Layer> */}
 
+            {/* react-map-gl style - doesn't work, wrong library */}
             {/* <Source
               id="properties-with-ownership-data"
               type="geojson"
@@ -155,13 +159,14 @@ const MapProperties = ({ center, map }) => {
               />
             </Source> */}
 
-            <Layer
+            {/* Using react-mapbox-gl, two layers are needed */}
+            {/* <Layer
               id="ownership-fill"
               type="fill"
               paint={{
                 "fill-opacity": 0.3,
                 "fill-color": "#6A0DAD",
-                "fill-outline-color": "#6A0DAD", // optional if you're also doing a separate line layer
+                // "fill-outline-color": "#6A0DAD", // unnecessary if you're also doing a separate line layer
               }}
             >
               {propertyFeaturesWithOwnershipData}
@@ -177,10 +182,23 @@ const MapProperties = ({ center, map }) => {
               }}
             >
               {propertyFeaturesWithOwnershipData}
-            </Layer>
+            </Layer> */}
+
+            {/* Using react-mapbox-gl GeoJSONLayer combining two layers */}
+            <GeoJSONLayer
+              data={geoJsonWithOwnership} // Use this instead
+              fillPaint={{
+                "fill-opacity": 0.3,
+                "fill-color": "#6A0DAD",
+              }}
+              linePaint={{
+                "line-color": "#000",
+                "line-width": 3,
+                "line-opacity": 1,
+              }}
+            />
 
             {/* Without Ownership Data */}
-
             <Layer
               type={"fill"}
               paint={{
