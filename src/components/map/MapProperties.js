@@ -1,6 +1,8 @@
+// Updated MapProperties.js using GeoJSONLayer from react-mapbox-gl
+
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Layer, Feature, Source } from "react-mapbox-gl";
+import { Layer, Feature } from "react-mapbox-gl";
 import constants from "../../constants";
 import LoadingData from "./LoadingData";
 import {
@@ -37,6 +39,10 @@ const MapProperties = ({ center, map }) => {
   }, [center, zooming, activeDisplay]);
 
   const onClickNewProperty = (property) => {
+    if (!property.poly_id || !property.geom?.coordinates) {
+      console.warn("Invalid property passed to click handler", property);
+      return;
+    }
     if (activePanel !== "Drawing Tools") {
       dispatch(highlightProperties({ [property.poly_id]: property }));
       dispatch(setActiveProperty(property.poly_id));
@@ -49,54 +55,45 @@ const MapProperties = ({ center, map }) => {
     }
   };
 
-  const propertyFeaturesWithOwnershipData = [];
-  const propertyFeaturesWithoutOwnershipData = [];
+  // Handle GeoJSON click events safely
+  const handleGeoJsonClick = (evt, callback) => {
+    console.log("Raw event:", evt);
+    const feature = evt?.features?.[0] || evt?.feature;
+    if (feature?.properties && feature?.geometry) {
+      const property = {
+        ...feature.properties,
+        geom: feature.geometry,
+      };
+      console.log("Safe reconstructed property:", property);
+      callback(property);
+    } else {
+      console.warn("Missing feature properties or geometry", feature);
+    }
+  };
 
-  // If no properties are visible, return an empty array
   const geoJsonWithOwnership = {
     type: "FeatureCollection",
     features:
-      visibleProperties
-        ?.filter((property) => property.tenure)
-        .map((property) => ({
-          type: "Feature",
-          geometry: property.geom,
-          properties: { ...property },
-        })) || [],
+      visibleProperties?.filter((p) => p.tenure).map((property) => ({
+        type: "Feature",
+        geometry: property.geom,
+        properties: {
+          ...property,
+        },
+      })) || [],
   };
 
-  // If no properties without ownership are visible, return an empty array
   const geoJsonWithoutOwnership = {
     type: "FeatureCollection",
     features:
-      visibleProperties
-        ?.filter((property) => !property.tenure)
-        .map((property) => ({
-          type: "Feature",
-          geometry: property.geom,
-          properties: { ...property },
-        })) || [],
+      visibleProperties?.filter((p) => !p.tenure).map((property) => ({
+        type: "Feature",
+        geometry: property.geom,
+        properties: {
+          ...property,
+        },
+      })) || [],
   };
-
-  visibleProperties?.forEach((property) => {
-    // tenure is a mandatory field in ownerships data, but will be null if no linked ownership
-    if (property.tenure)
-      propertyFeaturesWithOwnershipData.push(
-        <Feature
-          coordinates={[property.geom.coordinates]}
-          key={property.geom.coordinates[0][0]}
-          onClick={() => onClickNewProperty(property)}
-        />
-      );
-    else
-      propertyFeaturesWithoutOwnershipData.push(
-        <Feature
-          coordinates={[property.geom.coordinates]}
-          key={property.geom.coordinates[0][0]}
-          onClick={() => onClickNewProperty(property)}
-        />
-      );
-  });
 
   const highlightedPropertyFeatures = Object.values(highlightedProperties).map(
     (highlightedProperty) => (
@@ -108,7 +105,6 @@ const MapProperties = ({ center, map }) => {
     )
   );
 
-  // Add another polygon for the active property so it appears darker
   if (activeProperty) {
     highlightedPropertyFeatures.push(
       <Feature
@@ -117,13 +113,6 @@ const MapProperties = ({ center, map }) => {
       />
     );
   }
-
-  // Add this before your render to validate data
-  console.log(
-    "GeoJSON feature count:",
-    geoJsonWithOwnership?.features?.length || 0
-  );
-  console.log("Sample feature:", geoJsonWithOwnership?.features?.[0]);
 
   return (
     <>
@@ -134,110 +123,40 @@ const MapProperties = ({ center, map }) => {
               <LoadingData message={"fetching property boundaries"} />
             )}
 
-            {/* Original Layer for properties with ownership data */}
-            {/* <Layer
-              type={"fill"}
-              paint={{
-                "fill-opacity": 0.3,
-                "fill-color": "#6A0DAD",
-                "fill-outline-color": "#6A0DAD",
-              }}
-            >
-              {propertyFeaturesWithOwnershipData}
-            </Layer> */}
-
-            {/* react-map-gl style - doesn't work, wrong library */}
-            {/* <Source
-              id="properties-with-ownership-data"
-              type="geojson"
+            <GeoJSONLayer
+              id="with-ownership-layer"
               data={geoJsonWithOwnership}
-            >
-              <Layer
-                id="ownership-fill"
-                type="fill"
-                paint={{
-                  "fill-opacity": 0.3,
-                  "fill-color": "#6A0DAD",
-                  "fill-outline-color": "#6A0DAD",
-                }}
-              />
-              <Layer
-                id="ownership-line"
-                type="line"
-                paint={{
-                  "line-opacity": 1,
-                  "line-color": "#000",
-                  "line-width": 5,
-                }}
-              />
-            </Source> */}
-
-            {/* Using react-mapbox-gl, two layers are needed */}
-            {/* <Layer
-              id="ownership-fill"
-              type="fill"
-              paint={{
-                "fill-opacity": 0.3,
-                "fill-color": "#6A0DAD",
-                // "fill-outline-color": "#6A0DAD", // unnecessary if you're also doing a separate line layer
-              }}
-            >
-              {propertyFeaturesWithOwnershipData}
-            </Layer>
-
-            <Layer
-              id="ownership-outline"
-              type="line"
-              paint={{
-                "line-opacity": 1,
-                "line-color": "#000",
-                "line-width": 3,
-              }}
-            >
-              {propertyFeaturesWithOwnershipData}
-            </Layer> */}
-
-            {/* Using react-mapbox-gl GeoJSONLayer combining two layers */}
-            <GeoJSONLayer
-              data={geoJsonWithOwnership} // Use this instead
               fillPaint={{
-                "fill-opacity": 0.3,
+                "fill-opacity": 0.2,
                 "fill-color": "#6A0DAD",
               }}
               linePaint={{
-                "line-color": "#000",
-                "line-width": 3,
+                "line-color": "#6A0DAD",
+                "line-width": 2,
                 "line-opacity": 1,
               }}
+              fillOnClick={(evt) => handleGeoJsonClick(evt, onClickNewProperty)}
             />
 
-            {/* Without Ownership Data */}
             <GeoJSONLayer
-              data={geoJsonWithoutOwnership} // Use this instead
+              id="without-ownership-layer"
+              data={geoJsonWithoutOwnership}
               fillPaint={{
-                "fill-opacity": 0.3,
+                "fill-opacity": 0.2,
                 "fill-color": "#D92546",
               }}
               linePaint={{
-                "line-color": "#000",
-                "line-width": 3,
+                "line-color": "#D92546",
+                "line-width": 2,
                 "line-opacity": 1,
               }}
+              fillOnClick={(evt) => handleGeoJsonClick(evt, onClickNewProperty)}
             />
-            {/* <Layer
-              type={"fill"}
-              paint={{
-                "fill-opacity": 0.3,
-                "fill-color": "#D92546",
-                "fill-outline-color": "#D92546",
-              }}
-            >
-              {propertyFeaturesWithoutOwnershipData}
-            </Layer> */}
           </>
         )}
+
       <Layer
-        type={"fill"}
+        type="fill"
         paint={{
           "fill-opacity": 0.3,
           "fill-color": "#0057B7",
