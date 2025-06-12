@@ -1,8 +1,5 @@
-// Updated MapProperties.js using GeoJSONLayer from react-mapbox-gl
-
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Layer, Feature } from "react-mapbox-gl";
 import constants from "../../constants";
 import LoadingData from "./LoadingData";
 import {
@@ -55,7 +52,6 @@ const MapProperties = ({ center, map }) => {
     }
   };
 
-  // Handle GeoJSON click events safely
   const handleGeoJsonClick = (evt, callback) => {
     console.log("Raw event:", evt);
     const feature = evt?.features?.[0] || evt?.feature;
@@ -77,9 +73,7 @@ const MapProperties = ({ center, map }) => {
       visibleProperties?.filter((p) => p.tenure).map((property) => ({
         type: "Feature",
         geometry: property.geom,
-        properties: {
-          ...property,
-        },
+        properties: { ...property },
       })) || [],
   };
 
@@ -89,29 +83,25 @@ const MapProperties = ({ center, map }) => {
       visibleProperties?.filter((p) => !p.tenure).map((property) => ({
         type: "Feature",
         geometry: property.geom,
-        properties: {
-          ...property,
-        },
+        properties: { ...property },
       })) || [],
   };
 
-  const highlightedPropertyFeatures = Object.values(highlightedProperties).map(
-    (highlightedProperty) => (
-      <Feature
-        coordinates={[highlightedProperty.geom.coordinates]}
-        key={highlightedProperty.geom.coordinates[0][0]}
-        onClick={() => onClickHighlightedProperty(highlightedProperty)}
-      />
-    )
-  );
+  const geoJsonHighlighted = {
+    type: "FeatureCollection",
+    features: Object.values(highlightedProperties).map((property) => ({
+      type: "Feature",
+      geometry: property.geom,
+      properties: { ...property },
+    })),
+  };
 
   if (activeProperty) {
-    highlightedPropertyFeatures.push(
-      <Feature
-        coordinates={[activeProperty.geom.coordinates]}
-        key={activeProperty.geom.coordinates[0][0]}
-      />
-    );
+    geoJsonHighlighted.features.push({
+      type: "Feature",
+      geometry: activeProperty.geom,
+      properties: { ...activeProperty },
+    });
   }
 
   return (
@@ -152,19 +142,22 @@ const MapProperties = ({ center, map }) => {
               }}
               fillOnClick={(evt) => handleGeoJsonClick(evt, onClickNewProperty)}
             />
+
+            <GeoJSONLayer
+              id="highlighted-property-layer"
+              data={geoJsonHighlighted}
+              fillPaint={{
+                "fill-opacity": 0.3,
+                "fill-color": "#0057B7",
+              }}
+              linePaint={{
+                "line-color": "#0057B7",
+                "line-width": 2,
+              }}
+              fillOnClick={(evt) => handleGeoJsonClick(evt, onClickHighlightedProperty)}
+            />
           </>
         )}
-
-      <Layer
-        type="fill"
-        paint={{
-          "fill-opacity": 0.3,
-          "fill-color": "#0057B7",
-          "fill-outline-color": "#0057B7",
-        }}
-      >
-        {highlightedPropertyFeatures}
-      </Layer>
     </>
   );
 };
