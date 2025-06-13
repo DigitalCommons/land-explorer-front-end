@@ -1,5 +1,8 @@
+// Updated MapProperties.js using Feature + dual Layer approach for thicker borders
+
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Layer, Feature } from "react-mapbox-gl";
 import constants from "../../constants";
 import LoadingData from "./LoadingData";
 import {
@@ -7,7 +10,6 @@ import {
   highlightProperties,
   setActiveProperty,
 } from "../../actions/LandOwnershipActions";
-import { GeoJSONLayer } from "react-mapbox-gl";
 
 const MapProperties = ({ center, map }) => {
   const {
@@ -36,10 +38,6 @@ const MapProperties = ({ center, map }) => {
   }, [center, zooming, activeDisplay]);
 
   const onClickNewProperty = (property) => {
-    if (!property.poly_id || !property.geom?.coordinates) {
-      console.warn("Invalid property passed to click handler", property);
-      return;
-    }
     if (activePanel !== "Drawing Tools") {
       dispatch(highlightProperties({ [property.poly_id]: property }));
       dispatch(setActiveProperty(property.poly_id));
@@ -52,70 +50,81 @@ const MapProperties = ({ center, map }) => {
     }
   };
 
-  // Handle GeoJSON click events safely
-  const handleGeoJsonClick = (evt, callback) => {
-    console.log("Raw event:", evt);
-    const feature = evt?.features?.[0] || evt?.feature;
-    if (feature?.properties && feature?.geometry) {
-      const property = {
-        ...feature.properties,
-        geom: feature.geometry,
-      };
-      console.log("Safe reconstructed property:", property);
-      callback(property);
+  const getOuterRing = (coords) =>
+    Array.isArray(coords?.[0]) && Array.isArray(coords[0][0])
+      ? coords[0]
+      : coords;
+
+  const propertyFeaturesWithOwnershipData = [];
+  const propertyLineFeaturesWithOwnershipData = [];
+  const propertyFeaturesWithoutOwnershipData = [];
+  const propertyLineFeaturesWithoutOwnershipData = [];
+
+  visibleProperties?.forEach((property) => {
+    const polyKey = property.poly_id || property.geom.coordinates[0][0];
+    const fill = (
+      <Feature
+        coordinates={[property.geom.coordinates]}
+        key={`fill-${polyKey}`}
+        onClick={() => onClickNewProperty(property)}
+      />
+    );
+
+    // Create a line feature from the outer ring of the polygon
+    
+    const line = (
+      <Feature
+        coordinates={getOuterRing(property.geom.coordinates)}
+        key={`line-${polyKey}`}
+        onClick={() => onClickNewProperty(property)}
+      />
+    );
+    if (property.tenure) {
+      propertyFeaturesWithOwnershipData.push(fill);
+      propertyLineFeaturesWithOwnershipData.push(line);
     } else {
-      console.warn("Missing feature properties or geometry", feature);
+      propertyFeaturesWithoutOwnershipData.push(fill);
+      propertyLineFeaturesWithoutOwnershipData.push(line);
     }
-  };
+  });
 
-  // GeoJSON for properties whose ownership is visible to the public
-  const geoJsonWithOwnership = {
-    type: "FeatureCollection",
-    features:
-      visibleProperties
-        ?.filter((p) => p.tenure)
-        .map((property) => ({
-          type: "Feature",
-          geometry: property.geom,
-          properties: { ...property },
-        })) || [],
-  };
+  const highlightedPropertyFeatures = [];
+  const highlightedLineFeatures = [];
 
-  // GeoJSON for properties whose ownership is private
-  const geoJsonWithoutOwnership = {
-    type: "FeatureCollection",
-    features:
-      visibleProperties
-        ?.filter((p) => !p.tenure)
-        .map((property) => ({
-          type: "Feature",
-          geometry: property.geom,
-          properties: { ...property },
-        })) || [],
-  };
-
-  // empty GeoJSON for future unregistered properties
-  const geoJsonUnregistered = {
-    type: "FeatureCollection",
-    features: [],
-  };
-
-  // GeoJSON for highlighted properties
-  const geoJsonHighlighted = {
-    type: "FeatureCollection",
-    features: Object.values(highlightedProperties).map((property) => ({
-      type: "Feature",
-      geometry: property.geom,
-      properties: { ...property },
-    })),
-  };
+  Object.values(highlightedProperties).forEach((highlightedProperty) => {
+    const polyKey =
+      highlightedProperty.poly_id || highlightedProperty.geom.coordinates[0][0];
+    highlightedPropertyFeatures.push(
+      <Feature
+        coordinates={[highlightedProperty.geom.coordinates]}
+        key={`fill-hl-${polyKey}`}
+        onClick={() => onClickHighlightedProperty(highlightedProperty)}
+      />
+    );
+    highlightedLineFeatures.push(
+      <Feature
+        coordinates={getOuterRing(highlightedProperty.geom.coordinates)}
+        key={`line-hl-${polyKey}`}
+        onClick={() => onClickHighlightedProperty(highlightedProperty)}
+      />
+    );
+  });
 
   if (activeProperty) {
-    geoJsonHighlighted.features.push({
-      type: "Feature",
-      geometry: activeProperty.geom,
-      properties: { ...activeProperty },
-    });
+    const polyKey =
+      activeProperty.poly_id || activeProperty.geom.coordinates[0][0];
+    highlightedPropertyFeatures.push(
+      <Feature
+        coordinates={[activeProperty.geom.coordinates]}
+        key={`fill-active-${polyKey}`}
+      />
+    );
+    highlightedLineFeatures.push(
+      <Feature
+        coordinates={getOuterRing(activeProperty.geom.coordinates)}
+        key={`line-active-${polyKey}`}
+      />
+    );
   }
 
   return (
@@ -127,66 +136,69 @@ const MapProperties = ({ center, map }) => {
               <LoadingData message={"fetching property boundaries"} />
             )}
 
-            <GeoJSONLayer
-              id="with-ownership-layer"
-              data={geoJsonWithOwnership}
-              fillPaint={{
+            {/* Owned Properties - Fill */}
+            <Layer
+              type="fill"
+              paint={{
                 "fill-opacity": 0.2,
                 "fill-color": "#BE4A97",
               }}
-              linePaint={{
+            >
+              {propertyFeaturesWithOwnershipData}
+            </Layer>
+            {/* Owned Properties - Border */}
+            <Layer
+              type="line"
+              paint={{
                 "line-color": "#BE4A97",
                 "line-width": 2,
                 "line-opacity": 1,
               }}
-              fillOnClick={(evt) => handleGeoJsonClick(evt, onClickNewProperty)}
-            />
+            >
+              {propertyLineFeaturesWithOwnershipData}
+            </Layer>
 
-            <GeoJSONLayer
-              id="without-ownership-layer"
-              data={geoJsonWithoutOwnership}
-              fillPaint={{
+            {/* Unowned Properties - Fill */}
+            <Layer
+              type="fill"
+              paint={{
                 "fill-opacity": 0.2,
                 "fill-color": "#39ABB3",
               }}
-              linePaint={{
+            >
+              {propertyFeaturesWithoutOwnershipData}
+            </Layer>
+            {/* Unowned Properties - Border */}
+            <Layer
+              type="line"
+              paint={{
                 "line-color": "#39ABB3",
                 "line-width": 2,
                 "line-opacity": 1,
               }}
-              fillOnClick={(evt) => handleGeoJsonClick(evt, onClickNewProperty)}
-            />
+            >
+              {propertyLineFeaturesWithoutOwnershipData}
+            </Layer>
 
-            <GeoJSONLayer
-              id="unregistered-property-layer"
-              data={geoJsonUnregistered}
-              fillPaint={{
-                "fill-opacity": 0.2,
-                "fill-color": "#B85800",
-              }}
-              linePaint={{
-                "line-color": "#B85800",
-                "line-width": 2,
-                "line-opacity": 1,
-              }}
-              fillOnClick={(evt) => handleGeoJsonClick(evt, onClickNewProperty)}
-            />
-
-            <GeoJSONLayer
-              id="highlighted-property-layer"
-              data={geoJsonHighlighted}
-              fillPaint={{
+            {/* Highlighted Properties */}
+            <Layer
+              type="fill"
+              paint={{
                 "fill-opacity": 0.4,
                 "fill-color": "#244673",
               }}
-              linePaint={{
+            >
+              {highlightedPropertyFeatures}
+            </Layer>
+            <Layer
+              type="line"
+              paint={{
                 "line-color": "#244673",
                 "line-width": 2,
               }}
-              fillOnClick={(evt) =>
-                handleGeoJsonClick(evt, onClickHighlightedProperty)
-              }
-            />
+            >
+              {highlightedLineFeatures}
+            </Layer>
           </>
         )}
     </>
