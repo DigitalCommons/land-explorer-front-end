@@ -52,6 +52,7 @@ const MapProperties = ({ center, map }) => {
     }
   };
 
+  // Handle GeoJSON click events safely
   const handleGeoJsonClick = (evt, callback) => {
     console.log("Raw event:", evt);
     const feature = evt?.features?.[0] || evt?.feature;
@@ -67,26 +68,39 @@ const MapProperties = ({ center, map }) => {
     }
   };
 
+  // GeoJSON for properties whose ownership is visible to the public
   const geoJsonWithOwnership = {
     type: "FeatureCollection",
     features:
-      visibleProperties?.filter((p) => p.tenure).map((property) => ({
-        type: "Feature",
-        geometry: property.geom,
-        properties: { ...property },
-      })) || [],
+      visibleProperties
+        ?.filter((p) => p.tenure)
+        .map((property) => ({
+          type: "Feature",
+          geometry: property.geom,
+          properties: { ...property },
+        })) || [],
   };
 
+  // GeoJSON for properties whose ownership is private
   const geoJsonWithoutOwnership = {
     type: "FeatureCollection",
     features:
-      visibleProperties?.filter((p) => !p.tenure).map((property) => ({
-        type: "Feature",
-        geometry: property.geom,
-        properties: { ...property },
-      })) || [],
+      visibleProperties
+        ?.filter((p) => !p.tenure)
+        .map((property) => ({
+          type: "Feature",
+          geometry: property.geom,
+          properties: { ...property },
+        })) || [],
   };
 
+  // empty GeoJSON for future unregistered properties
+  const geoJsonUnregistered = {
+    type: "FeatureCollection",
+    features: [],
+  };
+
+  // GeoJSON for highlighted properties
   const geoJsonHighlighted = {
     type: "FeatureCollection",
     features: Object.values(highlightedProperties).map((property) => ({
@@ -118,10 +132,10 @@ const MapProperties = ({ center, map }) => {
               data={geoJsonWithOwnership}
               fillPaint={{
                 "fill-opacity": 0.2,
-                "fill-color": "#6A0DAD",
+                "fill-color": "#BE4A97",
               }}
               linePaint={{
-                "line-color": "#6A0DAD",
+                "line-color": "#BE4A97",
                 "line-width": 2,
                 "line-opacity": 1,
               }}
@@ -133,10 +147,25 @@ const MapProperties = ({ center, map }) => {
               data={geoJsonWithoutOwnership}
               fillPaint={{
                 "fill-opacity": 0.2,
-                "fill-color": "#D92546",
+                "fill-color": "#39ABB3",
               }}
               linePaint={{
-                "line-color": "#D92546",
+                "line-color": "#39ABB3",
+                "line-width": 2,
+                "line-opacity": 1,
+              }}
+              fillOnClick={(evt) => handleGeoJsonClick(evt, onClickNewProperty)}
+            />
+
+            <GeoJSONLayer
+              id="unregistered-property-layer"
+              data={geoJsonUnregistered}
+              fillPaint={{
+                "fill-opacity": 0.2,
+                "fill-color": "#B85800",
+              }}
+              linePaint={{
+                "line-color": "#B85800",
                 "line-width": 2,
                 "line-opacity": 1,
               }}
@@ -147,14 +176,16 @@ const MapProperties = ({ center, map }) => {
               id="highlighted-property-layer"
               data={geoJsonHighlighted}
               fillPaint={{
-                "fill-opacity": 0.3,
-                "fill-color": "#0057B7",
+                "fill-opacity": 0.4,
+                "fill-color": "#244673",
               }}
               linePaint={{
-                "line-color": "#0057B7",
+                "line-color": "#244673",
                 "line-width": 2,
               }}
-              fillOnClick={(evt) => handleGeoJsonClick(evt, onClickHighlightedProperty)}
+              fillOnClick={(evt) =>
+                handleGeoJsonClick(evt, onClickHighlightedProperty)
+              }
             />
           </>
         )}
