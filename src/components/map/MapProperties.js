@@ -1,5 +1,3 @@
-// Updated MapProperties.js using Feature + dual Layer approach for thicker borders + unregistered layer placeholder
-
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Layer, Feature } from "react-mapbox-gl";
@@ -12,7 +10,6 @@ import {
 } from "../../actions/LandOwnershipActions";
 
 const MapProperties = ({ center, map }) => {
-  // Extract necessary state from Redux store
   const {
     activeDisplay,
     visibleProperties,
@@ -26,7 +23,6 @@ const MapProperties = ({ center, map }) => {
 
   const dispatch = useDispatch();
 
-  // Fetch properties if zoom level and display settings allow
   useEffect(() => {
     if (
       !zooming &&
@@ -39,7 +35,6 @@ const MapProperties = ({ center, map }) => {
     }
   }, [center, zooming, activeDisplay]);
 
-  // Handle click for newly visible property
   const onClickNewProperty = (property) => {
     if (activePanel !== "Drawing Tools") {
       dispatch(highlightProperties({ [property.poly_id]: property }));
@@ -47,26 +42,25 @@ const MapProperties = ({ center, map }) => {
     }
   };
 
-  // Handle click for highlighted property
   const onClickHighlightedProperty = (property) => {
     if (activePanel !== "Drawing Tools") {
       dispatch(setActiveProperty(property.poly_id));
     }
   };
 
-  // Extract the outer ring of a polygon for line layers
-  const getOuterRing = (coords) =>
+  // Extract poly boarder only for line layers
+  const getBorder = (coords) =>
     Array.isArray(coords?.[0]) && Array.isArray(coords[0][0])
       ? coords[0]
       : coords;
 
-  // Prepare Feature components for properties with and without ownership
+  // Line features added
   const propertyFeaturesWithOwnershipData = [];
   const propertyLineFeaturesWithOwnershipData = [];
   const propertyFeaturesWithoutOwnershipData = [];
   const propertyLineFeaturesWithoutOwnershipData = [];
 
-  // Placeholder arrays for unregistered properties
+  // Placeholders for unregistered properties
   const propertyFeaturesUnregistered = [];
   const propertyLineFeaturesUnregistered = [];
 
@@ -81,7 +75,7 @@ const MapProperties = ({ center, map }) => {
     );
     const line = (
       <Feature
-        coordinates={getOuterRing(property.geom.coordinates)}
+        coordinates={getBorder(property.geom.coordinates)}
         key={`line-${polyKey}`}
         onClick={() => onClickNewProperty(property)}
       />
@@ -99,7 +93,6 @@ const MapProperties = ({ center, map }) => {
     }
   });
 
-  // Prepare Feature components for highlighted properties
   const highlightedPropertyFeatures = [];
   const highlightedLineFeatures = [];
 
@@ -115,14 +108,13 @@ const MapProperties = ({ center, map }) => {
     );
     highlightedLineFeatures.push(
       <Feature
-        coordinates={getOuterRing(highlightedProperty.geom.coordinates)}
+        coordinates={getBorder(highlightedProperty.geom.coordinates)}
         key={`line-hl-${polyKey}`}
         onClick={() => onClickHighlightedProperty(highlightedProperty)}
       />
     );
   });
 
-  // Add active property again for visual emphasis
   if (activeProperty) {
     const polyKey =
       activeProperty.poly_id || activeProperty.geom.coordinates[0][0];
@@ -134,7 +126,7 @@ const MapProperties = ({ center, map }) => {
     );
     highlightedLineFeatures.push(
       <Feature
-        coordinates={getOuterRing(activeProperty.geom.coordinates)}
+        coordinates={getBorder(activeProperty.geom.coordinates)}
         key={`line-active-${polyKey}`}
       />
     );
@@ -149,7 +141,7 @@ const MapProperties = ({ center, map }) => {
               <LoadingData message={"fetching property boundaries"} />
             )}
 
-            {/* Owned Properties - Fill */}
+            {/* Properties data public - Fill */}
             <Layer
               type="fill"
               paint={{
@@ -159,7 +151,7 @@ const MapProperties = ({ center, map }) => {
             >
               {propertyFeaturesWithOwnershipData}
             </Layer>
-            {/* Owned Properties - Border */}
+            {/* Properties data public - Border */}
             <Layer
               type="line"
               paint={{
@@ -171,7 +163,7 @@ const MapProperties = ({ center, map }) => {
               {propertyLineFeaturesWithOwnershipData}
             </Layer>
 
-            {/* Unowned Properties - Fill */}
+            {/* Properties data private - Fill */}
             <Layer
               type="fill"
               paint={{
@@ -181,7 +173,7 @@ const MapProperties = ({ center, map }) => {
             >
               {propertyFeaturesWithoutOwnershipData}
             </Layer>
-            {/* Unowned Properties - Border */}
+            {/* Properties data private - Border */}
             <Layer
               type="line"
               paint={{
@@ -193,7 +185,7 @@ const MapProperties = ({ center, map }) => {
               {propertyLineFeaturesWithoutOwnershipData}
             </Layer>
 
-            {/* Unregistered Properties - Fill (placeholder for future functionality) */}
+            {/* Unregistered Properties - Fill (placeholder for future layers) */}
             <Layer
               type="fill"
               paint={{
@@ -215,7 +207,7 @@ const MapProperties = ({ center, map }) => {
               {propertyLineFeaturesUnregistered}
             </Layer>
 
-            {/* Highlighted Properties */}
+            {/* Highlighted Properties - Fill */}
             <Layer
               type="fill"
               paint={{
@@ -225,6 +217,7 @@ const MapProperties = ({ center, map }) => {
             >
               {highlightedPropertyFeatures}
             </Layer>
+            {/* Highlighted Properties - Border */}
             <Layer
               type="line"
               paint={{
