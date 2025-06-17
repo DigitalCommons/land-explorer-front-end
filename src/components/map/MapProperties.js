@@ -191,7 +191,7 @@ const MapProperties = ({ center, map }) => {
               {propertyLineFeaturesWithoutOwnershipData}
             </Layer>
 
-            {/* Unregistered Properties - Fill (placeholder for future layers) */}
+            {/* Unregistered Properties - Fill */}
             <Layer
               type="fill"
               paint={{
@@ -234,13 +234,13 @@ const MapProperties = ({ center, map }) => {
               {highlightedLineFeatures}
             </Layer>
 
-          {/* Selected Properties - Border */}
+            {/* Selected Properties - Border */}
             {activeProperty && (
               <Layer
                 type="line"
                 paint={{
                   "line-color": "#000000",
-                  "line-width": 2,
+                  "line-width": 3,
                   "line-dasharray": [3, 3],
                   "line-opacity": 1,
                 }}
