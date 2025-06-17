@@ -96,6 +96,9 @@ const MapProperties = ({ center, map }) => {
   const highlightedPropertyFeatures = [];
   const highlightedLineFeatures = [];
 
+
+  // Add highlighted properties
+  // Highlighted properties are those that are currently selected or highlighted
   Object.values(highlightedProperties).forEach((highlightedProperty) => {
     const polyKey =
       highlightedProperty.poly_id || highlightedProperty.geom.coordinates[0][0];
@@ -115,6 +118,9 @@ const MapProperties = ({ center, map }) => {
     );
   });
 
+  // If an active property is set, add it to the highlighted features
+  // This is the property that is currently being interacted with
+  // It will be highlighted differently from the others
   if (activeProperty) {
     const polyKey =
       activeProperty.poly_id || activeProperty.geom.coordinates[0][0];
@@ -227,6 +233,27 @@ const MapProperties = ({ center, map }) => {
             >
               {highlightedLineFeatures}
             </Layer>
+
+          {/* Selected Properties - Border */}
+            {activeProperty && (
+              <Layer
+                type="line"
+                paint={{
+                  "line-color": "#000000",
+                  "line-width": 2,
+                  "line-dasharray": [3, 3],
+                  "line-opacity": 1,
+                }}
+              >
+                <Feature
+                  coordinates={getBorder(activeProperty.geom.coordinates)}
+                  key={`line-active-${
+                    activeProperty.poly_id ||
+                    activeProperty.geom.coordinates[0][0]
+                  }`}
+                />
+              </Layer>
+            )}
           </>
         )}
     </>
