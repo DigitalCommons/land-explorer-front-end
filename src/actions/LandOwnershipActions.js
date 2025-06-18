@@ -1,15 +1,14 @@
 import { getRequest } from "./RequestActions";
-import { autoSave } from './MapActions';
 
 /**
  * @param {string} type "all", "pending", "localAuthority" or "churchOfEngland"
  */
-export const togglePropertyDisplay = (type) => {
-  return (dispatch) => {
-    dispatch({ type: "TOGGLE_PROPERTY_DISPLAY", payload: type });
-    return dispatch(autoSave());
-  };
-};
+// export const togglePropertyDisplay = (type) => {
+//   return (dispatch) => {
+//     dispatch({ type: "TOGGLE_PROPERTY_DISPLAY", payload: type });
+//     return dispatch(autoSave());
+//   };
+// };
 
 export const fetchPropertiesInBox = (sw_lng, sw_lat, ne_lng, ne_lat) => {
   return async (dispatch, getState) => {
@@ -108,6 +107,41 @@ export const fetchRelatedProperties = (proprietorName) => {
       dispatch({
         type: "FETCH_RELATED_PROPERTIES_FAILURE",
         payload: "Error fetching related properties",
+      });
+    }
+  };
+};
+
+const toggleLandOwnershipInKey = (layerId, active) => {
+  return (dispatch) => {
+    if (active) {
+      dispatch({ type: "ADD_LAYER_TO_KEY", payload: layerId });
+    } else {
+      dispatch({ type: "REMOVE_LAYER_FROM_KEY", payload: layerId });
+    }
+  };
+};
+
+
+// src/actions/LandOwnershipActions.js
+export const togglePropertyDisplay = (display) => {
+  console.log(`togglePropertyDisplay called with: ${display}`);
+
+  return (dispatch, getState) => {
+    const currentDisplay = getState().landOwnership.activeDisplay;
+    console.log(`Current activeDisplay: ${currentDisplay}`);
+
+    if (currentDisplay === display) {
+      console.log(`Turning OFF display: ${display}`);
+      dispatch({
+        type: "SET_ACTIVE_DISPLAY",
+        payload: null,
+      });
+    } else {
+      console.log(`Turning ON display: ${display}`);
+      dispatch({
+        type: "SET_ACTIVE_DISPLAY",
+        payload: display,
       });
     }
   };

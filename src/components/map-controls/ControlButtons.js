@@ -8,7 +8,7 @@ import MenuKey from './MenuKey';
 
 const ControlButtons = () => {
     const [menuLayersOpen, setMenuLayersOpen] = useState(false);
-    const [menuKeyOpen, setMenuKeyOpen] = useState(false);
+    const [menuKeyOpen, setMenuKeyOpen] = useState(true);
     const { zooming } = useSelector((state) => state.map);
     const landDataLayers = useSelector(
       (state) => state.mapLayers.landDataLayers

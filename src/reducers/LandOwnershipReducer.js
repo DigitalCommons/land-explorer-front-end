@@ -119,6 +119,12 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         activeDisplay: ownershipDisplay,
       };
+    case "SET_ACTIVE_DISPLAY":
+      console.log("Reducer: SET_ACTIVE_DISPLAY", action.payload);
+      return {
+        ...state,
+        activeDisplay: action.payload,
+      };
     default:
       return state;
   }
