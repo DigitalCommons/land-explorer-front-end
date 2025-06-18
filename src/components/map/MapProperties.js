@@ -21,6 +21,12 @@ const MapProperties = ({ center, map }) => {
   const { zoom, zooming } = useSelector((state) => state.map);
   const activePanel = useSelector((state) => state.leftPane.active);
 
+  const landOwnershipActiveDisplay = useSelector(
+      (state) => state.landOwnership.activeDisplay
+  );
+  
+   const activeLayers = useSelector((state) => state.mapLayers.landDataLayers);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -90,6 +96,19 @@ const MapProperties = ({ center, map }) => {
       />
     );
   }
+
+  // In your MapProperties.js or similar component
+  useEffect(() => {
+    console.log(
+      "Map component detected landOwnershipActiveDisplay change:",
+      landOwnershipActiveDisplay
+    );
+    console.log("activeLayers includes 'all':", activeLayers.includes("all"));
+
+    // Log what should determine layer visibility
+    const shouldShowAllProperties = landOwnershipActiveDisplay === "all";
+    console.log("Should show All Properties layer:", shouldShowAllProperties);
+  }, [landOwnershipActiveDisplay, activeLayers]);
 
   return (
     <>

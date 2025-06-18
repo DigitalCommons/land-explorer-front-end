@@ -7,6 +7,7 @@ import LandDataLayerToggle from "./LandDataLayerToggle";
 import { toggleDataGroup } from "../../actions/DataGroupActions";
 import { togglePropertyDisplay } from "../../actions/LandOwnershipActions";
 import constants from "../../constants";
+import { autoSave } from "../../actions/MapActions";
 
 const DataLayersContainer = ({ children, title }) => {
   const [expanded, setExpanded] = useState(true);
@@ -56,6 +57,8 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
   const landOwnershipActiveDisplay = useSelector(
     (state) => state.landOwnership.activeDisplay
   );
+  // Add this to your other useSelector calls
+  const activeLayers = useSelector((state) => state.mapLayers.landDataLayers);
 
   const description = (
     <p className="land-data-description">
@@ -65,6 +68,44 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
       </a>
     </p>
   );
+
+  const handleOwnershipToggle = (display) => {
+    return () => {
+      console.log(`OWNERSHIP TOGGLE for ${display}`);
+
+      // First toggle the property display state
+      dispatch(togglePropertyDisplay(display));
+
+      // Then make sure it's in the MenuKey by toggling the layer
+      dispatch({ type: "TOGGLE_LAYER", payload: display });
+
+      // For "all" specifically, let's ensure the visibility is updated
+      if (display === "all") {
+        // If turning on "all"
+        if (landOwnershipActiveDisplay !== "all") {
+          console.log("Ensuring 'all' layer is visible");
+          // You might need another action to specifically make the layer visible
+          // This depends on how your map rendering code checks for layer visibility
+          dispatch({
+            type: "ENSURE_LAYER_VISIBLE",
+            payload: "all",
+          });
+        }
+        // If turning off "all"
+        else {
+          console.log("Ensuring 'all' layer is hidden");
+          dispatch({
+            type: "ENSURE_LAYER_HIDDEN",
+            payload: "all",
+          });
+        }
+      }
+
+      dispatch(autoSave());
+    };
+  };
+
+  console.log("Active Layers:", activeLayers);
 
   return (
     <LeftPaneTray
@@ -119,16 +160,44 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
       </DataLayersContainer>
       {constants.LR_POLYGONS_ENABLED && (
         <DataLayersContainer title={"Land Ownership"}>
-          <LeftPaneToggle
+          <LandDataLayerToggle
+            title="All Properties"
+            layerId="all"
+            on={landOwnershipActiveDisplay === "all"}
+            onToggle={handleOwnershipToggle("all")}
+          />
+          {user.privileged && (
+            <LandDataLayerToggle
+              title="Pending Properties"
+              layerId="pending"
+              on={landOwnershipActiveDisplay === "pending"}
+              onToggle={handleOwnershipToggle("pending")}
+            />
+          )}
+          <LandDataLayerToggle
+            title="Local Authority"
+            layerId="localAuthority"
+            on={landOwnershipActiveDisplay === "localAuthority"}
+            onToggle={handleOwnershipToggle("localAuthority")}
+          />
+          <LandDataLayerToggle
+            title="Church of England"
+            layerId="churchOfEngland"
+            on={landOwnershipActiveDisplay === "churchOfEngland"}
+            onToggle={handleOwnershipToggle("churchOfEngland")}
+          />
+
+          {/* <LeftPaneToggle
             title={"All Properties"}
             on={landOwnershipActiveDisplay === "all"}
             onToggle={() => dispatch(togglePropertyDisplay("all"))}
-          />
-          {user.privileged && (
+            layerId="all"
+          /> */}
+          {/* {user.privileged && (
             <LeftPaneToggle
               title={"Pending Properties"}
               on={landOwnershipActiveDisplay === "pending"}
-              onToggle={() => dispatch(togglePropertyDisplay("pending"))}
+              // onToggle={() => dispatch(togglePropertyDisplay("pending"))}
             />
           )}
           <LeftPaneToggle
@@ -140,7 +209,7 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
             title={"Church of England"}
             on={landOwnershipActiveDisplay === "churchOfEngland"}
             onToggle={() => dispatch(togglePropertyDisplay("churchOfEngland"))}
-          />
+          /> */}
         </DataLayersContainer>
       )}
       <DataLayersContainer title={"Administrative Boundaries"}>
