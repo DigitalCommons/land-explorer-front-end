@@ -6,23 +6,65 @@ let layerId;
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
       case "TOGGLE_LAYER":
-        landDataLayers = state.landDataLayers.slice();
-        layerId = action.payload;
-        if (landDataLayers.includes(layerId)) {
-          landDataLayers = landDataLayers.filter((e) => e !== layerId);
-        } else {
-          landDataLayers.push(layerId);
-        }
-        return {
-          ...state,
-          landDataLayers: landDataLayers,
-        };
-      case "ENSURE_LAYER_IN_KEY":
-        if (!state.landDataLayers.includes(action.payload)) {
-          console.log(`Adding layer ${action.payload} to menu key`);
+        const toggleLayerId = action.payload;
+
+        // If the layer is already in the array, remove it
+        if (state.landDataLayers.includes(toggleLayerId)) {
           return {
             ...state,
-            landDataLayers: [...state.landDataLayers, action.payload],
+            landDataLayers: state.landDataLayers.filter(
+              (id) => id !== toggleLayerId
+            ),
+          };
+        }
+        // Otherwise add it
+        else {
+          return {
+            ...state,
+            landDataLayers: [...state.landDataLayers, toggleLayerId],
+          };
+        }
+      // In your MapLayersReducer.js
+      case "ENSURE_LAYER_IN_KEY":
+        // Don't modify action.payload, assign it to a new variable
+        const newLayerId = action.payload;
+
+        // Create a list of all ownership layer IDs
+        const ownershipLayers = [
+          "all",
+          "localAuthority",
+          "churchOfEngland",
+          "pending",
+        ];
+
+        // Check if this is an ownership layer
+        const isOwnershipLayer = ownershipLayers.includes(newLayerId);
+
+        if (isOwnershipLayer) {
+          // Filter out all other ownership layers
+          const filteredLayers = state.landDataLayers.filter(
+            (id) => !ownershipLayers.includes(id) || id === newLayerId
+          );
+
+          // If this layer is not already in the list, add it
+          if (!filteredLayers.includes(newLayerId)) {
+            return {
+              ...state,
+              landDataLayers: [...filteredLayers, newLayerId],
+            };
+          }
+
+          return {
+            ...state,
+            landDataLayers: filteredLayers,
+          };
+        }
+
+        // For non-ownership layers, just add if not present
+        if (!state.landDataLayers.includes(newLayerId)) {
+          return {
+            ...state,
+            landDataLayers: [...state.landDataLayers, newLayerId],
           };
         }
         return state;

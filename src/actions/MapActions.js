@@ -113,11 +113,13 @@ export const openMap = (mapId) => {
       // Add this block to ensure ownership layers appear in MenuKey
       if (mapData.mapLayers && mapData.mapLayers.ownershipDisplay) {
         const ownershipDisplay = mapData.mapLayers.ownershipDisplay;
-        // Handle both modern maps and legacy maps where ownershipDisplay might be true
+        // Handle both modern maps and legacy maps
         const layerId = ownershipDisplay === true ? "all" : ownershipDisplay;
         console.log(
           `Ensuring ownership layer ${layerId} is in menu key after map load`
         );
+
+        // Use ENSURE_LAYER_IN_KEY which now handles exclusivity
         dispatch({
           type: "ENSURE_LAYER_IN_KEY",
           payload: layerId,
@@ -429,4 +431,43 @@ const shortenTimestamp = (timestamp) => {
   } else {
     return moment(timestamp).format("DD/MM/YY");
   }
+};
+
+// In your MapActions.js (or create a new MapLayerActions.js)
+export const toggleOwnershipLayerInKey = (layerId) => {
+  return (dispatch, getState) => {
+    const activeLayers = getState().mapLayers.landDataLayers;
+    const ownershipLayers = [
+      "all",
+      "localAuthority",
+      "churchOfEngland",
+      "pending",
+    ];
+
+    // If this layer is already in the key, remove it
+    if (activeLayers.includes(layerId)) {
+      dispatch({
+        type: "TOGGLE_LAYER",
+        payload: layerId,
+      });
+    }
+    // Otherwise, ensure it's added (and others removed)
+    else {
+      // First remove any existing ownership layers
+      ownershipLayers.forEach((id) => {
+        if (activeLayers.includes(id)) {
+          dispatch({
+            type: "TOGGLE_LAYER",
+            payload: id,
+          });
+        }
+      });
+
+      // Then add this one
+      dispatch({
+        type: "TOGGLE_LAYER",
+        payload: layerId,
+      });
+    }
+  };
 };
