@@ -141,23 +141,44 @@
 }
 
 .tooltip-menu-key {
+  // desktop dims
   top: auto;
   bottom: 80px;
   right: 76px;
   z-index: 1;
+  background-color: aqua;
 
-  &:before {
-    top: auto;
-    bottom: -12px;
-    left: 61%;
-    transform: translateX(-50%) rotate(180deg);
+  // &:before {
+  //   top: auto;
+  //   bottom: -12px;
+  //   left: 61%;
+  //   transform: translateX(-50%) rotate(180deg);
+  // }
+
+  // &:after {
+  //   top: auto;
+  //   bottom: -11px;
+  //   left: 61%;
+  //   transform: translateX(-50%) rotate(180deg);
+  // }
+  @media screen and (min-width: $medium) {
+    top: 98px;
+    bottom:auto;
+    right:0;
   }
+}
 
-  &:after {
-    top: auto;
-    bottom: -11px;
-    left: 61%;
-    transform: translateX(-50%) rotate(180deg);
+.tooltip-menu-key-content {
+  // height: 300px;
+  // width: 220px;
+  overflow-y: scroll;
+  padding: 6px;
+
+  @media screen and (min-width: $medium) {
+    height: 215px;
+    width: 200px;
+    padding: 20px;
+    box-sizing: border-box;
   }
 }
 
