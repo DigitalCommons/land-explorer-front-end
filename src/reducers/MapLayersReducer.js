@@ -17,6 +17,15 @@ export default (state = INITIAL_STATE, action) => {
           ...state,
           landDataLayers: landDataLayers,
         };
+      case "ENSURE_LAYER_IN_KEY":
+        if (!state.landDataLayers.includes(action.payload)) {
+          console.log(`Adding layer ${action.payload} to menu key`);
+          return {
+            ...state,
+            landDataLayers: [...state.landDataLayers, action.payload],
+          };
+        }
+        return state;
       case "ADD_LAYER_TO_KEY":
         if (!state.landDataLayers.includes(action.payload)) {
           return {

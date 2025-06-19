@@ -109,6 +109,8 @@ export default (state = INITIAL_STATE, action) => {
       // this could be undefined, or just 'true' for old maps
       const ownershipDisplay =
         action.payload.data.mapLayers.ownershipDisplay || null;
+      console.log("Loading map with ownership display:", ownershipDisplay);
+
       if (ownershipDisplay === true) {
         return {
           ...state,
