@@ -110,7 +110,7 @@ export const openMap = (mapId) => {
       console.log("map data:", mapData, "map id:", mapId);
       dispatch(updateReadOnly());
 
-      // Add this block to ensure ownership layers appear in MenuKey
+      // #361 - Toggle ownership layers to ensure they appear in MenuKey
       if (mapData.mapLayers && mapData.mapLayers.ownershipDisplay) {
         const ownershipDisplay = mapData.mapLayers.ownershipDisplay;
         // Handle both modern maps and legacy maps
@@ -433,7 +433,8 @@ const shortenTimestamp = (timestamp) => {
   }
 };
 
-// In your MapActions.js (or create a new MapLayerActions.js)
+// #361 - Toggle ownership layer in the key
+// Ensures only one ownership layer is active in the key at a time.
 export const toggleOwnershipLayerInKey = (layerId) => {
   return (dispatch, getState) => {
     const activeLayers = getState().mapLayers.landDataLayers;

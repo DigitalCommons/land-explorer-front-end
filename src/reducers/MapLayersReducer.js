@@ -24,7 +24,7 @@ export default (state = INITIAL_STATE, action) => {
             landDataLayers: [...state.landDataLayers, toggleLayerId],
           };
         }
-      // In your MapLayersReducer.js
+      // #361 - Ensure a specific layer is in the key
       case "ENSURE_LAYER_IN_KEY":
         // Don't modify action.payload, assign it to a new variable
         const newLayerId = action.payload;

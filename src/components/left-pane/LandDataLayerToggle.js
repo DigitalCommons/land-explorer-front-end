@@ -17,7 +17,7 @@ const LandDataLayerToggle = ({
   // Use provided "on" prop or fall back to checking activeLayers
   const isOn = on !== null ? on : activeLayers.includes(layerId);
 
-  // Default toggle handler
+  // #361 - Default toggle handler
   const defaultToggle = () => {
     console.log(`Default toggle for ${layerId}`);
     dispatch({ type: "TOGGLE_LAYER", payload: layerId });

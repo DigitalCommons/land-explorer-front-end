@@ -112,18 +112,7 @@ export const fetchRelatedProperties = (proprietorName) => {
   };
 };
 
-const toggleLandOwnershipInKey = (layerId, active) => {
-  return (dispatch) => {
-    if (active) {
-      dispatch({ type: "ADD_LAYER_TO_KEY", payload: layerId });
-    } else {
-      dispatch({ type: "REMOVE_LAYER_FROM_KEY", payload: layerId });
-    }
-  };
-};
-
-
-// src/actions/LandOwnershipActions.js
+// #361 - Toggle ownership layers in the key
 export const togglePropertyDisplay = (display) => {
   console.log(`togglePropertyDisplay called with: ${display}`);
 
