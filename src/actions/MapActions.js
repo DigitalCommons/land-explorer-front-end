@@ -110,6 +110,20 @@ export const openMap = (mapId) => {
       console.log("map data:", mapData, "map id:", mapId);
       dispatch(updateReadOnly());
 
+      // Add this block to ensure ownership layers appear in MenuKey
+      if (mapData.mapLayers && mapData.mapLayers.ownershipDisplay) {
+        const ownershipDisplay = mapData.mapLayers.ownershipDisplay;
+        // Handle both modern maps and legacy maps where ownershipDisplay might be true
+        const layerId = ownershipDisplay === true ? "all" : ownershipDisplay;
+        console.log(
+          `Ensuring ownership layer ${layerId} is in menu key after map load`
+        );
+        dispatch({
+          type: "ENSURE_LAYER_IN_KEY",
+          payload: layerId,
+        });
+      }
+
       setTimeout(() => {
         dispatch({
           type: "CHANGE_MOVING_METHOD",
