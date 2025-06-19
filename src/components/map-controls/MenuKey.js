@@ -10,7 +10,7 @@ const MenuKey = ({ open, setOpen }) => {
   const { activeDisplay } = useSelector((state) => state.landOwnership);
   const dispatch = useDispatch();
 
-  // Define ownership layer IDs
+  // #361 - Define ownership layer IDs
   const ownershipLayers = [
     "all",
     "localAuthority",
@@ -18,7 +18,7 @@ const MenuKey = ({ open, setOpen }) => {
     "pending",
   ];
 
-  // Determine if we're at the appropriate zoom level for ownership layers
+  // #361 - Determine if we're at the appropriate zoom level for ownership layers
   const isAtOwnershipZoom =
     activeDisplay &&
     zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay];
@@ -33,7 +33,7 @@ const MenuKey = ({ open, setOpen }) => {
       : "N/A"
   );
 
-  // Filter layers based on zoom level
+  // #361 - Filter layers based on zoom level
   const visibleLayerIds = landDataLayers.filter((layerId) => {
     // If it's an ownership layer, only show at appropriate zoom
     if (ownershipLayers.includes(layerId)) {
@@ -222,7 +222,7 @@ const MenuKey = ({ open, setOpen }) => {
 
   return (
     <>
-      <div className="menu-key-button" onClick={() => setOpen(!open)} />
+      {/* <div className="menu-key-button" onClick={() => setOpen(!open)} /> */}
       {isMobile ? (
         <div
           style={{
@@ -236,6 +236,7 @@ const MenuKey = ({ open, setOpen }) => {
             zIndex: 10000000,
             display: shouldShowKey ? "block" : "none",
           }}
+          className="mobile-key"
         >
           <div
             style={{
@@ -261,6 +262,7 @@ const MenuKey = ({ open, setOpen }) => {
             }}
           >
             <h2>Layer Key</h2>
+            <p>yo here too</p>
             {keys.length ? keys : <div>No Layers selected</div>}
           </div>
         </div>
@@ -269,23 +271,19 @@ const MenuKey = ({ open, setOpen }) => {
           style={{
             display: shouldShowKey ? "block" : "none",
           }}
+          className="desktop-key"
         >
+          <button onClick={() => {}}>Close tab</button>
           <div
-            className="tooltip-menu tooltip-menu-key modal"
+            className="tooltip-menu tooltip-menu-key modal desktop"
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
             }}
           >
-            <div
-              style={{
-                height: "300px",
-                width: "220px",
-                overflowY: "scroll",
-                padding: "6px",
-              }}
-            >
+            <div className="tooltip-menu-key-content">
               <h3 style={{ marginTop: 0 }}>Layer Key</h3>
+              <p>yo here</p>
               {keys.length ? keys : <div>No Layers selected</div>}
             </div>
           </div>
