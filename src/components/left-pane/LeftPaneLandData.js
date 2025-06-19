@@ -8,6 +8,7 @@ import { toggleDataGroup } from "../../actions/DataGroupActions";
 import { togglePropertyDisplay } from "../../actions/LandOwnershipActions";
 import constants from "../../constants";
 import { autoSave } from "../../actions/MapActions";
+import { toggleOwnershipLayerInKey } from "../../actions/MapActions";
 
 const DataLayersContainer = ({ children, title }) => {
   const [expanded, setExpanded] = useState(true);
@@ -76,30 +77,8 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
       // First toggle the property display state
       dispatch(togglePropertyDisplay(display));
 
-      // Then make sure it's in the MenuKey by toggling the layer
-      dispatch({ type: "TOGGLE_LAYER", payload: display });
-
-      // For "all" specifically, let's ensure the visibility is updated
-      if (display === "all") {
-        // If turning on "all"
-        if (landOwnershipActiveDisplay !== "all") {
-          console.log("Ensuring 'all' layer is visible");
-          // You might need another action to specifically make the layer visible
-          // This depends on how your map rendering code checks for layer visibility
-          dispatch({
-            type: "ENSURE_LAYER_VISIBLE",
-            payload: "all",
-          });
-        }
-        // If turning off "all"
-        else {
-          console.log("Ensuring 'all' layer is hidden");
-          dispatch({
-            type: "ENSURE_LAYER_HIDDEN",
-            payload: "all",
-          });
-        }
-      }
+      // Use the specialized action for toggling ownership layers in the key
+      dispatch(toggleOwnershipLayerInKey(display));
 
       dispatch(autoSave());
     };
