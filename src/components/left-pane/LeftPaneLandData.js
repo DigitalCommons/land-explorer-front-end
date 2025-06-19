@@ -58,7 +58,8 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
   const landOwnershipActiveDisplay = useSelector(
     (state) => state.landOwnership.activeDisplay
   );
-  // Add this to your other useSelector calls
+
+  // #361 - Active display for land ownership layers
   const activeLayers = useSelector((state) => state.mapLayers.landDataLayers);
 
   const description = (
@@ -70,14 +71,15 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
     </p>
   );
 
+  // #361 - Handle toggling ownership layers
   const handleOwnershipToggle = (display) => {
     return () => {
       console.log(`OWNERSHIP TOGGLE for ${display}`);
 
-      // First toggle the property display state
+      // Toggle the property display state
       dispatch(togglePropertyDisplay(display));
 
-      // Use the specialized action for toggling ownership layers in the key
+      // Toggle ownership layers in the key
       dispatch(toggleOwnershipLayerInKey(display));
 
       dispatch(autoSave());

@@ -43,7 +43,7 @@ const MenuKey = ({ open, setOpen }) => {
     return true;
   });
 
-  // Add this near the top of your MenuKey component
+  // #361 - Check if only ownership layers are active
   const onlyHasOwnershipLayers =
     landDataLayers.length > 0 &&
     landDataLayers.every((id) => ownershipLayers.includes(id));
@@ -61,7 +61,7 @@ const MenuKey = ({ open, setOpen }) => {
     onClick={() => setOpen(!open)}
   />;
 
-  // Add this near the top of your MenuKey component
+  // #361 - Check if only ownership layers are active
   useEffect(() => {
     // Force a re-render when zoom changes if we have ownership layers
     const hasOwnershipLayers = landDataLayers.some((id) =>
@@ -69,7 +69,7 @@ const MenuKey = ({ open, setOpen }) => {
     );
 
     if (hasOwnershipLayers) {
-      // You might want to debounce this in a production environment
+      // Important - debounced or throttled in production
       // to prevent too many re-renders during zoom operations
       console.log("Zoom changed, checking ownership layer visibility");
     }
@@ -209,12 +209,12 @@ const MenuKey = ({ open, setOpen }) => {
     },
   };
 
-  // Create the keys using the filtered layer IDs
+  // #361 - Create the keys using the filtered layer IDs
   const keys = visibleLayerIds.map((layer, i) => (
     <Key key={i} name={layers[layer].name} data={layers[layer].data} />
   ));
 
-  // Determine if we should show the key at all
+  // #361 - Determine if we should show the key at all
   const hasVisibleLayers = visibleLayerIds.length > 0;
   const shouldShowKey = open && hasVisibleLayers;
 

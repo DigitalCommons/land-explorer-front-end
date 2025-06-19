@@ -1,4 +1,3 @@
-// src/components/left-pane/LeftPaneToggle.js
 import React from "react";
 import ToggleSwitch from "../common/ToggleSwitch";
 

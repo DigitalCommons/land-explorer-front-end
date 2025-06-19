@@ -144,7 +144,7 @@ const MapProperties = ({ center, map }) => {
     );
   }
 
-  // In your MapProperties.js or similar component
+  // #361 - Log the current state of landOwnershipActiveDisplay and activeLayers
   useEffect(() => {
     console.log(
       "Map component detected landOwnershipActiveDisplay change:",
