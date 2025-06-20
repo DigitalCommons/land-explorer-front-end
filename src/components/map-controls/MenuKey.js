@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { isMobile } from "react-device-detect";
 import Key from "./Key";
 import constants from "../../constants";
 
 const MenuKey = ({ open, setOpen }) => {
+  const [expanded, setExpanded] = useState(true);
   const landDataLayers = useSelector((state) => state.mapLayers.landDataLayers);
   const { zoom, zooming } = useSelector((state) => state.map);
   const { activeDisplay } = useSelector((state) => state.landOwnership);
@@ -53,6 +54,11 @@ const MenuKey = ({ open, setOpen }) => {
     !onlyHasOwnershipLayers ||
     // OR if we're at the ownership zoom level
     (onlyHasOwnershipLayers && isAtOwnershipZoom);
+
+  // Handle toggling the menu expansion
+  const toggleExpanded = () => {
+    setExpanded(!expanded);
+  };
 
   // Then update the menu key button rendering
   <div
@@ -267,16 +273,19 @@ const MenuKey = ({ open, setOpen }) => {
         </div>
       ) : (
         <div
+          className={`tooltip-menu-key__container ${
+            !expanded ? "collapsed" : ""
+          }`}
           style={{
             display: shouldShowKey ? "flex" : "none",
           }}
-          className="tooltip-menu-key__container"
         >
-          <button className="tooltip-menu-key__tab" onClick={() => {}}>
+          <button
+            className={`tooltip-menu-key__tab ${!expanded ? "collapsed" : ""}`}
+            onClick={toggleExpanded}
+          >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.142 16">
-              <path
-                d="M8.807 7.193a1.144 1.144 0 0 1 0 1.617l-6.855 6.855a1.144 1.144 0 1 1-1.617-1.617L6.383 8 .339 1.952A1.144 1.144 0 1 1 1.956.335L8.811 7.19Z"
-              />
+              <path d="M8.807 7.193a1.144 1.144 0 0 1 0 1.617l-6.855 6.855a1.144 1.144 0 1 1-1.617-1.617L6.383 8 .339 1.952A1.144 1.144 0 1 1 1.956.335L8.811 7.19Z" />
             </svg>
           </button>
           <div
