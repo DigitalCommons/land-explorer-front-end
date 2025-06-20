@@ -183,22 +183,22 @@ const MenuKey = ({ open, setOpen }) => {
       },
     },
     all: {
-      name: "All Properties",
+      name: "Land Ownership",
       data: {
-        "Ownership Public": "#BE4A97",
-        "Ownership Private": "#39ABB3",
+        "Company owned": "#BE4A97",
+        "Privately owned": "#39ABB3",
       },
     },
     localAuthority: {
-      name: "Local Authority",
+      name: "Land Ownership",
       data: {
-        "Local Authority": "#FFB300",
+        "Local Authority": "#BE4A97",
       },
     },
     churchOfEngland: {
-      name: "Church of England",
+      name: "Land Ownership",
       data: {
-        "Church of England": "#6F2C91",
+        "Church of England": "#BE4A97",
       },
     },
     pending: {
@@ -262,7 +262,6 @@ const MenuKey = ({ open, setOpen }) => {
             }}
           >
             <h2>Layer Key</h2>
-            <p>yo here too</p>
             {keys.length ? keys : <div>No Layers selected</div>}
           </div>
         </div>
@@ -280,10 +279,13 @@ const MenuKey = ({ open, setOpen }) => {
               e.stopPropagation();
               e.preventDefault();
             }}
-          >
+            >
+              <header className="tooltip-menu-key__header">
+                <i className="tooltip-menu-layers__icon"></i>
+                <h3 style={{ marginTop: 0 }}>Layer Key</h3>
+              </header>
             <div className="tooltip-menu-key-content">
-              <h3 style={{ marginTop: 0 }}>Layer Key</h3>
-              <p>yo here</p>
+              
               {keys.length ? keys : <div>No Layers selected</div>}
             </div>
           </div>
