@@ -157,14 +157,24 @@ h3 {
   background-repeat: no-repeat;
 }
 
-.tooltip-menu-key {
-  // desktop dims
-  top: auto;
-  bottom: 80px;
-  right: 76px;
+// Layer key tooltip
+
+.tooltip-menu-key__container {
+  position: fixed;
+  top: 98px;
+  right:0;
   z-index: 1;
+  // width: 220px;
+  height: auto;
+}
+
+.tooltip-menu-key {
   background-color: aqua;
-  border-radius: 0px 0px 0px 6px !important;
+  border-radius: 0px 0px 0px 8px !important;
+  border: none !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2) !important;
 
   // &:before {
   //   top: auto;
@@ -186,10 +196,29 @@ h3 {
   }
 }
 
-.tooltip-menu-key__header {
+.tooltip-menu-key__tab, .tooltip-menu-key__header {
+  height: 50px;
+  background-color: $lightNeutral;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  background-color: $lightNeutral;
+}
+
+.tooltip-menu-key__tab {
+  width: 45px;
+  border: none;
+  cursor: pointer;
+  justify-content: center;
+  border-radius: 8px 0px 0px 8px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+
+  svg {
+    height: 16px;
+    fill: $darkNeutral;
+  }
+}
+
+.tooltip-menu-key__header {
   padding: 17px 20px;
   h3 {
     font-weight: 600;
