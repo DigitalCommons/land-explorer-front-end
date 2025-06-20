@@ -268,24 +268,29 @@ const MenuKey = ({ open, setOpen }) => {
       ) : (
         <div
           style={{
-            display: shouldShowKey ? "block" : "none",
+            display: shouldShowKey ? "flex" : "none",
           }}
-          className="desktop-key"
+          className="tooltip-menu-key__container"
         >
-          <button onClick={() => {}}>Close tab</button>
+          <button className="tooltip-menu-key__tab" onClick={() => {}}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.142 16">
+              <path
+                d="M8.807 7.193a1.144 1.144 0 0 1 0 1.617l-6.855 6.855a1.144 1.144 0 1 1-1.617-1.617L6.383 8 .339 1.952A1.144 1.144 0 1 1 1.956.335L8.811 7.19Z"
+              />
+            </svg>
+          </button>
           <div
-            className="tooltip-menu tooltip-menu-key modal desktop"
+            className="tooltip-menu-key modal desktop"
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
             }}
-            >
-              <header className="tooltip-menu-key__header">
-                <i className="tooltip-menu-layers__icon"></i>
-                <h3 style={{ marginTop: 0 }}>Layer Key</h3>
-              </header>
+          >
+            <header className="tooltip-menu-key__header">
+              <i className="tooltip-menu-layers__icon"></i>
+              <h3 style={{ marginTop: 0 }}>Layer Key</h3>
+            </header>
             <div className="tooltip-menu-key-content">
-              
               {keys.length ? keys : <div>No Layers selected</div>}
             </div>
           </div>
