@@ -48,7 +48,7 @@ const MapProperties = ({ center, map }) => {
     }
   };
 
-  // Extract poly boarder only for line layers
+  // Extract poly border only for line layers
   const getBorder = (coords) =>
     Array.isArray(coords?.[0]) && Array.isArray(coords[0][0])
       ? coords[0]
