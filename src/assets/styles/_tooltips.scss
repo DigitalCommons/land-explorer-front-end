@@ -162,10 +162,14 @@ h3 {
 .tooltip-menu-key__container {
   position: fixed;
   top: 98px;
-  right:0;
+  right: 0;
   z-index: 1;
-  // width: 220px;
-  height: auto;
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+
+  &.collapsed {
+    transform: translateX(calc(100% - 45px)); // 45px is the width of the tab
+  }
 }
 
 .tooltip-menu-key {
@@ -173,7 +177,7 @@ h3 {
   border-radius: 0px 0px 0px 8px !important;
   border: none !important;
   padding: 0 !important;
-  cursor: pointer !important;
+  cursor: default !important;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2) !important;
 
   // &:before {
@@ -196,7 +200,8 @@ h3 {
   }
 }
 
-.tooltip-menu-key__tab, .tooltip-menu-key__header {
+.tooltip-menu-key__tab,
+.tooltip-menu-key__header {
   height: 50px;
   background-color: $lightNeutral;
   box-sizing: border-box;
@@ -215,6 +220,10 @@ h3 {
   svg {
     height: 16px;
     fill: $darkNeutral;
+  }
+  
+  &.collapsed svg {
+    transform: rotate(180deg);
   }
 }
 
