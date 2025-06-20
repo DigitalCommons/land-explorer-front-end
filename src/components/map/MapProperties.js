@@ -48,45 +48,92 @@ const MapProperties = ({ center, map }) => {
     }
   };
 
+  // Extract poly border only for line layers
+  const getBorder = (coords) =>
+    Array.isArray(coords?.[0]) && Array.isArray(coords[0][0])
+      ? coords[0]
+      : coords;
+
+  // Line features added
   const propertyFeaturesWithOwnershipData = [];
+  const propertyLineFeaturesWithOwnershipData = [];
   const propertyFeaturesWithoutOwnershipData = [];
+  const propertyLineFeaturesWithoutOwnershipData = [];
+
+  // Placeholders for unregistered properties
+  const propertyFeaturesUnregistered = [];
+  const propertyLineFeaturesUnregistered = [];
 
   visibleProperties?.forEach((property) => {
-    // tenure is a mandatory field in ownerships data, but will be null if no linked ownership
-    if (property.tenure)
-      propertyFeaturesWithOwnershipData.push(
-        <Feature
-          coordinates={[property.geom.coordinates]}
-          key={property.geom.coordinates[0][0]}
-          onClick={() => onClickNewProperty(property)}
-        />
-      );
-    else
-      propertyFeaturesWithoutOwnershipData.push(
-        <Feature
-          coordinates={[property.geom.coordinates]}
-          key={property.geom.coordinates[0][0]}
-          onClick={() => onClickNewProperty(property)}
-        />
-      );
+    const polyKey = property.poly_id || property.geom.coordinates[0][0];
+    const fill = (
+      <Feature
+        coordinates={[property.geom.coordinates]}
+        key={`fill-${polyKey}`}
+        onClick={() => onClickNewProperty(property)}
+      />
+    );
+    const line = (
+      <Feature
+        coordinates={getBorder(property.geom.coordinates)}
+        key={`line-${polyKey}`}
+        onClick={() => onClickNewProperty(property)}
+      />
+    );
+
+    if (property.tenure === "unregistered") {
+      propertyFeaturesUnregistered.push(fill);
+      propertyLineFeaturesUnregistered.push(line);
+    } else if (property.tenure) {
+      propertyFeaturesWithOwnershipData.push(fill);
+      propertyLineFeaturesWithOwnershipData.push(line);
+    } else {
+      propertyFeaturesWithoutOwnershipData.push(fill);
+      propertyLineFeaturesWithoutOwnershipData.push(line);
+    }
   });
 
-  const highlightedPropertyFeatures = Object.values(highlightedProperties).map(
-    (highlightedProperty) => (
+  const highlightedPropertyFeatures = [];
+  const highlightedLineFeatures = [];
+
+
+  // Add highlighted properties
+  // Highlighted properties are those that are currently selected or highlighted
+  Object.values(highlightedProperties).forEach((highlightedProperty) => {
+    const polyKey =
+      highlightedProperty.poly_id || highlightedProperty.geom.coordinates[0][0];
+    highlightedPropertyFeatures.push(
       <Feature
         coordinates={[highlightedProperty.geom.coordinates]}
-        key={highlightedProperty.geom.coordinates[0][0]}
+        key={`fill-hl-${polyKey}`}
         onClick={() => onClickHighlightedProperty(highlightedProperty)}
       />
-    )
-  );
+    );
+    highlightedLineFeatures.push(
+      <Feature
+        coordinates={getBorder(highlightedProperty.geom.coordinates)}
+        key={`line-hl-${polyKey}`}
+        onClick={() => onClickHighlightedProperty(highlightedProperty)}
+      />
+    );
+  });
 
-  // Add another polygon for the active property so it appears darker
+  // If an active property is set, add it to the highlighted features
+  // This is the property that is currently being interacted with
+  // It will be highlighted differently from the others
   if (activeProperty) {
+    const polyKey =
+      activeProperty.poly_id || activeProperty.geom.coordinates[0][0];
     highlightedPropertyFeatures.push(
       <Feature
         coordinates={[activeProperty.geom.coordinates]}
-        key={activeProperty.geom.coordinates[0][0]}
+        key={`fill-active-${polyKey}`}
+      />
+    );
+    highlightedLineFeatures.push(
+      <Feature
+        coordinates={getBorder(activeProperty.geom.coordinates)}
+        key={`line-active-${polyKey}`}
       />
     );
   }
@@ -99,37 +146,116 @@ const MapProperties = ({ center, map }) => {
             {loadingProperties && (
               <LoadingData message={"fetching property boundaries"} />
             )}
+
+            {/* Properties data public - Fill */}
             <Layer
-              type={"fill"}
+              type="fill"
               paint={{
-                "fill-opacity": 0.15,
-                "fill-color": "green",
-                "fill-outline-color": "green",
+                "fill-opacity": 0.2,
+                "fill-color": "#BE4A97",
               }}
             >
               {propertyFeaturesWithOwnershipData}
             </Layer>
+            {/* Properties data public - Border */}
             <Layer
-              type={"fill"}
+              type="line"
               paint={{
-                "fill-opacity": 0.15,
-                "fill-color": "orange",
-                "fill-outline-color": "green",
+                "line-color": "#BE4A97",
+                "line-width": 2,
+                "line-opacity": 1,
+              }}
+            >
+              {propertyLineFeaturesWithOwnershipData}
+            </Layer>
+
+            {/* Properties data private - Fill */}
+            <Layer
+              type="fill"
+              paint={{
+                "fill-opacity": 0.2,
+                "fill-color": "#39ABB3",
               }}
             >
               {propertyFeaturesWithoutOwnershipData}
             </Layer>
+            {/* Properties data private - Border */}
+            <Layer
+              type="line"
+              paint={{
+                "line-color": "#39ABB3",
+                "line-width": 2,
+                "line-opacity": 1,
+              }}
+            >
+              {propertyLineFeaturesWithoutOwnershipData}
+            </Layer>
+
+            {/* Unregistered Properties - Fill */}
+            <Layer
+              type="fill"
+              paint={{
+                "fill-opacity": 0.2,
+                "fill-color": "#B85800",
+              }}
+            >
+              {propertyFeaturesUnregistered}
+            </Layer>
+            {/* Unregistered Properties - Border */}
+            <Layer
+              type="line"
+              paint={{
+                "line-color": "#B85800",
+                "line-width": 2,
+                "line-opacity": 1,
+              }}
+            >
+              {propertyLineFeaturesUnregistered}
+            </Layer>
+
+            {/* Highlighted Properties - Fill */}
+            <Layer
+              type="fill"
+              paint={{
+                "fill-opacity": 0.4,
+                "fill-color": "#244673",
+              }}
+            >
+              {highlightedPropertyFeatures}
+            </Layer>
+            {/* Highlighted Properties - Border */}
+            <Layer
+              type="line"
+              paint={{
+                "line-color": "#244673",
+                "line-width": 2,
+              }}
+            >
+              {highlightedLineFeatures}
+            </Layer>
+
+            {/* Selected Properties - Border */}
+            {activeProperty && (
+              <Layer
+                type="line"
+                paint={{
+                  "line-color": "#000000",
+                  "line-width": 3,
+                  "line-dasharray": [3, 3],
+                  "line-opacity": 1,
+                }}
+              >
+                <Feature
+                  coordinates={getBorder(activeProperty.geom.coordinates)}
+                  key={`line-active-${
+                    activeProperty.poly_id ||
+                    activeProperty.geom.coordinates[0][0]
+                  }`}
+                />
+              </Layer>
+            )}
           </>
         )}
-      <Layer
-        type={"fill"}
-        paint={{
-          "fill-opacity": 0.3,
-          "fill-color": "red",
-        }}
-      >
-        {highlightedPropertyFeatures}
-      </Layer>
     </>
   );
 };
