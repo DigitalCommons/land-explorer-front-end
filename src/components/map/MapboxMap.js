@@ -373,7 +373,7 @@ const MapboxMap = () => {
       />
       {
         // If layers are active show button toggle key menu
-        landDataLayers.length && !showZoomWarning && (
+        landDataLayers.length && (
           <MenuKey
             open={menuKeyOpen}
             setOpen={(open) => {
