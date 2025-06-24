@@ -271,6 +271,22 @@ const MapboxMap = () => {
     layers: baseLayers,
   };
 
+  const handleZoomToRequired = (requiredZoom) => {
+    if (map) {
+      // Add some buffer to ensure we're above the threshold
+      const targetZoom = requiredZoom + 0.1;
+
+      // Animate the zoom
+      map.flyTo({
+        center: lngLat,
+        zoom: targetZoom,
+        speed: 0.8,
+        curve: 1.5,
+        essential: true,
+      });
+    }
+  };
+
   return (
     <div>
       {/* This is the ReactMapbox instance we created at the top of the file */}
@@ -341,7 +357,10 @@ const MapboxMap = () => {
           />
         )}
         {/* Shows zoom warning if active layers are out of view */}
-        <ZoomWarning show={showZoomWarning} />
+        <ZoomWarning
+          show={showZoomWarning}
+          onZoomToRequired={handleZoomToRequired}
+        />
         {/* Drawing tools */}
         <DrawControl
           addControl={map}
