@@ -27,6 +27,8 @@ import {
 } from "../../actions/MapActions";
 import FeedbackTab from "../common/FeedbackTab";
 import MapBeingEditedToast from "./MapBeingEditedToast";
+import MenuLayers from "../map-controls/MenuLayers";
+import MenuKey from "../map-controls/MenuKey";
 
 // Create Map Component with settings
 const Map = ReactMapboxGl({
@@ -57,6 +59,8 @@ const MapboxMap = () => {
   const propertiesDisplay = useSelector(
     (state) => state.landOwnership.activeDisplay
   );
+  const [menuLayersOpen, setMenuLayersOpen] = useState(false);
+  const [menuKeyOpen, setMenuKeyOpen] = useState(true);
 
   useInterval(
     () => {
@@ -355,6 +359,25 @@ const MapboxMap = () => {
         }
       </Map>
       <LeftPane drawControl={drawControlRef.current} />
+      <MenuLayers
+        open={menuLayersOpen}
+        setOpen={(open) => {
+          setMenuLayersOpen(open);
+          open && setMenuKeyOpen(false);
+        }}
+      />
+      {
+        // If layers are active show button toggle key menu
+        landDataLayers.length && (
+          <MenuKey
+            open={menuKeyOpen}
+            setOpen={(open) => {
+              setMenuKeyOpen(open);
+              open && setMenuLayersOpen(false);
+            }}
+          />
+        )
+      }
       <FeedbackTab />
       <MapBeingEditedToast />
       <Modals />
