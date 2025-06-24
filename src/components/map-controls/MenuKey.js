@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { isMobile } from "react-device-detect";
 import Key from "./Key";
 import constants from "../../constants";
@@ -7,11 +7,10 @@ import constants from "../../constants";
 const MenuKey = ({ open, setOpen }) => {
   const [expanded, setExpanded] = useState(true);
   const landDataLayers = useSelector((state) => state.mapLayers.landDataLayers);
-  const { zoom, zooming } = useSelector((state) => state.map);
+  const { zoom } = useSelector((state) => state.map);
   const { activeDisplay } = useSelector((state) => state.landOwnership);
-  const dispatch = useDispatch();
 
-  // #361 - Define ownership layer IDs
+  // Define ownership layer IDs
   const ownershipLayers = [
     "all",
     "localAuthority",
@@ -19,22 +18,17 @@ const MenuKey = ({ open, setOpen }) => {
     "pending",
   ];
 
-  // #361 - Determine if we're at the appropriate zoom level for ownership layers
+  // Determine if we're at the appropriate zoom level for ownership layers
   const isAtOwnershipZoom =
     activeDisplay &&
     zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay];
 
-  console.log("landDataLayers", landDataLayers);
-  console.log(
-    "Current zoom:",
-    zoom,
-    "Ownership zoom threshold:",
-    activeDisplay
-      ? constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay]
-      : "N/A"
+  // Check if we have any non-ownership layers
+  const hasNonOwnershipLayers = landDataLayers.some(
+    (layer) => !ownershipLayers.includes(layer)
   );
 
-  // #361 - Filter layers based on zoom level
+  // Filter layers based on zoom level
   const visibleLayerIds = landDataLayers.filter((layerId) => {
     // If it's an ownership layer, only show at appropriate zoom
     if (ownershipLayers.includes(layerId)) {
@@ -44,42 +38,10 @@ const MenuKey = ({ open, setOpen }) => {
     return true;
   });
 
-  // #361 - Check if only ownership layers are active
-  const onlyHasOwnershipLayers =
-    landDataLayers.length > 0 &&
-    landDataLayers.every((id) => ownershipLayers.includes(id));
-
-  const shouldShowMenuKeyButton =
-    // Show if there are any non-ownership layers active
-    !onlyHasOwnershipLayers ||
-    // OR if we're at the ownership zoom level
-    (onlyHasOwnershipLayers && isAtOwnershipZoom);
-
   // Handle toggling the menu expansion
   const toggleExpanded = () => {
     setExpanded(!expanded);
   };
-
-  // Then update the menu key button rendering
-  <div
-    className="menu-key-button"
-    style={{ display: shouldShowMenuKeyButton ? "block" : "none" }}
-    onClick={() => setOpen(!open)}
-  />;
-
-  // #361 - Check if only ownership layers are active
-  useEffect(() => {
-    // Force a re-render when zoom changes if we have ownership layers
-    const hasOwnershipLayers = landDataLayers.some((id) =>
-      ownershipLayers.includes(id)
-    );
-
-    if (hasOwnershipLayers) {
-      // Important - debounced or throttled in production
-      // to prevent too many re-renders during zoom operations
-      console.log("Zoom changed, checking ownership layer visibility");
-    }
-  }, [zoom, landDataLayers]);
 
   const layers = {
     "provisional-agricultural-land-ab795l": {
@@ -215,20 +177,43 @@ const MenuKey = ({ open, setOpen }) => {
     },
   };
 
-  // #361 - Create the keys using the filtered layer IDs
-  const keys = visibleLayerIds.map((layer, i) => (
-    <Key key={i} name={layers[layer].name} data={layers[layer].data} />
-  ));
+  // Create the keys using the filtered layer IDs
+  const keys = visibleLayerIds.map((layer, i) => {
+    // Add error handling for potentially undefined layers
+    if (!layers[layer]) {
+      console.warn(`Layer definition missing for: ${layer}`);
+      return <Key key={i} name={`Layer: ${layer}`} data={{}} />;
+    }
+    return <Key key={i} name={layers[layer].name} data={layers[layer].data} />;
+  });
 
-  // #361 - Determine if we should show the key at all
+  // We need to show the key if:
+  // 1. There are visible non-ownership layers OR
+  // 2. There are ownership layers and we're zoomed in enough
+
+  // Check if we only have ownership layers active
+  const onlyOwnershipLayersActive =
+    landDataLayers.length > 0 &&
+    landDataLayers.every((id) => ownershipLayers.includes(id));
+
+  // Show the key if we have visible layers OR we have a message to show
   const hasVisibleLayers = visibleLayerIds.length > 0;
-  const shouldShowKey = open && hasVisibleLayers;
+  const hasOwnershipLayersButNotVisible =
+    landDataLayers.some((id) => ownershipLayers.includes(id)) &&
+    !landDataLayers.some(
+      (id) => ownershipLayers.includes(id) && isAtOwnershipZoom
+    );
 
-  console.log("key open", open, "visible layers:", visibleLayerIds.length);
+  // Only show the key if:
+  // - it's open AND
+  // - (we have visible layers OR we have ownership layers that will be visible when zoomed in AND non-ownership layers)
+  const shouldShowKey =
+    open &&
+    (hasVisibleLayers ||
+      (hasOwnershipLayersButNotVisible && !onlyOwnershipLayersActive));
 
   return (
     <>
-      {/* <div className="menu-key-button" onClick={() => setOpen(!open)} /> */}
       {isMobile ? (
         <div
           style={{
@@ -268,7 +253,15 @@ const MenuKey = ({ open, setOpen }) => {
             }}
           >
             <h2>Layer Key</h2>
-            {keys.length ? keys : <div>No Layers selected</div>}
+            {keys.length ? (
+              keys
+            ) : (
+              <div>
+                {hasOwnershipLayersButNotVisible
+                  ? "Ownership layers will become visible when you zoom in further"
+                  : "No Layers selected"}
+              </div>
+            )}
           </div>
         </div>
       ) : (
@@ -300,7 +293,15 @@ const MenuKey = ({ open, setOpen }) => {
               <h3 style={{ marginTop: 0 }}>Layer Key</h3>
             </header>
             <div className="tooltip-menu-key-content">
-              {keys.length ? keys : <div>No Layers selected</div>}
+              {keys.length ? (
+                keys
+              ) : (
+                <div>
+                  {hasOwnershipLayersButNotVisible
+                    ? "Ownership layers will become visible when you zoom in further"
+                    : "No Layers selected"}
+                </div>
+              )}
             </div>
           </div>
         </div>
