@@ -341,9 +341,7 @@ const MapboxMap = () => {
           />
         )}
         {/* Shows zoom warning if active layers are out of view */}
-        <ZoomWarning
-          show={showZoomWarning}
-        />
+        <ZoomWarning show={showZoomWarning} />
         {/* Drawing tools */}
         <DrawControl
           addControl={map}
@@ -373,7 +371,7 @@ const MapboxMap = () => {
       />
       {
         // If layers are active show button toggle key menu
-        landDataLayers.length && (
+        landDataLayers.length > 0 && !showZoomWarning && (
           <MenuKey
             open={menuKeyOpen}
             setOpen={(open) => {
