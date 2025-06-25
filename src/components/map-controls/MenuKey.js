@@ -8,8 +8,9 @@ const MenuKey = ({ open, setOpen }) => {
   const [expanded, setExpanded] = useState(true);
   const landDataLayers = useSelector((state) => state.mapLayers.landDataLayers);
   const { zoom } = useSelector((state) => state.map);
-  const { activeDisplay, highlightedProperties, activePropertyId } =
-    useSelector((state) => state.landOwnership);
+  const { activeDisplay, highlightedProperties } = useSelector(
+    (state) => state.landOwnership
+  );
 
   // Check if we have any highlighted properties
   const hasHighlightedProperties =
@@ -153,8 +154,8 @@ const MenuKey = ({ open, setOpen }) => {
     all: {
       name: "Land Ownership",
       data: {
-        "Company owned": "#BE4A97",
-        "Privately owned": "#39ABB3",
+        "Company owned": "#BE4A9766",
+        "Privately owned": "#39ABB366",
       },
     },
     localAuthority: {
@@ -178,8 +179,8 @@ const MenuKey = ({ open, setOpen }) => {
     highlightedProperty: {
       name: "Selected Properties",
       data: {
-        "Selected Property": "#24467333",
-        "Active Property": "#24467366",
+        "Selected Property": "#24467366",
+        "Active Property": "#24467399",
       },
     },
   };
