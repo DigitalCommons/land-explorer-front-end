@@ -154,20 +154,33 @@ const MenuKey = ({ open, setOpen }) => {
     all: {
       name: "Land Ownership",
       data: {
-        "Company owned": "#BE4A9766",
-        "Privately owned": "#39ABB366",
+        "Company owned": {
+          fill: "#BE4A9766",
+          border: "#BE4A97",
+        },
+        "Privately owned": {
+          fill: "#39ABB366",
+          border: "#39ABB3",
+        },
       },
+      hasBorder: true,
     },
     localAuthority: {
       name: "Land Ownership",
       data: {
-        "Local Authority": "#BE4A97",
+        "Local Authority": {
+          fill: "#BE4A9766",
+          border: "#BE4A97",
+        },
       },
     },
     churchOfEngland: {
       name: "Land Ownership",
       data: {
-        "Church of England": "#BE4A97",
+        "Church of England": {
+          fill: "#BE4A9766",
+          border: "#BE4A97",
+        },
       },
     },
     pending: {
@@ -179,15 +192,15 @@ const MenuKey = ({ open, setOpen }) => {
     highlightedProperty: {
       name: "Selected Properties",
       data: {
-        "Selected Property": "#24467366",
-        "Active Property": "#24467399",
+        "Selected Property": { fill: "#24467366", border: "#24467366" },
+        "Active Property": { fill: "#24467399", border: "#24467399" },
       },
     },
   };
 
   // Create the keys using the filtered layer IDs
   const standardKeys = visibleLayerIds.map((layer, i) => {
-    // Add error handling for potentially undefined layers
+    // Error handling for potentially undefined layers
     if (!layers[layer]) {
       console.warn(`Layer definition missing for: ${layer}`);
       return <Key key={i} name={`Layer: ${layer}`} data={{}} />;
@@ -211,7 +224,7 @@ const MenuKey = ({ open, setOpen }) => {
     allKeys.push(highlightedKey);
   }
 
-  // Check if we only have ownership layers active
+  // Check if only ownership layers are active
   const onlyOwnershipLayersActive =
     landDataLayers.length > 0 &&
     landDataLayers.every((id) => ownershipLayers.includes(id));

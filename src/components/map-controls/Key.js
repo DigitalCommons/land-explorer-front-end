@@ -25,6 +25,11 @@ const Key = ({ data, name }) => (
       }}
     />
     {Object.keys(data).map((key, i) => {
+      // Check if the color value is an object with fill/border or just a string
+      const isColorObject = typeof data[key] === "object" && data[key] !== null;
+      const backgroundColor = isColorObject ? data[key].fill : data[key];
+      const borderColor = isColorObject ? data[key].border : "transparent";
+
       return (
         <div
           key={i}
@@ -35,8 +40,10 @@ const Key = ({ data, name }) => (
         >
           <div
             style={{
-              backgroundColor: data[key],
-              borderColor: data[key],
+              backgroundColor: backgroundColor,
+              borderColor: borderColor,
+              borderWidth: isColorObject ? "2px" : "0",
+              borderStyle: isColorObject ? "solid" : "none",
               opacity: "1",
               height: "16px",
               width: "50px",
