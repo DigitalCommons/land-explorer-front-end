@@ -29,6 +29,10 @@ const Key = ({ data, name }) => (
       const isColorObject = typeof data[key] === "object" && data[key] !== null;
       const backgroundColor = isColorObject ? data[key].fill : data[key];
       const borderColor = isColorObject ? data[key].border : "transparent";
+      const borderStyle =
+        isColorObject && data[key].borderStyle
+          ? data[key].borderStyle
+          : "solid";
 
       return (
         <div
@@ -43,7 +47,7 @@ const Key = ({ data, name }) => (
               backgroundColor: backgroundColor,
               borderColor: borderColor,
               borderWidth: isColorObject ? "2px" : "0",
-              borderStyle: isColorObject ? "solid" : "none",
+              borderStyle: isColorObject ? borderStyle : "none",
               opacity: "1",
               height: "16px",
               width: "50px",
