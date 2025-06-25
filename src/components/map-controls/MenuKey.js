@@ -193,7 +193,7 @@ const MenuKey = ({ open, setOpen }) => {
       name: "Selected Properties",
       data: {
         "Selected Property": { fill: "#24467366", border: "#24467366" },
-        "Active Property": { fill: "#24467399", border: "#24467399" },
+        "Active Property": { fill: "#24467399", border: "#24467399", borderStyle: "dashed" },
       },
     },
   };
