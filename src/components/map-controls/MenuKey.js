@@ -8,7 +8,12 @@ const MenuKey = ({ open, setOpen }) => {
   const [expanded, setExpanded] = useState(true);
   const landDataLayers = useSelector((state) => state.mapLayers.landDataLayers);
   const { zoom } = useSelector((state) => state.map);
-  const { activeDisplay } = useSelector((state) => state.landOwnership);
+  const { activeDisplay, highlightedProperties, activePropertyId } =
+    useSelector((state) => state.landOwnership);
+
+  // Check if we have any highlighted properties
+  const hasHighlightedProperties =
+    Object.keys(highlightedProperties).length > 0;
 
   // Define ownership layer IDs
   const ownershipLayers = [
@@ -22,11 +27,6 @@ const MenuKey = ({ open, setOpen }) => {
   const isAtOwnershipZoom =
     activeDisplay &&
     zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay];
-
-  // Check if we have any non-ownership layers
-  const hasNonOwnershipLayers = landDataLayers.some(
-    (layer) => !ownershipLayers.includes(layer)
-  );
 
   // Filter layers based on zoom level
   const visibleLayerIds = landDataLayers.filter((layerId) => {
@@ -175,10 +175,17 @@ const MenuKey = ({ open, setOpen }) => {
         "Pending Properties": "#FF9900",
       },
     },
+    highlightedProperty: {
+      name: "Selected Properties",
+      data: {
+        "Selected Property": "#24467333",
+        "Active Property": "#24467366",
+      },
+    },
   };
 
   // Create the keys using the filtered layer IDs
-  const keys = visibleLayerIds.map((layer, i) => {
+  const standardKeys = visibleLayerIds.map((layer, i) => {
     // Add error handling for potentially undefined layers
     if (!layers[layer]) {
       console.warn(`Layer definition missing for: ${layer}`);
@@ -187,9 +194,21 @@ const MenuKey = ({ open, setOpen }) => {
     return <Key key={i} name={layers[layer].name} data={layers[layer].data} />;
   });
 
-  // We need to show the key if:
-  // 1. There are visible non-ownership layers OR
-  // 2. There are ownership layers and we're zoomed in enough
+  // Create a key for highlighted properties if they exist
+  let allKeys = [...standardKeys];
+
+  if (hasHighlightedProperties) {
+    const highlightedKey = (
+      <Key
+        key="highlighted-properties"
+        name={layers.highlightedProperty.name}
+        data={layers.highlightedProperty.data}
+      />
+    );
+
+    // Add the highlighted properties key
+    allKeys.push(highlightedKey);
+  }
 
   // Check if we only have ownership layers active
   const onlyOwnershipLayersActive =
@@ -210,7 +229,8 @@ const MenuKey = ({ open, setOpen }) => {
   const shouldShowKey =
     open &&
     (hasVisibleLayers ||
-      (hasOwnershipLayersButNotVisible && !onlyOwnershipLayersActive));
+      (hasOwnershipLayersButNotVisible && !onlyOwnershipLayersActive) ||
+      hasHighlightedProperties);
 
   return (
     <>
@@ -253,15 +273,17 @@ const MenuKey = ({ open, setOpen }) => {
             }}
           >
             <h2>Layer Key</h2>
-            {keys.length ? (
-              keys
-            ) : (
-              <div>
-                {hasOwnershipLayersButNotVisible
-                  ? "Ownership layers will become visible when you zoom in further"
-                  : "No Layers selected"}
-              </div>
-            )}
+            <div className="tooltip-menu-key-content">
+              {allKeys.length ? (
+                allKeys
+              ) : (
+                <div>
+                  {hasOwnershipLayersButNotVisible
+                    ? "Ownership layers will become visible when you zoom in further"
+                    : "No Layers selected"}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       ) : (
@@ -293,8 +315,8 @@ const MenuKey = ({ open, setOpen }) => {
               <h3 style={{ marginTop: 0 }}>Layer Key</h3>
             </header>
             <div className="tooltip-menu-key-content">
-              {keys.length ? (
-                keys
+              {allKeys.length ? (
+                allKeys
               ) : (
                 <div>
                   {hasOwnershipLayersButNotVisible
