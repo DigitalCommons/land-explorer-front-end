@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { isMobile } from "react-device-detect";
 import Key from "./Key";
@@ -7,12 +7,45 @@ import constants from "../../constants";
 const MenuKey = ({ open, setOpen }) => {
   const [expanded, setExpanded] = useState(true);
   const [initializedMobile, setInitializedMobile] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState(false);
+  const [displayMobile, setDisplayMobile] = useState(false);
+  const prevOpenRef = useRef(open);
 
   const landDataLayers = useSelector((state) => state.mapLayers.landDataLayers);
   const { zoom } = useSelector((state) => state.map);
   const { activeDisplay, highlightedProperties } = useSelector(
     (state) => state.landOwnership
   );
+
+  // For mobile animation handling
+  useEffect(() => {
+    if (isMobile) {
+      if (!initializedMobile && shouldShowKey) {
+        // First-time initialization - make Layer Key is closed
+        setInitializedMobile(true);
+        setMobileExpanded(false);
+        setDisplayMobile(true);
+        if (open) setOpen(false);
+      } else if (prevOpenRef.current !== open) {
+        // Open - button was clicked in MapboxMap
+        if (open) {
+          setDisplayMobile(true);
+          setTimeout(() => {
+            setMobileExpanded(true);
+          }, 50);
+        } else {
+          // Closing sequence:
+          setMobileExpanded(false);
+          setTimeout(() => {
+            setDisplayMobile(false);
+          }, 300);
+        }
+
+        // Update our reference to track changes
+        prevOpenRef.current = open;
+      }
+    }
+  }, [open, shouldShowKey, isMobile, initializedMobile, setOpen]);
 
   // Check if we have any highlighted properties
   const hasHighlightedProperties =
@@ -41,18 +74,21 @@ const MenuKey = ({ open, setOpen }) => {
     return true;
   });
 
-  // Handle toggling the menu expansion
+  // Handle toggling the menu expansion on desktop
   const toggleExpanded = () => {
     setExpanded(!expanded);
   };
 
-  // mobile starts with the menu closed
-  useEffect(() => {
-    if (isMobile && !initializedMobile && shouldShowKey) {
-      setInitializedMobile(true);
+  // Handle closing the mobile menu with animation
+  const handleCloseMobile = () => {
+    setMobileExpanded(false);
+
+    // Update parent state after animation ends
+    setTimeout(() => {
       setOpen(false);
-    }
-  }, [shouldShowKey, isMobile, initializedMobile, setOpen]);
+      setDisplayMobile(false);
+    }, 300);
+  };
 
   const layers = {
     "provisional-agricultural-land-ab795l": {
@@ -251,7 +287,7 @@ const MenuKey = ({ open, setOpen }) => {
       (id) => ownershipLayers.includes(id) && isAtOwnershipZoom
     );
 
-  /// Only show the key if open AND (visible layers OR ownership layers will be visible at higher zoom)
+  // Only show the key if open AND (visible layers OR ownership layers will be visible at higher zoom)
   const shouldShowKey =
     open &&
     (hasVisibleLayers ||
@@ -261,11 +297,12 @@ const MenuKey = ({ open, setOpen }) => {
   return (
     <>
       {isMobile ? (
-        // Mobile version - no tab button, just the modal
+        // Mobile version - with animation
         <div
           className="tooltip-menu-key__container mobile-key"
           style={{
-            display: shouldShowKey && open ? "block" : "none",
+            display: shouldShowKey && displayMobile ? "block" : "none",
+            transform: mobileExpanded ? "translateX(0)" : "translateX(100%)",
           }}
         >
           <div className="tooltip-menu-key">
@@ -274,7 +311,7 @@ const MenuKey = ({ open, setOpen }) => {
               <h3>Layer Key</h3>
               <div
                 className="button-clear tooltip-menu-key__close"
-                onClick={() => setOpen(false)}
+                onClick={handleCloseMobile}
               >
                 <i
                   className="modal-close__dark-grey"
