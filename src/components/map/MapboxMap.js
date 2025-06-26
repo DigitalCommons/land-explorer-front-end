@@ -8,6 +8,7 @@ import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import DrawControl from "react-mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import StaticMode from "@mapbox/mapbox-gl-draw-static-mode";
+import { isMobile } from "react-device-detect";
 import Markers from "./Markers";
 import MapLayers from "./MapLayers";
 import DrawingLayers from "./DrawingLayers";
@@ -68,7 +69,7 @@ const MapboxMap = () => {
     (zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay] &&
       propertiesDisplay &&
       constants.LR_POLYGONS_ENABLED);
-  
+
   useEffect(() => {
     setZoomWarningVisible(showZoomWarning);
   }, [showZoomWarning]);
@@ -287,6 +288,9 @@ const MapboxMap = () => {
     }
   };
 
+  // Determine if we should show the key button (for both mobile and desktop)
+  const shouldShowKeyButton = landDataLayers.length > 0 && !showZoomWarning;
+
   return (
     <div>
       {/* This is the ReactMapbox instance we created at the top of the file */}
@@ -388,18 +392,29 @@ const MapboxMap = () => {
           open && setMenuKeyOpen(false);
         }}
       />
-      {
-        // If layers are active show button toggle key menu
-        landDataLayers.length > 0 && !showZoomWarning && (
-          <MenuKey
-            open={menuKeyOpen}
-            setOpen={(open) => {
-              setMenuKeyOpen(open);
-              open && setMenuLayersOpen(false);
-            }}
-          />
-        )
-      }
+
+      {/* Mobile Menu Key Button */}
+      {isMobile && shouldShowKeyButton && (
+        <button
+          className="menu-key-button"
+          onClick={() => setMenuKeyOpen(!menuKeyOpen)}
+          aria-label="Toggle Layer Key"
+        >
+          <i className="tooltip-menu-key__icon"></i>
+        </button>
+      )}
+
+      {/* Desktop version or mobile modal version handled inside the component */}
+      {shouldShowKeyButton && (
+        <MenuKey
+          open={menuKeyOpen}
+          setOpen={(open) => {
+            setMenuKeyOpen(open);
+            open && setMenuLayersOpen(false);
+          }}
+        />
+      )}
+
       <FeedbackTab />
       <MapBeingEditedToast />
       <Modals />
