@@ -217,18 +217,22 @@
   cursor: pointer;
   width: 48px;
   height: 48px;
-  background-color: $secondaryColor;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 65%;
-  background-image: url("../img/icon-menu-key--white.svg");
+  // background-image: url("../img/icon-menu-key--white.svg");
   border-radius: 50%;
   z-index: 1000;
   position: fixed;
-  bottom: 12px;
-  right: 142px;
+  top: 90px;
+  bottom: auto;
+  right: 12px;
   z-index: 1;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .zoom-location {
@@ -333,6 +337,19 @@
 
   &:hover {
     background-color: #d3d3d3 !important;
+    box-shadow: none;
+  }
+}
+
+.button-clear {
+  cursor: pointer;
+  background-color: transparent !important;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+
+  &:hover {
+    background-color: transparent !important;
     box-shadow: none;
   }
 }

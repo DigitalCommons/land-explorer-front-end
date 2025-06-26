@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { isMobile } from "react-device-detect";
 import Key from "./Key";
@@ -6,6 +6,8 @@ import constants from "../../constants";
 
 const MenuKey = ({ open, setOpen }) => {
   const [expanded, setExpanded] = useState(true);
+  const [initializedMobile, setInitializedMobile] = useState(false);
+
   const landDataLayers = useSelector((state) => state.mapLayers.landDataLayers);
   const { zoom } = useSelector((state) => state.map);
   const { activeDisplay, highlightedProperties } = useSelector(
@@ -43,6 +45,14 @@ const MenuKey = ({ open, setOpen }) => {
   const toggleExpanded = () => {
     setExpanded(!expanded);
   };
+
+  // mobile starts with the menu closed
+  useEffect(() => {
+    if (isMobile && !initializedMobile && shouldShowKey) {
+      setInitializedMobile(true);
+      setOpen(false);
+    }
+  }, [shouldShowKey, isMobile, initializedMobile, setOpen]);
 
   const layers = {
     "provisional-agricultural-land-ab795l": {
@@ -193,7 +203,11 @@ const MenuKey = ({ open, setOpen }) => {
       name: "Selected Properties",
       data: {
         "Selected Property": { fill: "#24467366", border: "#24467366" },
-        "Active Property": { fill: "#24467399", border: "#24467399", borderStyle: "dashed" },
+        "Active Property": {
+          fill: "#24467399",
+          border: "#24467399",
+          borderStyle: "dashed",
+        },
       },
     },
   };
@@ -237,9 +251,7 @@ const MenuKey = ({ open, setOpen }) => {
       (id) => ownershipLayers.includes(id) && isAtOwnershipZoom
     );
 
-  // Only show the key if:
-  // - it's open AND
-  // - (we have visible layers OR we have ownership layers that will be visible when zoomed in AND non-ownership layers)
+  /// Only show the key if open AND (visible layers OR ownership layers will be visible at higher zoom)
   const shouldShowKey =
     open &&
     (hasVisibleLayers ||
@@ -249,44 +261,27 @@ const MenuKey = ({ open, setOpen }) => {
   return (
     <>
       {isMobile ? (
+        // Mobile version - no tab button, just the modal
         <div
+          className="tooltip-menu-key__container mobile-key"
           style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            overflowY: "scroll",
-            background: "white",
-            zIndex: 10000000,
-            display: shouldShowKey ? "block" : "none",
+            display: shouldShowKey && open ? "block" : "none",
           }}
-          className="mobile-key"
         >
-          <div
-            style={{
-              position: "fixed",
-              top: "24px",
-              right: "24px",
-            }}
-            onClick={() => setOpen(false)}
-          >
-            <img
-              style={{ height: "16px", width: "16px" }}
-              src={require("../../assets/img/icon-close-new.svg")}
-              alt=""
-            />
-          </div>
-          <div
-            style={{
-              height: "100%",
-              width: "100%",
-              boxSizing: "border-box",
-              padding: "24px",
-              paddingTop: "0px",
-            }}
-          >
-            <h2>Layer Key</h2>
+          <div className="tooltip-menu-key">
+            <header className="tooltip-menu-key__header">
+              <i className="tooltip-menu-key__icon"></i>
+              <h3>Layer Key</h3>
+              <div
+                className="button-clear tooltip-menu-key__close"
+                onClick={() => setOpen(false)}
+              >
+                <i
+                  className="modal-close__dark-grey"
+                  style={{ top: 0, right: 0 }}
+                ></i>
+              </div>
+            </header>
             <div className="tooltip-menu-key-content">
               {allKeys.length ? (
                 allKeys
@@ -301,6 +296,7 @@ const MenuKey = ({ open, setOpen }) => {
           </div>
         </div>
       ) : (
+        // Desktop version - with tab
         <div
           className={`tooltip-menu-key__container ${
             !expanded ? "collapsed" : ""
@@ -325,7 +321,7 @@ const MenuKey = ({ open, setOpen }) => {
             }}
           >
             <header className="tooltip-menu-key__header">
-              <i className="tooltip-menu-layers__icon"></i>
+              <i className="tooltip-menu-key__icon"></i>
               <h3 style={{ marginTop: 0 }}>Layer Key</h3>
             </header>
             <div className="tooltip-menu-key-content">
