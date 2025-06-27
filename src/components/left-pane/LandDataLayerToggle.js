@@ -1,4 +1,3 @@
-// src/components/left-pane/LandDataLayerToggle.js
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { autoSave } from "../../actions/MapActions";
@@ -14,7 +13,7 @@ const LandDataLayerToggle = ({
   const dispatch = useDispatch();
   const activeLayers = useSelector((state) => state.mapLayers.landDataLayers);
 
-  // Use provided "on" prop or fall back to checking activeLayers
+  // Determine if the layer is currently active
   const isOn = on !== null ? on : activeLayers.includes(layerId);
 
   // #361 - Default toggle handler

@@ -1,10 +1,8 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import constants from "../../constants";
 
 const ZoomWarning = ({ show, onZoomToRequired }) => {
-  const dispatch = useDispatch();
-  const { landDataLayers } = useSelector((state) => state.mapLayers);
   const { activeDisplay } = useSelector((state) => state.landOwnership);
 
   // Determine required zoom level
@@ -27,8 +25,8 @@ const ZoomWarning = ({ show, onZoomToRequired }) => {
 
   return (
     <div
-          onClick={handleZoomClick}
-        className="zoom-warning-button"
+      onClick={handleZoomClick}
+      className="zoom-warning-button"
       style={{
         transform: show ? "translateX(0px)" : "translateX(12px)",
         opacity: show ? 1 : 0,
