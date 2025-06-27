@@ -25,7 +25,10 @@ const Key = ({ data, name }) => (
       }}
     />
     {Object.keys(data).map((key, i) => {
-      // Check if the color value is an object with fill/border or just a string
+      /**
+       * #361 - Check if the color value is an object with fill/border or just a string
+       * If it's an object, extract the fill and border properties
+       */
       const isColorObject = typeof data[key] === "object" && data[key] !== null;
       const backgroundColor = isColorObject ? data[key].fill : data[key];
       const borderColor = isColorObject ? data[key].border : "transparent";

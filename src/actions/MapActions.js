@@ -110,16 +110,16 @@ export const openMap = (mapId) => {
       console.log("map data:", mapData, "map id:", mapId);
       dispatch(updateReadOnly());
 
-      // #361 - Toggle ownership layers to ensure they appear in MenuKey
+      /** #361 - Toggle ownership layers to ensure they appear in MenuKey */
       if (mapData.mapLayers && mapData.mapLayers.ownershipDisplay) {
         const ownershipDisplay = mapData.mapLayers.ownershipDisplay;
-        // Handle both modern maps and legacy maps
+        // Determine the layer ID based on the ownership display state
         const layerId = ownershipDisplay === true ? "all" : ownershipDisplay;
         console.log(
           `Ensuring ownership layer ${layerId} is in menu key after map load`
         );
 
-        // Use ENSURE_LAYER_IN_KEY which now handles exclusivity
+        // Ensure the layer is in the key
         dispatch({
           type: "ENSURE_LAYER_IN_KEY",
           payload: layerId,
@@ -433,8 +433,10 @@ const shortenTimestamp = (timestamp) => {
   }
 };
 
-// #361 - Toggle ownership layer in the key
-// Ensures only one ownership layer is active in the key at a time.
+/**
+ * #361 - Toggle ownership layer in the key
+ * Ensures only one ownership layer is active in the key at a time.
+ */
 export const toggleOwnershipLayerInKey = (layerId) => {
   return (dispatch, getState) => {
     const activeLayers = getState().mapLayers.landDataLayers;
@@ -445,16 +447,16 @@ export const toggleOwnershipLayerInKey = (layerId) => {
       "pending",
     ];
 
-    // If this layer is already in the key, remove it
+    // If the layer is already active, toggle it off
     if (activeLayers.includes(layerId)) {
       dispatch({
         type: "TOGGLE_LAYER",
         payload: layerId,
       });
     }
-    // Otherwise, ensure it's added (and others removed)
+    // If the layer is not active, ensure only this one is active
     else {
-      // First remove any existing ownership layers
+      // Remove other ownership layers
       ownershipLayers.forEach((id) => {
         if (activeLayers.includes(id)) {
           dispatch({
@@ -464,7 +466,7 @@ export const toggleOwnershipLayerInKey = (layerId) => {
         }
       });
 
-      // Then add this one
+      // Add the new layer
       dispatch({
         type: "TOGGLE_LAYER",
         payload: layerId,

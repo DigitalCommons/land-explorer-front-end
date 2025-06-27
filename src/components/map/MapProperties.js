@@ -21,11 +21,13 @@ const MapProperties = ({ center, map }) => {
   const { zoom, zooming } = useSelector((state) => state.map);
   const activePanel = useSelector((state) => state.leftPane.active);
 
+  // #361 - Get current land ownership display mode
   const landOwnershipActiveDisplay = useSelector(
-      (state) => state.landOwnership.activeDisplay
+    (state) => state.landOwnership.activeDisplay
   );
-  
-   const activeLayers = useSelector((state) => state.mapLayers.landDataLayers);
+
+  // #361 - Get active layers
+  const activeLayers = useSelector((state) => state.mapLayers.landDataLayers);
 
   const dispatch = useDispatch();
 
@@ -143,19 +145,6 @@ const MapProperties = ({ center, map }) => {
       />
     );
   }
-
-  // #361 - Log the current state of landOwnershipActiveDisplay and activeLayers
-  useEffect(() => {
-    console.log(
-      "Map component detected landOwnershipActiveDisplay change:",
-      landOwnershipActiveDisplay
-    );
-    console.log("activeLayers includes 'all':", activeLayers.includes("all"));
-
-    // Log what should determine layer visibility
-    const shouldShowAllProperties = landOwnershipActiveDisplay === "all";
-    console.log("Should show All Properties layer:", shouldShowAllProperties);
-  }, [landOwnershipActiveDisplay, activeLayers]);
 
   return (
     <>

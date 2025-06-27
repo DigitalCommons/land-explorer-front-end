@@ -21,7 +21,7 @@ const MenuKey = ({ open, setOpen }) => {
   useEffect(() => {
     if (isMobile) {
       if (!initializedMobile && shouldShowKey) {
-        // First-time initialization - make Layer Key is closed
+        // First-time initialization - make sure Layer Key is closed
         setInitializedMobile(true);
         setMobileExpanded(false);
         setDisplayMobile(true);
@@ -297,7 +297,7 @@ const MenuKey = ({ open, setOpen }) => {
   return (
     <>
       {isMobile ? (
-        // Mobile version - with animation
+        // Mobile version
         <div
           className="tooltip-menu-key__container mobile-key"
           style={{

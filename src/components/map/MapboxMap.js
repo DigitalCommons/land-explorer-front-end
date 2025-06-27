@@ -272,6 +272,7 @@ const MapboxMap = () => {
     layers: baseLayers,
   };
 
+  // #361 - Handle zooming to the required level
   const handleZoomToRequired = (requiredZoom) => {
     if (map) {
       // Add some buffer to ensure we're above the threshold

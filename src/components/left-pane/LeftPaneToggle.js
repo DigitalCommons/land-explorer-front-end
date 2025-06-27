@@ -6,7 +6,7 @@ const LeftPaneToggle = ({ title, on, onToggle, draggable = false }) => {
     <div
       className={`tray-item`}
       onClick={(e) => {
-        e.stopPropagation(); // Prevent event bubbling
+        e.stopPropagation(); 
         onToggle && onToggle();
       }}
     >

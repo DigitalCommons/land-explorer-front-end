@@ -8,7 +8,10 @@ export default (state = INITIAL_STATE, action) => {
       case "TOGGLE_LAYER":
         const toggleLayerId = action.payload;
 
-        // If the layer is already in the array, remove it
+        /**
+         * #361 - Handle toggling of land data layers
+         * If the layer is already in the array, remove it
+         */
         if (state.landDataLayers.includes(toggleLayerId)) {
           return {
             ...state,
@@ -16,17 +19,18 @@ export default (state = INITIAL_STATE, action) => {
               (id) => id !== toggleLayerId
             ),
           };
-        }
-        // Otherwise add it
-        else {
+        } else {
           return {
             ...state,
             landDataLayers: [...state.landDataLayers, toggleLayerId],
           };
         }
-      // #361 - Ensure a specific layer is in the key
+      /**
+       * #361 - Ensure a specific layer is in the key
+       * If the layer is not already in the key, add it
+       */
       case "ENSURE_LAYER_IN_KEY":
-        // Don't modify action.payload, assign it to a new variable
+        // Get the new layer ID
         const newLayerId = action.payload;
 
         // Create a list of all ownership layer IDs
@@ -41,7 +45,7 @@ export default (state = INITIAL_STATE, action) => {
         const isOwnershipLayer = ownershipLayers.includes(newLayerId);
 
         if (isOwnershipLayer) {
-          // Filter out all other ownership layers
+          // If an ownership layer, ensure it's the only one in the key
           const filteredLayers = state.landDataLayers.filter(
             (id) => !ownershipLayers.includes(id) || id === newLayerId
           );

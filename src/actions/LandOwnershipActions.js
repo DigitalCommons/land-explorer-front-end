@@ -3,12 +3,6 @@ import { getRequest } from "./RequestActions";
 /**
  * @param {string} type "all", "pending", "localAuthority" or "churchOfEngland"
  */
-// export const togglePropertyDisplay = (type) => {
-//   return (dispatch) => {
-//     dispatch({ type: "TOGGLE_PROPERTY_DISPLAY", payload: type });
-//     return dispatch(autoSave());
-//   };
-// };
 
 export const fetchPropertiesInBox = (sw_lng, sw_lat, ne_lng, ne_lat) => {
   return async (dispatch, getState) => {
@@ -114,20 +108,17 @@ export const fetchRelatedProperties = (proprietorName) => {
 
 // #361 - Toggle ownership layers in the key
 export const togglePropertyDisplay = (display) => {
-  console.log(`togglePropertyDisplay called with: ${display}`);
 
   return (dispatch, getState) => {
     const currentDisplay = getState().landOwnership.activeDisplay;
-    console.log(`Current activeDisplay: ${currentDisplay}`);
 
+    // Check if the current display is the same as the one being toggled
     if (currentDisplay === display) {
-      console.log(`Turning OFF display: ${display}`);
       dispatch({
         type: "SET_ACTIVE_DISPLAY",
         payload: null,
       });
     } else {
-      console.log(`Turning ON display: ${display}`);
       dispatch({
         type: "SET_ACTIVE_DISPLAY",
         payload: display,

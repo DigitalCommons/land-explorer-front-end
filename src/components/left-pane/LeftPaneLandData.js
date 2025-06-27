@@ -167,30 +167,6 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
             on={landOwnershipActiveDisplay === "churchOfEngland"}
             onToggle={handleOwnershipToggle("churchOfEngland")}
           />
-
-          {/* <LeftPaneToggle
-            title={"All Properties"}
-            on={landOwnershipActiveDisplay === "all"}
-            onToggle={() => dispatch(togglePropertyDisplay("all"))}
-            layerId="all"
-          /> */}
-          {/* {user.privileged && (
-            <LeftPaneToggle
-              title={"Pending Properties"}
-              on={landOwnershipActiveDisplay === "pending"}
-              // onToggle={() => dispatch(togglePropertyDisplay("pending"))}
-            />
-          )}
-          <LeftPaneToggle
-            title={"Local Authority"}
-            on={landOwnershipActiveDisplay === "localAuthority"}
-            onToggle={() => dispatch(togglePropertyDisplay("localAuthority"))}
-          />
-          <LeftPaneToggle
-            title={"Church of England"}
-            on={landOwnershipActiveDisplay === "churchOfEngland"}
-            onToggle={() => dispatch(togglePropertyDisplay("churchOfEngland"))}
-          /> */}
         </DataLayersContainer>
       )}
       <DataLayersContainer title={"Administrative Boundaries"}>
