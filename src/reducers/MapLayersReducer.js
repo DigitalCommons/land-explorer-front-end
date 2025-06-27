@@ -88,6 +88,11 @@ export default (state = INITIAL_STATE, action) => {
             (id) => id !== action.payload
           ),
         };
+      case "CLEAR_MAP_LAYERS":
+        return {
+          ...state,
+          landDataLayers: [],
+        };
       case "LOAD_MAP":
         return action.payload.data.mapLayers;
       case "NEW_MAP":

@@ -125,6 +125,12 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         activeDisplay: action.payload,
       };
+    case "CLEAR_MAP_LAYERS":
+      return {
+        ...state,
+        activeDisplay: null,
+        highlightedProperties: {},
+      };
     default:
       return state;
   }

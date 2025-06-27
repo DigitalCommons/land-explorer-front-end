@@ -169,6 +169,9 @@ export const newMap = () => {
       type: "NEW_MAP",
       payload: { unsavedMapUuid: uuidv4() },
     });
+
+    dispatch(clearMapLayers());
+
     setTimeout(() => {
       dispatch({ type: "CHANGE_MOVING_METHOD", payload: "flyTo" });
     }, 500);
@@ -472,5 +475,11 @@ export const toggleOwnershipLayerInKey = (layerId) => {
         payload: layerId,
       });
     }
+  };
+};
+
+export const clearMapLayers = () => {
+  return {
+    type: "CLEAR_MAP_LAYERS",
   };
 };
