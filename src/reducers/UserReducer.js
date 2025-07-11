@@ -19,6 +19,7 @@ const INITIAL_STATE = {
   username: "",
   populated: false,
   privileged: false,
+  askForFeedback: true,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -32,6 +33,11 @@ export default (state = INITIAL_STATE, action) => {
         initials:
           action.payload.firstName[0].toUpperCase() +
           action.payload.lastName[0].toUpperCase(),
+      };
+    case "SET_ASK_FOR_FEEDBACK":
+      return {
+        ...state,
+        askForFeedback: action.payload,
       };
     default:
       return state;
