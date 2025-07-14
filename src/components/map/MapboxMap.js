@@ -8,6 +8,7 @@ import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import DrawControl from "react-mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import StaticMode from "@mapbox/mapbox-gl-draw-static-mode";
+import { isMobile } from "react-device-detect";
 import Markers from "./Markers";
 import MapLayers from "./MapLayers";
 import DrawingLayers from "./DrawingLayers";
@@ -27,6 +28,8 @@ import {
 } from "../../actions/MapActions";
 import FeedbackTab from "../common/FeedbackTab";
 import MapBeingEditedToast from "./MapBeingEditedToast";
+import MenuLayers from "../map-controls/MenuLayers";
+import MenuKey from "../map-controls/MenuKey";
 
 // Create Map Component with settings
 const Map = ReactMapboxGl({
@@ -57,6 +60,19 @@ const MapboxMap = () => {
   const propertiesDisplay = useSelector(
     (state) => state.landOwnership.activeDisplay
   );
+  const [menuLayersOpen, setMenuLayersOpen] = useState(false);
+  const [menuKeyOpen, setMenuKeyOpen] = useState(true);
+  const [zoomWarningVisible, setZoomWarningVisible] = useState(false);
+
+  const showZoomWarning =
+    (zoom < 9 && landDataLayers.length > 0) ||
+    (zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay] &&
+      propertiesDisplay &&
+      constants.LR_POLYGONS_ENABLED);
+
+  useEffect(() => {
+    setZoomWarningVisible(showZoomWarning);
+  }, [showZoomWarning]);
 
   useInterval(
     () => {
@@ -256,6 +272,26 @@ const MapboxMap = () => {
     layers: baseLayers,
   };
 
+  // #361 - Handle zooming to the required level
+  const handleZoomToRequired = (requiredZoom) => {
+    if (map) {
+      // Add some buffer to ensure we're above the threshold
+      const targetZoom = requiredZoom + 0.1;
+
+      // Animate the zoom
+      map.flyTo({
+        center: lngLat,
+        zoom: targetZoom,
+        speed: 0.8,
+        curve: 1.5,
+        essential: true,
+      });
+    }
+  };
+
+  // Determine if we should show the key button (for both mobile and desktop)
+  const shouldShowKeyButton = landDataLayers.length > 0 && !showZoomWarning;
+
   return (
     <div>
       {/* This is the ReactMapbox instance we created at the top of the file */}
@@ -327,13 +363,8 @@ const MapboxMap = () => {
         )}
         {/* Shows zoom warning if active layers are out of view */}
         <ZoomWarning
-          show={
-            (zoom < 9 && landDataLayers.length > 0) ||
-            (zoom <
-              constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay] &&
-              propertiesDisplay &&
-              constants.LR_POLYGONS_ENABLED)
-          }
+          show={showZoomWarning}
+          onZoomToRequired={handleZoomToRequired}
         />
         {/* Drawing tools */}
         <DrawControl
@@ -355,6 +386,36 @@ const MapboxMap = () => {
         }
       </Map>
       <LeftPane drawControl={drawControlRef.current} />
+      <MenuLayers
+        open={menuLayersOpen}
+        setOpen={(open) => {
+          setMenuLayersOpen(open);
+          open && setMenuKeyOpen(false);
+        }}
+      />
+
+      {/* Mobile Menu Key Button */}
+      {isMobile && shouldShowKeyButton && (
+        <button
+          className="menu-key-button"
+          onClick={() => setMenuKeyOpen(!menuKeyOpen)}
+          aria-label="Toggle Layer Key"
+        >
+          <i className="tooltip-menu-key__icon"></i>
+        </button>
+      )}
+
+      {/* Desktop version or mobile modal version handled inside the component */}
+      {shouldShowKeyButton && (
+        <MenuKey
+          open={menuKeyOpen}
+          setOpen={(open) => {
+            setMenuKeyOpen(open);
+            open && setMenuLayersOpen(false);
+          }}
+        />
+      )}
+
       <FeedbackTab />
       <MapBeingEditedToast />
       <Modals />

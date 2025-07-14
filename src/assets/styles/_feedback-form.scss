@@ -14,9 +14,9 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 18px;
+  line-height: 16px;
   letter-spacing: 0.05rem;
   text-align: center;
   border: none;
@@ -143,9 +143,9 @@
 
 @media screen and (min-width: $medium) {
   .feedback-tab {
-    height: 44px;
-    right: -52px; // minus height of tab + 8px (?)
-    padding: 0 20px;
+    height: 40px;
+    right: -45px; // minus height of tab + 8px (?)
+    padding: 0 15px;
 
     & svg {
       margin-right: 5px;
