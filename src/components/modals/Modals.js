@@ -8,7 +8,7 @@ import LinkShare from "./LinkShare";
 import SaveCopy from "./SaveCopy";
 import SaveSnapshot from "./SaveSnapshot";
 import FeedbackForm from "./FeedbackForm";
-import FeedbackPopUp from "./FeedbackPopUp";
+// import FeedbackPopUp from "./FeedbackPopUp";
 import FeedbackSuccess from "./FeedbackSuccess";
 
 const Modals = () => (
@@ -22,7 +22,7 @@ const Modals = () => (
     <Location />
     <NewMap />
     <FeedbackForm />
-    <FeedbackPopUp />
+    {/* <FeedbackPopUp /> */}
     <FeedbackSuccess />
   </div>
 );
