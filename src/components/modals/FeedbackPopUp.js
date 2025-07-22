@@ -3,16 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Modal from "./Modal";
 import { openModal } from "../../actions/ModalActions";
 import Button from "../common/Button";
+import { setAskForFeedback } from "../../actions/UserActions";
 
 const FeedbackPopUp = () => {
   const dispatch = useDispatch();
-  const [askForFeedback, setAskForFeedback] = React.useState(false);
   const propertyLayerActive = useSelector(
     (state) => state.landOwnership.activeDisplay
   );
+  const feedbackPreference = useSelector((state) => state.user.askForFeedback);
 
   const closeModal = () => {
-    setAskForFeedback(false);
     dispatch({
       type: "CLOSE_MODAL",
       payload: "feedbackPopUp",
@@ -25,16 +25,17 @@ const FeedbackPopUp = () => {
   };
 
   const handleCheckboxChange = (e) => {
-    const unChecked = !e.target.checked;
-    setAskForFeedback(unChecked);
-    localStorage.setItem("askForFeedback", JSON.stringify(unChecked));
+    if (e.target.checked) {
+      dispatch(setAskForFeedback(false));
+    } else {
+      dispatch(setAskForFeedback(true));
+    }
   };
 
   // Show modal on mouseleave
   useEffect(() => {
     const handleMouseLeave = (e) => {
-      if (e.clientY < 0 && !dontAskForFeedback()) {
-        setAskForFeedback(true);
+      if (e.clientY < 0 && feedbackPreference) {
         setTimeout(() => {
           dispatch(openModal("feedbackPopUp"));
         }, 300);
@@ -46,26 +47,20 @@ const FeedbackPopUp = () => {
     return () => {
       document.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, []);
-
-  const dontAskForFeedback = () => {
-    const feedbackModalPreference = localStorage.getItem("askForFeedback");
-    return feedbackModalPreference === "false";
-  };
+  }, [feedbackPreference]);
 
   // Show modal after delay if property layer is active
   useEffect(() => {
-    if (propertyLayerActive) {
-      setAskForFeedback(true);
-      setTimeout(() => {
+    let timeoutId;
+    if (propertyLayerActive && feedbackPreference) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
         dispatch(openModal("feedbackPopUp"));
       }, 300000);
-
-      return () => {
-        clearTimeout();
-      };
     }
-    console.log("propertyLayerActive", propertyLayerActive);
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [propertyLayerActive]);
 
   return (
@@ -93,7 +88,7 @@ const FeedbackPopUp = () => {
             name="feedbackPopupCheckbox"
             id="feedbackPopupCheckbox"
             onChange={handleCheckboxChange}
-            checked={!askForFeedback}
+            checked={!feedbackPreference}
           />
           <span className="feedback-popup__checkbox--checkmark"></span>
           <label htmlFor="feedbackPopupCheckbox">Don't show this again</label>

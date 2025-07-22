@@ -8,7 +8,7 @@ import ControlButtons from '../components/map-controls/ControlButtons';
 import Spinner from '../components/common/Spinner';
 import * as Auth from "../utils/Auth";
 import { getMyMaps, openMap } from '../actions/MapActions';
-import { getUserDetails } from '../actions/UserActions';
+import { getUserDetails, getAskForFeedback } from '../actions/UserActions';
 import NoConnectionToast from '../components/map/NoConnectionToast';
 import {
   establishSocketConnection,
@@ -29,6 +29,7 @@ const MapApp = () => {
      // If authenticated, get user details, setup websocket connection, and get maps
      await dispatch(getUserDetails());
      dispatch(establishSocketConnection());
+     dispatch(getAskForFeedback());
      await dispatch(getMyMaps());
 
      // Open the map that was previously open if the page was refreshed
