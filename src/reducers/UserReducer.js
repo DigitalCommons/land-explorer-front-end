@@ -34,7 +34,7 @@ export default (state = INITIAL_STATE, action) => {
           action.payload.firstName[0].toUpperCase() +
           action.payload.lastName[0].toUpperCase(),
       };
-    case "SET_ASK_FOR_FEEDBACK":
+    case "USER_FEEDBACK_STATUS":
       return {
         ...state,
         askForFeedback: action.payload,
