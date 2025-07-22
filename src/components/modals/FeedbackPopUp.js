@@ -10,10 +10,7 @@ const FeedbackPopUp = () => {
   const propertyLayerActive = useSelector(
     (state) => state.landOwnership.activeDisplay
   );
-
   const feedbackPreference = useSelector((state) => state.user.askForFeedback);
-
-  console.log("Feedback preference from state:", feedbackPreference);
 
   const closeModal = () => {
     dispatch({
@@ -29,7 +26,7 @@ const FeedbackPopUp = () => {
 
   const handleCheckboxChange = (e) => {
     if (e.target.checked) {
-      dispatch(setAskForFeedback(false)); // This should update the server and redux
+      dispatch(setAskForFeedback(false));
     } else {
       dispatch(setAskForFeedback(true));
     }
@@ -50,40 +47,21 @@ const FeedbackPopUp = () => {
     return () => {
       document.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [feedbackPreference, dispatch]);
-
-  // const dontAskForFeedback = () => {
-  //   const feedbackModalPreference = localStorage.getItem("feedbackPreference");
-  //   return feedbackModalPreference === "false";
-  // };
-
-  // Show modal after delay if property layer is active
-  // useEffect(() => {
-  //   if (propertyLayerActive) {
-  //     setAskForFeedback(true);
-  //     setTimeout(() => {
-  //       dispatch(openModal("feedbackPopUp"));
-  //     }, 300000);
-
-  //     return () => {
-  //       clearTimeout();
-  //     };
-  //   }
-  //   console.log("propertyLayerActive", propertyLayerActive);
-  // }, [propertyLayerActive]);
+  }, [feedbackPreference]);
 
   // Show modal after delay if property layer is active
   useEffect(() => {
     let timeoutId;
     if (propertyLayerActive && feedbackPreference) {
+      clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
         dispatch(openModal("feedbackPopUp"));
       }, 300000);
     }
     return () => {
-      if (timeoutId) clearTimeout(timeoutId);
+      clearTimeout(timeoutId);
     };
-  }, [propertyLayerActive, feedbackPreference, dispatch]);
+  }, [propertyLayerActive]);
 
   return (
     <Modal
