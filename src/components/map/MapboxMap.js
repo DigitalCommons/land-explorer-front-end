@@ -289,8 +289,8 @@ const MapboxMap = () => {
     }
   };
 
-  // Determine if we should show the key button (for both mobile and desktop)
-  const shouldShowKeyButton = landDataLayers.length > 0 && !showZoomWarning;
+  // Determine if we should show the key button (only depends on if layers are active)
+  const shouldShowKeyButton = landDataLayers.length > 0;
 
   return (
     <div>

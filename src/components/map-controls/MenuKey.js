@@ -281,17 +281,22 @@ const MenuKey = ({ open, setOpen }) => {
 
   // Show the key if we have visible layers OR we have a message to show
   const hasVisibleLayers = visibleLayerIds.length > 0;
-  const hasOwnershipLayersButNotVisible =
-    landDataLayers.some((id) => ownershipLayers.includes(id)) &&
-    !landDataLayers.some(
-      (id) => ownershipLayers.includes(id) && isAtOwnershipZoom
-    );
 
-  // Only show the key if open AND (visible layers OR ownership layers will be visible at higher zoom)
+  // Check if we have ownership layers that will appear at higher zoom levels
+  const hasOwnershipLayersButNotVisible = landDataLayers.some(
+    (id) => ownershipLayers.includes(id) && !visibleLayerIds.includes(id)
+  );
+
+  // Show the key if:
+  // 1. The menu is open AND
+  // 2. Either:
+  //    a. We have visible layers, or
+  //    b. We have ownership layers that will become visible at higher zoom, or
+  //    c. We have highlighted properties
   const shouldShowKey =
     open &&
     (hasVisibleLayers ||
-      (hasOwnershipLayersButNotVisible && !onlyOwnershipLayersActive) ||
+      hasOwnershipLayersButNotVisible ||
       hasHighlightedProperties);
 
   return (
