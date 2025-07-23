@@ -106,23 +106,10 @@ export const fetchRelatedProperties = (proprietorName) => {
   };
 };
 
-// #361 - Toggle ownership layers in the key
-export const togglePropertyDisplay = (display) => {
 
-  return (dispatch, getState) => {
-    const currentDisplay = getState().landOwnership.activeDisplay;
-
-    // Check if the current display is the same as the one being toggled
-    if (currentDisplay === display) {
-      dispatch({
-        type: "SET_ACTIVE_DISPLAY",
-        payload: null,
-      });
-    } else {
-      dispatch({
-        type: "SET_ACTIVE_DISPLAY",
-        payload: display,
-      });
-    }
+export const togglePropertyDisplay = (type) => {
+  return (dispatch) => {
+    dispatch({ type: "TOGGLE_PROPERTY_DISPLAY", payload: type });
+    return dispatch(autoSave());
   };
 };

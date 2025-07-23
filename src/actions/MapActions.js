@@ -111,7 +111,7 @@ export const openMap = (mapId) => {
       dispatch(updateReadOnly());
 
       /** #361 - Toggle ownership layers to ensure they appear in MenuKey */
-      if (mapData.mapLayers && mapData.mapLayers.ownershipDisplay) {
+      if (mapData.mapLayers?.ownershipDisplay) {
         const ownershipDisplay = mapData.mapLayers.ownershipDisplay;
         // Determine the layer ID based on the ownership display state
         const layerId = ownershipDisplay === true ? "all" : ownershipDisplay;
@@ -170,7 +170,8 @@ export const newMap = () => {
       payload: { unsavedMapUuid: uuidv4() },
     });
 
-    dispatch(clearMapLayers());
+    // Clear map layers directly in this action instead of dispatching a separate action
+    dispatch({ type: "CLEAR_MAP_LAYERS" });
 
     setTimeout(() => {
       dispatch({ type: "CHANGE_MOVING_METHOD", payload: "flyTo" });
@@ -475,11 +476,5 @@ export const toggleOwnershipLayerInKey = (layerId) => {
         payload: layerId,
       });
     }
-  };
-};
-
-export const clearMapLayers = () => {
-  return {
-    type: "CLEAR_MAP_LAYERS",
   };
 };
