@@ -1,4 +1,5 @@
 import { getRequest } from "./RequestActions";
+import { autoSave } from "./MapActions";
 
 /**
  * @param {string} type "all", "pending", "localAuthority" or "churchOfEngland"
