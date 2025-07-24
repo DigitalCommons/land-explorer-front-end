@@ -6,7 +6,6 @@ import constants from "../../constants";
 
 const MenuKey = ({ open, setOpen }) => {
   const [expanded, setExpanded] = useState(true);
-  const [initializedMobile, setInitializedMobile] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(false);
   const [displayMobile, setDisplayMobile] = useState(false);
   const prevOpenRef = useRef(open);
@@ -17,35 +16,37 @@ const MenuKey = ({ open, setOpen }) => {
     (state) => state.landOwnership
   );
 
+  // First-time initialization effect for mobile
+  useEffect(() => {
+    if (isMobile && shouldShowKey) {
+      // First-time initialization - make sure Layer Key is closed
+      setMobileExpanded(false);
+      setDisplayMobile(true);
+      if (open) setOpen(false);
+    }
+  }, []);
+
   // For mobile animation handling
   useEffect(() => {
-    if (isMobile) {
-      if (!initializedMobile && shouldShowKey) {
-        // First-time initialization - make sure Layer Key is closed
-        setInitializedMobile(true);
-        setMobileExpanded(false);
+    if (isMobile && prevOpenRef.current !== open) {
+      // Open - button was clicked in MapboxMap
+      if (open) {
         setDisplayMobile(true);
-        if (open) setOpen(false);
-      } else if (prevOpenRef.current !== open) {
-        // Open - button was clicked in MapboxMap
-        if (open) {
-          setDisplayMobile(true);
-          setTimeout(() => {
-            setMobileExpanded(true);
-          }, 50);
-        } else {
-          // Closing sequence:
-          setMobileExpanded(false);
-          setTimeout(() => {
-            setDisplayMobile(false);
-          }, 300);
-        }
-
-        // Update our reference to track changes
-        prevOpenRef.current = open;
+        setTimeout(() => {
+          setMobileExpanded(true);
+        }, 50);
+      } else {
+        // Closing sequence:
+        setMobileExpanded(false);
+        setTimeout(() => {
+          setDisplayMobile(false);
+        }, 300);
       }
+
+      // Update our reference to track changes
+      prevOpenRef.current = open;
     }
-  }, [open, shouldShowKey, isMobile, initializedMobile, setOpen]);
+  }, [open, isMobile, setOpen]);
 
   // Check if we have any highlighted properties
   const hasHighlightedProperties =

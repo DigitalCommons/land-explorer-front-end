@@ -62,17 +62,12 @@ const MapboxMap = () => {
   );
   const [menuLayersOpen, setMenuLayersOpen] = useState(false);
   const [menuKeyOpen, setMenuKeyOpen] = useState(true);
-  const [zoomWarningVisible, setZoomWarningVisible] = useState(false);
 
   const showZoomWarning =
     (zoom < 9 && landDataLayers.length > 0) ||
     (zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay] &&
       propertiesDisplay &&
       constants.LR_POLYGONS_ENABLED);
-
-  useEffect(() => {
-    setZoomWarningVisible(showZoomWarning);
-  }, [showZoomWarning]);
 
   useInterval(
     () => {
