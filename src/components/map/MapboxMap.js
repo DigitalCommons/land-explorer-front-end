@@ -285,7 +285,11 @@ const MapboxMap = () => {
   };
 
   // Determine if we should show the key button (only depends on if layers are active)
+  // REMOVEME
   const shouldShowKeyButton = landDataLayers.length > 0;
+
+  console.log("landDataLayers - MapboxMap", landDataLayers);
+  console.log("propertiesDisplay - MapboxMap", propertiesDisplay);
 
   return (
     <div>
@@ -390,7 +394,7 @@ const MapboxMap = () => {
       />
 
       {/* Mobile Menu Key Button */}
-      {isMobile && shouldShowKeyButton && (
+      {isMobile && (propertiesDisplay || landDataLayers.length > 0) && (
         <button
           className="menu-key-button"
           onClick={() => setMenuKeyOpen(!menuKeyOpen)}
@@ -401,7 +405,7 @@ const MapboxMap = () => {
       )}
 
       {/* Desktop version or mobile modal version handled inside the component */}
-      {shouldShowKeyButton && (
+      {(propertiesDisplay || landDataLayers.length > 0) && (
         <MenuKey
           open={menuKeyOpen}
           setOpen={(open) => {
