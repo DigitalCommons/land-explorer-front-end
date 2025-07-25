@@ -18,7 +18,7 @@ const MenuKey = ({ open, setOpen }) => {
 
   // First-time initialization effect for mobile
   useEffect(() => {
-    if (isMobile && shouldShowKey) {
+    if (isMobile) {
       // First-time initialization - make sure Layer Key is closed
       setMobileExpanded(false);
       setDisplayMobile(true);
@@ -294,11 +294,11 @@ const MenuKey = ({ open, setOpen }) => {
   //    a. We have visible layers, or
   //    b. We have ownership layers that will become visible at higher zoom, or
   //    c. We have highlighted properties
-  const shouldShowKey =
-    open &&
-    (hasVisibleLayers ||
-      hasOwnershipLayersButNotVisible ||
-      hasHighlightedProperties);
+  // const shouldShowKey =
+  //   open &&
+  //   (hasVisibleLayers ||
+  //     hasOwnershipLayersButNotVisible ||
+  //     hasHighlightedProperties);
 
   return (
     <>
@@ -307,7 +307,7 @@ const MenuKey = ({ open, setOpen }) => {
         <div
           className="tooltip-menu-key__container mobile-key"
           style={{
-            display: shouldShowKey && displayMobile ? "block" : "none",
+            display: "block",
             transform: mobileExpanded ? "translateX(0)" : "translateX(100%)",
           }}
         >
@@ -345,7 +345,7 @@ const MenuKey = ({ open, setOpen }) => {
             !expanded ? "collapsed" : ""
           }`}
           style={{
-            display: shouldShowKey ? "flex" : "none",
+            display: "flex",
           }}
         >
           <button
