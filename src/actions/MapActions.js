@@ -113,20 +113,20 @@ export const openMap = (mapId) => {
       /** #361 - Toggle ownership layers to ensure they appear in MenuKey */
       // REMOVEME
       /** <TODO> Re Rohit's suggestion show the key whenever a landlayer is switched on  */
-      // if (mapData.mapLayers?.ownershipDisplay) {
-      //   const ownershipDisplay = mapData.mapLayers.ownershipDisplay;
-      //   // Determine the layer ID based on the ownership display state
-      //   const layerId = ownershipDisplay === true ? "all" : ownershipDisplay;
-      //   console.log(
-      //     `Ensuring ownership layer ${layerId} is in menu key after map load`
-      //   );
+      if (mapData.mapLayers?.ownershipDisplay) {
+        const ownershipDisplay = mapData.mapLayers.ownershipDisplay;
+        // Determine the layer ID based on the ownership display state
+        const layerId = ownershipDisplay === true ? "all" : ownershipDisplay;
+        console.log(
+          `Ensuring ownership layer ${layerId} is in menu key after map load`
+        );
 
-      //   // Ensure the layer is in the key
-      //   dispatch({
-      //     type: "ENSURE_LAYER_IN_KEY",
-      //     payload: layerId,
-      //   });
-      // }
+        // Ensure the layer is in the key
+        dispatch({
+          type: "ENSURE_LAYER_IN_KEY",
+          payload: layerId,
+        });
+      }
 
       setTimeout(() => {
         dispatch({
@@ -477,6 +477,8 @@ export const toggleOwnershipLayerInKey = (layerId) => {
         type: "TOGGLE_LAYER",
         payload: layerId,
       });
+
+      console.log(`Ownership layer ${layerId} toggled in key`);
     }
   };
 };

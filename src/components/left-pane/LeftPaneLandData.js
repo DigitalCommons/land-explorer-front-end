@@ -7,8 +7,6 @@ import LandDataLayerToggle from "./LandDataLayerToggle";
 import { toggleDataGroup } from "../../actions/DataGroupActions";
 import { togglePropertyDisplay } from "../../actions/LandOwnershipActions";
 import constants from "../../constants";
-import { autoSave } from "../../actions/MapActions";
-import { toggleOwnershipLayerInKey } from "../../actions/MapActions";
 
 const DataLayersContainer = ({ children, title }) => {
   const [expanded, setExpanded] = useState(true);
@@ -71,21 +69,6 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
     </p>
   );
 
-  // #361 - Handle toggling ownership layers
-  const handleOwnershipToggle = (display) => {
-    return () => {
-      console.log(`OWNERSHIP TOGGLE for ${display}`);
-
-      // Toggle the property display state
-      dispatch(togglePropertyDisplay(display));
-
-      // Toggle ownership layers in the key
-      dispatch(toggleOwnershipLayerInKey(display));
-
-      dispatch(autoSave());
-    };
-  };
-
   console.log("Active Layers:", activeLayers);
 
   return (
@@ -141,31 +124,28 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
       </DataLayersContainer>
       {constants.LR_POLYGONS_ENABLED && (
         <DataLayersContainer title={"Land Ownership"}>
-          <LandDataLayerToggle
-            title="All Properties"
-            layerId="all"
+          <LeftPaneToggle
+            title={"All Properties"}
             on={landOwnershipActiveDisplay === "all"}
-            onToggle={handleOwnershipToggle("all")}
+            onToggle={() => dispatch(togglePropertyDisplay("all"))}
           />
           {user.privileged && (
-            <LandDataLayerToggle
-              title="Pending Properties"
-              layerId="pending"
+            <LeftPaneToggle
+              title={"Pending Properties"}
               on={landOwnershipActiveDisplay === "pending"}
-              onToggle={handleOwnershipToggle("pending")}
+              onToggle={() => dispatch(togglePropertyDisplay("pending"))}
             />
           )}
-          <LandDataLayerToggle
-            title="Local Authority"
-            layerId="localAuthority"
+          <LeftPaneToggle
+            title={"Local Authority"}
             on={landOwnershipActiveDisplay === "localAuthority"}
-            onToggle={handleOwnershipToggle("localAuthority")}
+            onToggle={() => dispatch(togglePropertyDisplay("localAuthority"))}
           />
-          <LandDataLayerToggle
-            title="Church of England"
-            layerId="churchOfEngland"
+
+          <LeftPaneToggle
+            title={"Church of England"}
             on={landOwnershipActiveDisplay === "churchOfEngland"}
-            onToggle={handleOwnershipToggle("churchOfEngland")}
+            onToggle={() => dispatch(togglePropertyDisplay("churchOfEngland"))}
           />
         </DataLayersContainer>
       )}

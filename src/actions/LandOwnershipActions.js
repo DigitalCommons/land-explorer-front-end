@@ -111,6 +111,7 @@ export const fetchRelatedProperties = (proprietorName) => {
 export const togglePropertyDisplay = (type) => {
   return (dispatch) => {
     dispatch({ type: "TOGGLE_PROPERTY_DISPLAY", payload: type });
+    console.log(`Toggled property display to ${type}`);
     return dispatch(autoSave());
   };
 };

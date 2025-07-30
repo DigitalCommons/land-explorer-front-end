@@ -26,6 +26,13 @@ const MenuKey = ({ open, setOpen }) => {
     }
   }, []);
 
+  const landOwnershipActiveDisplay = useSelector(
+    (state) => state.landOwnership.activeDisplay
+  );
+
+  console.log("Menu Key - Land Ownership Active Display:", landOwnershipActiveDisplay);
+  console.log("Menu Key - Land Data Layers:", landDataLayers);
+
   // For mobile animation handling
   useEffect(() => {
     if (isMobile && prevOpenRef.current !== open) {
@@ -258,6 +265,20 @@ const MenuKey = ({ open, setOpen }) => {
     }
     return <Key key={i} name={layers[layer].name} data={layers[layer].data} />;
   });
+
+  if (
+    landOwnershipActiveDisplay &&
+    ownershipLayers.includes(landOwnershipActiveDisplay) &&
+    layers[landOwnershipActiveDisplay]
+  ) {
+    standardKeys.push(
+      <Key
+        key={`ownership-${landOwnershipActiveDisplay}`}
+        name={layers[landOwnershipActiveDisplay].name}
+        data={layers[landOwnershipActiveDisplay].data}
+      />
+    );
+  }
 
   // Create a key for highlighted properties if they exist
   let allKeys = [...standardKeys];

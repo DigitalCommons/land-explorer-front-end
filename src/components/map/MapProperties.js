@@ -157,6 +157,7 @@ const MapProperties = ({ center, map }) => {
 
             {/* Properties data public - Fill */}
             <Layer
+              id="all"
               type="fill"
               paint={{
                 "fill-opacity": 0.2,
