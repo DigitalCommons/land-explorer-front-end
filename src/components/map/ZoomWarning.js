@@ -8,7 +8,7 @@ const ZoomWarning = ({ show, onZoomToRequired }) => {
   // Determine required zoom level
   const getRequiredZoomLevel = () => {
     // For ownership layers
-    if (activeDisplay && constants.LR_POLYGONS_ENABLED) {
+    if (activeDisplay) {
       return constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay];
     }
     // For data layers

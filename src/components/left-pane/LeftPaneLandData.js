@@ -117,13 +117,12 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
           />
         </Draggable>
       </DataLayersContainer>
-      {constants.LR_POLYGONS_ENABLED && (
-        <DataLayersContainer title={"Land Ownership"}>
-          <LeftPaneToggle
-            title={"All Properties"}
-            on={landOwnershipActiveDisplay === "all"}
-            onToggle={() => dispatch(togglePropertyDisplay("all"))}
-          />
+      <DataLayersContainer title={"Land Ownership"}>
+        <LeftPaneToggle
+          title={"All Properties"}
+          on={landOwnershipActiveDisplay === "all"}
+          onToggle={() => dispatch(togglePropertyDisplay("all"))}
+        />
           {user.privileged && (
             <LeftPaneToggle
               title={"Pending Properties"}
@@ -143,7 +142,6 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
             onToggle={() => dispatch(togglePropertyDisplay("churchOfEngland"))}
           />
         </DataLayersContainer>
-      )}
       <DataLayersContainer title={"Administrative Boundaries"}>
         <LandDataLayerToggle title="Wards" layerId="wards-cu4dni" />
         <LandDataLayerToggle title="Parishes" layerId="parish" />

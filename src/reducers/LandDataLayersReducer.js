@@ -5,7 +5,7 @@ let landDataLayers;
 let layerId;
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-      case "TOGGLE_LAYER":
+      case "TOGGLE_LAND_DATA_LAYER":
         const toggleLayerId = action.payload;
 
         /**

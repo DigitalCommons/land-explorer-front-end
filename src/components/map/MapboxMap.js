@@ -66,8 +66,7 @@ const MapboxMap = () => {
   const showZoomWarning =
     (zoom < 9 && landDataLayers.length > 0) ||
     (zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay] &&
-      propertiesDisplay &&
-      constants.LR_POLYGONS_ENABLED);
+      propertiesDisplay);
 
   useInterval(
     () => {
@@ -338,11 +337,7 @@ const MapboxMap = () => {
           }}
         />
         {/*For displaying the property boundaries*/}
-        {constants.LR_POLYGONS_ENABLED && (
-          <>
-            <MapProperties center={lngLat} map={map} />
-          </>
-        )}
+        <MapProperties center={lngLat} map={map} />
         {/* Markers, including markers from data groups */}
         {styleLoaded && (
           <Markers

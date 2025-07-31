@@ -8,7 +8,7 @@ const LandDataLayerToggle = ({ title, layerId, draggable = false }) => {
     const activeLayers = useSelector((state) => state.mapLayers.landDataLayers);
 
     const onToggle = () => {
-        dispatch({ type: "TOGGLE_LAYER", payload: layerId });
+        dispatch({ type: "TOGGLE_LAND_DATA_LAYER", payload: layerId });
         dispatch(autoSave());
     }
 
