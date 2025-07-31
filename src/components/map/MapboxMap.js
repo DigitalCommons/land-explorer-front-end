@@ -284,10 +284,6 @@ const MapboxMap = () => {
     }
   };
 
-  // Determine if we should show the key button (only depends on if layers are active)
-  // REMOVEME
-  const shouldShowKeyButton = landDataLayers.length > 0;
-
   console.log("landDataLayers - MapboxMap", landDataLayers);
   console.log("propertiesDisplay - MapboxMap", propertiesDisplay);
 

@@ -26,7 +26,7 @@ const Key = ({ data, name }) => (
     />
     {Object.keys(data).map((key, i) => {
       /**
-       * #361 - Check if the color value is an object with fill/border or just a string
+       * Check if the color value is an object with fill/border or just a string
        * If it's an object, extract the fill and border properties
        */
       const isColorObject = typeof data[key] === "object" && data[key] !== null;

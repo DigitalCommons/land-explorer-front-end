@@ -21,14 +21,6 @@ const MapProperties = ({ center, map }) => {
   const { zoom, zooming } = useSelector((state) => state.map);
   const activePanel = useSelector((state) => state.leftPane.active);
 
-  // #361 - Get current land ownership display mode
-  const landOwnershipActiveDisplay = useSelector(
-    (state) => state.landOwnership.activeDisplay
-  );
-
-  // #361 - Get active layers
-  const activeLayers = useSelector((state) => state.mapLayers.landDataLayers);
-
   const dispatch = useDispatch();
 
   useEffect(() => {

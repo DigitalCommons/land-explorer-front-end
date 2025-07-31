@@ -57,9 +57,6 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
     (state) => state.landOwnership.activeDisplay
   );
 
-  // #361 - Active display for land ownership layers
-  const activeLayers = useSelector((state) => state.mapLayers.landDataLayers);
-
   const description = (
     <p className="land-data-description">
       Want to add your own data to Land Explorer?{" "}
@@ -68,8 +65,6 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
       </a>
     </p>
   );
-
-  console.log("Active Layers:", activeLayers);
 
   return (
     <LeftPaneTray
