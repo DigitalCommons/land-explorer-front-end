@@ -1,4 +1,5 @@
 import constants, { VERSION } from "../constants";
+import { clearAllHighlightedProperties } from "./LandOwnershipActions";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
 import { getRequest, postRequest } from "./RequestActions";
@@ -96,6 +97,7 @@ export const openMap = (mapId) => {
       const writeAccess = map.access !== constants.MAP_ACCESS_READ_ONLY;
       const ownMap = map.access === constants.MAP_ACCESS_OWNER;
 
+      dispatch(clearAllHighlightedProperties());
       dispatch({
         type: "LOAD_MAP",
         payload: {
@@ -109,25 +111,24 @@ export const openMap = (mapId) => {
       });
       console.log("map data:", mapData, "map id:", mapId);
       dispatch(updateReadOnly());
-
+      
       /** #361 - Toggle ownership layers to ensure they appear in MenuKey */
       // REMOVEME
       /** <TODO> Re Rohit's suggestion show the key whenever a landlayer is switched on  */
-      if (mapData.mapLayers?.ownershipDisplay) {
-        const ownershipDisplay = mapData.mapLayers.ownershipDisplay;
-        // Determine the layer ID based on the ownership display state
-        const layerId = ownershipDisplay === true ? "all" : ownershipDisplay;
-        console.log(
-          `Ensuring ownership layer ${layerId} is in menu key after map load`
-        );
+      // if (mapData.mapLayers?.ownershipDisplay) {
+      //   const ownershipDisplay = mapData.mapLayers.ownershipDisplay;
+      //   // Determine the layer ID based on the ownership display state
+      //   const layerId = ownershipDisplay === true ? "all" : ownershipDisplay;
+      //   console.log(
+      //     `Ensuring ownership layer ${layerId} is in menu key after map load`
+      //   );
 
-        // Ensure the layer is in the key
-        dispatch({
-          type: "ENSURE_LAYER_IN_KEY",
-          payload: layerId,
-        });
-      }
-
+      //   // Ensure the layer is in the key
+      //   dispatch({
+      //     type: "ENSURE_LAYER_IN_KEY",
+      //     payload: layerId,
+      //   });
+      // }
       setTimeout(() => {
         dispatch({
           type: "CHANGE_MOVING_METHOD",
@@ -437,48 +438,4 @@ const shortenTimestamp = (timestamp) => {
   } else {
     return moment(timestamp).format("DD/MM/YY");
   }
-};
-
-/**
- * #361 - Toggle ownership layer in the key
- * Ensures only one ownership layer is active in the key at a time.
- */
-export const toggleOwnershipLayerInKey = (layerId) => {
-  return (dispatch, getState) => {
-    const activeLayers = getState().mapLayers.landDataLayers;
-    const ownershipLayers = [
-      "all",
-      "localAuthority",
-      "churchOfEngland",
-      "pending",
-    ];
-
-    // If the layer is already active, toggle it off
-    if (activeLayers.includes(layerId)) {
-      dispatch({
-        type: "TOGGLE_LAYER",
-        payload: layerId,
-      });
-    }
-    // If the layer is not active, ensure only this one is active
-    else {
-      // Remove other ownership layers
-      ownershipLayers.forEach((id) => {
-        if (activeLayers.includes(id)) {
-          dispatch({
-            type: "TOGGLE_LAYER",
-            payload: id,
-          });
-        }
-      });
-
-      // Add the new layer
-      dispatch({
-        type: "TOGGLE_LAYER",
-        payload: layerId,
-      });
-
-      console.log(`Ownership layer ${layerId} toggled in key`);
-    }
-  };
 };

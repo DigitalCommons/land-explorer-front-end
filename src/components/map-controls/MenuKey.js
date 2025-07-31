@@ -257,14 +257,18 @@ const MenuKey = ({ open, setOpen }) => {
   };
 
   // Create the keys using the filtered layer IDs
-  const standardKeys = visibleLayerIds.map((layer, i) => {
-    // Error handling for potentially undefined layers
-    if (!layers[layer]) {
-      console.warn(`Layer definition missing for: ${layer}`);
-      return <Key key={i} name={`Layer: ${layer}`} data={{}} />;
-    }
-    return <Key key={i} name={layers[layer].name} data={layers[layer].data} />;
-  });
+  const standardKeys = visibleLayerIds
+    .filter((layer) => !ownershipLayers.includes(layer)) // Exclude ownership layers
+    .map((layer, i) => {
+      // Error handling for potentially undefined layers
+      if (!layers[layer]) {
+        console.warn(`Layer definition missing for: ${layer}`);
+        return <Key key={i} name={`Layer: ${layer}`} data={{}} />;
+      }
+      return (
+        <Key key={i} name={layers[layer].name} data={layers[layer].data} />
+      );
+    });
 
   if (
     landOwnershipActiveDisplay &&
@@ -308,6 +312,8 @@ const MenuKey = ({ open, setOpen }) => {
   const hasOwnershipLayersButNotVisible = landDataLayers.some(
     (id) => ownershipLayers.includes(id) && !visibleLayerIds.includes(id)
   );
+
+  console.log("hasHighlightedProperties:", hasHighlightedProperties);
 
   // Show the key if:
   // 1. The menu is open AND
