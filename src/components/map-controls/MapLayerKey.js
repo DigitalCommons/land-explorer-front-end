@@ -4,7 +4,7 @@ import { isMobile } from "react-device-detect";
 import Key from "./Key";
 import constants from "../../constants";
 
-const MenuKey = ({ open, setOpen }) => {
+const MapLayerKey = ({ open, setOpen }) => {
   const [expanded, setExpanded] = useState(true);
   const [mobileExpanded, setMobileExpanded] = useState(false);
   const [displayMobile, setDisplayMobile] = useState(false);
@@ -412,4 +412,4 @@ const MenuKey = ({ open, setOpen }) => {
   );
 };
 
-export default MenuKey;
+export default MapLayerKey;

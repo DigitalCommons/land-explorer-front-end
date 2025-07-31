@@ -29,7 +29,7 @@ import {
 import FeedbackTab from "../common/FeedbackTab";
 import MapBeingEditedToast from "./MapBeingEditedToast";
 import MenuLayers from "../map-controls/MenuLayers";
-import MenuKey from "../map-controls/MenuKey";
+import MapLayerKey from "../map-controls/MapLayerKey";
 
 // Create Map Component with settings
 const Map = ReactMapboxGl({
@@ -397,7 +397,7 @@ const MapboxMap = () => {
 
       {/* Desktop version or mobile modal version handled inside the component */}
       {(propertiesDisplay || landDataLayers.length > 0) && (
-        <MenuKey
+        <MapLayerKey
           open={menuKeyOpen}
           setOpen={(open) => {
             setMenuKeyOpen(open);

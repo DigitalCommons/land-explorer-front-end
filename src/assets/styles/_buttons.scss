@@ -160,13 +160,17 @@
 }
 
 .zoom-warning-button {
-  position: fixed;
-  top: 84px;
-  right: 12px;
+  // position: fixed;
+  // top: 84px;
+  // right: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: white;
   padding: 6px 12px 6px 16px; /* Added more padding on left */
   background: rgba(208, 2, 78, 0.95);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   width: auto;
   height: auto;
@@ -177,10 +181,14 @@
   display: flex;
   align-items: center;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-  
+
   &:hover {
     background: rgba(228, 22, 98, 0.95);
     // box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+  }
+  @media screen and (min-width: $medium) {
+    font-size: 16px;
+    padding: 10px 16px 10px 20px; /* Added more padding on left */
   }
 }
 
@@ -292,7 +300,6 @@
   padding: 0;
 }
 
-
 .button-show-more {
   display: flex;
   align-items: center;
@@ -308,7 +315,6 @@
     margin-right: 5px;
   }
 }
-
 
 .button.button-cancel {
   background-color: rgba(208, 2, 78, 0.95);
