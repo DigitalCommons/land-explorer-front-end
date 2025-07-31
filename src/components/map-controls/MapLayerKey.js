@@ -1,0 +1,415 @@
+import React, { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
+import { isMobile } from "react-device-detect";
+import Key from "./Key";
+import constants from "../../constants";
+
+const MapLayerKey = ({ open, setOpen }) => {
+  const [expanded, setExpanded] = useState(true);
+  const [mobileExpanded, setMobileExpanded] = useState(false);
+  const [displayMobile, setDisplayMobile] = useState(false);
+  const prevOpenRef = useRef(open);
+
+  const landDataLayers = useSelector((state) => state.mapLayers.landDataLayers);
+  const { zoom } = useSelector((state) => state.map);
+  const { activeDisplay, highlightedProperties } = useSelector(
+    (state) => state.landOwnership
+  );
+
+  // First-time initialization effect for mobile
+  useEffect(() => {
+    if (isMobile) {
+      // First-time initialization - make sure Layer Key is closed
+      setMobileExpanded(false);
+      setDisplayMobile(true);
+      if (open) setOpen(false);
+    }
+  }, []);
+
+  const landOwnershipActiveDisplay = useSelector(
+    (state) => state.landOwnership.activeDisplay
+  );
+
+  console.log("Menu Key - Land Ownership Active Display:", landOwnershipActiveDisplay);
+  console.log("Menu Key - Land Data Layers:", landDataLayers);
+
+  // For mobile animation handling
+  useEffect(() => {
+    if (isMobile && prevOpenRef.current !== open) {
+      // Open - button was clicked in MapboxMap
+      if (open) {
+        setDisplayMobile(true);
+        setTimeout(() => {
+          setMobileExpanded(true);
+        }, 50);
+      } else {
+        // Closing sequence:
+        setMobileExpanded(false);
+        setTimeout(() => {
+          setDisplayMobile(false);
+        }, 300);
+      }
+
+      // Update our reference to track changes
+      prevOpenRef.current = open;
+    }
+  }, [open, isMobile, setOpen]);
+
+  // Check if we have any highlighted properties
+  const hasHighlightedProperties =
+    Object.keys(highlightedProperties).length > 0;
+
+  // Define ownership layer IDs
+  const ownershipLayers = [
+    "all",
+    "localAuthority",
+    "churchOfEngland",
+    "pending",
+  ];
+
+  // Determine if we're at the appropriate zoom level for ownership layers
+  const isAtOwnershipZoom =
+    activeDisplay &&
+    zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay];
+
+  // Filter layers based on zoom level
+  const visibleLayerIds = landDataLayers.filter((layerId) => {
+    // If it's an ownership layer, only show at appropriate zoom
+    if (ownershipLayers.includes(layerId)) {
+      return isAtOwnershipZoom;
+    }
+    // Otherwise always show
+    return true;
+  });
+
+  // Handle toggling the menu expansion on desktop
+  const toggleExpanded = () => {
+    setExpanded(!expanded);
+  };
+
+  // Handle closing the mobile menu with animation
+  const handleCloseMobile = () => {
+    setMobileExpanded(false);
+
+    // Update parent state after animation ends
+    setTimeout(() => {
+      setOpen(false);
+      setDisplayMobile(false);
+    }, 300);
+  };
+
+  const layers = {
+    "provisional-agricultural-land-ab795l": {
+      name: "Agricultural land classification",
+      data: {
+        "Grade 1": "#3980d0",
+        "Grade 2": "#10c3ef",
+        "Grade 3": "#0fb08f",
+        "Grade 4": "#f9f90d",
+        "Grade 5": "#c9748e",
+        Exclusion: "#b2b2b2",
+        "Non Agricultural": "#b2b2b2",
+        Urban: "#b2b2b2",
+      },
+    },
+    "national-forest-estate-soil-g-18j2ga": {
+      name: "National forest estate soils",
+      data: {
+        "Basin Bog": "#b2b2b2",
+        "Brown Earth": "#895c44",
+        "Calcareous Soil": "#4de600",
+        "Eroded Bog": "#9c9c9c",
+        "Flat or Raised Bogs": "#686868",
+        "Flushed Blanket Bog": "#333333",
+        "Ground-water Gley": "#014ea6",
+        "Ironpan Soil": "#fc5601",
+        "Littoral Soil": "#fefe67",
+        "Man-made Soil": "#ab00e5",
+        "Peaty Surface-water Gley": "#0085a8",
+        Podzol: "#e60002",
+        "Skeletal Soil": "#e7e600",
+        "Surface-water Gley": "#00a8e7",
+        "Unflushed Blanket Bog": "#010101",
+        "Valley Complex": "#8d8ead",
+      },
+    },
+    "historic-flood-map-5y05ao": {
+      name: "Historic flood map",
+      data: {
+        Flood: "hsl(196, 80%, 70%)",
+      },
+    },
+    "sites-of-special-scientific-i-09kaq4": {
+      name: "Sites of scientific interest",
+      data: {
+        "Site of Interest": "hsl(1, 40%, 40%)",
+      },
+    },
+    "special-protection-areas-engl-71pdjg": {
+      name: "Special protection areas",
+      data: {
+        "Protection Area": "hsl(51, 40%, 40%)",
+      },
+    },
+    "special-areas-of-conservation-bm41zr": {
+      name: "Special areas of conservation",
+      data: {
+        "Conservation Area": "hsl(101, 40%, 40%)",
+      },
+    },
+    "ncc-brownfield-sites": {
+      name: "Brownfield",
+      data: {
+        Brownfield: "hsla(0, 24%, 20%, 0.5)",
+      },
+    },
+    "local-authority-greenbelt-bou-9r44t6": {
+      name: "Greenbelt",
+      data: {
+        Greenbelt: "hsla(113, 97%, 50%, 0.4)",
+      },
+    },
+    "wards-cu4dni": {
+      name: "Wards",
+      data: {
+        Wards: "hsl(245, 100%, 50%)",
+      },
+    },
+    "county-4ef4ik": {
+      name: "Counties",
+      data: {
+        Counties: "hsla(113, 97%, 50%, 0.4)",
+      },
+    },
+    "westminster_const_region-8r33ph": {
+      name: "Westminster Constituencies",
+      data: {
+        Constituencies: "hsl(183, 97%, 50%)",
+      },
+    },
+    "district_borough_unitary_regi-bquzqt": {
+      name: "Councils",
+      data: {
+        Councils: "hsl(56, 97%, 50%)",
+      },
+    },
+    parish: {
+      name: "Parishes",
+      data: {
+        Parish: "hsl(280,60%,70%)",
+      },
+    },
+    "devolved-powers": {
+      name: "Devolved Powers",
+      data: {
+        "Devolved Powers": "hsl(320,97%,50%)",
+      },
+    },
+    all: {
+      name: "Land Ownership",
+      data: {
+        "Company owned": {
+          fill: "#BE4A9766",
+          border: "#BE4A97",
+        },
+        "Privately owned": {
+          fill: "#39ABB366",
+          border: "#39ABB3",
+        },
+      },
+      hasBorder: true,
+    },
+    localAuthority: {
+      name: "Land Ownership",
+      data: {
+        "Local Authority": {
+          fill: "#BE4A9766",
+          border: "#BE4A97",
+        },
+      },
+    },
+    churchOfEngland: {
+      name: "Land Ownership",
+      data: {
+        "Church of England": {
+          fill: "#BE4A9766",
+          border: "#BE4A97",
+        },
+      },
+    },
+    pending: {
+      name: "Pending Properties",
+      data: {
+        "Pending Properties": "#FF9900",
+      },
+    },
+    highlightedProperty: {
+      name: "Selected Properties",
+      data: {
+        "Selected Property": { fill: "#24467366", border: "#24467366" },
+        "Active Property": {
+          fill: "#24467399",
+          border: "#24467399",
+          borderStyle: "dashed",
+        },
+      },
+    },
+  };
+
+  // Create the keys using the filtered layer IDs
+  const standardKeys = visibleLayerIds
+    .filter((layer) => !ownershipLayers.includes(layer)) // Exclude ownership layers
+    .map((layer, i) => {
+      // Error handling for potentially undefined layers
+      if (!layers[layer]) {
+        console.warn(`Layer definition missing for: ${layer}`);
+        return <Key key={i} name={`Layer: ${layer}`} data={{}} />;
+      }
+      return (
+        <Key key={i} name={layers[layer].name} data={layers[layer].data} />
+      );
+    });
+
+  if (
+    landOwnershipActiveDisplay &&
+    ownershipLayers.includes(landOwnershipActiveDisplay) &&
+    layers[landOwnershipActiveDisplay]
+  ) {
+    standardKeys.push(
+      <Key
+        key={`ownership-${landOwnershipActiveDisplay}`}
+        name={layers[landOwnershipActiveDisplay].name}
+        data={layers[landOwnershipActiveDisplay].data}
+      />
+    );
+  }
+
+  // Create a key for highlighted properties if they exist
+  let allKeys = [...standardKeys];
+
+  if (hasHighlightedProperties) {
+    const highlightedKey = (
+      <Key
+        key="highlighted-properties"
+        name={layers.highlightedProperty.name}
+        data={layers.highlightedProperty.data}
+      />
+    );
+
+    // Add the highlighted properties key
+    allKeys.push(highlightedKey);
+  }
+
+  // Check if only ownership layers are active
+  const onlyOwnershipLayersActive =
+    landDataLayers.length > 0 &&
+    landDataLayers.every((id) => ownershipLayers.includes(id));
+
+  // Show the key if we have visible layers OR we have a message to show
+  const hasVisibleLayers = visibleLayerIds.length > 0;
+
+  // Check if we have ownership layers that will appear at higher zoom levels
+  const hasOwnershipLayersButNotVisible = landDataLayers.some(
+    (id) => ownershipLayers.includes(id) && !visibleLayerIds.includes(id)
+  );
+
+  console.log("hasHighlightedProperties:", hasHighlightedProperties);
+
+  // Show the key if:
+  // 1. The menu is open AND
+  // 2. Either:
+  //    a. We have visible layers, or
+  //    b. We have ownership layers that will become visible at higher zoom, or
+  //    c. We have highlighted properties
+  // const shouldShowKey =
+  //   open &&
+  //   (hasVisibleLayers ||
+  //     hasOwnershipLayersButNotVisible ||
+  //     hasHighlightedProperties);
+
+  return (
+    <>
+      {isMobile ? (
+        // Mobile version
+        <div
+          className="tooltip-menu-key__container mobile-key"
+          style={{
+            display: "block",
+            transform: mobileExpanded ? "translateX(0)" : "translateX(100%)",
+          }}
+        >
+          <div className="tooltip-menu-key">
+            <header className="tooltip-menu-key__header">
+              <i className="tooltip-menu-key__icon"></i>
+              <h3>Layer Key</h3>
+              <div
+                className="button-clear tooltip-menu-key__close"
+                onClick={handleCloseMobile}
+              >
+                <i
+                  className="modal-close__dark-grey"
+                  style={{ top: 0, right: 0 }}
+                ></i>
+              </div>
+            </header>
+            <div className="tooltip-menu-key-content">
+              {allKeys.length ? (
+                allKeys
+              ) : (
+                <div>
+                  {hasOwnershipLayersButNotVisible
+                    ? "Ownership layers will become visible when you zoom in further"
+                    : "No Layers selected"}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ) : (
+        // Desktop version - with tab
+        <div
+          className={`tooltip-menu-key__container ${
+            !expanded ? "collapsed" : ""
+          }`}
+          style={{
+            display: "flex",
+          }}
+        >
+          <button
+            className={`tooltip-menu-key__tab ${!expanded ? "collapsed" : ""}`}
+            onClick={toggleExpanded}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.142 16">
+              <path d="M8.807 7.193a1.144 1.144 0 0 1 0 1.617l-6.855 6.855a1.144 1.144 0 1 1-1.617-1.617L6.383 8 .339 1.952A1.144 1.144 0 1 1 1.956.335L8.811 7.19Z" />
+            </svg>
+          </button>
+          <div
+            className="tooltip-menu-key modal desktop"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+          >
+            <header className="tooltip-menu-key__header">
+              <i className="tooltip-menu-key__icon"></i>
+              <h3 style={{ marginTop: 0 }}>Layer Key</h3>
+            </header>
+            <div className="tooltip-menu-key-content">
+              {allKeys.length ? (
+                allKeys
+              ) : (
+                <div>
+                  {hasOwnershipLayersButNotVisible
+                    ? "Ownership layers will become visible when you zoom in further"
+                    : "No Layers selected"}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default MapLayerKey;

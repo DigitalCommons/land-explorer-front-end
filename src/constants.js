@@ -34,7 +34,6 @@ const constants = {
       lng: 2.7726241015535606,
     },
   ],
-  LR_POLYGONS_ENABLED: true,
   PROPERTY_BOUNDARIES_ZOOM_LEVELS: {
     all: 15,
     pending: 15,
