@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { isMobile } from "react-device-detect";
 import Key from "./Key";
 import constants from "../../constants";
 
+const ownershipLayers = ["all", "localAuthority", "churchOfEngland", "pending"];
+
 const MapLayerKey = ({ open, setOpen }) => {
   const [expanded, setExpanded] = useState(true);
-  const [mobileExpanded, setMobileExpanded] = useState(false);
-  const [displayMobile, setDisplayMobile] = useState(false);
-  const prevOpenRef = useRef(open);
+  const [mobileVisible, setMobileVisible] = useState(false);
+  const [mobileAnimating, setMobileAnimating] = useState(false);
 
   const landDataLayers = useSelector((state) => state.mapLayers.landDataLayers);
   const { zoom } = useSelector((state) => state.map);
@@ -16,89 +17,55 @@ const MapLayerKey = ({ open, setOpen }) => {
     (state) => state.landOwnership
   );
 
-  // First-time initialization effect for mobile
-  useEffect(() => {
-    if (isMobile) {
-      // First-time initialization - make sure Layer Key is closed
-      setMobileExpanded(false);
-      setDisplayMobile(true);
-      if (open) setOpen(false);
-    }
-  }, []);
-
-  const landOwnershipActiveDisplay = useSelector(
-    (state) => state.landOwnership.activeDisplay
-  );
-
-  console.log("Menu Key - Land Ownership Active Display:", landOwnershipActiveDisplay);
-  console.log("Menu Key - Land Data Layers:", landDataLayers);
-
-  // For mobile animation handling
-  useEffect(() => {
-    if (isMobile && prevOpenRef.current !== open) {
-      // Open - button was clicked in MapboxMap
-      if (open) {
-        setDisplayMobile(true);
-        setTimeout(() => {
-          setMobileExpanded(true);
-        }, 50);
-      } else {
-        // Closing sequence:
-        setMobileExpanded(false);
-        setTimeout(() => {
-          setDisplayMobile(false);
-        }, 300);
-      }
-
-      // Update our reference to track changes
-      prevOpenRef.current = open;
-    }
-  }, [open, isMobile, setOpen]);
-
-  // Check if we have any highlighted properties
+  // Check if there are highlighted properties
   const hasHighlightedProperties =
     Object.keys(highlightedProperties).length > 0;
 
-  // Define ownership layer IDs
-  const ownershipLayers = [
-    "all",
-    "localAuthority",
-    "churchOfEngland",
-    "pending",
-  ];
-
-  // Determine if we're at the appropriate zoom level for ownership layers
+  // Check if the map is at the ownership zoom level
   const isAtOwnershipZoom =
     activeDisplay &&
     zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay];
 
-  // Filter layers based on zoom level
-  const visibleLayerIds = landDataLayers.filter((layerId) => {
-    // If it's an ownership layer, only show at appropriate zoom
-    if (ownershipLayers.includes(layerId)) {
-      return isAtOwnershipZoom;
+  // Check which layers are visible based on the zoom level
+  const visibleLayerIds = landDataLayers.filter((id) =>
+    ownershipLayers.includes(id) ? isAtOwnershipZoom : true
+  );
+
+  // Check if there are ownership layers that are not visible
+  const hasOwnershipLayersButNotVisible = landDataLayers.some(
+    (id) => ownershipLayers.includes(id) && !visibleLayerIds.includes(id)
+  );
+
+  // Auto-expand when an ownership layer is toggled ON after all were OFF
+  useEffect(() => {
+    if (!expanded && activeDisplay) {
+      setExpanded(true);
     }
-    // Otherwise always show
-    return true;
-  });
+  }, [activeDisplay]);
 
-  // Handle toggling the menu expansion on desktop
-  const toggleExpanded = () => {
-    setExpanded(!expanded);
-  };
+  // Handle mobile animations
+  useEffect(() => {
+    if (!isMobile) return;
 
-  // Handle closing the mobile menu with animation
+    if (open) {
+      setMobileVisible(true);
+      setTimeout(() => setMobileAnimating(true), 50);
+    } else {
+      setMobileAnimating(false);
+      setTimeout(() => setMobileVisible(false), 300);
+    }
+  }, [open]);
+
+  // Handle close mobile
   const handleCloseMobile = () => {
-    setMobileExpanded(false);
-
-    // Update parent state after animation ends
+    setMobileAnimating(false);
     setTimeout(() => {
       setOpen(false);
-      setDisplayMobile(false);
+      setMobileVisible(false);
     }, 300);
   };
 
-  const layers = {
+ const layers = {
     "provisional-agricultural-land-ab795l": {
       name: "Agricultural land classification",
       data: {
@@ -256,128 +223,101 @@ const MapLayerKey = ({ open, setOpen }) => {
     },
   };
 
-  // Create the keys using the filtered layer IDs
-  const standardKeys = visibleLayerIds
-    .filter((layer) => !ownershipLayers.includes(layer)) // Exclude ownership layers
-    .map((layer, i) => {
-      // Error handling for potentially undefined layers
-      if (!layers[layer]) {
-        console.warn(`Layer definition missing for: ${layer}`);
-        return <Key key={i} name={`Layer: ${layer}`} data={{}} />;
-      }
-      return (
-        <Key key={i} name={layers[layer].name} data={layers[layer].data} />
+  const getKeys = () => {
+    const keys = [];
+
+    visibleLayerIds
+      .filter((id) => !ownershipLayers.includes(id))
+      .forEach((id) => {
+        const layer = layers[id];
+        if (layer) {
+          keys.push(<Key key={id} name={layer.name} data={layer.data} />);
+        } else {
+          console.warn(`Missing definition for layer ${id}`);
+          keys.push(<Key key={id} name={`Layer: ${id}`} data={{}} />);
+        }
+      });
+
+    if (
+      activeDisplay &&
+      ownershipLayers.includes(activeDisplay) &&
+      layers[activeDisplay]
+    ) {
+      keys.push(
+        <Key
+          key={`ownership-${activeDisplay}`}
+          name={layers[activeDisplay].name}
+          data={layers[activeDisplay].data}
+        />
       );
-    });
+    }
 
-  if (
-    landOwnershipActiveDisplay &&
-    ownershipLayers.includes(landOwnershipActiveDisplay) &&
-    layers[landOwnershipActiveDisplay]
-  ) {
-    standardKeys.push(
-      <Key
-        key={`ownership-${landOwnershipActiveDisplay}`}
-        name={layers[landOwnershipActiveDisplay].name}
-        data={layers[landOwnershipActiveDisplay].data}
-      />
+    if (hasHighlightedProperties) {
+      keys.push(
+        <Key
+          key="highlighted-properties"
+          name={layers.highlightedProperty.name}
+          data={layers.highlightedProperty.data}
+        />
+      );
+    }
+
+    return keys;
+  };
+
+  const allKeys = getKeys();
+
+  const renderKeyContent = () =>
+    allKeys.length ? (
+      allKeys
+    ) : (
+      <div>
+        {hasOwnershipLayersButNotVisible
+          ? "Ownership layers will become visible when you zoom in further"
+          : "No Layers selected"}
+      </div>
     );
-  }
-
-  // Create a key for highlighted properties if they exist
-  let allKeys = [...standardKeys];
-
-  if (hasHighlightedProperties) {
-    const highlightedKey = (
-      <Key
-        key="highlighted-properties"
-        name={layers.highlightedProperty.name}
-        data={layers.highlightedProperty.data}
-      />
-    );
-
-    // Add the highlighted properties key
-    allKeys.push(highlightedKey);
-  }
-
-  // Check if only ownership layers are active
-  const onlyOwnershipLayersActive =
-    landDataLayers.length > 0 &&
-    landDataLayers.every((id) => ownershipLayers.includes(id));
-
-  // Show the key if we have visible layers OR we have a message to show
-  const hasVisibleLayers = visibleLayerIds.length > 0;
-
-  // Check if we have ownership layers that will appear at higher zoom levels
-  const hasOwnershipLayersButNotVisible = landDataLayers.some(
-    (id) => ownershipLayers.includes(id) && !visibleLayerIds.includes(id)
-  );
-
-  console.log("hasHighlightedProperties:", hasHighlightedProperties);
-
-  // Show the key if:
-  // 1. The menu is open AND
-  // 2. Either:
-  //    a. We have visible layers, or
-  //    b. We have ownership layers that will become visible at higher zoom, or
-  //    c. We have highlighted properties
-  // const shouldShowKey =
-  //   open &&
-  //   (hasVisibleLayers ||
-  //     hasOwnershipLayersButNotVisible ||
-  //     hasHighlightedProperties);
 
   return (
     <>
       {isMobile ? (
-        // Mobile version
-        <div
-          className="tooltip-menu-key__container mobile-key"
-          style={{
-            display: "block",
-            transform: mobileExpanded ? "translateX(0)" : "translateX(100%)",
-          }}
-        >
-          <div className="tooltip-menu-key">
-            <header className="tooltip-menu-key__header">
-              <i className="tooltip-menu-key__icon"></i>
-              <h3>Layer Key</h3>
-              <div
-                className="button-clear tooltip-menu-key__close"
-                onClick={handleCloseMobile}
-              >
-                <i
-                  className="modal-close__dark-grey"
-                  style={{ top: 0, right: 0 }}
-                ></i>
-              </div>
-            </header>
-            <div className="tooltip-menu-key-content">
-              {allKeys.length ? (
-                allKeys
-              ) : (
-                <div>
-                  {hasOwnershipLayersButNotVisible
-                    ? "Ownership layers will become visible when you zoom in further"
-                    : "No Layers selected"}
+        mobileVisible && (
+          <div
+            className="tooltip-menu-key__container mobile-key"
+            style={{
+              transform: mobileAnimating ? "translateX(0)" : "translateX(100%)",
+            }}
+          >
+            <div className="tooltip-menu-key">
+              <header className="tooltip-menu-key__header">
+                <i className="tooltip-menu-key__icon"></i>
+                <h3>Layer Key</h3>
+                <div
+                  className="button-clear tooltip-menu-key__close"
+                  onClick={handleCloseMobile}
+                >
+                  <i
+                    className="modal-close__dark-grey"
+                    style={{ top: 0, right: 0 }}
+                  ></i>
                 </div>
-              )}
+              </header>
+              <div className="tooltip-menu-key-content">
+                {renderKeyContent()}
+              </div>
             </div>
           </div>
-        </div>
+        )
       ) : (
-        // Desktop version - with tab
         <div
           className={`tooltip-menu-key__container ${
             !expanded ? "collapsed" : ""
           }`}
-          style={{
-            display: "flex",
-          }}
+          style={{ display: "flex" }}
         >
           <button
             className={`tooltip-menu-key__tab ${!expanded ? "collapsed" : ""}`}
-            onClick={toggleExpanded}
+            onClick={() => setExpanded(!expanded)}
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.142 16">
               <path d="M8.807 7.193a1.144 1.144 0 0 1 0 1.617l-6.855 6.855a1.144 1.144 0 1 1-1.617-1.617L6.383 8 .339 1.952A1.144 1.144 0 1 1 1.956.335L8.811 7.19Z" />
@@ -394,17 +334,7 @@ const MapLayerKey = ({ open, setOpen }) => {
               <i className="tooltip-menu-key__icon"></i>
               <h3 style={{ marginTop: 0 }}>Layer Key</h3>
             </header>
-            <div className="tooltip-menu-key-content">
-              {allKeys.length ? (
-                allKeys
-              ) : (
-                <div>
-                  {hasOwnershipLayersButNotVisible
-                    ? "Ownership layers will become visible when you zoom in further"
-                    : "No Layers selected"}
-                </div>
-              )}
-            </div>
+            <div className="tooltip-menu-key-content">{renderKeyContent()}</div>
           </div>
         </div>
       )}
