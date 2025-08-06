@@ -70,18 +70,7 @@ const MapLayerKey = ({ open, setOpen }) => {
   const getKeys = () => {
     const keys = [];
 
-    visibleLayerIds
-      .filter((id) => !ownershipLayers.includes(id))
-      .forEach((id) => {
-        const layer = layers[id];
-        if (layer) {
-          keys.push(<Key key={id} name={layer.name} data={layer.data} />);
-        } else {
-          console.warn(`Missing definition for layer ${id}`);
-          keys.push(<Key key={id} name={`Layer: ${id}`} data={{}} />);
-        }
-      });
-
+    // Show land ownership layers
     if (
       activeDisplay &&
       ownershipLayers.includes(activeDisplay) &&
@@ -96,7 +85,8 @@ const MapLayerKey = ({ open, setOpen }) => {
       );
     }
 
-    if (hasHighlightedProperties) {
+    // Show highlighted properties
+    if (hasHighlightedProperties && layers.highlightedProperty) {
       keys.push(
         <Key
           key="highlighted-properties"
@@ -105,6 +95,19 @@ const MapLayerKey = ({ open, setOpen }) => {
         />
       );
     }
+
+    // Show all other non-ownership visible layers
+    visibleLayerIds
+      .filter((id) => !ownershipLayers.includes(id))
+      .forEach((id) => {
+        const layer = layers[id];
+        if (layer) {
+          keys.push(<Key key={id} name={layer.name} data={layer.data} />);
+        } else {
+          console.warn(`Missing definition for layer ${id}`);
+          keys.push(<Key key={id} name={`Layer: ${id}`} data={{}} />);
+        }
+      });
 
     return keys;
   };
