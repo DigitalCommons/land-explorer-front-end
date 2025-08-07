@@ -2,15 +2,11 @@ import React from "react";
 import ToggleSwitch from "../common/ToggleSwitch";
 
 const LeftPaneToggle = ({ title, on, onToggle, draggable = false }) => {
-  console.log(`LeftPaneToggle: ${title}, on: ${on}`);
-  
-
-
   return (
     <div
       className={`tray-item`}
       onClick={(e) => {
-        e.stopPropagation(); 
+        e.stopPropagation();
         onToggle && onToggle();
       }}
     >

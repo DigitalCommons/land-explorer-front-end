@@ -266,7 +266,6 @@ const MapboxMap = () => {
     layers: baseLayers,
   };
 
-  // #361 - Handle zooming to the required level
   const handleZoomToRequired = (requiredZoom) => {
     if (map) {
       // Add some buffer to ensure we're above the threshold
@@ -283,8 +282,9 @@ const MapboxMap = () => {
     }
   };
 
-  console.log("landDataLayers - MapboxMap", landDataLayers);
-  console.log("propertiesDisplay - MapboxMap", propertiesDisplay);
+  // console.log("landDataLayers - MapboxMap", landDataLayers);
+  // console.log("propertiesDisplay - MapboxMap", propertiesDisplay);
+  // console.log("activeLayers - MapboxMap", activeLayers);
 
   return (
     <div>
@@ -385,18 +385,19 @@ const MapboxMap = () => {
       />
 
       {/* Mobile Menu Key Button */}
-      {isMobile && (propertiesDisplay || landDataLayers.length > 0) && (
-        <button
-          className="menu-key-button"
-          onClick={() => setMenuKeyOpen(!menuKeyOpen)}
-          aria-label="Toggle Layer Key"
-        >
-          <i className="tooltip-menu-key__icon"></i>
-        </button>
-      )}
+      {isMobile &&
+        (propertiesDisplay !== null || landDataLayers.length > 0) && (
+          <button
+            className="menu-key-button"
+            onClick={() => setMenuKeyOpen(!menuKeyOpen)}
+            aria-label="Toggle Layer Key"
+          >
+            <i className="tooltip-menu-key__icon"></i>
+          </button>
+        )}
 
       {/* Desktop version or mobile modal version handled inside the component */}
-      {(propertiesDisplay || landDataLayers.length > 0) && (
+      {(propertiesDisplay !== null || landDataLayers.length > 0) && (
         <MapLayerKey
           open={menuKeyOpen}
           setOpen={(open) => {
