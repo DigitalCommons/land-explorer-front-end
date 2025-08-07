@@ -1,34 +1,31 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import constants from "../../constants";
+import { setZoom } from "../../actions/MapActions";
 
-const ZoomWarning = ({ show, onZoomToRequired }) => {
-  const { activeDisplay } = useSelector((state) => state.landOwnership);
+const ZoomWarning = ({ show }) => {
+  const dispatch = useDispatch();
+
+  const { zooming } = useSelector((state) => state.map);
+  const propertiesDisplay = useSelector(
+    (state) => state.landOwnership.activeDisplay
+  );
 
   // Determine required zoom level
-  const getRequiredZoomLevel = () => {
-    // For ownership layers
-    if (activeDisplay) {
-      return constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay];
-    }
-    // For data layers
-    return 9; // Default zoom level for data layers
-  };
-
-  // Handle click to zoom in
-  const handleZoomClick = () => {
-    const requiredZoom = getRequiredZoomLevel();
-    if (onZoomToRequired) {
-      onZoomToRequired(requiredZoom);
-    }
-  };
+  const requiredZoomLevel = propertiesDisplay
+    ? constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay]
+    : constants.LAND_DATA_LAYER_ZOOM_LEVEL;
 
   return (
     <div
-      onClick={handleZoomClick}
+      onClick={() => {
+        if (!zooming) {
+          dispatch(setZoom([requiredZoomLevel]));
+        }
+      }}
       className="zoom-warning-button"
       style={{
-        transform: show ? "translateX(0px)" : "translateX(12px)",
+        transform: show ? "translateY(0px)" : "translateY(-12px)",
         opacity: show ? 1 : 0,
       }}
     >

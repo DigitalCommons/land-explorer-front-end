@@ -160,19 +160,15 @@
 }
 
 .zoom-warning-button {
-  // position: fixed;
-  // top: 84px;
-  // right: 12px;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 90px;
+  left: calc(50% - 68px);
   color: white;
   padding: 6px 12px 6px 16px; /* Added more padding on left */
   background: rgba(208, 2, 78, 0.95);
   font-size: 14px;
   font-weight: bold;
-  width: auto;
+  width: 160px;
   height: auto;
   border-radius: 40px;
   z-index: 1;
@@ -189,6 +185,7 @@
   @media screen and (min-width: $medium) {
     font-size: 16px;
     padding: 10px 16px 10px 20px; /* Added more padding on left */
+    width: 180px;
   }
 }
 
@@ -246,11 +243,6 @@
 .zoom-location {
   background-image: url("../img/icon-location.svg");
   margin-bottom: 24px;
-}
-
-.zoom-properties {
-  background-image: url("../img/icon-property-search.svg");
-  background-size: 30px;
 }
 
 .zoom-plus {

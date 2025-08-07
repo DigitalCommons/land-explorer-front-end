@@ -34,6 +34,7 @@ const constants = {
       lng: 2.7726241015535606,
     },
   ],
+  LAND_DATA_LAYER_ZOOM_LEVEL: 9,
   PROPERTY_BOUNDARIES_ZOOM_LEVELS: {
     all: 15,
     pending: 15,

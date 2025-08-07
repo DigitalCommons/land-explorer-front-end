@@ -64,9 +64,10 @@ const MapboxMap = () => {
   const [menuKeyOpen, setMenuKeyOpen] = useState(true);
 
   const showZoomWarning =
-    (zoom < 9 && landDataLayers.length > 0) ||
-    (zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay] &&
-      propertiesDisplay);
+    (landDataLayers.length > 0 &&
+      zoom < constants.LAND_DATA_LAYER_ZOOM_LEVEL) ||
+    (propertiesDisplay &&
+      zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay]);
 
   useInterval(
     () => {
@@ -192,7 +193,6 @@ const MapboxMap = () => {
       */
     const { features } = e;
     features.map((feature) => {
-      console.log("happening", feature.type);
       const featureCopy = {
         id: feature.id,
         type: feature.type,
@@ -266,26 +266,6 @@ const MapboxMap = () => {
     layers: baseLayers,
   };
 
-  const handleZoomToRequired = (requiredZoom) => {
-    if (map) {
-      // Add some buffer to ensure we're above the threshold
-      const targetZoom = requiredZoom + 0.1;
-
-      // Animate the zoom
-      map.flyTo({
-        center: lngLat,
-        zoom: targetZoom,
-        speed: 0.8,
-        curve: 1.5,
-        essential: true,
-      });
-    }
-  };
-
-  // console.log("landDataLayers - MapboxMap", landDataLayers);
-  // console.log("propertiesDisplay - MapboxMap", propertiesDisplay);
-  // console.log("activeLayers - MapboxMap", activeLayers);
-
   return (
     <div>
       {/* This is the ReactMapbox instance we created at the top of the file */}
@@ -352,10 +332,7 @@ const MapboxMap = () => {
           />
         )}
         {/* Shows zoom warning if active layers are out of view */}
-        <ZoomWarning
-          show={showZoomWarning}
-          onZoomToRequired={handleZoomToRequired}
-        />
+        <ZoomWarning show={showZoomWarning} />
         {/* Drawing tools */}
         <DrawControl
           addControl={map}
