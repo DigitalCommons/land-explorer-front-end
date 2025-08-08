@@ -69,8 +69,8 @@ MAPBOX_TOKEN=replacethiskey
 2) Create a new style layer in "Land Explorer Styles" using the new tileset as data source.
 3) Get map id - (click on tileset menu -> map ID (looks like "joolzt.4i2tzpgj"))
 4) Append map id to data/mapSources.js composite url
-5) Append map id to MapLayers.js Source component (tileJsonSource url).
-5) Add new Layer component to MapLayers.js
+5) Append map id to MapLandDataLayers.js Source component (tileJsonSource url).
+6) Add new Layer component to MapLandDataLayers.js
     * id is the style layer id (from Land Explorer Styles in mapbox studio, e.g. local-authority-greenbelt-bou-9r44t6)
     * sourceId is composite (as we appended it to the composite source url in the last step)
     * sourceLayer is the name of the source tileset (e.g Local_Authority_Greenbelt_bou-9r44t6)
@@ -79,8 +79,8 @@ MAPBOX_TOKEN=replacethiskey
     ![alt text](./docs/mapboxstylejson.png "paint json")
     * fillOpacity is used to toggle the layers when active
         ```"fill-opacity": activeLayers.indexOf('historic-flood-map-5y05ao') !== -1 ? .4 : 0,```
-6) Add new LandDataLayerToggle component to LeftPaneLandData.js, layerId is the style layer id (e.g. e.g. local-authority-greenbelt-bou-9r44t6)
-7) Add layer to MenuKey.js, the key is the style layer id, the data is the layer style json but in object form.
+7) Add new LandDataLayerToggle component to LeftPaneLandData.js, layerId is the style layer id (e.g. e.g. local-authority-greenbelt-bou-9r44t6)
+8) Add layer key definition to `src/data/mapLayerKeyConfig.js`
 
 <br/>
 

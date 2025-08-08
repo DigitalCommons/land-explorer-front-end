@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { openModal } from "../../actions/ModalActions";
 import analytics from "../../analytics";
 
-const MenuProfile = () => {
+const ProfileMenu = () => {
   const dispatch = useDispatch();
   const open = useSelector((state) => state.menu.profile);
 
@@ -62,4 +62,4 @@ const MenuProfile = () => {
   );
 };
 
-export default MenuProfile;
+export default ProfileMenu;

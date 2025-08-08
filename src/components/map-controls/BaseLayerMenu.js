@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const MenuLayers = () => {
+const BaseLayerMenu = () => {
   const [open, setOpen] = useState(false);
   const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
   const dispatch = useDispatch();
@@ -53,4 +53,4 @@ const MenuLayers = () => {
   );
 };
 
-export default MenuLayers;
+export default BaseLayerMenu;

@@ -194,7 +194,7 @@ export const saveCurrentMap = (
       drawings: getState().drawings,
       markers: getState().markers,
       mapLayers: {
-        landDataLayers: getState().mapLayers.landDataLayers,
+        landDataLayers: getState().landDataLayers.landDataLayers,
         myDataLayers: getState().dataGroups.activeGroups,
         ownershipDisplay: getState().landOwnership.activeDisplay,
       },

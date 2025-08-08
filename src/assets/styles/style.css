@@ -387,7 +387,7 @@ a {
   z-index: 99999;
 }
 
-.tooltip-menu-main {
+.tooltip-static-site-menu {
   z-index: 100001 !important;
 }
 

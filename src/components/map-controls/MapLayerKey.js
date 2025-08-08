@@ -5,7 +5,7 @@ import Key from "./Key";
 import layers from "../../data/mapLayerKeyConfig";
 
 const MapLayerKey = () => {
-  const { landDataLayers } = useSelector((state) => state.mapLayers);
+  const { landDataLayers } = useSelector((state) => state.landDataLayers);
   const { activeDisplay, highlightedProperties } = useSelector(
     (state) => state.landOwnership
   );

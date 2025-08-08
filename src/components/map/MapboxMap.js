@@ -9,7 +9,7 @@ import DrawControl from "react-mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import StaticMode from "@mapbox/mapbox-gl-draw-static-mode";
 import Markers from "./Markers";
-import MapLayers from "./MapLayers";
+import MapLandDataLayers from "./MapLandDataLayers";
 import DrawingLayers from "./DrawingLayers";
 import ZoomWarning from "./ZoomWarning";
 import LeftPane from "../left-pane/LeftPane";
@@ -27,7 +27,7 @@ import {
 } from "../../actions/MapActions";
 import FeedbackTab from "../common/FeedbackTab";
 import MapBeingEditedToast from "./MapBeingEditedToast";
-import MenuLayers from "../map-controls/MenuLayers";
+import BaseLayerMenu from "../map-controls/BaseLayerMenu";
 import MapLayerKey from "../map-controls/MapLayerKey";
 
 // Create Map Component with settings
@@ -51,7 +51,7 @@ const MapboxMap = () => {
   const { zoom, lngLat, movingMethod } = useSelector((state) => state.map);
   const { currentMarker } = useSelector((state) => state.markers);
   const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
-  const { landDataLayers } = useSelector((state) => state.mapLayers);
+  const { landDataLayers } = useSelector((state) => state.landDataLayers);
   const { activeTool } = useSelector((state) => state.leftPane);
   const { activePolygon, polygons, polygonsDrawn, linesDrawn } = useSelector(
     (state) => state.drawings
@@ -303,7 +303,7 @@ const MapboxMap = () => {
         movingMethod={movingMethod}
       >
         {/* Map Layers (greenbelt etc.)*/}
-        <MapLayers />
+        <MapLandDataLayers />
         {/* Map Data Groups displaying My Data, except data group markers, which are in Markers to cluster together */}
         <MapDataGroups
           popupVisible={dataGroupPopupVisible}
@@ -351,7 +351,7 @@ const MapboxMap = () => {
         }
       </Map>
       <LeftPane drawControl={drawControlRef.current} />
-      <MenuLayers />
+      <BaseLayerMenu />
 
       {/* Show the layer key if there's an active property layer, visible properties, or land data layers */}
       <div

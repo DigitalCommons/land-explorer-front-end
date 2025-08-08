@@ -27,7 +27,7 @@ const appReducer = combineReducers({
   modal: ModalReducer,
   map: MapReducer,
   mapBaseLayer: MapBaseLayerReducer,
-  mapLayers: LandDataLayersReducer,
+  landDataLayers: LandDataLayersReducer,
   markers: MarkersReducer,
   user: UserReducer,
   information: InformationReducer,
