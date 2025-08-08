@@ -1,5 +1,4 @@
 import constants, { VERSION } from "../constants";
-import { clearAllHighlightedProperties } from "./LandOwnershipActions";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
 import { getRequest, postRequest } from "./RequestActions";
@@ -97,7 +96,6 @@ export const openMap = (mapId) => {
       const writeAccess = map.access !== constants.MAP_ACCESS_READ_ONLY;
       const ownMap = map.access === constants.MAP_ACCESS_OWNER;
 
-      dispatch(clearAllHighlightedProperties());
       dispatch({
         type: "LOAD_MAP",
         payload: {

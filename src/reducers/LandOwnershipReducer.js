@@ -114,6 +114,8 @@ export default (state = INITIAL_STATE, action) => {
         return {
           ...state,
           activeDisplay: "all",
+          highlightedProperties: {},
+          activePropertyId: null,
         };
       }
       return {
