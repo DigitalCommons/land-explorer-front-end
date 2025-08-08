@@ -6,15 +6,22 @@ const PropertySectionHeader = ({
   titleNo,
   onClickRemove,
   open,
+  unregistered,
 }) => {
   return (
     <div className="property-section-header">
       <h4 className="property-section-header__address">
-        {address ? address : `Property ${polyId}`}
+        {address
+          ? address
+          : unregistered
+          ? `Unregistered Land ${polyId}`
+          : `Property ${polyId}`}
       </h4>
-      <div className="property-section-header__title-no">
-        Title no: {titleNo}
-      </div>
+      {!unregistered && (
+        <div className="property-section-header__title-no">
+          Title no: {titleNo ?? "Unknown"}
+        </div>
+      )}
       <a className="property-section-header__remove" onClick={onClickRemove}>
         Remove Property
       </a>

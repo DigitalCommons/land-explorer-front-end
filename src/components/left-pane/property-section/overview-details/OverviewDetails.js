@@ -1,6 +1,12 @@
 import React from "react";
 
-const OverviewDetails = ({ address, area, perimeter, inspireId }) => {
+const OverviewDetails = ({
+  address,
+  area,
+  perimeter,
+  polyId,
+  unregistered,
+}) => {
   return (
     <section>
       <div className="property-inner-section">
@@ -25,10 +31,12 @@ const OverviewDetails = ({ address, area, perimeter, inspireId }) => {
             <div className="property-details-info__title">Perimeter:</div>
             <div className="property-details-info__value">{perimeter} m</div>
           </div>
-          <div className="property-details-info__inner">
-            <div className="property-details-info__title">INSPIRE ID:</div>
-            <div className="property-details-info__value">{inspireId}</div>
-          </div>
+          {!unregistered && (
+            <div className="property-details-info__inner">
+              <div className="property-details-info__title">Poly ID:</div>
+              <div className="property-details-info__value">{polyId}</div>
+            </div>
+          )}
         </div>
       </div>
     </section>

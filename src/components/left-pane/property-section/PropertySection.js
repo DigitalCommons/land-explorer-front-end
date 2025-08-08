@@ -68,8 +68,6 @@ const PropertySection = ({ property, active }) => {
     },
   ].filter((proprietor) => proprietor.name);
 
-  const proprietorCount = proprietors.length;
-
   const handleClear = () => {
     dispatch(clearHighlightedProperties([poly_id]));
     // Clear related properties pane if the property being cleared is the searched property
@@ -99,6 +97,7 @@ const PropertySection = ({ property, active }) => {
           titleNo={title_no}
           onClickRemove={handleClear}
           open={open}
+          unregistered={tenure === "unregistered"}
         />
       </div>
       {open && (
@@ -107,7 +106,8 @@ const PropertySection = ({ property, active }) => {
             address={property_address}
             area={area}
             perimeter={perimeter}
-            inspireId={poly_id}
+            polyId={poly_id}
+            unregistered={tenure === "unregistered"}
           />
           {proprietor_category_1 && (
             <>
@@ -120,11 +120,7 @@ const PropertySection = ({ property, active }) => {
             </>
           )}
 
-          <PropertySectionSmallPrint
-            proprietor={proprietor_name_1}
-            inspireId={poly_id}
-            titleNo={title_no}
-          />
+          <PropertySectionSmallPrint unregistered={tenure === "unregistered"} />
         </div>
       )}
     </div>
