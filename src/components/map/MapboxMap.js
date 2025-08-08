@@ -59,6 +59,7 @@ const MapboxMap = () => {
   const propertiesDisplay = useSelector(
     (state) => state.landOwnership.activeDisplay
   );
+  const { visibleProperties } = useSelector((state) => state.landOwnership);
 
   const showZoomWarning =
     (landDataLayers.length > 0 &&
@@ -352,11 +353,15 @@ const MapboxMap = () => {
       <LeftPane drawControl={drawControlRef.current} />
       <MenuLayers />
 
-      {/* Show the layer key if there's an active property layer or land data layers */}
+      {/* Show the layer key if there's an active property layer, visible properties, or land data layers */}
       <div
         style={{
           display:
-            propertiesDisplay || landDataLayers.length > 0 ? "block" : "none",
+            propertiesDisplay ||
+            visibleProperties.length > 0 ||
+            landDataLayers.length > 0
+              ? "block"
+              : "none",
         }}
       >
         <MapLayerKey />
