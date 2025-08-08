@@ -9,7 +9,7 @@ import DrawControl from "react-mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import StaticMode from "@mapbox/mapbox-gl-draw-static-mode";
 import Markers from "./Markers";
-import MapLayers from "./MapLayers";
+import MapLandDataLayers from "./MapLandDataLayers";
 import DrawingLayers from "./DrawingLayers";
 import ZoomWarning from "./ZoomWarning";
 import LeftPane from "../left-pane/LeftPane";
@@ -27,6 +27,8 @@ import {
 } from "../../actions/MapActions";
 import FeedbackTab from "../common/FeedbackTab";
 import MapBeingEditedToast from "./MapBeingEditedToast";
+import BaseLayerMenu from "../map-controls/BaseLayerMenu";
+import MapLayerKey from "../map-controls/MapLayerKey";
 
 // Create Map Component with settings
 const Map = ReactMapboxGl({
@@ -49,7 +51,7 @@ const MapboxMap = () => {
   const { zoom, lngLat, movingMethod } = useSelector((state) => state.map);
   const { currentMarker } = useSelector((state) => state.markers);
   const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
-  const { landDataLayers } = useSelector((state) => state.mapLayers);
+  const { landDataLayers } = useSelector((state) => state.landDataLayers);
   const { activeTool } = useSelector((state) => state.leftPane);
   const { activePolygon, polygons, polygonsDrawn, linesDrawn } = useSelector(
     (state) => state.drawings
@@ -57,6 +59,13 @@ const MapboxMap = () => {
   const propertiesDisplay = useSelector(
     (state) => state.landOwnership.activeDisplay
   );
+  const { visibleProperties } = useSelector((state) => state.landOwnership);
+
+  const showZoomWarning =
+    (landDataLayers.length > 0 &&
+      zoom < constants.LAND_DATA_LAYER_ZOOM_LEVEL) ||
+    (propertiesDisplay &&
+      zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay]);
 
   useInterval(
     () => {
@@ -182,7 +191,6 @@ const MapboxMap = () => {
       */
     const { features } = e;
     features.map((feature) => {
-      console.log("happening", feature.type);
       const featureCopy = {
         id: feature.id,
         type: feature.type,
@@ -295,7 +303,7 @@ const MapboxMap = () => {
         movingMethod={movingMethod}
       >
         {/* Map Layers (greenbelt etc.)*/}
-        <MapLayers />
+        <MapLandDataLayers />
         {/* Map Data Groups displaying My Data, except data group markers, which are in Markers to cluster together */}
         <MapDataGroups
           popupVisible={dataGroupPopupVisible}
@@ -307,11 +315,7 @@ const MapboxMap = () => {
           }}
         />
         {/*For displaying the property boundaries*/}
-        {constants.LR_POLYGONS_ENABLED && (
-          <>
-            <MapProperties center={lngLat} map={map} />
-          </>
-        )}
+        <MapProperties center={lngLat} map={map} />
         {/* Markers, including markers from data groups */}
         {styleLoaded && (
           <Markers
@@ -326,15 +330,7 @@ const MapboxMap = () => {
           />
         )}
         {/* Shows zoom warning if active layers are out of view */}
-        <ZoomWarning
-          show={
-            (zoom < 9 && landDataLayers.length > 0) ||
-            (zoom <
-              constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay] &&
-              propertiesDisplay &&
-              constants.LR_POLYGONS_ENABLED)
-          }
-        />
+        <ZoomWarning show={showZoomWarning} />
         {/* Drawing tools */}
         <DrawControl
           addControl={map}
@@ -355,6 +351,22 @@ const MapboxMap = () => {
         }
       </Map>
       <LeftPane drawControl={drawControlRef.current} />
+      <BaseLayerMenu />
+
+      {/* Show the layer key if there's an active property layer, visible properties, or land data layers */}
+      <div
+        style={{
+          display:
+            propertiesDisplay ||
+            visibleProperties.length > 0 ||
+            landDataLayers.length > 0
+              ? "block"
+              : "none",
+        }}
+      >
+        <MapLayerKey />
+      </div>
+
       <FeedbackTab />
       <MapBeingEditedToast />
       <Modals />

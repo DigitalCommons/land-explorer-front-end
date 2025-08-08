@@ -34,12 +34,13 @@ const constants = {
       lng: 2.7726241015535606,
     },
   ],
-  LR_POLYGONS_ENABLED: true,
+  LAND_DATA_LAYER_ZOOM_LEVEL: 9,
   PROPERTY_BOUNDARIES_ZOOM_LEVELS: {
     all: 15,
     pending: 15,
     localAuthority: 14,
     churchOfEngland: 13,
+    unregistered: 13,
   },
   // These values match up with the backend UserMapAccess enum
   MAP_ACCESS_READ_ONLY: 1,

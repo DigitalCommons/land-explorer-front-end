@@ -297,9 +297,8 @@ h6 {
   z-index: 99999;
   position: fixed;
   width: 300px;
-  top: 100px;
-  left: 50%;
-  margin-left: -150px;
+  top: 90px;
+  left: calc(50% - 114px);
   text-align: center;
   font-weight: bold;
   border-radius: 4px;
@@ -307,3 +306,4 @@ h6 {
   background-color: #4d4d4d;
   color: #ffffff;
 }
+

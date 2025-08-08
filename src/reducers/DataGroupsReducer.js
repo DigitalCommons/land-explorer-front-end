@@ -39,6 +39,11 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         activeGroups,
       };
+    case "NEW_MAP":
+      return {
+        ...state,
+        activeGroups: [],
+      };
     default:
       return state;
   }

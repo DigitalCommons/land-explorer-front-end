@@ -6,7 +6,7 @@ import LeftPaneReducer from "./LeftPaneReducer";
 import ModalReducer from "./ModalReducer";
 import MapReducer from "./MapReducer";
 import MapBaseLayerReducer from "./MapBaseLayerReducer";
-import MapLayersReducer from "./MapLayersReducer";
+import LandDataLayersReducer from "./LandDataLayersReducer";
 import UserReducer from "./UserReducer";
 import InformationReducer from "./InformationReducer";
 import InformationSectionsReducer from "./InformationSectionsReducer";
@@ -27,7 +27,7 @@ const appReducer = combineReducers({
   modal: ModalReducer,
   map: MapReducer,
   mapBaseLayer: MapBaseLayerReducer,
-  mapLayers: MapLayersReducer,
+  landDataLayers: LandDataLayersReducer,
   markers: MarkersReducer,
   user: UserReducer,
   information: InformationReducer,

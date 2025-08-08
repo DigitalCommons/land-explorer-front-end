@@ -109,16 +109,21 @@ export default (state = INITIAL_STATE, action) => {
       // this could be undefined, or just 'true' for old maps
       const ownershipDisplay =
         action.payload.data.mapLayers.ownershipDisplay || null;
+
       if (ownershipDisplay === true) {
         return {
           ...state,
           activeDisplay: "all",
+          highlightedProperties: {},
+          activePropertyId: null,
         };
       }
       return {
         ...state,
         activeDisplay: ownershipDisplay,
       };
+    case "NEW_MAP":
+      return INITIAL_STATE;
     default:
       return state;
   }

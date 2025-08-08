@@ -117,32 +117,36 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
           />
         </Draggable>
       </DataLayersContainer>
-      {constants.LR_POLYGONS_ENABLED && (
-        <DataLayersContainer title={"Land Ownership"}>
+      <DataLayersContainer title={"Land Ownership"}>
+        <LeftPaneToggle
+          title={"All Properties"}
+          on={landOwnershipActiveDisplay === "all"}
+          onToggle={() => dispatch(togglePropertyDisplay("all"))}
+        />
+        {user.privileged && (
           <LeftPaneToggle
-            title={"All Properties"}
-            on={landOwnershipActiveDisplay === "all"}
-            onToggle={() => dispatch(togglePropertyDisplay("all"))}
+            title={"Pending Properties"}
+            on={landOwnershipActiveDisplay === "pending"}
+            onToggle={() => dispatch(togglePropertyDisplay("pending"))}
           />
-          {user.privileged && (
-            <LeftPaneToggle
-              title={"Pending Properties"}
-              on={landOwnershipActiveDisplay === "pending"}
-              onToggle={() => dispatch(togglePropertyDisplay("pending"))}
-            />
-          )}
-          <LeftPaneToggle
-            title={"Local Authority"}
-            on={landOwnershipActiveDisplay === "localAuthority"}
-            onToggle={() => dispatch(togglePropertyDisplay("localAuthority"))}
-          />
-          <LeftPaneToggle
-            title={"Church of England"}
-            on={landOwnershipActiveDisplay === "churchOfEngland"}
-            onToggle={() => dispatch(togglePropertyDisplay("churchOfEngland"))}
-          />
-        </DataLayersContainer>
-      )}
+        )}
+        <LeftPaneToggle
+          title={"Local Authority"}
+          on={landOwnershipActiveDisplay === "localAuthority"}
+          onToggle={() => dispatch(togglePropertyDisplay("localAuthority"))}
+        />
+
+        <LeftPaneToggle
+          title={"Church of England"}
+          on={landOwnershipActiveDisplay === "churchOfEngland"}
+          onToggle={() => dispatch(togglePropertyDisplay("churchOfEngland"))}
+        />
+        <LeftPaneToggle
+          title="Unregistered Land"
+          on={landOwnershipActiveDisplay === "unregistered"}
+          onToggle={() => dispatch(togglePropertyDisplay("unregistered"))}
+        />
+      </DataLayersContainer>
       <DataLayersContainer title={"Administrative Boundaries"}>
         <LandDataLayerToggle title="Wards" layerId="wards-cu4dni" />
         <LandDataLayerToggle title="Parishes" layerId="parish" />

@@ -1,24 +1,38 @@
-import React from 'react';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import constants from "../../constants";
+import { setZoom } from "../../actions/MapActions";
 
-const ZoomWarning = ({ show }) =>
-    <div style={{
-        position: 'fixed',
-        top: '84px',
-        right: '12px',
-        color: 'white',
-        padding: '6px 12px',
-        background: 'rgba(208, 2, 78, 0.95)',
-        fontSize: '12px',
-        fontWeight: 'bold',
-        width: 'auto',
-        height: 'auto',
-        borderRadius: '40px',
-        zIndex: 1,
-        transition: 'opacity 300ms, transform 300ms',
-        transform: show ? 'translateX(0px)' : 'translateX(12px)',
+const ZoomWarning = ({ show }) => {
+  const dispatch = useDispatch();
+
+  const { zooming } = useSelector((state) => state.map);
+  const propertiesDisplay = useSelector(
+    (state) => state.landOwnership.activeDisplay
+  );
+
+  // Determine required zoom level
+  const requiredZoomLevel = propertiesDisplay
+    ? constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay]
+    : constants.LAND_DATA_LAYER_ZOOM_LEVEL;
+
+  return (
+    <div
+      onClick={() => {
+        if (!zooming) {
+          dispatch(setZoom([requiredZoomLevel]));
+        }
+      }}
+      className="zoom-warning-button"
+      style={{
+        transform: show ? "translateY(0px)" : "translateY(-12px)",
         opacity: show ? 1 : 0,
-    }}>
-        Please zoom in to see layer
+      }}
+    >
+      <span>Zoom in to see layer</span>
+      <i className="zoom-warning-button__icon"></i>
     </div>
+  );
+};
 
 export default ZoomWarning;
