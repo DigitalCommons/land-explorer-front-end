@@ -123,25 +123,30 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
           on={landOwnershipActiveDisplay === "all"}
           onToggle={() => dispatch(togglePropertyDisplay("all"))}
         />
-          {user.privileged && (
-            <LeftPaneToggle
-              title={"Pending Properties"}
-              on={landOwnershipActiveDisplay === "pending"}
-              onToggle={() => dispatch(togglePropertyDisplay("pending"))}
-            />
-          )}
+        {user.privileged && (
           <LeftPaneToggle
-            title={"Local Authority"}
-            on={landOwnershipActiveDisplay === "localAuthority"}
-            onToggle={() => dispatch(togglePropertyDisplay("localAuthority"))}
+            title={"Pending Properties"}
+            on={landOwnershipActiveDisplay === "pending"}
+            onToggle={() => dispatch(togglePropertyDisplay("pending"))}
           />
+        )}
+        <LeftPaneToggle
+          title={"Local Authority"}
+          on={landOwnershipActiveDisplay === "localAuthority"}
+          onToggle={() => dispatch(togglePropertyDisplay("localAuthority"))}
+        />
 
-          <LeftPaneToggle
-            title={"Church of England"}
-            on={landOwnershipActiveDisplay === "churchOfEngland"}
-            onToggle={() => dispatch(togglePropertyDisplay("churchOfEngland"))}
-          />
-        </DataLayersContainer>
+        <LeftPaneToggle
+          title={"Church of England"}
+          on={landOwnershipActiveDisplay === "churchOfEngland"}
+          onToggle={() => dispatch(togglePropertyDisplay("churchOfEngland"))}
+        />
+        <LeftPaneToggle
+          title="Unregistered Land"
+          on={landOwnershipActiveDisplay === "unregistered"}
+          onToggle={() => dispatch(togglePropertyDisplay("unregistered"))}
+        />
+      </DataLayersContainer>
       <DataLayersContainer title={"Administrative Boundaries"}>
         <LandDataLayerToggle title="Wards" layerId="wards-cu4dni" />
         <LandDataLayerToggle title="Parishes" layerId="parish" />

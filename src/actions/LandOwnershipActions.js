@@ -2,7 +2,7 @@ import { getRequest } from "./RequestActions";
 import { autoSave } from "./MapActions";
 
 /**
- * @param {string} type "all", "pending", "localAuthority" or "churchOfEngland"
+ * @param {string} type "all", "pending", "localAuthority", "churchOfEngland" or "unregistered"
  */
 
 export const fetchPropertiesInBox = (sw_lng, sw_lat, ne_lng, ne_lat) => {

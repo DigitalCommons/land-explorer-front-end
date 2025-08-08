@@ -49,7 +49,6 @@
   top: 85px;
   right: 10px;
   border-radius: 6px;
-  z-index: 1001;
   background: white;
 
   a {
@@ -83,7 +82,7 @@
     background: none !important;
   }
 
-  z-index: 10000;
+  z-index: 100006;
   cursor: pointer !important;
 
   &:before {
@@ -113,10 +112,6 @@
     border-color: transparent transparent white transparent;
     z-index: 99999;
   }
-}
-
-.tooltip-static-site-menu {
-  z-index: 100001 !important;
 }
 
 .tooltip-menu-layers {

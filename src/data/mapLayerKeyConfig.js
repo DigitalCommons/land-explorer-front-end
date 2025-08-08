@@ -119,6 +119,19 @@ const layers = {
     },
     hasBorder: true,
   },
+  pending: {
+    name: "Land Ownership",
+    data: {
+      "Pending (accepted)": {
+        fill: "#BE4A9766",
+        border: "#BE4A97",
+      },
+      "Pending (rejected)": {
+        fill: "#39ABB366",
+        border: "#39ABB3",
+      },
+    },
+  },
   localAuthority: {
     name: "Land Ownership",
     data: {
@@ -137,10 +150,13 @@ const layers = {
       },
     },
   },
-  pending: {
-    name: "Pending Properties",
+  unregistered: {
+    name: "Land Ownership",
     data: {
-      "Pending Properties": "#FF9900",
+      "Unregistered Land": {
+        fill: "#B8580066",
+        border: "#B85800",
+      },
     },
   },
   highlightedProperty: {

@@ -387,10 +387,6 @@ a {
   z-index: 99999;
 }
 
-.tooltip-static-site-menu {
-  z-index: 100001 !important;
-}
-
 .tooltip-menu-layers {
   top: auto;
   bottom: 80px;
@@ -621,7 +617,7 @@ canvas {
   bottom: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.3);
-  z-index: 100006;
+  z-index: 100007;
   transition: opacity 0.4s;
 }
 
