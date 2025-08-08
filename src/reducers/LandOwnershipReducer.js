@@ -120,17 +120,8 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         activeDisplay: ownershipDisplay,
       };
-    case "SET_ACTIVE_DISPLAY":
-      return {
-        ...state,
-        activeDisplay: action.payload,
-      };
-    case "CLEAR_MAP_LAYERS":
-      return {
-        ...state,
-        activeDisplay: null,
-        highlightedProperties: {},
-      };
+    case "NEW_MAP":
+      return INITIAL_STATE;
     default:
       return state;
   }

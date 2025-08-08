@@ -156,9 +156,6 @@ export const newMap = () => {
       payload: { unsavedMapUuid: uuidv4() },
     });
 
-    // Clear map layers directly in this action instead of dispatching a separate action
-    dispatch({ type: "CLEAR_MAP_LAYERS" });
-
     setTimeout(() => {
       dispatch({ type: "CHANGE_MOVING_METHOD", payload: "flyTo" });
     }, 500);

@@ -8,7 +8,6 @@ import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import DrawControl from "react-mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import StaticMode from "@mapbox/mapbox-gl-draw-static-mode";
-import { isMobile } from "react-device-detect";
 import Markers from "./Markers";
 import MapLayers from "./MapLayers";
 import DrawingLayers from "./DrawingLayers";
@@ -60,8 +59,6 @@ const MapboxMap = () => {
   const propertiesDisplay = useSelector(
     (state) => state.landOwnership.activeDisplay
   );
-  const [menuLayersOpen, setMenuLayersOpen] = useState(false);
-  const [menuKeyOpen, setMenuKeyOpen] = useState(true);
 
   const showZoomWarning =
     (landDataLayers.length > 0 &&
@@ -353,36 +350,17 @@ const MapboxMap = () => {
         }
       </Map>
       <LeftPane drawControl={drawControlRef.current} />
-      <MenuLayers
-        open={menuLayersOpen}
-        setOpen={(open) => {
-          setMenuLayersOpen(open);
-          open && setMenuKeyOpen(false);
+      <MenuLayers />
+
+      {/* Show the layer key if there's an active property layer or land data layers */}
+      <div
+        style={{
+          display:
+            propertiesDisplay || landDataLayers.length > 0 ? "block" : "none",
         }}
-      />
-
-      {/* Mobile Menu Key Button */}
-      {isMobile &&
-        (propertiesDisplay !== null || landDataLayers.length > 0) && (
-          <button
-            className="menu-key-button"
-            onClick={() => setMenuKeyOpen(!menuKeyOpen)}
-            aria-label="Toggle Layer Key"
-          >
-            <i className="tooltip-menu-key__icon"></i>
-          </button>
-        )}
-
-      {/* Desktop version or mobile modal version handled inside the component */}
-      {(propertiesDisplay !== null || landDataLayers.length > 0) && (
-        <MapLayerKey
-          open={menuKeyOpen}
-          setOpen={(open) => {
-            setMenuKeyOpen(open);
-            open && setMenuLayersOpen(false);
-          }}
-        />
-      )}
+      >
+        <MapLayerKey />
+      </div>
 
       <FeedbackTab />
       <MapBeingEditedToast />

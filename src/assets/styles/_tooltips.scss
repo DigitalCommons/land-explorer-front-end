@@ -153,13 +153,14 @@ h3 {
 .tooltip-menu-key__container {
   width: 100%;
   position: fixed;
-  top: 0;
+  top: 65px;
   right: 0;
   bottom: 0;
   z-index: 1;
   display: flex;
   transition: transform 0.3s ease-in-out;
-  z-index: 1000000;
+  z-index: 100005;
+  pointer-events: none;
 
   &.collapsed {
     transform: translateX(calc(100% - 45px)); // 45px is the width of the tab
@@ -182,6 +183,7 @@ h3 {
   cursor: default !important;
   background-color: #fff;
   box-shadow: none !important;
+  pointer-events: auto;
 
   @media screen and (min-width: $medium) {
     width: auto;
@@ -211,6 +213,7 @@ h3 {
   justify-content: center;
   border-radius: 8px 0px 0px 8px;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+  pointer-events: auto;
 
   svg {
     height: 16px;
