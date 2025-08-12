@@ -24,9 +24,7 @@ const OwnershipDetails = ({ tenure, dateAdded, proprietors }) => {
             <div className="property-details-info__value">{tenure}</div>
           </div>
           <div className="property-details-info__inner">
-            <div className="property-details-info__title">
-              Date Proprietor Added:
-            </div>
+            <div className="property-details-info__title">Last Change:</div>
             <div className="property-details-info__value">{dateAdded}</div>
           </div>
         </div>
