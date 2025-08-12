@@ -120,7 +120,7 @@ const PropertySection = ({ property, active }) => {
             </>
           )}
 
-          <PropertySectionSmallPrint unregistered={tenure === "unregistered"} />
+          <PropertySectionSmallPrint tenure={tenure} unregistered={tenure === "unregistered"} />
         </div>
       )}
     </div>
