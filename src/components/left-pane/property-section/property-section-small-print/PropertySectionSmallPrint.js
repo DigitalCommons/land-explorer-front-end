@@ -1,8 +1,6 @@
 import React from "react";
 
-const PropertySectionSmallPrint = ({ unregistered, tenure }) => {
-  const freehold = tenure?.toLowerCase() === "freehold";
-
+const PropertySectionSmallPrint = ({ unregistered, freehold }) => {
   const registryUrl = freehold
     ? "https://search-property-information.service.gov.uk/search/search-by-inspire-id"
     : "https://search-property-information.service.gov.uk/search/search-by-title-number";

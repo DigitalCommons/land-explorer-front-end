@@ -39,7 +39,7 @@ const PropertySection = ({ property, active }) => {
 
   // calculate area and perimeter
   const area = Math.round(turf.area(geom));
-  const perimeter = Math.round(turf.length(geom, {units: "meters"}));
+  const perimeter = Math.round(turf.length(geom, { units: "meters" }));
 
   const proprietors = [
     {
@@ -78,6 +78,7 @@ const PropertySection = ({ property, active }) => {
   };
 
   const open = poly_id === activePropertyId;
+  const freehold = tenure?.toLowerCase() === "freehold";
 
   return (
     <div className="left-pane-tray-section">
@@ -108,6 +109,7 @@ const PropertySection = ({ property, active }) => {
             perimeter={perimeter}
             polyId={poly_id}
             unregistered={tenure === "unregistered"}
+            freehold={freehold}
           />
           {proprietor_category_1 && (
             <>
@@ -120,7 +122,10 @@ const PropertySection = ({ property, active }) => {
             </>
           )}
 
-          <PropertySectionSmallPrint tenure={tenure} unregistered={tenure === "unregistered"} />
+          <PropertySectionSmallPrint
+            freehold={freehold}
+            unregistered={tenure === "unregistered"}
+          />
         </div>
       )}
     </div>

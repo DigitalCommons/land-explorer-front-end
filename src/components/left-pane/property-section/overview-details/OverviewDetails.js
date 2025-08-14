@@ -6,6 +6,7 @@ const OverviewDetails = ({
   perimeter,
   polyId,
   unregistered,
+  freehold
 }) => {
   return (
     <section>
@@ -33,7 +34,7 @@ const OverviewDetails = ({
           </div>
           {!unregistered && (
             <div className="property-details-info__inner">
-              <div className="property-details-info__title">Poly ID:</div>
+              <div className="property-details-info__title">{freehold ? "INSPIRE" : "HMLR Poly"} ID:</div>
               <div className="property-details-info__value">{polyId}</div>
             </div>
           )}
