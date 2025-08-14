@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setLngLat,
   zoomIn,
@@ -11,6 +11,7 @@ import { openModal, closeModal } from "../../actions/ModalActions";
 
 const ControlButtons = () => {
   const dispatch = useDispatch();
+  const { zooming } = useSelector((state) => state.map);
 
   const getLocation = () => {
     if (navigator.geolocation) {
