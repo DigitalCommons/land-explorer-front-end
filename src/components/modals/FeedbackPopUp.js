@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "./Modal";
 import { openModal } from "../../actions/ModalActions";
@@ -11,6 +11,8 @@ const FeedbackPopUp = () => {
     (state) => state.landOwnership.activeDisplay
   );
   const feedbackPreference = useSelector((state) => state.user.askForFeedback);
+
+  const timeoutRef = useRef();
 
   const closeModal = () => {
     dispatch({
@@ -51,17 +53,21 @@ const FeedbackPopUp = () => {
 
   // Show modal after delay if property layer is active
   useEffect(() => {
-    let timeoutId;
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
     if (propertyLayerActive && feedbackPreference) {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
+      timeoutRef.current = setTimeout(() => {
         dispatch(openModal("feedbackPopUp"));
       }, 300000);
     }
     return () => {
-      clearTimeout(timeoutId);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
     };
-  }, [propertyLayerActive]);
+  }, [propertyLayerActive, feedbackPreference]);
 
   return (
     <Modal
