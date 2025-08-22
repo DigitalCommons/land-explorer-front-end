@@ -8,6 +8,8 @@ const OverviewDetails = ({
   unregistered,
   freehold
 }) => {
+  const isLongAddress = address && address.length > 70;
+
   return (
     <section>
       <div className="property-inner-section">
@@ -15,7 +17,7 @@ const OverviewDetails = ({
           <i className="property-inner-section__icon overview-icon"></i>
           <span>Overview</span>
         </h3>
-        {address && (
+        {isLongAddress && (
           <div className="property-details-info">
             <div className="property-details-info__title">Full Address:</div>
             <div className="property-details-info__value">{address}</div>
@@ -34,7 +36,9 @@ const OverviewDetails = ({
           </div>
           {!unregistered && (
             <div className="property-details-info__inner">
-              <div className="property-details-info__title">{freehold ? "INSPIRE" : "HMLR Poly"} ID:</div>
+              <div className="property-details-info__title">
+                {freehold ? "INSPIRE" : "HMLR Poly"} ID:
+              </div>
               <div className="property-details-info__value">{polyId}</div>
             </div>
           )}
