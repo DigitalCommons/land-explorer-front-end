@@ -4,7 +4,6 @@ import * as turf from "@turf/turf";
 import {
   clearHighlightedProperties,
   highlightProperties,
-  setActiveProperty,
 } from "../../actions/LandOwnershipActions";
 import { setLngLat, setZoom } from "../../actions/MapActions";
 
@@ -30,7 +29,6 @@ const RelatedProperty = ({ property }) => {
     dispatch(setLngLat(lng, lat));
     dispatch(setZoom([17]));
     dispatch(highlightProperties({ [property.poly_id]: property }));
-    dispatch(setActiveProperty(property.poly_id));
   };
 
   return (

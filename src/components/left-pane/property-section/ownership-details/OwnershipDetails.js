@@ -4,6 +4,7 @@ import ProprietorCard from "./proprietor-card/ProprietorCard";
 const OwnershipDetails = ({ tenure, dateAdded, proprietors }) => {
   const [showMore, setShowMore] = useState(false);
   const proprietorCount = proprietors.length;
+  const proprietorOne = proprietors[0];
 
   return (
     <section>
@@ -25,8 +26,14 @@ const OwnershipDetails = ({ tenure, dateAdded, proprietors }) => {
           </div>
           <div className="property-details-info__inner">
             <div className="property-details-info__title">
-              Date Proprietor Added:
+              Proprietor{proprietorCount > 1 && " One"}
             </div>
+            <div className="property-details-info__value">
+              {proprietorOne.name}
+            </div>
+          </div>
+          <div className="property-details-info__inner">
+            <div className="property-details-info__title">Last Change:</div>
             <div className="property-details-info__value">{dateAdded}</div>
           </div>
         </div>
