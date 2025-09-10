@@ -26,17 +26,25 @@ console.log("dev mode: ", constants.DEV_MODE);
 
 // Properties fetched from boundary service can be long, so we should prevent Redux DevTools from
 // displaying the whole list and using excessive memory
-const LONG_LIST_THRESHOLD = 1000;
+const LONG_LIST_THRESHOLD = 100;
 
-const actionSanitizer = (action) =>
-  (action.type === "FETCH_RELATED_PROPERTIES_SUCCESS" ||
-    action.type === "CLEAR_HIGHLIGHTED_PROPERTIES" ||
-    action.type === "HIGHLIGHT_PROPERTIES" ||
-    action.type === "SET_VISIBLE_PROPERTIES") &&
-  action.payload &&
-  action.payload.length > LONG_LIST_THRESHOLD
-    ? { ...action, payload: "<<LONG_LIST>>" }
-    : action;
+const actionSanitizer = (action) => {
+  switch (action.type) {
+    case "CLEAR_HIGHLIGHTED_PROPERTIES":
+      return action.payload && action.payload.length > LONG_LIST_THRESHOLD
+        ? { ...action, payload: "<<LONG_LIST>>" }
+        : action;
+    case "FETCH_RELATED_PROPERTIES_SUCCESS":
+    case "SET_VISIBLE_PROPERTIES":
+    case "HIGHLIGHT_PROPERTIES":
+      return action.payload &&
+        Object.keys(action.payload).length > LONG_LIST_THRESHOLD
+        ? { ...action, payload: "<<LARGE_MAP>>" }
+        : action;
+    default:
+      return action;
+  }
+};
 
 const stateSanitizer = (state) => {
   const highlightedProperties =

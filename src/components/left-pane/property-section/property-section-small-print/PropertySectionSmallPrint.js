@@ -1,10 +1,6 @@
 import React from "react";
 
-const PropertySectionSmallPrint = ({ unregistered, freehold }) => {
-  const registryUrl = freehold
-    ? "https://search-property-information.service.gov.uk/search/search-by-inspire-id"
-    : "https://search-property-information.service.gov.uk/search/search-by-title-number";
-
+const PropertySectionSmallPrint = ({ title_no, unregistered }) => {
   return (
     <div className="property-details-info">
       <div className="property-details-info__small-print">
@@ -13,13 +9,17 @@ const PropertySectionSmallPrint = ({ unregistered, freehold }) => {
             You can access title register documents for a small fee by visiting
             the{" "}
             <a
-              href={registryUrl}
+              href={
+                title_no
+                  ? "https://search-property-information.service.gov.uk/search/search-by-title-number"
+                  : "https://search-property-information.service.gov.uk/search/search-by-inspire-id"
+              }
               target="_blank"
               rel="noopener noreferrer"
             >
               Land Registry website
             </a>{" "}
-            using the above IDs.
+            using the above {title_no ? "title number" : "ID"}.
           </p>
         )}
         <p>

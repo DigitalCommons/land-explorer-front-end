@@ -358,7 +358,7 @@ const MapboxMap = () => {
         style={{
           display:
             propertiesDisplay ||
-            visibleProperties.length > 0 ||
+            Object.keys(visibleProperties).length > 0 ||
             landDataLayers.length > 0
               ? "block"
               : "none",

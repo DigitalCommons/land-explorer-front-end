@@ -9,31 +9,32 @@ import { setLngLat, setZoom } from "../../actions/MapActions";
 
 const RelatedProperty = ({ property }) => {
   const dispatch = useDispatch();
-  const active = useSelector((state) =>
-    state.landOwnership.highlightedProperties.hasOwnProperty(property.poly_id)
+  const highlighted = useSelector((state) =>
+    state.landOwnership.highlightedProperties.hasOwnProperty(property.title_no)
   );
 
-  const center = turf.pointOnFeature(property.geom).geometry.coordinates;
+  const center = turf.pointOnFeature(property.polygons[0].geom).geometry
+    .coordinates;
   const lng = center[0];
   const lat = center[1];
 
   const handlePropertyClick = () => {
-    if (active) {
-      dispatch(clearHighlightedProperties([property.poly_id]));
+    if (highlighted) {
+      dispatch(clearHighlightedProperties([property.title_no]));
     } else {
-      dispatch(highlightProperties({ [property.poly_id]: property }));
+      dispatch(highlightProperties({ [property.title_no]: property }));
     }
   };
 
   const gotoProperty = () => {
     dispatch(setLngLat(lng, lat));
     dispatch(setZoom([17]));
-    dispatch(highlightProperties({ [property.poly_id]: property }));
+    dispatch(highlightProperties({ [property.title_no]: property }));
   };
 
   return (
     <div
-      className={`search-result ${active ? "active" : ""}`}
+      className={`search-result ${highlighted ? "active" : ""}`}
       key={property.title_no}
     >
       <i onClick={handlePropertyClick}>

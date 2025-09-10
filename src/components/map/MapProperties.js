@@ -16,9 +16,9 @@ const MapProperties = ({ center, map }) => {
     visibleProperties,
     loadingProperties,
     highlightedProperties,
-    activePropertyId,
+    activePropertyTitleNo,
   } = useSelector((state) => state.landOwnership);
-  const activeProperty = highlightedProperties[activePropertyId] || null;
+  const activeProperty = highlightedProperties[activePropertyTitleNo] || null;
   const { zoom, zooming } = useSelector((state) => state.map);
   const activePanel = useSelector((state) => state.leftPane.active);
 
@@ -38,8 +38,8 @@ const MapProperties = ({ center, map }) => {
 
   const onClickProperty = (property) => {
     if (activePanel !== "Drawing Tools") {
-      dispatch(highlightProperties({ [property.poly_id]: property }));
-      dispatch(setActiveProperty(property.poly_id));
+      dispatch(highlightProperties({ [property.title_no]: property }));
+      dispatch(setActiveProperty(property.title_no));
     }
   };
 
@@ -69,24 +69,25 @@ const MapProperties = ({ center, map }) => {
     activeDisplay &&
     zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay]
   ) {
-      visibleProperties?.forEach((property) => {
-        if (
-          (activeDisplay === "unregistered" ||
-            property.tenure === "unregistered") &&
-          activeDisplay !== property.tenure
-        ) {
-          return; // Show unregistered land iff the active display is "unregistered"
-        }
+    Object.values(visibleProperties)?.forEach((property) => {
+      if (
+        (activeDisplay === "unregistered" ||
+          property.tenure === "unregistered") &&
+        activeDisplay !== property.tenure
+      ) {
+        return; // Show unregistered land if and only if the active display is "unregistered"
+      }
 
-        const polyKey = property.geom.coordinates[0][0];
+      property.polygons.forEach((polygon) => {
+        const polyKey = polygon.geom.coordinates[0][0];
         const fill = (
           <Feature
-            coordinates={[property.geom.coordinates]}
+            coordinates={[polygon.geom.coordinates]}
             key={`fill-${polyKey}`}
             onClick={() => onClickProperty(property)}
           />
         );
-        const borders = getBorderLinestrings(property.geom).map(
+        const borders = getBorderLinestrings(polygon.geom).map(
           (lineString, index) => (
             <Feature
               coordinates={lineString.geometry.coordinates}
@@ -107,43 +108,48 @@ const MapProperties = ({ center, map }) => {
           propertyWithoutOwnershipBorderFeatures.push(...borders);
         }
       });
-    }
+    });
+  }
 
   const highlightedFillFeatures = [];
   const highlightedBorderFeatures = [];
 
   // Add highlighted properties i.e. those selected by the user
   Object.values(highlightedProperties).forEach((property) => {
-    const polyKey = property.geom.coordinates[0][0];
+    property.polygons.forEach((polygon) => {
+      const polyKey = polygon.geom.coordinates[0][0];
 
-    highlightedFillFeatures.push(
-      <Feature
-        coordinates={[property.geom.coordinates]}
-        key={`fill-hl-${polyKey}`}
-        onClick={() => onClickProperty(property)}
-      />
-    );
-    highlightedBorderFeatures.push(
-      ...getBorderLinestrings(property.geom).map((lineString, index) => (
+      highlightedFillFeatures.push(
         <Feature
-          coordinates={lineString.geometry.coordinates}
-          key={`line-hl-${polyKey}-${index}`}
+          coordinates={[polygon.geom.coordinates]}
+          key={`fill-hl-${polyKey}`}
+          onClick={() => onClickProperty(property)}
         />
-      ))
-    );
+      );
+      highlightedBorderFeatures.push(
+        ...getBorderLinestrings(polygon.geom).map((lineString, index) => (
+          <Feature
+            coordinates={lineString.geometry.coordinates}
+            key={`line-hl-${polyKey}-${index}`}
+          />
+        ))
+      );
+    });
   });
 
   // If there is an active property that the user is currently interacting with, add it again to the
   // highlighted features. This will cause it to appear darker. We will also add a dashed border
   // later.
   if (activeProperty) {
-    const polyKey = activeProperty.geom.coordinates[0][0];
-    highlightedFillFeatures.push(
+    activeProperty.polygons.forEach((polygon) => {
+      const polyKey = polygon.geom.coordinates[0][0];
+      highlightedFillFeatures.push(
       <Feature
-        coordinates={[activeProperty.geom.coordinates]}
+        coordinates={[polygon.geom.coordinates]}
         key={`fill-active-${polyKey}`}
       />
     );
+    });
   }
 
   return (
@@ -251,14 +257,16 @@ const MapProperties = ({ center, map }) => {
         }}
       >
         {activeProperty &&
-          getBorderLinestrings(activeProperty.geom).map((lineString, index) => (
-            <Feature
-              coordinates={lineString.geometry.coordinates}
-              key={`line-active-${
-                activeProperty.poly_id || activeProperty.geom.coordinates[0][0]
-              }-${index}`}
-            />
-          ))}
+          activeProperty.polygons.flatMap((polygon) =>
+            getBorderLinestrings(polygon.geom).map((lineString, index) => (
+              <Feature
+                coordinates={lineString.geometry.coordinates}
+                key={`line-active-${
+                  polygon.poly_id || polygon.geom.coordinates[0][0]
+                }-${index}`}
+              />
+            ))
+          )}
       </Layer>
     </>
   );
