@@ -105,7 +105,7 @@ const FeedbackPopUp = () => {
             type={"button"}
             buttonAction={() => closeModal()}
           >
-            Maybe later
+            {feedbackPreference ? "Maybe later" : "No, thanks"}
           </Button>
           <Button
             buttonClass={"button-new green feedback-popup__button"}
