@@ -38,7 +38,6 @@ const Map = ReactMapboxGl({
   minzoom: 6,
   maxzoom: 11,
   keyboard: false,
-  touchZoomRotate: true,
   doubleClickZoom: true,
 });
 
@@ -296,6 +295,9 @@ const MapboxMap = () => {
         onStyleLoad={(m, evt) => {
           setMap(m);
           setStyleLoaded(true);
+          // Disable rotation and pitch with touch gestures
+          m?.touchZoomRotate?.disableRotation();
+          m?.touchPitch?.disable();
         }}
         // onClick={(map, evt) => console.log("hello")}
         maxBounds={constants.MAP_BOUNDS}
