@@ -78,12 +78,16 @@ form {
 .form-textarea {
   border: 2px solid $midNeutral2;
   border-radius: 7px;
-  padding: 15px;
+  padding: 8px;
 
   &:focus-visible {
     outline: none;
     border: 2px solid $blueAccent;
   }
+}
+
+.form-textarea--error {
+  background-color: #ffe5e5;
 }
 
 #search-bar {
