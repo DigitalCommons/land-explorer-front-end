@@ -10,7 +10,7 @@ const MapLayerKey = () => {
     (state) => state.landOwnership
   );
 
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(!isMobile);
   const [prevActiveDisplay, setPrevActiveDisplay] = useState(activeDisplay);
   const [prevLandDataLayers, setPrevLandDataLayers] = useState(landDataLayers);
 
@@ -18,11 +18,12 @@ const MapLayerKey = () => {
   const hasHighlightedProperties =
     Object.keys(highlightedProperties).length > 0;
 
-  // Auto-expand when an ownership/land data layer is toggled ON after all were OFF
+  // Auto-expand on desktop when an ownership/land data layer is toggled ON after all were OFF
   useEffect(() => {
     if (
-      (prevActiveDisplay === null && activeDisplay) ||
-      (prevLandDataLayers.length === 0 && landDataLayers.length)
+      !isMobile &&
+      ((prevActiveDisplay === null && activeDisplay) ||
+        (prevLandDataLayers.length === 0 && landDataLayers.length))
     ) {
       setExpanded(true);
     }
