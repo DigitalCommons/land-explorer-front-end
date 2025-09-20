@@ -3,10 +3,10 @@ import { useState } from "react";
 const useFeedbackForm = () => {
   // State for form data
   const [formData, setFormData] = useState({
-    question1: "",
-    question2: "",
-    question3: "",
-    question4: "",
+    question_use_case: "",
+    question_impact: "",
+    question_who_benefits: "",
+    question_improvements: "",
   });
 
   // State for tracking which fields have been touched
@@ -44,10 +44,10 @@ const useFeedbackForm = () => {
   // Function to reset the form state
   const resetForm = () => {
     setFormData({
-      question1: "",
-      question2: "",
-      question3: "",
-      question4: "",
+      question_use_case: "",
+      question_impact: "",
+      question_who_benefits: "",
+      question_improvements: "",
     });
     setTouchedFields({});
     setSubmitted(false);
