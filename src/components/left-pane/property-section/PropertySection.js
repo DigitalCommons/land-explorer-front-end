@@ -9,6 +9,7 @@ import OverviewDetails from "./overview-details/OverviewDetails";
 import OwnershipDetails from "./ownership-details/OwnershipDetails";
 import PropertySectionSmallPrint from "./property-section-small-print/PropertySectionSmallPrint";
 import * as turf from "@turf/turf";
+import PropertyActionBar from "./property-action-bar/PropertyActionBar";
 
 const PropertySection = ({ property, active }) => {
   const dispatch = useDispatch();
@@ -80,26 +81,30 @@ const PropertySection = ({ property, active }) => {
   const open = poly_id === activePropertyId;
   const freehold = tenure?.toLowerCase() === "freehold";
 
+  const initialSaved = false;
+
   return (
     <div className="left-pane-tray-section">
-      <div
-        className="left-pane-tray-section-title property-section"
-        onClick={() => {
-          if (open) {
-            dispatch({ type: "CLEAR_ACTIVE_PROPERTY" });
-          } else {
-            dispatch(setActiveProperty(poly_id));
-          }
-        }}
-      >
-        <PropertySectionHeader
-          address={property_address}
-          polyId={poly_id}
-          titleNo={title_no}
-          onClickRemove={handleClear}
-          open={open}
-          unregistered={tenure === "unregistered"}
-        />
+      <div className="left-pane-tray-section-title property-section">
+        <div
+          onClick={() => {
+            if (open) {
+              dispatch({ type: "CLEAR_ACTIVE_PROPERTY" });
+            } else {
+              dispatch(setActiveProperty(poly_id));
+            }
+          }}
+        >
+          <PropertySectionHeader
+            address={property_address}
+            polyId={poly_id}
+            titleNo={title_no}
+            onClickRemove={handleClear}
+            open={open}
+            unregistered={tenure === "unregistered"}
+          />
+        </div>
+        <PropertyActionBar initialSaved={initialSaved} />
       </div>
       {open && (
         <div className="property-details">

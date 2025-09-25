@@ -139,7 +139,7 @@
   align-items: center;
   color: black;
   cursor: pointer;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $midNeutral;
   user-select: none;
 }
 
@@ -279,6 +279,48 @@
   }
 }
 
+// Style overrides for Save toggle in PropertyActionBar
+.property-action-bar__save-toggle {
+  font-size: 16px;
+  .toggle-switch {
+    height: 26px;
+    width: 46px;
+  }
+
+  .slider {
+    background-color: $actionBarBackground;
+    border: 2px solid $darkNeutral;
+  }
+
+  .slider:before {
+    height: 18px;
+    width: 18px;
+    top: 2px;
+    left: 2px;
+    background-color: $darkNeutral;
+    // border: 2px solid $darkNeutral;
+    -webkit-transition: 0.6s;
+    transition: 0.6s;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="8" viewBox="0 0 9.143 8"><path id="heart" d="M68.3,96.984l.268.37.268-.37a2.377,2.377,0,0,1,4.3,1.393v.046c0,2-2.5,4.33-3.8,5.325a1.27,1.27,0,0,1-.77.252,1.255,1.255,0,0,1-.77-.252c-1.3-.995-3.8-3.321-3.8-5.325v-.046a2.377,2.377,0,0,1,4.3-1.393Z" transform="translate(-64 -96)" fill="%23e2e3e4"/></svg>');
+    // background-size: auto 45%;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  input:checked + .slider {
+    background-color: $redAccent;
+    border-color: $redAccent;
+  }
+
+  input:checked + .slider:before {
+    background-color: #fff;
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="8" viewBox="0 0 9.143 8"><path id="heart" d="M68.3,96.984l.268.37.268-.37a2.377,2.377,0,0,1,4.3,1.393v.046c0,2-2.5,4.33-3.8,5.325a1.27,1.27,0,0,1-.77.252,1.255,1.255,0,0,1-.77-.252c-1.3-.995-3.8-3.321-3.8-5.325v-.046a2.377,2.377,0,0,1,4.3-1.393Z" transform="translate(-64 -96)" fill="%23b30b00"/></svg>');
+  }
+}
+
 .tray-item {
   border-bottom: 1px solid #ddd;
 }
@@ -355,8 +397,11 @@ a.mapboxgl-ctrl-logo {
   background-image: url("../img/icon-property-search.svg");
   background-size: 18px;
   background-repeat: no-repeat;
-   background-position: 18px 25px;
+  background-position: 18px 25px;
   background-color: $trayBackground;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .horizontal-divider {
@@ -382,7 +427,7 @@ a.mapboxgl-ctrl-logo {
   }
 }
 
-.clear-all{
+.clear-all {
   text-decoration: underline;
   width: fit-content;
   margin: 10px 20px;
@@ -390,6 +435,6 @@ a.mapboxgl-ctrl-logo {
   color: $blueAccent;
 }
 
-.clear-all:hover{
+.clear-all:hover {
   cursor: pointer;
 }
