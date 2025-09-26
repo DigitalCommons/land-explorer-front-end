@@ -61,6 +61,11 @@
 .property-action-bar__visit-button {
   column-gap: 7px;
 }
+
+.property-action-bar__save-label {
+  cursor: pointer;
+}
+
 .property-action-bar__visit-button {
   color: $darkNeutral;
   font-size: 16px;

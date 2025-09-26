@@ -26,13 +26,15 @@ const PropertyActionBar = ({ initialSaved = false, onToggle }) => {
         </button>
       )}
 
-      <div className="property-action-bar__save-toggle">
+      <div
+        className="property-action-bar__save-toggle"
+        onClick={(e) => {
+          e.stopPropagation();
+          handleToggle && handleToggle();
+        }}
+      >
         <span className="property-action-bar__save-label">Save</span>
-        <ToggleSwitch
-          on={isSaved}
-          toggle={handleToggle}
-          tooltip={isSaved ? "Unsave property" : "Save property"}
-        />
+        <ToggleSwitch on={isSaved} />
       </div>
     </div>
   );
