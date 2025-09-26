@@ -65,7 +65,9 @@ const LeftPaneInfo = ({ onClose, open }) => {
               ))}
             </>
           ) : (
-            <div>No selected properties.</div>
+            <div className="empty-tab-message">
+              You have no selected properties.
+            </div>
           )}
         </div>
       )}
@@ -80,7 +82,9 @@ const LeftPaneInfo = ({ onClose, open }) => {
               ))}
             </>
           ) : (
-            <div>No saved properties.</div>
+            <div className="empty-tab-message">
+              You have no saved properties.
+            </div>
           )}
         </div>
       )}
@@ -98,7 +102,7 @@ const LeftPaneInfo = ({ onClose, open }) => {
               ))}
             </>
           ) : (
-            <div>No drawn objects.</div>
+            <div className="empty-tab-message">You have no drawn objects.</div>
           )}
         </div>
       )}

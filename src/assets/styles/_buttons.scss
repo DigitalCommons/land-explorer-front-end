@@ -396,3 +396,35 @@
 a {
   text-decoration: none;
 }
+
+// Tabs
+.tab-header {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid $midNeutral;
+  user-select: none;
+}
+
+.tab-header__tab {
+  font-family: Lato;
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
+  color: $darkNeutral;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid transparent;
+  transition: border-color 300ms, color 300ms;
+
+  &.active {
+    border-color: $secondaryColor;
+    font-weight: bold;
+    box-shadow: none;
+  }
+
+  // &:hover {
+  //   color: $primaryColor;
+  // }
+}

@@ -8,7 +8,7 @@ const TabHeader = ({ tabs = [], activeTab, onTabChange }) => {
       {tabs.map((t) => (
         <button
           key={t.key}
-          className={`tab-header__item ${activeTab === t.key ? "active" : ""}`}
+          className={`tab-header__tab ${activeTab === t.key ? "active" : ""}`}
           onClick={() => onTabChange && onTabChange(t.key)}
           role="button"
           tabIndex={0}

@@ -97,7 +97,7 @@
   width: 100%;
   // background-color: #e4e6ea;
   // border-bottom: solid 1px #d1d1d1;
-  border-bottom: 1px solid #eeeeee;
+  // border-bottom: 1px solid #eeeeee;
 }
 
 .tray-title {
@@ -438,3 +438,8 @@ a.mapboxgl-ctrl-logo {
 .clear-all:hover {
   cursor: pointer;
 }
+
+.empty-tab-message {
+  margin: 60px 20px 20px;
+  text-align: center;
+} 
