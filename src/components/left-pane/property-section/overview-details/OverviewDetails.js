@@ -4,9 +4,9 @@ const OverviewDetails = ({
   address,
   area,
   perimeter,
-  polyId,
+  polyIds,
   unregistered,
-  freehold
+  freehold,
 }) => {
   const isLongAddress = address && address.length > 70;
 
@@ -25,21 +25,28 @@ const OverviewDetails = ({
         )}
         <div className="property-details-info">
           <div className="property-details-info__inner">
-            <div className="property-details-info__title">Area:</div>
+            <div className="property-details-info__title">
+              Area {polyIds.length > 1 ? "(total)" : ""}:
+            </div>
             <div className="property-details-info__value">
               {area} m<sup>2</sup>
             </div>
           </div>
           <div className="property-details-info__inner">
-            <div className="property-details-info__title">Perimeter:</div>
+            <div className="property-details-info__title">
+              Perimeter {polyIds.length > 1 ? "(total)" : ""}:
+            </div>
             <div className="property-details-info__value">{perimeter} m</div>
           </div>
           {!unregistered && (
             <div className="property-details-info__inner">
               <div className="property-details-info__title">
-                {freehold ? "INSPIRE" : "HMLR Poly"} ID:
+                {freehold ? "INSPIRE" : "HMLR Poly"}{" "}
+                {polyIds.length > 1 ? "IDs" : "ID"}:
               </div>
-              <div className="property-details-info__value">{polyId}</div>
+              <div className="property-details-info__value">
+                {polyIds.join(", ")}
+              </div>
             </div>
           )}
         </div>

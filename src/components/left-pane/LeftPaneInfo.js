@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import LeftPaneTray from "./LeftPaneTray";
 import MarkerSection from "./MarkerSection";
@@ -9,11 +9,22 @@ import { clearAllHighlightedProperties } from "../../actions/LandOwnershipAction
 const LeftPaneInfo = ({ onClose, open }) => {
   const markers = useSelector((state) => state.markers.markers);
   const polygons = useSelector((state) => state.drawings.polygons);
-  const { highlightedProperties, relatedProperties } = useSelector(
-    (state) => state.landOwnership
-  );
+  const { highlightedProperties, relatedProperties, activePropertyTitleNo } =
+    useSelector((state) => state.landOwnership);
+  const highlightedCount = Object.keys(highlightedProperties).length;
+  const activePropertyRef = useRef(null);
 
   const dispatch = useDispatch();
+
+  // Scroll to the active property
+  useEffect(() => {
+    if (open && activePropertyTitleNo) {
+      activePropertyRef.current?.scrollIntoView({
+        behavior: "instant",
+        block: "end",
+      });
+    }
+  }, [highlightedCount, activePropertyTitleNo, open]);
 
   const clearAll = () => {
     dispatch(clearAllHighlightedProperties());
@@ -38,9 +49,21 @@ const LeftPaneInfo = ({ onClose, open }) => {
           {polygons.map((polygon, i) => (
             <PolygonSection polygon={polygon} key={`polygon-${i}`} />
           ))}
-          {Object.values(highlightedProperties).map((property, i) => (
-            <PropertySection property={property} key={`property-${i}`} />
-          ))}
+          {Object.entries(highlightedProperties).map(([title_no, property]) =>
+            title_no === activePropertyTitleNo ? (
+              <div ref={activePropertyRef}>
+                <PropertySection
+                  property={property}
+                  key={`property-${title_no}`}
+                />
+              </div>
+            ) : (
+              <PropertySection
+                property={property}
+                key={`property-${title_no}`}
+              />
+            )
+          )}
         </>
       ) : (
         <div

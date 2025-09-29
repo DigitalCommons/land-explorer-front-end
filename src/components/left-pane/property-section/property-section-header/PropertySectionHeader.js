@@ -2,8 +2,7 @@ import React from "react";
 
 const PropertySectionHeader = ({
   address,
-  polyId,
-  titleNo,
+  title_no,
   onClickRemove,
   open,
   unregistered,
@@ -14,12 +13,12 @@ const PropertySectionHeader = ({
         {address
           ? address
           : unregistered
-          ? `Unregistered Land ${polyId}`
-          : `Property ${polyId}`}
+          ? `Unregistered Land ${title_no}`
+          : `Property ${title_no.replace("unknown_", "")}`}
       </h4>
       {!unregistered && (
         <div className="property-section-header__title-no">
-          Title no: {titleNo ?? "Unknown"}
+          Title no: {title_no.startsWith("unknown_") ? "Unknown" : title_no}
         </div>
       )}
       <a className="property-section-header__remove" onClick={onClickRemove}>
