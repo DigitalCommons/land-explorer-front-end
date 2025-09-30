@@ -14,7 +14,7 @@ const LeftPane = ({ drawControl }) => {
   const readOnly = useSelector((state) => state.readOnly.readOnly);
   const profileMenuOpen = useSelector((state) => state.menu.profile);
   const currentMarker = useSelector((state) => state.markers.currentMarker);
-  const activePolygon = useSelector((state) => state.drawings.activePolygon);
+  const activeDrawing = useSelector((state) => state.drawings.activeDrawing);
   const relatedProperties = useSelector(
     (state) => state.landOwnership.relatedProperties
   );
@@ -50,17 +50,17 @@ const LeftPane = ({ drawControl }) => {
         const id = selected.features[0].id;
         drawControl.draw.delete(id);
         dispatch({
-          type: "DELETE_POLYGON",
+          type: "DELETE_DRAWING",
           payload: id,
         });
         dispatch(autoSave());
       }
-    } else if (activePolygon !== null) {
-      // Delete the active Polygon
-      drawControl.draw.delete(activePolygon);
+    } else if (activeDrawing !== null) {
+      // Delete the active drawing
+      drawControl.draw.delete(activeDrawing);
       dispatch({
-        type: "DELETE_POLYGON",
-        payload: activePolygon,
+        type: "DELETE_DRAWING",
+        payload: activeDrawing,
       });
       dispatch(autoSave());
     } else if (currentMarker !== null) {

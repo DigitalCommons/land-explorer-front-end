@@ -271,7 +271,7 @@ export const editMapObjectInfo = (type, eid, uuid, newName, newDescription) => {
     };
 
     dispatch({
-      type: type === "marker" ? "RENAME_MARKER" : "RENAME_POLYGON",
+      type: type === "marker" ? "RENAME_MARKER" : "RENAME_DRAWING",
       payload,
     });
 
