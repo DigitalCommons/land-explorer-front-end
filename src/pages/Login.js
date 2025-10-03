@@ -15,7 +15,6 @@ const Login = ({ updateBgImage }) => {
     (state) => state.authentication.authenticated
   );
   const error = useSelector((state) => state.authentication.error);
-  const mainMenuOpen = useSelector((state) => state.menu.main);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -84,7 +83,6 @@ const Login = ({ updateBgImage }) => {
       });
   };
 
-  console.log("main menu open: ", mainMenuOpen);
   return (
     <div
       style={{

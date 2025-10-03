@@ -19,31 +19,14 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
 
   const dispatch = useDispatch();
 
-  // Our related properties is a collection of polygons. Multiple polygons can have the same title
-  // number. We want to show a list of unique titles in the left pane, so let's filter our
-  // collection to have at most 1 polygon for each title.
-  // TODO: we should improve this so that selecting a title selects all of its corresponding property
-  // polygons. Currently, we're losing data for additional polgyons, so the user doesn't see them
-  // highlighted. https://github.com/DigitalCommons/land-explorer-front-end/issues/296
+  const propertyCount = Object.keys(properties).length;
 
-  // Use a Set to temporarily store unique property title numers
-  const uniqueTitleNos = new Set();
-
-  const filteredProperties = Object.values(properties).filter((property) => {
-    const isDuplicate = uniqueTitleNos.has(property.title_no);
-    uniqueTitleNos.add(property.title_no);
-    return !isDuplicate;
-  });
-
-  const propertyCount = filteredProperties.length;
-
-  // Pagination values
+  // Chop up the properties into pages
   const [currentPage, setCurrentPage] = useState(1);
   const noOfPages = Math.ceil(propertyCount / itemsPerPage);
   const indexOfLastProperty = currentPage * itemsPerPage;
   const indexOfFirstProperty = indexOfLastProperty - itemsPerPage;
-  // Chop up the properties array into pages
-  const currentProperties = filteredProperties.slice(
+  const propertiesOnThisPage = Object.values(properties).slice(
     indexOfFirstProperty,
     indexOfLastProperty
   );
@@ -51,6 +34,7 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
   const selectAll = () => {
     dispatch(highlightProperties(properties));
   };
+
   const clearAll = () => {
     dispatch(clearHighlightedProperties(Object.keys(properties)));
   };
@@ -84,12 +68,11 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
               </div>
             )}
           </>
-        ) : filteredProperties.length ? (
+        ) : propertyCount > 0 ? (
           <>
             <div className="property-count">
               <span className="property-count--highlight">
-                {currentProperties[0].proprietor_name_1 &&
-                  currentProperties[0].proprietor_name_1}
+                {propertiesOnThisPage[0].proprietor_name_1}
               </span>{" "}
               has{" "}
               <span className="property-count--highlight">{propertyCount}</span>{" "}
@@ -101,12 +84,8 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
             <p onClick={clearAll} className="clear-all">
               Clear all
             </p>
-            {currentProperties.map((property, i) => (
-              <RelatedProperty
-                key={property.title_no}
-                property={property}
-                // isActive={property === activeProperty}
-              />
+            {propertiesOnThisPage.map((property) => (
+              <RelatedProperty key={property.title_no} property={property} />
             ))}
             {noOfPages > 1 && (
               <Pagination

@@ -667,6 +667,7 @@ const Register = ({ updateBgImage }) => {
           textAlign: "center",
           paddingLeft: "24px",
           paddingRight: "24px",
+          marginBottom: "200px",
           display: registering ? "none" : "block",
         }}
       >

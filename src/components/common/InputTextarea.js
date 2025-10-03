@@ -18,9 +18,11 @@ const InputTextarea = ({
         {...inputProps}
         id={id}
         name={name}
-        className="form-textarea"
+        className={`form-textarea${
+          errorCondition ? " form-textarea--error" : ""
+        }`}
+        placeholder={errorCondition ? errorText : inputProps.placeholder}
       />
-      {errorCondition && <span className="error">{errorText}</span>}
     </div>
   );
 };

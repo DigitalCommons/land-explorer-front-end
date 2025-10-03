@@ -7,17 +7,14 @@ import {
 import PropertySectionHeader from "./property-section-header/PropertySectionHeader";
 import OverviewDetails from "./overview-details/OverviewDetails";
 import OwnershipDetails from "./ownership-details/OwnershipDetails";
-import PropertySectionSmallPrint from "./property-section-small-print/PropertySectionSmallPrint";
 import * as turf from "@turf/turf";
 
-const PropertySection = ({ property, active }) => {
+const PropertySection = ({ property }) => {
   const dispatch = useDispatch();
-  const { activePropertyId, relatedPropertiesProprietorName } = useSelector(
-    (state) => state.landOwnership
-  );
+  const { activePropertyTitleNo, relatedPropertiesProprietorName } =
+    useSelector((state) => state.landOwnership);
 
   const {
-    poly_id,
     title_no,
     property_address,
     proprietor_name_1,
@@ -33,13 +30,25 @@ const PropertySection = ({ property, active }) => {
     proprietor_category_3,
     proprietor_category_4,
     tenure,
-    geom,
     date_proprietor_added,
+    polygons,
   } = property;
 
-  // calculate area and perimeter
-  const area = Math.round(turf.area(geom));
-  const perimeter = Math.round(turf.length(geom, {units: "meters"}));
+  // calculate total area and perimeter
+  const area = Math.round(
+    polygons
+      .map((polygon) => turf.area(polygon.geom))
+      .reduce((a, b) => a + b, 0)
+  );
+  const perimeter = Math.round(
+    polygons
+      .flatMap((polygon) =>
+        turf
+          .flatten(turf.polygonToLine(polygon.geom))
+          .features.map((line) => turf.length(line, { units: "meters" }))
+      )
+      .reduce((a, b) => a + b, 0)
+  );
 
   const proprietors = [
     {
@@ -68,10 +77,8 @@ const PropertySection = ({ property, active }) => {
     },
   ].filter((proprietor) => proprietor.name);
 
-  const proprietorCount = proprietors.length;
-
   const handleClear = () => {
-    dispatch(clearHighlightedProperties([poly_id]));
+    dispatch(clearHighlightedProperties([title_no]));
     // Clear related properties pane if the property being cleared is the searched property
     if (property.proprietor_name_1 === relatedPropertiesProprietorName) {
       dispatch({ type: "CLEAR_RELATED_PROPERTIES_AND_PROPRIETOR_NAME" });
@@ -79,7 +86,8 @@ const PropertySection = ({ property, active }) => {
     console.log("handleClear Property", property);
   };
 
-  const open = poly_id === activePropertyId;
+  const open = title_no === activePropertyTitleNo;
+  const freehold = tenure?.toLowerCase() === "freehold";
 
   return (
     <div className="left-pane-tray-section">
@@ -89,16 +97,16 @@ const PropertySection = ({ property, active }) => {
           if (open) {
             dispatch({ type: "CLEAR_ACTIVE_PROPERTY" });
           } else {
-            dispatch(setActiveProperty(poly_id));
+            dispatch(setActiveProperty(title_no));
           }
         }}
       >
         <PropertySectionHeader
           address={property_address}
-          polyId={poly_id}
-          titleNo={title_no}
+          title_no={title_no}
           onClickRemove={handleClear}
           open={open}
+          unregistered={tenure === "unregistered"}
         />
       </div>
       {open && (
@@ -107,23 +115,15 @@ const PropertySection = ({ property, active }) => {
             address={property_address}
             area={area}
             perimeter={perimeter}
-            inspireId={poly_id}
+            polyIds={polygons.map((polygon) => polygon.poly_id)}
+            unregistered={tenure === "unregistered"}
+            freehold={freehold}
           />
-          {proprietor_category_1 && (
-            <>
-              <OwnershipDetails
-                proprietors={proprietors}
-                tenure={tenure}
-                dateAdded={date_proprietor_added}
-                active={active}
-              />
-            </>
-          )}
-
-          <PropertySectionSmallPrint
-            proprietor={proprietor_name_1}
-            inspireId={poly_id}
-            titleNo={title_no}
+          <OwnershipDetails
+            title_no={title_no}
+            proprietors={proprietors}
+            tenure={tenure}
+            dateAdded={date_proprietor_added}
           />
         </div>
       )}

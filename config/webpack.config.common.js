@@ -8,6 +8,7 @@ const config = {
   output: {
     filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "../dist"),
+    publicPath: "/",
     clean: true,
   },
   optimization: {
@@ -36,10 +37,10 @@ const config = {
                               manifest.json provides metadata used when your web app is added to the
                               homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
                             -->
-                            <link rel="manifest" href="manifest.json">
-                            <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-                            <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-                            <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+                            <link rel="manifest" href="/manifest.json">
+                            <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+                            <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+                            <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
                             <link
                                 href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css"
                                 rel="stylesheet"

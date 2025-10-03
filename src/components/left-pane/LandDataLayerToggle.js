@@ -5,10 +5,12 @@ import LeftPaneToggle from './LeftPaneToggle';
 
 const LandDataLayerToggle = ({ title, layerId, draggable = false }) => {
     const dispatch = useDispatch();
-    const activeLayers = useSelector((state) => state.mapLayers.landDataLayers);
+    const activeLayers = useSelector(
+      (state) => state.landDataLayers.landDataLayers
+    );
 
     const onToggle = () => {
-        dispatch({ type: "TOGGLE_LAYER", payload: layerId });
+        dispatch({ type: "TOGGLE_LAND_DATA_LAYER", payload: layerId });
         dispatch(autoSave());
     }
 

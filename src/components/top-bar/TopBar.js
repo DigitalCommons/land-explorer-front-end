@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import MenuMain from "./MenuMain";
-import MenuProfile from "./MenuProfile";
+import StaticSiteMenu from "./StaticSiteMenu";
+import ProfileMenu from "./ProfileMenu";
 import MapTitleBar from "./MapTitleBar";
 import MapMenu from "./MapMenu";
 import ProfilePic from "./ProfilePic";
@@ -38,15 +38,14 @@ const TopBar = ({ limited }) => {
             className="hamburger hamburger-logged-in"
             id="hamburger"
             onClick={() => {
-              analytics.event(analytics._event.MAIN_MENU, "Open");
-              dispatch({ type: "TOGGLE_MENU_MAIN" });
+              analytics.event(analytics._event.STATIC_SITE_MENU, "Open");
+              dispatch({ type: "TOGGLE_STATIC_SITE_MENU" });
             }}
-          >
-          </div>
+          ></div>
         </div>
       </div>
-      <MenuMain />
-      <MenuProfile />
+      <StaticSiteMenu />
+      <ProfileMenu />
     </div>
   ) : (
     <div>
@@ -60,17 +59,17 @@ const TopBar = ({ limited }) => {
             className="hamburger"
             id="hamburger"
             onClick={() => {
-              analytics.event(analytics._event.MAIN_MENU, "Open");
-              dispatch({ type: "TOGGLE_MENU_MAIN" });
+              analytics.event(analytics._event.STATIC_SITE_MENU, "Open");
+              dispatch({ type: "TOGGLE_STATIC_SITE_MENU" });
             }}
           >
             <img src={require("../../assets/img/icon-hamburger.svg")} alt="" />
           </div>
         </div>
       </div>
-      <MenuMain limited={true} />
+      <StaticSiteMenu />
     </div>
   );
-}
+};
 
 export default TopBar;

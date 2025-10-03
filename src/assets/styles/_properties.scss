@@ -6,6 +6,7 @@
 .property-section-header__address {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin: 0;
@@ -21,6 +22,7 @@
 
 .property-section-header__title-no {
   color: $secondaryColor;
+  user-select: text;
 }
 
 .property-section-header__remove {
@@ -157,7 +159,7 @@
 
 .property__show-more-container {
   margin-top: -20px;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
 }
 
 /* Desktop specific, as mobile first */

@@ -1,15 +1,9 @@
 import { getRequest } from "./RequestActions";
-import { autoSave } from './MapActions';
+import { autoSave } from "./MapActions";
 
 /**
- * @param {string} type "all", "pending", "localAuthority" or "churchOfEngland"
+ * @param {string} type "all", "pending", "localAuthority", "churchOfEngland" or "unregistered"
  */
-export const togglePropertyDisplay = (type) => {
-  return (dispatch) => {
-    dispatch({ type: "TOGGLE_PROPERTY_DISPLAY", payload: type });
-    return dispatch(autoSave());
-  };
-};
 
 export const fetchPropertiesInBox = (sw_lng, sw_lat, ne_lng, ne_lat) => {
   return async (dispatch, getState) => {
@@ -41,11 +35,11 @@ export const highlightProperties = (properties) => {
   };
 };
 
-export const clearHighlightedProperties = (propertyPolyIds) => {
+export const clearHighlightedProperties = (propertyTitleNos) => {
   return (dispatch) => {
     dispatch({
       type: "CLEAR_HIGHLIGHTED_PROPERTIES",
-      payload: propertyPolyIds,
+      payload: propertyTitleNos,
     });
   };
 };
@@ -58,11 +52,17 @@ export const clearAllHighlightedProperties = () => {
   };
 };
 
-export const setActiveProperty = (propertyId) => {
+export const setActiveProperty = (titleNo) => {
   return (dispatch, getState) => {
+    // First clear the active property to trigger scroll to the property, even if it was already
+    // active
     dispatch({
       type: "SET_ACTIVE_PROPERTY",
-      payload: propertyId,
+      payload: null,
+    });
+    dispatch({
+      type: "SET_ACTIVE_PROPERTY",
+      payload: titleNo,
     });
     dispatch({
       type: "SET_ACTIVE",
@@ -70,7 +70,7 @@ export const setActiveProperty = (propertyId) => {
     });
     console.log(
       "setActiveProperty",
-      getState().landOwnership.highlightedProperties[propertyId]
+      getState().landOwnership.highlightedProperties[titleNo]
     );
   };
 };
@@ -83,26 +83,14 @@ export const fetchRelatedProperties = (proprietorName) => {
     });
     dispatch({ type: "FETCH_RELATED_PROPERTIES_LOADING" });
 
-    const relatedPropertiesArray = await dispatch(
+    const relatedPropertiesTitleMap = await dispatch(
       getRequest(`/api/search?proprietorName=${proprietorName}`)
     );
 
-    if (relatedPropertiesArray !== null) {
-      // Convert array to a map so we can search by poly_id more efficiently
-      const relatedPropertiesMap = relatedPropertiesArray.reduce(
-        (map, property) => {
-          if (property.poly_id) {
-            // filter out bad data with null poly_id
-            map[property.poly_id] = property;
-          }
-          return map;
-        },
-        {}
-      );
-
+    if (relatedPropertiesTitleMap !== null) {
       dispatch({
         type: "FETCH_RELATED_PROPERTIES_SUCCESS",
-        payload: relatedPropertiesMap,
+        payload: relatedPropertiesTitleMap,
       });
     } else {
       dispatch({
@@ -110,5 +98,14 @@ export const fetchRelatedProperties = (proprietorName) => {
         payload: "Error fetching related properties",
       });
     }
+  };
+};
+
+
+export const togglePropertyDisplay = (type) => {
+  return (dispatch) => {
+    dispatch({ type: "TOGGLE_PROPERTY_DISPLAY", payload: type });
+    console.log(`Toggled property display to ${type}`);
+    return dispatch(autoSave());
   };
 };

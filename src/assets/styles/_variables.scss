@@ -59,6 +59,12 @@ $communityFarms: #403116;
 $incredibleEdible: #BF800B;
 $orchards: #BF573F;
 
+// New ownership layer colours
+$companyOwned: #BE4A97; // magenta
+$privatelyOwned: #39ABB3; // turquoise
+$selectedProperty: #244673; // blue
+$unregisteredProperty: #B85800; // orange
+
 /** Mixins **/
 @mixin button-scaffold(
   $padding: 0px,

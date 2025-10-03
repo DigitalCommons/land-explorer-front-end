@@ -70,6 +70,17 @@ const Tooltips = () => {
       >
         Ownership Search
       </ReactTooltip>
+      <ReactTooltip
+        id="ttToggleLayerKey"
+        className="tooltip no-xs"
+        place="left"
+        type="light"
+        effect="solid"
+        delayShow={tooltipDelay}
+        globalEventOff={isMobile ? "click" : undefined}
+      >
+        Toggle Layer Key
+      </ReactTooltip>
     </>
   );
 };

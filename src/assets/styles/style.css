@@ -166,11 +166,6 @@
   margin-bottom: 24px;
 }
 
-.zoom-properties {
-  background-image: url("../img/icon-property-search.svg");
-  background-size: 30px;
-}
-
 .zoom-plus {
   background-image: url("../img/icon-location-plus.svg");
   margin-bottom: 96px;
@@ -390,10 +385,6 @@ a {
   border-width: 0 12px 12px 12px;
   border-color: transparent transparent white transparent;
   z-index: 99999;
-}
-
-.tooltip-menu-main {
-  z-index: 100001 !important;
 }
 
 .tooltip-menu-layers {
@@ -626,7 +617,7 @@ canvas {
   bottom: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.3);
-  z-index: 100006;
+  z-index: 100007;
   transition: opacity 0.4s;
 }
 

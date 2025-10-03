@@ -1,9 +1,9 @@
 const INITIAL_STATE = {
   activeDisplay: null,
-  visibleProperties: [],
+  visibleProperties: {},
   loadingProperties: false,
-  highlightedProperties: {},
-  activePropertyId: null,
+  highlightedProperties: [],
+  activePropertyTitleNo: null,
   relatedProperties: {},
   relatedPropertiesError: null,
   relatedPropertiesLoading: false,
@@ -45,35 +45,35 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
     case "CLEAR_HIGHLIGHTED_PROPERTIES":
-      const propertyIdsToClear = action.payload;
+      const propertyTitleNosToClear = action.payload;
       const rest = { ...state.highlightedProperties }; // Create a shallow copy
-      propertyIdsToClear.forEach((id) => delete rest[id]);
-      const activePropertyId = propertyIdsToClear.includes(
-        state.activePropertyId
+      propertyTitleNosToClear.forEach((id) => delete rest[id]);
+      const activePropertyTitleNo = propertyTitleNosToClear.includes(
+        state.activePropertyTitleNo
       )
         ? null
-        : state.activePropertyId;
+        : state.activePropertyTitleNo;
 
       return {
         ...state,
         highlightedProperties: rest,
-        activePropertyId,
+        activePropertyTitleNo,
       };
     case "CLEAR_ALL_HIGHLIGHTED_PROPERTIES":
       return {
         ...state,
         highlightedProperties: {},
-        activePropertyId: null,
+        activePropertyTitleNo: null,
       };
     case "SET_ACTIVE_PROPERTY":
       return {
         ...state,
-        activePropertyId: action.payload,
+        activePropertyTitleNo: action.payload,
       };
     case "CLEAR_ACTIVE_PROPERTY":
       return {
         ...state,
-        activePropertyId: null,
+        activePropertyTitleNo: null,
       };
     case "FETCH_RELATED_PROPERTIES_SUCCESS":
       return {
@@ -109,16 +109,21 @@ export default (state = INITIAL_STATE, action) => {
       // this could be undefined, or just 'true' for old maps
       const ownershipDisplay =
         action.payload.data.mapLayers.ownershipDisplay || null;
+
       if (ownershipDisplay === true) {
         return {
           ...state,
           activeDisplay: "all",
+          highlightedProperties: {},
+          activePropertyTitleNo: null,
         };
       }
       return {
         ...state,
         activeDisplay: ownershipDisplay,
       };
+    case "NEW_MAP":
+      return INITIAL_STATE;
     default:
       return state;
   }

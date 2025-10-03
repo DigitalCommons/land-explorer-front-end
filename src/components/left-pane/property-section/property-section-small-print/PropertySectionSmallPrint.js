@@ -1,20 +1,27 @@
 import React from "react";
 
-const PropertySectionSmallPrint = ({ proprietor, inspireId, titleNo }) => {
+const PropertySectionSmallPrint = ({ title_no, unregistered }) => {
   return (
     <div className="property-details-info">
       <div className="property-details-info__small-print">
-        <p>
-          You can access these documents for a small fee by visiting the{" "}
-          <a
-            href="https://search-property-information.service.gov.uk/search/search-by-inspire-id"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Land Registry website
-          </a>{" "}
-          using the above IDs.
-        </p>
+        {!unregistered && (
+          <p>
+            You can access title register documents for a small fee by visiting
+            the{" "}
+            <a
+              href={
+                title_no
+                  ? "https://search-property-information.service.gov.uk/search/search-by-title-number"
+                  : "https://search-property-information.service.gov.uk/search/search-by-inspire-id"
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Land Registry website
+            </a>{" "}
+            using the above {title_no ? "title number" : "ID"}.
+          </p>
+        )}
         <p>
           Information produced by HM Land Registry. © Crown copyright 2020.{" "}
           <br />
@@ -26,6 +33,7 @@ const PropertySectionSmallPrint = ({ proprietor, inspireId, titleNo }) => {
           >
             click here
           </a>
+          .
         </p>
       </div>
     </div>

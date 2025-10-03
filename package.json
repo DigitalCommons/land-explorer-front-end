@@ -41,8 +41,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development npx webpack serve --config ./config/webpack.config.common.js --mode=development",
-    "build": "cross-env NODE_ENV=production npx webpack build --config ./config/webpack.config.common.js --mode=production",
-    "test": "cross-env NODE_ENV=test node scripts/test.js --env=jsdom"
+    "build": "cross-env NODE_ENV=production npx webpack build --config ./config/webpack.config.common.js --mode=production"
   },
   "jest": {
     "collectCoverageFrom": [

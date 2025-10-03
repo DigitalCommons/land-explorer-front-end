@@ -153,6 +153,7 @@ export const newMap = () => {
       type: "NEW_MAP",
       payload: { unsavedMapUuid: uuidv4() },
     });
+
     setTimeout(() => {
       dispatch({ type: "CHANGE_MOVING_METHOD", payload: "flyTo" });
     }, 500);
@@ -191,7 +192,7 @@ export const saveCurrentMap = (
       drawings: getState().drawings,
       markers: getState().markers,
       mapLayers: {
-        landDataLayers: getState().mapLayers.landDataLayers,
+        landDataLayers: getState().landDataLayers.landDataLayers,
         myDataLayers: getState().dataGroups.activeGroups,
         ownershipDisplay: getState().landOwnership.activeDisplay,
       },
