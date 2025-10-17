@@ -63,6 +63,7 @@ export const refreshCurrentMap = () => {
 
     const map = getState().myMaps.maps.find((item) => item.map.eid === mapId);
     if (map) {
+      const name = map.map.name;
       const mapData = JSON.parse(map.map.data);
       const isSnapshot = map.map.isSnapshot;
       const lastModified = map.map.lastModified;
@@ -74,6 +75,7 @@ export const refreshCurrentMap = () => {
         payload: {
           data: mapData,
           id: mapId,
+          name: name,
           isSnapshot: isSnapshot,
           writeAccess: writeAccess,
           ownMap: ownMap,
@@ -90,6 +92,7 @@ export const openMap = (mapId) => {
   return async (dispatch, getState) => {
     const map = getState().myMaps.maps.find((item) => item.map.eid === mapId);
     if (map) {
+      const name = map.map.name;
       const mapData = JSON.parse(map.map.data);
       const isSnapshot = map.map.isSnapshot;
       const lastModified = map.map.lastModified;
@@ -101,6 +104,7 @@ export const openMap = (mapId) => {
         payload: {
           data: mapData,
           id: mapId,
+          name: name,
           isSnapshot: isSnapshot,
           writeAccess: writeAccess,
           ownMap: ownMap,
@@ -185,10 +189,7 @@ export const saveCurrentMap = (
       : name || map.name || "Untitled Map";
 
     const saveData = {
-      map: {
-        ...map,
-        name: saveName,
-      },
+      map: map,
       drawings: getState().drawings,
       markers: getState().markers,
       mapLayers: {
@@ -197,18 +198,17 @@ export const saveCurrentMap = (
         ownershipDisplay: getState().landOwnership.activeDisplay,
       },
       version: VERSION,
-      name: saveName,
     };
 
     console.log(
-      `Saving current map, copy:${copy} snapshot:${snapshot} data:`,
+      `Saving current map, name: "${saveName}" copy:${copy} snapshot:${snapshot} data:`,
       saveData
     );
 
     const body = {
       eid: copy || snapshot ? null : getState().mapMeta.currentMapId,
       name: saveName,
-      data: JSON.stringify(saveData),
+      data: saveData,
       isSnapshot: snapshot || getState().mapMeta.isSnapshot,
     };
 
