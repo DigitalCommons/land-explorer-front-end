@@ -20,19 +20,19 @@ const Drawing = ({ type, polygonOrLine }) => {
   const dispatch = useDispatch();
 
   const handleDrawingClick = () => {
-    if (activeTool !== "drop-pin") {
-      if (!activeTool) {
-        if (isActive) {
-          dispatch({
-            type: "CLEAR_ACTIVE_DRAWING",
-          });
-        } else {
-          dispatch({
-            type: "SET_ACTIVE_DRAWING",
-            payload: polygonOrLine.uuid,
-          });
-          setPopupClosed(false);
-        }
+    if (!activeTool) {
+      console.log("Clicked on drawing:", polygonOrLine);
+
+      if (isActive) {
+        dispatch({
+          type: "CLEAR_ACTIVE_DRAWING",
+        });
+      } else {
+        dispatch({
+          type: "SET_ACTIVE_DRAWING",
+          payload: polygonOrLine.uuid,
+        });
+        setPopupClosed(false);
       }
     }
   };

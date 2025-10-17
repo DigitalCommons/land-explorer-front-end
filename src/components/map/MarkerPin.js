@@ -18,6 +18,8 @@ const MarkerPin = ({ marker, active }) => {
 
   const toggleMarker = () => {
     if (!activeTool) {
+      console.log("Clicked on marker:", marker);
+      
       if (active) {
         dispatch({ type: "CLEAR_CURRENT_MARKER" });
         setPopupClosed(false);

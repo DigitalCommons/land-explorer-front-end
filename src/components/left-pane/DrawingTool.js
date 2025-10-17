@@ -26,6 +26,7 @@ const DrawingTool = ({ tool, name, mode, size, drawControl }) => {
             if (mode === 'simple_select') {
                 // if a polygon has been selected in the UI
                 if (activeDrawing) {
+                  console.log("Active drawing:", activeDrawing);
                   // change to direct_select and set the featureId to the active polygon
                   drawControl.draw.changeMode("direct_select", {
                     featureId: activeDrawing,

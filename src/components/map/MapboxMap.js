@@ -76,7 +76,7 @@ const MapboxMap = () => {
 
   // Redraw polygons and lines when changing maps or clearing an unsaved map
   useEffect(() => {
-    redrawPolygonsAndLines(drawings);
+    redrawPolygonsAndLines();
   }, [currentMapId, unsavedMapUuid]);
 
   const [styleLoaded, setStyleLoaded] = useState(false);
@@ -102,6 +102,8 @@ const MapboxMap = () => {
         drawControl.draw.changeMode("static");
         dispatch({ type: "DESELECT_TOOLS" });
         dispatch({ type: "CLOSE_TRAY" });
+      } else {
+        console.log("Clicked on features with simple_select:", features);
       }
     }
     // Close all menus (my account, wordpress links, layers, key)
@@ -233,13 +235,16 @@ const MapboxMap = () => {
     }
   };
 
-  const redrawPolygonsAndLines = (polygonsAndLines) => {
+  const redrawPolygonsAndLines = () => {
     const drawControl = drawControlRef.current;
     if (!drawControl || redrawing) return; // skip if already redrawing or component hasn't rendered
     setRedrawing(true);
+
+    console.log("Redrawing polygons and lines");
+
     drawControl.draw.deleteAll();
-    if (polygonsAndLines) {
-      polygonsAndLines.map((polygonOrLine) => {
+    if (drawings) {
+      drawings.map((polygonOrLine) => {
         drawControl.draw.add({
           ...polygonOrLine.data,
           id: polygonOrLine.uuid,
@@ -335,7 +340,13 @@ const MapboxMap = () => {
         {/* Drawing tools */}
         <DrawControl
           addControl={map}
-          ref={drawControlRef}
+          ref={(node) => {
+            if (!drawControlRef.current) {
+              console.log("Draw control ref set", node);
+              drawControlRef.current = node;
+              redrawPolygonsAndLines();
+            }
+          }}
           position="bottom-right"
           onDrawCreate={onDrawCreate}
           modes={modes}
@@ -343,7 +354,6 @@ const MapboxMap = () => {
           onDrawModeChange={(e) => console.log("draw mode changed", e)}
           onDrawUpdate={onDrawUpdate}
           onDrawSelectionChange={onDrawSelectionChange}
-          onDrawActionable={(e) => console.log("draw actionable", e)}
         />
         {
           /* Render the drawing layers if they are not currently being redrawn */
