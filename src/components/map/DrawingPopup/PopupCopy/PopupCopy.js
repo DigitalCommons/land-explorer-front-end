@@ -88,15 +88,15 @@ const PopupCopy = ({
             maps.map((map) => (
               <div
                 className={`popup-copy-to-option${
-                  selectedMap && selectedMap.map.eid === map.map.eid
+                  selectedMap && selectedMap.eid === map.eid
                     ? " copy-to-option-highlighted"
                     : ""
                 }`}
                 onClick={() => handleMapSelection(map)}
-                key={map.map.eid}
+                key={map.eid}
               >
-                <span className="popup-copy-to-name">{map.map.name}</span>
-                {selectedMap && selectedMap.map.eid === map.map.eid && (
+                <span className="popup-copy-to-name">{map.name}</span>
+                {selectedMap && selectedMap.eid === map.eid && (
                   <button
                     type="button"
                     onClick={handleCopyButtonClick}

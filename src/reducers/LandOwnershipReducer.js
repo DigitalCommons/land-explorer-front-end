@@ -106,6 +106,7 @@ export default (state = INITIAL_STATE, action) => {
         relatedPropertiesProprietorName: null,
       };
     case "LOAD_MAP":
+    case "RELOAD_MAP":
       // this could be undefined, or just 'true' for old maps
       const ownershipDisplay =
         action.payload.data.mapLayers.ownershipDisplay || null;

@@ -30,6 +30,7 @@ export default (state = INITIAL_STATE, action) => {
         dataGroupsData: action.payload,
       };
     case "LOAD_MAP":
+    case "RELOAD_MAP":
       const { myDataLayers } = action.payload.data.mapLayers;
       // Old version contains array of objects, but now just contains array of data group IDs
       activeGroups = myDataLayers.map(

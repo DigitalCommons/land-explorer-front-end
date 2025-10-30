@@ -20,7 +20,7 @@ import MapProperties from "./MapProperties";
 import MapDataGroups from "./MapDataGroups";
 import {
   autoSave,
-  refreshCurrentMap,
+  reloadCurrentMap,
   setLngLat,
   setZoom,
   setZooming,
@@ -68,7 +68,7 @@ const MapboxMap = () => {
 
   useInterval(
     () => {
-      dispatch(refreshCurrentMap());
+      dispatch(reloadCurrentMap());
     },
     // Refresh map data every 30 seconds if the map is locked by another user who is editing it
     lockedByOtherUserInitials ? 30000 : null
