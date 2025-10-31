@@ -110,7 +110,6 @@ export const openMap = (mapId) => {
       }
       sessionStorage.setItem("currentMapId", mapId);
 
-      dispatch(postRequest("/api/user/map/view", { eid: mapId }));
       dispatch(notifyServerOfCurrentMap());
     }
   };
