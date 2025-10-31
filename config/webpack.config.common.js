@@ -51,10 +51,6 @@ const config = {
               <title>Land Explorer</title>
           </head>
           <body>
-            <script async defer
-              data-website-id="${process.env.UMAMI_ID}"
-              data-tag="front-end"
-              src="${process.env.UMAMI_URL}" ></script>
             <div id=\"root\"></div>
           </body>
         </html>`,

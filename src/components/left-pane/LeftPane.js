@@ -4,7 +4,6 @@ import LeftPaneInfo from "./LeftPaneInfo";
 import LeftPaneLandData from "./LeftPaneLandData";
 import LeftPaneDrawingTools from "./LeftPaneDrawingTools";
 import LeftPaneRelatedProperties from "./LeftPaneRelatedProperties";
-import { EventAction, EventCategory, trackEvent } from "../../analytics";
 import { autoSave } from "../../actions/MapActions";
 import { isMobile } from "react-device-detect";
 
@@ -94,10 +93,6 @@ const LeftPane = ({ drawControl }) => {
           style={{ opacity: readOnly ? 0.5 : 1 }}
           onClick={() => {
             if (!readOnly) {
-              trackEvent(
-                EventCategory.LEFT_PANE,
-                EventAction.OPEN_DRAWING_TOOLS
-              );
               clickIcon("Drawing Tools");
             }
           }}
@@ -108,10 +103,7 @@ const LeftPane = ({ drawControl }) => {
           className={`left-pane-icon data-layers ${
             active === "Land Data" && "active"
           }`}
-          onClick={() => {
-            trackEvent(EventCategory.LEFT_PANE, EventAction.OPEN_LAND_DATA);
-            clickIcon("Land Data");
-          }}
+          onClick={() => clickIcon("Land Data")}
           data-tip
           data-for="ttLandData"
         />
@@ -119,13 +111,7 @@ const LeftPane = ({ drawControl }) => {
           className={`left-pane-icon info ${
             active === "Land Information" && "active"
           }`}
-          onClick={() => {
-            trackEvent(
-              EventCategory.LEFT_PANE,
-              EventAction.OPEN_LAND_INFORMATION
-            );
-            clickIcon("Land Information");
-          }}
+          onClick={() => clickIcon("Land Information")}
           data-tip
           data-for="ttInfo"
         />
@@ -141,13 +127,7 @@ const LeftPane = ({ drawControl }) => {
           className={`left-pane-icon ownership ${
             active === "Ownership Search" && "active"
           }`}
-          onClick={() => {
-            trackEvent(
-              EventCategory.LEFT_PANE,
-              EventAction.OPEN_OWNERSHIP_SEARCH
-            );
-            clickIcon("Ownership Search");
-          }}
+          onClick={() => clickIcon("Ownership Search")}
           data-tip
           data-for="ttRelatedProperties"
         />

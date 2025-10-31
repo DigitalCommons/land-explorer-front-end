@@ -1,6 +1,5 @@
 import { getRequest } from "./RequestActions";
 import { autoSave } from "./MapActions";
-import { EventAction, EventCategory, trackEvent } from "../analytics";
 
 /**
  * @param {string} type "all", "pending", "localAuthority", "churchOfEngland" or "unregistered"
@@ -8,11 +7,6 @@ import { EventAction, EventCategory, trackEvent } from "../analytics";
 export const togglePropertyDisplay = (type) => {
   return (dispatch) => {
     dispatch({ type: "TOGGLE_PROPERTY_DISPLAY", payload: type });
-    trackEvent(
-      EventCategory.LAND_OWNERSHIP,
-      EventAction.TOGGLE_PROPERTY_DISPLAY,
-      { type }
-    );
     return dispatch(autoSave());
   };
 };
@@ -43,10 +37,6 @@ export const highlightProperties = (properties) => {
     dispatch({
       type: "HIGHLIGHT_PROPERTIES",
       payload: properties,
-    });
-
-    trackEvent(EventCategory.LAND_OWNERSHIP, EventAction.HIGHLIGHT_PROPERTIES, {
-      propertyCount: Object.keys(properties).length,
     });
   };
 };
