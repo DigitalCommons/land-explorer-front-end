@@ -23,7 +23,7 @@ const PopupStatus = ({ mode, selectedMap, selectedDataGroup, type }) => {
       <p className="popup-copy-status-text">
         {text}
         <br />
-        {selectedMap && `'${selectedMap.map.name}'`}
+        {selectedMap && `'${selectedMap.name}'`}
         {selectedDataGroup && `'${selectedDataGroup.title}'`}
       </p>
       {mode != MODE.SAVING ? (

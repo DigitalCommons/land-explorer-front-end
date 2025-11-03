@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const DrawingTool = ({ tool, name, mode, size, drawControl }) => {
     const dispatch = useDispatch();
     const activeTool = useSelector(state => state.leftPane.activeTool);
-    const activePolygon = useSelector(state => state.drawings.activePolygon);
+    const activeDrawing = useSelector((state) => state.drawings.activeDrawing);
 
     const isToolActive = activeTool === tool;
 
@@ -25,14 +25,15 @@ const DrawingTool = ({ tool, name, mode, size, drawControl }) => {
             });
             if (mode === 'simple_select') {
                 // if a polygon has been selected in the UI
-                if (activePolygon) {
-                    // change to direct_select and set the featureId to the active polygon
-                    drawControl.draw.changeMode('direct_select', {
-                        featureId: activePolygon
-                    });
+                if (activeDrawing) {
+                  console.log("Active drawing:", activeDrawing);
+                  // change to direct_select and set the featureId to the active polygon
+                  drawControl.draw.changeMode("direct_select", {
+                    featureId: activeDrawing,
+                  });
                 } else {
-                    // change to the specific drawing mode
-                    drawControl.draw.changeMode(mode);
+                  // change to the specific drawing mode
+                  drawControl.draw.changeMode(mode);
                 }
             } else if (mode) {
                 // change to the specific drawing mode

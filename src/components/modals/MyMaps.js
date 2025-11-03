@@ -25,8 +25,7 @@ export const MyMaps = ({ stage, setStage, closeModal }) => {
     setStage("list");
   };
 
-  const mapList = myMaps.map((item, i) => {
-    const map = item.map;
+  const mapList = myMaps.map((map, i) => {
     const momentDate = moment(map.lastModified).format("DD/MM/YYYY");
     return (
       <tr

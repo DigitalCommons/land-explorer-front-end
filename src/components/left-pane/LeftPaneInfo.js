@@ -2,13 +2,13 @@ import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import LeftPaneTray from "./LeftPaneTray";
 import MarkerSection from "./MarkerSection";
-import PolygonSection from "./PolygonSection";
+import DrawingSection from "./DrawingSection";
 import PropertySection from "./property-section/PropertySection";
 import { clearAllHighlightedProperties } from "../../actions/LandOwnershipActions";
 
 const LeftPaneInfo = ({ onClose, open }) => {
   const markers = useSelector((state) => state.markers.markers);
-  const polygons = useSelector((state) => state.drawings.polygons);
+  const drawings = useSelector((state) => state.drawings.drawings);
   const { highlightedProperties, relatedProperties, activePropertyTitleNo } =
     useSelector((state) => state.landOwnership);
   const highlightedCount = Object.keys(highlightedProperties).length;
@@ -38,7 +38,7 @@ const LeftPaneInfo = ({ onClose, open }) => {
           Clear all properties
         </p>
       )}
-      {polygons.length ||
+      {drawings.length ||
       markers.length ||
       Object.keys(highlightedProperties).length ||
       Object.keys(relatedProperties).length ? (
@@ -46,8 +46,8 @@ const LeftPaneInfo = ({ onClose, open }) => {
           {markers.map((marker, i) => (
             <MarkerSection marker={marker} key={`marker-${i}`} />
           ))}
-          {polygons.map((polygon, i) => (
-            <PolygonSection polygon={polygon} key={`polygon-${i}`} />
+          {drawings.map((drawing, i) => (
+            <DrawingSection drawing={drawing} key={`drawing-${i}`} />
           ))}
           {Object.entries(highlightedProperties).map(([title_no, property]) =>
             title_no === activePropertyTitleNo ? (

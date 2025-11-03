@@ -54,12 +54,12 @@ const DrawingPopup = ({ object, type, source, access, closeDescription }) => {
   if (source === "map") {
     // All editable maps that aren't this one
     copyToMapsList = allMaps.filter(
-      (map) => !map.map.isSnapshot && map.map.eid !== currentMapId
+      (map) => !map.isSnapshot && map.eid !== currentMapId
     );
     copyToDataGroupsList = allEditableDataGroups;
   } else {
     // All editable maps
-    copyToMapsList = allMaps.filter((map) => !map.map.isSnapshot);
+    copyToMapsList = allMaps.filter((map) => !map.isSnapshot);
     // All data groups apart from this one
     copyToDataGroupsList = allEditableDataGroups.filter(
       (dataGroup) => dataGroup.id !== object.data_group_id
@@ -69,7 +69,7 @@ const DrawingPopup = ({ object, type, source, access, closeDescription }) => {
   // Functions for copying objects to map and data group
   const copyObjectToMap = async (object, map) => {
     const data = regulariseObjectData(object);
-    const success = await dispatch(saveObjectToMap(type, data, map.map.eid));
+    const success = await dispatch(saveObjectToMap(type, data, map.eid));
     setMode(success ? MODE.SUCCESS : MODE.ERROR);
   };
 

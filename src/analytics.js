@@ -1,88 +1,56 @@
-import ReactGA from 'react-ga';
-import constants from "./constants";
+// Commented this out for now since we are currently only sending analytics from the back-end.
+// We can re-enable front-end analytics later if needed.
 
-const analytics = {
-  _event: {
-    STATIC_SITE_MENU: "Static Site Menu",
-    SEARCH: "Search",
-    LEFT_PANE: "Left Pane",
-    USER_MENU: "User Menu",
-  },
+// import mixpanel from "mixpanel-browser";
 
-  _dimension: {
-    ORG_TYPE: {
-      key: "dimension1",
-      value: "",
-    },
-    ORG_ACTIVITY: {
-      key: "dimension2",
-      value: "",
-    },
-  },
+// mixpanel.init(process.env.MIXPANEL_TOKEN, {
+//   debug: true,
+//   persistence: "localStorage",
+// });
 
-  init: function () {
-    console.log("analytics.init()");
-    ReactGA.initialize(constants.GA_ID);
-  },
+// let userId = null;
+// let user = null;
 
-  setDimension: function (d, v) {
-    d.value = v;
-  },
+// /** Set (anonymized) user in the Mixpanel event data */
+// export const setUser = async (id, username) => {
+//   console.log(`[ANALYTICS] setUser`);
+//   if (userId !== id) {
+//     // Only need to re-compute hash if the user ID has changed
+//     userId = id;
+//     user = await getUserHash(id, username);
+//   }
+//   mixpanel.identify(user);
+// };
 
-  pageview: function (path) {
-    let stat_packet = path;
-    let message = "analytics.pageview() " + stat_packet;
-    if (this._send()) {
-      console.log(message);
-      this._customDimensions();
-      ReactGA.pageview(stat_packet);
-    } else {
-      console.log("DISABLED IN DEV - " + message);
-    }
-  },
+// /** Reset the user in the Mixpanel event data e.g. when user logs out */
+// export const resetUser = () => {
+//   console.log(`[ANALYTICS] resetUser`);
+//   mixpanel.reset();
+//   userId = null;
+//   user = "LOGGED_OUT";
+// };
 
-  event: function (category, action) {
-    let message = "analytics.event() " + category + " " + action;
-    if (this._send()) {
-      console.log(message);
-      this._customDimensions();
-      ReactGA.event({
-        category: category,
-        action: action,
-      });
-    } else {
-      console.log("DISABLED IN DEV - " + message);
-    }
-  },
+// /**
+//  * Convert a userId to a hashed value, using their username as a salt, to anonymize it for
+//  * analytics. This must match with the back-end's implementation, so analytics can be correlated.
+//  */
+// const getUserHash = async (id, username) => {
+//   const saltedInput = `${username}${id}`;
 
-  _customDimensions: function () {
-    if (this._dimension.ORG_TYPE.value !== "") {
-      ReactGA.ga(
-        "set",
-        this._dimension.ORG_TYPE.key,
-        this._dimension.ORG_TYPE.value
-      );
-      console.log(
-        "analytics._customDimensions() ORG_TYPE : " +
-          this._dimension.ORG_TYPE.value
-      );
-    }
-    if (this._dimension.ORG_ACTIVITY.value !== "") {
-      ReactGA.ga(
-        "set",
-        this._dimension.ORG_ACTIVITY.key,
-        this._dimension.ORG_ACTIVITY.value
-      );
-      console.log(
-        "analytics._customDimensions() ORG_ACTIVITY : " +
-          this._dimension.ORG_ACTIVITY.value
-      );
-    }
-  },
+//   // Compute SHA-256 hash
+//   const encoder = new TextEncoder();
+//   const data = encoder.encode(saltedInput);
+//   const hashBuffer = await crypto.subtle.digest("SHA-256", data);
 
-  _send: function () {
-    return false || window.location.host.indexOf("app.landexplorer.cc") >= 0;
-  },
-};
+//   // Convert buffer to hex string and return first 10 characters
+//   return Array.from(new Uint8Array(hashBuffer))
+//     .map((byte) => byte.toString(16).padStart(2, "0"))
+//     .join("")
+//     .substring(0, 10);
+// };
 
-export default analytics;
+// export const trackEvent = (category, action, data) => {
+//   const event = `${category}_${action}`;
+//   console.log(`[ANALYTICS] ${event}`);
+//   mixpanel.track(event, data);
+// };

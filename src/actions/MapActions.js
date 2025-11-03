@@ -7,24 +7,12 @@ import { notifyServerOfCurrentMap } from "./WebSocketActions";
 
 export const getMyMaps = () => {
   return async (dispatch) => {
-    const mapsData = await dispatch(getRequest("/api/user/maps"));
-    if (mapsData) {
-      console.log("Got my maps", mapsData);
-      dispatch({ type: "POPULATE_MY_MAPS", payload: mapsData });
+    const myMaps = await dispatch(getRequest("/api/user/maps"));
+    if (myMaps) {
+      console.log("Got my maps", myMaps);
+      dispatch({ type: "POPULATE_MY_MAPS", payload: myMaps });
     } else {
       dispatch({ type: "MY_MAPS_ERROR" });
-    }
-  };
-};
-
-/** Get my maps from backend and reload the current map */
-const reloadCurrentMap = () => {
-  return async (dispatch, getState) => {
-    const currentMapId = getState().mapMeta.currentMapId;
-    if (currentMapId !== null) {
-      console.log("Reloading currently open map", currentMapId);
-      await dispatch(getMyMaps());
-      dispatch(openMap(currentMapId));
     }
   };
 };
@@ -38,7 +26,7 @@ export const loadNewestMap = () => {
 
     if (myMaps.length > 0) {
       const newMap = myMaps[myMaps.length - 1];
-      const newMapId = newMap.map.eid;
+      const newMapId = newMap.eid;
 
       console.log("Opening newest map", newMapId);
       dispatch(openMap(newMapId));
@@ -46,70 +34,70 @@ export const loadNewestMap = () => {
   };
 };
 
-/** Refresh the map that is currently open. */
-export const refreshCurrentMap = () => {
+/** Reload the map that is currently open. */
+export const reloadCurrentMap = () => {
   return async (dispatch, getState) => {
     const mapId = getState().mapMeta.currentMapId;
 
     if (mapId === null) {
-      console.warn("No saved map to refresh");
+      console.warn("No saved map to reload");
       return;
     }
 
-    console.log("Refreshing current map", mapId);
+    console.log("Reloading current map", mapId);
 
-    // Get latest data from server
+    // Get latest map metadata from server (e.g. name)
     await dispatch(getMyMaps());
 
-    const map = getState().myMaps.maps.find((item) => item.map.eid === mapId);
-    if (map) {
-      const mapData = JSON.parse(map.map.data);
-      const isSnapshot = map.map.isSnapshot;
-      const lastModified = map.map.lastModified;
-      const writeAccess = map.access !== constants.MAP_ACCESS_READ_ONLY;
-      const ownMap = map.access === constants.MAP_ACCESS_OWNER;
+    dispatch(openMap(mapId));
+  };
+};
 
-      dispatch({
-        type: "RELOAD_MAP",
-        payload: {
-          data: mapData,
-          id: mapId,
-          isSnapshot: isSnapshot,
-          writeAccess: writeAccess,
-          ownMap: ownMap,
-          lastModified: shortenTimestamp(lastModified),
-        },
-      });
-      dispatch(updateReadOnly());
+const getMapData = (mapId) => {
+  return async (dispatch) => {
+    const mapData = await dispatch(getRequest(`/api/user/map/${mapId}`));
+    if (mapData) {
+      console.log("Got map data", mapData);
+      return mapData;
+    } else {
+      // This error will be caught by our ErrorBoundary component
+      throw new Error(`Could not get map data for map ${mapId}`);
     }
   };
 };
 
-/** Open specified map (if it exists in My Maps) */
+/** Open specified map */
 export const openMap = (mapId) => {
   return async (dispatch, getState) => {
-    const map = getState().myMaps.maps.find((item) => item.map.eid === mapId);
-    if (map) {
-      const mapData = JSON.parse(map.map.data);
-      const isSnapshot = map.map.isSnapshot;
-      const lastModified = map.map.lastModified;
-      const writeAccess = map.access !== constants.MAP_ACCESS_READ_ONLY;
-      const ownMap = map.access === constants.MAP_ACCESS_OWNER;
+    const map = getState().myMaps.maps.find((item) => item.eid === mapId);
+    const name = map.name;
+    const mapData = await dispatch(getMapData(mapId));
+    const isSnapshot = map.isSnapshot;
+    const lastModified = map.lastModified;
+    const writeAccess = map.access !== constants.MAP_ACCESS_READ_ONLY;
+    const ownMap = map.access === constants.MAP_ACCESS_OWNER;
 
-      dispatch({
-        type: "LOAD_MAP",
-        payload: {
-          data: mapData,
-          id: mapId,
-          isSnapshot: isSnapshot,
-          writeAccess: writeAccess,
-          ownMap: ownMap,
-          lastModified: shortenTimestamp(lastModified),
-        },
-      });
-      console.log("map data:", mapData, "map id:", mapId);
-      dispatch(updateReadOnly());
+    // If we are reloading the current map, use different action type so we don't trigger certain
+    // things such as resetting the map location.
+    const reloadingMap = getState().mapMeta.currentMapId === mapId;
+    const type =
+      getState().mapMeta.currentMapId === mapId ? "RELOAD_MAP" : "LOAD_MAP";
 
+    dispatch({
+      type: type,
+      payload: {
+        data: mapData,
+        id: mapId,
+        name: name,
+        isSnapshot: isSnapshot,
+        writeAccess: writeAccess,
+        ownMap: ownMap,
+        lastModified: shortenTimestamp(lastModified),
+      },
+    });
+    dispatch(updateReadOnly());
+
+    if (!reloadingMap) {
       setTimeout(() => {
         dispatch({
           type: "CHANGE_MOVING_METHOD",
@@ -120,10 +108,8 @@ export const openMap = (mapId) => {
       if (sessionStorage.getItem("currentMapId")) {
         sessionStorage.removeItem("currentMapId");
       }
-
       sessionStorage.setItem("currentMapId", mapId);
 
-      dispatch(postRequest("/api/user/map/view", { eid: mapId }));
       dispatch(notifyServerOfCurrentMap());
     }
   };
@@ -185,10 +171,7 @@ export const saveCurrentMap = (
       : name || map.name || "Untitled Map";
 
     const saveData = {
-      map: {
-        ...map,
-        name: saveName,
-      },
+      map: map,
       drawings: getState().drawings,
       markers: getState().markers,
       mapLayers: {
@@ -197,18 +180,17 @@ export const saveCurrentMap = (
         ownershipDisplay: getState().landOwnership.activeDisplay,
       },
       version: VERSION,
-      name: saveName,
     };
 
     console.log(
-      `Saving current map, copy:${copy} snapshot:${snapshot} data:`,
+      `Saving current map, name: "${saveName}" copy:${copy} snapshot:${snapshot} data:`,
       saveData
     );
 
     const body = {
       eid: copy || snapshot ? null : getState().mapMeta.currentMapId,
       name: saveName,
-      data: JSON.stringify(saveData),
+      data: saveData,
       isSnapshot: snapshot || getState().mapMeta.isSnapshot,
     };
 
@@ -237,9 +219,8 @@ export const saveObjectToMap = (type, data, mapId) => {
     const copyToCurrentMap = mapId === getState().mapMeta.currentMapId;
 
     if (copyToCurrentMap) {
-      // First save current changes, in case there are any new, unsaved objects.
-      // Otherwise, they will later overwrite the object that is being copied.
-      // TODO: can remove this when saving to backend no longer overwrites all existing objects
+      // First save current changes, in case there are any new, unsaved objects. So we don't get a
+      // diverging state between front-end and back-end.
       const success = await dispatch(autoSave());
       if (!success) return false;
     }
@@ -271,7 +252,7 @@ export const editMapObjectInfo = (type, eid, uuid, newName, newDescription) => {
     };
 
     dispatch({
-      type: type === "marker" ? "RENAME_MARKER" : "RENAME_POLYGON",
+      type: type === "marker" ? "RENAME_MARKER" : "RENAME_DRAWING",
       payload,
     });
 
