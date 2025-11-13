@@ -7,6 +7,7 @@ import LandDataLayerToggle from "./LandDataLayerToggle";
 import { toggleDataGroup } from "../../actions/DataGroupActions";
 import { togglePropertyDisplay } from "../../actions/LandOwnershipActions";
 import constants from "../../constants";
+import LandOwnershipNotification from "./land-ownership-notification/LandOwnershipNotification";
 
 const DataLayersContainer = ({ children, title }) => {
   const [expanded, setExpanded] = useState(true);
@@ -118,6 +119,7 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
         </Draggable>
       </DataLayersContainer>
       <DataLayersContainer title={"Land Ownership"}>
+        <LandOwnershipNotification />
         <LeftPaneToggle
           title={"All Properties"}
           on={landOwnershipActiveDisplay === "all"}
