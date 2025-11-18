@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 
 const LandOwnershipNotification = () => {
-  
+
   const getStoredValue = () => {
     try {
       return (
@@ -27,13 +27,15 @@ const LandOwnershipNotification = () => {
     } catch (error) {
       console.warn("Could not save notification state:", error);
     }
-    console.log("Land ownership notification dismissed", isDismissed);
   };
 
   return (
-    <div aria-live="polite" className="warning-notification">
-      <i className="warning-notification__icon"></i>
-      <div className="warning-notification__content">
+    <div
+      aria-live="polite"
+      className="notification notification--warning notification--left-pane"
+    >
+      <i className="notification_icon"></i>
+      <div className="notification_content">
         Land ownership data may be out of date. Please verify critical
         information through a{" "}
         <a
@@ -45,11 +47,11 @@ const LandOwnershipNotification = () => {
         </a>
       </div>
       <button
-        className="warning-notification__close-button"
+        className="notification__close-button"
         aria-label="Close notification"
         onClick={handleClose}
       >
-        <i className="warning-notification__close-icon"></i>
+        <i className="notification__close-icon"></i>
       </button>
     </div>
   );
