@@ -7,7 +7,7 @@ import LandDataLayerToggle from "./LandDataLayerToggle";
 import { toggleDataGroup } from "../../actions/DataGroupActions";
 import { togglePropertyDisplay } from "../../actions/LandOwnershipActions";
 import constants from "../../constants";
-import DismissibleNotification from "./dismissable-notification/DismissableNotification";
+import DismissibleNotification from "./left-pane-notification/LeftPaneNotification";
 
 const DataLayersContainer = ({ children, title }) => {
   const [expanded, setExpanded] = useState(true);
