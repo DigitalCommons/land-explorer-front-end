@@ -1,10 +1,24 @@
 import React, { useState } from "react";
 
-const DismissibleNotification = ({
-  storageKey,
+/**
+ * LeftPaneNotification
+ *
+ * Displays a dismissible notification in the left pane.  
+ * 
+ * @param {string} notificationId - A unique identifier for the notification.
+ * @param {"info" | "warning" | "error"} notificationType
+ *    The style/type of notification.  
+ *    (Allowed values: "info", "warning", "error")
+ * @param {React.ReactNode} content - The notification body content.
+ */
+
+const LeftPaneNotification = ({
+  notificationId,
   notificationType,
   content,
 }) => {
+  const storageKey = `lx.notification.${notificationId}.hidden`;
+
   const getStoredValue = () => {
     try {
       return sessionStorage.getItem(storageKey) === "true";
@@ -46,4 +60,4 @@ const DismissibleNotification = ({
   );
 };
 
-export default DismissibleNotification;
+export default LeftPaneNotification;

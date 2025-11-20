@@ -7,7 +7,7 @@ import LandDataLayerToggle from "./LandDataLayerToggle";
 import { toggleDataGroup } from "../../actions/DataGroupActions";
 import { togglePropertyDisplay } from "../../actions/LandOwnershipActions";
 import constants from "../../constants";
-import DismissibleNotification from "./left-pane-notification/LeftPaneNotification";
+import LeftPaneNotification from "./left-pane-notification/LeftPaneNotification";
 
 const DataLayersContainer = ({ children, title }) => {
   const [expanded, setExpanded] = useState(true);
@@ -119,8 +119,8 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
         </Draggable>
       </DataLayersContainer>
       <DataLayersContainer title={"Land Ownership"}>
-        <DismissibleNotification
-          storageKey="lx.landOwnershipNotification.hidden"
+        <LeftPaneNotification
+          notificationId="landOwnershipData"
           notificationType="warning"
           content={
             <>
@@ -129,7 +129,6 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
               <a
                 href="https://search-property-information.service.gov.uk/search/search-by-title-number"
                 target="_blank"
-                rel="noopener noreferrer"
               >
                 Land Registry search.
               </a>
