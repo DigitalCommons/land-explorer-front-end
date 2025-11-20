@@ -129,6 +129,7 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
               <a
                 href="https://search-property-information.service.gov.uk/search/search-by-title-number"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Land Registry search.
               </a>
