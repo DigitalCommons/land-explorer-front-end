@@ -4,12 +4,6 @@ import { autoSave } from "./MapActions";
 /**
  * @param {string} type "all", "pending", "localAuthority", "churchOfEngland" or "unregistered"
  */
-export const togglePropertyDisplay = (type) => {
-  return (dispatch) => {
-    dispatch({ type: "TOGGLE_PROPERTY_DISPLAY", payload: type });
-    return dispatch(autoSave());
-  };
-};
 
 export const fetchPropertiesInBox = (sw_lng, sw_lat, ne_lng, ne_lat) => {
   return async (dispatch, getState) => {
@@ -104,5 +98,14 @@ export const fetchRelatedProperties = (proprietorName) => {
         payload: "Error fetching related properties",
       });
     }
+  };
+};
+
+
+export const togglePropertyDisplay = (type) => {
+  return (dispatch) => {
+    dispatch({ type: "TOGGLE_PROPERTY_DISPLAY", payload: type });
+    console.log(`Toggled property display to ${type}`);
+    return dispatch(autoSave());
   };
 };
