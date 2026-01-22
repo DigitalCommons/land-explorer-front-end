@@ -15,8 +15,7 @@ export const MySharedMaps = ({ stage, setStage, closeModal }) => {
   );
   const error = useSelector((state) => state.myMaps.error);
 
-  const mapList = sharedMaps.map((item, i) => {
-    const map = item.map;
+  const mapList = sharedMaps.map((map, i) => {
     const momentDate = moment(map.lastModified).format("DD/MM/YYYY");
     return (
       <tr
@@ -31,7 +30,7 @@ export const MySharedMaps = ({ stage, setStage, closeModal }) => {
         <td>
           <i
             className={
-              item.access === constants.MAP_ACCESS_READ_ONLY
+              map.access === constants.MAP_ACCESS_READ_ONLY
                 ? "shared-maps__read-icon"
                 : "shared-maps__write-icon"
             }

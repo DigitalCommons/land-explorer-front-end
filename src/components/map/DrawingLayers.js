@@ -3,23 +3,24 @@ import { useSelector } from 'react-redux';
 import Drawing from './Drawing';
 
 const DrawingLayers = () => {
-    const polygons = useSelector((state) => state.drawings.polygons);
+    const drawings = useSelector((state) => state.drawings.drawings);
 
-    const renderPolygons = () => {
-        return polygons.map((polygon, i) => {
-            const type = polygon.data.geometry.type === 'Polygon' ? 'polygon' : 'line';
-            return (
-                <Drawing
-                    type={type}
-                    key={polygon.uuid}
-                    polygon={polygon}
-                    name={polygon.name}
-                />
-            );
-        });
+    const renderPolygonsAndLines = () => {
+      return drawings.map((polygonOrLine) => {
+        const type =
+          polygonOrLine.data.geometry.type === "Polygon" ? "polygon" : "line";
+        return (
+          <Drawing
+            type={type}
+            key={polygonOrLine.uuid}
+            polygonOrLine={polygonOrLine}
+            name={polygonOrLine.name}
+          />
+        );
+      });
     };
 
-    return <div>{polygons.length && renderPolygons()}</div>;
+    return <div>{drawings.length && renderPolygonsAndLines()}</div>;
 };
 
 export default DrawingLayers;

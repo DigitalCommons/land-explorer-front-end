@@ -20,7 +20,7 @@ import MapProperties from "./MapProperties";
 import MapDataGroups from "./MapDataGroups";
 import {
   autoSave,
-  refreshCurrentMap,
+  reloadCurrentMap,
   setLngLat,
   setZoom,
   setZooming,
@@ -52,7 +52,7 @@ const MapboxMap = () => {
   const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
   const { landDataLayers } = useSelector((state) => state.landDataLayers);
   const { activeTool } = useSelector((state) => state.leftPane);
-  const { activePolygon, polygons, polygonsDrawn, linesDrawn } = useSelector(
+  const { activeDrawing, drawings, polygonsDrawn, linesDrawn } = useSelector(
     (state) => state.drawings
   );
   const propertiesDisplay = useSelector(
@@ -68,15 +68,15 @@ const MapboxMap = () => {
 
   useInterval(
     () => {
-      dispatch(refreshCurrentMap());
+      dispatch(reloadCurrentMap());
     },
     // Refresh map data every 30 seconds if the map is locked by another user who is editing it
     lockedByOtherUserInitials ? 30000 : null
   );
 
-  // Redraw polygons when changing maps or clearing an unsaved map
+  // Redraw polygons and lines when changing maps or clearing an unsaved map
   useEffect(() => {
-    redrawPolygons(polygons);
+    redrawPolygonsAndLines();
   }, [currentMapId, unsavedMapUuid]);
 
   const [styleLoaded, setStyleLoaded] = useState(false);
@@ -102,6 +102,8 @@ const MapboxMap = () => {
         drawControl.draw.changeMode("static");
         dispatch({ type: "DESELECT_TOOLS" });
         dispatch({ type: "CLOSE_TRAY" });
+      } else {
+        console.log("Clicked on features with simple_select:", features);
       }
     }
     // Close all menus (my account, wordpress links, layers, key)
@@ -117,9 +119,9 @@ const MapboxMap = () => {
       });
       dispatch(autoSave());
     } else {
-      // if polygon or marker is selected, deselect them
-      if (activePolygon) {
-        dispatch({ type: "CLEAR_ACTIVE_POLYGON" });
+      // if polygon, line or marker is selected, deselect them
+      if (activeDrawing) {
+        dispatch({ type: "CLEAR_ACTIVE_DRAWING" });
       } else if (currentMarker) {
         dispatch({ type: "CLEAR_CURRENT_MARKER" });
       }
@@ -134,14 +136,13 @@ const MapboxMap = () => {
 
       setOnClickListener([onClick]);
     }
-  }, [activeTool, activePolygon, currentMarker]);
+  }, [activeTool, activeDrawing, currentMarker]);
 
+  /**
+   * This takes the feature created by mapbox-gl-draw and creates a copy of it and stores it in the
+   * redux store, so that it can be rendered as a React GeoJSON component
+   */
   const onDrawCreate = (e) => {
-    /*
-            This takes the feature created in drawing and creates a copy of it
-            and stores it in the redux store, so that it can be rendered as a react GeoJSON component
-        */
-
     const drawControl = drawControlRef.current;
 
     // features are the shapes themselves (the geometry is the 'points/nodes' of the shapes)
@@ -153,8 +154,8 @@ const MapboxMap = () => {
       properties: {},
     };
     const type = feature.geometry.type;
-    // Use turf to convert the polygon to a line so we can get the length of it (perimeter)
-    const line =
+    // Use turf to extract the border of a polygon so we can get the length of it (perimeter)
+    const border =
       type === "Polygon"
         ? turf.polygonToLine(featureCopy.geometry)
         : featureCopy;
@@ -162,19 +163,19 @@ const MapboxMap = () => {
       type === "Polygon"
         ? `Polygon ${polygonsDrawn + 1}`
         : `Line ${linesDrawn + 1}`;
-    // Create polygon object with length, area and centre point worked out by turf
-    const polygon = {
+    // Create drawing object with length, area and centre point worked out by turf
+    const drawing = {
       data: featureCopy,
       name: name,
       center: turf.pointOnFeature(featureCopy).geometry.coordinates,
       type: type,
-      length: turf.length(line, { units: "kilometers" }),
+      length: turf.length(border, { units: "kilometers" }),
       area: type === "Polygon" ? turf.area(featureCopy) : 0,
       uuid: feature.id,
     };
     dispatch({
-      type: "ADD_POLYGON",
-      payload: polygon,
+      type: "ADD_DRAWING",
+      payload: drawing,
     });
     dispatch(autoSave());
     // change drawing mode back to static
@@ -183,11 +184,11 @@ const MapboxMap = () => {
     }, 100);
   };
 
+  /**
+   * This takes the drawing feature(s) that were updated and creates a copies of them and stores
+   * them in the Redux store, so that they can be rendered as React GeoJSON components
+   */
   const onDrawUpdate = (e) => {
-    /*
-          This takes all the drawing features and creates a copies of them
-          and stores them the redux store, so that they can be rendered as react GeoJSON components
-      */
     const { features } = e;
     features.map((feature) => {
       const featureCopy = {
@@ -198,22 +199,22 @@ const MapboxMap = () => {
       };
 
       const type = feature.geometry.type;
-      const line =
+      const border =
         type === "Polygon"
           ? turf.polygonToLine(featureCopy.geometry)
           : featureCopy;
       dispatch({
-        type: "UPDATE_POLYGON",
+        type: "UPDATE_DRAWING",
         payload: {
           data: featureCopy,
           center: turf.pointOnFeature(featureCopy).geometry.coordinates,
-          length: turf.length(line, { units: "kilometers" }),
+          length: turf.length(border, { units: "kilometers" }),
           area: turf.area(featureCopy),
           uuid: feature.id,
         },
       });
       dispatch({
-        type: "CLEAR_ACTIVE_POLYGON",
+        type: "CLEAR_ACTIVE_DRAWING",
       });
       dispatch(autoSave());
     });
@@ -234,16 +235,19 @@ const MapboxMap = () => {
     }
   };
 
-  const redrawPolygons = (polygons) => {
+  const redrawPolygonsAndLines = () => {
     const drawControl = drawControlRef.current;
     if (!drawControl || redrawing) return; // skip if already redrawing or component hasn't rendered
     setRedrawing(true);
+
+    console.log("Redrawing polygons and lines");
+
     drawControl.draw.deleteAll();
-    if (polygons) {
-      polygons.map((polygon) => {
+    if (drawings) {
+      drawings.map((polygonOrLine) => {
         drawControl.draw.add({
-          ...polygon.data,
-          id: polygon.uuid,
+          ...polygonOrLine.data,
+          id: polygonOrLine.uuid,
         });
       });
       drawControl.draw.changeMode("static");
@@ -336,7 +340,13 @@ const MapboxMap = () => {
         {/* Drawing tools */}
         <DrawControl
           addControl={map}
-          ref={drawControlRef}
+          ref={(node) => {
+            if (!drawControlRef.current) {
+              console.log("Draw control ref set", node);
+              drawControlRef.current = node;
+              redrawPolygonsAndLines();
+            }
+          }}
           position="bottom-right"
           onDrawCreate={onDrawCreate}
           modes={modes}
@@ -344,7 +354,6 @@ const MapboxMap = () => {
           onDrawModeChange={(e) => console.log("draw mode changed", e)}
           onDrawUpdate={onDrawUpdate}
           onDrawSelectionChange={onDrawSelectionChange}
-          onDrawActionable={(e) => console.log("draw actionable", e)}
         />
         {
           /* Render the drawing layers if they are not currently being redrawn */

@@ -4,7 +4,6 @@ import LeftPaneInfo from "./LeftPaneInfo";
 import LeftPaneLandData from "./LeftPaneLandData";
 import LeftPaneDrawingTools from "./LeftPaneDrawingTools";
 import LeftPaneRelatedProperties from "./LeftPaneRelatedProperties";
-import analytics from "../../analytics";
 import { autoSave } from "../../actions/MapActions";
 import { isMobile } from "react-device-detect";
 
@@ -14,7 +13,7 @@ const LeftPane = ({ drawControl }) => {
   const readOnly = useSelector((state) => state.readOnly.readOnly);
   const profileMenuOpen = useSelector((state) => state.menu.profile);
   const currentMarker = useSelector((state) => state.markers.currentMarker);
-  const activePolygon = useSelector((state) => state.drawings.activePolygon);
+  const activeDrawing = useSelector((state) => state.drawings.activeDrawing);
   const relatedProperties = useSelector(
     (state) => state.landOwnership.relatedProperties
   );
@@ -50,17 +49,17 @@ const LeftPane = ({ drawControl }) => {
         const id = selected.features[0].id;
         drawControl.draw.delete(id);
         dispatch({
-          type: "DELETE_POLYGON",
+          type: "DELETE_DRAWING",
           payload: id,
         });
         dispatch(autoSave());
       }
-    } else if (activePolygon !== null) {
-      // Delete the active Polygon
-      drawControl.draw.delete(activePolygon);
+    } else if (activeDrawing !== null) {
+      // Delete the active drawing
+      drawControl.draw.delete(activeDrawing);
       dispatch({
-        type: "DELETE_POLYGON",
-        payload: activePolygon,
+        type: "DELETE_DRAWING",
+        payload: activeDrawing,
       });
       dispatch(autoSave());
     } else if (currentMarker !== null) {
@@ -78,7 +77,6 @@ const LeftPane = ({ drawControl }) => {
       <div
         className="toggle-left-pane"
         onClick={() => {
-          analytics.event(analytics._event.LEFT_PANE, "Open");
           dispatch({ type: "TOGGLE_LEFT_PANE" });
         }}
       ></div>
@@ -95,7 +93,6 @@ const LeftPane = ({ drawControl }) => {
           style={{ opacity: readOnly ? 0.5 : 1 }}
           onClick={() => {
             if (!readOnly) {
-              analytics.event(analytics._event.LEFT_PANE + " Drawing", "Open");
               clickIcon("Drawing Tools");
             }
           }}
@@ -106,10 +103,7 @@ const LeftPane = ({ drawControl }) => {
           className={`left-pane-icon data-layers ${
             active === "Land Data" && "active"
           }`}
-          onClick={() => {
-            analytics.event(analytics._event.LEFT_PANE + " Land Data", "Open");
-            clickIcon("Land Data");
-          }}
+          onClick={() => clickIcon("Land Data")}
           data-tip
           data-for="ttLandData"
         />
@@ -117,13 +111,7 @@ const LeftPane = ({ drawControl }) => {
           className={`left-pane-icon info ${
             active === "Land Information" && "active"
           }`}
-          onClick={() => {
-            analytics.event(
-              analytics._event.LEFT_PANE + " Land Information",
-              "Open"
-            );
-            clickIcon("Land Information");
-          }}
+          onClick={() => clickIcon("Land Information")}
           data-tip
           data-for="ttInfo"
         />
@@ -139,13 +127,7 @@ const LeftPane = ({ drawControl }) => {
           className={`left-pane-icon ownership ${
             active === "Ownership Search" && "active"
           }`}
-          onClick={() => {
-            analytics.event(
-              analytics._event.LEFT_PANE + " Ownership Search",
-              "Open"
-            );
-            clickIcon("Ownership Search");
-          }}
+          onClick={() => clickIcon("Ownership Search")}
           data-tip
           data-for="ttRelatedProperties"
         />

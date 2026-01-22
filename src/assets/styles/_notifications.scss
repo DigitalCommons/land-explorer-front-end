@@ -1,0 +1,61 @@
+.notification {
+  &_icon {
+    background-size: auto auto;
+    background-repeat: no-repeat;
+  }
+  &_content {
+    font-size: 14px;
+    line-height: 1.4em;
+
+    a {
+      color: $blueAccent;
+      text-decoration: underline;
+    }
+  }
+  &__close-button {
+    position: absolute;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  &__close-icon {
+    background-size: auto auto;
+    background-repeat: no-repeat;
+  }
+  // Styles specific to warning notifications
+  &--warning {
+    background-color: $warningNotificationBackground;
+    color: $darkNeutral;
+  
+    .notification_icon {
+      display: block;
+      width: 21px;
+      height: 21px;
+      background-image: url('data:image/svg+xml,<svg viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.5 20.5172c-5.79961 0-10.5-4.5923-10.5-10.2586C0 4.59234 4.70039 0 10.5 0 16.2996 0 21 4.59234 21 10.2586c0 5.6663-4.7004 10.2586-10.5 10.2586Zm0-7.6939c-.72598 0-1.3125.573-1.3125 1.2823s.58652 1.2823 1.3125 1.2823c.726 0 1.3125-.573 1.3125-1.2823s-.5865-1.2823-1.3125-1.2823Zm0-7.69399c-.74648 0-1.34121.62113-1.28789 1.35045l.30351 4.16754c.03692.5049.46758.8936.98028.8936.5168 0 .9434-.3887.9803-.8936l.3035-4.16754c.0533-.72932-.5373-1.35045-1.2879-1.35045H10.5Z" fill="%23FFC16B"/></svg>');
+    }
+  }
+  // Styles specific to notifications in the left pane
+  &--left-pane {
+    padding: 15px 45px 15px 50px;
+    position: relative;
+
+    .notification_icon {
+      position: absolute;
+      left: 20px;
+      top: 17px;
+    }
+    .notification__close-button {
+      top: 8px;
+      right: 8px;
+      font-size: 16px;
+
+      .notification__close-icon {
+        display: block;
+        width: 8px;
+        height: 8px;
+        background-image: url('data:image/svg+xml,<svg viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.13862.192782c-.260317-.2543302-.683069-.2543302-.943384 0-.2603147.254331-.2603147.667364 0 .921698L3.05662 3.90805.197319 6.70365c-.2603154.25433-.2603154.66736 0 .92169.260315.25433.683066.25433.943381 0L4 4.82974l2.86138 2.79357c.26032.25433.68307.25433.94338 0 .26032-.25433.26032-.66737 0-.9217L4.94338 3.90805l2.8593-2.79561c.26032-.254328.26032-.667361 0-.921692-.26031-.2543307-.68307-.2543307-.94338 0L4 2.98635 1.13862.192782Z" fill="%23707070"/></svg>');
+      }
+    }
+  }
+}

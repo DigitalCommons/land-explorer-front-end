@@ -84,53 +84,59 @@ const FeedbackForm = () => {
         {/* Question 1 */}
         <InputTextarea
           label={"What is LandExplorer helping you to do today?"}
-          name={"question1"}
-          value={formData.question1}
-          onChange={(e) => handleFieldChange("question1", e.target.value)}
-          onBlur={() => handleFieldBlur("question1")}
+          name={"question_use_case"}
+          value={formData.question_use_case}
+          onChange={(e) =>
+            handleFieldChange("question_use_case", e.target.value)
+          }
+          onBlur={() => handleFieldBlur("question_use_case")}
           errorText={"Question 1 is required"}
           errorCondition={
-            !isFieldValid("question1") &&
-            (touchedFields["question1"] || submitted)
+            !isFieldValid("question_use_case") &&
+            (touchedFields["question_use_case"] || submitted)
           }
         />
         {/* Question 2 */}
         <InputTextarea
           label={"What impact can this have for you and your community?"}
-          name={"question2"}
-          value={formData.question2}
-          onChange={(e) => handleFieldChange("question2", e.target.value)}
-          onBlur={() => handleFieldBlur("question2")}
+          name={"question_impact"}
+          value={formData.question_impact}
+          onChange={(e) => handleFieldChange("question_impact", e.target.value)}
+          onBlur={() => handleFieldBlur("question_impact")}
           errorText={"Question 2 is required"}
           errorCondition={
-            !isFieldValid("question2") &&
-            (touchedFields["question2"] || submitted)
+            !isFieldValid("question_impact") &&
+            (touchedFields["question_impact"] || submitted)
           }
         />
         {/* Question 3 */}
         <InputTextarea
           label={"Who will benefit from this?"}
-          name={"question3"}
-          value={formData.question3}
-          onChange={(e) => handleFieldChange("question3", e.target.value)}
-          onBlur={() => handleFieldBlur("question3")}
+          name={"question_who_benefits"}
+          value={formData.question_who_benefits}
+          onChange={(e) =>
+            handleFieldChange("question_who_benefits", e.target.value)
+          }
+          onBlur={() => handleFieldBlur("question_who_benefits")}
           errorText={"Question 3 is required"}
           errorCondition={
-            !isFieldValid("question3") &&
-            (touchedFields["question3"] || submitted)
+            !isFieldValid("question_who_benefits") &&
+            (touchedFields["question_who_benefits"] || submitted)
           }
         />
         {/* Question 4 */}
         <InputTextarea
           label={"What would make LandExplorer even better?"}
-          name={"question4"}
-          value={formData.question4}
-          onChange={(e) => handleFieldChange("question4", e.target.value)}
-          onBlur={() => handleFieldBlur("question4")}
+          name={"question_improvements"}
+          value={formData.question_improvements}
+          onChange={(e) =>
+            handleFieldChange("question_improvements", e.target.value)
+          }
+          onBlur={() => handleFieldBlur("question_improvements")}
           errorText={"Question 4 is required"}
           errorCondition={
-            !isFieldValid("question4") &&
-            (touchedFields["question4"] || submitted)
+            !isFieldValid("question_improvements") &&
+            (touchedFields["question_improvements"] || submitted)
           }
         />
         {/* Form Buttons */}

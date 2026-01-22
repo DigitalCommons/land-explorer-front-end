@@ -31,7 +31,7 @@ const EmailShare = () => {
   const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
   const modalOpen = useSelector((state) => state.modal.emailShare.open);
   const usersSharedWith =
-    myMaps.find((map) => map.map.eid === currentMapId)?.map.sharedWith ?? [];
+    myMaps.find((map) => map.eid === currentMapId)?.sharedWith ?? [];
 
   const [input, setInput] = useState("");
   const [usersToShareWith, setUsersToShareWith] = useState(usersSharedWith);

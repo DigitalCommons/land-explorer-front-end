@@ -4,15 +4,7 @@
 
 1. Clone this repo
 2. 'yarn install'
-3. create a .env file in the config folder, copying and replacing the below:
-```
-PAYMENTS_URL=http://examples.payments.com
-GA_ID=replacethiskey
-OS_KEY=replacethiskey
-OS_PLACES_KEY=replacethiskey
-GEOCODER_TOKEN=replacethiskey
-MAPBOX_TOKEN=replacethiskey
-```
+3. create a .env file in the config folder, copying and replacing the values in the .env.example
 4. 'yarn start'
 
 ### Libraries

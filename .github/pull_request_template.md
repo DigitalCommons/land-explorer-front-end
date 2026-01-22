@@ -10,7 +10,8 @@ Fixes # <!-- Insert issue number here. -->
 <!-- Any details to help the Reviewer to understand your code changes
      e.g. files to pay special attention to, the structure of the commits  -->
 
-#### Checklist
+#### Checklist (do these before sending for review)
+
 
 - [ ] Updated or added any necessary docs in `docs/`
 - [ ] Added UTs

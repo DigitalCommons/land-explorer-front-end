@@ -4,13 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import DrawingPopup from "./DrawingPopup/DrawingPopup";
 import * as turf from "@turf/turf";
 
-const Drawing = ({ type, polygon }) => {
+const Drawing = ({ type, polygonOrLine }) => {
   const [popupClosed, setPopupClosed] = useState(false);
   const activeTool = useSelector((state) => state.leftPane.activeTool);
-  const activePolygon = useSelector((state) => state.drawings.activePolygon);
+  const activeDrawing = useSelector((state) => state.drawings.activeDrawing);
   const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
 
-  const isActive = polygon.uuid === activePolygon;
+  const isActive = polygonOrLine.uuid === activeDrawing;
   const showPopup = !popupClosed && isActive && !activeTool;
 
   useEffect(() => {
@@ -19,28 +19,28 @@ const Drawing = ({ type, polygon }) => {
 
   const dispatch = useDispatch();
 
-  const handlePolygonClick = () => {
-    if (activeTool !== "drop-pin") {
-      if (!activeTool) {
-        if (isActive) {
-          dispatch({
-            type: "CLEAR_ACTIVE_POLYGON",
-          });
-        } else {
-          dispatch({
-            type: "SET_ACTIVE_POLYGON",
-            payload: polygon.uuid,
-          });
-          setPopupClosed(false);
-        }
+  const handleDrawingClick = () => {
+    if (!activeTool) {
+      console.log("Clicked on drawing:", polygonOrLine);
+
+      if (isActive) {
+        dispatch({
+          type: "CLEAR_ACTIVE_DRAWING",
+        });
+      } else {
+        dispatch({
+          type: "SET_ACTIVE_DRAWING",
+          payload: polygonOrLine.uuid,
+        });
+        setPopupClosed(false);
       }
     }
   };
 
   const drawingLayer = (
     <GeoJSONLayer
-      key={polygon.uuid}
-      data={polygon.data}
+      key={polygonOrLine.uuid}
+      data={polygonOrLine.data}
       linePaint={{
         "line-color": isActive
           ? "red"
@@ -60,8 +60,8 @@ const Drawing = ({ type, polygon }) => {
           "fill-opacity": activeTool ? 0 : 0.05,
         }
       }
-      fillOnClick={handlePolygonClick}
-      lineOnClick={handlePolygonClick}
+      fillOnClick={handleDrawingClick}
+      lineOnClick={handleDrawingClick}
     />
   );
 
@@ -70,13 +70,13 @@ const Drawing = ({ type, polygon }) => {
       {drawingLayer}
       {showPopup && (
         <Marker
-          key={polygon.uuid + "2"}
+          key={polygonOrLine.uuid + "2"}
           coordinates={
-            polygon.centre ||
-            turf.pointOnFeature(polygon.data).geometry.coordinates
+            polygonOrLine.centre ||
+            turf.pointOnFeature(polygonOrLine.data).geometry.coordinates
           }
-          name={polygon.name}
-          description={polygon.description}
+          name={polygonOrLine.name}
+          description={polygonOrLine.description}
           anchor="bottom"
           style={{
             height: "40px",
@@ -84,7 +84,7 @@ const Drawing = ({ type, polygon }) => {
           }}
         >
           <DrawingPopup
-            object={polygon}
+            object={polygonOrLine}
             type={type}
             source={"map"}
             closeDescription={() => setPopupClosed(true)}

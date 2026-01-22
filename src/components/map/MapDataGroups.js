@@ -24,7 +24,8 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
     activeDataGroups.forEach((dataGroup) => {
       const dataGroupColour = dataGroup.hex_colour;
 
-      // Note that datagroup markers are added to the Markers component, not here, to allow for clustering
+      // Note that datagroup markers are added to the Markers component, not here, to allow for
+      // clustering
 
       if (dataGroup.polygons) {
         dataGroup.polygons.forEach((polygon) => {

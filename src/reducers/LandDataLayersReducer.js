@@ -18,6 +18,7 @@ export default (state = INITIAL_STATE, action) => {
           landDataLayers: landDataLayers,
         };
       case "LOAD_MAP":
+      case "RELOAD_MAP":
         return { landDataLayers: action.payload.data.mapLayers.landDataLayers };
       case "NEW_MAP":
         return INITIAL_STATE;

@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 import constants from "../constants";
 import * as Auth from "../utils/Auth";
-import { refreshCurrentMap } from "./MapActions";
+import { reloadCurrentMap } from "./MapActions";
 import { updateReadOnly } from "./ReadOnlyActions";
 
 const socket = io(constants.ROOT_URL, {
@@ -29,14 +29,14 @@ export const establishSocketConnection = () => {
       if (mapId === currentMapId) {
         if (userId === null) {
           dispatch({ type: "MAP_UNLOCKED" });
-          dispatch(refreshCurrentMap());
+          dispatch(reloadCurrentMap());
         } else if (userId === getState().user.id) {
           // if user with the lock is this user, we can treat this as if the map is unlocked
           dispatch({ type: "MAP_UNLOCKED" });
         } else {
           dispatch({ type: "MAP_LOCKED", payload: { userInitials } });
           dispatch(updateReadOnly());
-          dispatch(refreshCurrentMap());
+          dispatch(reloadCurrentMap());
         }
       }
     });

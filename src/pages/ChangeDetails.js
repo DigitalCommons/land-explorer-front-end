@@ -6,7 +6,6 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 import constants from "../constants";
 import { getUserDetails } from "../actions/UserActions";
-import analytics from "../analytics";
 import { getAuthHeader } from "../utils/Auth";
 
 const organisationTypes = [
@@ -123,7 +122,6 @@ const ChangeDetails = () => {
   }, []);
 
   useEffect(() => {
-    analytics.pageview(window.location.pathname);
     dispatch(getUserDetails());
   }, []);
 

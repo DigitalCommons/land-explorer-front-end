@@ -1,3 +1,5 @@
+// TODO: this should probably be merged into MapMetaReducer since the distinction doesn't make a lot
+// of sense
 const INITIAL_STATE = {
   zoom: [6],
   zooming: false,
@@ -72,12 +74,13 @@ export default (state = INITIAL_STATE, action) => {
     case "LOAD_MAP":
       return {
         ...action.payload.data.map,
+        name: action.payload.name,
         movingMethod: "jumpTo",
       };
     case "RELOAD_MAP":
       return {
         ...state,
-        name: action.payload.data.map.name,
+        name: action.payload.name,
       };
     case "NEW_MAP":
       return {
