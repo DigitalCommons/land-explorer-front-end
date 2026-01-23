@@ -15,14 +15,14 @@
 */
 
 const constants = {
-  DEV_MODE: process.env.NODE_ENV === "development",
+  DEV_MODE: import.meta.env.DEV,
   STATIC_SITE_URL: "https://landexplorer.coop",
-  ROOT_URL: process.env.ROOT_URL,
-  PAYMENTS_URL: process.env.PAYMENTS_URL,
-  OS_KEY: process.env.OS_KEY,
-  OS_PLACES_KEY: process.env.OS_PLACES_KEY,
-  GEOCODER_TOKEN: process.env.GEOCODER_TOKEN,
-  MAPBOX_TOKEN: process.env.MAPBOX_TOKEN,
+  ROOT_URL: import.meta.env.VITE_ROOT_URL,
+  PAYMENTS_URL: import.meta.env.VITE_PAYMENTS_URL,
+  OS_KEY: import.meta.env.VITE_OS_KEY,
+  OS_PLACES_KEY: import.meta.env.VITE_OS_PLACES_KEY,
+  GEOCODER_TOKEN: import.meta.env.VITE_GEOCODER_TOKEN,
+  MAPBOX_TOKEN: import.meta.env.VITE_MAPBOX_TOKEN,
   USE_OS_TILES: true,
   MAP_BOUNDS: [
     { lat: 48.92789850164277, lng: -11.238012966001804 },
