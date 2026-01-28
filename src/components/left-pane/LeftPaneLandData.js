@@ -160,6 +160,11 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
           onToggle={() => dispatch(togglePropertyDisplay("churchOfEngland"))}
         />
         <LeftPaneToggle
+          title={"Social Housing"}
+          on={landOwnershipActiveDisplay === "socialHousing"}
+          onToggle={() => dispatch(togglePropertyDisplay("socialHousing"))}
+        />
+        <LeftPaneToggle
           title="Unregistered Land"
           on={landOwnershipActiveDisplay === "unregistered"}
           onToggle={() => dispatch(togglePropertyDisplay("unregistered"))}

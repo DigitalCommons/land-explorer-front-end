@@ -150,6 +150,15 @@ const layers = {
       },
     },
   },
+  socialHousing: {
+    name: "Social Housing",
+    data: {
+      "Social Housing": {
+        fill: "#BE4A9766",
+        border: "#BE4A97",
+      },
+    },
+  },
   unregistered: {
     name: "Land Ownership",
     data: {
