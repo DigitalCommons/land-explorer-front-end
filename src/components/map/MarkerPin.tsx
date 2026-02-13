@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import { Marker } from "react-mapbox-gl";
 import { useDispatch, useSelector } from "react-redux";

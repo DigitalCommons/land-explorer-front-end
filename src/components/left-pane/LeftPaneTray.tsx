@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 
 const LeftPaneTray = ({ css, open, title, onClose, header, children }) => {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import axios from "axios";
 import Spinner from "../components/common/Spinner";

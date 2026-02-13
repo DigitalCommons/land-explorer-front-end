@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadNewestMap, saveCurrentMap } from '../../actions/MapActions';

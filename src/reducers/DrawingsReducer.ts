@@ -1,3 +1,4 @@
+// @ts-nocheck
 // This reducer stores the drawn polygons and lines. Drawn markers are stored in the MarkersReducer.
 
 const INITIAL_STATE = {

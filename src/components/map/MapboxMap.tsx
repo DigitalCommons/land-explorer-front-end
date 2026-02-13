@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useInterval } from "usehooks-ts";

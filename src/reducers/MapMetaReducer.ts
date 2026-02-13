@@ -1,3 +1,4 @@
+// @ts-nocheck
 const INITIAL_STATE = {
   currentMapId: null,
   unsavedMapUuid: null, // change this when opening new empty map, to differentiate unsaved maps

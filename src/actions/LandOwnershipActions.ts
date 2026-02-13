@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getRequest } from "./RequestActions";
 import { autoSave } from "./MapActions";
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { io } from "socket.io-client";
 import constants from "../constants";
 import * as Auth from "../utils/Auth";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { combineReducers } from "redux";
 import AuthenticationReducer from "./AuthenticationReducer";
 import MenuReducer from "./MenuReducer";

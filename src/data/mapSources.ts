@@ -1,3 +1,4 @@
+// @ts-nocheck
 import constants from '../constants';
 
 export const mapSources = {

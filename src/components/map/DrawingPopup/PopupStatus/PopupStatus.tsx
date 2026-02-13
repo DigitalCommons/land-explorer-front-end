@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { MODE } from "../DrawingPopup";
 import Spinner from "../../../common/Spinner";

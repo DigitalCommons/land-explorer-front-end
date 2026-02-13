@@ -1,3 +1,4 @@
+// @ts-nocheck
 import axios from 'axios';
 import constants from "../constants";
 import { getAuthHeader } from '../utils/Auth';

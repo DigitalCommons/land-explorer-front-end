@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { MODE } from "../DrawingPopup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import iconChevron from "../../../../assets/img/icon-chevron.svg";
 

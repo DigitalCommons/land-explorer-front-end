@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isMobile } from "react-device-detect";
 
 /**

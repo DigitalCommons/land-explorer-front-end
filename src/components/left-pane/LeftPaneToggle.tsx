@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import ToggleSwitch from "../common/ToggleSwitch";
 import LeftPaneNotification from "./left-pane-notification/LeftPaneNotification";

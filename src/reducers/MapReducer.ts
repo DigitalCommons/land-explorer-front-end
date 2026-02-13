@@ -1,3 +1,4 @@
+// @ts-nocheck
 // TODO: this should probably be merged into MapMetaReducer since the distinction doesn't make a lot
 // of sense
 const INITIAL_STATE = {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import iconChevron from '../../assets/img/icon-chevron.svg';

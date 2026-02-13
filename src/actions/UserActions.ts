@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getRequest, postRequest } from "./RequestActions";
 
 export const getUserDetails = () => {

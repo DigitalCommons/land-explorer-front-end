@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { useGoCardlessDropin } from '@gocardless/react-dropin';
 

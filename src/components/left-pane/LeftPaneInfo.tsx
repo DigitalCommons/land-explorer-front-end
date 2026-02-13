@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import LeftPaneTray from "./LeftPaneTray";

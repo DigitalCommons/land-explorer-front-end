@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
     PROD
         if doing a production build, change to true

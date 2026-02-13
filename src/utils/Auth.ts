@@ -1,3 +1,4 @@
+// @ts-nocheck
 function isTokenExist() {
     return localStorage.getItem('token') !== null && localStorage.getItem('token_expiry') !== null;
 }

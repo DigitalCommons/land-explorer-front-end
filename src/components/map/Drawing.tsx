@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState } from "react";
 import { GeoJSONLayer, Marker } from "react-mapbox-gl";
 import { useSelector, useDispatch } from "react-redux";

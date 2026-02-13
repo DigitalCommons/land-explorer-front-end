@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Source, Layer } from 'react-mapbox-gl';

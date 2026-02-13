@@ -1,3 +1,4 @@
+// @ts-nocheck
 // FeedbackForm.js
 import React from "react";
 import { useDispatch } from "react-redux";

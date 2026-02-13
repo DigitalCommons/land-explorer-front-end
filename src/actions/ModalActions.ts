@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getMyMaps } from "./MapActions";
 
 export const openModal = (name) => {

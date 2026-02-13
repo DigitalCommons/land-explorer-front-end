@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";

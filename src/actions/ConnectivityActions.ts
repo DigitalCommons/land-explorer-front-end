@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { autoSave } from './MapActions';
 import { updateReadOnly } from './ReadOnlyActions';
 

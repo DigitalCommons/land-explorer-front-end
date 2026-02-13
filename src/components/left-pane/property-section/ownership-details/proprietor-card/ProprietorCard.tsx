@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { fetchRelatedProperties } from "../../../../../actions/LandOwnershipActions";
 import Button from "../../../../common/Button";

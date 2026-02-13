@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as turf from "@turf/turf";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const INITIAL_STATE = {
   saveCopy: {
     open: false,

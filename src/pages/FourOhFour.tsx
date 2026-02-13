@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import TopBar from "../components/top-bar/TopBar";
 

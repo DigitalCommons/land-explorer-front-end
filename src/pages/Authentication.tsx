@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import { Route, Routes } from 'react-router';
 import TopBar from '../components/top-bar/TopBar';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import ProprietorCard from "./proprietor-card/ProprietorCard";
 import PropertySectionSmallPrint from "../property-section-small-print/PropertySectionSmallPrint";

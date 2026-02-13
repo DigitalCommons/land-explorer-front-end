@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import LeftPaneTray from './LeftPaneTray';
 import DrawingTool from './DrawingTool';

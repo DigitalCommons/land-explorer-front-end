@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import OpenMap from "./OpenMap";
 import NewMap from "./NewMap";

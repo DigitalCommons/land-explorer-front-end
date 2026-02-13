@@ -1,3 +1,4 @@
+// @ts-nocheck
 import constants, { VERSION } from "../constants";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";

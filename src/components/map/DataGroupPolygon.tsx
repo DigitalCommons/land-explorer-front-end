@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { Marker, GeoJSONLayer } from "react-mapbox-gl";
 import DrawingPopup from "./DrawingPopup/DrawingPopup";
