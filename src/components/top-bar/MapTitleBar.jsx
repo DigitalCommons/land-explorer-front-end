@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadNewestMap, saveCurrentMap } from '../../actions/MapActions';
 import { isMobile } from 'react-device-detect';
+import iconTickGreen from "../../assets/img/icon-tick--green.svg";
+import iconCross from "../../assets/img/icon-cross.svg";
 
 const UNTITLED_NAME = 'Untitled Map';
 
@@ -164,8 +166,8 @@ const MapTitleBar = ({ expanded }) => {
                     <div className="popup-content-saving">
                         <div className="popup-saving-icon-container">
                             {saved ?
-                                <img src={require("../../assets/img/icon-tick--green.svg")} /> :
-                                <img src={require("../../assets/img/icon-cross.svg")} />}
+                                <img src={iconTickGreen} /> :
+                                <img src={iconCross} />}
                         </div>
                         <div className="popup-saving-text-container">
                             <p className="popup-saving-text">

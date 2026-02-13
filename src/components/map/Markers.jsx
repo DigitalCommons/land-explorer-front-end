@@ -4,6 +4,8 @@ import MarkerPin from "./MarkerPin";
 import DataGroupMarker from "./DataGroupMarker";
 import { Cluster, Marker } from "react-mapbox-gl";
 import { autoSave } from "../../actions/MapActions";
+import iconMarkerRed from "../../assets/img/icon-marker-new--red.svg";
+import iconCurrentLocationBlue from "../../assets/img/icon-current-location--blue.svg";
 
 const ClusterMarker = (coordinates, pointCount, getLeaves) => {
   const containsActiveMarker = getLeaves(Infinity).some(
@@ -158,7 +160,7 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
       {searchMarker && (
         <Marker coordinates={searchMarker} style={{ zIndex: 1 }}>
           <img
-            src={require("../../assets/img/icon-marker-new--red.svg")}
+            src={iconMarkerRed}
             alt=""
             style={{
               height: 40,
@@ -170,7 +172,7 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
       {currentLocation && (
         <Marker coordinates={currentLocation} style={{ zIndex: 1 }}>
           <img
-            src={require("../../assets/img/icon-current-location--blue.svg")}
+            src={iconCurrentLocationBlue}
             alt=""
             style={{
               height: 30,

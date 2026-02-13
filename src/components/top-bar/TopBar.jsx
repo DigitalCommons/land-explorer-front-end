@@ -7,6 +7,7 @@ import MapMenu from "./MapMenu";
 import ProfilePic from "./ProfilePic";
 import { useDispatch, useSelector } from "react-redux";
 import SearchBar from "./SearchBar";
+import iconHamburger from "../../assets/img/icon-hamburger.svg";
 
 const TopBar = ({ limited }) => {
   const dispatch = useDispatch();
@@ -56,7 +57,7 @@ const TopBar = ({ limited }) => {
             id="hamburger"
             onClick={() => dispatch({ type: "TOGGLE_MENU_MAIN" })}
           >
-            <img src={require("../../assets/img/icon-hamburger.svg")} alt="" />
+            <img src={iconHamburger} alt="" />
           </div>
         </div>
       </div>

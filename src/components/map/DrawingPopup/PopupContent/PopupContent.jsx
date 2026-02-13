@@ -1,6 +1,10 @@
 import React from "react";
 import { MODE } from "../DrawingPopup";
 import constants from "../../../../constants";
+import iconCopyNew from "../../../../assets/img/icon-copy-new.svg";
+import iconEditNew from "../../../../assets/img/icon-edit-new.svg";
+import iconCancel from "../../../../assets/img/icon-cancel.svg";
+import iconSave from "../../../../assets/img/icon-save.svg";
 
 const PopupContent = ({
   mode,
@@ -64,7 +68,7 @@ const PopupContent = ({
               disabled={!isOnline}
             >
               <img
-                src={require(`../../../../assets/img/icon-copy-new.svg`)}
+                src={iconCopyNew}
                 className="popup-footer-icon"
               />
               <span className="popup-footer-button-text">Copy to Map</span>
@@ -81,7 +85,7 @@ const PopupContent = ({
                 disabled={readOnly}
               >
                 <img
-                  src={require(`../../../../assets/img/icon-edit-new.svg`)}
+                  src={iconEditNew}
                   className="popup-footer-icon"
                 />
                 <span className="popup-footer-button-text">Edit {type}</span>
@@ -102,7 +106,7 @@ const PopupContent = ({
               }}
             >
               <img
-                src={require("../../../../assets/img/icon-cancel.svg")}
+                src={iconCancel}
                 className="popup-footer-icon"
               />
               Cancel
@@ -123,7 +127,7 @@ const PopupContent = ({
               }}
             >
               <img
-                src={require("../../../../assets/img/icon-save.svg")}
+                src={iconSave}
                 className="popup-footer-icon"
               />
               Save

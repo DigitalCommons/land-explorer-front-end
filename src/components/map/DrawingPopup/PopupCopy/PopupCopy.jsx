@@ -3,6 +3,7 @@ import { MODE } from "../DrawingPopup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMap, faLayerGroup} from "@fortawesome/free-solid-svg-icons";
+import iconCancel from "../../../../assets/img/icon-cancel.svg";
 
 const COPY_TO = {
   MAP: "map",
@@ -141,7 +142,7 @@ const PopupCopy = ({
           }}
         >
           <img
-            src={require("../../../../assets/img/icon-cancel.svg")}
+            src={iconCancel}
             className="popup-footer-icon"
           />
           Cancel

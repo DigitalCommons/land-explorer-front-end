@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import convert from 'convert-units';
+import iconChevron from '../../assets/img/icon-chevron.svg';
 
 /** Component for displaying a drawn polygon or line in the Left pane info section */
 const DrawingSection = ({ drawing }) => {
@@ -88,7 +89,7 @@ const DrawingSection = ({ drawing }) => {
           }}
         >
           <img
-            src={require("../../assets/img/icon-chevron.svg")}
+            src={iconChevron}
             alt=""
             style={{
               transformOrigin: "center",

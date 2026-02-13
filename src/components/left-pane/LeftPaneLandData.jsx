@@ -8,6 +8,7 @@ import { toggleDataGroup } from "../../actions/DataGroupActions";
 import { togglePropertyDisplay } from "../../actions/LandOwnershipActions";
 import constants from "../../constants";
 import LeftPaneNotification from "./left-pane-notification/LeftPaneNotification";
+import iconChevron from "../../assets/img/icon-chevron.svg";
 
 const DataLayersContainer = ({ children, title }) => {
   const [expanded, setExpanded] = useState(true);
@@ -31,7 +32,7 @@ const DataLayersContainer = ({ children, title }) => {
           }}
         >
           <img
-            src={require("../../assets/img/icon-chevron.svg")}
+            src={iconChevron}
             alt=""
             style={{
               transformOrigin: "center",

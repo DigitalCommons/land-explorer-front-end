@@ -1,4 +1,5 @@
 import React from "react";
+import iconChevron from "../../../../assets/img/icon-chevron.svg";
 
 const PropertySectionHeader = ({
   address,
@@ -26,7 +27,7 @@ const PropertySectionHeader = ({
       </a>
       <div className="property-section-header__chevron">
         <img
-          src={require("../../../../assets/img/icon-chevron.svg")}
+          src={iconChevron}
           alt=""
           style={{
             transformOrigin: "center",

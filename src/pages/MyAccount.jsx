@@ -7,6 +7,9 @@ import Spinner from "../components/common/Spinner";
 import ChangeDetails from "./ChangeDetails";
 import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
+import iconDetails from "../assets/img/icon-details.svg";
+import iconMail from "../assets/img/icon-mail.svg";
+import iconLock from "../assets/img/icon-lock.svg";
 
 const AccountView = ({ initials }) => {
   return (
@@ -41,7 +44,7 @@ const AccountView = ({ initials }) => {
         <div className="my-account--option">
           <div className="my-account--option--left">
             <img
-              src={require("../assets/img/icon-details.svg")}
+              src={iconDetails}
               alt=""
               style={{
                 height: "18px",
@@ -58,7 +61,7 @@ const AccountView = ({ initials }) => {
         <div className="my-account--option">
           <div className="my-account--option--left">
             <img
-              src={require("../assets/img/icon-mail.svg")}
+              src={iconMail}
               alt=""
               style={{
                 height: "24px",
@@ -75,7 +78,7 @@ const AccountView = ({ initials }) => {
         <div className="my-account--option">
           <div className="my-account--option--left">
             <img
-              src={require("../assets/img/icon-lock.svg")}
+              src={iconLock}
               alt=""
               style={{
                 height: "22px",

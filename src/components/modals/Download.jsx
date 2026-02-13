@@ -4,6 +4,7 @@ import axios from 'axios';
 import constants from '../../constants';
 import { getAuthHeader } from "../../utils/Auth";
 import Modal from './Modal';
+import iconDownloadComplete from '../../assets/img/icon-download-complete.svg';
 
 const Download = () => {
     const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
@@ -47,7 +48,7 @@ const Download = () => {
 
     return <Modal id="download" customClose={() => setDownloaded(false)}>
         <div className='modal-option'>
-            {downloaded ? <><img src={require('../../assets/img/icon-download-complete.svg')} className='modal-option-icon' />
+            {downloaded ? <><img src={iconDownloadComplete} className='modal-option-icon' />
                 <p className='download-text'>Download Complete</p></>
                 :
                 <>

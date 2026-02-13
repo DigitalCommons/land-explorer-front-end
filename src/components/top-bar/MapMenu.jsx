@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../actions/ModalActions";
+import iconChevron from "../../assets/img/icon-chevron.svg";
 
 const MapMenu = ({}) => {
   const isOnline = useSelector((state) => state.connectivity.isOnline);
@@ -42,7 +43,7 @@ const MapMenu = ({}) => {
       ref={ref}
     >
       <img
-        src={require("../../assets/img/icon-chevron.svg")}
+        src={iconChevron}
         alt="map-menu-icon"
         style={{ height: 21, width: 30, cursor: "pointer" }}
         onClick={() => setExpanded(!expanded)}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import iconChevron from '../../assets/img/icon-chevron.svg';
 
 const MarkerSection = ({ marker }) => {
     const dispatch = useDispatch();
@@ -59,7 +60,7 @@ const MarkerSection = ({ marker }) => {
                     }}
                 >
                     <img
-                        src={require('../../assets/img/icon-chevron.svg')}
+                        src={iconChevron}
                         alt=""
                         style={{
                             transformOrigin: 'center',

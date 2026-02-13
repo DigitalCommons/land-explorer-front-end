@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import iconChevron from '../../assets/img/icon-chevron.svg';
 
 const LeftPaneTraySection = ({ title, children, open: initialOpen, sectionId }) => {
     const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const LeftPaneTraySection = ({ title, children, open: initialOpen, sectionId }) 
                     }}
                 >
                     <img
-                        src={require('../../assets/img/icon-chevron.svg')}
+                        src={iconChevron}
                         alt=""
                         style={{
                             transformOrigin: 'center',

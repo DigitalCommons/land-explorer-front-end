@@ -1,6 +1,8 @@
 import React from "react";
 import { MODE } from "../DrawingPopup";
 import Spinner from "../../../common/Spinner";
+import iconTickGreen from "../../../../assets/img/icon-tick--green.svg";
+import iconCross from "../../../../assets/img/icon-cross.svg";
 
 const PopupStatus = ({ mode, selectedMap, selectedDataGroup, type }) => {
   let text = "";
@@ -10,10 +12,10 @@ const PopupStatus = ({ mode, selectedMap, selectedDataGroup, type }) => {
     text = `${
       type.slice(0, 1).toUpperCase() + type.slice(1)
     } successfully copied to`;
-    iconSrc = require("../../../../assets/img/icon-tick--green.svg");
+    iconSrc = iconTickGreen;
   } else if (mode === MODE.ERROR) {
     text = `Unable to copy ${type} to`;
-    iconSrc = require("../../../../assets/img/icon-cross.svg");
+    iconSrc = iconCross;
   } else if (mode === MODE.SAVING) {
     text = `Copying ${type} to`;
   }

@@ -1,6 +1,23 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+// Import tool icons (regular and active/white versions)
+import iconDropPin from '../../assets/img/icon-drop-pin.svg';
+import iconDropPinWhite from '../../assets/img/icon-drop-pin--white.svg';
+import iconPolygon from '../../assets/img/icon-polygon.svg';
+import iconPolygonWhite from '../../assets/img/icon-polygon--white.svg';
+import iconLine from '../../assets/img/icon-line.svg';
+import iconLineWhite from '../../assets/img/icon-line--white.svg';
+import iconEdit from '../../assets/img/icon-edit.svg';
+import iconEditWhite from '../../assets/img/icon-edit--white.svg';
+
+const toolIcons = {
+    'drop-pin': { default: iconDropPin, white: iconDropPinWhite },
+    'polygon': { default: iconPolygon, white: iconPolygonWhite },
+    'line': { default: iconLine, white: iconLineWhite },
+    'edit': { default: iconEdit, white: iconEditWhite },
+};
+
 const DrawingTool = ({ tool, name, mode, size, drawControl }) => {
     const dispatch = useDispatch();
     const activeTool = useSelector(state => state.leftPane.activeTool);
@@ -42,7 +59,7 @@ const DrawingTool = ({ tool, name, mode, size, drawControl }) => {
         }
     }
 
-    const image = require(`../../assets/img/icon-${tool}${isToolActive ? '--white' : ''}.svg`);
+    const image = toolIcons[tool] ? (isToolActive ? toolIcons[tool].white : toolIcons[tool].default) : '';
 
     return (
         <div
