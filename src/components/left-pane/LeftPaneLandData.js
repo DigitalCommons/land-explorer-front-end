@@ -163,6 +163,10 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
           title={"Social Housing"}
           on={landOwnershipActiveDisplay === "socialHousing"}
           onToggle={() => dispatch(togglePropertyDisplay("socialHousing"))}
+          disclaimer={true}
+          disclaimerContent={
+            <>Social Housing provider data may not be accurate.</>
+          }
         />
         <LeftPaneToggle
           title="Unregistered Land"
