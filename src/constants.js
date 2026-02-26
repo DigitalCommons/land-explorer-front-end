@@ -37,6 +37,7 @@ const constants = {
     pending: 15,
     localAuthority: 14,
     churchOfEngland: 13,
+    socialHousing: 13,
     unregistered: 13,
   },
   // These values match up with the backend UserMapAccess enum
