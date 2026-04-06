@@ -1,21 +1,25 @@
-// @ts-nocheck
-import React, { useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useRef } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import LeftPaneTray from "./LeftPaneTray";
 import MarkerSection from "./MarkerSection";
 import DrawingSection from "./DrawingSection";
 import PropertySection from "./property-section/PropertySection";
 import { clearAllHighlightedProperties } from "../../actions/LandOwnershipActions";
 
-const LeftPaneInfo = ({ onClose, open }) => {
-  const markers = useSelector((state) => state.markers.markers);
-  const drawings = useSelector((state) => state.drawings.drawings);
-  const { highlightedProperties, relatedProperties, activePropertyTitleNo } =
-    useSelector((state) => state.landOwnership);
-  const highlightedCount = Object.keys(highlightedProperties).length;
-  const activePropertyRef = useRef(null);
+type Props = {
+  onClose: () => void;
+  open: boolean;
+};
 
-  const dispatch = useDispatch();
+const LeftPaneInfo = ({ onClose, open }: Props) => {
+  const markers = useAppSelector((state) => state.markers.markers);
+  const drawings = useAppSelector((state) => state.drawings.drawings);
+  const { highlightedProperties, relatedProperties, activePropertyTitleNo } =
+    useAppSelector((state) => state.landOwnership);
+  const highlightedCount = Object.keys(highlightedProperties).length;
+  const activePropertyRef = useRef<HTMLDivElement>(null);
+
+  const dispatch = useAppDispatch();
 
   // Scroll to the active property
   useEffect(() => {
@@ -52,11 +56,8 @@ const LeftPaneInfo = ({ onClose, open }) => {
           ))}
           {Object.entries(highlightedProperties).map(([title_no, property]) =>
             title_no === activePropertyTitleNo ? (
-              <div ref={activePropertyRef}>
-                <PropertySection
-                  property={property}
-                  key={`property-${title_no}`}
-                />
+              <div ref={activePropertyRef} key={`property-${title_no}`}>
+                <PropertySection property={property} />
               </div>
             ) : (
               <PropertySection

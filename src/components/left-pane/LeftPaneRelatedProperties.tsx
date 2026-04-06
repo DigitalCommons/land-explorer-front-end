@@ -1,7 +1,6 @@
-// @ts-nocheck
-import React, { useState } from "react";
+import { useState } from "react";
 import LeftPaneTray from "./LeftPaneTray";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import RelatedProperty from "./RelatedProperty";
 import Pagination from "../common/Pagination";
 import {
@@ -10,15 +9,21 @@ import {
   highlightProperties,
 } from "../../actions/LandOwnershipActions";
 
-const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
+type Props = {
+  onClose: () => void;
+  open: boolean;
+  itemsPerPage: number;
+};
+
+const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }: Props) => {
   const {
     relatedProperties: properties,
     relatedPropertiesError: error,
     relatedPropertiesProprietorName: proprietorName,
     relatedPropertiesLoading: loading,
-  } = useSelector((state) => state.landOwnership);
+  } = useAppSelector((state) => state.landOwnership);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const propertyCount = Object.keys(properties).length;
 
@@ -41,7 +46,7 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
   };
 
   const handleRetrySearch = () => {
-    dispatch(fetchRelatedProperties(proprietorName));
+    dispatch(fetchRelatedProperties(proprietorName!));
   };
 
   return (

@@ -1,11 +1,10 @@
-// @ts-nocheck
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 
 const BaseLayerMenu = () => {
   const [open, setOpen] = useState(false);
-  const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
-  const dispatch = useDispatch();
+  const baseLayer = useAppSelector((state) => state.mapBaseLayer.layer);
+  const dispatch = useAppDispatch();
 
   return (
     <>

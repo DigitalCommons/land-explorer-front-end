@@ -1,7 +1,8 @@
-// @ts-nocheck
-import React from 'react';
+type Props = {
+  message: string;
+};
 
-const LoadingData = ({ message }) =>
+const LoadingData = ({ message }: Props) =>
     <div className="loading-circle">
         <p className="loading-text">{message}</p>
     </div>

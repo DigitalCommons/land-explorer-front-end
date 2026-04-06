@@ -1,5 +1,11 @@
-// @ts-nocheck
-import React from "react";
+type Props = {
+  address: string | null;
+  area: number;
+  perimeter: number;
+  polyIds: any[];
+  unregistered: boolean;
+  freehold: boolean;
+};
 
 const OverviewDetails = ({
   address,
@@ -8,7 +14,7 @@ const OverviewDetails = ({
   polyIds,
   unregistered,
   freehold,
-}) => {
+}: Props) => {
   const isLongAddress = address && address.length > 70;
 
   return (

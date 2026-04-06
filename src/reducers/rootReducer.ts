@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { combineReducers } from "redux";
 import AuthenticationReducer from "./AuthenticationReducer";
 import MenuReducer from "./MenuReducer";
@@ -19,6 +18,7 @@ import MapMetaReducer from "./MapMetaReducer";
 import LandOwnershipReducer from "./LandOwnershipReducer";
 import DataGroupsReducer from "./DataGroupsReducer";
 import ConnectivityReducer from "./ConnectivityReducer";
+import { Action } from "../types";
 
 const appReducer = combineReducers({
   authentication: AuthenticationReducer,
@@ -42,7 +42,9 @@ const appReducer = combineReducers({
   connectivity: ConnectivityReducer,
 });
 
-const rootReducer = (state, action) => {
+type RootState = ReturnType<typeof appReducer>;
+
+const rootReducer = (state: RootState | undefined, action: Action): RootState => {
   // Clear all data in redux store to initial state when user logs out
   if (action.type === "LOG_OUT") {
     state = undefined;
@@ -51,3 +53,4 @@ const rootReducer = (state, action) => {
 };
 
 export default rootReducer;
+export type { RootState };

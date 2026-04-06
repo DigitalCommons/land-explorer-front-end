@@ -1,17 +1,16 @@
-// @ts-nocheck
 import { getRequest, postRequest } from "./RequestActions";
 import { autoSave } from "./MapActions";
 
 export const loadDataGroups = () => {
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     const userGroupsData = await dispatch(getRequest("/api/user/datagroups"));
     if (userGroupsData === null) {
       return;
     }
 
-    const mergedDataGroups = [];
-    userGroupsData.forEach((userGroup) => {
-      userGroup.dataGroups.forEach((dataGroup) => {
+    const mergedDataGroups: any[] = [];
+    userGroupsData.forEach((userGroup: any) => {
+      userGroup.dataGroups.forEach((dataGroup: any) => {
         const { iddata_groups, ...dataGroupData } = dataGroup;
         mergedDataGroups.push({
           ...dataGroupData,
@@ -26,7 +25,7 @@ export const loadDataGroups = () => {
       payload: mergedDataGroups,
     });
 
-    const userGroupTitlesAndIDs = userGroupsData.map((userGroup) => ({
+    const userGroupTitlesAndIDs = userGroupsData.map((userGroup: any) => ({
       title: userGroup.name,
       id: userGroup.id,
     }));
@@ -37,8 +36,8 @@ export const loadDataGroups = () => {
   };
 };
 
-export const toggleDataGroup = (dataGroupId) => {
-  return (dispatch) => {
+export const toggleDataGroup = (dataGroupId: number) => {
+  return (dispatch: any) => {
     dispatch({
       type: "TOGGLE_DATA_GROUP",
       payload: dataGroupId,
@@ -48,8 +47,8 @@ export const toggleDataGroup = (dataGroupId) => {
 };
 
 /** Save the object data to a specified data group. Return false iff failed to save to backend. */
-export const saveObjectToDataGroup = (type, data, dataGroupId) => {
-  return async (dispatch) => {
+export const saveObjectToDataGroup = (type: string, data: any, dataGroupId: number) => {
+  return async (dispatch: any) => {
     const body = {
       object: data,
       dataGroupId,
@@ -69,13 +68,13 @@ export const saveObjectToDataGroup = (type, data, dataGroupId) => {
 
 /** Edit the specified object's name and description. Return false iff failed to save to backend. */
 export const editDataGroupObjectInfo = (
-  type,
-  dataGroupId,
-  uuid,
-  newName,
-  newDescription
+  type: string,
+  dataGroupId: number,
+  uuid: string,
+  newName: string,
+  newDescription: string
 ) => {
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     const body = {
       dataGroupId,
       uuid,

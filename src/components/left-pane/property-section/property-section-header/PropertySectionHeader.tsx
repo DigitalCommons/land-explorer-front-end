@@ -1,6 +1,12 @@
-// @ts-nocheck
-import React from "react";
 import iconChevron from "../../../../assets/img/icon-chevron.svg";
+
+type Props = {
+  address: string | null;
+  title_no: string;
+  onClickRemove: () => void;
+  open: boolean;
+  unregistered: boolean;
+};
 
 const PropertySectionHeader = ({
   address,
@@ -8,7 +14,7 @@ const PropertySectionHeader = ({
   onClickRemove,
   open,
   unregistered,
-}) => {
+}: Props) => {
   return (
     <div className="property-section-header">
       <h4 className="property-section-header__address">

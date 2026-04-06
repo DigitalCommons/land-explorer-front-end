@@ -1,5 +1,3 @@
-// @ts-nocheck
-import React from "react";
 import TopBar from "../components/top-bar/TopBar";
 
 const FourOhFour = () => {
@@ -24,7 +22,7 @@ const FourOhFour = () => {
         <div
           className="button button-large"
           onClick={() => {
-            window.location = "/app";
+            window.location.href = "/app";
           }}
         >
           Return to site

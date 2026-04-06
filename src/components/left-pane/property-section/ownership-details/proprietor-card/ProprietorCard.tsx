@@ -1,11 +1,16 @@
-// @ts-nocheck
-import React from "react";
 import { fetchRelatedProperties } from "../../../../../actions/LandOwnershipActions";
 import Button from "../../../../common/Button";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/hooks/react-redux";
 
-const ProprietorCard = ({ name, address, category, number }) => {
-  const dispatch = useDispatch();
+type Props = {
+  name: string;
+  address: string;
+  category: string;
+  number: string;
+};
+
+const ProprietorCard = ({ name, address, category, number }: Props) => {
+  const dispatch = useAppDispatch();
 
   const handleSearch = () => {
     dispatch({ type: "CLEAR_RELATED_PROPERTIES_AND_PROPRIETOR_NAME" });

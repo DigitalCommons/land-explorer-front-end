@@ -1,9 +1,15 @@
-// @ts-nocheck
-import React from 'react';
 import LeftPaneTray from './LeftPaneTray';
 import DrawingTool from './DrawingTool';
 
-const LeftPaneDrawingTools = ({ open, active, onClose, drawControl, handleTrashClick }) => (
+type Props = {
+    open: boolean;
+    active: string;
+    onClose: () => void;
+    drawControl: any;
+    handleTrashClick: () => void;
+};
+
+const LeftPaneDrawingTools = ({ open, active, onClose, drawControl, handleTrashClick }: Props) => (
     <LeftPaneTray
         open={open && active === 'Drawing Tools'}
         onClose={onClose}

@@ -1,25 +1,26 @@
-// @ts-nocheck
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import * as Auth from "../utils/Auth";
 import Spinner from "../components/common/Spinner";
 import TopBar from "../components/top-bar/TopBar";
 import constants from "../constants";
 
-const Login = ({ updateBgImage }) => {
+type Props = { updateBgImage: (n: number) => void };
+
+const Login = ({ updateBgImage }: Props) => {
   const [loggingIn, setLoggingIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const authenticated = useSelector(
+  const authenticated = useAppSelector(
     (state) => state.authentication.authenticated
   );
-  const error = useSelector((state) => state.authentication.error);
+  const error = useAppSelector((state) => state.authentication.error);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     if (searchParams.has("reset_token")) {
@@ -43,8 +44,8 @@ const Login = ({ updateBgImage }) => {
 
     if (useResetToken) {
       loginDetails = new URLSearchParams({
-        username: decodeURIComponent(searchParams.get("email")),
-        reset_token: decodeURIComponent(searchParams.get("reset_token")),
+        username: decodeURIComponent(searchParams.get("email") ?? ""),
+        reset_token: decodeURIComponent(searchParams.get("reset_token") ?? ""),
         grant_type: "password",
       });
     } else {
@@ -74,7 +75,7 @@ const Login = ({ updateBgImage }) => {
           navigate("/app");
         }
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log(err);
         const { response } = err;
         const errorMessage =

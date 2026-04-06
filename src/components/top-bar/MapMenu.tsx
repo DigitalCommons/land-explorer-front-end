@@ -1,20 +1,19 @@
-// @ts-nocheck
-import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useState, useRef, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { openModal } from "../../actions/ModalActions";
 import iconChevron from "../../assets/img/icon-chevron.svg";
 
-const MapMenu = ({}) => {
-  const isOnline = useSelector((state) => state.connectivity.isOnline);
-  const { ownMap } = useSelector((state) => state.mapMeta);
+const MapMenu = () => {
+  const isOnline = useAppSelector((state) => state.connectivity.isOnline);
+  const { ownMap } = useAppSelector((state) => state.mapMeta);
   const [expanded, setExpanded] = useState(false);
 
-  const dispatch = useDispatch();
-  const ref = useRef();
+  const dispatch = useAppDispatch();
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const checkIfClickedOutside = (e) => {
-      if (expanded && ref.current && !ref.current.contains(e.target)) {
+    const checkIfClickedOutside = (e: MouseEvent) => {
+      if (expanded && ref.current && !ref.current.contains(e.target as Node)) {
         setExpanded(false);
       }
     };
@@ -27,7 +26,7 @@ const MapMenu = ({}) => {
     };
   }, [expanded]);
 
-  const clickToOpenModal = (modalId, needsConnection = false) => {
+  const clickToOpenModal = (modalId: string, needsConnection = false) => {
     if (needsConnection && !isOnline) return;
     setExpanded(false);
     dispatch(openModal(modalId));

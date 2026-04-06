@@ -1,11 +1,9 @@
-// @ts-nocheck
-import React from "react";
 import Button from "../common/Button";
 import { openModal } from "../../actions/ModalActions";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/hooks/react-redux";
 
 const FeedbackTab = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <Button
       buttonClass={"feedback-tab green"}

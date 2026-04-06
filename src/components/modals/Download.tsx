@@ -1,6 +1,5 @@
-// @ts-nocheck
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/hooks/react-redux';
 import axios from 'axios';
 import constants from '../../constants';
 import { getAuthHeader } from "../../utils/Auth";
@@ -8,23 +7,23 @@ import Modal from './Modal';
 import iconDownloadComplete from '../../assets/img/icon-download-complete.svg';
 
 const Download = () => {
-    const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
-    const maps = useSelector((state) => state.myMaps.maps);
+    const currentMapId = useAppSelector((state) => state.mapMeta.currentMapId);
+    const maps = useAppSelector((state) => state.myMaps.maps);
     const [downloaded, setDownloaded] = useState(false);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const downloadMap = async () => {
-        const mapToDownload = maps.find((map) => map.eid === currentMapId);
+        const mapToDownload = maps.find((map: any) => map.eid === currentMapId);
         const mapName = mapToDownload.name;
 
-        const headers = getAuthHeader();
+        const headers = getAuthHeader() as any;
         headers['Content-Disposition'] = 'attachment';
         headers.responseType = 'blob'
 
         const response = await axios.get(`${constants.ROOT_URL}/api/user/map/download/${currentMapId}`, headers);
 
         const type = response.headers['content-type']
-        const blob = new Blob([response.data], { type: type, encoding: 'UTF-8' })
+        const blob = new Blob([response.data], { type: type, encoding: 'UTF-8' } as BlobPropertyBag)
         const link = document.createElement('a')
         link.href = window.URL.createObjectURL(blob)
         link.download = `${mapName}-shapefile.zip`

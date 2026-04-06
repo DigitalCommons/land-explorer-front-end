@@ -1,11 +1,16 @@
-// @ts-nocheck
-import React from "react";
 import { MODE } from "../DrawingPopup";
 import Spinner from "../../../common/Spinner";
 import iconTickGreen from "../../../../assets/img/icon-tick--green.svg";
 import iconCross from "../../../../assets/img/icon-cross.svg";
 
-const PopupStatus = ({ mode, selectedMap, selectedDataGroup, type }) => {
+type Props = {
+  mode: string;
+  selectedMap: any;
+  selectedDataGroup: any;
+  type: string;
+};
+
+const PopupStatus = ({ mode, selectedMap, selectedDataGroup, type }: Props) => {
   let text = "";
   let iconSrc = "";
 

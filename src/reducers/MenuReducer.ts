@@ -1,12 +1,23 @@
-// @ts-nocheck
-const INITIAL_STATE = {
+import { Action } from "../types";
+
+type MenuState = {
+  staticSite: boolean;
+  key: boolean;
+  councilKey: boolean;
+  profile: boolean;
+  layers?: boolean;
+};
+
+const INITIAL_STATE: MenuState = {
   staticSite: false,
   key: false,
   councilKey: false,
   profile: false,
 };
 
-export default (state = INITIAL_STATE, action) => {
+type MenuAction = Action;
+
+export default (state: MenuState = INITIAL_STATE, action: MenuAction): MenuState => {
     switch (action.type) {
       case "TOGGLE_STATIC_SITE_MENU":
         return {

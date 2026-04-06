@@ -1,6 +1,5 @@
-// @ts-nocheck
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { isEqual } from "lodash";
 import axios from "axios";
 import constants from "../../constants";
@@ -25,14 +24,14 @@ const accessOptions = [
 ];
 
 const EmailShare = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const mapName = useSelector((state) => state.map.name);
-  const myMaps = useSelector((state) => state.myMaps.maps);
-  const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
-  const modalOpen = useSelector((state) => state.modal.emailShare.open);
+  const mapName = useAppSelector((state) => state.map.name);
+  const myMaps = useAppSelector((state) => state.myMaps.maps);
+  const currentMapId = useAppSelector((state) => state.mapMeta.currentMapId);
+  const modalOpen = useAppSelector((state) => state.modal.emailShare.open);
   const usersSharedWith =
-    myMaps.find((map) => map.eid === currentMapId)?.sharedWith ?? [];
+    myMaps.find((map: any) => map.eid === currentMapId)?.sharedWith ?? [];
 
   const [input, setInput] = useState("");
   const [usersToShareWith, setUsersToShareWith] = useState(usersSharedWith);
@@ -55,15 +54,15 @@ const EmailShare = () => {
     sync();
   }, [usersToShareWith]);
 
-  const handleSelectAccess = (option) => {
+  const handleSelectAccess = (option: any) => {
     setSelectedAccess(option.value);
     setSelectedAccessLabel(option.label);
     setSelectedAccessIcon(option.iconClass);
   };
 
-  const removeEmail = (email) => {
+  const removeEmail = (email: string) => {
     setUsersToShareWith(
-      usersToShareWith.filter((user) => user.email !== email)
+      usersToShareWith.filter((user: any) => user.email !== email)
     );
   };
 
@@ -72,7 +71,7 @@ const EmailShare = () => {
     if (emailRegexp.test(input)) {
       // Remove user if already shared, to avoid duplication
       const newUsers = usersToShareWith.filter(
-        (user) => user.email.toLowerCase() !== input.toLowerCase()
+        (user: any) => user.email.toLowerCase() !== input.toLowerCase()
       );
       newUsers.push({ email: input, access: selectedAccess });
       setUsersToShareWith(newUsers);
@@ -107,7 +106,7 @@ const EmailShare = () => {
       );
 
       // closeModal();
-      dispatch(getMyMaps());
+      dispatch(getMyMaps() as any);
     } catch (err) {
       console.error("share error", err);
     }
@@ -168,7 +167,7 @@ const EmailShare = () => {
             usersToShareWith.length > 0 ? "populated" : ""
           }`}
         >
-          {usersToShareWith.map((user, index) => {
+          {usersToShareWith.map((user: any, index: number) => {
             return (
               <PillBadge
                 key={user.email + index}

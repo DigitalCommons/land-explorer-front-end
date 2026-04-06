@@ -1,11 +1,10 @@
-// @ts-nocheck
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import constants from "../constants";
 import * as Auth from "../utils/Auth";
 import { reloadCurrentMap } from "./MapActions";
 import { updateReadOnly } from "./ReadOnlyActions";
 
-const socket = io(constants.ROOT_URL, {
+const socket: Socket = io(constants.ROOT_URL as string, {
   auth: (cb) => {
     cb({ token: Auth.getToken() });
   },
@@ -13,7 +12,7 @@ const socket = io(constants.ROOT_URL, {
 });
 
 export const establishSocketConnection = () => {
-  return (dispatch, getState) => {
+  return (dispatch: any, getState: any) => {
     socket.removeAllListeners(); // to avoid duplicate listeners
 
     socket.on("connect", () => {
@@ -48,14 +47,14 @@ export const establishSocketConnection = () => {
 };
 
 export const notifyServerOfCurrentMap = () => {
-  return (dispatch, getState) => {
+  return (_dispatch: any, getState: any) => {
     const { currentMapId } = getState().mapMeta;
     socket.emit("currentMap", currentMapId);
   };
 };
 
 export const closeSocketConnection = () => {
-  return (dispatch, getState) => {
+  return (_dispatch: any, _getState: any) => {
     socket.removeAllListeners();
     socket.disconnect();
   };

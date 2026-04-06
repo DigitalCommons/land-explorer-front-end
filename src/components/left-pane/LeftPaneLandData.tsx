@@ -1,17 +1,20 @@
-// @ts-nocheck
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import LeftPaneTray from "./LeftPaneTray";
 import LeftPaneToggle from "./LeftPaneToggle";
 import Draggable from "./Draggable";
 import LandDataLayerToggle from "./LandDataLayerToggle";
 import { toggleDataGroup } from "../../actions/DataGroupActions";
 import { togglePropertyDisplay } from "../../actions/LandOwnershipActions";
-import constants from "../../constants";
 import LeftPaneNotification from "./left-pane-notification/LeftPaneNotification";
 import iconChevron from "../../assets/img/icon-chevron.svg";
 
-const DataLayersContainer = ({ children, title }) => {
+type DataLayersContainerProps = {
+  children: React.ReactNode;
+  title: string;
+};
+
+const DataLayersContainer = ({ children, title }: DataLayersContainerProps) => {
   const [expanded, setExpanded] = useState(true);
 
   return (
@@ -47,16 +50,22 @@ const DataLayersContainer = ({ children, title }) => {
   );
 };
 
-const LeftPaneLandData = ({ open, active, onClose }) => {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+type Props = {
+  open: boolean;
+  active: string;
+  onClose: () => void;
+};
 
-  const userGroupTitlesAndIDs = useSelector(
+const LeftPaneLandData = ({ open, active, onClose }: Props) => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user);
+
+  const userGroupTitlesAndIDs = useAppSelector(
     (state) => state.dataGroups.userGroupTitlesAndIDs
   );
-  const dataGroups = useSelector((state) => state.dataGroups.dataGroupsData);
-  const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
-  const landOwnershipActiveDisplay = useSelector(
+  const dataGroups = useAppSelector((state) => state.dataGroups.dataGroupsData);
+  const activeGroups = useAppSelector((state) => state.dataGroups.activeGroups);
+  const landOwnershipActiveDisplay = useAppSelector(
     (state) => state.landOwnership.activeDisplay
   );
 
@@ -206,7 +215,7 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
                 .map((dataGroup) => (
                   <div
                     className={"datagroup-style-wrapper"}
-                    style={{ "--data-group-colour": dataGroup.hex_colour }}
+                    style={{ "--data-group-colour": dataGroup.hex_colour } as React.CSSProperties}
                     key={dataGroup.id}
                   >
                     <LeftPaneToggle

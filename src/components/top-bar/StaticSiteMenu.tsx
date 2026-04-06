@@ -1,14 +1,12 @@
-// @ts-nocheck
-import React, { useRef } from "react";
-import { useSelector } from "react-redux";
+import { useRef } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import constants from "../../constants";
 import useClickOutside from "../../hooks/useClickOutside";
-import { useDispatch } from "react-redux";
 
 const StaticSiteMenu = () => {
-  const open = useSelector((state) => state.menu.staticSite);
-  const menuRef = useRef(null);
-  const dispatch = useDispatch();
+  const open = useAppSelector((state) => state.menu.staticSite);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
 
   const handleClose = () => {
     if (open) dispatch({ type: "CLOSE_STATIC_SITE_MENU" });

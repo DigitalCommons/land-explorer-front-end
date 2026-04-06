@@ -1,7 +1,15 @@
-// @ts-nocheck
 import React from "react";
 import ToggleSwitch from "../common/ToggleSwitch";
 import LeftPaneNotification from "./left-pane-notification/LeftPaneNotification";
+
+type Props = {
+  title: string;
+  on: boolean;
+  onToggle?: () => void;
+  draggable?: boolean;
+  disclaimer?: boolean;
+  disclaimerContent?: React.ReactNode;
+};
 
 const LeftPaneToggle = ({
   title,
@@ -10,7 +18,7 @@ const LeftPaneToggle = ({
   draggable = false,
   disclaimer = false,
   disclaimerContent = <></>,
-}) => {
+}: Props) => {
   const disclaimerVisible = disclaimer && on;
 
   return (

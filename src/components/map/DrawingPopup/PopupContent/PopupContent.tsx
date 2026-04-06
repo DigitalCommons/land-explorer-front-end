@@ -1,11 +1,24 @@
-// @ts-nocheck
-import React from "react";
 import { MODE } from "../DrawingPopup";
 import constants from "../../../../constants";
 import iconCopyNew from "../../../../assets/img/icon-copy-new.svg";
 import iconEditNew from "../../../../assets/img/icon-edit-new.svg";
 import iconCancel from "../../../../assets/img/icon-cancel.svg";
 import iconSave from "../../../../assets/img/icon-save.svg";
+
+type Props = {
+  mode: string;
+  setMode: (mode: string) => void;
+  description: string;
+  setDescription: (desc: string) => void;
+  editObjectInfo: (name: string, description: string) => void;
+  name: string;
+  setName: (name: string) => void;
+  source: string;
+  type: string;
+  access: any;
+  isOnline: boolean;
+  readOnly: boolean;
+};
 
 const PopupContent = ({
   mode,
@@ -20,7 +33,7 @@ const PopupContent = ({
   access,
   isOnline,
   readOnly,
-}) => {
+}: Props) => {
   return (
     <>
       <div className="popup-body-container">
@@ -118,9 +131,9 @@ const PopupContent = ({
               className="popup-footer-button popup-save"
               onClick={() => {
                 const newName =
-                  document.getElementById("popup-name").textContent;
+                  document.getElementById("popup-name")!.textContent as string;
                 const newDescription =
-                  document.getElementById("popup-description").textContent;
+                  document.getElementById("popup-description")!.textContent as string;
                 setName(newName);
                 setDescription(newDescription);
                 setMode(MODE.DISPLAY);

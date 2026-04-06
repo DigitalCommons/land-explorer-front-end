@@ -1,6 +1,5 @@
-// @ts-nocheck
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import MarkerPin from "./MarkerPin";
 import DataGroupMarker from "./DataGroupMarker";
 import { Cluster, Marker } from "react-mapbox-gl";
@@ -8,9 +7,9 @@ import { autoSave } from "../../actions/MapActions";
 import iconMarkerRed from "../../assets/img/icon-marker-new--red.svg";
 import iconCurrentLocationBlue from "../../assets/img/icon-current-location--blue.svg";
 
-const ClusterMarker = (coordinates, pointCount, getLeaves) => {
+const ClusterMarker = (coordinates: any, pointCount: number, getLeaves: any) => {
   const containsActiveMarker = getLeaves(Infinity).some(
-    (marker) => marker.props.active
+    (marker: any) => marker.props.active
   );
   return (
     <Marker
@@ -35,20 +34,27 @@ const ClusterMarker = (coordinates, pointCount, getLeaves) => {
   );
 };
 
-const Markers = ({ map, popupVisible, setPopupVisible }) => {
-  const dispatch = useDispatch();
-  const allDataGroups = useSelector((state) => state.dataGroups.dataGroupsData);
-  const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
-  const activeDataGroups = allDataGroups.filter((group) =>
+type Props = {
+  map: any;
+  popupVisible: any;
+  setPopupVisible: (id: any) => void;
+};
+
+const Markers = ({ map, popupVisible, setPopupVisible }: Props) => {
+  const dispatch = useAppDispatch();
+  const allDataGroups = useAppSelector((state) => state.dataGroups.dataGroupsData);
+  const activeGroups = useAppSelector((state) => state.dataGroups.activeGroups);
+  const activeDataGroups = allDataGroups.filter((group: any) =>
     activeGroups.includes(group.id)
   );
 
-  const searchMarker = useSelector((state) => state.map.searchMarker);
-  const currentLocation = useSelector((state) => state.map.currentLocation);
-  const markers = useSelector((state) => state.markers.markers);
-  const currentMarker = useSelector((state) => state.markers.currentMarker);
+  const searchMarker = useAppSelector((state) => state.map.searchMarker);
+  const currentLocation = useAppSelector((state) => state.map.currentLocation);
+  const markers = useAppSelector((state) => state.markers.markers);
+  const currentMarker = useAppSelector((state) => state.markers.currentMarker);
 
-  const handleMarkerClick = (evt, marker) => {
+  const handleMarkerClick = (_evt: any, marker: any) => {
+    // @ts-ignore
     if (props.activeTool === "trash") {
       dispatch({
         type: "CLEAR_MARKER",
@@ -62,7 +68,7 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
       console.log("source features", sourceFeatures);
       dispatch({ type: "CLEAR_INFO" });
       if (features.length) {
-        features.map((feature) => {
+        features.map((feature: any) => {
           if (feature.layer.id === "provisional-agricultural-land-ab795l") {
             dispatch({
               type: "SET_INFO_AGRICULTURAL",
@@ -92,13 +98,13 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
     }
   };
 
-  const dataGroupMarkers = [];
+  const dataGroupMarkers: React.ReactElement[] = [];
 
   activeDataGroups &&
-    activeDataGroups.forEach((dataGroup) => {
+    activeDataGroups.forEach((dataGroup: any) => {
       const dataGroupColour = dataGroup.hex_colour;
       if (dataGroup.markers) {
-        dataGroup.markers.forEach((marker) => {
+        dataGroup.markers.forEach((marker: any) => {
           dataGroupMarkers.push(
             <DataGroupMarker
               dataGroupColour={dataGroupColour}
@@ -118,7 +124,7 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
 
       if (showMarkersInPolys) {
         if (dataGroup.polygons) {
-          dataGroup.polygons.forEach((polygon) => {
+          dataGroup.polygons.forEach((polygon: any) => {
             dataGroupMarkers.push(
               <DataGroupMarker
                 dataGroupColour={dataGroupColour}
@@ -137,7 +143,7 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
       }
     });
 
-  const drawnMarkers = markers.map((marker) => (
+  const drawnMarkers = markers.map((marker: any) => (
     <MarkerPin
       key={marker.uuid}
       coordinates={marker.coordinates}
@@ -183,6 +189,7 @@ const Markers = ({ map, popupVisible, setPopupVisible }) => {
         </Marker>
       )}
       {allMarkers && (
+        // @ts-ignore
         <Cluster
           ClusterMarkerFactory={ClusterMarker}
           radius={clusterRadius}

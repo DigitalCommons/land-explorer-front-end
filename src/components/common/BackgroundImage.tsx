@@ -1,11 +1,14 @@
-// @ts-nocheck
-import React from 'react';
+import { CSSProperties } from 'react';
 import image0 from "../../assets/img/bg/Image1b.jpg";
 import image1 from "../../assets/img/bg/Image2b.jpg";
 import image2 from "../../assets/img/bg/Image3b.jpg";
 import image3 from "../../assets/img/bg/Image4b.jpg";
 
-const BackgroundImage = ({ image }) => (
+type Props = {
+  image: number;
+};
+
+const BackgroundImage = ({ image }: Props) => (
   <div
     style={{
       backgroundColor: "#222",
@@ -42,7 +45,7 @@ const BackgroundImage = ({ image }) => (
   </div>
 );
 
-const styles = {
+const styles: { backgroundImage: CSSProperties } = {
     backgroundImage: {
         position: 'fixed',
         top: 0,

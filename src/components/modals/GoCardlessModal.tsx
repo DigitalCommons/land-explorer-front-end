@@ -1,16 +1,20 @@
-// @ts-nocheck
-import React from 'react';
 import { useGoCardlessDropin } from '@gocardless/react-dropin';
 
-const GoCardlessModal = ({ billingRequestFlowID, setMandate, closeModal }) => {
+type Props = {
+    billingRequestFlowID: string;
+    setMandate: (mandate: string) => void;
+    closeModal: () => void;
+};
+
+const GoCardlessModal = ({ billingRequestFlowID, setMandate, closeModal }: Props) => {
     const config = ({
         billingRequestFlowID: billingRequestFlowID,
         environment: "sandbox", // either live or sandbox
-        onSuccess: (billingRequest, billingRequestFlow) => {
+        onSuccess: (billingRequest: any, billingRequestFlow: any) => {
             setMandate(billingRequest.mandate_request.links.mandate);
             closeModal();
         },
-        onExit: (error, metadata) => {
+        onExit: (error: any, metadata: any) => {
             closeModal();
         },
     });

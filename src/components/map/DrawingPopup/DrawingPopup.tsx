@@ -1,6 +1,6 @@
-// @ts-nocheck
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { shallowEqual } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import {
   saveObjectToMap,
   editMapObjectInfo,
@@ -9,7 +9,7 @@ import { editDataGroupObjectInfo } from "../../../actions/DataGroupActions";
 import PopupContent from "./PopupContent/PopupContent";
 import PopupCopy from "./PopupCopy/PopupCopy";
 import PopupStatus from "./PopupStatus/PopupStatus";
-import { saveObjectToDataGroup } from "../../../actions/DataGroupActions"; 
+import { saveObjectToDataGroup } from "../../../actions/DataGroupActions";
 import constants from "../../../constants";
 
 export const MODE = {
@@ -29,52 +29,61 @@ export const MODE = {
  * @returns a React popup element
  ***/
 
-const DrawingPopup = ({ object, type, source, access, closeDescription }) => {
-  const dispatch = useDispatch();
+type Props = {
+  object: any;
+  type: string;
+  source: string;
+  access?: any;
+  closeDescription: () => void;
+};
+
+const DrawingPopup = ({ object, type, source, access, closeDescription }: Props) => {
+  const dispatch = useAppDispatch();
   const [mode, setMode] = useState(MODE.DISPLAY);
   const [name, setName] = useState(object.name);
   const [copyTo, setCopyTo] = useState("map");
   const [description, setDescription] = useState(object.description);
-  const [selectedMap, setSelectedMap] = useState();
-  const [selectedDataGroup, setSelectedDataGroup] = useState();
+  const [selectedMap, setSelectedMap] = useState<any>();
+  const [selectedDataGroup, setSelectedDataGroup] = useState<any>();
 
-  const { readOnly, isOnline, currentMapId, allMaps, allEditableDataGroups } =
-    useSelector((state) => ({
-      readOnly: state.readOnly.readOnly,
-      isOnline: state.connectivity.isOnline,
-      currentMapId: state.mapMeta.currentMapId,
-      allMaps: state.myMaps.maps,
-      allEditableDataGroups: state.dataGroups.dataGroupsData.filter(
-        (dataGroup) =>
+  const readOnly = useAppSelector((state) => state.readOnly.readOnly);
+  const isOnline = useAppSelector((state) => state.connectivity.isOnline);
+  const currentMapId = useAppSelector((state) => state.mapMeta.currentMapId);
+  const allMaps = useAppSelector((state) => state.myMaps.maps);
+  const allEditableDataGroups = useAppSelector(
+    (state) =>
+      state.dataGroups.dataGroupsData.filter(
+        (dataGroup: any) =>
           dataGroup.access === constants.DATAGROUP_ACCESS_READ_WRITE
       ),
-    }));
+    shallowEqual
+  );
 
   // Logic for determining maps and data groups that we can copy to, based on source
   let copyToMapsList, copyToDataGroupsList;
   if (source === "map") {
     // All editable maps that aren't this one
     copyToMapsList = allMaps.filter(
-      (map) => !map.isSnapshot && map.eid !== currentMapId
+      (map: any) => !map.isSnapshot && map.eid !== currentMapId
     );
     copyToDataGroupsList = allEditableDataGroups;
   } else {
     // All editable maps
-    copyToMapsList = allMaps.filter((map) => !map.isSnapshot);
+    copyToMapsList = allMaps.filter((map: any) => !map.isSnapshot);
     // All data groups apart from this one
     copyToDataGroupsList = allEditableDataGroups.filter(
-      (dataGroup) => dataGroup.id !== object.data_group_id
+      (dataGroup: any) => dataGroup.id !== object.data_group_id
     );
   }
 
   // Functions for copying objects to map and data group
-  const copyObjectToMap = async (object, map) => {
+  const copyObjectToMap = async (object: any, map: any) => {
     const data = regulariseObjectData(object);
     const success = await dispatch(saveObjectToMap(type, data, map.eid));
     setMode(success ? MODE.SUCCESS : MODE.ERROR);
   };
 
-  const copyObjectToDataGroup = async (object, dataGroup) => {
+  const copyObjectToDataGroup = async (object: any, dataGroup: any) => {
     const data = regulariseObjectData(object);
     const success = await dispatch(
       saveObjectToDataGroup(type, data, dataGroup.id)
@@ -82,7 +91,7 @@ const DrawingPopup = ({ object, type, source, access, closeDescription }) => {
     setMode(success ? MODE.SUCCESS : MODE.ERROR);
   };
 
-  const editObjectInfo = async (newName, newDescription) => {
+  const editObjectInfo = async (newName: string, newDescription: string) => {
     if (source === "map") {
       dispatch(
         editMapObjectInfo(
@@ -176,7 +185,7 @@ const DrawingPopup = ({ object, type, source, access, closeDescription }) => {
   );
 };
 
-const regulariseObjectData = (object) => ({
+const regulariseObjectData = (object: any) => ({
   name: object.name,
   description: object.description,
   vertices:

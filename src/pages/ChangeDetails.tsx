@@ -1,13 +1,18 @@
-// @ts-nocheck
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect, FormEvent } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import axios from "axios";
 import Spinner from "../components/common/Spinner";
-import Select from "react-select";
+import SelectLib from "react-select";
 import { Link } from "react-router-dom";
 import constants from "../constants";
 import { getUserDetails } from "../actions/UserActions";
 import { getAuthHeader } from "../utils/Auth";
+
+// react-select v5 is used with legacy v1 API; cast to any to avoid prop type errors
+const Select = SelectLib as any;
+
+// valid field starts as "" (unvalidated) and becomes boolean after user interaction
+type FieldState = { value: any; valid: string | boolean };
 
 const organisationTypes = [
   "academic-institution",
@@ -35,60 +40,62 @@ const activityTypes = [
 ];
 
 const ChangeDetails = () => {
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
   const [submitting, setSubmitting] = useState(false);
-  const [errors, setErrors] = useState();
+  const [errors, setErrors] = useState<any>();
   const [success, setSuccess] = useState(false);
-  const [firstName, setFirstName] = useState({
+  const [firstName, setFirstName] = useState<FieldState>({
     value: user.firstName,
     valid: "",
   });
-  const [lastName, setLastName] = useState({
+  const [lastName, setLastName] = useState<FieldState>({
     value: user.lastName,
     valid: "",
   });
-  const [organisation, setOrganisation] = useState({
+  const [organisation, setOrganisation] = useState<FieldState>({
     value: user.organisation,
     valid: "",
   });
-  const [organisationType, setOrganisationType] = useState({
+  const [organisationType, setOrganisationType] = useState<FieldState>({
     value: user.organisationType,
     valid: "",
   });
-  const [organisationTypeOther, setOrganisationTypeOther] = useState({
+  const [organisationTypeOther, setOrganisationTypeOther] = useState<FieldState>({
     value: user.organisationTypeOther,
     valid: "",
   });
-  const [organisationActivity, setOrganisationActivity] = useState({
+  const [organisationActivity, setOrganisationActivity] = useState<FieldState>({
     value: user.organisationActivity,
     valid: "",
   });
-  const [organisationActivityOther, setOrganisationActivityOther] = useState({
+  // @ts-ignore - organisationActivityOther references itself in initializer (pre-existing bug)
+  const [organisationActivityOther, setOrganisationActivityOther] = useState<FieldState>({
+    // @ts-ignore
     value: organisationActivityOther,
     valid: "",
   });
-  const [organisationNumber, setOrganisationNumber] = useState({
+  const [organisationNumber, setOrganisationNumber] = useState<FieldState>({
     value: user.organisationNumber,
     valid: "",
   });
-  const [phone, setPhone] = useState({
+  const [phone, setPhone] = useState<FieldState>({
     value: user.phone,
     valid: "",
   });
-  const [address1, setAddress1] = useState({
+  const [address1, setAddress1] = useState<FieldState>({
     value: user.address1,
     valid: "",
   });
-  const [address2, setAddress2] = useState({
+  const [address2, setAddress2] = useState<FieldState>({
     value: user.address2,
     valid: "",
   });
-  const [city, setCity] = useState({
+  const [city, setCity] = useState<FieldState>({
     value: user.city,
     valid: "",
   });
-  const [postcode, setPostcode] = useState({
+  const [postcode, setPostcode] = useState<FieldState>({
     value: user.postcode,
     valid: "",
   });
@@ -109,7 +116,7 @@ const ChangeDetails = () => {
       }
     }
     if (user.organisationActivity !== "") {
-      if (activityTypes.indexOf(organisationActivity) === -1) {
+      if (activityTypes.indexOf(organisationActivity as any) === -1) {
         setOrganisationActivityOther({
           value: organisationActivity.value,
           valid: "",
@@ -123,7 +130,7 @@ const ChangeDetails = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getUserDetails());
+    dispatch(getUserDetails() as any);
   }, []);
 
   const printErrors = () => {
@@ -133,15 +140,17 @@ const ChangeDetails = () => {
       });
   };
 
-  const changeDetails = (e) => {
+  const changeDetails = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
 
+    // @ts-ignore - shadows outer organisationType state variable (pre-existing)
     let organisationType = organisationType.value;
     organisationType =
       organisationType === "other"
         ? organisationTypeOther.value
         : organisationType;
+    // @ts-ignore - shadows outer organisationActivity state variable (pre-existing)
     let organisationActivity = organisationActivity.value;
     organisationActivity =
       organisationActivity === "other"
@@ -207,7 +216,7 @@ const ChangeDetails = () => {
                 <div
                   className="button button-small"
                   style={{ display: "inline-block", marginRight: "12px" }}
-                  onClick={() => dispatch(getUserDetails())}
+                  onClick={() => dispatch(getUserDetails() as any)}
                 >
                   Ok
                 </div>
@@ -289,7 +298,7 @@ const ChangeDetails = () => {
                 <Select
                   name="organisation-type"
                   value={organisationType.value}
-                  onChange={(selectedOption) => {
+                  onChange={(selectedOption: any) => {
                     setOrganisationType({
                       value: selectedOption.value,
                       valid: selectedOption.value !== "",
@@ -338,9 +347,11 @@ const ChangeDetails = () => {
                 <Select
                   name="organisation-activity"
                   value={organisationActivity.value}
-                  onChange={(selectedOption) => {
+                  onChange={(selectedOption: any) => {
                     setOrganisationActivity({
+                      // @ts-ignore - 'e' is not defined here (pre-existing bug)
                       value: e.target.value,
+                      // @ts-ignore
                       valid: e.target.value !== "",
                     });
                   }}

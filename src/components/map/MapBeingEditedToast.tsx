@@ -1,10 +1,8 @@
-// @ts-nocheck
-import React from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/hooks/react-redux";
 import { isMobile } from "react-device-detect";
 
 const MapBeingEditedToast = () => {
-  const { lockedByOtherUserInitials } = useSelector((state) => state.mapMeta);
+  const { lockedByOtherUserInitials } = useAppSelector((state) => state.mapMeta);
 
   return (
     <div

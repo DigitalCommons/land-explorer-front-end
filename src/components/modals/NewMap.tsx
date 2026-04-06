@@ -1,13 +1,11 @@
-// @ts-nocheck
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/react-redux';
 import Modal from './Modal';
 import { autoSave, newMap } from '../../actions/MapActions';
 
 const NewMap = () => {
-    const dispatch = useDispatch();
-    const isNewMap = useSelector((state) => state.mapMeta.currentMapId === null);
-    const { saving, saveError } = useSelector((state) => state.mapMeta);
+    const dispatch = useAppDispatch();
+    const isNewMap = useAppSelector((state) => state.mapMeta.currentMapId === null);
+    const { saving, saveError } = useAppSelector((state) => state.mapMeta);
     const mapSaved = !isNewMap && !saving && !saveError;
 
     return <Modal id="newMap" canToggle={true} padding={true}>
@@ -30,8 +28,8 @@ const NewMap = () => {
             <div className="button rounded-button-full  modal-button-confirm"
                 onClick={async () => {
                     dispatch({ type: 'CLOSE_MODAL', payload: 'newMap' });
-                    await dispatch(autoSave());
-                    dispatch(newMap());
+                    await dispatch(autoSave() as any);
+                    dispatch(newMap() as any);
                 }}
             >
                 {mapSaved ?

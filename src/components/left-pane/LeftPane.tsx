@@ -1,6 +1,4 @@
-// @ts-nocheck
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import LeftPaneInfo from "./LeftPaneInfo";
 import LeftPaneLandData from "./LeftPaneLandData";
 import LeftPaneDrawingTools from "./LeftPaneDrawingTools";
@@ -8,14 +6,18 @@ import LeftPaneRelatedProperties from "./LeftPaneRelatedProperties";
 import { autoSave } from "../../actions/MapActions";
 import { isMobile } from "react-device-detect";
 
-const LeftPane = ({ drawControl }) => {
-  const dispatch = useDispatch();
-  const { open, active, activeTool } = useSelector((state) => state.leftPane);
-  const readOnly = useSelector((state) => state.readOnly.readOnly);
-  const profileMenuOpen = useSelector((state) => state.menu.profile);
-  const currentMarker = useSelector((state) => state.markers.currentMarker);
-  const activeDrawing = useSelector((state) => state.drawings.activeDrawing);
-  const relatedProperties = useSelector(
+type Props = {
+  drawControl: any;
+};
+
+const LeftPane = ({ drawControl }: Props) => {
+  const dispatch = useAppDispatch();
+  const { open, active, activeTool } = useAppSelector((state) => state.leftPane);
+  const readOnly = useAppSelector((state) => state.readOnly.readOnly);
+  const profileMenuOpen = useAppSelector((state) => state.menu.profile);
+  const currentMarker = useAppSelector((state) => state.markers.currentMarker);
+  const activeDrawing = useAppSelector((state) => state.drawings.activeDrawing);
+  const relatedProperties = useAppSelector(
     (state) => state.landOwnership.relatedProperties
   );
 
@@ -35,7 +37,7 @@ const LeftPane = ({ drawControl }) => {
     }
   };
 
-  const clickIcon = (tray) => {
+  const clickIcon = (tray: string) => {
     active === tray
       ? dispatch({ type: "CLOSE_TRAY" })
       : dispatch({ type: "SET_ACTIVE", payload: tray });

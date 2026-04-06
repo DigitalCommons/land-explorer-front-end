@@ -1,9 +1,8 @@
-// @ts-nocheck
 import { autoSave } from './MapActions';
 import { updateReadOnly } from './ReadOnlyActions';
 
 export const setOnline = () => {
-    return dispatch => {
+    return (dispatch: any) => {
         dispatch({ type: 'ONLINE' });
         dispatch(updateReadOnly());
         // Save any unsaved changes
@@ -12,7 +11,7 @@ export const setOnline = () => {
 }
 
 export const setOffline = () => {
-    return dispatch => {
+    return (dispatch: any) => {
         dispatch({ type: 'OFFLINE' });
         dispatch(updateReadOnly());
     }

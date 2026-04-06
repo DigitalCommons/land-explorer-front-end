@@ -1,5 +1,4 @@
-// @ts-nocheck
-import React, { useState, useEffect } from "react";
+import { useState, FormEvent } from "react";
 import axios from "axios";
 import Spinner from "../components/common/Spinner";
 import { Link } from "react-router-dom";
@@ -18,9 +17,9 @@ const ChangeEmail = () => {
     value: "",
     valid: false,
   });
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState<string[]>([]);
 
-  const changeEmail = (e) => {
+  const changeEmail = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (confirmNewEmail.valid && newEmail.valid) {
@@ -35,7 +34,7 @@ const ChangeEmail = () => {
           setSuccess(true);
           setSubmitting(false);
         })
-        .catch((err) => {
+        .catch((err: any) => {
           if (err.response.data.Message.includes("Duplicate")) {
             setErrors(["This email is already registered."]);
           } else {

@@ -1,15 +1,19 @@
-// @ts-nocheck
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GeoJSONLayer, Marker } from "react-mapbox-gl";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import DrawingPopup from "./DrawingPopup/DrawingPopup";
 import * as turf from "@turf/turf";
 
-const Drawing = ({ type, polygonOrLine }) => {
+type Props = {
+  type: string;
+  polygonOrLine: any;
+};
+
+const Drawing = ({ type, polygonOrLine }: Props) => {
   const [popupClosed, setPopupClosed] = useState(false);
-  const activeTool = useSelector((state) => state.leftPane.activeTool);
-  const activeDrawing = useSelector((state) => state.drawings.activeDrawing);
-  const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
+  const activeTool = useAppSelector((state) => state.leftPane.activeTool);
+  const activeDrawing = useAppSelector((state) => state.drawings.activeDrawing);
+  const baseLayer = useAppSelector((state) => state.mapBaseLayer.layer);
 
   const isActive = polygonOrLine.uuid === activeDrawing;
   const showPopup = !popupClosed && isActive && !activeTool;
@@ -18,7 +22,7 @@ const Drawing = ({ type, polygonOrLine }) => {
     if (isActive) setPopupClosed(false);
   }, [isActive]);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleDrawingClick = () => {
     if (!activeTool) {

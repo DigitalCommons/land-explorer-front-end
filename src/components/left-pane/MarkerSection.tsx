@@ -1,22 +1,20 @@
-// @ts-nocheck
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/react-redux';
 import iconChevron from '../../assets/img/icon-chevron.svg';
 
-const MarkerSection = ({ marker }) => {
-    const dispatch = useDispatch();
-    const currentMarker = useSelector((state) => state.markers.currentMarker);
+const MarkerSection = ({ marker }: { marker: any }) => {
+    const dispatch = useAppDispatch();
+    const currentMarker = useAppSelector((state) => state.markers.currentMarker);
 
-    const roundTo = (num, scale) => {
+    const roundTo = (num: number, scale: number) => {
         if (!(("" + num).indexOf("e") !== -1)) {
-            return +(Math.round(num + "e+" + scale) + "e-" + scale);
+            return +(Math.round(Number(num + "e+" + scale)) + "e-" + scale);
         } else {
             var arr = ("" + num).split("e");
             var sig = "";
             if (+arr[1] + scale > 0) {
                 sig = "+";
             }
-            return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + scale)) + "e-" + scale);
+            return +(Math.round(Number(+arr[0] + "e" + sig + (+arr[1] + scale))) + "e-" + scale);
         }
     }
 

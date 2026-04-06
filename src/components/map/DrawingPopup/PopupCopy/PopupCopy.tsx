@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from "react";
 import { MODE } from "../DrawingPopup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +8,22 @@ import iconCancel from "../../../../assets/img/icon-cancel.svg";
 const COPY_TO = {
   MAP: "map",
   DATA_GROUP: "datagroup",
+};
+
+type Props = {
+  object: any;
+  copyTo: string;
+  setCopyTo: (value: string) => void;
+  selectedMap: any;
+  setSelectedMap: (map: any) => void;
+  selectedDataGroup: any;
+  setSelectedDataGroup: (dataGroup: any) => void;
+  maps: any[];
+  dataGroups: any[];
+  copyObjectToMap: (object: any, map: any) => void;
+  copyObjectToDataGroup: (object: any, dataGroup: any) => void;
+  setMode: (mode: string) => void;
+  type: string;
 };
 
 const PopupCopy = ({
@@ -25,9 +40,9 @@ const PopupCopy = ({
   copyObjectToDataGroup,
   setMode,
   type,
-}) => {
-  const handleCopyToChange = (event) => {
-    const value = event.target.value;
+}: Props) => {
+  const handleCopyToChange = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const value = (event.target as HTMLButtonElement).value;
     if (value === COPY_TO.MAP) {
       setSelectedDataGroup(undefined);
     } else {
@@ -36,11 +51,11 @@ const PopupCopy = ({
     setCopyTo(value);
   };
 
-  const handleMapSelection = (map) => {
+  const handleMapSelection = (map: any) => {
     setSelectedMap(map);
   };
 
-  const handleDataGroupSelection = (dataGroup) => {
+  const handleDataGroupSelection = (dataGroup: any) => {
     setSelectedDataGroup(dataGroup);
   };
 
@@ -68,6 +83,7 @@ const PopupCopy = ({
             onClick={handleCopyToChange}
             value={COPY_TO.MAP}
           >
+            {/* @ts-ignore */}
             <FontAwesomeIcon icon={faMap} />
             Map Here
           </button>
@@ -79,6 +95,7 @@ const PopupCopy = ({
             onClick={handleCopyToChange}
             value={COPY_TO.DATA_GROUP}
           >
+            {/* @ts-ignore */}
             <FontAwesomeIcon icon={faLayerGroup} />
             Data Layer
           </button>

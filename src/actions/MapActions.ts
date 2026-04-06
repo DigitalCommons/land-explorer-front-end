@@ -1,4 +1,3 @@
-// @ts-nocheck
 import constants, { VERSION } from "../constants";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
@@ -7,7 +6,7 @@ import { updateReadOnly } from "./ReadOnlyActions";
 import { notifyServerOfCurrentMap } from "./WebSocketActions";
 
 export const getMyMaps = () => {
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     const myMaps = await dispatch(getRequest("/api/user/maps"));
     if (myMaps) {
       console.log("Got my maps", myMaps);
@@ -20,7 +19,7 @@ export const getMyMaps = () => {
 
 /** Get my maps from backend and load the map created most recently */
 export const loadNewestMap = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch: any, getState: any) => {
     await dispatch(getMyMaps());
 
     const myMaps = getState().myMaps.maps;
@@ -37,7 +36,7 @@ export const loadNewestMap = () => {
 
 /** Reload the map that is currently open. */
 export const reloadCurrentMap = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch: any, getState: any) => {
     const mapId = getState().mapMeta.currentMapId;
 
     if (mapId === null) {
@@ -54,8 +53,8 @@ export const reloadCurrentMap = () => {
   };
 };
 
-const getMapData = (mapId) => {
-  return async (dispatch) => {
+const getMapData = (mapId: number) => {
+  return async (dispatch: any) => {
     const mapData = await dispatch(getRequest(`/api/user/map/${mapId}`));
     if (mapData) {
       console.log("Got map data", mapData);
@@ -68,9 +67,9 @@ const getMapData = (mapId) => {
 };
 
 /** Open specified map */
-export const openMap = (mapId) => {
-  return async (dispatch, getState) => {
-    const map = getState().myMaps.maps.find((item) => item.eid === mapId);
+export const openMap = (mapId: number) => {
+  return async (dispatch: any, getState: any) => {
+    const map = getState().myMaps.maps.find((item: any) => item.eid === mapId);
     const name = map.name;
     const mapData = await dispatch(getMapData(mapId));
     const isSnapshot = map.isSnapshot;
@@ -109,15 +108,15 @@ export const openMap = (mapId) => {
       if (sessionStorage.getItem("currentMapId")) {
         sessionStorage.removeItem("currentMapId");
       }
-      sessionStorage.setItem("currentMapId", mapId);
+      sessionStorage.setItem("currentMapId", `${mapId}`);
 
       dispatch(notifyServerOfCurrentMap());
     }
   };
 };
 
-export const deleteMap = (mapId) => {
-  return async (dispatch, getState) => {
+export const deleteMap = (mapId: string) => {
+  return async (dispatch: any, getState: any) => {
     const success = await dispatch(
       postRequest("/api/user/map/delete", { eid: mapId })
     );
@@ -134,7 +133,7 @@ export const deleteMap = (mapId) => {
 };
 
 export const newMap = () => {
-  return (dispatch) => {
+  return (dispatch: any) => {
     sessionStorage.removeItem("currentMapId");
     dispatch({
       type: "NEW_MAP",
@@ -161,11 +160,11 @@ export const newMap = () => {
  * @return {boolean} true if save was successful.
  */
 export const saveCurrentMap = (
-  copy = false,
-  snapshot = false,
-  name = undefined
+  copy: boolean = false,
+  snapshot: boolean = false,
+  name: string | undefined = undefined
 ) => {
-  return async (dispatch, getState) => {
+  return async (dispatch: any, getState: any): Promise<boolean> => {
     const map = getState().map;
     const saveName = copy
       ? `Copy of ${map.name}`
@@ -204,7 +203,7 @@ export const saveCurrentMap = (
  * nothing. Return false iff there is an error when saving.
  */
 export const autoSave = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch: any, getState: any) => {
     const { currentMapId, writeAccess, lockedByOtherUserInitials } =
       getState().mapMeta;
     if (currentMapId && writeAccess && !lockedByOtherUserInitials) {
@@ -215,8 +214,8 @@ export const autoSave = () => {
 };
 
 /** Save the object data to a specified map. Return false iff failed to save to backend. */
-export const saveObjectToMap = (type, data, mapId) => {
-  return async (dispatch, getState) => {
+export const saveObjectToMap = (type: string, data: any, mapId: string) => {
+  return async (dispatch: any, getState: any) => {
     const copyToCurrentMap = mapId === getState().mapMeta.currentMapId;
 
     if (copyToCurrentMap) {
@@ -243,8 +242,14 @@ export const saveObjectToMap = (type, data, mapId) => {
 };
 
 /** Edit the specified object's name and description. Return false iff failed to save to backend. */
-export const editMapObjectInfo = (type, eid, uuid, newName, newDescription) => {
-  return async (dispatch, getState) => {
+export const editMapObjectInfo = (
+  type: "marker" | "polygon" | "line",
+  eid: number,
+  uuid: string,
+  newName: string,
+  newDescription: string
+) => {
+  return async (dispatch: any, getState: any) => {
     const payload = {
       eid,
       uuid,
@@ -267,8 +272,8 @@ export const editMapObjectInfo = (type, eid, uuid, newName, newDescription) => {
   };
 };
 
-export const setLngLat = (lng, lat) => {
-  return async (dispatch, getState) => {
+export const setLngLat = (lng: number, lat: number) => {
+  return async (dispatch: any, getState: any) => {
     dispatch({
       type: "SET_LNG_LAT",
       payload: [lng, lat],
@@ -286,8 +291,8 @@ export const setLngLat = (lng, lat) => {
   };
 };
 
-export const setCurrentLocation = (lng, lat) => {
-  return (dispatch) => {
+export const setCurrentLocation = (lng: number, lat: number) => {
+  return (dispatch: any) => {
     dispatch({
       type: "SET_CURRENT_LOCATION",
       payload: [lng, lat],
@@ -296,7 +301,7 @@ export const setCurrentLocation = (lng, lat) => {
 };
 
 const saveMapZoom = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch: any, getState: any) => {
     const { currentMapId, writeAccess } = getState().mapMeta;
 
     // If map is saved and we have write access, save to back-end
@@ -311,21 +316,21 @@ const saveMapZoom = () => {
 };
 
 export const zoomIn = () => {
-  return (dispatch) => {
+  return (dispatch: any) => {
     dispatch({ type: "ZOOM_IN" });
     dispatch(saveMapZoom());
   };
 };
 
 export const zoomOut = () => {
-  return (dispatch) => {
+  return (dispatch: any) => {
     dispatch({ type: "ZOOM_OUT" });
     dispatch(saveMapZoom());
   };
 };
 
-export const setZoom = (zoom) => {
-  return (dispatch) => {
+export const setZoom = (zoom: [number]) => {
+  return (dispatch: any) => {
     dispatch({
       type: "SET_ZOOM",
       payload: zoom,
@@ -334,14 +339,14 @@ export const setZoom = (zoom) => {
   };
 };
 
-export const setZooming = (zooming) => {
-  return (dispatch) => {
+export const setZooming = (zooming: boolean) => {
+  return (dispatch: any) => {
     dispatch({ type: "SET_ZOOMING", payload: zooming });
   };
 };
 
-export const setSearchMarker = (lng, lat) => {
-  return (dispatch) => {
+export const setSearchMarker = (lng: number, lat: number) => {
+  return (dispatch: any) => {
     dispatch({
       type: "SET_SEARCH_MARKER",
       payload: [lng, lat],
@@ -350,7 +355,7 @@ export const setSearchMarker = (lng, lat) => {
 };
 
 export const clearSearchMarker = () => {
-  return (dispatch) => {
+  return (dispatch: any) => {
     dispatch({ type: "CLEAR_SEARCH_MARKER" });
   };
 };
@@ -359,12 +364,12 @@ export const clearSearchMarker = () => {
  * Make a POST request to the given API endpoint. Set the map saving and error state according to
  * what happens with the request.
  *
- * @param {string} endpoint the API endpoint, starting '/api/'
- * @param {any} body the data to include in the POST request
- * @returns {boolean} whether the save was successful
+ * @param endpoint the API endpoint, starting '/api/'
+ * @param body the data to include in the POST request
+ * @returns whether the save was successful
  */
-const saveMapRequest = (endpoint, body) => {
-  return async (dispatch, getState) => {
+const saveMapRequest = (endpoint: string, body: any) => {
+  return async (dispatch: any, getState: any): Promise<boolean> => {
     const currentSaveError = getState().mapMeta.saveError;
     dispatch({ type: "MAP_SAVING" });
 
@@ -391,7 +396,7 @@ const saveMapRequest = (endpoint, body) => {
   };
 };
 
-const shortenTimestamp = (timestamp) => {
+const shortenTimestamp = (timestamp: string) => {
   const isToday = moment(timestamp).isSame(moment(), "day");
   if (isToday) {
     return moment(timestamp).format("HH:mm");

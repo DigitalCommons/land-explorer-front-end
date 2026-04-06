@@ -1,7 +1,15 @@
-// @ts-nocheck
 import React from 'react';
 
-const LeftPaneTray = ({ css, open, title, onClose, header, children }) => {
+type Props = {
+    css?: string;
+    open: boolean;
+    title: string;
+    onClose: () => void;
+    header?: React.ReactNode;
+    children: React.ReactNode;
+};
+
+const LeftPaneTray = ({ css, open, title, onClose, header, children }: Props) => {
 
     return <div className={css ? css : 'left-pane-tray'}
         style={{

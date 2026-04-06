@@ -1,5 +1,4 @@
-// @ts-nocheck
-import React, { useState } from "react";
+import { useState, FormEvent } from "react";
 import axios from "axios";
 import Spinner from "../components/common/Spinner";
 import { Link, useLocation } from "react-router-dom";
@@ -9,15 +8,15 @@ import { getAuthHeader } from "../utils/Auth";
 const ChangePassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordValid, setPasswordValid] = useState(null);
-  const [confirmPasswordValid, setConfirmPasswordValid] = useState(null);
+  const [passwordValid, setPasswordValid] = useState<boolean | null>(null);
+  const [confirmPasswordValid, setConfirmPasswordValid] = useState<boolean | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const mandatory = useLocation().state?.mandatory;
 
-  const changePassword = (e) => {
+  const changePassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (passwordValid && confirmPasswordValid) {

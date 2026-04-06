@@ -1,6 +1,5 @@
-// @ts-nocheck
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import * as turf from "@turf/turf";
 import { Layer, Feature } from "react-mapbox-gl";
 import constants from "../../constants";
@@ -11,33 +10,38 @@ import {
   setActiveProperty,
 } from "../../actions/LandOwnershipActions";
 
-const MapProperties = ({ center, map }) => {
+type Props = {
+  center: any;
+  map: any;
+};
+
+const MapProperties = ({ center, map }: Props) => {
   const {
     activeDisplay,
     visibleProperties,
     loadingProperties,
     highlightedProperties,
     activePropertyTitleNo,
-  } = useSelector((state) => state.landOwnership);
+  } = useAppSelector((state) => state.landOwnership);
   const activeProperty = highlightedProperties[activePropertyTitleNo] || null;
-  const { zoom, zooming } = useSelector((state) => state.map);
-  const activePanel = useSelector((state) => state.leftPane.active);
+  const { zoom, zooming } = useAppSelector((state) => state.map);
+  const activePanel = useAppSelector((state) => state.leftPane.active);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (
       !zooming &&
       activeDisplay &&
       map &&
-      zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay]
+      zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay as keyof typeof constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS]
     ) {
       const { _sw, _ne } = map.getBounds();
       dispatch(fetchPropertiesInBox(_sw.lng, _sw.lat, _ne.lng, _ne.lat));
     }
   }, [center, zooming, activeDisplay]);
 
-  const onClickProperty = (property) => {
+  const onClickProperty = (property: any) => {
     if (activePanel !== "Drawing Tools") {
       dispatch(highlightProperties({ [property.title_no]: property }));
       dispatch(setActiveProperty(property.title_no));
@@ -49,7 +53,7 @@ const MapProperties = ({ center, map }) => {
 
   // Extract array of linestrings that form the border of the polygon. Usually will just be an array
   // of length 1, but can be longer if the polygon has holes.
-  const getBorderLinestrings = (geometry) => {
+  const getBorderLinestrings = (geometry: any) => {
     // we can only handle Polygon geometries currently, so just take the first polygon if a MultiPolygon
     const coords =
       geometry.type === "MultiPolygon"
@@ -59,18 +63,18 @@ const MapProperties = ({ center, map }) => {
   };
 
   // All the different layers that we will render
-  const propertyWithOwnershipFillFeatures = [];
-  const propertyWithOwnershipBorderFeatures = [];
-  const propertyWithoutOwnershipFillFeatures = [];
-  const propertyWithoutOwnershipBorderFeatures = [];
-  const unregisteredFillFeatures = [];
-  const unregisteredBorderFeatures = [];
+  const propertyWithOwnershipFillFeatures: React.ReactElement[] = [];
+  const propertyWithOwnershipBorderFeatures: React.ReactElement[] = [];
+  const propertyWithoutOwnershipFillFeatures: React.ReactElement[] = [];
+  const propertyWithoutOwnershipBorderFeatures: React.ReactElement[] = [];
+  const unregisteredFillFeatures: React.ReactElement[] = [];
+  const unregisteredBorderFeatures: React.ReactElement[] = [];
 
   if (
     activeDisplay &&
-    zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay]
+    zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay as keyof typeof constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS]
   ) {
-    Object.values(visibleProperties)?.forEach((property) => {
+    Object.values(visibleProperties)?.forEach((property: any) => {
       if (
         (activeDisplay === "unregistered" ||
           property.tenure === "unregistered") &&
@@ -79,7 +83,7 @@ const MapProperties = ({ center, map }) => {
         return; // Show unregistered land if and only if the active display is "unregistered"
       }
 
-      property.polygons.forEach((polygon) => {
+      property.polygons.forEach((polygon: any) => {
         const polyKey = polygon.geom.coordinates[0][0];
         const fill = (
           <Feature
@@ -89,7 +93,7 @@ const MapProperties = ({ center, map }) => {
           />
         );
         const borders = getBorderLinestrings(polygon.geom).map(
-          (lineString, index) => (
+          (lineString: any, index: number) => (
             <Feature
               coordinates={lineString.geometry.coordinates}
               key={`line-${polyKey}-${index}`}
@@ -112,12 +116,12 @@ const MapProperties = ({ center, map }) => {
     });
   }
 
-  const highlightedFillFeatures = [];
-  const highlightedBorderFeatures = [];
+  const highlightedFillFeatures: React.ReactElement[] = [];
+  const highlightedBorderFeatures: React.ReactElement[] = [];
 
   // Add highlighted properties i.e. those selected by the user
-  Object.values(highlightedProperties).forEach((property) => {
-    property.polygons.forEach((polygon) => {
+  Object.values(highlightedProperties).forEach((property: any) => {
+    property.polygons.forEach((polygon: any) => {
       const polyKey = polygon.geom.coordinates[0][0];
 
       highlightedFillFeatures.push(
@@ -128,7 +132,7 @@ const MapProperties = ({ center, map }) => {
         />
       );
       highlightedBorderFeatures.push(
-        ...getBorderLinestrings(polygon.geom).map((lineString, index) => (
+        ...getBorderLinestrings(polygon.geom).map((lineString: any, index: number) => (
           <Feature
             coordinates={lineString.geometry.coordinates}
             key={`line-hl-${polyKey}-${index}`}
@@ -142,7 +146,7 @@ const MapProperties = ({ center, map }) => {
   // highlighted features. This will cause it to appear darker. We will also add a dashed border
   // later.
   if (activeProperty) {
-    activeProperty.polygons.forEach((polygon) => {
+    activeProperty.polygons.forEach((polygon: any) => {
       const polyKey = polygon.geom.coordinates[0][0];
       highlightedFillFeatures.push(
       <Feature
@@ -258,8 +262,8 @@ const MapProperties = ({ center, map }) => {
         }}
       >
         {activeProperty &&
-          activeProperty.polygons.flatMap((polygon) =>
-            getBorderLinestrings(polygon.geom).map((lineString, index) => (
+          activeProperty.polygons.flatMap((polygon: any) =>
+            getBorderLinestrings(polygon.geom).map((lineString: any, index: number) => (
               <Feature
                 coordinates={lineString.geometry.coordinates}
                 key={`line-active-${

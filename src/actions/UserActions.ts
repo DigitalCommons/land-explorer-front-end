@@ -1,8 +1,7 @@
-// @ts-nocheck
 import { getRequest, postRequest } from "./RequestActions";
 
 export const getUserDetails = () => {
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     const userData = await dispatch(getRequest("/api/user/details"));
     if (userData) {
       dispatch({ type: "POPULATE_USER", payload: userData });
@@ -11,7 +10,7 @@ export const getUserDetails = () => {
 };
 
 export const getAskForFeedback = () => {
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     const response = await dispatch(getRequest("/api/user/ask-for-feedback"));
     // Always extract the boolean not the object
     if (response && typeof response.askForFeedback === "boolean") {
@@ -23,8 +22,8 @@ export const getAskForFeedback = () => {
   };
 };
 
-export const setAskForFeedback = (status) => {
-  return async (dispatch) => {
+export const setAskForFeedback = (status: boolean) => {
+  return async (dispatch: any) => {
     const success = await dispatch(
       postRequest("/api/user/ask-for-feedback", { askForFeedback: status })
     );

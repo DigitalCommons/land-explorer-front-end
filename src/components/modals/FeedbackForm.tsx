@@ -1,7 +1,6 @@
-// @ts-nocheck
 // FeedbackForm.js
-import React from "react";
-import { useDispatch } from "react-redux";
+import { FormEvent } from "react";
+import { useAppDispatch } from "@/hooks/react-redux";
 import axios from "axios";
 import useFeedbackForm from "../../hooks/useFeedbackForm";
 import Modal from "./Modal";
@@ -12,7 +11,7 @@ import constants from "../../constants";
 import { getAuthHeader } from "../../utils/Auth";
 
 const FeedbackForm = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     formData,
@@ -34,7 +33,7 @@ const FeedbackForm = () => {
     resetForm();
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormSubmitted();
 

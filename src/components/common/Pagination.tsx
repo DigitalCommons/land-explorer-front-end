@@ -1,5 +1,12 @@
-// @ts-nocheck
-import React, { useState } from "react";
+import { useState } from "react";
+
+type Props = {
+  pagesDisplayed: number;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  noOfPages: number;
+  itemsPerPage: number;
+};
 
 const Pagination = ({
   pagesDisplayed,
@@ -7,7 +14,7 @@ const Pagination = ({
   setCurrentPage,
   noOfPages,
   itemsPerPage,
-}) => {
+}: Props) => {
   const [pageNumberLimit, setPageNumberLimit] = useState(pagesDisplayed);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(pagesDisplayed);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
@@ -16,7 +23,7 @@ const Pagination = ({
   const lastPage = pageNumbers[pageNumbers.length - 1];
   const firstPage = pageNumbers[0];
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   const nextPage = () => {
     if (currentPage < noOfPages) {
       setCurrentPage(currentPage + 1);
@@ -56,7 +63,7 @@ const Pagination = ({
         {pageNumbers.map((number) => {
           if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
             return (
-              <li key={number} className="page-item" id={number}>
+              <li key={number} className="page-item" id={String(number)}>
                 <button
                   onClick={() => paginate(number)}
                   className={`page-link ${currentPage === number ? "active" : null

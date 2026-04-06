@@ -1,8 +1,13 @@
-// @ts-nocheck
-import React from "react";
 import Button from "./Button";
 
-const PillBadge = ({ title, remove, iconClass, customClass }) => {
+type Props = {
+  title: string;
+  remove?: () => void;
+  iconClass?: string;
+  customClass?: string;
+};
+
+const PillBadge = ({ title, remove, iconClass, customClass }: Props) => {
   return (
     <div className={`pill-badge ${customClass ? customClass : ""}`}>
       {iconClass && (

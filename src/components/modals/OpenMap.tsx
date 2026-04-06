@@ -1,6 +1,5 @@
-// @ts-nocheck
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useAppDispatch } from '@/hooks/react-redux';
 import Modal from './Modal';
 import { MyMaps } from './MyMaps';
 import { MySharedMaps } from './MySharedMaps';
@@ -10,7 +9,7 @@ const OpenMap = () => {
     const [myMapsStage, setMyMapsStage] = useState("list");
     const [sharedMapsStage, setSharedMapsStage] = useState("list");
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const closeModal = () => dispatch({
         type: 'CLOSE_MODAL',
         payload: 'openMap'

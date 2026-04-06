@@ -1,6 +1,5 @@
-// @ts-nocheck
 export const logOut = () => {
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     dispatch({ type: "LOG_OUT" });
   };
 };

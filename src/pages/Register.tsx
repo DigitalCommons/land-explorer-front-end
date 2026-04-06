@@ -1,45 +1,52 @@
-// @ts-nocheck
 import axios from "axios/index";
-import React, { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Select from "react-select";
+import SelectLib from "react-select";
 import Swal from "sweetalert2";
 import Spinner from "../components/common/Spinner";
 import GoCardlessModal from "../components/modals/GoCardlessModal";
 import TopBar from "../components/top-bar/TopBar";
 import constants from "../constants";
 
-const Register = ({ updateBgImage }) => {
+// react-select v5 is used with legacy v1 API; cast to any to avoid prop type errors
+const Select = SelectLib as any;
+
+// valid field starts as "" (unvalidated) and becomes boolean after user interaction
+type FieldState = { value: string; valid: string | boolean };
+
+type Props = { updateBgImage: (n: number) => void };
+
+const Register = ({ updateBgImage }: Props) => {
   const [registering, setRegistering] = useState(false);
   const [registerSuccess, setRegisterSuccess] = useState(false);
-  const [registerErrors, setRegisterErrors] = useState([]);
-  const [firstName, setFirstName] = useState({ value: "", valid: "" });
-  const [lastName, setLastName] = useState({ value: "", valid: "" });
-  const [organisation, setOrganisation] = useState({ value: "", valid: "" });
-  const [organisationType, setOrganisationType] = useState({
+  const [registerErrors, setRegisterErrors] = useState<string[]>([]);
+  const [firstName, setFirstName] = useState<FieldState>({ value: "", valid: "" });
+  const [lastName, setLastName] = useState<FieldState>({ value: "", valid: "" });
+  const [organisation, setOrganisation] = useState<FieldState>({ value: "", valid: "" });
+  const [organisationType, setOrganisationType] = useState<FieldState>({
     value: "",
     valid: "",
   });
-  const [organisationCommercial, setOrganisationCommercial] = useState({
+  const [organisationCommercial, setOrganisationCommercial] = useState<FieldState>({
     value: "",
     valid: "",
   });
   const [organisationCommercialOther, setOrganisationCommercialOther] =
-    useState({ value: "", valid: "" });
+    useState<FieldState>({ value: "", valid: "" });
   const [organisationCommunityInterest, setOrganisationCommunityInterest] =
-    useState({ value: "", valid: "" });
-  const [organisationNumber, setOrganisationNumber] = useState({
+    useState<FieldState>({ value: "", valid: "" });
+  const [organisationNumber, setOrganisationNumber] = useState<FieldState>({
     value: "",
     valid: "",
   });
-  const [phone, setPhone] = useState({ value: "", valid: "" });
-  const [address1, setAddress1] = useState({ value: "", valid: "" });
-  const [address2, setAddress2] = useState({ value: "", valid: "" });
-  const [city, setCity] = useState({ value: "", valid: "" });
-  const [postcode, setPostcode] = useState({ value: "", valid: "" });
-  const [email, setEmail] = useState({ value: "", valid: "" });
-  const [password, setPassword] = useState({ value: "", valid: "" });
-  const [confirmPassword, setConfirmPassword] = useState({
+  const [phone, setPhone] = useState<FieldState>({ value: "", valid: "" });
+  const [address1, setAddress1] = useState<FieldState>({ value: "", valid: "" });
+  const [address2, setAddress2] = useState<FieldState>({ value: "", valid: "" });
+  const [city, setCity] = useState<FieldState>({ value: "", valid: "" });
+  const [postcode, setPostcode] = useState<FieldState>({ value: "", valid: "" });
+  const [email, setEmail] = useState<FieldState>({ value: "", valid: "" });
+  const [password, setPassword] = useState<FieldState>({ value: "", valid: "" });
+  const [confirmPassword, setConfirmPassword] = useState<FieldState>({
     value: "",
     valid: "",
   });
@@ -47,14 +54,14 @@ const Register = ({ updateBgImage }) => {
   const [agree, setAgree] = useState(false);
   const [marketing, setMarketing] = useState(false);
   const [formStage, setFormStage] = useState("personal");
-  const [mandate, setMandate] = useState();
+  const [mandate, setMandate] = useState<string | undefined>();
   const [goCardlessVisible, setGoCardLessVisible] = useState(false);
 
   useEffect(() => {
     updateBgImage(1);
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (accountType === "free") {
       setRegistering(true);
@@ -67,13 +74,14 @@ const Register = ({ updateBgImage }) => {
         const { success, billingRequestFlowID } = response.data;
         if (success) {
           setFormStage("payment");
+          // @ts-ignore - setBillingRequestFlowID is not declared (pre-existing bug)
           setBillingRequestFlowID(billingRequestFlowID);
         }
       }
     }
   };
 
-  const handlePaymentSubmit = async (e) => {
+  const handlePaymentSubmit = async (e: any) => {
     const requestData = {
       mandate,
       email: email.value,
@@ -94,12 +102,10 @@ const Register = ({ updateBgImage }) => {
   const register = () => {
     const organisationSubType =
       organisationType.value === "community-interest"
-        ? organisationSubType === "other"
-          ? organisationCommercialOther.value
-          : organisationCommunityInterest.value
-        : organisationSubType === "other"
-          ? organisationCommercialOther.value
-          : organisationCommercial.value;
+        ? organisationCommunityInterest.value
+        : organisationCommercial.value === "other"
+        ? organisationCommercialOther.value
+        : organisationCommercial.value;
 
     const request = {
       address: address1.value,
@@ -122,7 +128,7 @@ const Register = ({ updateBgImage }) => {
         setRegisterSuccess(true);
         setRegistering(false);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log(err.message);
         //Catch err 400 here
         const { response } = err;
@@ -165,7 +171,7 @@ const Register = ({ updateBgImage }) => {
             setFirstName({ value, valid });
           }}
           required
-          maxLength="101"
+          maxLength={101}
         />
         <input
           type="text"
@@ -178,7 +184,7 @@ const Register = ({ updateBgImage }) => {
             }`}
           placeholder="Last name (Required)"
           value={lastName.value}
-          maxLength="101"
+          maxLength={101}
           onChange={(e) => {
             let value = e.target.value;
             let valid = value.length > 2 && value.length < 20;
@@ -193,7 +199,7 @@ const Register = ({ updateBgImage }) => {
           placeholder="Email address (Required)"
           autoComplete="username"
           value={email.value}
-          maxLength="101"
+          maxLength={101}
           onChange={(e) => {
             let value = e.target.value;
             let valid = emailRegexp.test(value);
@@ -214,8 +220,8 @@ const Register = ({ updateBgImage }) => {
           autoComplete="new-password"
           value={password.value}
           style={{ marginRight: "2%" }}
-          minLength="4"
-          maxLength="101"
+          minLength={4}
+          maxLength={101}
           onChange={(e) => {
             let value = e.target.value;
             let valid = value.length > 5 && value.length < 30;
@@ -237,8 +243,8 @@ const Register = ({ updateBgImage }) => {
           placeholder="Confirm password (Required)"
           autoComplete="new-password"
           value={confirmPassword.value}
-          minLength="4"
-          maxLength="101"
+          minLength={4}
+          maxLength={101}
           onChange={(e) => {
             let value = e.target.value;
             let valid = password.value === value;
@@ -296,7 +302,7 @@ const Register = ({ updateBgImage }) => {
             }`}
           placeholder="Address 1"
           value={address1.value}
-          maxLength="101"
+          maxLength={101}
           onChange={(e) => {
             let value = e.target.value;
             let valid = value !== "";
@@ -308,7 +314,7 @@ const Register = ({ updateBgImage }) => {
           className={`text-input`}
           placeholder="Address 2"
           value={address2.value}
-          maxLength="101"
+          maxLength={101}
           onChange={(e) => {
             let value = e.target.value;
             let valid = true;
@@ -326,7 +332,7 @@ const Register = ({ updateBgImage }) => {
             }`}
           placeholder="City"
           value={city.value}
-          maxLength="101"
+          maxLength={101}
           onChange={(e) => {
             let value = e.target.value;
             let valid = value !== "";
@@ -344,7 +350,7 @@ const Register = ({ updateBgImage }) => {
             }`}
           placeholder="Postcode"
           value={postcode.value}
-          maxLength="7"
+          maxLength={7}
           onChange={(e) => {
             let value = e.target.value;
             let valid = ukPostcodeRegexp.test(value);
@@ -362,7 +368,7 @@ const Register = ({ updateBgImage }) => {
             }`}
           placeholder="Organisation Name"
           value={organisation.value}
-          maxLength="101"
+          maxLength={101}
           onChange={(e) => {
             let value = e.target.value;
             let valid = value !== "";
@@ -372,7 +378,7 @@ const Register = ({ updateBgImage }) => {
         <Select
           name="organisation-type"
           value={organisationType.value}
-          onChange={(selectedOption) => {
+          onChange={(selectedOption: any) => {
             let value = selectedOption.value;
             let valid = value !== "";
             setOrganisationType({ value, valid });
@@ -389,7 +395,7 @@ const Register = ({ updateBgImage }) => {
           <Select
             name="community-interest"
             value={organisationCommunityInterest.value}
-            onChange={(selectedOption) => {
+            onChange={(selectedOption: any) => {
               let value = selectedOption.value;
               let valid = value !== "";
               setOrganisationCommunityInterest({ value, valid });
@@ -422,7 +428,7 @@ const Register = ({ updateBgImage }) => {
           <Select
             name="community-interest"
             value={organisationCommercial.value}
-            onChange={(selectedOption) => {
+            onChange={(selectedOption: any) => {
               let value = selectedOption.value;
               let valid = value !== "";
               setOrganisationCommercial({ value, valid });
@@ -577,13 +583,19 @@ const Register = ({ updateBgImage }) => {
           direct debit has been set up, please close the gocardless modals and
           press Register to complete registration for Land Explorer.
         </p>
-        {billingRequestFlowID && goCardlessVisible && (
-          <GoCardlessModal
-            billingRequestFlowID={billingRequestFlowID}
-            setMandate={(mandate) => setMandate(mandate)}
-            closeModal={() => setGoCardLessVisible(false)}
-          />
-        )}
+        {
+          // @ts-ignore - billingRequestFlowID is not in scope here (pre-existing bug)
+          billingRequestFlowID && goCardlessVisible && (
+            <GoCardlessModal
+              billingRequestFlowID={
+                // @ts-ignore
+                billingRequestFlowID
+              }
+              setMandate={(mandate) => setMandate(mandate)}
+              closeModal={() => setGoCardLessVisible(false)}
+            />
+          )
+        }
         {mandate ? (
           <p>GoCardless Success!</p>
         ) : (

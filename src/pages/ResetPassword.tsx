@@ -1,17 +1,18 @@
-// @ts-nocheck
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import constants from "../constants";
 
-const ResetPassword = ({ updateBgImage }) => {
+type Props = { updateBgImage: (n: number) => void };
+
+const ResetPassword = ({ updateBgImage }: Props) => {
   const [success, setSuccess] = useState(false);
   const [email, setEmail] = useState({
     value: "",
     valid: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (email.valid) {
       reset();
@@ -44,8 +45,6 @@ const ResetPassword = ({ updateBgImage }) => {
       >
         <div
           style={{
-            left: "50%",
-            top: "50%",
             transform: "translateX(-50%) translateY(-50%)",
             position: "absolute",
             height: "auto",

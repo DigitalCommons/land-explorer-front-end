@@ -1,21 +1,20 @@
-// @ts-nocheck
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useAppDispatch } from '@/hooks/react-redux';
 import Modal from "./Modal";
 import { saveCurrentMap, loadNewestMap } from '../../actions/MapActions';
 
 const SaveSnapshot = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [name, setName] = useState('');
 
     const saveMap = async () => {
-        await dispatch(saveCurrentMap(false, true, name));
+        await dispatch(saveCurrentMap(false, true, name) as any);
         dispatch({
             type: 'CLOSE_MODAL',
             payload: 'saveSnapshot'
         });
         setName('');
-        dispatch(loadNewestMap());
+        dispatch(loadNewestMap() as any);
     }
 
     return <Modal id="saveSnapshot" padding={true}>

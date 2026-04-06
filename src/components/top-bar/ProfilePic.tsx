@@ -1,12 +1,14 @@
-// @ts-nocheck
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { isMobile } from "react-device-detect";
 
-const ProfilePic = () => {
-  const dispatch = useDispatch();
-  const { initials, pic } = useSelector((state) => state.user);
-  const activeTool = useSelector((state) => state.leftPane.active);
+type Props = {
+  initials?: string;
+};
+
+const ProfilePic = (_props: Props) => {
+  const dispatch = useAppDispatch();
+  const { initials, pic } = useAppSelector((state) => state.user);
+  const activeTool = useAppSelector((state) => state.leftPane.active);
 
   return (
     <div

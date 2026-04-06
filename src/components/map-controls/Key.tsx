@@ -1,7 +1,9 @@
-// @ts-nocheck
-import React from "react";
+type Props = {
+  data: Record<string, any>;
+  name: string;
+};
 
-const Key = ({ data, name }) => (
+const Key = ({ data, name }: Props) => (
   <div
     style={{
       marginBottom: "15px",

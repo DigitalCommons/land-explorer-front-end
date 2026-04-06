@@ -1,18 +1,21 @@
-// @ts-nocheck
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import StaticSiteMenu from "./StaticSiteMenu";
 import ProfileMenu from "./ProfileMenu";
 import MapTitleBar from "./MapTitleBar";
 import MapMenu from "./MapMenu";
 import ProfilePic from "./ProfilePic";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import SearchBar from "./SearchBar";
 import iconHamburger from "../../assets/img/icon-hamburger.svg";
 
-const TopBar = ({ limited }) => {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+type Props = {
+  limited?: boolean;
+};
+
+const TopBar = ({ limited }: Props) => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user);
   const [searchExpanded, setSearchExpanded] = useState(false);
 
   return !limited && user.populated ? (

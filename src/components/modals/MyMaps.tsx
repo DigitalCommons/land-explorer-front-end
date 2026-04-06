@@ -1,19 +1,24 @@
-// @ts-nocheck
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/hooks/react-redux';
 import { openMap, deleteMap } from '../../actions/MapActions';
 import moment from 'moment';
 import constants from "../../constants";
 
-export const MyMaps = ({ stage, setStage, closeModal }) => {
-  const dispatch = useDispatch();
-  const [active, setActive] = useState({ id: null, name: null });
+type Props = {
+  stage: string;
+  setStage: (stage: string) => void;
+  closeModal: () => void;
+};
 
-  const allMaps = useSelector((state) => state.myMaps.maps);
+export const MyMaps = ({ stage, setStage, closeModal }: Props) => {
+  const dispatch = useAppDispatch();
+  const [active, setActive] = useState<{ id: string | null; name: string | null }>({ id: null, name: null });
+
+  const allMaps = useAppSelector((state) => state.myMaps.maps);
   const myMaps = allMaps.filter(
-    (map) => map.access === constants.MAP_ACCESS_OWNER
+    (map: any) => map.access === constants.MAP_ACCESS_OWNER
   );
-  const error = useSelector((state) => state.myMaps.error);
+  const error = useAppSelector((state) => state.myMaps.error);
 
   const close = () => {
     closeModal();
@@ -22,11 +27,11 @@ export const MyMaps = ({ stage, setStage, closeModal }) => {
   };
 
   const deleteActiveMap = async () => {
-    await dispatch(deleteMap(active.id));
+    await dispatch(deleteMap(active.id) as any);
     setStage("list");
   };
 
-  const mapList = myMaps.map((map, i) => {
+  const mapList = myMaps.map((map: any, i: number) => {
     const momentDate = moment(map.lastModified).format("DD/MM/YYYY");
     return (
       <tr
@@ -98,7 +103,7 @@ export const MyMaps = ({ stage, setStage, closeModal }) => {
           className="button button-small"
           onClick={() => {
             console.log("Open saved map", active.id);
-            dispatch(openMap(active.id));
+            dispatch(openMap(active.id) as any);
             close();
           }}
         >

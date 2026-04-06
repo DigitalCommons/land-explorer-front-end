@@ -1,7 +1,7 @@
-// @ts-nocheck
 import React, { useState, useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { useInterval } from "usehooks-ts";
+import mapboxgl from "mapbox-gl";
 import ReactMapboxGl from "react-mapbox-gl";
 import { v4 as uuidv4 } from "uuid";
 import * as turf from "@turf/turf";
@@ -31,41 +31,49 @@ import MapBeingEditedToast from "./MapBeingEditedToast";
 import BaseLayerMenu from "../map-controls/BaseLayerMenu";
 import MapLayerKey from "../map-controls/MapLayerKey";
 
+// Set access token globally so all mapbox-gl instances share it
+mapboxgl.accessToken = constants.MAPBOX_TOKEN ?? "";
+
 // Create Map Component with settings
 const Map = ReactMapboxGl({
-  accessToken: constants.MAPBOX_TOKEN,
+  accessToken: constants.MAPBOX_TOKEN!!,
   scrollZoom: true,
   dragRotate: false,
-  minzoom: 6,
-  maxzoom: 11,
+  minZoom: 6,
+  maxZoom: 20,
   keyboard: false,
   doubleClickZoom: true,
-});
+}) as React.ComponentType<any>;
 
 const MapboxMap = () => {
-  const dispatch = useDispatch();
-  const drawControlRef = useRef();
-  const mapRef = useRef();
+  const dispatch = useAppDispatch();
+  const drawControlRef = useRef<any>(null);
+  const mapRef = useRef<any>(null);
   const { currentMapId, unsavedMapUuid, lockedByOtherUserInitials } =
-    useSelector((state) => state.mapMeta);
-  const { zoom, lngLat, movingMethod } = useSelector((state) => state.map);
-  const { currentMarker } = useSelector((state) => state.markers);
-  const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
-  const { landDataLayers } = useSelector((state) => state.landDataLayers);
-  const { activeTool } = useSelector((state) => state.leftPane);
-  const { activeDrawing, drawings, polygonsDrawn, linesDrawn } = useSelector(
+    useAppSelector((state) => state.mapMeta);
+  const { zoom, lngLat, movingMethod } = useAppSelector((state) => state.map);
+  const { currentMarker } = useAppSelector((state) => state.markers);
+  const baseLayer = useAppSelector((state) => state.mapBaseLayer.layer);
+  const { landDataLayers } = useAppSelector((state) => state.landDataLayers);
+  const { activeTool } = useAppSelector((state) => state.leftPane);
+  const { activeDrawing, drawings, polygonsDrawn, linesDrawn } = useAppSelector(
     (state) => state.drawings
   );
-  const propertiesDisplay = useSelector(
+  const propertiesDisplay = useAppSelector(
     (state) => state.landOwnership.activeDisplay
   );
-  const { visibleProperties } = useSelector((state) => state.landOwnership);
+  const { visibleProperties } = useAppSelector((state) => state.landOwnership);
 
   const showZoomWarning =
     (landDataLayers.length > 0 &&
-      zoom < constants.LAND_DATA_LAYER_ZOOM_LEVEL) ||
-    (propertiesDisplay &&
-      zoom < constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay]);
+      zoom[0] < constants.LAND_DATA_LAYER_ZOOM_LEVEL) ||
+    !!(
+      propertiesDisplay &&
+      zoom[0] <
+        constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[
+          propertiesDisplay as keyof typeof constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS
+        ]
+    );
 
   useInterval(
     () => {
@@ -84,14 +92,14 @@ const MapboxMap = () => {
   const [redrawing, setRedrawing] = useState(false);
   const [dataGroupPopupVisible, setDataGroupPopupVisible] = useState(-1);
   const { sources, satelliteLayer, topographyLayer } = mapSources;
-  const [onClickListener, setOnClickListener] = useState([]);
+  const [onClickListener, setOnClickListener] = useState<any[]>([]);
 
-  const [map, setMap] = useState(null);
+  const [map, setMap] = useState<any>(null);
 
   const modes = MapboxDraw.modes;
   modes.static = StaticMode;
 
-  const onClick = (evt) => {
+  const onClick = (evt: any) => {
     setDataGroupPopupVisible(-1);
     const drawControl = drawControlRef.current;
     const mode = drawControl.draw.getMode();
@@ -143,7 +151,7 @@ const MapboxMap = () => {
    * This takes the feature created by mapbox-gl-draw and creates a copy of it and stores it in the
    * redux store, so that it can be rendered as a React GeoJSON component
    */
-  const onDrawCreate = (e) => {
+  const onDrawCreate = (e: any) => {
     const drawControl = drawControlRef.current;
 
     // features are the shapes themselves (the geometry is the 'points/nodes' of the shapes)
@@ -189,9 +197,9 @@ const MapboxMap = () => {
    * This takes the drawing feature(s) that were updated and creates a copies of them and stores
    * them in the Redux store, so that they can be rendered as React GeoJSON components
    */
-  const onDrawUpdate = (e) => {
+  const onDrawUpdate = (e: any) => {
     const { features } = e;
-    features.map((feature) => {
+    features.map((feature: any) => {
       const featureCopy = {
         id: feature.id,
         type: feature.type,
@@ -221,7 +229,7 @@ const MapboxMap = () => {
     });
   };
 
-  const onDrawSelectionChange = (e) => {
+  const onDrawSelectionChange = (e: any) => {
     const drawControl = drawControlRef.current;
     const mode = drawControl.draw.getMode();
     if (mode === "simple_select") {
@@ -245,7 +253,7 @@ const MapboxMap = () => {
 
     drawControl.draw.deleteAll();
     if (drawings) {
-      drawings.map((polygonOrLine) => {
+      drawings.map((polygonOrLine: any) => {
         drawControl.draw.add({
           ...polygonOrLine.data,
           id: polygonOrLine.uuid,
@@ -288,16 +296,16 @@ const MapboxMap = () => {
         }}
         zoom={zoom}
         onZoomStart={() => dispatch(setZooming(true))}
-        onZoomEnd={(map) => {
+        onZoomEnd={(map: any) => {
           dispatch(setZoom([map.getZoom()]));
           dispatch(setZooming(false));
           // console.log(map.getZoom());
         }}
-        onDragEnd={(map) =>
+        onDragEnd={(map: any) =>
           dispatch(setLngLat(map.getCenter().lng, map.getCenter().lat))
         }
         center={lngLat}
-        onStyleLoad={(m, evt) => {
+        onStyleLoad={(m: any, _evt: any) => {
           setMap(m);
           setStyleLoaded(true);
           // Disable rotation and pitch with touch gestures
@@ -340,8 +348,7 @@ const MapboxMap = () => {
         <ZoomWarning show={showZoomWarning} />
         {/* Drawing tools */}
         <DrawControl
-          addControl={map}
-          ref={(node) => {
+          ref={(node: any) => {
             if (!drawControlRef.current) {
               console.log("Draw control ref set", node);
               drawControlRef.current = node;
@@ -352,7 +359,7 @@ const MapboxMap = () => {
           onDrawCreate={onDrawCreate}
           modes={modes}
           defaultMode="simple_select"
-          onDrawModeChange={(e) => console.log("draw mode changed", e)}
+          onDrawModeChange={(e: any) => console.log("draw mode changed", e)}
           onDrawUpdate={onDrawUpdate}
           onDrawSelectionChange={onDrawSelectionChange}
         />
@@ -386,8 +393,10 @@ const MapboxMap = () => {
         Contains OS data © Crown copyright and database rights 2022 OS
         0100059691
         {propertiesDisplay &&
-          zoom >=
-            constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay] && (
+          zoom[0] >=
+            constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[
+              propertiesDisplay as keyof typeof constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS
+            ] && (
             <>
               <br />
               This information is subject to Crown copyright and database rights

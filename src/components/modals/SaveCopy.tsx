@@ -1,12 +1,10 @@
-// @ts-nocheck
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import Modal from "./Modal";
 import { loadNewestMap, saveCurrentMap } from '../../actions/MapActions';
 
 const SaveCopy = () => {
-    const dispatch = useDispatch();
-    const map = useSelector(state => state.map);
+    const dispatch = useAppDispatch();
+    const map = useAppSelector((state) => state.map);
 
     if (!map.name)
         return <Modal id="saveCopy">
@@ -17,12 +15,12 @@ const SaveCopy = () => {
         </Modal>
 
     const saveMap = async () => {
-        await dispatch(saveCurrentMap(true));
+        await dispatch(saveCurrentMap(true) as any);
         dispatch({
             type: 'CLOSE_MODAL',
             payload: 'saveCopy'
         });
-        dispatch(loadNewestMap());
+        dispatch(loadNewestMap() as any);
     }
 
     return <Modal id="saveCopy" padding={true}>

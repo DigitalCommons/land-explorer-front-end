@@ -1,4 +1,4 @@
-// @ts-nocheck
+import { LngLat } from "./types";
 /*
     PROD
         if doing a production build, change to true
@@ -15,7 +15,34 @@
         if true, use OS raster tiles for Topography layer, otherwise use mapbox street tiles
 */
 
-const constants = {
+type Constants = {
+  DEV_MODE: boolean;
+  STATIC_SITE_URL: string;
+  ROOT_URL: string | undefined;
+  PAYMENTS_URL: string | undefined;
+  OS_KEY: string | undefined;
+  OS_PLACES_KEY: string | undefined;
+  GEOCODER_TOKEN: string | undefined;
+  MAPBOX_TOKEN: string | undefined;
+  USE_OS_TILES: boolean;
+  MAP_BOUNDS: [LngLat, LngLat];
+  LAND_DATA_LAYER_ZOOM_LEVEL: number;
+  PROPERTY_BOUNDARIES_ZOOM_LEVELS: {
+    all: number;
+    pending: number;
+    localAuthority: number;
+    churchOfEngland: number;
+    socialHousing: number;
+    unregistered: number;
+  };
+  MAP_ACCESS_READ_ONLY: number;
+  MAP_ACCESS_OWNER: number;
+  MAP_ACCESS_READ_WRITE: number;
+  DATAGROUP_ACCESS_READ_ONLY: number;
+  DATAGROUP_ACCESS_READ_WRITE: number;
+};
+
+const constants: Constants = {
   DEV_MODE: import.meta.env.DEV,
   STATIC_SITE_URL: "https://landexplorer.coop",
   ROOT_URL: import.meta.env.VITE_ROOT_URL,

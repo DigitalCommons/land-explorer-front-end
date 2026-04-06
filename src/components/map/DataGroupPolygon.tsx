@@ -1,7 +1,14 @@
-// @ts-nocheck
 import React from "react";
 import { Marker, GeoJSONLayer } from "react-mapbox-gl";
 import DrawingPopup from "./DrawingPopup/DrawingPopup";
+
+type Props = {
+  polygon: any;
+  access: any;
+  dataGroupColour: string;
+  setPopupVisible: (id: any) => void;
+  popupVisible: any;
+};
 
 const DataGroupPolygon = ({
   polygon,
@@ -9,7 +16,7 @@ const DataGroupPolygon = ({
   dataGroupColour,
   setPopupVisible,
   popupVisible,
-}) => {
+}: Props) => {
   const polygonData = {
     geometry: {
       coordinates: polygon.vertices.coordinates,
@@ -51,7 +58,7 @@ const DataGroupPolygon = ({
             height: "40px",
             zIndex: popupVisible == polygon.uuid ? 4 : 3,
             "--data-group-colour": dataGroupColour,
-          }}
+          } as React.CSSProperties}
           onClick={() => {
             if (popupVisible !== polygon.uuid) setPopupVisible(polygon.uuid);
           }}

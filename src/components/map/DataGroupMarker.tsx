@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,6 +7,15 @@ import {
 import { Marker } from "react-mapbox-gl";
 import DrawingPopup from "./DrawingPopup/DrawingPopup";
 
+type MarkerContentProps = {
+  marker: any;
+  visible: boolean;
+  closeDescription: () => void;
+  dataGroupColour: string;
+  access: any;
+  toggleMarker: () => void;
+};
+
 const DataGroupMarkerContent = ({
   marker,
   visible,
@@ -15,17 +23,19 @@ const DataGroupMarkerContent = ({
   dataGroupColour,
   access,
   toggleMarker,
-}) => {
+}: MarkerContentProps) => {
   return (
     <div
       className="datagroup-style-wrapper"
-      style={{ "--data-group-colour": dataGroupColour }}
+      style={{ "--data-group-colour": dataGroupColour } as React.CSSProperties}
     >
       <div data-tooltip={marker.name} className="pointer">
         <div className={`marker-icon`} onClick={toggleMarker}>
           <span className="marker-icon-center">
+            {/* @ts-ignore */}
             <FontAwesomeIcon icon={faCertificate} />
           </span>
+          {/* @ts-ignore */}
           <FontAwesomeIcon icon={faLocationDot} />
         </div>
         <span className="marker-shadow"></span>
@@ -51,6 +61,17 @@ const DataGroupMarkerContent = ({
   );
 };
 
+type Props = {
+  coordinates: any;
+  name: string;
+  description: string;
+  marker: any;
+  access: any;
+  dataGroupColour: string;
+  popupVisible: any;
+  setPopupVisible: (id: any) => void;
+};
+
 const DataGroupMarker = ({
   coordinates,
   name,
@@ -60,7 +81,7 @@ const DataGroupMarker = ({
   dataGroupColour,
   popupVisible,
   setPopupVisible,
-}) => {
+}: Props) => {
   const toggleMarker = () => {
     if (popupVisible === marker.uuid) {
       setPopupVisible(-1);

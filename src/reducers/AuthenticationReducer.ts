@@ -1,10 +1,25 @@
-// @ts-nocheck
-const INITIAL_STATE = {
+import { Action } from "../types";
+
+type AuthenticationState = {
+    authenticated: boolean;
+    error: string | null;
+};
+
+const INITIAL_STATE: AuthenticationState = {
     authenticated: true,
     error: null
 }
 
-export default (state = INITIAL_STATE, action) => {
+type FailedLoginPayload = {
+    errorMessage: string;
+};
+
+type AuthenticationAction =
+    | Action & { type: "LOGGED_IN" | "LOG_OUT" | "SESSION_TIMED_OUT" }
+    | Action<FailedLoginPayload> & { type: "FAILED_LOGIN" }
+    | Action;
+
+export default (state: AuthenticationState = INITIAL_STATE, action: AuthenticationAction): AuthenticationState => {
     switch (action.type) {
         case 'LOGGED_IN': {
             return {
@@ -13,9 +28,10 @@ export default (state = INITIAL_STATE, action) => {
             }
         }
         case 'FAILED_LOGIN': {
+            const payload = action.payload as FailedLoginPayload;
             return {
                 authenticated: false,
-                error: action.payload.errorMessage
+                error: payload.errorMessage
             }
         }
         case 'LOG_OUT': {

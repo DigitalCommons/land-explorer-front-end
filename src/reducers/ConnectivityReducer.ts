@@ -1,19 +1,27 @@
-// @ts-nocheck
-const INITIAL_STATE = {
-    isOnline: true
-}
+import { Action } from "../types";
 
-export default (state = INITIAL_STATE, action) => {
-    switch (action.type) {
-        case 'ONLINE':
-            return {
-                isOnline: true
-            }
-        case 'OFFLINE':
-            return {
-                isOnline: false
-            }
-        default:
-            return state;
-    }
-}
+type ConnectivityState = {
+  isOnline: boolean;
+};
+
+const INITIAL_STATE: ConnectivityState = {
+  isOnline: true,
+};
+
+export default (
+  state: ConnectivityState = INITIAL_STATE,
+  action: Action
+): ConnectivityState => {
+  switch (action.type) {
+    case "ONLINE":
+      return {
+        isOnline: true,
+      };
+    case "OFFLINE":
+      return {
+        isOnline: false,
+      };
+    default:
+      return state;
+  }
+};

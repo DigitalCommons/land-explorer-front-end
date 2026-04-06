@@ -1,8 +1,7 @@
-// @ts-nocheck
 import { getMyMaps } from "./MapActions";
 
-export const openModal = (name) => {
-    return dispatch => {
+export const openModal = (name: string) => {
+    return (dispatch: any) => {
         if (name === 'myMaps' || name === 'mySharedMaps' || name === 'openMap') {
             // Refresh list of maps
             dispatch(getMyMaps());
@@ -15,8 +14,8 @@ export const openModal = (name) => {
     }
 }
 
-export const closeModal = (name) => {
-    return dispatch => {
+export const closeModal = (name: string) => {
+    return (dispatch: any) => {
         dispatch({
             type: 'CLOSE_MODAL',
             payload: name

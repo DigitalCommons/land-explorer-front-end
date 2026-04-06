@@ -1,4 +1,3 @@
-// @ts-nocheck
 const layers = {
   "provisional-agricultural-land-ab795l": {
     name: "Agricultural land classification",

@@ -1,12 +1,10 @@
-// @ts-nocheck
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../actions/ModalActions";
 
 const ProfileMenu = () => {
-  const dispatch = useDispatch();
-  const open = useSelector((state) => state.menu.profile);
+  const dispatch = useAppDispatch();
+  const open = useAppSelector((state) => state.menu.profile);
 
   const closeProfileMen = () => {
     dispatch({ type: "CLOSE_MENU_PROFILE" });

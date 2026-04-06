@@ -1,6 +1,4 @@
-// @ts-nocheck
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import {
   setActiveProperty,
   clearHighlightedProperties,
@@ -10,10 +8,14 @@ import OverviewDetails from "./overview-details/OverviewDetails";
 import OwnershipDetails from "./ownership-details/OwnershipDetails";
 import * as turf from "@turf/turf";
 
-const PropertySection = ({ property }) => {
-  const dispatch = useDispatch();
+type Props = {
+  property: any;
+};
+
+const PropertySection = ({ property }: Props) => {
+  const dispatch = useAppDispatch();
   const { activePropertyTitleNo, relatedPropertiesProprietorName } =
-    useSelector((state) => state.landOwnership);
+    useAppSelector((state) => state.landOwnership);
 
   const {
     title_no,

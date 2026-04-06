@@ -1,6 +1,4 @@
-// @ts-nocheck
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import * as turf from "@turf/turf";
 import {
   clearHighlightedProperties,
@@ -8,9 +6,9 @@ import {
 } from "../../actions/LandOwnershipActions";
 import { setLngLat, setZoom } from "../../actions/MapActions";
 
-const RelatedProperty = ({ property }) => {
-  const dispatch = useDispatch();
-  const highlighted = useSelector((state) =>
+const RelatedProperty = ({ property }: { property: any }) => {
+  const dispatch = useAppDispatch();
+  const highlighted = useAppSelector((state) =>
     state.landOwnership.highlightedProperties.hasOwnProperty(property.title_no)
   );
 

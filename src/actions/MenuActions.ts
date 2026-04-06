@@ -1,6 +1,5 @@
-// @ts-nocheck
 export const closeMenus = () => {
-    return dispatch => {
+    return (dispatch: any) => {
         dispatch({ type: 'CLOSE_MENUS' })
     }
 }

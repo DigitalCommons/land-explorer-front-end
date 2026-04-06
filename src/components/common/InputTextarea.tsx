@@ -1,5 +1,11 @@
-// @ts-nocheck
-import React from "react";
+import { TextareaHTMLAttributes } from "react";
+
+type Props = TextareaHTMLAttributes<HTMLTextAreaElement> & {
+  label: string;
+  name: string;
+  errorText?: string;
+  errorCondition?: boolean;
+};
 
 const InputTextarea = ({
   label,
@@ -7,7 +13,7 @@ const InputTextarea = ({
   errorText,
   errorCondition,
   ...inputProps
-}) => {
+}: Props) => {
   const id = "textarea-" + name;
 
   return (

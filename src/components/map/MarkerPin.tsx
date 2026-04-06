@@ -1,7 +1,6 @@
-// @ts-nocheck
-import React, { useState } from "react";
+import { useState } from "react";
 import { Marker } from "react-mapbox-gl";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import DrawingPopup from "./DrawingPopup/DrawingPopup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,10 +8,17 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 
-const MarkerPin = ({ marker, active }) => {
-  const dispatch = useDispatch();
-  const activeTool = useSelector((state) => state.leftPane.activeTool);
-  const baseLayer = useSelector((state) => state.mapBaseLayer.layer);
+type Props = {
+  marker: any;
+  active: boolean;
+  coordinates?: any;
+  handleMarkerClick?: any;
+};
+
+const MarkerPin = ({ marker, active }: Props) => {
+  const dispatch = useAppDispatch();
+  const activeTool = useAppSelector((state) => state.leftPane.activeTool);
+  const baseLayer = useAppSelector((state) => state.mapBaseLayer.layer);
   const [popupClosed, setPopupClosed] = useState(false);
 
   const showPopup = !popupClosed && active && !activeTool;

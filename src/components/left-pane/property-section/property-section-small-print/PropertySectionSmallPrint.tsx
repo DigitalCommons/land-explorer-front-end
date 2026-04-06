@@ -1,7 +1,9 @@
-// @ts-nocheck
-import React from "react";
+type Props = {
+  title_no: string | null;
+  unregistered: boolean;
+};
 
-const PropertySectionSmallPrint = ({ title_no, unregistered }) => {
+const PropertySectionSmallPrint = ({ title_no, unregistered }: Props) => {
   return (
     <div className="property-details-info">
       <div className="property-details-info__small-print">

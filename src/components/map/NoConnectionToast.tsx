@@ -1,12 +1,11 @@
-// @ts-nocheck
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/hooks/react-redux';
 import { setOnline, setOffline } from '../../actions/ConnectivityActions'
 
 const NoConnectionToast = () => {
-    const isOnline = useSelector(state => state.connectivity.isOnline);
+    const isOnline = useAppSelector((state) => state.connectivity.isOnline);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         window.addEventListener('online', handleConnectionChange);
@@ -33,7 +32,7 @@ const NoConnectionToast = () => {
         <p className="toast-text">
             Read-only mode. Trying to connect...
         </p>
-    </div >;
+    </div>;
 }
 
 export default NoConnectionToast;

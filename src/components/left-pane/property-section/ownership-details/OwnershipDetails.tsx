@@ -1,9 +1,15 @@
-// @ts-nocheck
-import React, { useState } from "react";
+import { useState } from "react";
 import ProprietorCard from "./proprietor-card/ProprietorCard";
 import PropertySectionSmallPrint from "../property-section-small-print/PropertySectionSmallPrint";
 
-const OwnershipDetails = ({ title_no, tenure, dateAdded, proprietors }) => {
+type Props = {
+  title_no: string;
+  tenure: string;
+  dateAdded: string;
+  proprietors: any[];
+};
+
+const OwnershipDetails = ({ title_no, tenure, dateAdded, proprietors }: Props) => {
   const [showingMore, setShowingMore] = useState(false);
   const proprietorCount = proprietors.length;
   const proprietorOne = proprietors[0];

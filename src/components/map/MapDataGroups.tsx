@@ -1,35 +1,39 @@
-// @ts-nocheck
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import DataGroupPolygon from "./DataGroupPolygon";
 import DataGroupLine from "./DataGroupLine";
 import { loadDataGroups } from "../../actions/DataGroupActions";
 
-const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
-  const dispatch = useDispatch();
+type Props = {
+  popupVisible: any;
+  setPopupVisible: (id: any) => void;
+};
+
+const MapDataGroups = ({ popupVisible, setPopupVisible }: Props) => {
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(loadDataGroups());
   }, []);
 
-  const allDataGroups = useSelector((state) => state.dataGroups.dataGroupsData);
-  const activeGroups = useSelector((state) => state.dataGroups.activeGroups);
-  const activeDataGroups = allDataGroups.filter((group) =>
+  const allDataGroups = useAppSelector((state) => state.dataGroups.dataGroupsData);
+  const activeGroups = useAppSelector((state) => state.dataGroups.activeGroups);
+  const activeDataGroups = allDataGroups.filter((group: any) =>
     activeGroups.includes(group.id)
   );
 
-  const dataGroupPolygons = [];
-  const dataGroupLines = [];
+  const dataGroupPolygons: React.ReactElement[] = [];
+  const dataGroupLines: React.ReactElement[] = [];
 
   activeDataGroups &&
-    activeDataGroups.forEach((dataGroup) => {
+    activeDataGroups.forEach((dataGroup: any) => {
       const dataGroupColour = dataGroup.hex_colour;
 
       // Note that datagroup markers are added to the Markers component, not here, to allow for
       // clustering
 
       if (dataGroup.polygons) {
-        dataGroup.polygons.forEach((polygon) => {
+        dataGroup.polygons.forEach((polygon: any) => {
           dataGroupPolygons.push(
             <DataGroupPolygon
               key={polygon.uuid}
@@ -43,7 +47,7 @@ const MapDataGroups = ({ popupVisible, setPopupVisible }) => {
         });
       }
       if (dataGroup.lines) {
-        dataGroup.lines.forEach((line) => {
+        dataGroup.lines.forEach((line: any) => {
           dataGroupLines.push(
             <DataGroupLine
               key={line.uuid}

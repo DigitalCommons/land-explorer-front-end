@@ -1,22 +1,27 @@
-// @ts-nocheck
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { openMap } from "../../actions/MapActions";
 import moment from "moment";
 import constants from "../../constants";
 
+type Props = {
+  stage: string;
+  setStage: (stage: string) => void;
+  closeModal: () => void;
+};
+
 // TODO: share some common code with MyMaps
-export const MySharedMaps = ({ stage, setStage, closeModal }) => {
-  const dispatch = useDispatch();
-  const [active, setActive] = useState({ id: null, name: null });
+export const MySharedMaps = ({ stage, setStage, closeModal }: Props) => {
+  const dispatch = useAppDispatch();
+  const [active, setActive] = useState<{ id: string | null; name: string | null }>({ id: null, name: null });
 
-  const allMaps = useSelector((state) => state.myMaps.maps);
+  const allMaps = useAppSelector((state) => state.myMaps.maps);
   const sharedMaps = allMaps.filter(
-    (map) => map.access !== constants.MAP_ACCESS_OWNER
+    (map: any) => map.access !== constants.MAP_ACCESS_OWNER
   );
-  const error = useSelector((state) => state.myMaps.error);
+  const error = useAppSelector((state) => state.myMaps.error);
 
-  const mapList = sharedMaps.map((map, i) => {
+  const mapList = sharedMaps.map((map: any, i: number) => {
     const momentDate = moment(map.lastModified).format("DD/MM/YYYY");
     return (
       <tr
@@ -73,7 +78,7 @@ export const MySharedMaps = ({ stage, setStage, closeModal }) => {
           className="button button-small"
           onClick={() => {
             console.log("Open shared map", active.id);
-            dispatch(openMap(active.id));
+            dispatch(openMap(active.id) as any);
             closeModal();
             setStage("list");
           }}

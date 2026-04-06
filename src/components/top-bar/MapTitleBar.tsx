@@ -1,6 +1,5 @@
-// @ts-nocheck
-import React, { useEffect, useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from '@/hooks/react-redux';
 import { loadNewestMap, saveCurrentMap } from '../../actions/MapActions';
 import { isMobile } from 'react-device-detect';
 import iconTickGreen from "../../assets/img/icon-tick--green.svg";
@@ -8,11 +7,15 @@ import iconCross from "../../assets/img/icon-cross.svg";
 
 const UNTITLED_NAME = 'Untitled Map';
 
-const MapTitleBar = ({ expanded }) => {
-    const dispatch = useDispatch();
-    const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
-    const isOnline = useSelector(state => state.connectivity.isOnline);
-    const mapName = useSelector((state) => state.map.name);
+type Props = {
+  expanded: boolean;
+};
+
+const MapTitleBar = ({ expanded }: Props) => {
+    const dispatch = useAppDispatch();
+    const currentMapId = useAppSelector((state) => state.mapMeta.currentMapId);
+    const isOnline = useAppSelector((state) => state.connectivity.isOnline);
+    const mapName = useAppSelector((state) => state.map.name);
     const {
       saving,
       saveError,
@@ -20,7 +23,7 @@ const MapTitleBar = ({ expanded }) => {
       isSnapshot,
       writeAccess,
       lockedByOtherUserInitials,
-    } = useSelector((state) => state.mapMeta);
+    } = useAppSelector((state) => state.mapMeta);
     const isLockedByOtherUser = lockedByOtherUserInitials !== null;
     const [editing, setEditing] = useState(false);
 
@@ -55,22 +58,22 @@ const MapTitleBar = ({ expanded }) => {
       setPopupVisible(false);
     }, [currentMapId]);
 
-    const ref = useRef();
+    const ref = useRef<HTMLParagraphElement>(null);
 
     const onClickOutside = async () => {
       setIsNewMap(false);
 
       // Set name to untitled if blank
-      if (ref.current.textContent.trim() === "") {
-        ref.current.textContent = UNTITLED_NAME;
+      if (ref.current!.textContent?.trim() === "") {
+        ref.current!.textContent = UNTITLED_NAME;
       }
 
-      const name = ref.current.textContent;
+      const name = ref.current!.textContent;
 
       setEditing(false);
 
       // Remove highlighting of text
-      window.getSelection().removeAllRanges();
+      window.getSelection()!.removeAllRanges();
 
       console.log("Set map name", name);
       dispatch({
@@ -78,7 +81,7 @@ const MapTitleBar = ({ expanded }) => {
         payload: name,
       });
 
-      await dispatch(saveCurrentMap(false, false, name));
+      await dispatch(saveCurrentMap(false, false, name) as any);
       if (currentMapId === null) {
         // If this was a new map, load the map that we just saved
         dispatch(loadNewestMap());
@@ -94,9 +97,9 @@ const MapTitleBar = ({ expanded }) => {
     }
 
     const onFocusTitle = () => {
-        if (canEditTitle && ref.current.textContent === UNTITLED_NAME) {
+        if (canEditTitle && ref.current!.textContent === UNTITLED_NAME) {
             // Select all text if untitled
-            window.getSelection().selectAllChildren(ref.current);
+            window.getSelection()!.selectAllChildren(ref.current!);
         }
     }
 
@@ -117,14 +120,14 @@ const MapTitleBar = ({ expanded }) => {
                 if (e.key === "Enter") {
                     e.preventDefault();
                     setEditing(true);
-                    e.target.blur();
+                    (e.target as HTMLElement).blur();
                 }
                 //limit map name to 30 characters
                 const mapName = document.getElementById("map-name");
-                if (mapName.textContent.length > 30) {
-                    mapName.textContent = mapName.textContent.slice(0, 30);
-                    document.execCommand('selectAll', false, null);
-                    document.getSelection().collapseToEnd();
+                if (mapName!.textContent!.length > 30) {
+                    mapName!.textContent = mapName!.textContent!.slice(0, 30);
+                    document.execCommand('selectAll', false, undefined);
+                    document.getSelection()!.collapseToEnd();
                 }
 
             }}

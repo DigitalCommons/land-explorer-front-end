@@ -1,14 +1,12 @@
-// @ts-nocheck
-import React from "react";
 import ReactTooltip from "react-tooltip";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/hooks/react-redux";
 import { isMobile } from "react-device-detect";
 
 const tooltipDelay = 100;
 
 const Tooltips = () => {
-  const readOnly = useSelector((state) => state.readOnly.readOnly);
-  const isSnapshot = useSelector((state) => state.mapMeta.isSnapshot);
+  const readOnly = useAppSelector((state) => state.readOnly.readOnly);
+  const isSnapshot = useAppSelector((state) => state.mapMeta.isSnapshot);
 
   return (
     <>

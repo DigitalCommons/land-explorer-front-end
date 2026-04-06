@@ -1,20 +1,22 @@
-// @ts-nocheck
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import constants from "../../constants";
 import { setZoom } from "../../actions/MapActions";
 
-const ZoomWarning = ({ show }) => {
-  const dispatch = useDispatch();
+type Props = {
+  show: boolean;
+};
 
-  const { zooming } = useSelector((state) => state.map);
-  const propertiesDisplay = useSelector(
+const ZoomWarning = ({ show }: Props) => {
+  const dispatch = useAppDispatch();
+
+  const { zooming } = useAppSelector((state) => state.map);
+  const propertiesDisplay = useAppSelector(
     (state) => state.landOwnership.activeDisplay
   );
 
   // Determine required zoom level
   const requiredZoomLevel = propertiesDisplay
-    ? constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay]
+    ? constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[propertiesDisplay as keyof typeof constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS]
     : constants.LAND_DATA_LAYER_ZOOM_LEVEL;
 
   return (

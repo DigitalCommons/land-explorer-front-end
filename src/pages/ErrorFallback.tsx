@@ -1,9 +1,9 @@
-// @ts-nocheck
-import React from "react";
 import TopBar from "../components/top-bar/TopBar";
 import Button from "../components/common/Button";
 
-const ErrorFallback = ({ error }) => {
+type Props = { error: Error };
+
+const ErrorFallback = ({ error }: Props) => {
   console.log("Boundary Error", error);
   return (
     <>
@@ -14,7 +14,7 @@ const ErrorFallback = ({ error }) => {
           buttonClass={"button-new blue"}
           type={"button"}
           buttonAction={() => {
-            window.location = "/app";
+            window.location.href = "/app";
           }}
         >
           Back to LandExplorer

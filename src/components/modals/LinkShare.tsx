@@ -1,6 +1,5 @@
-// @ts-nocheck
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/hooks/react-redux';
 import axios from 'axios';
 import constants from '../../constants';
 import { getAuthHeader } from "../../utils/Auth";
@@ -9,8 +8,8 @@ import Modal from './Modal';
 const LinkShare = () => {
     const [stage, setStage] = useState("generate");
     const [linkText, setLinkText] = useState("Generate link...");
-    const currentMapId = useSelector((state) => state.mapMeta.currentMapId);
-    const dispatch = useDispatch();
+    const currentMapId = useAppSelector((state) => state.mapMeta.currentMapId);
+    const dispatch = useAppDispatch();
 
     const generate = async () => {
         try {
@@ -24,7 +23,7 @@ const LinkShare = () => {
             setLinkText(link);
             setStage("copy");
         }
-        catch (err) {
+        catch (err: any) {
             setLinkText(err.response.data);
         }
     };

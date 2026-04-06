@@ -1,13 +1,12 @@
-// @ts-nocheck
-import React from 'react';
+import { ComponentType } from 'react';
 import {
     useLocation,
     useNavigate,
     useParams
 } from "react-router-dom";
 
-const withRouter = (Component) => {
-    function ComponentWithRouterProp(props) {
+const withRouter = <P extends object>(Component: ComponentType<P>) => {
+    function ComponentWithRouterProp(props: P) {
         let location = useLocation();
         let navigate = useNavigate();
         let params = useParams();

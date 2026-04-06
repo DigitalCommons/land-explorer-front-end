@@ -1,28 +1,32 @@
-// @ts-nocheck
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { autoSave } from '../../actions/MapActions';
-import LeftPaneToggle from './LeftPaneToggle';
+import { autoSave } from "../../actions/MapActions";
+import LeftPaneToggle from "./LeftPaneToggle";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 
-const LandDataLayerToggle = ({ title, layerId, draggable = false }) => {
-    const dispatch = useDispatch();
-    const activeLayers = useSelector(
-      (state) => state.landDataLayers.landDataLayers
-    );
+type Props = {
+  title: string;
+  layerId: string;
+  draggable?: boolean;
+};
 
-    const onToggle = () => {
-        dispatch({ type: "TOGGLE_LAND_DATA_LAYER", payload: layerId });
-        dispatch(autoSave());
-    }
+const LandDataLayerToggle = ({ title, layerId, draggable = false }: Props) => {
+  const dispatch = useAppDispatch();
+  const activeLayers = useAppSelector(
+    (state) => state.landDataLayers.landDataLayers
+  );
 
-    return (
-        <LeftPaneToggle
-            title={title}
-            on={activeLayers.includes(layerId)}
-            onToggle={onToggle}
-            draggable={draggable}
-        />
-    );
-}
+  const onToggle = () => {
+    dispatch({ type: "TOGGLE_LAND_DATA_LAYER", payload: layerId });
+    dispatch(autoSave());
+  };
+
+  return (
+    <LeftPaneToggle
+      title={title}
+      on={activeLayers.includes(layerId)}
+      onToggle={onToggle}
+      draggable={draggable}
+    />
+  );
+};
 
 export default LandDataLayerToggle;

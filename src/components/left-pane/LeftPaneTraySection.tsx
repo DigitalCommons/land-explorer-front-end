@@ -1,10 +1,16 @@
-// @ts-nocheck
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '@/hooks/react-redux';
 import iconChevron from '../../assets/img/icon-chevron.svg';
 
-const LeftPaneTraySection = ({ title, children, open: initialOpen, sectionId }) => {
-    const dispatch = useDispatch();
+type Props = {
+    title: string;
+    children: React.ReactNode;
+    open: boolean;
+    sectionId: string;
+};
+
+const LeftPaneTraySection = ({ title, children, open: initialOpen, sectionId }: Props) => {
+    const dispatch = useAppDispatch();
 
     return (
         <div className="left-pane-tray-section">

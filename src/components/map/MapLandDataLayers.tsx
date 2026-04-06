@@ -1,10 +1,9 @@
-// @ts-nocheck
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '@/hooks/react-redux';
 import { Source, Layer } from 'react-mapbox-gl';
 
 const MapLandDataLayers = () => {
-  const { landDataLayers } = useSelector((state) => state.landDataLayers);
+  const { landDataLayers } = useAppSelector((state) => state.landDataLayers);
 
   // TODO: reflect the order that layer toggles have been dragged in LeftPaneLandData?
   return (

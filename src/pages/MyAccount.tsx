@@ -1,6 +1,5 @@
-// @ts-nocheck
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { Link, Route, Routes, useSearchParams } from "react-router-dom";
 import { closeMenus } from "../actions/MenuActions";
 import { getUserDetails } from "../actions/UserActions";
@@ -12,7 +11,9 @@ import iconDetails from "../assets/img/icon-details.svg";
 import iconMail from "../assets/img/icon-mail.svg";
 import iconLock from "../assets/img/icon-lock.svg";
 
-const AccountView = ({ initials }) => {
+type AccountViewProps = { initials: string };
+
+const AccountView = ({ initials }: AccountViewProps) => {
   return (
     <div
       className="registration modal"
@@ -100,12 +101,12 @@ const AccountView = ({ initials }) => {
 
 const MyAccount = () => {
   const [background, setBackground] = useState(0);
-  const dispatch = useDispatch();
-  const { populated, initials } = useSelector(({ user }) => user);
+  const dispatch = useAppDispatch();
+  const { populated, initials } = useAppSelector(({ user }) => user);
 
   useEffect(() => {
-    dispatch(closeMenus());
-    dispatch(getUserDetails());
+    dispatch(closeMenus() as any);
+    dispatch(getUserDetails() as any);
     setTimeout(() => {
       setBackground(1);
     }, 50);

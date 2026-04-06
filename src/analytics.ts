@@ -1,4 +1,3 @@
-// @ts-nocheck
 // Commented this out for now since we are currently only sending analytics from the back-end.
 // We can re-enable front-end analytics later if needed.
 

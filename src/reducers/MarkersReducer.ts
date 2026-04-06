@@ -1,17 +1,61 @@
-// @ts-nocheck
-const INITIAL_STATE = {
+import { LngLat, Action } from "../types";
+
+type Marker = {
+  uuid: string;
+  coordinates: LngLat;
+  name: string;
+  description: string;
+};
+
+type MarkersState = {
+  currentMarker: string | null;
+  markersDrawn: number;
+  markers: Marker[];
+};
+
+const INITIAL_STATE: MarkersState = {
   currentMarker: null,
   markersDrawn: 0,
   markers: [],
 };
 
-export default (state = INITIAL_STATE, action) => {
-  let markers;
-  let currentMarker;
+type SetMarkerPayload = {
+  uuid: string;
+  coordinates: LngLat;
+};
+
+type RenameMarkerPayload = {
+  uuid: string;
+  name: string;
+  description: string;
+};
+
+type LoadMapPayload = {
+  data: {
+    markers: Partial<MarkersState>;
+  };
+};
+
+type MarkersAction =
+  | (Action<SetMarkerPayload> & { type: "SET_MARKER" })
+  | (Action<string> & { type: "CLEAR_MARKER" | "SET_CURRENT_MARKER" })
+  | (Action<RenameMarkerPayload> & { type: "RENAME_MARKER" })
+  | (Action & {
+      type: "SET_ACTIVE_POLYGON" | "CLEAR_CURRENT_MARKER" | "NEW_MAP";
+    })
+  | (Action<LoadMapPayload> & { type: "LOAD_MAP" | "RELOAD_MAP" })
+  | Action;
+
+export default (
+  state: MarkersState = INITIAL_STATE,
+  action: MarkersAction
+): MarkersState => {
+  let markers: Marker[];
+  let currentMarker: string | null;
   switch (action.type) {
-    case "SET_MARKER":
+    case "SET_MARKER": {
       markers = state.markers.slice();
-      const { uuid, coordinates } = action.payload;
+      const { uuid, coordinates } = action.payload as SetMarkerPayload;
       markers.push({
         uuid,
         coordinates,
@@ -24,6 +68,7 @@ export default (state = INITIAL_STATE, action) => {
         markersDrawn: state.markersDrawn + 1,
         currentMarker: uuid,
       };
+    }
     case "CLEAR_MARKER":
       markers = state.markers.slice();
       markers = markers.filter((marker) => marker.uuid !== action.payload);
@@ -34,14 +79,15 @@ export default (state = INITIAL_STATE, action) => {
         markers,
         currentMarker,
       };
-    case "RENAME_MARKER":
+    case "RENAME_MARKER": {
+      const renamePayload = action.payload as RenameMarkerPayload;
       markers = state.markers.slice();
       markers = markers.map((marker) => {
-        if (marker.uuid === action.payload.uuid) {
+        if (marker.uuid === renamePayload.uuid) {
           return {
             ...marker,
-            name: action.payload.name,
-            description: action.payload.description,
+            name: renamePayload.name,
+            description: renamePayload.description,
           };
         } else {
           return marker;
@@ -51,10 +97,11 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         markers: markers,
       };
+    }
     case "SET_CURRENT_MARKER":
       return {
         ...state,
-        currentMarker: action.payload,
+        currentMarker: action.payload as string,
       };
     case "SET_ACTIVE_POLYGON":
     case "CLEAR_CURRENT_MARKER":
@@ -63,11 +110,13 @@ export default (state = INITIAL_STATE, action) => {
         currentMarker: null,
       };
     case "LOAD_MAP":
-    case "RELOAD_MAP":
+    case "RELOAD_MAP": {
+      const loadPayload = action.payload as LoadMapPayload;
       return {
         ...INITIAL_STATE,
-        ...action.payload.data.markers,
+        ...loadPayload.data.markers,
       };
+    }
     case "NEW_MAP":
       return INITIAL_STATE;
     default:

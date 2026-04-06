@@ -1,19 +1,18 @@
-// @ts-nocheck
-import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useRef, ChangeEvent } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import Modal from "./Modal";
 import { openModal } from "../../actions/ModalActions";
 import Button from "../common/Button";
 import { setAskForFeedback } from "../../actions/UserActions";
 
 const FeedbackPopUp = () => {
-  const dispatch = useDispatch();
-  const propertyLayerActive = useSelector(
+  const dispatch = useAppDispatch();
+  const propertyLayerActive = useAppSelector(
     (state) => state.landOwnership.activeDisplay
   );
-  const feedbackPreference = useSelector((state) => state.user.askForFeedback);
+  const feedbackPreference = useAppSelector((state) => state.user.askForFeedback);
 
-  const timeoutRef = useRef();
+  const timeoutRef = useRef<any>(null);
 
   const closeModal = () => {
     dispatch({
@@ -27,7 +26,7 @@ const FeedbackPopUp = () => {
     dispatch(openModal("feedbackForm"));
   };
 
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       dispatch(setAskForFeedback(false));
     } else {
@@ -37,7 +36,7 @@ const FeedbackPopUp = () => {
 
   // Show modal on mouseleave
   useEffect(() => {
-    const handleMouseLeave = (e) => {
+    const handleMouseLeave = (e: MouseEvent) => {
       if (e.clientY < 0 && feedbackPreference) {
         setTimeout(() => {
           dispatch(openModal("feedbackPopUp"));

@@ -1,5 +1,4 @@
-// @ts-nocheck
-import React, { useState } from "react";
+import { useState } from "react";
 import { Route, Routes } from 'react-router';
 import TopBar from '../components/top-bar/TopBar';
 import Register from "./Register";
@@ -11,7 +10,7 @@ import BackgroundImage from '../components/common/BackgroundImage';
 const Authentication = () => {
     const [image, setImage] = useState(0);
 
-    const updateBgImage = (n) => {
+    const updateBgImage = (n: number) => {
         setImage(n);
     }
 

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { isMobile } from "react-device-detect";
 
 /**
@@ -10,7 +9,7 @@ import { isMobile } from "react-device-detect";
  * - the map is locked by another user
  */
 export const updateReadOnly = () => {
-  return (dispatch, getState) => {
+  return (dispatch: any, getState: any) => {
     const { isSnapshot, writeAccess } = getState().mapMeta;
     const isOnline = getState().connectivity.isOnline;
     const isLockedByOtherUser =

@@ -21,10 +21,15 @@ export default defineConfig({
         find: /^react-mapbox-gl$/,
         replacement: "react-mapbox-gl/lib/index.js",
       },
+      // Polyfill Node.js `events` module for browser (required by mapbox-gl-geocoder)
+      {
+        find: "events",
+        replacement: "events/events.js",
+      },
     ],
   },
   server: {
-    port: 3000,
+    port: 8080,
   },
   build: {
     outDir: "dist",

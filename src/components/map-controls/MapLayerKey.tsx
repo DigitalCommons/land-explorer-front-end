@@ -1,13 +1,12 @@
-// @ts-nocheck
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useAppSelector } from "@/hooks/react-redux";
 import { isMobile } from "react-device-detect";
 import Key from "./Key";
 import layers from "../../data/mapLayerKeyConfig";
 
 const MapLayerKey = () => {
-  const { landDataLayers } = useSelector((state) => state.landDataLayers);
-  const { activeDisplay, highlightedProperties } = useSelector(
+  const { landDataLayers } = useAppSelector((state) => state.landDataLayers);
+  const { activeDisplay, highlightedProperties } = useAppSelector(
     (state) => state.landOwnership
   );
 
@@ -39,12 +38,12 @@ const MapLayerKey = () => {
 
   const keyContent = visibleLayerIds
     .map((id) => {
-      if (!layers[id]) {
+      if (!(layers as any)[id]) {
         console.warn(`Missing definition for layer ${id}`);
         return null;
       }
 
-      const { data, name } = layers[id];
+      const { data, name } = (layers as any)[id];
 
       // Skip if no data is available for the layer
       if (!data || Object.keys(data).length === 0) {

@@ -1,9 +1,8 @@
-// @ts-nocheck
 import React, { useState } from 'react';
 import { Motion, spring } from 'react-motion';
 import { range } from 'lodash';
 
-function reinsert(arr, from, to) {
+function reinsert(arr: number[], from: number, to: number) {
     const _arr = arr.slice(0);
     const val = _arr[from];
     _arr.splice(from, 1);
@@ -11,13 +10,18 @@ function reinsert(arr, from, to) {
     return _arr;
 }
 
-function clamp(n, min, max) {
+function clamp(n: number, min: number, max: number) {
     return Math.max(Math.min(n, max), min);
 }
 
 const springConfig = { stiffness: 300, damping: 50 };
 
-const Draggable = ({ children, itemHeight }) => {
+type Props = {
+    children: React.ReactElement[];
+    itemHeight: number;
+};
+
+const Draggable = ({ children, itemHeight }: Props) => {
     const [topDeltaY, setTopDeltaY] = useState(0);
     const [mouseY, setMouseY] = useState(0);
     const [isPressed, setIsPressed] = useState(false);
@@ -25,18 +29,18 @@ const Draggable = ({ children, itemHeight }) => {
     const [order, setOrder] = useState(range(children.length));
     const itemsCount = children.length;
 
-    const handleTouchStart = (key, pressLocation, e) => {
+    const handleTouchStart = (key: number, pressLocation: number, e: any) => {
         e.preventDefault();
         handleMouseDown(key, pressLocation, e.touches[0]);
     };
 
-    const handleTouchMove = (e) => {
+    const handleTouchMove = (e: any) => {
         console.log("touch move")
         e.preventDefault();
         handleMouseMove(e.touches[0]);
     };
 
-    const handleMouseDown = (pos, pressY, { pageY }) => {
+    const handleMouseDown = (pos: number, pressY: number, { pageY }: { pageY: number }) => {
         setTopDeltaY(pageY - pressY);
         setMouseY(pressY);
         setIsPressed(true);
@@ -53,7 +57,7 @@ const Draggable = ({ children, itemHeight }) => {
         setTopDeltaY(0);
     };
 
-    const handleMouseMove = ({ pageY }) => {
+    const handleMouseMove = ({ pageY }: { pageY: number }) => {
         if (isPressed) {
             console.log(isPressed)
             const mouseY = pageY - topDeltaY;

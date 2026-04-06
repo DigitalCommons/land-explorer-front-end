@@ -1,15 +1,13 @@
-// @ts-nocheck
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/react-redux';
 import convert from 'convert-units';
 import iconChevron from '../../assets/img/icon-chevron.svg';
 
 /** Component for displaying a drawn polygon or line in the Left pane info section */
-const DrawingSection = ({ drawing }) => {
-  const dispatch = useDispatch();
-  const activeDrawing = useSelector((state) => state.drawings.activeDrawing);
+const DrawingSection = ({ drawing }: { drawing: any }) => {
+  const dispatch = useAppDispatch();
+  const activeDrawing = useAppSelector((state) => state.drawings.activeDrawing);
 
-  const perimeter = (km) => {
+  const perimeter = (km: number) => {
     if (km < 2) {
       return `${roundTo(convert(km).from("km").to("m"), 2)} m`;
     } else {
@@ -17,7 +15,7 @@ const DrawingSection = ({ drawing }) => {
     }
   };
 
-  const area = (m2) => {
+  const area = (m2: number) => {
     if (m2 < 100000) {
       return `${roundTo(m2, 2)} m2`;
     } else {
@@ -25,17 +23,17 @@ const DrawingSection = ({ drawing }) => {
     }
   };
 
-  const areaHectares = (m2) => {
+  const areaHectares = (m2: number) => {
     return `${roundTo(convert(m2).from("m2").to("ha"), 3)} hectares`;
   };
 
-  const areaAcres = (m2) => {
+  const areaAcres = (m2: number) => {
     return `${roundTo(convert(m2).from("m2").to("ac"), 3)} acres`;
   };
 
-  const roundTo = (num, scale) => {
+  const roundTo = (num: number, scale: number) => {
     if (!`${num}`.includes("e")) {
-      return +(Math.round(`${num}e+${scale}`) + `e-${scale}`);
+      return +(Math.round(Number(`${num}e+${scale}`)) + `e-${scale}`);
     } else {
       const arr = `${num}`.split("e");
       let sig = "";
@@ -43,7 +41,7 @@ const DrawingSection = ({ drawing }) => {
         sig = "+";
       }
       return +(
-        Math.round(+arr[0] + `e${sig}${+arr[1] + scale}`) + `e-${scale}`
+        Math.round(Number(+arr[0] + `e${sig}${+arr[1] + scale}`)) + `e-${scale}`
       );
     }
   };

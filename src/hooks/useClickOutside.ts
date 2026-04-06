@@ -1,10 +1,12 @@
-// @ts-nocheck
-import { useEffect } from "react";
+import { RefObject, useEffect } from "react";
 
-const useClickOutside = (ref, handler) => {
+const useClickOutside = <T extends HTMLElement>(
+  ref: RefObject<T | null>,
+  handler: () => void
+) => {
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
         handler();
       }
     };

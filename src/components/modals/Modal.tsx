@@ -1,6 +1,15 @@
-// @ts-nocheck
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect, CSSProperties, ReactNode } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
+
+type Props = {
+  style?: CSSProperties;
+  customClass?: string;
+  padding?: boolean;
+  id: string;
+  customClose?: () => void;
+  children?: ReactNode;
+  slideDirection?: string;
+};
 
 const Modal = ({
   style,
@@ -10,9 +19,9 @@ const Modal = ({
   customClose,
   children,
   slideDirection,
-}) => {
-  const dispatch = useDispatch();
-  const { open, canToggle } = useSelector((state) => state.modal[id]);
+}: Props) => {
+  const dispatch = useAppDispatch();
+  const { open, canToggle } = useAppSelector((state) => state.modal[id]);
   const [opacity, setOpacity] = useState(0);
   const [translateY, setTranslateY] = useState(
     slideDirection === "right" ? "-50%" : "-100%"

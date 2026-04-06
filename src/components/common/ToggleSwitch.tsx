@@ -1,7 +1,10 @@
-// @ts-nocheck
-import React from 'react';
+type Props = {
+  on: boolean;
+  toggle?: () => void;
+  tooltip?: string;
+};
 
-const ToggleSwitch = ({ on, toggle, tooltip }) =>
+const ToggleSwitch = ({ on, toggle, tooltip }: Props) =>
     <div className="toggle-switch"
         onClick={(e) => {
             e.preventDefault();
@@ -20,7 +23,5 @@ const ToggleSwitch = ({ on, toggle, tooltip }) =>
             <span className="slider"></span>
         </label>
     </div>
-
-
 
 export default ToggleSwitch;

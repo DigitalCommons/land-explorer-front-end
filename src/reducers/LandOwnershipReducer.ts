@@ -1,9 +1,51 @@
-// @ts-nocheck
-const INITIAL_STATE = {
+import { Action } from "../types";
+
+export type PropertyDisplayType =
+  | "all"
+  | "pending"
+  | "localAuthority"
+  | "churchOfEngland"
+  | "socialHousing"
+  | "unregistered";
+
+type Property = {
+  poly_id: string;
+  title_no: string;
+  proprietor_name_1?: string;
+  proprietor_category_1?: string;
+  [key: string]: unknown;
+};
+
+type HighlightedProperties = {
+  [titleNo: string]: Property;
+};
+
+type RelatedProperties = {
+  [titleNo: string]: Property;
+};
+
+type MapLayersData = {
+  ownershipDisplay?: boolean | string | null;
+  [key: string]: unknown;
+};
+
+type LandOwnershipState = {
+  activeDisplay: PropertyDisplayType | null;
+  visibleProperties: { [key: string]: Property };
+  loadingProperties: boolean;
+  highlightedProperties: HighlightedProperties;
+  activePropertyTitleNo: string | null;
+  relatedProperties: RelatedProperties;
+  relatedPropertiesError: string | null;
+  relatedPropertiesLoading: boolean;
+  relatedPropertiesProprietorName: string | null;
+};
+
+const INITIAL_STATE: LandOwnershipState = {
   activeDisplay: null,
   visibleProperties: {},
   loadingProperties: false,
-  highlightedProperties: [],
+  highlightedProperties: {},
   activePropertyTitleNo: null,
   relatedProperties: {},
   relatedPropertiesError: null,
@@ -11,10 +53,19 @@ const INITIAL_STATE = {
   relatedPropertiesProprietorName: null,
 };
 
-export default (state = INITIAL_STATE, action) => {
+type LoadMapPayload = {
+  data: {
+    mapLayers: MapLayersData;
+  };
+};
+
+export default (
+  state: LandOwnershipState = INITIAL_STATE,
+  action: Action
+): LandOwnershipState => {
   switch (action.type) {
-    case "TOGGLE_PROPERTY_DISPLAY":
-      const displayType = action.payload;
+    case "TOGGLE_PROPERTY_DISPLAY": {
+      const displayType = action.payload as PropertyDisplayType;
       if (state.activeDisplay === displayType) {
         // if this type was already on, turn it off
         return {
@@ -27,30 +78,31 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         activeDisplay: displayType,
       };
+    }
     case "SET_LOADING_PROPERTIES":
       return {
         ...state,
-        loadingProperties: action.payload,
+        loadingProperties: action.payload as boolean,
       };
     case "SET_VISIBLE_PROPERTIES":
       return {
         ...state,
-        visibleProperties: action.payload,
+        visibleProperties: action.payload as { [key: string]: Property },
       };
     case "HIGHLIGHT_PROPERTIES":
       return {
         ...state,
         highlightedProperties: {
           ...state.highlightedProperties,
-          ...action.payload,
+          ...(action.payload as HighlightedProperties),
         },
       };
-    case "CLEAR_HIGHLIGHTED_PROPERTIES":
-      const propertyTitleNosToClear = action.payload;
+    case "CLEAR_HIGHLIGHTED_PROPERTIES": {
+      const propertyTitleNosToClear = action.payload as string[];
       const rest = { ...state.highlightedProperties }; // Create a shallow copy
       propertyTitleNosToClear.forEach((id) => delete rest[id]);
       const activePropertyTitleNo = propertyTitleNosToClear.includes(
-        state.activePropertyTitleNo
+        state.activePropertyTitleNo as string
       )
         ? null
         : state.activePropertyTitleNo;
@@ -60,6 +112,7 @@ export default (state = INITIAL_STATE, action) => {
         highlightedProperties: rest,
         activePropertyTitleNo,
       };
+    }
     case "CLEAR_ALL_HIGHLIGHTED_PROPERTIES":
       return {
         ...state,
@@ -69,7 +122,7 @@ export default (state = INITIAL_STATE, action) => {
     case "SET_ACTIVE_PROPERTY":
       return {
         ...state,
-        activePropertyTitleNo: action.payload,
+        activePropertyTitleNo: action.payload as string,
       };
     case "CLEAR_ACTIVE_PROPERTY":
       return {
@@ -79,7 +132,7 @@ export default (state = INITIAL_STATE, action) => {
     case "FETCH_RELATED_PROPERTIES_SUCCESS":
       return {
         ...state,
-        relatedProperties: action.payload,
+        relatedProperties: action.payload as RelatedProperties,
         relatedPropertiesError: null,
         relatedPropertiesLoading: false,
       };
@@ -87,7 +140,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         relatedProperties: {},
-        relatedPropertiesError: action.payload,
+        relatedPropertiesError: action.payload as string,
         relatedPropertiesLoading: false,
       };
     case "FETCH_RELATED_PROPERTIES_LOADING":
@@ -98,7 +151,7 @@ export default (state = INITIAL_STATE, action) => {
     case "SET_RELATED_PROPERTIES_PROPRIETOR_NAME":
       return {
         ...state,
-        relatedPropertiesProprietorName: action.payload,
+        relatedPropertiesProprietorName: action.payload as string,
       };
     case "CLEAR_RELATED_PROPERTIES_AND_PROPRIETOR_NAME":
       return {
@@ -107,10 +160,11 @@ export default (state = INITIAL_STATE, action) => {
         relatedPropertiesProprietorName: null,
       };
     case "LOAD_MAP":
-    case "RELOAD_MAP":
+    case "RELOAD_MAP": {
+      const loadPayload = action.payload as LoadMapPayload;
       // this could be undefined, or just 'true' for old maps
       const ownershipDisplay =
-        action.payload.data.mapLayers.ownershipDisplay || null;
+        loadPayload.data.mapLayers.ownershipDisplay || null;
 
       if (ownershipDisplay === true) {
         return {
@@ -122,8 +176,9 @@ export default (state = INITIAL_STATE, action) => {
       }
       return {
         ...state,
-        activeDisplay: ownershipDisplay,
+        activeDisplay: ownershipDisplay as PropertyDisplayType | null,
       };
+    }
     case "NEW_MAP":
       return INITIAL_STATE;
     default:

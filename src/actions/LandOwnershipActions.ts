@@ -1,13 +1,14 @@
-// @ts-nocheck
 import { getRequest } from "./RequestActions";
 import { autoSave } from "./MapActions";
+import { PropertyDisplayType } from "@/reducers/LandOwnershipReducer";
 
-/**
- * @param {string} type "all", "pending", "localAuthority", "churchOfEngland", "socialHousing" or "unregistered"
- */
-
-export const fetchPropertiesInBox = (sw_lng, sw_lat, ne_lng, ne_lat) => {
-  return async (dispatch, getState) => {
+export const fetchPropertiesInBox = (
+  sw_lng: number,
+  sw_lat: number,
+  ne_lng: number,
+  ne_lat: number
+) => {
+  return async (dispatch: any, getState: any) => {
     dispatch({ type: "SET_LOADING_PROPERTIES", payload: true });
 
     const propertiesType = getState().landOwnership.activeDisplay;
@@ -27,8 +28,8 @@ export const fetchPropertiesInBox = (sw_lng, sw_lat, ne_lng, ne_lat) => {
   };
 };
 
-export const highlightProperties = (properties) => {
-  return (dispatch) => {
+export const highlightProperties = (properties: any) => {
+  return (dispatch: any) => {
     dispatch({
       type: "HIGHLIGHT_PROPERTIES",
       payload: properties,
@@ -36,8 +37,8 @@ export const highlightProperties = (properties) => {
   };
 };
 
-export const clearHighlightedProperties = (propertyTitleNos) => {
-  return (dispatch) => {
+export const clearHighlightedProperties = (propertyTitleNos: string[]) => {
+  return (dispatch: any) => {
     dispatch({
       type: "CLEAR_HIGHLIGHTED_PROPERTIES",
       payload: propertyTitleNos,
@@ -46,15 +47,15 @@ export const clearHighlightedProperties = (propertyTitleNos) => {
 };
 
 export const clearAllHighlightedProperties = () => {
-  return (dispatch) => {
+  return (dispatch: any) => {
     dispatch({
       type: "CLEAR_ALL_HIGHLIGHTED_PROPERTIES",
     });
   };
 };
 
-export const setActiveProperty = (titleNo) => {
-  return (dispatch, getState) => {
+export const setActiveProperty = (titleNo: string) => {
+  return (dispatch: any, getState: any) => {
     // First clear the active property to trigger scroll to the property, even if it was already
     // active
     dispatch({
@@ -76,8 +77,8 @@ export const setActiveProperty = (titleNo) => {
   };
 };
 
-export const fetchRelatedProperties = (proprietorName) => {
-  return async (dispatch) => {
+export const fetchRelatedProperties = (proprietorName: string) => {
+  return async (dispatch: any) => {
     dispatch({
       type: "SET_RELATED_PROPERTIES_PROPRIETOR_NAME",
       payload: proprietorName,
@@ -104,11 +105,9 @@ export const fetchRelatedProperties = (proprietorName) => {
   };
 };
 
-
-export const togglePropertyDisplay = (type) => {
-  return (dispatch) => {
+export const togglePropertyDisplay = (type: PropertyDisplayType) => {
+  return (dispatch: any) => {
     dispatch({ type: "TOGGLE_PROPERTY_DISPLAY", payload: type });
-    console.log(`Toggled property display to ${type}`);
     return dispatch(autoSave());
   };
 };

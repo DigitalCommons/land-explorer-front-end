@@ -5,7 +5,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@fortawesome/react-fontawesome": "^0.2.6",
     "@gocardless/react-dropin": "^0.3.0",
     "@mapbox/mapbox-gl-draw": "git+https://github.com/mapbox/mapbox-gl-draw.git#84e35b7aa308c69a44b483296baa6ac1c6dc9db8",
     "@mapbox/mapbox-gl-draw-static-mode": "^1.0.1",
@@ -14,6 +14,7 @@
     "@turf/turf": "^7.3.4",
     "axios": "^0.26.0",
     "convert-units": "^2.3.4",
+    "events": "^3.3.0",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.7.0",
     "moment": "^2.29.1",
@@ -78,6 +79,7 @@
     ]
   },
   "devDependencies": {
+    "@types/mapbox-gl": "2",
     "@types/node": "^25.2.3",
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
