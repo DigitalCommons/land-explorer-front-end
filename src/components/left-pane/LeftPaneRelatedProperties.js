@@ -28,7 +28,7 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
   const indexOfFirstProperty = indexOfLastProperty - itemsPerPage;
   const propertiesOnThisPage = Object.values(properties).slice(
     indexOfFirstProperty,
-    indexOfLastProperty
+    indexOfLastProperty,
   );
 
   const selectAll = () => {
@@ -71,19 +71,24 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
         ) : propertyCount > 0 ? (
           <>
             <div className="property-count">
-              <span className="property-count--highlight">
+              <div className="property-count--highlight">
                 {propertiesOnThisPage[0].proprietor_name_1}
-              </span>{" "}
-              has{" "}
-              <span className="property-count--highlight">{propertyCount}</span>{" "}
-              associated properties
+              </div>
+              <div>
+                <span className="property-count--highlight">
+                  {propertyCount}
+                </span>{" "}
+                associated properties
+              </div>
             </div>
-            <p onClick={selectAll} className="clear-all">
-              Select all
-            </p>
-            <p onClick={clearAll} className="clear-all">
-              Clear all
-            </p>
+            <div className="search-results__button-container">
+              <button onClick={selectAll} className="button">
+                Select all
+              </button>
+              <p onClick={clearAll} className="clear-all">
+                Clear all
+              </p>
+            </div>
             {propertiesOnThisPage.map((property) => (
               <RelatedProperty key={property.title_no} property={property} />
             ))}
