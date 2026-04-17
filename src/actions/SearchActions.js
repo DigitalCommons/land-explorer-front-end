@@ -6,7 +6,6 @@ const DEFAULT_PROPRIETOR_PAGE_SIZE = 10;
 const MAX_SEARCH_TERM_LENGTH = 200;
 const DEFAULT_VISIBLE_PROPRIETOR_RESULTS = 5;
 const FILTERED_VISIBLE_PROPRIETOR_RESULTS = 10;
-const DEFAULT_VISIBLE_LOCATION_RESULTS = 5;
 
 export const setSearchQuery = (query) => {
   return (dispatch) => {
@@ -61,19 +60,6 @@ export const toggleSearchFilter = (filter) => {
     }
 
     dispatch(setSearchFilter(filter));
-  };
-};
-
-export const setLocationResults = (results = []) => {
-  return (dispatch) => {
-    dispatch({
-      type: "SET_LOCATION_RESULTS",
-      payload: {
-        results,
-        total: results.length,
-        visible: Math.min(results.length, DEFAULT_VISIBLE_LOCATION_RESULTS),
-      },
-    });
   };
 };
 
@@ -194,9 +180,6 @@ export const selectLocationResult = (location) => {
     dispatch(closeSearchDropdown());
     dispatch(clearSearchFilter());
 
-    dispatch({
-      type: "SET_SEARCH_QUERY",
-      payload: location?.place_name || location?.label || "",
-    });
+    dispatch(setSearchQuery(location?.place_name || location?.label || ""));
   };
 };

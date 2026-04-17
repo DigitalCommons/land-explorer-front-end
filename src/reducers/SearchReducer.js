@@ -7,13 +7,8 @@ const initialState = {
   loadingProprietors: false,
   proprietorError: null,
   proprietorResults: [],
-  locationResults: [],
   resultCounts: {
     proprietors: {
-      total: 0,
-      visible: 5,
-    },
-    locations: {
       total: 0,
       visible: 5,
     },
@@ -69,19 +64,6 @@ const SearchReducer = (state = initialState, action) => {
         },
       };
 
-    case "SET_LOCATION_RESULTS":
-      return {
-        ...state,
-        locationResults: action.payload.results,
-        resultCounts: {
-          ...state.resultCounts,
-          locations: {
-            total: action.payload.total,
-            visible: action.payload.visible,
-          },
-        },
-      };
-
     case "FETCH_PROPRIETORS_STARTED":
       return {
         ...state,
@@ -129,13 +111,8 @@ const SearchReducer = (state = initialState, action) => {
         loadingProprietors: false,
         proprietorError: null,
         proprietorResults: [],
-        locationResults: [],
         resultCounts: {
           proprietors: {
-            total: 0,
-            visible: 5,
-          },
-          locations: {
             total: 0,
             visible: 5,
           },
