@@ -18,6 +18,7 @@ import MapMetaReducer from "./MapMetaReducer";
 import LandOwnershipReducer from "./LandOwnershipReducer";
 import DataGroupsReducer from "./DataGroupsReducer";
 import ConnectivityReducer from "./ConnectivityReducer";
+import SearchReducer from "./SearchReducer";
 
 const appReducer = combineReducers({
   authentication: AuthenticationReducer,
@@ -39,6 +40,7 @@ const appReducer = combineReducers({
   landOwnership: LandOwnershipReducer,
   dataGroups: DataGroupsReducer,
   connectivity: ConnectivityReducer,
+  search: SearchReducer,
 });
 
 const rootReducer = (state, action) => {
