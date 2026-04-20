@@ -69,6 +69,8 @@ $privatelyOwned: #39ABB3; // turquoise
 $selectedProperty: #244673; // blue
 $unregisteredProperty: #B85800; // orange
 
+$defaultFontFamily: "Lato", sans-serif;
+
 /** Mixins **/
 @mixin button-scaffold(
   $padding: 0px,
