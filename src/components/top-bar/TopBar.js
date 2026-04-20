@@ -6,7 +6,7 @@ import MapTitleBar from "./MapTitleBar";
 import MapMenu from "./MapMenu";
 import ProfilePic from "./ProfilePic";
 import { useDispatch, useSelector } from "react-redux";
-import SearchBar from "./SearchBar";
+import SearchBar from "./SearchBar/SearchBar";
 
 const TopBar = ({ limited }) => {
   const dispatch = useDispatch();

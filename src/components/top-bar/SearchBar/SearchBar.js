@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import * as MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import { useMediaQuery } from "react-responsive";
-import constants from "../../constants";
-import useClickOutside from "../../hooks/useClickOutside";
-import { setSearchMarker, clearSearchMarker, setLngLat } from "../../actions/MapActions";
+import constants from "../../../constants";
+import useClickOutside from "../../../hooks/useClickOutside";
+import { setSearchMarker, clearSearchMarker, setLngLat } from "../../../actions/MapActions";
 import {
   fetchProprietors,
   openSearchDropdown,
@@ -16,7 +16,8 @@ import {
   clearSearchFilter,
   selectProprietorResult,
   selectLocationResult,
-} from "../../actions/SearchActions";
+} from "../../../actions/SearchActions";
+import SearchDropdown from "./SearchDropDown/SearchDropDown";
 
 const SearchBar = ({ expanded, setExpanded }) => {
   const dispatch = useDispatch();
@@ -203,7 +204,10 @@ const SearchBar = ({ expanded, setExpanded }) => {
 
   useClickOutside(ref, () => {
     dispatch(closeSearchDropdown());
-    maybeCollapse();
+
+    if (isSmallScreen) {
+      collapse();
+    }
   });
 
   const hasQuery = query.trim().length > 0;
@@ -226,91 +230,24 @@ const SearchBar = ({ expanded, setExpanded }) => {
 
 
   return (
-    <div
-      ref={ref}
-      style={{ position: "relative" }}
-      onFocus={expand}
-      onClick={expand}
-      onBlur={maybeCollapse}
-    >
+    <div ref={ref} style={{ position: "relative" }} onClick={expand}>
       <span id="search-bar" />
 
       {showDropdownContent && (
-        <div className="search-dropdown">
-          <div className="search-dropdown__filters">
-            <button
-              type="button"
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={() => dispatch(clearSearchFilter())}
-            >
-              All
-            </button>
-            <button
-              type="button"
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={() => dispatch(toggleSearchFilter("proprietor"))}
-            >
-              Owners
-            </button>
-            <button
-              type="button"
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={() => dispatch(toggleSearchFilter("location"))}
-            >
-              Locations
-            </button>
-          </div>
-
-          {showProprietors && (
-            <div className="search-dropdown__group">
-              <div className="search-dropdown__heading">Owners</div>
-
-              {loadingProprietors && visibleProprietorResults.length === 0 && (
-                <div className="search-dropdown__empty">Searching owners…</div>
-              )}
-
-              {showNoProprietorsMessage && (
-                <div className="search-dropdown__empty">
-                  No proprietors found
-                </div>
-              )}
-
-              {visibleProprietorResults.map((proprietor) => (
-                <button
-                  key={proprietor.id || proprietor.proprietorName}
-                  type="button"
-                  className="search-dropdown__item"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => handleProprietorSelect(proprietor)}
-                >
-                  {proprietor.proprietorName}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {showLocations && (
-            <div className="search-dropdown__group">
-              <div className="search-dropdown__heading">Locations</div>
-
-              {showNoLocationsMessage && (
-                <div className="search-dropdown__empty">No locations found</div>
-              )}
-
-              {visibleLocationResults.map((location) => (
-                <button
-                  key={location.id || location.place_name}
-                  type="button"
-                  className="search-dropdown__item"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => handleLocationSelect(location)}
-                >
-                  {location.place_name}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+        <SearchDropdown
+          showProprietors={showProprietors}
+          showLocations={showLocations}
+          loadingProprietors={loadingProprietors}
+          visibleProprietorResults={visibleProprietorResults}
+          visibleLocationResults={visibleLocationResults}
+          showNoProprietorsMessage={showNoProprietorsMessage}
+          showNoLocationsMessage={showNoLocationsMessage}
+          onShowAll={() => dispatch(clearSearchFilter())}
+          onShowProprietors={() => dispatch(toggleSearchFilter("proprietor"))}
+          onShowLocations={() => dispatch(toggleSearchFilter("location"))}
+          onSelectProprietor={handleProprietorSelect}
+          onSelectLocation={handleLocationSelect}
+        />
       )}
     </div>
   );
