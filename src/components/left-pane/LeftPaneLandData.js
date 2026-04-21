@@ -160,6 +160,19 @@ const LeftPaneLandData = ({ open, active, onClose }) => {
           onToggle={() => dispatch(togglePropertyDisplay("churchOfEngland"))}
         />
         <LeftPaneToggle
+          title={"Social Housing"}
+          on={landOwnershipActiveDisplay === "socialHousing"}
+          onToggle={() => dispatch(togglePropertyDisplay("socialHousing"))}
+          disclaimer={true}
+          disclaimerContent={
+            <>
+              This layer is based on registered social housing providers in
+              England and Wales. Note that local authorities can also provide
+              social housing, and these won't be included in the layer.
+            </>
+          }
+        />
+        <LeftPaneToggle
           title="Unregistered Land"
           on={landOwnershipActiveDisplay === "unregistered"}
           onToggle={() => dispatch(togglePropertyDisplay("unregistered"))}

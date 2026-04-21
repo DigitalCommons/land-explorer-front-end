@@ -1,57 +1,20 @@
 # Land Explorer Documentation (Front End)
 
+This is the front-end of Land Explorer, intended to be used with the back-end, which can be viewed [here](https://github.com/DigitalCommons/land-explorer-back-end).
+
+This is a Digital Commons Cooperative project. Please follow our [contributor guidelines](https://github.com/DigitalCommons#-contributing) if you wish to participate in building Land Explorer.
+
+## Requirements
+
+- Node 16
+- Yarn 1.22
+
 ## Get Started
 
 1. Clone this repo
-2. 'yarn install'
+2. `yarn install`
 3. create a .env file in the config folder, copying and replacing the values in the .env.example
-4. 'yarn start'
-
-### Libraries
->**mapbox-gl** 
-    - mapbox
-    - https://docs.mapbox.com/mapbox-gl-js/api/
-    
->**react-mapbox-gl** 
-    react bindings for mapbox (so we can can use state/props to re-render the map)
-    - https://github.com/alex3165/react-mapbox-gl/blob/master/docs/API.md
-    
->**@mapbox/mapbox-gl-draw** 
-    - mapbox drawing tools
-    - https://github.com/mapbox/mapbox-gl-draw/blob/master/docs/API.md
-    
->**react-mapbox-gl-draw** 
-    - react bindings for mapbox drawing tools
-    - https://github.com/amaurymartiny/react-mapbox-gl-draw
-    
->**@mapbox/mapbox-gl-draw-static-mode**
-    - mapbox-gl-draw extension we use this so we can disable interactivity
-    - https://github.com/mapbox/mapbox-gl-draw-static-mode
-    
->**@mapbox/mapbox-gl-geocoder**
-    - we use this to create our custom geocoder (location search) - its used inside the mapbox map, and is injected into TopBar
-    - https://github.com/mapbox/mapbox-gl-geocoder/blob/master/API.md
-    
-> **@turf/turf**
-    - We use turf to measure GeoJson polygons/lines and convert them
-    - http://turfjs.org/
-    
-> **convert-units**
-    - to convert units (km hectares etc) in PolygonSections
-    
->**react-device-detect**
-    - to detect if mobile, (to disable drawing tools)
-    
->**react-motion**
-    - to animate the Draggable component
-    
->**react-select**
-    - Dropdown menus
-    
->**react-spinkit**
-    - Loading animations
-
-<br/>
+4. `yarn start`
 
 ## Mapbox 
 
@@ -76,16 +39,7 @@
 
 <br/>
 
-#### Drawing Tools
-
-mapbox-gl-draw
-
-https://github.com/mapbox/mapbox-gl-draw/blob/master/docs/API.md
-
-
-<br/>
-
-## Ordance Survey
+## Ordnance Survey
 #### Creating an ordnance survey key
 
 https://developer.ordnancesurvey.co.uk/
@@ -98,60 +52,3 @@ https://developer.ordnancesurvey.co.uk/
 7) Add one new key containing all 3 OS Places APIs
 8) On next screen, click on the keys you just created to get the keys
 9) Put keys in constants.js
-
-Last used account was:
-
-    username : chris+new@wearespork.net
-    password: dottedcrotchet
-<br/>
-
-## OS Places API
-
-#### Postcode Search
-
-https://apidocs.os.uk/docs/os-places-postcode
-
-Search by postcode to get a list of all the properties in it (including their UPRNs)
-    
-    https://api.ordnancesurvey.co.uk/places/v1/addresses/postcode?postcode=E28NG&key=3ndXJQYYTG6RtUzW2iVkatwhrdG9hf48
-        
-<br/>
-
-#### UPRN Search - Unique Property Reference Number
-
-https://apidocs.os.uk/docs/os-places-postcode
-
-Search by UPRN to get full address and postcode
-
-    https://api.ordnancesurvey.co.uk/places/v1/addresses/uprn?uprn=10090479306&key=3ndXJQYYTG6RtUzW2iVkatwhrdG9hf48
-      
-<br/>
-
-## National Polygon Service
-
-#### Shape files
-The polygons were provided as a zip file (NSD_FULL_NOV.zip).
-Containing shape files (.shp - the actual polygon data) and a URPN .csv for converting UPRN's to TITLE_NO's
-and a TENURE .csv for converting the TITLE_NO to estate codes.
-
-
-#### ogr2ogr
-
-https://www.gdal.org/ogr2ogr.html
-
-ogr2ogr is a command line tool for converting feature data between file formats
-(We use it to convert the land registry polygons (.shp files) to geoJSON so they can be converted to .mbtiles files which can be uploaded to mapbox)
-
-example:
-
-    ogr2ogr -progress -f GeoJSON -t_srs EPSG:4326 converted3.geojson LR_POLY_FULL_NOV_2018_3.shp
-
-#### tippecanoe
-
-tippecanoe is a way of converting geojson to mbtiles (so that they can be uploaded to mapbox)
-
-    tippecanoe -o converted-double.mbtiles -zg --drop-densest-as-needed  converted0.geojson converted1.geojson
-> This will combine and convert converted0.geojson and converted1.geojson into converted-double.mbtiles file.
-> --drop-densest-as-needed automatically reduces polygon detail and lower zoom levels.
-
-<br/>

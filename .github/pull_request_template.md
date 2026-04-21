@@ -10,6 +10,8 @@ Fixes # <!-- Insert issue number here. -->
 <!-- Any details to help the Reviewer to understand your code changes
      e.g. files to pay special attention to, the structure of the commits  -->
 
+Design doc: <!-- Insert link here -->
+
 #### Checklist (do these before sending for review)
 
 
