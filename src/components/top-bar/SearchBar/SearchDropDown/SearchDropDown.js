@@ -2,6 +2,7 @@ import React from "react";
 import formatProprietorName from "../../../../utils/formatProprietorName";
 
 const SearchDropdown = ({
+  showInitialSearchMessage,
   showProprietors,
   showLocations,
   loadingProprietors,
@@ -41,52 +42,62 @@ const SearchDropdown = ({
         </button>
       </div>
 
-      {showProprietors && (
-        <div className="search-dropdown__group">
-          <div className="search-dropdown__heading">Proprietors</div>
-
-          {loadingProprietors && visibleProprietorResults.length === 0 && (
-            <div className="search-dropdown__empty">Searching owners…</div>
-          )}
-
-          {showNoProprietorsMessage && (
-            <div className="search-dropdown__empty">No proprietors found</div>
-          )}
-
-          {visibleProprietorResults.map((proprietor) => (
-            <button
-              key={proprietor.id || proprietor.proprietorName}
-              type="button"
-              className="search-dropdown__item"
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={() => onSelectProprietor(proprietor)}
-            >
-              {formatProprietorName(proprietor.proprietorName)}
-            </button>
-          ))}
+      {showInitialSearchMessage ? (
+        <div className="search-dropdown__empty">
+          Try part of a name or place — we'll suggest matches
         </div>
-      )}
+      ) : (
+        <>
+          {showProprietors && (
+            <div className="search-dropdown__group">
+              <div className="search-dropdown__heading">Proprietors</div>
 
-      {showLocations && (
-        <div className="search-dropdown__group">
-          <div className="search-dropdown__heading">Locations</div>
+              {loadingProprietors && visibleProprietorResults.length === 0 && (
+                <div className="search-dropdown__empty">Searching owners…</div>
+              )}
 
-          {showNoLocationsMessage && (
-            <div className="search-dropdown__empty">No locations found</div>
+              {showNoProprietorsMessage && (
+                <div className="search-dropdown__empty">
+                  No proprietors found
+                </div>
+              )}
+
+              {visibleProprietorResults.map((proprietor) => (
+                <button
+                  key={proprietor.id || proprietor.proprietorName}
+                  type="button"
+                  className="search-dropdown__item"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => onSelectProprietor(proprietor)}
+                >
+                  {formatProprietorName(proprietor.proprietorName)}
+                </button>
+              ))}
+            </div>
           )}
 
-          {visibleLocationResults.map((location) => (
-            <button
-              key={location.id || location.place_name}
-              type="button"
-              className="search-dropdown__item"
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={() => onSelectLocation(location)}
-            >
-              {location.place_name}
-            </button>
-          ))}
-        </div>
+          {showLocations && (
+            <div className="search-dropdown__group">
+              <div className="search-dropdown__heading">Locations</div>
+
+              {showNoLocationsMessage && (
+                <div className="search-dropdown__empty">No locations found</div>
+              )}
+
+              {visibleLocationResults.map((location) => (
+                <button
+                  key={location.id || location.place_name}
+                  type="button"
+                  className="search-dropdown__item"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => onSelectLocation(location)}
+                >
+                  {location.place_name}
+                </button>
+              ))}
+            </div>
+          )}
+        </>
       )}
     </div>
   );

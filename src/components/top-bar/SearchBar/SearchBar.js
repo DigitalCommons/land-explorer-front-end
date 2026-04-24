@@ -37,15 +37,6 @@ const SearchBar = ({ expanded, setExpanded }) => {
   const showProprietors = activeFilter === null || activeFilter === "proprietor";
   const showLocations = activeFilter === null || activeFilter === "location";
 
-
-  /** Collapse search bar (with small delay) if on mobile, or if there is no input. */
-  const maybeCollapse = () => {
-    const geocoderInput = document.getElementsByClassName("mapboxgl-ctrl-geocoder--input")[0].value;
-    if (isSmallScreen || geocoderInput.trim() === "") {
-      setTimeout(() => collapse(), 200);
-    }
-  }
-
   const expand = () => {
     if (!expanded) {
       setExpanded(true);
@@ -109,7 +100,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
   useEffect(() => {
     const geocoder = new MapboxGeocoder({
       accessToken: constants.GEOCODER_TOKEN,
-      placeholder: "Enter Location",
+      placeholder: "Search by proprietor, address or location",
       countries: "gb",
       zoom: 13,
       reverseGeocode: true,
@@ -144,6 +135,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
 
     geocoder.on("clear", () => {
       dispatch(clearSearchMarker());
+      dispatch(setSearchQuery(""));
       dispatch(clearSearchResults());
       dispatch(clearSearchFilter());
       dispatch(closeSearchDropdown());
@@ -170,6 +162,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
 
       if (!nextQuery.trim()) {
         dispatch(clearSearchResults());
+        dispatch(clearSearchFilter());
         dispatch(closeSearchDropdown());
         clearLocalLocationResults();
         return;
@@ -182,9 +175,15 @@ const SearchBar = ({ expanded, setExpanded }) => {
       }, 600);
     };
 
+    const handleFocus = () => {
+      dispatch(openSearchDropdown());
+    };
+
     input.addEventListener("input", handleInput);
+    input.addEventListener("focus", handleFocus);
     inputListenerCleanupRef.current = () => {
       input.removeEventListener("input", handleInput);
+      input.removeEventListener("focus", handleFocus);
     };
 
     return () => {
@@ -221,12 +220,9 @@ const SearchBar = ({ expanded, setExpanded }) => {
   const showNoLocationsMessage =
     showLocations && hasQuery && visibleLocationResults.length === 0;
 
-  const showDropdownContent = isDropdownOpen && hasQuery;
+  const showDropdownContent = isDropdownOpen;
 
-  // const showDropdownContent =
-  //   isDropdownOpen &&
-  //   (hasVisibleProprietors || hasVisibleLocations || loadingProprietors);
-
+  const showInitialSearchMessage = isDropdownOpen && !hasQuery;
 
 
   return (
@@ -266,6 +262,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
       </div>
       {showDropdownContent && (
         <SearchDropdown
+          showInitialSearchMessage={showInitialSearchMessage}
           showProprietors={showProprietors}
           showLocations={showLocations}
           loadingProprietors={loadingProprietors}
