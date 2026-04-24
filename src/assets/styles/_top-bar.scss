@@ -45,6 +45,12 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+
+  @media screen and (min-width: $medium) {
+    justify-content: center;
+    gap: 20px;
+    padding: 0 20px;
+  }
 }
 
 .topbar-map-interactions {
@@ -64,6 +70,7 @@
   background-color: #78838e;
   height: 48px;
   width: 48px;
+  min-width: 48px;
   margin-right: 12px;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.16);
   border: solid 2px #ffffff;
@@ -90,7 +97,7 @@
   margin-right: 24px;
   user-select: none;
 
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 1450px) {
     display: none;
   }
 }
@@ -144,7 +151,7 @@
 }
 
 .map-title-bar {
-  width: 265px;
+  width: 245px;
   transition: width .25s, min-width .25s;
 
   @media screen and (max-width: 550px) {

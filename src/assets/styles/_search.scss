@@ -25,7 +25,7 @@
   }
 }
 
-.search-filter-continer {
+.search-filter-container {
   position: relative;
 }
 
@@ -110,6 +110,10 @@
   padding: 0 12px 10px;
   border-bottom: 1px solid #ece7db;
   margin-bottom: 8px;
+
+  @media screen and (min-width: $medium) {
+    display: none;
+  }
 }
 
 .search-dropdown__filters button {
@@ -185,8 +189,16 @@
   width: 100%;
 
   @media screen and (min-width: $medium) {
-    width: 600px;
+    width: 350px;
     margin: 0 auto;
+  }
+
+   @media screen and (min-width: $large) {
+    width: 450px;
+  }
+
+  @media screen and (min-width: $xlarge) {
+    width: 600px;
   }
 }
 
@@ -194,8 +206,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  width: 100%;
-  min-width: 0px;
+  width: 65px;
+    min-width: 65px;
   max-width: none;
   height: 50px;
   line-height: 50px;
@@ -241,14 +253,12 @@
 
     @media screen and (min-width: $medium) {
       padding: 0 130px 0px 50px;
-      background-position: 16px 50%;
     }
   }
 
-  @media screen and (max-width: $medium) {
-    width: 65px;
-    min-width: 65px;
-    padding-left: 0;
+  @media screen and (min-width: $medium) {
+    width: 100%;
+    background-position: 16px 50%;
   }
 }
 

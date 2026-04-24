@@ -25,10 +25,10 @@ const TopBar = ({ limited }) => {
             <MapMenu />
             <MapTitleBar expanded={!searchExpanded} />
           </div>
-          <SearchBar
-            expanded={searchExpanded}
-            setExpanded={setSearchExpanded}
-          />
+            <SearchBar
+              expanded={searchExpanded}
+              setExpanded={setSearchExpanded}
+            />
         </div>
         <div className="topbar-right">
           <div className="topbar-username">{`${user.firstName} ${user.lastName}`}</div>
