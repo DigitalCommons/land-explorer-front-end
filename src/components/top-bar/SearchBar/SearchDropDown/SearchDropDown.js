@@ -1,4 +1,5 @@
 import React from "react";
+import formatProprietorName from "../../../../utils/formatProprietorName";
 
 const SearchDropdown = ({
   showProprietors,
@@ -60,7 +61,7 @@ const SearchDropdown = ({
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => onSelectProprietor(proprietor)}
             >
-              {proprietor.proprietorName}
+              {formatProprietorName(proprietor.proprietorName)}
             </button>
           ))}
         </div>

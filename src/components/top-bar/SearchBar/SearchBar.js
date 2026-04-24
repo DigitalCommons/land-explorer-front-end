@@ -230,9 +230,40 @@ const SearchBar = ({ expanded, setExpanded }) => {
 
 
   return (
-    <div ref={ref} style={{ position: "relative" }} onClick={expand}>
+    <div ref={ref} className="search-bar-container" onClick={expand}>
       <span id="search-bar" />
+      <div className="search-bar-buttons">
+        <span className="search-bar-buttons__divider" />
+        <button
+          type="button"
+          className={`search-filter-icon-button ${
+            activeFilter === "proprietor" ? "is-active" : ""
+          }`}
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(toggleSearchFilter("proprietor"));
+          }}
+          aria-label="Filter by proprietors"
+        >
+          <span className="search-filter-icon search-filter-icon--proprietor" />
+        </button>
 
+        <button
+          type="button"
+          className={`search-filter-icon-button ${
+            activeFilter === "location" ? "is-active" : ""
+          }`}
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(toggleSearchFilter("location"));
+          }}
+          aria-label="Filter by locations"
+        >
+          <span className="search-filter-icon search-filter-icon--location" />
+        </button>
+      </div>
       {showDropdownContent && (
         <SearchDropdown
           showProprietors={showProprietors}
