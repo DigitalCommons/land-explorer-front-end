@@ -27,22 +27,22 @@ const SearchDropdown = ({
           Try part of a name or place — we'll suggest matches
         </div>
       ) : (
-          <>
+        <>
           {/* Filter buttons - mobile only */}
           <div className="search-dropdown__filters">
             <button
               type="button"
               onMouseDown={(e) => e.preventDefault()}
-                onClick={onShowProprietors}
-                className={showProprietors && !showLocations ? "selected" : ""}
+              onClick={onShowProprietors}
+              className={showProprietors && !showLocations ? "selected" : ""}
             >
               Proprietors
             </button>
             <button
               type="button"
               onMouseDown={(e) => e.preventDefault()}
-                onClick={onShowLocations}
-                className={showLocations && !showProprietors ? "selected" : ""}
+              onClick={onShowLocations}
+              className={showLocations && !showProprietors ? "selected" : ""}
             >
               Locations
             </button>
@@ -50,10 +50,15 @@ const SearchDropdown = ({
 
           {showProprietors && (
             <div className="search-dropdown__group">
-              <div className="search-dropdown__heading">Proprietors</div>
+              <div className="search-dropdown__heading">
+                <span className="search-filter-icon search-filter-icon--proprietor" />
+                Proprietors
+              </div>
 
               {loadingProprietors && visibleProprietorResults.length === 0 && (
-                <div className="search-dropdown__empty">Searching proprietors…</div>
+                <div className="search-dropdown__empty">
+                  Searching proprietors…
+                </div>
               )}
 
               {showNoProprietorsMessage && (
@@ -73,7 +78,7 @@ const SearchDropdown = ({
                   {formatProprietorName(proprietor.proprietorName)}
                 </button>
               ))}
-                
+
               {(hasPreviousProprietorResults || hasNextProprietorResults) && (
                 <div className="search-dropdown__pagination">
                   {hasPreviousProprietorResults && (
@@ -96,7 +101,9 @@ const SearchDropdown = ({
                       onClick={onShowNextProprietors}
                       disabled={loadingProprietors}
                     >
-                      {loadingProprietors ? "Loading…" : `Next ${!isMobile ? "10 matches" : ""}`}
+                      {loadingProprietors
+                        ? "Loading…"
+                        : `Next ${!isMobile ? "10 matches" : ""}`}
                     </button>
                   )}
                 </div>
@@ -106,7 +113,10 @@ const SearchDropdown = ({
 
           {showLocations && (
             <div className="search-dropdown__group">
-              <div className="search-dropdown__heading">Locations</div>
+              <div className="search-dropdown__heading">
+                <span className="search-filter-icon search-filter-icon--location" />
+                Locations
+              </div>
 
               {showNoLocationsMessage && (
                 <div className="search-dropdown__empty">No locations found</div>
