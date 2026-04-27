@@ -28,6 +28,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
   const inputRef = useRef(null);
   const inputListenerCleanupRef = useRef(null);
   const debounceRef = useRef(null);
+  const suppressLocationResultsRef = useRef(false);
   const [locationResults, setLocationResults] = useState([]);
 
   const { query, isDropdownOpen, activeFilter, proprietorResults, resultCounts, loadingProprietors } = useSelector(state => state.search);
@@ -113,12 +114,31 @@ const SearchBar = ({ expanded, setExpanded }) => {
     const formattedName = formatProprietorName(proprietorName);
 
     if (formattedName && geocoderRef.current?.setInput) {
+      suppressLocationResultsRef.current = true;
       geocoderRef.current.setInput(formattedName);
     }
 
     dispatch(closeSearchDropdown());
     await dispatch(selectProprietorResult(proprietor));
     document.activeElement.blur();
+
+    setTimeout(() => {
+      suppressLocationResultsRef.current = false;
+    }, 0);
+  };
+
+  const handleClearSearch = (e) => {
+    e.stopPropagation();
+
+    if (geocoderRef.current?.setInput) {
+      geocoderRef.current.setInput("");
+    }
+
+    dispatch(clearSearchMarker());
+    dispatch(setSearchQuery(""));
+    dispatch(clearSearchResults());
+    dispatch(clearSearchFilter());
+    clearLocalLocationResults();
   };
 
   // 
@@ -135,6 +155,11 @@ const SearchBar = ({ expanded, setExpanded }) => {
     geocoderRef.current = geocoder;
 
     geocoder.on("results", (event) => {
+      if (suppressLocationResultsRef.current) {
+        suppressLocationResultsRef.current = false;
+        return;
+      }
+
       const results = event?.features || [];
       setLocationResults(results);
     });
@@ -254,7 +279,18 @@ const SearchBar = ({ expanded, setExpanded }) => {
     <div ref={ref} className="search-bar-container" onClick={expand}>
       <span id="search-bar" />
       <div className="search-bar-buttons">
+        {hasQuery && (
+          <button
+            type="button"
+            className="search-clear-button"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={handleClearSearch}
+            aria-label="Clear search"
+          />
+        )}
+
         <span className="search-bar-buttons__divider" />
+
         <button
           type="button"
           className={`search-filter-icon-button ${

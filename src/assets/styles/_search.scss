@@ -1,7 +1,13 @@
 // Hide Mapbox Geocoder automatic suggestions 
 // as we are implementing our own search results dropdown
-.mapboxgl-ctrl-geocoder .suggestions {
+.mapboxgl-ctrl-geocoder .suggestions, .mapboxgl-ctrl-geocoder--button {
   display: none !important;
+}
+
+// Hide Mapbox Geocoder's default clear button.
+// Search clearing handled by custom button
+.mapboxgl-ctrl-geocoder--button {
+  display: none;
 }
 
 .search-bar-container {
@@ -327,36 +333,55 @@
   }
 }
 
-.mapboxgl-ctrl-geocoder--button {
-  background-color: transparent;
+// .mapboxgl-ctrl-geocoder--button {
+//   background-color: transparent;
+//   width: 18px;
+//   height: 18px;
+//   margin: 0;
+//   padding: 0;
+
+//   &:hover {
+//     background-color: transparent;
+
+//     .mapboxgl-ctrl-geocoder--icon-close {
+//       fill: transparent;
+//       outline: none;
+//     }
+//   }
+
+//   &:focus {
+//     outline: none;
+//   }
+// }
+
+// .mapboxgl-ctrl-geocoder--icon-close {
+//   background-image: url("../img/icon-clear.svg");
+//   color: transparent;
+//   background-repeat: no-repeat;
+//   width: 18px;
+//   height: 18px;
+//   margin: 0;
+//   opacity: 0.8;
+//   fill: transparent;
+// }
+
+.search-clear-button {
   width: 18px;
   height: 18px;
-  margin: 0;
   padding: 0;
-
-  &:hover {
-    background-color: transparent;
-
-    .mapboxgl-ctrl-geocoder--icon-close {
-      fill: transparent;
-      outline: none;
-    }
-  }
+  margin: 0 15px 0 0;
+  border: 0;
+  background-color: transparent;
+  background-image: url("../img/icon-clear.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px;
+  cursor: pointer;
+  opacity: 0.8;
 
   &:focus {
     outline: none;
   }
-}
-
-.mapboxgl-ctrl-geocoder--icon-close {
-  background-image: url("../img/icon-clear.svg");
-  color: transparent;
-  background-repeat: no-repeat;
-  width: 18px;
-  height: 18px;
-  margin: 0;
-  opacity: 0.8;
-  fill: transparent;
 }
 
 .geocoder--icon-loading {
