@@ -37,7 +37,9 @@ const SearchBar = ({ expanded, setExpanded }) => {
   const showProprietors = activeFilter === null || activeFilter === "proprietor";
   const showLocations = activeFilter === null || activeFilter === "location";
 
-  const expand = () => {
+  const expand = (e) => {
+    if (e?.target?.closest(".search-dropdown")) return;
+
     if (!expanded) {
       setExpanded(true);
       const geocoder = document.getElementById("search-bar").children[0];
@@ -91,7 +93,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
   }
 
   const handleProprietorSelect = async (proprietor) => {
-    clearLocalLocationResults();
+    dispatch(closeSearchDropdown());
     await dispatch(selectProprietorResult(proprietor));
     document.activeElement.blur();
   }
