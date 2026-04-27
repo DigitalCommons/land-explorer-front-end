@@ -105,12 +105,15 @@
   font-size: 16px;
 }
 
+// Styles for the filter buttons in the dropdown (mobile only)
+
 .search-dropdown__filters {
   display: flex;
   gap: 8px;
   padding: 0 12px 10px;
   border-bottom: 1px solid #ece7db;
   margin-bottom: 8px;
+  justify-content: center;
 
   @media screen and (min-width: $medium) {
     display: none;
@@ -120,23 +123,22 @@
 .search-dropdown__filters button {
   appearance: none;
   border: 1px solid #d9d4c7;
-  background: #f7f3e8;
-  color: #5f5a4c;
+  background: $trayBackground;
+  color: $secondaryColor;
   border-radius: 999px;
   padding: 6px 12px;
-  // font-size: 13px;
   line-height: 1.2;
   cursor: pointer;
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.search-dropdown__filters button:hover {
-  background: #eee8d8;
-  border-color: #c9c1ae;
+.search-dropdown__filters button.selected {
+  color: #fff;
+  background: $primaryColor;
+  border-color: $primaryColor;
 }
 
 .search-dropdown__group + .search-dropdown__group {
-  // border-top: 1px solid #f1ede4;
   margin-top: 8px;
   padding-top: 8px;
 }
@@ -179,6 +181,15 @@
   color: #7a7465;
 }
 
+// Pagination styles
+
+.search-dropdown__pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px 12px;
+}
 
 /********************************/
 /** Historic search box styles **/

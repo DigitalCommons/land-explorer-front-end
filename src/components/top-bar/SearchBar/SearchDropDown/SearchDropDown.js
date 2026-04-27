@@ -1,5 +1,6 @@
 import React from "react";
 import formatProprietorName from "../../../../utils/formatProprietorName";
+import { isMobile } from "react-device-detect";
 
 const SearchDropdown = ({
   showInitialSearchMessage,
@@ -14,7 +15,6 @@ const SearchDropdown = ({
   hasNextProprietorResults,
   onShowPreviousProprietors,
   onShowNextProprietors,
-  onShowAll,
   onShowProprietors,
   onShowLocations,
   onSelectProprietor,
@@ -22,42 +22,38 @@ const SearchDropdown = ({
 }) => {
   return (
     <div className="search-dropdown">
-      <div className="search-dropdown__filters">
-        <button
-          type="button"
-          onMouseDown={(e) => e.preventDefault()}
-          onClick={onShowAll}
-        >
-          All
-        </button>
-        <button
-          type="button"
-          onMouseDown={(e) => e.preventDefault()}
-          onClick={onShowProprietors}
-        >
-          Proprietors
-        </button>
-        <button
-          type="button"
-          onMouseDown={(e) => e.preventDefault()}
-          onClick={onShowLocations}
-        >
-          Locations
-        </button>
-      </div>
-
       {showInitialSearchMessage ? (
         <div className="search-dropdown__empty">
           Try part of a name or place — we'll suggest matches
         </div>
       ) : (
-        <>
+          <>
+          {/* Filter buttons - mobile only */}
+          <div className="search-dropdown__filters">
+            <button
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+                onClick={onShowProprietors}
+                className={showProprietors && !showLocations ? "selected" : ""}
+            >
+              Proprietors
+            </button>
+            <button
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+                onClick={onShowLocations}
+                className={showLocations && !showProprietors ? "selected" : ""}
+            >
+              Locations
+            </button>
+          </div>
+
           {showProprietors && (
             <div className="search-dropdown__group">
               <div className="search-dropdown__heading">Proprietors</div>
 
               {loadingProprietors && visibleProprietorResults.length === 0 && (
-                <div className="search-dropdown__empty">Searching owners…</div>
+                <div className="search-dropdown__empty">Searching proprietors…</div>
               )}
 
               {showNoProprietorsMessage && (
@@ -77,29 +73,30 @@ const SearchDropdown = ({
                   {formatProprietorName(proprietor.proprietorName)}
                 </button>
               ))}
+                
               {(hasPreviousProprietorResults || hasNextProprietorResults) && (
                 <div className="search-dropdown__pagination">
                   {hasPreviousProprietorResults && (
                     <button
                       type="button"
-                      className="search-dropdown__pagination-button"
+                      className="rounded-button-outline"
                       onMouseDown={(e) => e.preventDefault()}
                       onClick={onShowPreviousProprietors}
                       disabled={loadingProprietors}
                     >
-                      Previous
+                      Previous {!isMobile && "10 matches"}
                     </button>
                   )}
 
                   {hasNextProprietorResults && (
                     <button
                       type="button"
-                      className="search-dropdown__pagination-button"
+                      className="rounded-button-outline"
                       onMouseDown={(e) => e.preventDefault()}
                       onClick={onShowNextProprietors}
                       disabled={loadingProprietors}
                     >
-                      {loadingProprietors ? "Loading…" : "Next"}
+                      {loadingProprietors ? "Loading…" : `Next ${!isMobile ? "10 matches" : ""}`}
                     </button>
                   )}
                 </div>

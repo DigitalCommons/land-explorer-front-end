@@ -134,6 +134,48 @@
   }
 }
 
+.rounded-button-outline {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 6px 16px;
+  border: 1px solid $primaryColor;
+  border-radius: 100px;
+  background: transparent;
+  color: $primaryColor;
+  font-family: Lato;
+  font-size: 14px;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  user-select: none;
+  transition: border-color 300ms, color 300ms, box-shadow 300ms;
+
+  &:hover {
+    border-color: $primaryColor;
+    box-shadow: inset 0 0 0 1px $primaryColor;
+    color: $primaryColor;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.6;
+
+    &:hover {
+      border-color: $primaryColor;
+      box-shadow: none;
+      color: $primaryColor;
+    }
+  }
+}
+
 #controls {
   position: fixed;
   bottom: 12px;

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import * as MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import { useMediaQuery } from "react-responsive";
+import { isMobile } from "react-device-detect";
 import constants from "../../../constants";
 import useClickOutside from "../../../hooks/useClickOutside";
 import { setSearchMarker, clearSearchMarker, setLngLat } from "../../../actions/MapActions";
@@ -28,7 +28,6 @@ const SearchBar = ({ expanded, setExpanded }) => {
   const inputListenerCleanupRef = useRef(null);
   const debounceRef = useRef(null);
   const [locationResults, setLocationResults] = useState([]);
-  const isSmallScreen = useMediaQuery({ query: '(max-width: 550px)' });
 
   const { query, isDropdownOpen, activeFilter, proprietorResults, resultCounts, loadingProprietors } = useSelector(state => state.search);
 
@@ -218,7 +217,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
   useClickOutside(ref, () => {
     dispatch(closeSearchDropdown());
 
-    if (isSmallScreen) {
+    if (isMobile) {
       collapse();
     }
   });
@@ -286,7 +285,6 @@ const SearchBar = ({ expanded, setExpanded }) => {
           showNoLocationsMessage={showNoLocationsMessage}
           hasPreviousProprietorResults={hasPreviousProprietorResults}
           hasNextProprietorResults={hasNextProprietorResults}
-          onShowAll={() => dispatch(clearSearchFilter())}
           onShowProprietors={() => dispatch(toggleSearchFilter("proprietor"))}
           onShowLocations={() => dispatch(toggleSearchFilter("location"))}
           onShowPreviousProprietors={() =>
