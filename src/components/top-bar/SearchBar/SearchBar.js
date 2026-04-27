@@ -19,6 +19,7 @@ import {
   selectLocationResult,
 } from "../../../actions/SearchActions";
 import SearchDropdown from "./SearchDropDown/SearchDropDown";
+import formatProprietorName from "../../../utils/formatProprietorName";
 
 const SearchBar = ({ expanded, setExpanded }) => {
   const dispatch = useDispatch();
@@ -104,10 +105,21 @@ const SearchBar = ({ expanded, setExpanded }) => {
   }
 
   const handleProprietorSelect = async (proprietor) => {
+    const proprietorName =
+      typeof proprietor === "string"
+        ? proprietor
+        : proprietor?.proprietorName || "";
+    
+    const formattedName = formatProprietorName(proprietorName);
+
+    if (formattedName && geocoderRef.current?.setInput) {
+      geocoderRef.current.setInput(formattedName);
+    }
+
     dispatch(closeSearchDropdown());
     await dispatch(selectProprietorResult(proprietor));
     document.activeElement.blur();
-  }
+  };
 
   // 
   useEffect(() => {
@@ -185,7 +197,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
 
       debounceRef.current = setTimeout(() => {
         dispatch(fetchProprietors(nextQuery));
-      }, 600);
+      }, 400);
     };
 
     const handleFocus = () => {
