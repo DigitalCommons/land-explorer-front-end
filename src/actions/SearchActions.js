@@ -144,10 +144,27 @@ export const fetchProprietors = (
       },
       meta: {
         query: safeQuery,
-        page: response.page,
-        pageSize: response.pageSize,
+        page: response.page || page,
+        pageSize: response.pageSize || pageSize,
       },
     });
+  };
+};
+
+export const fetchProprietorPage = (page) => {
+  return (dispatch, getState) => {
+    const { search } = getState();
+
+    if (search?.activeFilter !== "proprietor") {
+      return;
+    }
+
+    const query = search?.resolvedQuery || search?.query || "";
+    const pageSize =
+      search?.resultCounts?.proprietors?.pageSize ||
+      DEFAULT_PROPRIETOR_PAGE_SIZE;
+
+    dispatch(fetchProprietors(query, page, pageSize));
   };
 };
 

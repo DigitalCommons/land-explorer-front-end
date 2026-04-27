@@ -8,6 +8,7 @@ import useClickOutside from "../../../hooks/useClickOutside";
 import { setSearchMarker, clearSearchMarker, setLngLat } from "../../../actions/MapActions";
 import {
   fetchProprietors,
+  fetchProprietorPage,
   openSearchDropdown,
   closeSearchDropdown,
   clearSearchResults,
@@ -36,6 +37,17 @@ const SearchBar = ({ expanded, setExpanded }) => {
 
   const showProprietors = activeFilter === null || activeFilter === "proprietor";
   const showLocations = activeFilter === null || activeFilter === "location";
+
+  const proprietorPage = resultCounts?.proprietors?.page || 1;
+  const proprietorPageSize = resultCounts?.proprietors?.pageSize || 10;
+  const proprietorTotal = resultCounts?.proprietors?.total || 0;
+
+  const hasPreviousProprietorResults =
+    activeFilter === "proprietor" && proprietorPage > 1;
+
+  const hasNextProprietorResults =
+    activeFilter === "proprietor" &&
+    proprietorPage * proprietorPageSize < proprietorTotal;
 
   const expand = (e) => {
     if (e?.target?.closest(".search-dropdown")) return;
@@ -272,9 +284,17 @@ const SearchBar = ({ expanded, setExpanded }) => {
           visibleLocationResults={visibleLocationResults}
           showNoProprietorsMessage={showNoProprietorsMessage}
           showNoLocationsMessage={showNoLocationsMessage}
+          hasPreviousProprietorResults={hasPreviousProprietorResults}
+          hasNextProprietorResults={hasNextProprietorResults}
           onShowAll={() => dispatch(clearSearchFilter())}
           onShowProprietors={() => dispatch(toggleSearchFilter("proprietor"))}
           onShowLocations={() => dispatch(toggleSearchFilter("location"))}
+          onShowPreviousProprietors={() =>
+            dispatch(fetchProprietorPage(proprietorPage - 1))
+          }
+          onShowNextProprietors={() =>
+            dispatch(fetchProprietorPage(proprietorPage + 1))
+          }
           onSelectProprietor={handleProprietorSelect}
           onSelectLocation={handleLocationSelect}
         />

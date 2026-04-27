@@ -11,6 +11,8 @@ const initialState = {
     proprietors: {
       total: 0,
       visible: 5,
+      page: 1,
+      pageSize: 10,
     },
   },
 };
@@ -84,6 +86,8 @@ const SearchReducer = (state = initialState, action) => {
           proprietors: {
             total: action.payload.total,
             visible: action.payload.visible,
+            page: action.meta?.page || 1,
+            pageSize: action.meta?.pageSize || 10,
           },
         },
       };
@@ -99,6 +103,8 @@ const SearchReducer = (state = initialState, action) => {
           proprietors: {
             total: 0,
             visible: 5,
+            page: 1,
+            pageSize: 10,
           },
         },
       };
@@ -115,6 +121,8 @@ const SearchReducer = (state = initialState, action) => {
           proprietors: {
             total: 0,
             visible: 5,
+            page: 1,
+            pageSize: 10,
           },
         },
       };

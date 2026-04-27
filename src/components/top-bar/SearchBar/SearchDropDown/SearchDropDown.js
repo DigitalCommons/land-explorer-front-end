@@ -10,6 +10,10 @@ const SearchDropdown = ({
   visibleLocationResults,
   showNoProprietorsMessage,
   showNoLocationsMessage,
+  hasPreviousProprietorResults,
+  hasNextProprietorResults,
+  onShowPreviousProprietors,
+  onShowNextProprietors,
   onShowAll,
   onShowProprietors,
   onShowLocations,
@@ -73,6 +77,33 @@ const SearchDropdown = ({
                   {formatProprietorName(proprietor.proprietorName)}
                 </button>
               ))}
+              {(hasPreviousProprietorResults || hasNextProprietorResults) && (
+                <div className="search-dropdown__pagination">
+                  {hasPreviousProprietorResults && (
+                    <button
+                      type="button"
+                      className="search-dropdown__pagination-button"
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={onShowPreviousProprietors}
+                      disabled={loadingProprietors}
+                    >
+                      Previous
+                    </button>
+                  )}
+
+                  {hasNextProprietorResults && (
+                    <button
+                      type="button"
+                      className="search-dropdown__pagination-button"
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={onShowNextProprietors}
+                      disabled={loadingProprietors}
+                    >
+                      {loadingProprietors ? "Loading…" : "Next"}
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           )}
 
