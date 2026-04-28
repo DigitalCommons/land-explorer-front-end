@@ -43,6 +43,14 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
     dispatch(fetchRelatedProperties(proprietorName));
   };
 
+  const highlightedProperties = useSelector(
+    (state) => state.landOwnership.highlightedProperties,
+  );
+
+  const hasHighlightedProperties = propertiesOnThisPage.some(
+    (property) => highlightedProperties[property.title_no],
+  );
+
   return (
     <LeftPaneTray title="Ownership Search" open={open} onClose={onClose}>
       <div className="search-results-container">
@@ -85,9 +93,11 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }) => {
               <button onClick={selectAll} className="button">
                 Select all
               </button>
-              <p onClick={clearAll} className="clear-all">
-                Clear all
-              </p>
+              {hasHighlightedProperties && (
+                <p onClick={clearAll} className="clear-all">
+                  Clear all
+                </p>
+              )}
             </div>
             {propertiesOnThisPage.map((property) => (
               <RelatedProperty key={property.title_no} property={property} />
