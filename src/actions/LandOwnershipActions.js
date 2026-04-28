@@ -84,7 +84,9 @@ export const fetchRelatedProperties = (proprietorName) => {
     dispatch({ type: "FETCH_RELATED_PROPERTIES_LOADING" });
 
     const relatedPropertiesTitleMap = await dispatch(
-      getRequest(`/api/search?proprietorName=${proprietorName}`)
+      getRequest(
+        `/api/search?proprietorName=${encodeURIComponent(proprietorName)}`,
+      ),
     );
 
     if (relatedPropertiesTitleMap !== null) {
