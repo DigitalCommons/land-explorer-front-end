@@ -1,3 +1,13 @@
+const DEFAULT_PROPRIETOR_COUNTS = {
+  total: 0,
+  visible: 5,
+  page: 1,
+  pageSize: 10,
+};
+
+const getVisibleCount = (total, isProprietorFilterActive) =>
+  Math.min(total, isProprietorFilterActive ? 10 : 5);
+
 const initialState = {
   query: "",
   requestedQuery: "",
@@ -8,12 +18,7 @@ const initialState = {
   proprietorError: null,
   proprietorResults: [],
   resultCounts: {
-    proprietors: {
-      total: 0,
-      visible: 5,
-      page: 1,
-      pageSize: 10,
-    },
+    proprietors: DEFAULT_PROPRIETOR_COUNTS,
   },
 };
 
@@ -25,19 +30,14 @@ const SearchReducer = (state = initialState, action) => {
         query: action.payload,
       };
 
-    case "OPEN_SEARCH_DROPDOWN":
+    case "SET_DROPDOWN_OPEN":
       return {
         ...state,
-        isDropdownOpen: true,
-      };
-
-    case "CLOSE_SEARCH_DROPDOWN":
-      return {
-        ...state,
-        isDropdownOpen: false,
+        isDropdownOpen: action.payload,
       };
 
     case "SET_SEARCH_FILTER":
+      const isProprietorFilterActive = action.payload === "proprietor";
       return {
         ...state,
         activeFilter: action.payload,
@@ -45,23 +45,10 @@ const SearchReducer = (state = initialState, action) => {
           ...state.resultCounts,
           proprietors: {
             ...state.resultCounts.proprietors,
-            visible:
-              action.payload === "proprietor"
-                ? Math.min(state.resultCounts.proprietors.total, 10)
-                : Math.min(state.resultCounts.proprietors.total, 5),
-          },
-        },
-      };
-
-    case "CLEAR_SEARCH_FILTER":
-      return {
-        ...state,
-        activeFilter: null,
-        resultCounts: {
-          ...state.resultCounts,
-          proprietors: {
-            ...state.resultCounts.proprietors,
-            visible: Math.min(state.resultCounts.proprietors.total, 5),
+            visible: getVisibleCount(
+              state.resultCounts.proprietors.total,
+              isProprietorFilterActive,
+            ),
           },
         },
       };
@@ -85,7 +72,10 @@ const SearchReducer = (state = initialState, action) => {
           ...state.resultCounts,
           proprietors: {
             total: action.payload.total,
-            visible: action.payload.visible,
+            visible: getVisibleCount(
+              action.payload.total,
+              state.activeFilter === "proprietor",
+            ),
             page: action.meta?.page || 1,
             pageSize: action.meta?.pageSize || 10,
           },
@@ -100,12 +90,7 @@ const SearchReducer = (state = initialState, action) => {
         proprietorResults: [],
         resultCounts: {
           ...state.resultCounts,
-          proprietors: {
-            total: 0,
-            visible: 5,
-            page: 1,
-            pageSize: 10,
-          },
+          proprietors: DEFAULT_PROPRIETOR_COUNTS,
         },
       };
 
@@ -118,12 +103,7 @@ const SearchReducer = (state = initialState, action) => {
         proprietorError: null,
         proprietorResults: [],
         resultCounts: {
-          proprietors: {
-            total: 0,
-            visible: 5,
-            page: 1,
-            pageSize: 10,
-          },
+          proprietors: DEFAULT_PROPRIETOR_COUNTS,
         },
       };
 

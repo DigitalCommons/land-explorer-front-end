@@ -7,77 +7,33 @@ const MAX_SEARCH_TERM_LENGTH = 200;
 const DEFAULT_VISIBLE_PROPRIETOR_RESULTS = 5;
 const FILTERED_VISIBLE_PROPRIETOR_RESULTS = 10;
 
-export const setSearchQuery = (query) => {
-  return (dispatch) => {
-    dispatch({
-      type: "SET_SEARCH_QUERY",
-      payload: query,
-    });
-  };
+export const setSearchQuery = (query) => ({
+  type: "SET_SEARCH_QUERY",
+  payload: query,
+});
+
+export const setDropdownOpen = (isOpen) => ({
+  type: "SET_DROPDOWN_OPEN",
+  payload: isOpen,
+});
+
+export const setSearchFilter = (filter = null) => ({
+  type: "SET_SEARCH_FILTER",
+  payload: filter,
+});
+
+export const toggleSearchFilter = (filter) => (dispatch, getState) => {
+  const { search } = getState();
+  dispatch(setSearchFilter(search?.activeFilter === filter ? null : filter));
 };
 
-export const openSearchDropdown = () => {
-  return (dispatch) => {
-    dispatch({
-      type: "OPEN_SEARCH_DROPDOWN",
-    });
-  };
-};
+export const clearSearchResults = () => ({
+  type: "CLEAR_SEARCH_RESULTS",
+});
 
-export const closeSearchDropdown = () => {
-  return (dispatch) => {
-    dispatch({
-      type: "CLOSE_SEARCH_DROPDOWN",
-    });
-  };
-};
-
-export const setSearchFilter = (filter) => {
-  return (dispatch) => {
-    dispatch({
-      type: "SET_SEARCH_FILTER",
-      payload: filter,
-    });
-  };
-};
-
-export const clearSearchFilter = () => {
-  return (dispatch) => {
-    dispatch({
-      type: "CLEAR_SEARCH_FILTER",
-    });
-  };
-};
-
-export const toggleSearchFilter = (filter) => {
-  return (dispatch, getState) => {
-    const { search } = getState();
-    const currentFilter = search?.activeFilter || null;
-
-    if (currentFilter === filter) {
-      dispatch(clearSearchFilter());
-      return;
-    }
-
-    dispatch(setSearchFilter(filter));
-  };
-};
-
-export const clearSearchResults = () => {
-  return (dispatch) => {
-    dispatch({
-      type: "CLEAR_SEARCH_RESULTS",
-    });
-  };
-};
-
-export const resetSearchState = () => {
-  return (dispatch) => {
-    dispatch({
-      type: "RESET_SEARCH_STATE",
-    });
-  };
-};
+export const resetSearchState = () => ({
+  type: "RESET_SEARCH_STATE",
+});
 
 export const fetchProprietors = (
   query,
@@ -92,13 +48,14 @@ export const fetchProprietors = (
 
     if (!trimmedQuery) {
       dispatch(clearSearchResults());
-      dispatch(closeSearchDropdown());
+      dispatch(setSearchFilter(null));
+      dispatch(setDropdownOpen(false));
       return;
     }
 
     const safeQuery = trimmedQuery.slice(0, MAX_SEARCH_TERM_LENGTH);
 
-    dispatch(openSearchDropdown());
+    dispatch(setDropdownOpen(true));
 
     dispatch({
       type: "FETCH_PROPRIETORS_STARTED",
@@ -127,21 +84,9 @@ export const fetchProprietors = (
         ? response.totalResults
         : results.length;
 
-    const { search } = getState();
-    const isProprietorFilterActive = search?.activeFilter === "proprietor";
-
     dispatch({
       type: "FETCH_PROPRIETORS_SUCCEEDED",
-      payload: {
-        results,
-        total,
-        visible: Math.min(
-          results.length,
-          isProprietorFilterActive
-            ? FILTERED_VISIBLE_PROPRIETOR_RESULTS
-            : DEFAULT_VISIBLE_PROPRIETOR_RESULTS,
-        ),
-      },
+      payload: { results, total },
       meta: {
         query: safeQuery,
         page: response.page || page,
@@ -151,51 +96,35 @@ export const fetchProprietors = (
   };
 };
 
-export const fetchProprietorPage = (page) => {
-  return (dispatch, getState) => {
-    const { search } = getState();
+export const fetchProprietorPage = (page) => (dispatch, getState) => {
+  const { search } = getState();
 
-    if (search?.activeFilter !== "proprietor") {
-      return;
-    }
+  if (search?.activeFilter !== "proprietor") return;
 
-    const query = search?.resolvedQuery || search?.query || "";
-    const pageSize =
-      search?.resultCounts?.proprietors?.pageSize ||
-      DEFAULT_PROPRIETOR_PAGE_SIZE;
+  const query = search?.resolvedQuery || search?.query || "";
+  const pageSize =
+    search?.resultCounts?.proprietors?.pageSize || DEFAULT_PROPRIETOR_PAGE_SIZE;
 
-    dispatch(fetchProprietors(query, page, pageSize));
-  };
+  dispatch(fetchProprietors(query, page, pageSize));
 };
 
-export const selectProprietorResult = (proprietor) => {
-  return async (dispatch) => {
-    const proprietorName =
-      typeof proprietor === "string"
-        ? proprietor
-        : proprietor?.proprietorName || "";
+export const selectProprietorResult = (proprietor) => async (dispatch) => {
+  const proprietorName =
+    typeof proprietor === "string"
+      ? proprietor
+      : proprietor?.proprietorName || "";
 
-    if (!proprietorName) {
-      return;
-    }
+  if (!proprietorName) return;
 
-    dispatch(setSearchQuery(proprietorName));
-    dispatch(closeSearchDropdown());
-    dispatch(clearSearchFilter());
-
-    dispatch({
-      type: "SET_ACTIVE",
-      payload: "Ownership Search",
-    });
-
-    await dispatch(fetchRelatedProperties(proprietorName));
-  };
+  dispatch(setSearchQuery(proprietorName));
+  dispatch({ type: "SET_ACTIVE", payload: "Ownership Search" });
+  await dispatch(fetchRelatedProperties(proprietorName));
 };
 
 export const selectLocationResult = (location) => {
   return (dispatch) => {
-    dispatch(closeSearchDropdown());
-    dispatch(clearSearchFilter());
+    dispatch(setDropdownOpen(false));
+    dispatch(setSearchFilter(null));
 
     dispatch(setSearchQuery(location?.place_name || location?.label || ""));
   };

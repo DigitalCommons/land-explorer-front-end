@@ -28,7 +28,7 @@ const SearchDropdown = ({
         </div>
       ) : (
         <>
-          {/* Filter buttons - mobile only */}
+          {/* Mobile filters */}
           <div className="search-dropdown__filters">
             <button
               type="button"

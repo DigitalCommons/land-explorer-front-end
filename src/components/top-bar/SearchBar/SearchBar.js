@@ -1,20 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import * as MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import { isMobile } from "react-device-detect";
 import constants from "../../../constants";
 import useClickOutside from "../../../hooks/useClickOutside";
-import { setSearchMarker, clearSearchMarker, setLngLat } from "../../../actions/MapActions";
+import {
+  setSearchMarker,
+  clearSearchMarker,
+  setLngLat,
+} from "../../../actions/MapActions";
 import {
   fetchProprietors,
   fetchProprietorPage,
-  openSearchDropdown,
-  closeSearchDropdown,
+  setDropdownOpen,
   clearSearchResults,
   setSearchQuery,
   toggleSearchFilter,
-  clearSearchFilter,
+  setSearchFilter,
   selectProprietorResult,
   selectLocationResult,
 } from "../../../actions/SearchActions";
@@ -31,12 +34,23 @@ const SearchBar = ({ expanded, setExpanded }) => {
   const suppressLocationResultsRef = useRef(false);
   const [locationResults, setLocationResults] = useState([]);
 
-  const { query, isDropdownOpen, activeFilter, proprietorResults, resultCounts, loadingProprietors } = useSelector(state => state.search);
+  const {
+    query,
+    isDropdownOpen,
+    activeFilter,
+    proprietorResults,
+    resultCounts,
+    loadingProprietors,
+  } = useSelector((state) => state.search);
 
-  const visibleProprietorResults = proprietorResults.slice(0, resultCounts?.proprietors?.visible || 5);
+  const visibleProprietorResults = proprietorResults.slice(
+    0,
+    resultCounts?.proprietors?.visible || 5,
+  );
   const visibleLocationResults = locationResults.slice(0, 5);
 
-  const showProprietors = activeFilter === null || activeFilter === "proprietor";
+  const showProprietors =
+    activeFilter === null || activeFilter === "proprietor";
   const showLocations = activeFilter === null || activeFilter === "location";
 
   const proprietorPage = resultCounts?.proprietors?.page || 1;
@@ -65,9 +79,9 @@ const SearchBar = ({ expanded, setExpanded }) => {
     const geocoderInput =
       document.getElementsByClassName("mapboxgl-ctrl-geocoder--input")[0]
         ?.value || "";
-    
+
     if (geocoderInput.trim() !== "") {
-      dispatch(openSearchDropdown());
+      dispatch(setDropdownOpen(true));
     }
   };
 
@@ -82,9 +96,13 @@ const SearchBar = ({ expanded, setExpanded }) => {
     document.activeElement.blur();
   };
 
-  const clearLocalLocationResults = () => {
+  const clearSearch = useCallback(() => {
+    dispatch(clearSearchMarker());
+    dispatch(setSearchQuery(""));
+    dispatch(clearSearchResults());
+    dispatch(setSearchFilter(null));
     setLocationResults([]);
-  }
+  }, [dispatch]);
 
   const handleLocationSelect = (location) => {
     const center = location?.center;
@@ -92,6 +110,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
     dispatch(selectLocationResult(location));
 
     if (location?.place_name && geocoderRef.current?.setInput) {
+      suppressLocationResultsRef.current = true;
       geocoderRef.current.setInput(location.place_name);
     }
 
@@ -100,17 +119,16 @@ const SearchBar = ({ expanded, setExpanded }) => {
       dispatch(setLngLat(center[0], center[1]));
     }
 
-    clearLocalLocationResults();
-    dispatch(closeSearchDropdown());
+    dispatch(setDropdownOpen(false));
     document.activeElement.blur();
-  }
+  };
 
   const handleProprietorSelect = async (proprietor) => {
     const proprietorName =
       typeof proprietor === "string"
         ? proprietor
         : proprietor?.proprietorName || "";
-    
+
     const formattedName = formatProprietorName(proprietorName);
 
     if (formattedName && geocoderRef.current?.setInput) {
@@ -118,7 +136,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
       geocoderRef.current.setInput(formattedName);
     }
 
-    dispatch(closeSearchDropdown());
+    dispatch(setDropdownOpen(false));
     await dispatch(selectProprietorResult(proprietor));
     document.activeElement.blur();
 
@@ -134,14 +152,9 @@ const SearchBar = ({ expanded, setExpanded }) => {
       geocoderRef.current.setInput("");
     }
 
-    dispatch(clearSearchMarker());
-    dispatch(setSearchQuery(""));
-    dispatch(clearSearchResults());
-    dispatch(clearSearchFilter());
-    clearLocalLocationResults();
+    clearSearch();
   };
 
-  // 
   useEffect(() => {
     const geocoder = new MapboxGeocoder({
       accessToken: constants.GEOCODER_TOKEN,
@@ -159,9 +172,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
         suppressLocationResultsRef.current = false;
         return;
       }
-
-      const results = event?.features || [];
-      setLocationResults(results);
+      setLocationResults(event?.features || []);
     });
 
     geocoder.on("result", (result) => {
@@ -178,18 +189,13 @@ const SearchBar = ({ expanded, setExpanded }) => {
           result?.result?.place_name || result?.result?.text || "",
         ),
       );
-
-      dispatch(closeSearchDropdown());
-      clearLocalLocationResults();
+      dispatch(setDropdownOpen(false));
+      setLocationResults([]);
     });
 
     geocoder.on("clear", () => {
-      dispatch(clearSearchMarker());
-      dispatch(setSearchQuery(""));
-      dispatch(clearSearchResults());
-      dispatch(clearSearchFilter());
-      dispatch(closeSearchDropdown());
-      clearLocalLocationResults();
+      clearSearch();
+      dispatch(setDropdownOpen(false)); 
     });
 
     const geocoderElement = geocoder.onAdd();
@@ -198,7 +204,6 @@ const SearchBar = ({ expanded, setExpanded }) => {
     const input = geocoderElement.querySelector(
       ".mapboxgl-ctrl-geocoder--input",
     );
-
     inputRef.current = input;
 
     const handleInput = (event) => {
@@ -206,28 +211,24 @@ const SearchBar = ({ expanded, setExpanded }) => {
 
       dispatch(setSearchQuery(nextQuery));
 
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current);
-      }
+      if (debounceRef.current) clearTimeout(debounceRef.current);
 
       if (!nextQuery.trim()) {
         dispatch(clearSearchResults());
-        dispatch(clearSearchFilter());
-        dispatch(closeSearchDropdown());
-        clearLocalLocationResults();
+        dispatch(setSearchFilter(null));
+        dispatch(setDropdownOpen(false));
+        setLocationResults([]);
         return;
       }
 
-      dispatch(openSearchDropdown());
+      dispatch(setDropdownOpen(true));
 
       debounceRef.current = setTimeout(() => {
         dispatch(fetchProprietors(nextQuery));
       }, 400);
     };
 
-    const handleFocus = () => {
-      dispatch(openSearchDropdown());
-    };
+    const handleFocus = () => dispatch(setDropdownOpen(true));
 
     input.addEventListener("input", handleInput);
     input.addEventListener("focus", handleFocus);
@@ -237,26 +238,15 @@ const SearchBar = ({ expanded, setExpanded }) => {
     };
 
     return () => {
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current);
-      }
-
-      if (inputListenerCleanupRef.current) {
-        inputListenerCleanupRef.current();
-      }
-
-      if (geocoderRef.current) {
-        geocoderRef.current.onRemove();
-      }
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      if (inputListenerCleanupRef.current) inputListenerCleanupRef.current();
+      if (geocoderRef.current) geocoderRef.current.onRemove();
     };
-  }, [dispatch]);
+  }, [dispatch, clearSearch]);
 
   useClickOutside(ref, () => {
-    dispatch(closeSearchDropdown());
-
-    if (isMobile) {
-      collapse();
-    }
+    dispatch(setDropdownOpen(false));
+    if (isMobile) collapse();
   });
 
   const hasQuery = query.trim().length > 0;
@@ -270,10 +260,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
   const showNoLocationsMessage =
     showLocations && hasQuery && visibleLocationResults.length === 0;
 
-  const showDropdownContent = isDropdownOpen;
-
-  const showInitialSearchMessage = isDropdownOpen && !hasQuery;
-
+ const showInitialSearchMessage = isDropdownOpen && !hasQuery;
 
   return (
     <div ref={ref} className="search-bar-container" onClick={expand}>
@@ -293,9 +280,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
 
         <button
           type="button"
-          className={`search-filter-icon-button ${
-            activeFilter === "proprietor" ? "is-active" : ""
-          }`}
+          className={`search-filter-icon-button ${activeFilter === "proprietor" ? "is-active" : ""}`}
           onMouseDown={(e) => e.preventDefault()}
           onClick={(e) => {
             e.stopPropagation();
@@ -308,9 +293,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
 
         <button
           type="button"
-          className={`search-filter-icon-button ${
-            activeFilter === "location" ? "is-active" : ""
-          }`}
+          className={`search-filter-icon-button ${activeFilter === "location" ? "is-active" : ""}`}
           onMouseDown={(e) => e.preventDefault()}
           onClick={(e) => {
             e.stopPropagation();
@@ -321,7 +304,8 @@ const SearchBar = ({ expanded, setExpanded }) => {
           <span className="search-filter-icon search-filter-icon--location" />
         </button>
       </div>
-      {showDropdownContent && (
+
+      {isDropdownOpen && (
         <SearchDropdown
           showInitialSearchMessage={showInitialSearchMessage}
           showProprietors={showProprietors}
@@ -347,6 +331,6 @@ const SearchBar = ({ expanded, setExpanded }) => {
       )}
     </div>
   );
-}
+};
 
 export default SearchBar;
