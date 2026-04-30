@@ -39,6 +39,14 @@ const layers = {
       Flood: "hsl(196, 80%, 70%)",
     },
   },
+  "flood-risk-zone": {
+    name: "Flood risk zones",
+    data: {
+      "Zone 1 (low)": "#F6D55C",
+      "Zone 2 (medium)": "#F28E2B",
+      "Zone 3 (high)": "#E03B33",
+    },
+  },
   "sites-of-special-scientific-i-09kaq4": {
     name: "Sites of scientific interest",
     data: {

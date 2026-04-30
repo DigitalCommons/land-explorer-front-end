@@ -104,6 +104,11 @@ const LeftPaneLandData = ({ open, active, onClose }: Props) => {
           />
           <LandDataLayerToggle
             draggable
+            title="Flood risk zones"
+            layerId="flood-risk-zone"
+          />
+          <LandDataLayerToggle
+            draggable
             title="Sites of special scientific interest"
             layerId="sites-of-special-scientific-i-09kaq4"
           />
