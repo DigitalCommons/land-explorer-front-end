@@ -2,104 +2,56 @@
   "name": "land-map-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/app",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@fortawesome/react-fontawesome": "^0.2.6",
     "@gocardless/react-dropin": "^0.3.0",
     "@mapbox/mapbox-gl-draw": "git+https://github.com/mapbox/mapbox-gl-draw.git#84e35b7aa308c69a44b483296baa6ac1c6dc9db8",
     "@mapbox/mapbox-gl-draw-static-mode": "^1.0.1",
     "@mapbox/mapbox-gl-geocoder": "^4.7.4",
-    "@turf/turf": "^6.5.0",
+    "@redux-devtools/extension": "^3.3.0",
+    "@turf/turf": "^7.3.4",
     "axios": "^0.26.0",
     "convert-units": "^2.3.4",
+    "events": "^3.3.0",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.7.0",
     "moment": "^2.29.1",
-    "path": "^0.12.7",
-    "react": "^17.0.2",
+    "react": "^19.2.4",
     "react-device-detect": "^2.1.2",
-    "react-dom": "^17.0.2",
+    "react-dom": "^19.2.4",
     "react-error-boundary": "^4.0.11",
     "react-mapbox-gl": "^5.1.1",
     "react-mapbox-gl-draw": "^2.0.4",
     "react-motion": "^0.5.2",
-    "react-redux": "^7.2.6",
+    "react-redux": "^9.2.0",
     "react-responsive": "^9.0.2",
-    "react-router": "^6.2.1",
-    "react-router-dom": "^6.2.1",
+    "react-router": "^6",
+    "react-router-dom": "^6",
     "react-select": "^5.2.2",
     "react-tooltip": "^4.2.21",
-    "redux": "^4.1.2",
-    "redux-thunk": "^2.4.1",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
     "socket.io-client": "^4.7.4",
     "sweetalert2": "^11.4.0",
     "usehooks-ts": "^3.0.2",
     "uuid": "^9.0.0"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development npx webpack serve --config ./config/webpack.config.common.js --mode=development",
-    "build": "cross-env NODE_ENV=production npx webpack build --config ./config/webpack.config.common.js --mode=production"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,mjs}"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/polyfills.js"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
-    ],
-    "testEnvironment": "node",
-    "testURL": "http://localhost",
-    "transform": {
-      "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
-    ],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "mjs",
-      "js",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "babel-loader": "^8.2.4",
-    "babel-preset-react-app": "^10.0.1",
-    "copy-webpack-plugin": "^10.2.4",
-    "cross-env": "^7.0.3",
-    "css-loader": "6.6.0",
-    "dotenv": "^16.4.7",
-    "dotenv-webpack": "^7.1.0",
-    "html-webpack-plugin": "5.5.0",
-    "jest": "27.5.1",
+    "@types/mapbox-gl": "2",
+    "@types/node": "^25.2.3",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4",
     "sass": "^1.72.0",
-    "sass-loader": "^13.3.3",
-    "style-loader": "3.3.1",
-    "webpack": "^5.88.1",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.8.0"
+    "typescript": "^5.9.3",
+    "vite": "^5"
   }
 }

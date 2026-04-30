@@ -1,0 +1,91 @@
+import { useState } from "react";
+import { Marker } from "react-mapbox-gl";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
+import DrawingPopup from "./DrawingPopup/DrawingPopup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCertificate,
+  faLocationDot,
+} from "@fortawesome/free-solid-svg-icons";
+
+type Props = {
+  marker: any;
+  active: boolean;
+  coordinates?: any;
+  handleMarkerClick?: any;
+};
+
+const MarkerPin = ({ marker, active }: Props) => {
+  const dispatch = useAppDispatch();
+  const activeTool = useAppSelector((state) => state.leftPane.activeTool);
+  const baseLayer = useAppSelector((state) => state.mapBaseLayer.layer);
+  const [popupClosed, setPopupClosed] = useState(false);
+
+  const showPopup = !popupClosed && active && !activeTool;
+
+  const toggleMarker = () => {
+    if (!activeTool) {
+      console.log("Clicked on marker:", marker);
+      
+      if (active) {
+        dispatch({ type: "CLEAR_CURRENT_MARKER" });
+        setPopupClosed(false);
+      } else {
+        dispatch({
+          type: "SET_CURRENT_MARKER",
+          payload: marker.uuid,
+        });
+      }
+    }
+  };
+
+  return (
+    <Marker
+      key={marker.uuid}
+      coordinates={marker.coordinates}
+      name={marker.name}
+      description={marker.description}
+      anchor="bottom"
+      style={{ height: "40px", zIndex: active ? 4 : 3 }}
+    >
+      <div>
+        <div data-tooltip={marker.name} className="pointer">
+          <div
+            className={
+              active
+                ? "marker-icon icon-green"
+                : baseLayer === "aerial"
+                ? "marker-icon icon-white"
+                : "marker-icon"
+            }
+            onClick={toggleMarker}
+          >
+            <span className="marker-icon-center">
+              <FontAwesomeIcon icon={faCertificate} />
+            </span>
+            <FontAwesomeIcon icon={faLocationDot} />
+          </div>
+          <span className="marker-shadow"></span>
+        </div>
+        {showPopup && (
+          <div
+            style={{
+              position: "relative",
+              bottom: "-5px",
+            }}
+            className="popup-wrapper"
+          >
+            <DrawingPopup
+              object={marker}
+              type={"marker"}
+              source={"map"}
+              closeDescription={toggleMarker}
+            />
+          </div>
+        )}
+      </div>
+    </Marker>
+  );
+};
+
+export default MarkerPin;
