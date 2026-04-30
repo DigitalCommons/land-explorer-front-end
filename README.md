@@ -6,7 +6,7 @@ This is a Digital Commons Cooperative project. Please follow our [contributor gu
 
 ## Requirements
 
-- Node 16
+- Node 24
 - Yarn 1.22
 
 ## Get Started
