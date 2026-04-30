@@ -126,7 +126,7 @@ const MapLandDataLayers = () => {
               : 0,
         }}
       />
-      <Layer // Zone 1 must render below Zone 2 so Zone 2 fills overlap correctly
+      <Layer // Order is important - ensure this layer is below flood risk level 2 layer
         id="flood-risk-zone-1"
         type="fill"
         sourceId="composite"
@@ -138,10 +138,11 @@ const MapLandDataLayers = () => {
         filter={["==", ["get", "flood-risk-level"], "1"]}
         paint={{
           "fill-color": "#F6D55C",
-          "fill-opacity": floodRiskVisible ? 0.4 : 0,
+          "fill-opacity":
+            landDataLayers.indexOf("flood-risk-zone") !== -1 ? 0.4 : 0,
         }}
       />
-      <Layer // Zone 2 must render below Zone 3 so Zone 3 fills overlap correctly
+      <Layer // Order is important - ensure this layer is below flood risk level 3 layer
         id="flood-risk-zone-2"
         type="fill"
         sourceId="composite"
@@ -153,7 +154,8 @@ const MapLandDataLayers = () => {
         filter={["==", ["get", "flood-risk-level"], "2"]}
         paint={{
           "fill-color": "#F28E2B",
-          "fill-opacity": floodRiskVisible ? 0.4 : 0,
+          "fill-opacity":
+            landDataLayers.indexOf("flood-risk-zone") !== -1 ? 0.4 : 0,
         }}
       />
       <Layer
@@ -168,7 +170,8 @@ const MapLandDataLayers = () => {
         filter={["==", ["get", "flood-risk-level"], "3"]}
         paint={{
           "fill-color": "#E03B33",
-          "fill-opacity": floodRiskVisible ? 0.4 : 0,
+          "fill-opacity":
+            landDataLayers.indexOf("flood-risk-zone") !== -1 ? 0.4 : 0,
         }}
       />
 
@@ -463,6 +466,6 @@ const MapLandDataLayers = () => {
       />
     </React.Fragment>
   );
-};
+};;
 
 export default MapLandDataLayers;
