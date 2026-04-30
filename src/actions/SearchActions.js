@@ -116,7 +116,7 @@ export const selectProprietorResult = (proprietor) => async (dispatch) => {
 
   if (!proprietorName) return;
 
-  dispatch(setSearchQuery(proprietorName));
+  // dispatch(setSearchQuery(proprietorName));
   dispatch({ type: "SET_ACTIVE", payload: "Ownership Search" });
   await dispatch(fetchRelatedProperties(proprietorName));
 };

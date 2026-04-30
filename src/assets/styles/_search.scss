@@ -12,6 +12,21 @@
 
 .search-bar-container {
   position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  @media screen and (min-width: $medium) {
+    width: 350px;
+  }
+
+   @media screen and (min-width: $large) {
+    width: 450px;
+  }
+
+  @media screen and (min-width: $xlarge) {
+    width: 600px;
+  }
 }
 
 /************************/

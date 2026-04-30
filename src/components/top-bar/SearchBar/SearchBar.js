@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import * as MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import { SearchBoxCore, SessionToken } from "@mapbox/search-js-core";
 import { isMobile } from "react-device-detect";
 import constants from "../../../constants";
 import useClickOutside from "../../../hooks/useClickOutside";
@@ -18,8 +17,7 @@ import {
   setSearchQuery,
   toggleSearchFilter,
   setSearchFilter,
-  selectProprietorResult,
-  selectLocationResult,
+  selectProprietorResult
 } from "../../../actions/SearchActions";
 import SearchDropdown from "./SearchDropDown/SearchDropDown";
 import formatProprietorName from "../../../utils/formatProprietorName";
@@ -27,9 +25,17 @@ import formatProprietorName from "../../../utils/formatProprietorName";
 const SearchBar = ({ expanded, setExpanded }) => {
   const dispatch = useDispatch();
   const ref = useRef(null);
-  const geocoderRef = useRef(null);
-  const inputRef = useRef(null);
-  const inputListenerCleanupRef = useRef(null);
+ const searchBoxRef = useRef(
+   new SearchBoxCore({
+     accessToken: constants.GEOCODER_TOKEN,
+     country: "gb",
+     limit: 5,
+     types:
+       "region,postcode,district,place,locality,neighborhood,street,address",
+     proximity: null,
+   }),
+ );
+  const sessionTokenRef = useRef(new SessionToken());
   const debounceRef = useRef(null);
   const suppressLocationResultsRef = useRef(false);
   const [locationResults, setLocationResults] = useState([]);
@@ -69,18 +75,9 @@ const SearchBar = ({ expanded, setExpanded }) => {
 
     if (!expanded) {
       setExpanded(true);
-      const geocoder = document.getElementById("search-bar").children[0];
-      if (geocoder) {
-        geocoder.classList.remove("geocoder-collapsed");
-        geocoder.classList.add("geocoder-expanded");
-      }
     }
 
-    const geocoderInput =
-      document.getElementsByClassName("mapboxgl-ctrl-geocoder--input")[0]
-        ?.value || "";
-
-    if (geocoderInput.trim() !== "") {
+    if (query.trim() !== "") {
       dispatch(setDropdownOpen(true));
     }
   };
@@ -88,11 +85,6 @@ const SearchBar = ({ expanded, setExpanded }) => {
   const collapse = () => {
     if (!expanded) return;
     setExpanded(false);
-    const geocoder = document.getElementById("search-bar").children[0];
-    if (!geocoder) return;
-
-    geocoder.classList.remove("geocoder-expanded");
-    geocoder.classList.add("geocoder-collapsed");
     document.activeElement.blur();
   };
 
@@ -104,22 +96,31 @@ const SearchBar = ({ expanded, setExpanded }) => {
     setLocationResults([]);
   }, [dispatch]);
 
-  const handleLocationSelect = (location) => {
-    const center = location?.center;
+  const handleLocationSelect = async (location) => {
+    const { features } = await searchBoxRef.current.retrieve(location, {
+      sessionToken: sessionTokenRef.current,
+    });
 
-    dispatch(selectLocationResult(location));
+    sessionTokenRef.current = new SessionToken();
 
-    if (location?.place_name && geocoderRef.current?.setInput) {
-      suppressLocationResultsRef.current = true;
-      geocoderRef.current.setInput(location.place_name);
-    }
-
-    if (Array.isArray(center) && center.length === 2) {
-      dispatch(setSearchMarker(center[0], center[1]));
-      dispatch(setLngLat(center[0], center[1]));
-    }
-
+    const coordinates = features?.[0]?.geometry?.coordinates;
+    const placeName =
+      features?.[0]?.properties?.full_address ||
+      features?.[0]?.properties?.place_formatted ||
+      location?.name ||
+      "";
+  
+    suppressLocationResultsRef.current = true;
+    
+    dispatch(setSearchQuery(placeName));
+    dispatch(setSearchFilter(null));
     dispatch(setDropdownOpen(false));
+
+    if (Array.isArray(coordinates) && coordinates.length === 2) {
+      dispatch(setSearchMarker(coordinates[0], coordinates[1]));
+      dispatch(setLngLat(coordinates[0], coordinates[1]));
+    }
+    
     document.activeElement.blur();
   };
 
@@ -131,118 +132,45 @@ const SearchBar = ({ expanded, setExpanded }) => {
 
     const formattedName = formatProprietorName(proprietorName);
 
-    if (formattedName && geocoderRef.current?.setInput) {
+    if (formattedName) {
       suppressLocationResultsRef.current = true;
-      geocoderRef.current.setInput(formattedName);
+      dispatch(setSearchQuery(formattedName));
     }
 
     dispatch(setDropdownOpen(false));
     await dispatch(selectProprietorResult(proprietor));
     document.activeElement.blur();
-
-    setTimeout(() => {
-      suppressLocationResultsRef.current = false;
-    }, 0);
   };
 
   const handleClearSearch = (e) => {
     e.stopPropagation();
-
-    if (geocoderRef.current?.setInput) {
-      geocoderRef.current.setInput("");
-    }
-
     clearSearch();
   };
 
   useEffect(() => {
-    const geocoder = new MapboxGeocoder({
-      accessToken: constants.GEOCODER_TOKEN,
-      placeholder: "Search by proprietor, address or location",
-      countries: "gb",
-      zoom: 13,
-      reverseGeocode: true,
-      marker: false,
-    });
+     if (debounceRef.current) clearTimeout(debounceRef.current);
 
-    geocoderRef.current = geocoder;
+     if (!query.trim()) {
+       setLocationResults([]);
+       return;
+     }
+    
+    if (suppressLocationResultsRef.current) {
+      suppressLocationResultsRef.current = false;
+      return;
+    }
 
-    geocoder.on("results", (event) => {
-      if (suppressLocationResultsRef.current) {
-        suppressLocationResultsRef.current = false;
-        return;
-      }
-      setLocationResults(event?.features || []);
-    });
+     debounceRef.current = setTimeout(async () => {
+       const response = await searchBoxRef.current.suggest(query, {
+         sessionToken: sessionTokenRef.current,
+       });
+       setLocationResults(response?.suggestions || []);
+     }, 400);
 
-    geocoder.on("result", (result) => {
-      document.activeElement.blur();
-
-      const center = result?.result?.center || [];
-      if (center.length === 2) {
-        dispatch(setSearchMarker(center[0], center[1]));
-        dispatch(setLngLat(center[0], center[1]));
-      }
-
-      dispatch(
-        setSearchQuery(
-          result?.result?.place_name || result?.result?.text || "",
-        ),
-      );
-      dispatch(setDropdownOpen(false));
-      setLocationResults([]);
-    });
-
-    geocoder.on("clear", () => {
-      clearSearch();
-      dispatch(setDropdownOpen(false)); 
-    });
-
-    const geocoderElement = geocoder.onAdd();
-    document.getElementById("search-bar").appendChild(geocoderElement);
-
-    const input = geocoderElement.querySelector(
-      ".mapboxgl-ctrl-geocoder--input",
-    );
-    inputRef.current = input;
-
-    const handleInput = (event) => {
-      const nextQuery = event.target.value || "";
-
-      dispatch(setSearchQuery(nextQuery));
-
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-
-      if (!nextQuery.trim()) {
-        dispatch(clearSearchResults());
-        dispatch(setSearchFilter(null));
-        dispatch(setDropdownOpen(false));
-        setLocationResults([]);
-        return;
-      }
-
-      dispatch(setDropdownOpen(true));
-
-      debounceRef.current = setTimeout(() => {
-        dispatch(fetchProprietors(nextQuery));
-      }, 400);
-    };
-
-    const handleFocus = () => dispatch(setDropdownOpen(true));
-
-    input.addEventListener("input", handleInput);
-    input.addEventListener("focus", handleFocus);
-    inputListenerCleanupRef.current = () => {
-      input.removeEventListener("input", handleInput);
-      input.removeEventListener("focus", handleFocus);
-    };
-
-    return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-      if (inputListenerCleanupRef.current) inputListenerCleanupRef.current();
-      if (geocoderRef.current) geocoderRef.current.onRemove();
-    };
-  }, [dispatch, clearSearch]);
+     return () => {
+       if (debounceRef.current) clearTimeout(debounceRef.current);
+     };
+  }, [query]);
 
   useClickOutside(ref, () => {
     dispatch(setDropdownOpen(false));
@@ -263,8 +191,35 @@ const SearchBar = ({ expanded, setExpanded }) => {
  const showInitialSearchMessage = isDropdownOpen && !hasQuery;
 
   return (
-    <div ref={ref} className="search-bar-container" onClick={expand}>
-      <span id="search-bar" />
+    <div
+      ref={ref}
+      className="search-bar-container"
+      onClick={expand}
+    >
+      
+      <div className={`mapboxgl-ctrl-geocoder ${expanded ? "geocoder-expanded" : "geocoder-collapsed"}`}>
+        <input
+          className="mapboxgl-ctrl-geocoder--input"
+          type="text"
+          placeholder="Search by proprietor, address or location"
+          value={query}
+          onChange={(e) => {
+            const nextQuery = e.target.value;
+            dispatch(setSearchQuery(nextQuery));
+
+            if (!nextQuery.trim()) {
+              dispatch(clearSearchResults());
+              dispatch(setSearchFilter(null));
+              dispatch(setDropdownOpen(false));
+              return;
+            }
+
+            dispatch(setDropdownOpen(true));
+            dispatch(fetchProprietors(nextQuery));
+          }}
+          onFocus={() => dispatch(setDropdownOpen(true))}
+        />
+        </div>
       <div className="search-bar-buttons">
         {hasQuery && (
           <button

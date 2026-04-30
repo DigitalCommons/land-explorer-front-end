@@ -124,13 +124,16 @@ const SearchDropdown = ({
 
               {visibleLocationResults.map((location) => (
                 <button
-                  key={location.id || location.place_name}
+                  key={location.mapbox_id || location.place_name}
                   type="button"
                   className="search-dropdown__item"
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => onSelectLocation(location)}
                 >
-                  {location.place_name}
+                  {location.name}
+                  {location.place_formatted
+                    ? `, ${location.place_formatted}`
+                    : ""}
                 </button>
               ))}
             </div>
