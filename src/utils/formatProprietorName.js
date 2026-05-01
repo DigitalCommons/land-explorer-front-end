@@ -1,7 +1,6 @@
-const isInitialism = (word) =>
-  /^[A-Z]{2,4}$/.test(word) || /^([A-Z]\.)+$/.test(word);
+const isInitialism = (word) => /^([A-Z]\.)+$/.test(word);
 
-const ACRONYMS = new Set(["HM", "RC", "MOD"]);
+const ACRONYMS = new Set(["GB", "HM", "LTD", "MOD", "NHS", "PLC", "RC", "UK"]);
 
 const SMALL_WORDS = new Set([
   "and",
