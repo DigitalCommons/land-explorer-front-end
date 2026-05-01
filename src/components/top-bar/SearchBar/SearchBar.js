@@ -49,11 +49,8 @@ const SearchBar = ({ expanded, setExpanded }) => {
     loadingProprietors,
   } = useSelector((state) => state.search);
 
-  const visibleProprietorResults = proprietorResults.slice(
-    0,
-    resultCounts?.proprietors?.visible || 5,
-  );
-  const visibleLocationResults = locationResults.slice(0, 5);
+  const visibleProprietorResults = proprietorResults;
+  const visibleLocationResults = locationResults;
 
   const showProprietors =
     activeFilter === null || activeFilter === "proprietor";

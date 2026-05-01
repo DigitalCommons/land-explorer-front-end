@@ -123,7 +123,6 @@
 .map-menu-container {
   position: relative;
   width: 30px;
-  // margin-right: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,11 +136,6 @@
 }
 
 .map-menu {
-  // position: relative;
-  // box-shadow: 0px 3px 6px #00000029;
-  // background-color: white;
-  // margin: 0px;
-  // z-index: 100004;
   position: absolute;
   top: 32px;
   left: 0;
@@ -191,8 +185,6 @@
 .map-name-text {
   cursor: pointer;
   font-size: 17px;
-  // margin: 4% 5% 0%;
-  // padding: 0.5% 2%;
   margin: 0;
   padding: 0 5px;
   border-radius: 100px;

@@ -4,8 +4,6 @@ import { fetchRelatedProperties } from "./LandOwnershipActions";
 const DEFAULT_PROPRIETOR_PAGE = 1;
 const DEFAULT_PROPRIETOR_PAGE_SIZE = 10;
 const MAX_SEARCH_TERM_LENGTH = 200;
-const DEFAULT_VISIBLE_PROPRIETOR_RESULTS = 5;
-const FILTERED_VISIBLE_PROPRIETOR_RESULTS = 10;
 
 export const setSearchQuery = (query) => ({
   type: "SET_SEARCH_QUERY",
@@ -24,7 +22,13 @@ export const setSearchFilter = (filter = null) => ({
 
 export const toggleSearchFilter = (filter) => (dispatch, getState) => {
   const { search } = getState();
-  dispatch(setSearchFilter(search?.activeFilter === filter ? null : filter));
+  const newFilter = search?.activeFilter === filter ? null : filter;
+  dispatch(setSearchFilter(newFilter));
+
+  const query = (search?.query ?? "").trim();
+  if (query && newFilter !== "location") {
+    dispatch(fetchProprietors(query));
+  }
 };
 
 export const clearSearchResults = () => ({
@@ -38,7 +42,7 @@ export const resetSearchState = () => ({
 export const fetchProprietors = (
   query,
   page = DEFAULT_PROPRIETOR_PAGE,
-  pageSize = DEFAULT_PROPRIETOR_PAGE_SIZE,
+  pageSize,
 ) => {
   return async (dispatch, getState) => {
     const rawQuery = query ?? "";
@@ -54,6 +58,9 @@ export const fetchProprietors = (
     }
 
     const safeQuery = trimmedQuery.slice(0, MAX_SEARCH_TERM_LENGTH);
+    const { search } = getState();
+    const effectivePageSize =
+      pageSize ?? (search?.activeFilter === "proprietor" ? DEFAULT_PROPRIETOR_PAGE_SIZE : 5);
 
     dispatch(setDropdownOpen(true));
 
@@ -66,7 +73,7 @@ export const fetchProprietors = (
       getRequest(
         `/api/proprietors?searchTerm=${encodeURIComponent(
           safeQuery,
-        )}&page=${page}&pageSize=${pageSize}`,
+        )}&page=${page}&pageSize=${effectivePageSize}`,
       ),
     );
 
@@ -90,7 +97,7 @@ export const fetchProprietors = (
       meta: {
         query: safeQuery,
         page: response.page || page,
-        pageSize: response.pageSize || pageSize,
+        pageSize: response.pageSize || effectivePageSize,
       },
     });
   };
