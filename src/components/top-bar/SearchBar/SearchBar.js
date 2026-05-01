@@ -4,6 +4,7 @@ import { SearchBoxCore, SessionToken } from "@mapbox/search-js-core";
 import { isMobile } from "react-device-detect";
 import constants from "../../../constants";
 import useClickOutside from "../../../hooks/useClickOutside";
+import useDebounce from "../../../hooks/useDebounce";
 import {
   setSearchMarker,
   clearSearchMarker,
@@ -36,7 +37,6 @@ const SearchBar = ({ expanded, setExpanded }) => {
    }),
  );
   const sessionTokenRef = useRef(new SessionToken());
-  const debounceRef = useRef(null);
   const suppressLocationResultsRef = useRef(false);
   const [locationResults, setLocationResults] = useState([]);
 
@@ -48,6 +48,8 @@ const SearchBar = ({ expanded, setExpanded }) => {
     resultCounts,
     loadingProprietors,
   } = useSelector((state) => state.search);
+
+  const debouncedQuery = useDebounce(query, 400);
 
   const visibleProprietorResults = proprietorResults;
   const visibleLocationResults = locationResults;
@@ -145,29 +147,27 @@ const SearchBar = ({ expanded, setExpanded }) => {
   };
 
   useEffect(() => {
-     if (debounceRef.current) clearTimeout(debounceRef.current);
+    if (!debouncedQuery.trim()) {
+      setLocationResults([]);
+      return;
+    }
 
-     if (!query.trim()) {
-       setLocationResults([]);
-       return;
-     }
-    
     if (suppressLocationResultsRef.current) {
       suppressLocationResultsRef.current = false;
       return;
     }
 
-     debounceRef.current = setTimeout(async () => {
-       const response = await searchBoxRef.current.suggest(query, {
-         sessionToken: sessionTokenRef.current,
-       });
-       setLocationResults(response?.suggestions || []);
-     }, 400);
+    dispatch(fetchProprietors(debouncedQuery));
 
-     return () => {
-       if (debounceRef.current) clearTimeout(debounceRef.current);
-     };
-  }, [query]);
+    const fetchSuggestions = async () => {
+      const response = await searchBoxRef.current.suggest(debouncedQuery, {
+        sessionToken: sessionTokenRef.current,
+      });
+      setLocationResults(response?.suggestions || []);
+    };
+
+    fetchSuggestions();
+  }, [debouncedQuery, dispatch]);
 
   useClickOutside(ref, () => {
     dispatch(setDropdownOpen(false));
@@ -212,7 +212,6 @@ const SearchBar = ({ expanded, setExpanded }) => {
             }
 
             dispatch(setDropdownOpen(true));
-            dispatch(fetchProprietors(nextQuery));
           }}
           onFocus={() => dispatch(setDropdownOpen(true))}
         />
