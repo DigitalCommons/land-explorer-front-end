@@ -48,8 +48,6 @@ export const fetchProprietors = (
     const rawQuery = query ?? "";
     const trimmedQuery = rawQuery.trim();
 
-    dispatch(setSearchQuery(rawQuery));
-
     if (!trimmedQuery) {
       dispatch(clearSearchResults());
       dispatch(setSearchFilter(null));
@@ -62,12 +60,7 @@ export const fetchProprietors = (
     const effectivePageSize =
       pageSize ?? (search?.activeFilter === "proprietor" ? DEFAULT_PROPRIETOR_PAGE_SIZE : 5);
 
-    dispatch(setDropdownOpen(true));
-
-    dispatch({
-      type: "FETCH_PROPRIETORS_STARTED",
-      payload: safeQuery,
-    });
+    dispatch({ type: "FETCH_PROPRIETORS_STARTED" });
 
     const response = await dispatch(
       getRequest(
@@ -123,16 +116,7 @@ export const selectProprietorResult = (proprietor) => async (dispatch) => {
 
   if (!proprietorName) return;
 
-  // dispatch(setSearchQuery(proprietorName));
   dispatch({ type: "SET_ACTIVE", payload: "Ownership Search" });
   await dispatch(fetchRelatedProperties(proprietorName));
 };
 
-export const selectLocationResult = (location) => {
-  return (dispatch) => {
-    dispatch(setDropdownOpen(false));
-    dispatch(setSearchFilter(null));
-
-    dispatch(setSearchQuery(location?.place_name || location?.label || ""));
-  };
-};

@@ -51,9 +51,6 @@ const SearchBar = ({ expanded, setExpanded }) => {
 
   const debouncedQuery = useDebounce(query, 400);
 
-  const visibleProprietorResults = proprietorResults;
-  const visibleLocationResults = locationResults;
-
   const showProprietors =
     activeFilter === null || activeFilter === "proprietor";
   const showLocations = activeFilter === null || activeFilter === "location";
@@ -180,10 +177,10 @@ const SearchBar = ({ expanded, setExpanded }) => {
     showProprietors &&
     !loadingProprietors &&
     hasQuery &&
-    visibleProprietorResults.length === 0;
+    proprietorResults.length === 0;
 
   const showNoLocationsMessage =
-    showLocations && hasQuery && visibleLocationResults.length === 0;
+    showLocations && hasQuery && locationResults.length === 0;
 
  const showInitialSearchMessage = isDropdownOpen && !hasQuery;
 
@@ -262,8 +259,8 @@ const SearchBar = ({ expanded, setExpanded }) => {
           showProprietors={showProprietors}
           showLocations={showLocations}
           loadingProprietors={loadingProprietors}
-          visibleProprietorResults={visibleProprietorResults}
-          visibleLocationResults={visibleLocationResults}
+          proprietorResults={proprietorResults}
+          locationResults={locationResults}
           showNoProprietorsMessage={showNoProprietorsMessage}
           showNoLocationsMessage={showNoLocationsMessage}
           hasPreviousProprietorResults={hasPreviousProprietorResults}

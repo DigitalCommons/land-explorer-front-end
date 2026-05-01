@@ -7,8 +7,8 @@ const SearchDropdown = ({
   showProprietors,
   showLocations,
   loadingProprietors,
-  visibleProprietorResults,
-  visibleLocationResults,
+  proprietorResults,
+  locationResults,
   showNoProprietorsMessage,
   showNoLocationsMessage,
   hasPreviousProprietorResults,
@@ -55,7 +55,7 @@ const SearchDropdown = ({
                 Proprietors
               </div>
 
-              {loadingProprietors && visibleProprietorResults.length === 0 && (
+              {loadingProprietors && proprietorResults.length === 0 && (
                 <div className="search-dropdown__empty">
                   Searching proprietors…
                 </div>
@@ -67,7 +67,7 @@ const SearchDropdown = ({
                 </div>
               )}
 
-              {visibleProprietorResults.map((proprietor) => (
+              {proprietorResults.map((proprietor) => (
                 <button
                   key={proprietor.id || proprietor.proprietorName}
                   type="button"
@@ -122,7 +122,7 @@ const SearchDropdown = ({
                 <div className="search-dropdown__empty">No locations found</div>
               )}
 
-              {visibleLocationResults.map((location) => (
+              {locationResults.map((location) => (
                 <button
                   key={location.mapbox_id || location.place_name}
                   type="button"
