@@ -43,6 +43,13 @@ const SearchReducer = (state = initialState, action) => {
       };
 
     case "FETCH_PROPRIETORS_SUCCEEDED":
+      // Discard stale responses; allow pagination through via resolvedQuery check
+      const isCurrentSearch = action.meta?.query === state.query.trim();
+      const isPaginationSearch = action.meta?.query === state.resolvedQuery;
+
+      if (!isCurrentSearch && !isPaginationSearch) {
+        return state;
+      }
       return {
         ...state,
         loadingProprietors: false,

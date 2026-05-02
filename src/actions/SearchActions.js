@@ -25,7 +25,10 @@ export const toggleSearchFilter = (filter) => (dispatch, getState) => {
   const newFilter = search?.activeFilter === filter ? null : filter;
   dispatch(setSearchFilter(newFilter));
 
-  const query = (search?.query ?? "").trim();
+  // Use resolvedQuery over query — prevents re-searching with a selected
+  // proprietor name when the proprietor filter is toggled
+  const query = (search?.resolvedQuery || search?.query || "").trim();
+
   if (query && newFilter !== "location") {
     dispatch(fetchProprietors(query));
   }
