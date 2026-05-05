@@ -2,7 +2,7 @@
 
 This guide explains how to create a vector tileset in Mapbox studio and how to use this tileset to create a new map layer in Land Explorer.
 
-If your data file is < 300 MB, this process is much more straightforward as you can upload you data file directly via Mapbox studio and create your tileset. 
+If your data file is < 300 MB, this process is much more straightforward as you can upload your data file directly via Mapbox studio and create your tileset. 
 Your data file needs to be either GeoJSON, Shapefile (zipped), KML, GPX or CSV format. Jump to step 6 below to see how to wire it into Land Explorer.
 
 Otherwise, you need to use the [Mapbox Tiling Service (MTS)](https://docs.mapbox.com/mapbox-tiling-service/guides) to create your tileset. [Here is a tutorial of how to upload a new tileset using this service.](https://docs.mapbox.com/help/tutorials/get-started-mts-and-tilesets-cli.)
@@ -94,11 +94,30 @@ Append the <username.tileset ID> to the hardcoded composite URL
 1. Append the <username.tileset ID> to the hardcoded composite URL 
 `mapbox://joolzt.ay7acj73,...existing-ids...,username.tilesetId`
 
-2. Add a `Layer` after the existing ones. You can match on certain fields to style them differently. See the example matching on `flood-risk-level`:
+2. Add a `Layer` after the existing ones. 
+You can match on certain fields to style them differently. 
+For data sets with overlapping data, you may need to use multiple Layer components so you have control over which layer sits on top. See the example for `flood-risk-level`:
 
 ```jsx
-<Layer
-  id="flood-risk-zone"
+const floodRiskVisible = landDataLayers.includes("flood-risk-zone");
+
+<Layer // Zone 1 must render below Zone 2 so Zone 2 fills overlap correctly
+    id="flood-risk-zone-1"
+    type="fill"
+    sourceId="composite"
+    sourceLayer="flood-risk-zone"
+    minZoom={8}
+    layout={{
+      visibility: "visible",
+    }}
+    filter={["==", ["get", "flood-risk-level"], "1"]}
+    paint={{
+      "fill-color": "#F6D55C",
+      "fill-opacity": floodRiskVisible ? 0.4 : 0,
+    }}
+  />
+<Layer // Zone 2 must render below Zone 3 so Zone 3 fills overlap correctly
+  id="flood-risk-zone-2"
   type="fill"
   sourceId="composite"
   sourceLayer="flood-risk-zone"
@@ -106,16 +125,25 @@ Append the <username.tileset ID> to the hardcoded composite URL
   layout={{
     visibility: "visible",
   }}
+  filter={["==", ["get", "flood-risk-level"], "2"]}
   paint={{
-    "fill-color": [
-      "match",
-      ["get", "flood-risk-level"],
-      "1", "#F6D55C",
-      "2", "#F28E2B",
-      "3", "#E03B33",
-      "#cccccc",
-    ],
-    "fill-opacity": landDataLayers.indexOf("flood-risk-zone") !== -1 ? 0.4 : 0,
+    "fill-color": "#F28E2B",
+    "fill-opacity": floodRiskVisible ? 0.4 : 0,
+  }}
+/>
+<Layer
+  id="flood-risk-zone-3"
+  type="fill"
+  sourceId="composite"
+  sourceLayer="flood-risk-zone"
+  minZoom={8}
+  layout={{
+    visibility: "visible",
+  }}
+  filter={["==", ["get", "flood-risk-level"], "3"]}
+  paint={{
+    "fill-color": "#E03B33",
+    "fill-opacity": floodRiskVisible ? 0.4 : 0,
   }}
 />
 ```
