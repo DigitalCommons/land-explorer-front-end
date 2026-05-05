@@ -86,12 +86,12 @@ Once completed, you can see the new tileset in the mapbox studio 🎉
 
 #### 6. Wire it into LandExplorer
 
-**src/data/mapSources.ts** - two changes needed:
-1. Append the <username.tileset ID> to the hardcoded composite URL on line 14 
+**src/data/mapSources.ts**:
+Append the <username.tileset ID> to the hardcoded composite URL 
 `mapbox://joolzt.ay7acj73,...existing-ids...,username.tilesetId`
 
 **src/components/map/MapLandDataLayers.tsx** - two changes needed:
-1. Append the <username.tileset ID> to the hardcoded composite URL on line 14 
+1. Append the <username.tileset ID> to the hardcoded composite URL 
 `mapbox://joolzt.ay7acj73,...existing-ids...,username.tilesetId`
 
 2. Add a `Layer` after the existing ones. You can match on certain fields to style them differently. See the example matching on `flood-risk-level`:

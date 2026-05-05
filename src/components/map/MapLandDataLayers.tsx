@@ -464,6 +464,6 @@ const MapLandDataLayers = () => {
       />
     </React.Fragment>
   );
-};;
+};
 
 export default MapLandDataLayers;
