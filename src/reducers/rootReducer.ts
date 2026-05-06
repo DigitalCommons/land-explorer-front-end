@@ -18,6 +18,7 @@ import MapMetaReducer from "./MapMetaReducer";
 import LandOwnershipReducer from "./LandOwnershipReducer";
 import DataGroupsReducer from "./DataGroupsReducer";
 import ConnectivityReducer from "./ConnectivityReducer";
+import SearchReducer from "./SearchReducer";
 import { Action } from "../types";
 
 const appReducer = combineReducers({
@@ -40,6 +41,7 @@ const appReducer = combineReducers({
   landOwnership: LandOwnershipReducer,
   dataGroups: DataGroupsReducer,
   connectivity: ConnectivityReducer,
+  search: SearchReducer,
 });
 
 type RootState = ReturnType<typeof appReducer>;
