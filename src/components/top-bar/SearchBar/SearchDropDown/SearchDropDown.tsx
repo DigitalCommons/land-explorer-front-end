@@ -2,6 +2,25 @@ import React from "react";
 import formatProprietorName from "../../../../utils/formatProprietorName";
 import { isMobile } from "react-device-detect";
 
+type Props = {
+  showInitialSearchMessage: any;
+  showProprietors: any;
+  showLocations: any;
+  loadingProprietors: any;
+  proprietorResults: any;
+  locationResults: any;
+  showNoProprietorsMessage: any;
+  showNoLocationsMessage: any;
+  hasPreviousProprietorResults: any;
+  hasNextProprietorResults: any;
+  onShowPreviousProprietors: any;
+  onShowNextProprietors: any;
+  onShowProprietors: any;
+  onShowLocations: any;
+  onSelectProprietor: any;
+  onSelectLocation: any;
+};
+
 const SearchDropdown = ({
   showInitialSearchMessage,
   showProprietors,
@@ -19,7 +38,7 @@ const SearchDropdown = ({
   onShowLocations,
   onSelectProprietor,
   onSelectLocation,
-}) => {
+}: Props) => {
   return (
     <div className="search-dropdown">
       {showInitialSearchMessage ? (
@@ -67,7 +86,7 @@ const SearchDropdown = ({
                 </div>
               )}
 
-              {proprietorResults.map((proprietor) => (
+              {proprietorResults.map((proprietor: any) => (
                 <button
                   key={proprietor.id || proprietor.proprietorName}
                   type="button"
@@ -122,7 +141,7 @@ const SearchDropdown = ({
                 <div className="search-dropdown__empty">No locations found</div>
               )}
 
-              {locationResults.map((location) => (
+              {locationResults.map((location: any) => (
                 <button
                   key={location.mapbox_id || location.place_name}
                   type="button"

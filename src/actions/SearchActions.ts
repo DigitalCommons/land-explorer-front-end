@@ -5,12 +5,12 @@ const DEFAULT_PROPRIETOR_PAGE = 1;
 const DEFAULT_PROPRIETOR_PAGE_SIZE = 10;
 const MAX_SEARCH_TERM_LENGTH = 200;
 
-export const setSearchQuery = (query) => ({
+export const setSearchQuery = (query: any) => ({
   type: "SET_SEARCH_QUERY",
   payload: query,
 });
 
-export const setDropdownOpen = (isOpen) => ({
+export const setDropdownOpen = (isOpen: any) => ({
   type: "SET_DROPDOWN_OPEN",
   payload: isOpen,
 });
@@ -20,19 +20,20 @@ export const setSearchFilter = (filter = null) => ({
   payload: filter,
 });
 
-export const toggleSearchFilter = (filter) => (dispatch, getState) => {
-  const { search } = getState();
-  const newFilter = search?.activeFilter === filter ? null : filter;
-  dispatch(setSearchFilter(newFilter));
+export const toggleSearchFilter =
+  (filter: any) => (dispatch: any, getState: any) => {
+    const { search } = getState();
+    const newFilter = search?.activeFilter === filter ? null : filter;
+    dispatch(setSearchFilter(newFilter));
 
-  // Use resolvedQuery over query — prevents re-searching with a selected
-  // proprietor name when the proprietor filter is toggled
-  const query = (search?.resolvedQuery || search?.query || "").trim();
+    // Use resolvedQuery over query — prevents re-searching with a selected
+    // proprietor name when the proprietor filter is toggled
+    const query = (search?.resolvedQuery || search?.query || "").trim();
 
-  if (query && newFilter !== "location") {
-    dispatch(fetchProprietors(query));
-  }
-};
+    if (query && newFilter !== "location") {
+      dispatch(fetchProprietors(query));
+    }
+  };
 
 export const clearSearchResults = () => ({
   type: "CLEAR_SEARCH_RESULTS",
@@ -43,11 +44,11 @@ export const resetSearchState = () => ({
 });
 
 export const fetchProprietors = (
-  query,
+  query: any,
   page = DEFAULT_PROPRIETOR_PAGE,
-  pageSize,
+  pageSize = DEFAULT_PROPRIETOR_PAGE_SIZE,
 ) => {
-  return async (dispatch, getState) => {
+  return async (dispatch: any, getState: any) => {
     const rawQuery = query ?? "";
     const trimmedQuery = rawQuery.trim();
 
@@ -61,7 +62,10 @@ export const fetchProprietors = (
     const safeQuery = trimmedQuery.slice(0, MAX_SEARCH_TERM_LENGTH);
     const { search } = getState();
     const effectivePageSize =
-      pageSize ?? (search?.activeFilter === "proprietor" ? DEFAULT_PROPRIETOR_PAGE_SIZE : 5);
+      pageSize ??
+      (search?.activeFilter === "proprietor"
+        ? DEFAULT_PROPRIETOR_PAGE_SIZE
+        : 5);
 
     dispatch({ type: "FETCH_PROPRIETORS_STARTED" });
 
@@ -99,26 +103,29 @@ export const fetchProprietors = (
   };
 };
 
-export const fetchProprietorPage = (page) => (dispatch, getState) => {
-  const { search } = getState();
+export const fetchProprietorPage =
+  (page: any) => (dispatch: any, getState: any) => {
+    const { search } = getState();
 
-  if (search?.activeFilter !== "proprietor") return;
+    if (search?.activeFilter !== "proprietor") return;
 
-  const query = search?.resolvedQuery || search?.query || "";
-  const pageSize =
-    search?.resultCounts?.proprietors?.pageSize || DEFAULT_PROPRIETOR_PAGE_SIZE;
+    const query = search?.resolvedQuery || search?.query || "";
+    const pageSize =
+      search?.resultCounts?.proprietors?.pageSize ||
+      DEFAULT_PROPRIETOR_PAGE_SIZE;
 
-  dispatch(fetchProprietors(query, page, pageSize));
-};
+    dispatch(fetchProprietors(query, page, pageSize));
+  };
 
-export const selectProprietorResult = (proprietor) => async (dispatch) => {
-  const proprietorName =
-    typeof proprietor === "string"
-      ? proprietor
-      : proprietor?.proprietorName || "";
+export const selectProprietorResult =
+  (proprietor: any) => async (dispatch: any) => {
+    const proprietorName =
+      typeof proprietor === "string"
+        ? proprietor
+        : proprietor?.proprietorName || "";
 
-  if (!proprietorName) return;
+    if (!proprietorName) return;
 
-  dispatch({ type: "SET_ACTIVE", payload: "Ownership Search" });
-  await dispatch(fetchRelatedProperties(proprietorName));
-};
+    dispatch({ type: "SET_ACTIVE", payload: "Ownership Search" });
+    await dispatch(fetchRelatedProperties(proprietorName));
+  };

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { SearchBoxCore, SessionToken } from "@mapbox/search-js-core";
 import { isMobile } from "react-device-detect";
 import constants from "../../../constants";
@@ -18,24 +18,29 @@ import {
   setSearchQuery,
   toggleSearchFilter,
   setSearchFilter,
-  selectProprietorResult
+  selectProprietorResult,
 } from "../../../actions/SearchActions";
 import SearchDropdown from "./SearchDropDown/SearchDropDown";
 import formatProprietorName from "../../../utils/formatProprietorName";
 
-const SearchBar = ({ expanded, setExpanded }) => {
-  const dispatch = useDispatch();
+type Props = {
+  expanded: any;
+  setExpanded: any;
+};
+
+const SearchBar = ({ expanded, setExpanded }: Props) => {
+  const dispatch = useAppDispatch();
   const ref = useRef(null);
- const searchBoxRef = useRef(
-   new SearchBoxCore({
-     accessToken: constants.GEOCODER_TOKEN,
-     country: "gb",
-     limit: 5,
-     types:
-       "region,postcode,district,place,locality,neighborhood,street,address",
-     proximity: null,
-   }),
- );
+  const searchBoxRef = useRef(
+    new SearchBoxCore({
+      accessToken: constants.GEOCODER_TOKEN,
+      country: "gb",
+      limit: 5,
+      types:
+        "region,postcode,district,place,locality,neighborhood,street,address",
+      proximity: undefined,
+    }),
+  );
   const sessionTokenRef = useRef(new SessionToken());
   const suppressLocationResultsRef = useRef(false);
   const [locationResults, setLocationResults] = useState([]);
@@ -47,7 +52,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
     proprietorResults,
     resultCounts,
     loadingProprietors,
-  } = useSelector((state) => state.search);
+  } = useAppSelector((state) => state.search);
 
   const debouncedQuery = useDebounce(query, 400);
 
@@ -66,7 +71,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
     activeFilter === "proprietor" &&
     proprietorPage * proprietorPageSize < proprietorTotal;
 
-  const expand = (e) => {
+  const expand = (e: any) => {
     if (e?.target?.closest(".search-dropdown")) return;
 
     if (!expanded) {
@@ -92,7 +97,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
     setLocationResults([]);
   }, [dispatch]);
 
-  const handleLocationSelect = async (location) => {
+  const handleLocationSelect = async (location: any) => {
     const { features } = await searchBoxRef.current.retrieve(location, {
       sessionToken: sessionTokenRef.current,
     });
@@ -105,9 +110,9 @@ const SearchBar = ({ expanded, setExpanded }) => {
       features?.[0]?.properties?.place_formatted ||
       location?.name ||
       "";
-  
+
     suppressLocationResultsRef.current = true;
-    
+
     dispatch(setSearchQuery(placeName));
     dispatch(setSearchFilter(null));
     dispatch(setDropdownOpen(false));
@@ -116,11 +121,11 @@ const SearchBar = ({ expanded, setExpanded }) => {
       dispatch(setSearchMarker(coordinates[0], coordinates[1]));
       dispatch(setLngLat(coordinates[0], coordinates[1]));
     }
-    
+
     document.activeElement.blur();
   };
 
-  const handleProprietorSelect = async (proprietor) => {
+  const handleProprietorSelect = async (proprietor: any) => {
     const proprietorName =
       typeof proprietor === "string"
         ? proprietor
@@ -138,7 +143,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
     document.activeElement.blur();
   };
 
-  const handleClearSearch = (e) => {
+  const handleClearSearch = (e: any) => {
     e.stopPropagation();
     clearSearch();
   };
@@ -182,16 +187,13 @@ const SearchBar = ({ expanded, setExpanded }) => {
   const showNoLocationsMessage =
     showLocations && hasQuery && locationResults.length === 0;
 
- const showInitialSearchMessage = isDropdownOpen && !hasQuery;
+  const showInitialSearchMessage = isDropdownOpen && !hasQuery;
 
   return (
-    <div
-      ref={ref}
-      className="search-bar-container"
-      onClick={expand}
-    >
-      
-      <div className={`mapboxgl-ctrl-geocoder ${expanded ? "geocoder-expanded" : "geocoder-collapsed"}`}>
+    <div ref={ref} className="search-bar-container" onClick={expand}>
+      <div
+        className={`mapboxgl-ctrl-geocoder ${expanded ? "geocoder-expanded" : "geocoder-collapsed"}`}
+      >
         <input
           className="mapboxgl-ctrl-geocoder--input"
           type="text"
@@ -212,7 +214,7 @@ const SearchBar = ({ expanded, setExpanded }) => {
           }}
           onFocus={() => dispatch(setDropdownOpen(true))}
         />
-        </div>
+      </div>
       <div className="search-bar-buttons">
         {hasQuery && (
           <button
