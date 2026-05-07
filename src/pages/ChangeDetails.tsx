@@ -2,42 +2,72 @@ import { useState, useEffect, FormEvent } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import axios from "axios";
 import Spinner from "../components/common/Spinner";
-import SelectLib from "react-select";
+import Select from "react-select";
 import { Link } from "react-router-dom";
 import constants from "../constants";
 import { getUserDetails } from "../actions/UserActions";
 import { getAuthHeader } from "../utils/Auth";
 
-// react-select v5 is used with legacy v1 API; cast to any to avoid prop type errors
-const Select = SelectLib as any;
+type UpdateUserDetailsModel = {
+  firstName: string;
+  lastName: string;
+  organisation: string;
+  organisationType: string;
+  organisationActivity: string;
+  address1: string;
+  address2: string;
+  city: string;
+  postcode: string;
+  phone: string;
+};
+
 
 // valid field starts as "" (unvalidated) and becomes boolean after user interaction
 type FieldState = { value: any; valid: string | boolean };
 
-const organisationTypes = [
-  "academic-institution",
-  "community-group",
-  "not-for-profit",
-  "private-sector",
-  "public-sector",
-  "sole-trader",
+const orgTypeOptions = [
+  { value: "academic-institution", label: "Academic institution" },
+  { value: "community-group", label: "Community group" },
+  { value: "not-for-profit", label: "Not for profit organisation" },
+  { value: "private-sector", label: "Private sector" },
+  { value: "public-sector", label: "Public sector" },
+  { value: "sole-trader", label: "Sole trader" },
+  { value: "other", label: "Other" },
 ];
-const activityTypes = [
-  "amenity-recreation",
-  "community-development",
-  "conservation-biodiversity",
-  "economic-development",
-  "food-growing",
-  "health-services",
-  "housing",
-  "neighbourhood-planning",
-  "policy-development",
-  "professional-consultancy",
-  "public-services",
-  "renewable-energy-generation",
-  "training-education",
-  "woodland-management",
+
+const activityOptions = [
+  { value: "amenity-recreation", label: "Amenity and recreation" },
+  { value: "community-development", label: "Community development" },
+  {
+    value: "conservation-biodiversity",
+    label: "Conservation and biodiversity",
+  },
+  { value: "economic-development", label: "Economic development" },
+  { value: "food-growing", label: "Food growing" },
+  { value: "health-services", label: "Health services" },
+  { value: "housing", label: "Housing" },
+  { value: "neighbourhood-planning", label: "Neighbourhood planning" },
+  { value: "policy-development", label: "Policy development" },
+  {
+    value: "professional-consultancy",
+    label: "Professional / consultancy services",
+  },
+  { value: "public-services", label: "Public services" },
+  {
+    value: "renewable-energy-generation",
+    label: "Renewable energy generation",
+  },
+  { value: "training-education", label: "Training and education services" },
+  { value: "woodland-management", label: "Woodland management" },
+  { value: "other", label: "Other" },
 ];
+
+const organisationTypes = orgTypeOptions
+  .filter((o) => o.value !== "other")
+  .map((o) => o.value);
+const activityTypes = activityOptions
+  .filter((o) => o.value !== "other")
+  .map((o) => o.value);
 
 const ChangeDetails = () => {
   const user = useAppSelector((state) => state.user);
@@ -62,17 +92,15 @@ const ChangeDetails = () => {
     valid: "",
   });
   const [organisationTypeOther, setOrganisationTypeOther] = useState<FieldState>({
-    value: user.organisationTypeOther,
+    value: "", //set in useEffect if user.organisationType is not in organisationTypes
     valid: "",
   });
   const [organisationActivity, setOrganisationActivity] = useState<FieldState>({
     value: user.organisationActivity,
     valid: "",
   });
-  // @ts-ignore - organisationActivityOther references itself in initializer (pre-existing bug)
   const [organisationActivityOther, setOrganisationActivityOther] = useState<FieldState>({
-    // @ts-ignore
-    value: organisationActivityOther,
+    value: "", //set in useEffect if user.organisationActivity is not in activityTypes
     valid: "",
   });
   const [organisationNumber, setOrganisationNumber] = useState<FieldState>({
@@ -100,11 +128,9 @@ const ChangeDetails = () => {
     valid: "",
   });
 
-  console.log(organisationType, organisationActivity);
-
   useEffect(() => {
     if (organisationType.value !== "") {
-      if (organisationTypes.indexOf(organisationType.value) === -1) {
+      if (!organisationTypes.includes(organisationType.value)) {
         setOrganisationTypeOther({
           value: organisationType.value,
           valid: "",
@@ -116,7 +142,7 @@ const ChangeDetails = () => {
       }
     }
     if (user.organisationActivity !== "") {
-      if (activityTypes.indexOf(organisationActivity as any) === -1) {
+      if (!activityTypes.includes(organisationActivity.value)) {
         setOrganisationActivityOther({
           value: organisationActivity.value,
           valid: "",
@@ -144,26 +170,22 @@ const ChangeDetails = () => {
     e.preventDefault();
     setSubmitting(true);
 
-    // @ts-ignore - shadows outer organisationType state variable (pre-existing)
-    let organisationType = organisationType.value;
-    organisationType =
-      organisationType === "other"
+    let organisationTypeValue =
+      organisationType.value === "other"
         ? organisationTypeOther.value
-        : organisationType;
-    // @ts-ignore - shadows outer organisationActivity state variable (pre-existing)
-    let organisationActivity = organisationActivity.value;
-    organisationActivity =
-      organisationActivity === "other"
-        ? organisationActivityOther.value
-        : organisationActivity;
+        : organisationType.value;
 
-    const body = {
+    let organisationActivityValue =
+      organisationActivity.value === "other"
+        ? organisationActivityOther.value
+        : organisationActivity.value;
+
+    const body: UpdateUserDetailsModel = {
       firstName: firstName.value,
       lastName: lastName.value,
       organisation: organisation.value,
-      organisationNumber: organisationNumber.value,
-      organisationType: organisationType,
-      organisationActivity: organisationActivity,
+      organisationType: organisationTypeValue,
+      organisationActivity: organisationActivityValue,
       address1: address1.value,
       address2: address2.value,
       city: city.value,
@@ -173,8 +195,6 @@ const ChangeDetails = () => {
     axios
       .post(`${constants.ROOT_URL}/api/user/details`, body, getAuthHeader())
       .then((response) => {
-        console.log("response", response);
-        console.log("change details", response);
         setSuccess(true);
       })
       .catch((err) => {
@@ -297,30 +317,18 @@ const ChangeDetails = () => {
                 />
                 <Select
                   name="organisation-type"
-                  value={organisationType.value}
+                  value={
+                    orgTypeOptions.find(
+                      (o) => o.value === organisationType.value,
+                    ) ?? null
+                  }
                   onChange={(selectedOption: any) => {
                     setOrganisationType({
                       value: selectedOption.value,
                       valid: selectedOption.value !== "",
                     });
                   }}
-                  options={[
-                    {
-                      value: "academic-institution",
-                      label: "Academic institution",
-                    },
-                    { value: "community-group", label: "Community group" },
-                    {
-                      value: "not-for-profit",
-                      label: "Not for profit organisation",
-                    },
-                    { value: "private-sector", label: "Private sector" },
-                    { value: "public-sector", label: "Public sector" },
-                    { value: "sole-trader", label: "Sole trader" },
-                    { value: "other", label: "Other" },
-                  ]}
-                  clearable={false}
-                  searchable={false}
+                  options={orgTypeOptions}
                   placeholder="Organisation type"
                 />
                 {organisationType.value === "other" && (
@@ -346,64 +354,18 @@ const ChangeDetails = () => {
                 )}
                 <Select
                   name="organisation-activity"
-                  value={organisationActivity.value}
+                  value={
+                    activityOptions.find(
+                      (o) => o.value === organisationActivity.value,
+                    ) ?? null
+                  }
                   onChange={(selectedOption: any) => {
                     setOrganisationActivity({
-                      // @ts-ignore - 'e' is not defined here (pre-existing bug)
-                      value: e.target.value,
-                      // @ts-ignore
-                      valid: e.target.value !== "",
+                      value: selectedOption.value,
+                      valid: selectedOption.value !== "",
                     });
                   }}
-                  options={[
-                    {
-                      value: "amenity-recreation",
-                      label: "Amenity and recreation",
-                    },
-                    {
-                      value: "community-development",
-                      label: "Community development",
-                    },
-                    {
-                      value: "conservation-biodiversity",
-                      label: "Conservation and biodiversity",
-                    },
-                    {
-                      value: "economic-development",
-                      label: "Economic development",
-                    },
-                    { value: "food-growing", label: "Food growing" },
-                    { value: "health-services", label: "Health services" },
-                    { value: "housing", label: "Housing" },
-                    {
-                      value: "neighbourhood-planning",
-                      label: "Neighbourhood planning",
-                    },
-                    {
-                      value: "policy-development",
-                      label: "Policy development",
-                    },
-                    {
-                      value: "professional-consultancy",
-                      label: "Professional / consultancy services",
-                    },
-                    { value: "public-services", label: "Public services" },
-                    {
-                      value: "renewable-energy-generation",
-                      label: "Renewable energy generation",
-                    },
-                    {
-                      value: "training-education",
-                      label: "Training and education services",
-                    },
-                    {
-                      value: "woodland-management",
-                      label: "Woodland management",
-                    },
-                    { value: "other", label: "Other" },
-                  ]}
-                  clearable={false}
-                  searchable={false}
+                  options={activityOptions}
                   placeholder="Organisation activity"
                 />
                 {organisationActivity.value === "other" && (
