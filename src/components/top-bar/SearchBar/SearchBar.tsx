@@ -1,6 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
-import { SearchBoxCore, SessionToken } from "@mapbox/search-js-core";
+import {
+  SearchBoxCore,
+  SearchBoxSuggestion,
+  SessionToken,
+} from "@mapbox/search-js-core";
 import { isMobile } from "react-device-detect";
 import constants from "../../../constants";
 import useClickOutside from "../../../hooks/useClickOutside";
@@ -43,7 +47,9 @@ const SearchBar = ({ expanded, setExpanded }: Props) => {
   );
   const sessionTokenRef = useRef(new SessionToken());
   const suppressLocationResultsRef = useRef(false);
-  const [locationResults, setLocationResults] = useState([]);
+  const [locationResults, setLocationResults] = useState<SearchBoxSuggestion[]>(
+    [],
+  );
 
   const {
     query,
@@ -86,7 +92,7 @@ const SearchBar = ({ expanded, setExpanded }: Props) => {
   const collapse = () => {
     if (!expanded) return;
     setExpanded(false);
-    document.activeElement.blur();
+    (document.activeElement as HTMLElement)?.blur();
   };
 
   const clearSearch = useCallback(() => {
@@ -121,8 +127,6 @@ const SearchBar = ({ expanded, setExpanded }: Props) => {
       dispatch(setSearchMarker(coordinates[0], coordinates[1]));
       dispatch(setLngLat(coordinates[0], coordinates[1]));
     }
-
-    document.activeElement.blur();
   };
 
   const handleProprietorSelect = async (proprietor: any) => {
@@ -140,7 +144,6 @@ const SearchBar = ({ expanded, setExpanded }: Props) => {
 
     dispatch(setDropdownOpen(false));
     await dispatch(selectProprietorResult(proprietor));
-    document.activeElement.blur();
   };
 
   const handleClearSearch = (e: any) => {

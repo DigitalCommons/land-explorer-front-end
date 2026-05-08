@@ -92,7 +92,10 @@ const SearchDropdown = ({
                   type="button"
                   className="search-dropdown__item"
                   onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => onSelectProprietor(proprietor)}
+                  onClick={(e) => {
+                    onSelectProprietor(proprietor);
+                    e.currentTarget.blur();
+                  }}
                 >
                   {formatProprietorName(proprietor.proprietorName)}
                 </button>
@@ -147,7 +150,10 @@ const SearchDropdown = ({
                   type="button"
                   className="search-dropdown__item"
                   onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => onSelectLocation(location)}
+                  onClick={(e) => {
+                    onSelectLocation(location);
+                    e.currentTarget.blur();
+                  }}
                 >
                   {location.name}
                   {location.place_formatted
