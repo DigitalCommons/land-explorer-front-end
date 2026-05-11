@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.1.1",
-    "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@fortawesome/react-fontawesome": "^0.2.6",
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
+    "@fortawesome/free-regular-svg-icons": "^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "^7.2.0",
+    "@fortawesome/react-fontawesome": "^3.3.1",
     "@gocardless/react-dropin": "^0.3.0",
     "@mapbox/mapbox-gl-draw": "git+https://github.com/mapbox/mapbox-gl-draw.git#84e35b7aa308c69a44b483296baa6ac1c6dc9db8",
     "@mapbox/mapbox-gl-draw-static-mode": "^1.0.1",
