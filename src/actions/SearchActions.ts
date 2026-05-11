@@ -46,7 +46,7 @@ export const resetSearchState = () => ({
 export const fetchProprietors = (
   query: any,
   page = DEFAULT_PROPRIETOR_PAGE,
-  pageSize = DEFAULT_PROPRIETOR_PAGE_SIZE,
+  pageSize?: number,
 ) => {
   return async (dispatch: any, getState: any) => {
     const rawQuery = query ?? "";
