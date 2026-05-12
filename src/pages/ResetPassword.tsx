@@ -9,7 +9,7 @@ const ResetPassword = ({ updateBgImage }: Props) => {
   const [success, setSuccess] = useState(false);
   const [email, setEmail] = useState({
     value: "",
-    valid: "",
+    valid: false,
   });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
