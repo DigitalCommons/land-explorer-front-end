@@ -11,6 +11,6 @@ export type LngLat = {
 };
 
 export type ProprietorResult = {
-  id?: string | number;
+  id: string | number;
   proprietorName: string;
 };
