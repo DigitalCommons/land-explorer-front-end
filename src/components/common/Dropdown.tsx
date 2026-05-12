@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import useClickOutside from "../../hooks/useClickOutside";
 
 type DropdownOption = {
-  value: string;
+  value: string | number;
   label: string;
   iconClass?: string;
 };
@@ -32,10 +32,13 @@ const Dropdown = ({
     onSelect(option);
   };
 
-  useClickOutside(dropdownRef, () => setIsOpen(!isOpen));
+  useClickOutside(dropdownRef, () => setIsOpen(false));
 
   return (
-    <div className={`dropdown ${customClass ? customClass : ""}`}>
+    <div
+      className={`dropdown ${customClass ? customClass : ""}`}
+      ref={dropdownRef}
+    >
       <div
         className="dropdown__selected-option"
         onClick={() => setIsOpen(!isOpen)}
@@ -68,7 +71,7 @@ const Dropdown = ({
         </div>
       </div>
       {isOpen && (
-        <div className="dropdown__options__container" ref={dropdownRef}>
+        <div className="dropdown__options__container">
           {options.map((option) => (
             <div
               className={`dropdown__option`}
