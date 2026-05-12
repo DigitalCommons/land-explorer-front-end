@@ -49,6 +49,14 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }: Props) => {
     dispatch(fetchRelatedProperties(proprietorName!));
   };
 
+  const highlightedProperties = useAppSelector(
+    (state) => state.landOwnership.highlightedProperties,
+  );
+
+  const hasHighlightedProperties = propertiesOnThisPage.some(
+    (property) => highlightedProperties[property.title_no],
+  );
+
   return (
     <LeftPaneTray title="Ownership Search" open={open} onClose={onClose}>
       <div className="search-results-container">
@@ -77,19 +85,26 @@ const LeftPaneRelatedProperties = ({ onClose, open, itemsPerPage }: Props) => {
         ) : propertyCount > 0 ? (
           <>
             <div className="property-count">
-              <span className="property-count--highlight">
+              <div className="property-count--highlight">
                 {propertiesOnThisPage[0].proprietor_name_1}
-              </span>{" "}
-              has{" "}
-              <span className="property-count--highlight">{propertyCount}</span>{" "}
-              associated properties
+              </div>
+              <div>
+                <span className="property-count--highlight">
+                  {propertyCount}
+                </span>{" "}
+                associated properties
+              </div>
             </div>
-            <p onClick={selectAll} className="clear-all">
-              Select all
-            </p>
-            <p onClick={clearAll} className="clear-all">
-              Clear all
-            </p>
+            <div className="search-results__button-container">
+              <button onClick={selectAll} className="button">
+                Select all
+              </button>
+              {hasHighlightedProperties && (
+                <p onClick={clearAll} className="clear-all">
+                  Clear all
+                </p>
+              )}
+            </div>
             {propertiesOnThisPage.map((property) => (
               <RelatedProperty key={property.title_no} property={property} />
             ))}

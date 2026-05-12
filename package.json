@@ -11,6 +11,7 @@
     "@mapbox/mapbox-gl-draw": "git+https://github.com/mapbox/mapbox-gl-draw.git#84e35b7aa308c69a44b483296baa6ac1c6dc9db8",
     "@mapbox/mapbox-gl-draw-static-mode": "^1.0.1",
     "@mapbox/mapbox-gl-geocoder": "^4.7.4",
+    "@mapbox/search-js-core": "^1.5.1",
     "@redux-devtools/extension": "^3.3.0",
     "@turf/turf": "^7.3.4",
     "axios": "^0.26.0",

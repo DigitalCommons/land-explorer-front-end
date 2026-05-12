@@ -6,7 +6,7 @@ import MapTitleBar from "./MapTitleBar";
 import MapMenu from "./MapMenu";
 import ProfilePic from "./ProfilePic";
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
-import SearchBar from "./SearchBar";
+import SearchBar from "./SearchBar/SearchBar";
 import iconHamburger from "../../assets/img/icon-hamburger.svg";
 
 type Props = {
