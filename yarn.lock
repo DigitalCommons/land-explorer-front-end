@@ -2432,6 +2432,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/lodash@^4.17.24":
+  version "4.17.24"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.17.24.tgz#4ae334fc62c0e915ca8ed8e35dcc6d4eeb29215f"
+  integrity sha512-gIW7lQLZbue7lRSWEFql49QJJWThrTFFeIMJdp3eH4tKoxm1OvEPg02rm4wCCSHS0cL3/Fizimb35b7k8atwsQ==
+
 "@types/mapbox-gl@2":
   version "2.7.21"
   resolved "https://registry.yarnpkg.com/@types/mapbox-gl/-/mapbox-gl-2.7.21.tgz#b0cad1e4c3d1bf1592444de36a4f27e890310416"
