@@ -57,7 +57,7 @@ const RelatedProperty = ({ property }: { property: any }) => {
         </div>
       </div>
       <button
-        alt="move map to property icon"
+        aria-label="move map to property icon"
         title="Go to Property"
         className="search-result__goto-icon"
         onClick={gotoProperty}
