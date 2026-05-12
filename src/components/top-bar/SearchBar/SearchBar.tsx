@@ -26,6 +26,7 @@ import {
 } from "../../../actions/SearchActions";
 import SearchDropdown from "./SearchDropDown/SearchDropDown";
 import formatProprietorName from "../../../utils/formatProprietorName";
+import { ProprietorResult } from "../../../types";
 
 type Props = {
   expanded: any;
@@ -103,7 +104,7 @@ const SearchBar = ({ expanded, setExpanded }: Props) => {
     setLocationResults([]);
   }, [dispatch]);
 
-  const handleLocationSelect = async (location: any) => {
+  const handleLocationSelect = async (location: SearchBoxSuggestion) => {
     const { features } = await searchBoxRef.current.retrieve(location, {
       sessionToken: sessionTokenRef.current,
     });
@@ -129,11 +130,8 @@ const SearchBar = ({ expanded, setExpanded }: Props) => {
     }
   };
 
-  const handleProprietorSelect = async (proprietor: any) => {
-    const proprietorName =
-      typeof proprietor === "string"
-        ? proprietor
-        : proprietor?.proprietorName || "";
+  const handleProprietorSelect = async (proprietor: ProprietorResult) => {
+    const proprietorName = proprietor?.proprietorName || "";
 
     const formattedName = formatProprietorName(proprietorName);
 

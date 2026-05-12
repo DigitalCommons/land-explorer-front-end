@@ -1,5 +1,6 @@
 import { getRequest } from "./RequestActions";
 import { fetchRelatedProperties } from "./LandOwnershipActions";
+import { ProprietorResult } from "../types";
 
 const DEFAULT_PROPRIETOR_PAGE = 1;
 const DEFAULT_PROPRIETOR_PAGE_SIZE = 10;
@@ -118,11 +119,8 @@ export const fetchProprietorPage =
   };
 
 export const selectProprietorResult =
-  (proprietor: any) => async (dispatch: any) => {
-    const proprietorName =
-      typeof proprietor === "string"
-        ? proprietor
-        : proprietor?.proprietorName || "";
+  (proprietor: ProprietorResult) => async (dispatch: any) => {
+    const proprietorName = proprietor?.proprietorName || "";
 
     if (!proprietorName) return;
 

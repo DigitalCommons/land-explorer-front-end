@@ -1,24 +1,26 @@
 import React from "react";
+import { SearchBoxSuggestion } from "@mapbox/search-js-core";
 import formatProprietorName from "../../../../utils/formatProprietorName";
 import { isMobile } from "react-device-detect";
+import { ProprietorResult } from "../../../../types";
 
 type Props = {
-  showInitialSearchMessage: any;
-  showProprietors: any;
-  showLocations: any;
-  loadingProprietors: any;
-  proprietorResults: any;
-  locationResults: any;
-  showNoProprietorsMessage: any;
-  showNoLocationsMessage: any;
-  hasPreviousProprietorResults: any;
-  hasNextProprietorResults: any;
-  onShowPreviousProprietors: any;
-  onShowNextProprietors: any;
-  onShowProprietors: any;
-  onShowLocations: any;
-  onSelectProprietor: any;
-  onSelectLocation: any;
+  showInitialSearchMessage: boolean;
+  showProprietors: boolean;
+  showLocations: boolean;
+  loadingProprietors: boolean;
+  proprietorResults: ProprietorResult[];
+  locationResults: SearchBoxSuggestion[];
+  showNoProprietorsMessage: boolean;
+  showNoLocationsMessage: boolean;
+  hasPreviousProprietorResults: boolean;
+  hasNextProprietorResults: boolean;
+  onShowPreviousProprietors: () => void;
+  onShowNextProprietors: () => void;
+  onShowProprietors: () => void;
+  onShowLocations: () => void;
+  onSelectProprietor: (proprietor: ProprietorResult) => void;
+  onSelectLocation: (location: SearchBoxSuggestion) => void;
 };
 
 const SearchDropdown = ({
@@ -86,7 +88,7 @@ const SearchDropdown = ({
                 </div>
               )}
 
-              {proprietorResults.map((proprietor: any) => (
+              {proprietorResults.map((proprietor) => (
                 <button
                   key={proprietor.id || proprietor.proprietorName}
                   type="button"
@@ -144,9 +146,9 @@ const SearchDropdown = ({
                 <div className="search-dropdown__empty">No locations found</div>
               )}
 
-              {locationResults.map((location: any) => (
+              {locationResults.map((location) => (
                 <button
-                  key={location.mapbox_id || location.place_name}
+                  key={location.mapbox_id}
                   type="button"
                   className="search-dropdown__item"
                   onMouseDown={(e) => e.preventDefault()}
