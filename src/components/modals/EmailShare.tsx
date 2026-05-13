@@ -10,7 +10,7 @@ import Button from "../common/Button";
 import Dropdown, { DropdownOption } from "../common/Dropdown";
 import PillBadge from "../common/PillBadge";
 
-const accessOptions: DropdownOption[] = [
+const accessOptions: DropdownOption<number>[] = [
   {
     value: constants.MAP_ACCESS_READ_ONLY,
     label: "Read Only",
@@ -54,7 +54,7 @@ const EmailShare = () => {
     sync();
   }, [usersToShareWith]);
 
-  const handleSelectAccess = (option: any) => {
+  const handleSelectAccess = (option: DropdownOption<number>) => {
     setSelectedAccess(option.value);
     setSelectedAccessLabel(option.label);
     setSelectedAccessIcon(option.iconClass);

@@ -5,7 +5,10 @@ export type MyMap = {
   name: string;
   access: number;
   isSnapshot: boolean;
-  sharedWith: string[];
+  sharedWith: {
+    email: string;
+    access: number;
+  }[];
   viewed: boolean;
   accessGrantedDate: Date;
   createdDate: Date;

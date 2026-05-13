@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
 import useClickOutside from "../../hooks/useClickOutside";
 
-export type DropdownOption = {
-  value: string | number;
+export type DropdownOption<T = any> = {
+  value: T;
   label: string;
   iconClass?: string;
 };
