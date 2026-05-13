@@ -1,4 +1,5 @@
 import { Action } from "../types";
+import { Polygon } from "geojson";
 
 export type PropertyDisplayType =
   | "all"
@@ -8,13 +9,31 @@ export type PropertyDisplayType =
   | "socialHousing"
   | "unregistered";
 
-type Property = {
-  poly_id: string;
-  title_no: string;
-  proprietor_name_1?: string;
-  proprietor_category_1?: string;
-  [key: string]: unknown;
-};
+  export type PolygonGeom = {
+    poly_id: string;
+    geom: Polygon;
+  };
+
+  export type Property = {
+    id: string;
+    title_no: string;
+    property_address: string;
+    proprietor_name_1?: string;
+    proprietor_name_2?: string;
+    proprietor_name_3?: string;
+    proprietor_name_4?: string;
+    proprietor_1_address_1: string;
+    proprietor_2_address_1: string;
+    proprietor_3_address_1: string;
+    proprietor_4_address_1: string;
+    proprietor_category_1: string;
+    proprietor_category_2: string;
+    proprietor_category_3: string;
+    proprietor_category_4: string;
+    tenure: string;
+    date_proprietor_added: string;
+    polygons: PolygonGeom[];
+  };
 
 type HighlightedProperties = {
   [titleNo: string]: Property;
