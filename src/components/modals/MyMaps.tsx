@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/react-redux';
 import { openMap, deleteMap } from '../../actions/MapActions';
 import moment from 'moment';
 import constants from "../../constants";
+import { MyMap } from "@/reducers/MyMapsReducer";
 
 type Props = {
   stage: string;
@@ -12,11 +13,14 @@ type Props = {
 
 export const MyMaps = ({ stage, setStage, closeModal }: Props) => {
   const dispatch = useAppDispatch();
-  const [active, setActive] = useState<{ id: string | null; name: string | null }>({ id: null, name: null });
+  const [active, setActive] = useState<{
+    id: number | null;
+    name: string | null;
+  }>({ id: null, name: null });
 
   const allMaps = useAppSelector((state) => state.myMaps.maps);
   const myMaps = allMaps.filter(
-    (map: any) => map.access === constants.MAP_ACCESS_OWNER
+    (map: MyMap) => map.access === constants.MAP_ACCESS_OWNER,
   );
   const error = useAppSelector((state) => state.myMaps.error);
 
@@ -27,11 +31,13 @@ export const MyMaps = ({ stage, setStage, closeModal }: Props) => {
   };
 
   const deleteActiveMap = async () => {
-    await dispatch(deleteMap(active.id) as any);
-    setStage("list");
+    if (active.id) {
+      await dispatch(deleteMap(active.id));
+      setStage("list");
+    }
   };
 
-  const mapList = myMaps.map((map: any, i: number) => {
+  const mapList = myMaps.map((map: MyMap, i: number) => {
     const momentDate = moment(map.lastModified).format("DD/MM/YYYY");
     return (
       <tr
@@ -103,8 +109,10 @@ export const MyMaps = ({ stage, setStage, closeModal }: Props) => {
           className="button button-small"
           onClick={() => {
             console.log("Open saved map", active.id);
-            dispatch(openMap(active.id) as any);
-            close();
+            if (active.id) {
+              dispatch(openMap(active.id) as any);
+              close();
+            }
           }}
         >
           Ok

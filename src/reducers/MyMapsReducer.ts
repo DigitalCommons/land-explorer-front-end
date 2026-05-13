@@ -1,13 +1,15 @@
 import { Action } from "../types";
 
-type MyMap = {
-  eid: string;
+export type MyMap = {
+  eid: number;
   name: string;
   access: number;
-  data: unknown;
-  owner?: string;
-  created?: string;
-  updated?: string;
+  isSnapshot: boolean;
+  sharedWith: string[];
+  viewed: boolean;
+  accessGrantedDate: Date;
+  createdDate: Date;
+  lastModified: Date;
 };
 
 type MyMapsState = {
