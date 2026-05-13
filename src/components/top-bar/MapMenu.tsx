@@ -37,15 +37,11 @@ const MapMenu = () => {
     : "map-menu-option-disabled";
 
   return (
-    <div
-      className="map-menu-container"
-      style={{ marginTop: expanded ? (ownMap ? 265 : 190) : 0 }}
-      ref={ref}
-    >
+    <div className="map-menu-container" ref={ref}>
       <img
         src={iconChevron}
         alt="map-menu-icon"
-        style={{ height: 21, width: 30, cursor: "pointer" }}
+        className="map-menu-icon"
         onClick={() => setExpanded(!expanded)}
         draggable={false}
       />

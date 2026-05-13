@@ -9,3 +9,8 @@ export type LngLat = {
   lng: number;
   lat: number;
 };
+
+export type ProprietorResult = {
+  id: string | number;
+  proprietorName: string;
+};
