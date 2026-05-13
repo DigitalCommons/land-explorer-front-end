@@ -244,10 +244,10 @@ export const saveObjectToMap = (type: string, data: any, mapId: number) => {
 /** Edit the specified object's name and description. Return false iff failed to save to backend. */
 export const editMapObjectInfo = (
   type: "marker" | "polygon" | "line",
-  eid: number,
+  eid: number | null,
   uuid: string,
   newName: string,
-  newDescription: string
+  newDescription: string,
 ) => {
   return async (dispatch: any, getState: any) => {
     const payload = {
@@ -265,7 +265,7 @@ export const editMapObjectInfo = (
     // If we are working on a saved map
     if (getState().mapMeta.currentMapId) {
       return await dispatch(
-        saveMapRequest(`/api/user/map/edit/${type}`, payload)
+        saveMapRequest(`/api/user/map/edit/${type}`, payload),
       );
     }
     return true;
