@@ -14,7 +14,7 @@ const Download = () => {
 
     const downloadMap = async () => {
         const mapToDownload = maps.find((map: any) => map.eid === currentMapId);
-        const mapName = mapToDownload.name;
+        const mapName = mapToDownload?.name;
 
         const headers = getAuthHeader() as any;
         headers['Content-Disposition'] = 'attachment';
