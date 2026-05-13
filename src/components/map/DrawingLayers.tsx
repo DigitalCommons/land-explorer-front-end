@@ -13,7 +13,6 @@ const DrawingLayers = () => {
             type={type}
             key={polygonOrLine.uuid}
             polygonOrLine={polygonOrLine}
-            name={polygonOrLine.name}
           />
         );
       });
