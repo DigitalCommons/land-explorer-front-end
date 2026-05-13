@@ -81,7 +81,7 @@ const DrawingTool = ({ tool, name, mode, size, drawControl }: Props) => {
       <div
         className={`drawing-tool ${isToolActive ? "active" : ""}`}
         style={{
-          backgroundImage: `url(${image})`,
+          backgroundImage: `url("${image}")`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
           backgroundSize: size ? size : "40%",
