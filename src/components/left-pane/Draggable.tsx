@@ -98,28 +98,39 @@ const Draggable = ({ children, itemHeight }: Props) => {
                         };
 
                     return (
-                        <Motion style={style} key={i}>
-                            {({ scale, shadow, y }) => (
-                                <div
-                                    className="draggable-item"
-                                    style={{
-                                        boxShadow: `rgba(0, 0, 0, 0.2) 0px ${shadow}px ${2 * shadow}px 0px`,
-                                        transform: `translate3d(0, ${y}px, 0) scale(${scale})`,
-                                        WebkitTransform: `translate3d(0, ${y}px, 0) scale(${scale})`,
-                                        zIndex: i === originalPosOfLastPressed ? 99 : i,
-                                        background: originalPosOfLastPressed === i && isPressed ? '#eff0f2' : '#f4f5f7',
-                                        transition: 'background 300ms'
-                                    }}
-                                >
-                                    <div
-                                        className="tray-item-drag draggable"
-                                        onMouseDown={handleMouseDown.bind(null, i, y)}
-                                        onTouchStart={handleTouchStart.bind(null, i, y)}
-                                    />
-                                    {child}
-                                </div>
-                            )}
-                        </Motion>
+                      <Motion style={style} key={i}>
+                        {({
+                          scale,
+                          shadow,
+                          y,
+                        }: {
+                          scale: number;
+                          shadow: number;
+                          y: number;
+                        }) => (
+                          <div
+                            className="draggable-item"
+                            style={{
+                              boxShadow: `rgba(0, 0, 0, 0.2) 0px ${shadow}px ${2 * shadow}px 0px`,
+                              transform: `translate3d(0, ${y}px, 0) scale(${scale})`,
+                              WebkitTransform: `translate3d(0, ${y}px, 0) scale(${scale})`,
+                              zIndex: i === originalPosOfLastPressed ? 99 : i,
+                              background:
+                                originalPosOfLastPressed === i && isPressed
+                                  ? "#eff0f2"
+                                  : "#f4f5f7",
+                              transition: "background 300ms",
+                            }}
+                          >
+                            <div
+                              className="tray-item-drag draggable"
+                              onMouseDown={handleMouseDown.bind(null, i, y)}
+                              onTouchStart={handleTouchStart.bind(null, i, y)}
+                            />
+                            {child}
+                          </div>
+                        )}
+                      </Motion>
                     );
                 })}
             </div>
