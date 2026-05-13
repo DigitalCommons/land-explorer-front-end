@@ -7,9 +7,10 @@ import PropertySectionHeader from "./property-section-header/PropertySectionHead
 import OverviewDetails from "./overview-details/OverviewDetails";
 import OwnershipDetails from "./ownership-details/OwnershipDetails";
 import * as turf from "@turf/turf";
+import { Property } from "@/reducers/LandOwnershipReducer";
 
 type Props = {
-  property: any;
+  property: Property;
 };
 
 const PropertySection = ({ property }: Props) => {
@@ -41,16 +42,16 @@ const PropertySection = ({ property }: Props) => {
   const area = Math.round(
     polygons
       .map((polygon) => turf.area(polygon.geom))
-      .reduce((a, b) => a + b, 0)
+      .reduce((a, b) => a + b, 0),
   );
   const perimeter = Math.round(
     polygons
       .flatMap((polygon) =>
         turf
           .flatten(turf.polygonToLine(polygon.geom))
-          .features.map((line) => turf.length(line, { units: "meters" }))
+          .features.map((line) => turf.length(line, { units: "meters" })),
       )
-      .reduce((a, b) => a + b, 0)
+      .reduce((a, b) => a + b, 0),
   );
 
   const proprietors = [

@@ -23,7 +23,10 @@ const MapProperties = ({ center, map }: Props) => {
     highlightedProperties,
     activePropertyTitleNo,
   } = useAppSelector((state) => state.landOwnership);
-  const activeProperty = highlightedProperties[activePropertyTitleNo] || null;
+  const activeProperty =
+    activePropertyTitleNo !== null
+      ? highlightedProperties[activePropertyTitleNo] || null
+      : null;
   const { zoom, zooming } = useAppSelector((state) => state.map);
   const activePanel = useAppSelector((state) => state.leftPane.active);
 
@@ -34,7 +37,7 @@ const MapProperties = ({ center, map }: Props) => {
       !zooming &&
       activeDisplay &&
       map &&
-      zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay as keyof typeof constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS]
+      zoom[0] >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay as keyof typeof constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS]
     ) {
       const { _sw, _ne } = map.getBounds();
       dispatch(fetchPropertiesInBox(_sw.lng, _sw.lat, _ne.lng, _ne.lat));
@@ -72,7 +75,7 @@ const MapProperties = ({ center, map }: Props) => {
 
   if (
     activeDisplay &&
-    zoom >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay as keyof typeof constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS]
+    zoom[0] >= constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS[activeDisplay as keyof typeof constants.PROPERTY_BOUNDARIES_ZOOM_LEVELS]
   ) {
     Object.values(visibleProperties)?.forEach((property: any) => {
       if (

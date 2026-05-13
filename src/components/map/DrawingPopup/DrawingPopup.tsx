@@ -31,7 +31,7 @@ export const MODE = {
 
 type Props = {
   object: any;
-  type: string;
+  type: "marker" | "polygon" | "line";
   source: string;
   access?: any;
   closeDescription: () => void;
@@ -99,8 +99,8 @@ const DrawingPopup = ({ object, type, source, access, closeDescription }: Props)
           currentMapId,
           object.uuid,
           newName,
-          newDescription
-        )
+          newDescription,
+        ),
       );
     } else {
       dispatch(
@@ -109,8 +109,8 @@ const DrawingPopup = ({ object, type, source, access, closeDescription }: Props)
           object.data_group_id,
           object.uuid,
           newName,
-          newDescription
-        )
+          newDescription,
+        ),
       );
       // TODO: indicate in the popup when this fails to save?
     }

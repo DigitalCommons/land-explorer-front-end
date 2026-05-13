@@ -44,9 +44,11 @@
     "dev": "vite",
     "start": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.24",
     "@types/mapbox-gl": "2",
     "@types/node": "^25.2.3",
     "@types/react": "^18.3.23",

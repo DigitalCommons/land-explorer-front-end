@@ -7,7 +7,7 @@ import layers from "../../data/mapLayerKeyConfig";
 const MapLayerKey = () => {
   const { landDataLayers } = useAppSelector((state) => state.landDataLayers);
   const { activeDisplay, highlightedProperties } = useAppSelector(
-    (state) => state.landOwnership
+    (state) => state.landOwnership,
   );
 
   const [expanded, setExpanded] = useState(!isMobile);
@@ -32,9 +32,9 @@ const MapLayerKey = () => {
   }, [activeDisplay, landDataLayers]);
 
   // Render keys based on visible layers
-  const visibleLayerIds = (activeDisplay ? [activeDisplay] : [])
+  const visibleLayerIds = landDataLayers
     .concat(hasHighlightedProperties ? ["highlightedProperty"] : [])
-    .concat(landDataLayers);
+    .concat(activeDisplay ? [activeDisplay] : []);
 
   const keyContent = visibleLayerIds
     .map((id) => {

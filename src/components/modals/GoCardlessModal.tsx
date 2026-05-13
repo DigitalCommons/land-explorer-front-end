@@ -27,9 +27,7 @@ const GoCardlessModal = ({ billingRequestFlowID, setMandate, closeModal }: Props
         open();
     }
 
-    return (<div>
-        {error && <p>Error: {error}</p>}
-    </div>)
+    return <div>{error && <p>Error: {error.message}</p>}</div>;
 
 }
 

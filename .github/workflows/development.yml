@@ -25,7 +25,9 @@ jobs:
 
       - name: "📦 build code"
         run: yarn build
-
+      
+      - name: "🔍 typecheck code"
+        run: yarn typecheck
       # We don't have any tests yet
       # - name: "🔍 run tests"
       #   run: yarn test

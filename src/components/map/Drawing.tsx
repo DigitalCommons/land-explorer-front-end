@@ -5,7 +5,7 @@ import DrawingPopup from "./DrawingPopup/DrawingPopup";
 import * as turf from "@turf/turf";
 
 type Props = {
-  type: string;
+  type: "marker" | "polygon" | "line";
   polygonOrLine: any;
 };
 

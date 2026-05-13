@@ -115,10 +115,10 @@ export const openMap = (mapId: number) => {
   };
 };
 
-export const deleteMap = (mapId: string) => {
+export const deleteMap = (mapId: number) => {
   return async (dispatch: any, getState: any) => {
     const success = await dispatch(
-      postRequest("/api/user/map/delete", { eid: mapId })
+      postRequest("/api/user/map/delete", { eid: mapId }),
     );
 
     if (success) {
@@ -214,7 +214,7 @@ export const autoSave = () => {
 };
 
 /** Save the object data to a specified map. Return false iff failed to save to backend. */
-export const saveObjectToMap = (type: string, data: any, mapId: string) => {
+export const saveObjectToMap = (type: string, data: any, mapId: number) => {
   return async (dispatch: any, getState: any) => {
     const copyToCurrentMap = mapId === getState().mapMeta.currentMapId;
 
@@ -230,7 +230,7 @@ export const saveObjectToMap = (type: string, data: any, mapId: string) => {
       eid: mapId,
     };
     const success = await dispatch(
-      saveMapRequest(`/api/user/map/save/${type}`, body)
+      saveMapRequest(`/api/user/map/save/${type}`, body),
     );
 
     if (success && copyToCurrentMap) {
@@ -244,10 +244,10 @@ export const saveObjectToMap = (type: string, data: any, mapId: string) => {
 /** Edit the specified object's name and description. Return false iff failed to save to backend. */
 export const editMapObjectInfo = (
   type: "marker" | "polygon" | "line",
-  eid: number,
+  eid: number | null,
   uuid: string,
   newName: string,
-  newDescription: string
+  newDescription: string,
 ) => {
   return async (dispatch: any, getState: any) => {
     const payload = {
@@ -265,7 +265,7 @@ export const editMapObjectInfo = (
     // If we are working on a saved map
     if (getState().mapMeta.currentMapId) {
       return await dispatch(
-        saveMapRequest(`/api/user/map/edit/${type}`, payload)
+        saveMapRequest(`/api/user/map/edit/${type}`, payload),
       );
     }
     return true;

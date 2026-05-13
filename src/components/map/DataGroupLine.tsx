@@ -2,6 +2,7 @@ import React from "react";
 import { Marker, GeoJSONLayer } from "react-mapbox-gl";
 import DrawingPopup from "./DrawingPopup/DrawingPopup";
 import * as turf from "@turf/turf";
+import { Feature } from "geojson";
 
 type Props = {
   line: any;
@@ -18,7 +19,7 @@ const DataGroupLine = ({
   setPopupVisible,
   popupVisible,
 }: Props) => {
-  const lineData = {
+  const lineData: Feature = {
     geometry: {
       coordinates: line.vertices.coordinates,
       type: "LineString",
