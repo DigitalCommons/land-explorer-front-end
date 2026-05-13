@@ -25,7 +25,7 @@ const MapProperties = ({ center, map }: Props) => {
   } = useAppSelector((state) => state.landOwnership);
   const activeProperty =
     activePropertyTitleNo !== null
-      ? highlightedProperties[activePropertyTitleNo] || null // TODO test this
+      ? highlightedProperties[activePropertyTitleNo] || null
       : null;
   const { zoom, zooming } = useAppSelector((state) => state.map);
   const activePanel = useAppSelector((state) => state.leftPane.active);
