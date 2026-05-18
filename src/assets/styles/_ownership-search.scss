@@ -15,10 +15,35 @@
   padding-bottom: 20px;
   border-bottom: 1px solid #eeeeee;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
 }
 
 .property-count--highlight {
   color: $primaryColor;
+}
+
+.search-results__button-container {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.search-results__button-container .button {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  // justify-content: center;
+  padding: 0 26px;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
 }
 
 .search-result {

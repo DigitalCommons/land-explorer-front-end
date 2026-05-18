@@ -23,6 +23,7 @@
 @import "shared-maps";
 @import "map-being-edited";
 @import "notifications";
+@import "search";
 :root {
   --data-group-colour: #27ae60;
 }
@@ -271,7 +272,7 @@ h6 {
   position: absolute;
   font-size: 12px;
   top: 5px;
-  left: 9px;
+  left: 17px;
   color: white;
 }
 

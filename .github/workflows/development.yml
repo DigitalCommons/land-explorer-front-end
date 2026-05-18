@@ -17,7 +17,7 @@ jobs:
       - name: "🔧 setup node"
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: '24.x'
           cache: 'yarn'
 
       - name: "📦 install dependencies"
@@ -25,7 +25,9 @@ jobs:
 
       - name: "📦 build code"
         run: yarn build
-
+      
+      - name: "🔍 typecheck code"
+        run: yarn typecheck
       # We don't have any tests yet
       # - name: "🔍 run tests"
       #   run: yarn test

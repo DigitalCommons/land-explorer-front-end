@@ -1,0 +1,94 @@
+import { getRequest, postRequest } from "./RequestActions";
+import { autoSave } from "./MapActions";
+
+export const loadDataGroups = () => {
+  return async (dispatch: any) => {
+    const userGroupsData = await dispatch(getRequest("/api/user/datagroups"));
+    if (userGroupsData === null) {
+      return;
+    }
+
+    const mergedDataGroups: any[] = [];
+    userGroupsData.forEach((userGroup: any) => {
+      userGroup.dataGroups.forEach((dataGroup: any) => {
+        const { iddata_groups, ...dataGroupData } = dataGroup;
+        mergedDataGroups.push({
+          ...dataGroupData,
+          id: iddata_groups,
+          userGroupId: userGroup.id,
+          access: userGroup.access,
+        });
+      });
+    });
+    dispatch({
+      type: "STORE_DATA_GROUPS_DATA",
+      payload: mergedDataGroups,
+    });
+
+    const userGroupTitlesAndIDs = userGroupsData.map((userGroup: any) => ({
+      title: userGroup.name,
+      id: userGroup.id,
+    }));
+    dispatch({
+      type: "SET_USER_GROUP_TITLES",
+      payload: userGroupTitlesAndIDs,
+    });
+  };
+};
+
+export const toggleDataGroup = (dataGroupId: number) => {
+  return (dispatch: any) => {
+    dispatch({
+      type: "TOGGLE_DATA_GROUP",
+      payload: dataGroupId,
+    });
+    return dispatch(autoSave());
+  };
+};
+
+/** Save the object data to a specified data group. Return false iff failed to save to backend. */
+export const saveObjectToDataGroup = (type: string, data: any, dataGroupId: number) => {
+  return async (dispatch: any) => {
+    const body = {
+      object: data,
+      dataGroupId,
+    };
+
+    const success = await dispatch(
+      postRequest(`/api/user/datagroup/save/${type}`, body)
+    );
+    if (success) {
+      // reload data groups with the new object
+      dispatch(loadDataGroups());
+      return true;
+    }
+    return false;
+  };
+};
+
+/** Edit the specified object's name and description. Return false iff failed to save to backend. */
+export const editDataGroupObjectInfo = (
+  type: string,
+  dataGroupId: number,
+  uuid: string,
+  newName: string,
+  newDescription: string
+) => {
+  return async (dispatch: any) => {
+    const body = {
+      dataGroupId,
+      uuid,
+      name: newName,
+      description: newDescription,
+    };
+
+    const success = await dispatch(
+      postRequest(`/api/user/datagroup/edit/${type}`, body)
+    );
+    if (success) {
+      dispatch(loadDataGroups());
+      return true;
+    }
+    return false;
+  };
+};
