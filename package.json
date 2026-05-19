@@ -14,7 +14,7 @@
     "@mapbox/search-js-core": "^1.5.1",
     "@redux-devtools/extension": "^3.3.0",
     "@turf/turf": "^7.3.4",
-    "axios": "^0.26.0",
+    "axios": "^0.31.1",
     "convert-units": "^2.3.4",
     "events": "^3.3.0",
     "lodash": "^4.17.21",
