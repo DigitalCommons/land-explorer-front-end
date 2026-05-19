@@ -5,13 +5,15 @@ import { Source, Layer } from 'react-mapbox-gl';
 const MapLandDataLayers = () => {
   const { landDataLayers } = useAppSelector((state) => state.landDataLayers);
 
+  const floodRiskVisible = landDataLayers.includes("flood-risk-zone");
+
   // TODO: reflect the order that layer toggles have been dragged in LeftPaneLandData?
   return (
     <React.Fragment>
       <Source
         tileJsonSource={{
           type: "vector",
-          url: "mapbox://joolzt.ay7acj73,joolzt.9edhyytu,joolzt.6dd4p92w,joolzt.50odxxr1,joolzt.cpacrvmx,joolzt.c3j1rh4t,joolzt.75llshed,joolzt.4i2tzpgj,kingmob.8cgpa2xi,",
+          url: "mapbox://joolzt.ay7acj73,joolzt.9edhyytu,joolzt.6dd4p92w,joolzt.50odxxr1,joolzt.cpacrvmx,joolzt.c3j1rh4t,joolzt.75llshed,joolzt.4i2tzpgj,kingmob.8cgpa2xi,joolzt.flood-risk-zone",
         }}
         id="composite"
       />
@@ -124,6 +126,52 @@ const MapLandDataLayers = () => {
               : 0,
         }}
       />
+      <Layer // Zone 1 must render below Zone 2 so Zone 2 fills overlap correctly
+        id="flood-risk-zone-1"
+        type="fill"
+        sourceId="composite"
+        sourceLayer="flood-risk-zone"
+        minZoom={8}
+        layout={{
+          visibility: "visible",
+        }}
+        filter={["==", ["get", "flood-risk-level"], "1"]}
+        paint={{
+          "fill-color": "#F6D55C",
+          "fill-opacity": floodRiskVisible ? 0.4 : 0,
+        }}
+      />
+      <Layer // Zone 2 must render below Zone 3 so Zone 3 fills overlap correctly
+        id="flood-risk-zone-2"
+        type="fill"
+        sourceId="composite"
+        sourceLayer="flood-risk-zone"
+        minZoom={8}
+        layout={{
+          visibility: "visible",
+        }}
+        filter={["==", ["get", "flood-risk-level"], "2"]}
+        paint={{
+          "fill-color": "#F28E2B",
+          "fill-opacity": floodRiskVisible ? 0.4 : 0,
+        }}
+      />
+      <Layer
+        id="flood-risk-zone-3"
+        type="fill"
+        sourceId="composite"
+        sourceLayer="flood-risk-zone"
+        minZoom={8}
+        layout={{
+          visibility: "visible",
+        }}
+        filter={["==", ["get", "flood-risk-level"], "3"]}
+        paint={{
+          "fill-color": "#E03B33",
+          "fill-opacity": floodRiskVisible ? 0.4 : 0,
+        }}
+      />
+
       <Layer
         id="sites-of-special-scientific-i-09kaq4"
         type="fill"
