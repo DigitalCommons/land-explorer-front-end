@@ -23,6 +23,7 @@ type User = {
   populated: boolean;
   privileged: boolean;
   askForFeedback: boolean;
+  hasSeenUserGuide: boolean;
 };
 
 type UserPayload = {
@@ -68,11 +69,13 @@ const INITIAL_STATE: User = {
   populated: false,
   privileged: false,
   askForFeedback: true,
+  hasSeenUserGuide: true,
 };
 
 type UserAction =
   | Action<UserPayload> & { type: "POPULATE_USER" }
   | Action<boolean> & { type: "USER_FEEDBACK_STATUS" }
+  | Action<boolean> & { type: "USER_GUIDE_STATUS" }
   | Action;
 
 export default (state: User = INITIAL_STATE, action: UserAction): User => {
@@ -93,6 +96,11 @@ export default (state: User = INITIAL_STATE, action: UserAction): User => {
       return {
         ...state,
         askForFeedback: action.payload as boolean,
+      };
+    case "USER_GUIDE_STATUS":
+      return {
+        ...state,
+        hasSeenUserGuide: action.payload as boolean,
       };
     default:
       return state;
