@@ -6,6 +6,7 @@ import { closeModal, openModal } from "../../actions/ModalActions";
 import { setUserGuideSeen } from "../../actions/UserActions";
 import constants from "@/constants";
 import userGuidePreview from "../../assets/img/user-guide-preview.png";
+import { trackEvent } from "@/analytics";
 
 const userGuideModalName = "userGuide";
 
@@ -25,6 +26,9 @@ const UserGuideModal = () => {
   };
 
   const handleViewUserGuide = () => {    
+    trackEvent("view_user_guide", {
+      source: "user-guide-modal-button",
+    });
     window.open(constants.USER_GUIDE_URL, "_blank");
     handleClose();
   };
@@ -44,6 +48,7 @@ const UserGuideModal = () => {
             href={constants.USER_GUIDE_URL}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent("view_user_guide", { source: "user-guide-modal-link" })}
           >
             user guide
           </a>{" "}
