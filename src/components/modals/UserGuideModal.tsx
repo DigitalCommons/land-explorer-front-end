@@ -31,39 +31,52 @@ const UserGuideModal = () => {
   };
 
   return (
-    <Modal id="userGuide" customClass="user-guide-modal__container" customClose={handleClose}>
+    <Modal
+      id="userGuide"
+      customClass="user-guide-modal__container"
+      customClose={handleClose}
+    >
       <div className="user-guide-modal">
         <h1 className="user-guide-modal__title">New to Land Explorer?</h1>
         <p className="user-guide-modal__copy">
-          We've put together a simple <a className="user-guide-modal__link" href={constants.USER_GUIDE_URL} target="_blank" rel="noopener noreferrer">user guide</a> to help you get started. It walks through the basics of Land Explorer, so you can quickly find your way around.          
+          We've put together a simple{" "}
+          <a
+            className="user-guide-modal__link"
+            href={constants.USER_GUIDE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            user guide
+          </a>{" "}
+          to help you get started. It walks through the basics of Land Explorer,
+          so you can quickly find your way around.
         </p>
         <div className="user-guide-modal__image-container">
-        <img
-          src={userGuidePreview}
-          alt="Preview of the user guide"
-          className="user-guide-modal__image"
-        />
+          <img
+            src={userGuidePreview}
+            alt="Preview of the user guide"
+            className="user-guide-modal__image"
+          />
         </div>
-         <p className="user-guide-modal__copy">
+        <p className="user-guide-modal__copy">
           Don't worry, you can always find the user guide in the user menu.
         </p>
-        <div className="user-guide-modal__actions">          
+        <div className="user-guide-modal__actions">
           <Button
-            buttonClass="button rounded-button-full"
+            buttonClass="rounded-button"
             type="button"
             buttonAction={handleViewUserGuide}
           >
             Check out the user guide
           </Button>
           <Button
-            buttonClass="button rounded-button-full"
+            buttonClass="rounded-button-outline-lg"
             type="button"
             buttonAction={handleClose}
           >
             Start using Land Explorer
           </Button>
         </div>
-       
       </div>
     </Modal>
   );

@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../actions/ModalActions";
-import { trackEvent } from "../../analytics";
 import constants from "../../constants";
 
 const ProfileMenu = () => {
@@ -33,7 +32,6 @@ const ProfileMenu = () => {
         <div
           className="tooltip-menu-item"
           onClick={() => {
-            trackEvent("user_guide", "menu_link_clicked");
             window.open(constants.USER_GUIDE_URL, "_blank");
             closeProfileMen();
           }}

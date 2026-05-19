@@ -1,19 +1,19 @@
+
+.user-guide-modal {
+  display: flex;
+  flex-direction: column; 
+  gap: 16px;  
+}
+
 .ModalContent {
   &.user-guide-modal__container {  
     display:flex;
     width: 550px;
     height: auto;
     border-radius: 8px;
-    padding: 30px;
-    // box-sizing: border-box;
+    padding: 30px;    
   }
 }
-
-.user-guide-modal {
-    display: flex;
-    flex-direction: column; 
-    gap: 16px;  
-  }
 
 .user-guide-modal__title {
   font-size: 32px;
@@ -29,43 +29,20 @@
   margin: 0;
 }
 
-.user-guide-modal__actions {
+.user-guide-modal__link {
+  color: $primaryColor;
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.user-guide-modal__image-container {
   display: flex;
   justify-content: center;
-  gap: 12px;
-}
-
-.user-guide-modal__button {
-  height: 40px;
-  padding: 0 20px;
-  border-radius: 5px;
-  font-size: 14px;
-
-  &--secondary {
-    background-color: transparent;
-    border: 2px solid $midNeutral2;
-    color: $secondaryColor;
-
-    &:hover {
-      background-color: $lightNeutral;
-    }
-  }
-}
-
-@media screen and (max-width: $small) {
-  .ModalContent {
-    &.user-guide-modal__container {
-      width: 90vw;
-    }
-  }
-
-  .user-guide-modal__actions {
-    flex-direction: column-reverse;
-
-    .user-guide-modal__button {
-      width: 100%;
-    }
-  }
+  margin: 12px 0;
 }
 
 .user-guide-modal__image {  
@@ -76,18 +53,26 @@
   border: 1px solid $midNeutral2;
 }
 
-.user-guide-modal__image-container {
+.user-guide-modal__actions {
   display: flex;
   justify-content: center;
-  margin: 12px 0;
+  gap: 12px;
 }
 
-.user-guide-modal__link {
-  color: $primaryColor;
-  text-decoration: none;
-  font-weight: 500;
+@media screen and (max-width: $medium) {
+  .ModalContent {
+    &.user-guide-modal__container {
+      width: 90vw;
+    }
+  }
 
-  &:hover {
-    text-decoration: underline;
+  .user-guide-modal__actions {
+    flex-direction: column;
+    align-items: center;
+
   }
 }
+
+
+
+
