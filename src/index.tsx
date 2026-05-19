@@ -13,6 +13,9 @@ import store from "./store";
 // Styles
 import "./index.css";
 import "./assets/styles/style.scss";
+import { initializeMixpanel } from "./analytics";
+
+initializeMixpanel();
 
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
