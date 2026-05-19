@@ -6,14 +6,14 @@ This is a Digital Commons Cooperative project. Please follow our [contributor gu
 
 ## Requirements
 
-- Node 16
+- Node 24
 - Yarn 1.22
 
 ## Get Started
 
 1. Clone this repo
 2. `yarn install`
-3. create a .env file in the config folder, copying and replacing the values in the .env.example
+3. Copy and replace the values in the .env.example into a .env file next to it
 4. `yarn start`
 
 ## Mapbox 

@@ -1,0 +1,28 @@
+import { useState } from 'react';
+import { useAppDispatch } from '@/hooks/react-redux';
+import Modal from './Modal';
+import { MyMaps } from './MyMaps';
+import { MySharedMaps } from './MySharedMaps';
+
+const OpenMap = () => {
+    const [tab, setTab] = useState("myMaps");
+    const [myMapsStage, setMyMapsStage] = useState("list");
+    const [sharedMapsStage, setSharedMapsStage] = useState("list");
+
+    const dispatch = useAppDispatch();
+    const closeModal = () => dispatch({
+        type: 'CLOSE_MODAL',
+        payload: 'openMap'
+    });
+
+    return <Modal id="openMap" padding={true} customClose={() => setMyMapsStage("list")}>
+        <div className='open-map-tab-container'>
+            <p className={`open-map-tab ${tab === "myMaps" && "tab-active"}`} onClick={() => setTab("myMaps")}>My Maps</p>
+            <p className={`open-map-tab ${tab === "sharedMaps" && "tab-active"}`} onClick={() => setTab("sharedMaps")}>Shared Maps</p>
+        </div>
+        {tab === "myMaps" && <MyMaps stage={myMapsStage} setStage={setMyMapsStage} closeModal={closeModal} />}
+        {tab === "sharedMaps" && <MySharedMaps stage={sharedMapsStage} setStage={setSharedMapsStage} closeModal={closeModal} />}
+    </Modal>
+}
+
+export default OpenMap;
