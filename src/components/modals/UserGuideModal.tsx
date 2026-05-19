@@ -4,7 +4,6 @@ import Modal from "./Modal";
 import Button from "../common/Button";
 import { closeModal, openModal } from "../../actions/ModalActions";
 import { setUserGuideSeen } from "../../actions/UserActions";
-import { trackEvent } from "../../analytics";
 import constants from "@/constants";
 import userGuidePreview from "../../assets/img/user-guide-preview.png";
 
