@@ -1,6 +1,6 @@
 import mixpanel from "mixpanel-browser";
 import constants from "@/constants";
-import { AnalyticsEvent } from "./types/events";
+import { AnalyticsEvent } from "./types/analytics-events";
 
 const analyticsEnabled =
   !!constants.MIXPANEL_TOKEN && !!constants.MIXPANEL_PEPPER;
@@ -11,7 +11,7 @@ export const initializeMixpanel = (): void => {
   }
 
   mixpanel.init(constants.MIXPANEL_TOKEN, {
-    debug: true,
+    debug: constants.DEV_MODE || false,
     persistence: "localStorage",
     ip: false,
   });
@@ -60,6 +60,6 @@ export const trackEvent = <T extends Record<string, unknown>>(
   if (!analyticsEnabled) {
     return;
   }
-  const event = `${action}`;
-  mixpanel.track(event, data);
+
+  mixpanel.track(action, data);
 };

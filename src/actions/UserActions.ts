@@ -1,5 +1,6 @@
 import { AppDispatch } from "@/store";
 import { getRequest, postRequest } from "./RequestActions";
+import { UserGuideStatusData } from "@/types/user";
 
 export const getUserDetails = () => {
   return async (dispatch: AppDispatch) => {
@@ -38,12 +39,6 @@ export const setAskForFeedback = (status: boolean) => {
   };
 };
 
-type UserGuideStatusData = {
-  userGuidePromptSeen: boolean;
-  viewedUserGuide: boolean;
-  viewedSource?: string;
-};
-
 export const setUserGuidePromptSeen = (
   userGuideStatusData: UserGuideStatusData,
 ) => {
@@ -59,7 +54,7 @@ export const setUserGuidePromptSeen = (
     if (success) {
       dispatch({
         type: "USER_GUIDE_STATUS",
-        payload: true,
+        payload: userGuideStatusData.userGuidePromptSeen,
       });
     }
   };
