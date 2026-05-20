@@ -38,11 +38,21 @@ export const setAskForFeedback = (status: boolean) => {
   };
 };
 
-export const setUserGuidePromptSeen = () => {
+type UserGuideStatusData = {
+  userGuidePromptSeen: boolean;
+  viewedUserGuide: boolean;
+  viewedSource?: string;
+};
+
+export const setUserGuidePromptSeen = (
+  userGuideStatusData: UserGuideStatusData,
+) => {
   return async (dispatch: AppDispatch) => {
     const success = await dispatch(
       postRequest("/api/user/user-guide-prompt-seen", {
-        userGuidePromptSeen: true,
+        userGuidePromptSeen: userGuideStatusData.userGuidePromptSeen,
+        viewedUserGuide: userGuideStatusData.viewedUserGuide,
+        viewedSource: userGuideStatusData.viewedSource,
       }),
     );
 
