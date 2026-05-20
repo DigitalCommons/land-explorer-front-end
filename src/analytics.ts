@@ -1,32 +1,36 @@
 import mixpanel from "mixpanel-browser";
 import constants from "@/constants";
+import { AnalyticsEvent } from "./types/events";
 
-export function initializeMixpanel(): void {
+const analyticsEnabled =
+  !!constants.MIXPANEL_TOKEN && !!constants.MIXPANEL_PEPPER;
+
+export const initializeMixpanel = (): void => {
   if (!constants.MIXPANEL_TOKEN || !constants.MIXPANEL_PEPPER) {
-    console.warn(
-      "No Mixpanel token or pepper provided, analytics will be disabled. Set VITE_MIXPANEL_TOKEN and VITE_MIXPANEL_PEPPER in your .env file to enable analytics.",
-    );
     return;
   }
-
-  console.log("Initializing Mixpanel analytics");
 
   mixpanel.init(constants.MIXPANEL_TOKEN, {
     debug: true,
     persistence: "localStorage",
+    ip: false,
   });
-}
+};
 
 /** Set (anonymized) user in the Mixpanel event data */
 export const setAnalyticsUser = async (userId: string, username: string) => {
-  console.log(`[ANALYTICS] setUser`);
+  if (!analyticsEnabled) {
+    return;
+  }
   const user = await getUserHash(userId, username);
   mixpanel.identify(user);
 };
 
 /** Reset the user in the Mixpanel event data e.g. when user logs out */
 export const resetAnalyticsUser = () => {
-  console.log(`[ANALYTICS] resetUser`);
+  if (!analyticsEnabled) {
+    return;
+  }
   mixpanel.reset();
 };
 
@@ -42,18 +46,20 @@ const getUserHash = async (userId: string, username: string) => {
   const data = encoder.encode(saltAndPepperedInput);
   const hashBuffer = await crypto.subtle.digest("SHA-256", data);
 
-  // Convert buffer to hex string and return first 10 characters
+  // Convert buffer to hex string and return first 16 characters
   return Array.from(new Uint8Array(hashBuffer))
     .map((byte) => byte.toString(16).padStart(2, "0"))
     .join("")
-    .substring(0, 10);
+    .substring(0, 16);
 };
 
 export const trackEvent = <T extends Record<string, unknown>>(
-  action: string,
+  action: AnalyticsEvent,
   data: T,
 ) => {
+  if (!analyticsEnabled) {
+    return;
+  }
   const event = `${action}`;
-  console.log(`[ANALYTICS] ${event}`);
   mixpanel.track(event, data);
 };
