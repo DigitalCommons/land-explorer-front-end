@@ -38,26 +38,12 @@ export const setAskForFeedback = (status: boolean) => {
   };
 };
 
-export const getUserGuideStatus = () => {
-  return async (dispatch: AppDispatch) => {
-    //const response = await dispatch(getRequest("/api/user/user-guide-seen"));
-    //if (response && typeof response.hasSeenUserGuide === "boolean") {
-    // dispatch({
-    //   type: "USER_GUIDE_STATUS",
-    //   payload: response.hasSeenUserGuide,
-    // });
-    //}
-    dispatch({
-      type: "USER_GUIDE_STATUS",
-      payload: false,
-    });
-  };;
-};
-
-export const setUserGuideSeen = () => {
+export const setUserGuidePromptSeen = () => {
   return async (dispatch: AppDispatch) => {
     const success = await dispatch(
-      postRequest("/api/user/user-guide-seen", { hasSeenUserGuide: true }),
+      postRequest("/api/user/user-guide-prompt-seen", {
+        userGuidePromptSeen: true,
+      }),
     );
 
     if (success) {

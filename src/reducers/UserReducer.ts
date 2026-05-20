@@ -23,7 +23,7 @@ type User = {
   populated: boolean;
   privileged: boolean;
   askForFeedback: boolean;
-  hasSeenUserGuide: boolean;
+  userGuidePromptSeen: boolean;
 };
 
 type UserPayload = {
@@ -44,6 +44,7 @@ type UserPayload = {
   username?: string;
   pic?: string;
   is_super_user?: boolean;
+  userGuidePromptSeen: boolean;
 };
 
 const INITIAL_STATE: User = {
@@ -69,7 +70,7 @@ const INITIAL_STATE: User = {
   populated: false,
   privileged: false,
   askForFeedback: true,
-  hasSeenUserGuide: true,
+  userGuidePromptSeen: false,
 };
 
 type UserAction =
@@ -100,7 +101,7 @@ export default (state: User = INITIAL_STATE, action: UserAction): User => {
     case "USER_GUIDE_STATUS":
       return {
         ...state,
-        hasSeenUserGuide: action.payload as boolean,
+        userGuidePromptSeen: action.payload as boolean,
       };
     default:
       return state;
