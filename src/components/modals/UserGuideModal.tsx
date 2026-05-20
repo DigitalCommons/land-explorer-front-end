@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import Modal from "./Modal";
 import Button from "../common/Button";
@@ -6,7 +6,12 @@ import { closeModal, openModal } from "../../actions/ModalActions";
 import { setUserGuidePromptSeen } from "../../actions/UserActions";
 import constants from "@/constants";
 import userGuidePreview from "../../assets/img/user-guide-preview.png";
-import { trackEvent } from "@/analytics";
+
+type UserGuideStatusData = {
+  userGuidePromptSeen: boolean;
+  viewedUserGuide: boolean;
+  viewedSource?: string;
+};
 
 const userGuideModalName = "userGuide";
 
@@ -22,24 +27,32 @@ const UserGuideModal = () => {
     }
   }, [userGuidePromptSeen]);
 
-  const handleClose = () => {
-    dispatch(setUserGuidePromptSeen());
+  const handleClose = (data: UserGuideStatusData | null) => {
+    if (data === null) {
+      data = {
+        userGuidePromptSeen: true,
+        viewedUserGuide: false,
+      };
+    }
+    dispatch(setUserGuidePromptSeen(data));
     dispatch(closeModal(userGuideModalName));
   };
 
-  const handleViewUserGuide = () => {    
-    trackEvent("view_user_guide", {
-      source: "user-guide-modal-button",
-    });
+  const handleViewUserGuide = (source: string) => {
+    const data = {
+      userGuidePromptSeen: true,
+      viewedUserGuide: true,
+      viewedSource: source,
+    };
     window.open(constants.USER_GUIDE_URL, "_blank");
-    handleClose();
+    handleClose(data);
   };
 
   return (
     <Modal
       id="userGuide"
       customClass="user-guide-modal__container"
-      customClose={handleClose}
+      customClose={() => handleClose(null)}
     >
       <div className="user-guide-modal">
         <h1 className="user-guide-modal__title">New to Land Explorer?</h1>
@@ -50,7 +63,7 @@ const UserGuideModal = () => {
             href={constants.USER_GUIDE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackEvent("view_user_guide", { source: "user-guide-modal-link" })}
+            onClick={() => handleViewUserGuide("user-guide-modal-link")}
           >
             user guide
           </a>{" "}
@@ -71,14 +84,14 @@ const UserGuideModal = () => {
           <Button
             buttonClass="rounded-button"
             type="button"
-            buttonAction={handleViewUserGuide}
+            buttonAction={() => handleViewUserGuide("user-guide-modal-button")}
           >
             Check out the user guide
           </Button>
           <Button
             buttonClass="rounded-button-outline-lg"
             type="button"
-            buttonAction={handleClose}
+            buttonAction={() => handleClose(null)}
           >
             Start using Land Explorer
           </Button>
