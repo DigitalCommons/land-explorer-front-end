@@ -2,9 +2,9 @@ import mixpanel from "mixpanel-browser";
 import constants from "@/constants";
 
 export function initializeMixpanel(): void {
-  if (!constants.MIXPANEL_TOKEN) {
+  if (!constants.MIXPANEL_TOKEN || !constants.MIXPANEL_PEPPER) {
     console.warn(
-      "No Mixpanel token provided, analytics will be disabled. Set VITE_MIXPANEL_TOKEN in your .env file to enable analytics.",
+      "No Mixpanel token or pepper provided, analytics will be disabled. Set VITE_MIXPANEL_TOKEN and VITE_MIXPANEL_PEPPER in your .env file to enable analytics.",
     );
     return;
   }
@@ -44,11 +44,11 @@ export const resetAnalyticsUser = () => {
  * analytics. This must match with the back-end's implementation, so analytics can be correlated.
  */
 const getUserHash = async (id: string, username: string) => {
-  const saltedInput = `${username}${id}`;
+  const saltAndPepperedInput = `${userId}${username}${constants.MIXPANEL_PEPPER}`;
 
   // Compute SHA-256 hash
   const encoder = new TextEncoder();
-  const data = encoder.encode(saltedInput);
+  const data = encoder.encode(saltAndPepperedInput);
   const hashBuffer = await crypto.subtle.digest("SHA-256", data);
 
   // Convert buffer to hex string and return first 10 characters

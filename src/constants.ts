@@ -25,6 +25,7 @@ type Constants = {
   OS_PLACES_KEY: string | undefined;
   GEOCODER_TOKEN: string | undefined;
   MIXPANEL_TOKEN: string | undefined;
+  MIXPANEL_PEPPER: string | undefined;
   MAPBOX_TOKEN: string | undefined;
   USE_OS_TILES: boolean;
   MAP_BOUNDS: [LngLat, LngLat];
@@ -54,6 +55,7 @@ const constants: Constants = {
   OS_PLACES_KEY: import.meta.env.VITE_OS_PLACES_KEY,
   GEOCODER_TOKEN: import.meta.env.VITE_GEOCODER_TOKEN,
   MIXPANEL_TOKEN: import.meta.env.VITE_MIXPANEL_TOKEN,
+  MIXPANEL_PEPPER: import.meta.env.VITE_MIXPANEL_PEPPER,
   MAPBOX_TOKEN: import.meta.env.VITE_MAPBOX_TOKEN,
   USE_OS_TILES: true,
   MAP_BOUNDS: [
