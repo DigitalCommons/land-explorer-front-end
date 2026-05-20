@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import Modal from "./Modal";
 import Button from "../common/Button";
 import { closeModal, openModal } from "../../actions/ModalActions";
-import { setUserGuideSeen } from "../../actions/UserActions";
+import { setUserGuidePromptSeen } from "../../actions/UserActions";
 import constants from "@/constants";
 import userGuidePreview from "../../assets/img/user-guide-preview.png";
 import { trackEvent } from "@/analytics";
@@ -12,16 +12,18 @@ const userGuideModalName = "userGuide";
 
 const UserGuideModal = () => {
   const dispatch = useAppDispatch();
-  const hasSeenUserGuide = useAppSelector((state) => state.user.hasSeenUserGuide);
+  const userGuidePromptSeen = useAppSelector(
+    (state) => state.user.userGuidePromptSeen,
+  );
 
   useEffect(() => {
-    if (hasSeenUserGuide === false) {
+    if (userGuidePromptSeen === false) {
       dispatch(openModal(userGuideModalName));
     }
-  }, [hasSeenUserGuide]);
+  }, [userGuidePromptSeen]);
 
   const handleClose = () => {
-    dispatch(setUserGuideSeen());
+    dispatch(setUserGuidePromptSeen());
     dispatch(closeModal(userGuideModalName));
   };
 
