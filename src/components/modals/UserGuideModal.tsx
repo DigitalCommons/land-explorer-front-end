@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import Modal from "./Modal";
 import Button from "../common/Button";
@@ -6,36 +6,30 @@ import { closeModal, openModal } from "../../actions/ModalActions";
 import { setUserGuidePromptSeen } from "../../actions/UserActions";
 import constants from "@/constants";
 import userGuidePreview from "../../assets/img/user-guide-preview.png";
-
-type UserGuideStatusData = {
-  userGuidePromptSeen: boolean;
-  viewedUserGuide: boolean;
-  viewedSource?: string;
-};
+import { UserGuideStatusData } from "@/types/user";
 
 const userGuideModalName = "userGuide";
 
 const UserGuideModal = () => {
   const dispatch = useAppDispatch();
-  const userGuidePromptSeen = useAppSelector(
-    (state) => state.user.userGuidePromptSeen,
-  );
+  const user = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    if (userGuidePromptSeen === false) {
+    if (user.populated && user.userGuidePromptSeen === false) {
       dispatch(openModal(userGuideModalName));
     }
-  }, [userGuidePromptSeen]);
+  }, [user.populated, user.userGuidePromptSeen]);
 
-  const handleClose = (data: UserGuideStatusData | null) => {
-    if (data === null) {
-      data = {
-        userGuidePromptSeen: true,
-        viewedUserGuide: false,
-      };
-    }
+  const handleClose = (data: UserGuideStatusData) => {
     dispatch(setUserGuidePromptSeen(data));
     dispatch(closeModal(userGuideModalName));
+  };
+
+  const handleDismiss = () => {
+    handleClose({
+      userGuidePromptSeen: true,
+      viewedUserGuide: false,
+    });
   };
 
   const handleViewUserGuide = (source: string) => {
@@ -52,7 +46,7 @@ const UserGuideModal = () => {
     <Modal
       id="userGuide"
       customClass="user-guide-modal__container"
-      customClose={() => handleClose(null)}
+      customClose={handleDismiss}
     >
       <div className="user-guide-modal">
         <h1 className="user-guide-modal__title">New to Land Explorer?</h1>
@@ -91,7 +85,7 @@ const UserGuideModal = () => {
           <Button
             buttonClass="rounded-button-outline-lg"
             type="button"
-            buttonAction={() => handleClose(null)}
+            buttonAction={handleDismiss}
           >
             Start using Land Explorer
           </Button>

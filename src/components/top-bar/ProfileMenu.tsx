@@ -8,7 +8,7 @@ const ProfileMenu = () => {
   const dispatch = useAppDispatch();
   const open = useAppSelector((state) => state.menu.profile);
 
-  const closeProfileMen = () => {
+  const closeProfileMenu = () => {
     dispatch({ type: "CLOSE_MENU_PROFILE" });
   };
 
@@ -33,11 +33,11 @@ const ProfileMenu = () => {
         <div
           className="tooltip-menu-item"
           onClick={() => {
-            trackEvent("view_user_guide", {
+            trackEvent("User_ViewedGuide", {
               source: "profile-menu",
             });
             window.open(constants.USER_GUIDE_URL, "_blank");
-            closeProfileMen();
+            closeProfileMenu();
           }}
         >
           User Guide
@@ -46,7 +46,7 @@ const ProfileMenu = () => {
           className="tooltip-menu-item"
           onClick={() => {
             dispatch({ type: "LOG_OUT" });
-            closeProfileMen();
+            closeProfileMenu();
           }}
         >
           Logout
@@ -62,7 +62,7 @@ const ProfileMenu = () => {
             onClick={(e) => {
               e.preventDefault();
               window.open("https://opencollective.com/digitalcommonscoop");
-              closeProfileMen();
+              closeProfileMenu();
             }}
           >
             Donate

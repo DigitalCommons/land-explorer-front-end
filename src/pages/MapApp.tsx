@@ -59,7 +59,7 @@ const MapApp = () => {
     if (user.populated) {
       setAnalyticsUser(user.id, user.username);
     }
-  }, [user.id]);
+  }, [user.populated, user.id]);
 
   // If user details have been populated, render map, else render loading spinner
   if (user.populated) {
