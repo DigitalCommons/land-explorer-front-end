@@ -10,12 +10,12 @@ import { getAuthHeader } from "../utils/Auth";
  * @param {string} endpoint the API endpoint, starting '/api/'
  * @returns {Promise<any>} the resulting data, or null if the request failed
  */
-export const getRequest = (endpoint: string) => {
+export const getRequest = <T>(endpoint: string) => {
   return async (dispatch: any) => {
     try {
-      const response = await axios.get(
+      const response = await axios.get<T>(
         `${constants.ROOT_URL}${endpoint}`,
-        getAuthHeader()
+        getAuthHeader(),
       );
       return response.data;
     } catch (err: any) {
