@@ -30,7 +30,7 @@ import FeedbackTab from "../common/FeedbackTab";
 import MapBeingEditedToast from "./MapBeingEditedToast";
 import BaseLayerMenu from "../map-controls/BaseLayerMenu";
 import MapLayerKey from "../map-controls/MapLayerKey";
-import ConsentBanner from "../consent/consent-banner";
+import ConsentBanner from "./ConsentBanner";
 
 // Set access token globally so all mapbox-gl instances share it
 mapboxgl.accessToken = constants.MAPBOX_TOKEN ?? "";
@@ -58,13 +58,15 @@ const MapboxMap = () => {
   const { landDataLayers } = useAppSelector((state) => state.landDataLayers);
   const { activeTool } = useAppSelector((state) => state.leftPane);
   const { activeDrawing, drawings, polygonsDrawn, linesDrawn } = useAppSelector(
-    (state) => state.drawings
+    (state) => state.drawings,
   );
   const propertiesDisplay = useAppSelector(
-    (state) => state.landOwnership.activeDisplay
+    (state) => state.landOwnership.activeDisplay,
   );
   const { visibleProperties } = useAppSelector((state) => state.landOwnership);
-
+  const analyticsConsent = useAppSelector(
+    (state) => state.user.analyticsConsent,
+  );
   const showZoomWarning =
     (landDataLayers.length > 0 &&
       zoom[0] < constants.LAND_DATA_LAYER_ZOOM_LEVEL) ||
@@ -81,7 +83,7 @@ const MapboxMap = () => {
       dispatch(reloadCurrentMap());
     },
     // Refresh map data every 30 seconds if the map is locked by another user who is editing it
-    lockedByOtherUserInitials ? 30000 : null
+    lockedByOtherUserInitials ? 30000 : null,
   );
 
   // Redraw polygons and lines when changing maps or clearing an unsaved map
@@ -390,7 +392,7 @@ const MapboxMap = () => {
       <FeedbackTab />
       <MapBeingEditedToast />
       <Modals />
-      <ConsentBanner />
+      {analyticsConsent === null && <ConsentBanner />}
       <div className="os-accreditation">
         Contains OS data © Crown copyright and database rights 2022 OS
         0100059691

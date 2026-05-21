@@ -1,6 +1,6 @@
 import { Action } from "../types";
 
-type User = {
+export type User = {
   id: string;
   initials: string;
   pic: string;
@@ -24,9 +24,10 @@ type User = {
   privileged: boolean;
   askForFeedback: boolean;
   userGuidePromptSeen: boolean;
+  analyticsConsent: boolean | null;
 };
 
-type UserPayload = {
+export type UserPayload = {
   id: string;
   firstName: string;
   lastName: string;
@@ -45,6 +46,7 @@ type UserPayload = {
   pic?: string;
   is_super_user?: boolean;
   userGuidePromptSeen: boolean;
+  analyticsConsent: boolean | null;
 };
 
 const INITIAL_STATE: User = {
@@ -71,12 +73,13 @@ const INITIAL_STATE: User = {
   privileged: false,
   askForFeedback: true,
   userGuidePromptSeen: false,
+  analyticsConsent: null,
 };
 
 type UserAction =
-  | Action<UserPayload> & { type: "POPULATE_USER" }
-  | Action<boolean> & { type: "USER_FEEDBACK_STATUS" }
-  | Action<boolean> & { type: "USER_GUIDE_STATUS" }
+  | (Action<UserPayload> & { type: "POPULATE_USER" })
+  | (Action<boolean> & { type: "USER_FEEDBACK_STATUS" })
+  | (Action<boolean> & { type: "USER_ANALYTICS_CONSENT_STATUS" })
   | Action;
 
 export default (state: User = INITIAL_STATE, action: UserAction): User => {
@@ -98,10 +101,10 @@ export default (state: User = INITIAL_STATE, action: UserAction): User => {
         ...state,
         askForFeedback: action.payload as boolean,
       };
-    case "USER_GUIDE_STATUS":
+    case "USER_ANALYTICS_CONSENT_STATUS":
       return {
         ...state,
-        userGuidePromptSeen: action.payload as boolean,
+        analyticsConsent: action.payload as boolean,
       };
     default:
       return state;

@@ -1,6 +1,7 @@
 import { AppDispatch } from "@/store";
 import { getRequest, postRequest } from "./RequestActions";
 import { UserGuideStatusData } from "@/types/user";
+import { User } from "@/reducers/UserReducer";
 
 export const getUserDetails = () => {
   return async (dispatch: AppDispatch) => {
@@ -13,7 +14,9 @@ export const getUserDetails = () => {
 
 export const getAskForFeedback = () => {
   return async (dispatch: AppDispatch) => {
-    const response = await dispatch(getRequest("/api/user/ask-for-feedback"));
+    const response = await dispatch(
+      getRequest<User>("/api/user/ask-for-feedback"),
+    );
     // Always extract the boolean not the object
     if (response && typeof response.askForFeedback === "boolean") {
       dispatch({
@@ -43,19 +46,42 @@ export const setUserGuidePromptSeen = (
   userGuideStatusData: UserGuideStatusData,
 ) => {
   return async (dispatch: AppDispatch) => {
-    const success = await dispatch(
+    await dispatch(
       postRequest("/api/user/user-guide-prompt-seen", {
         userGuidePromptSeen: userGuideStatusData.userGuidePromptSeen,
         viewedUserGuide: userGuideStatusData.viewedUserGuide,
         viewedSource: userGuideStatusData.viewedSource,
       }),
     );
+  };
+};
 
-    if (success) {
+export const getAnalyticsConsentStatus = () => {
+  return async (dispatch: AppDispatch) => {
+    const response = await dispatch(
+      getRequest<User>("/api/user/analytics-consent"),
+    );
+    if (response) {
       dispatch({
-        type: "USER_GUIDE_STATUS",
-        payload: userGuideStatusData.userGuidePromptSeen,
+        type: "USER_ANALYTICS_CONSENT_STATUS",
+        payload: response.analyticsConsent,
       });
     }
   };
 };
+
+export const setAnalyticsConsent = (status: boolean) => {
+  return async (dispatch: AppDispatch) => {
+    const success = await dispatch(
+      postRequest("/api/user/analytics-consent", { analyticsConsent: status }),
+    );
+
+    if (success) {
+      dispatch({
+        type: "USER_ANALYTICS_CONSENT_STATUS",
+        payload: status,
+      });
+    }
+  };
+};
+
