@@ -18,6 +18,7 @@ type ModalState = {
   feedbackPopUp: ModalConfig;
   feedbackSuccess: ModalConfig;
   userGuide: ModalConfig;
+  privacySettings: ModalConfig;
   [key: string]: ModalConfig;
 };
 
@@ -67,6 +68,10 @@ const INITIAL_STATE: ModalState = {
     canToggle: true,
   },
   userGuide: {
+    open: false,
+    canToggle: false,
+  },
+  privacySettings: {
     open: false,
     canToggle: true,
   },
