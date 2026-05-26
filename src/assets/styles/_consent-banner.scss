@@ -1,3 +1,14 @@
+.consent-banner-container {
+   position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 100008;
+  transition: opacity 0.4s;
+}
+
 .consent-banner {
   position: fixed;
   bottom: 40px;
@@ -11,7 +22,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 1000;
+  z-index: 999999;
   border-radius: 4px;
 }
 
@@ -44,11 +55,16 @@
   display: flex;
   gap: 8px;
   align-items: center;
+  font-size: 20px;
 }
 
 .consent-banner__copy {
   margin: 0;
   line-height: 27px;
+}
+
+.consent-banner__copy-footer {
+  font-size: 12px;
 }
 
 .consent-banner__buttons {

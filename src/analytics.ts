@@ -1,9 +1,19 @@
 import mixpanel from "mixpanel-browser";
 import constants from "@/constants";
 import { AnalyticsEvent } from "./types/analytics-events";
+import store from "@/store";
 
-const analyticsEnabled =
-  !!constants.MIXPANEL_TOKEN && !!constants.MIXPANEL_PEPPER;
+const analyticsEnabled = () => {
+  const { analyticsConsent } = store.getState().user;
+  if (
+    !!constants.MIXPANEL_TOKEN &&
+    !!constants.MIXPANEL_PEPPER &&
+    analyticsConsent === true
+  ) {
+    return true;
+  }
+  return false;
+};
 
 export const initializeMixpanel = (): void => {
   if (!constants.MIXPANEL_TOKEN || !constants.MIXPANEL_PEPPER) {
@@ -19,7 +29,7 @@ export const initializeMixpanel = (): void => {
 
 /** Set (anonymized) user in the Mixpanel event data */
 export const setAnalyticsUser = async (userId: string, username: string) => {
-  if (!analyticsEnabled) {
+  if (!analyticsEnabled()) {
     return;
   }
   const user = await getUserHash(userId, username);
@@ -28,7 +38,7 @@ export const setAnalyticsUser = async (userId: string, username: string) => {
 
 /** Reset the user in the Mixpanel event data e.g. when user logs out */
 export const resetAnalyticsUser = () => {
-  if (!analyticsEnabled) {
+  if (!analyticsEnabled()) {
     return;
   }
   mixpanel.reset();
@@ -57,7 +67,7 @@ export const trackEvent = <T extends Record<string, unknown>>(
   action: AnalyticsEvent,
   data: T,
 ) => {
-  if (!analyticsEnabled) {
+  if (!analyticsEnabled()) {
     return;
   }
 

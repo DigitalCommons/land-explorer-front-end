@@ -56,10 +56,10 @@ const MapApp = () => {
   }, [authenticated]);
 
   useEffect(() => {
-    if (user.populated) {
+    if (user.populated && user.analyticsConsent === true) {
       setAnalyticsUser(user.id, user.username);
     }
-  }, [user.populated, user.id]);
+  }, [user.populated, user.id, user.analyticsConsent]);
 
   // If user details have been populated, render map, else render loading spinner
   if (user.populated) {

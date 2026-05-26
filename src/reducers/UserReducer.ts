@@ -25,6 +25,7 @@ export type User = {
   askForFeedback: boolean;
   userGuidePromptSeen: boolean;
   analyticsConsent: boolean | null;
+  sessionId: string;
 };
 
 export type UserPayload = {
@@ -74,6 +75,7 @@ const INITIAL_STATE: User = {
   askForFeedback: true,
   userGuidePromptSeen: false,
   analyticsConsent: null,
+  sessionId: crypto.randomUUID(),
 };
 
 type UserAction =
