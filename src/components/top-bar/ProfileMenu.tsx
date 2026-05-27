@@ -32,12 +32,6 @@ const ProfileMenu = () => {
         </div>
         <div
           className="tooltip-menu-item"
-          onClick={() => dispatch(openModal("privacySettings"))}
-        >
-          Privacy Settings
-        </div>
-        <div
-          className="tooltip-menu-item"
           onClick={() => {
             trackEvent("User_ViewedGuide", {
               source: "profile-menu",
