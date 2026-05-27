@@ -38,9 +38,9 @@
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
     "socket.io-client": "^4.7.4",
-    "sweetalert2": "^11.4.0",
+    "sweetalert2": "^11.22.4",
     "usehooks-ts": "^3.0.2",
-    "uuid": "^9.0.0"
+    "uuid": "^14.0.0"
   },
   "scripts": {
     "dev": "vite",
@@ -58,6 +58,6 @@
     "@vitejs/plugin-react": "^4",
     "sass": "^1.72.0",
     "typescript": "^5.9.3",
-    "vite": "^5"
+    "vite": "^6"
   }
 }
