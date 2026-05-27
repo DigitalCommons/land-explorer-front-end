@@ -1,41 +1,43 @@
-import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
-import Modal from "../components/modals/Modal";
-import Button from "../components/common/Button";
-import { closeModal } from "../actions/ModalActions";
+import ToggleSwitch from "@/components/common/ToggleSwitch";
+import { Link } from "react-router-dom";
 
 const PrivacySettings = () => {
-  const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
-
-  const handleClose = () => {    
-    
+  const changePrivacySettings = (e: React.FormEvent) => {
+    e.preventDefault();
   };
 
-    return (
-    <Modal
-      id="privacySettings"
-      customClass="privacy-settings__container"
-      customClose={handleClose}
-    >
+  return (
+    <div className="privacy-settings__container modal">
       <div className="privacy-settings">
-        <h1 className="privacy-settings__title">Privacy Settings</h1>
+        <h3 className="privacy-settings__title">Privacy Settings</h3>
+        {<Link to="/app/my-account" className="modal-close" />}
         <p className="privacy-settings__copy">
-          Manage your privacy preferences and control how your data is used.
+          {" "}
+          We use pseudonymous* analytics to understand how people use Land
+          Explorer and improve the service. You can turn this on/off at any time
+          using the toggle below.
         </p>
-        <div className="privacy-settings__actions">
-          <Button
-            buttonClass="rounded-button"
-            type="button"
-            buttonAction={handleClose}
-          >
-            Save Changes
-          </Button>
-        </div>
+
+        <form onSubmit={changePrivacySettings}>
+          <div className="privacy-settings__toggle-group">
+            <ToggleSwitch
+              on={true}
+              toggle={() => {}}
+              tooltip="Enable or disable analytics tracking"
+            />
+            <span className="privacy-settings__toggle-label">
+              Allow Analytics
+            </span>
+          </div>
+        </form>
+
+        <p className="privacy-settings__copy-footer">
+          *This means analytics data may be linked to an identifier, but not to
+          your real name.
+        </p>
       </div>
-    </Modal>
+    </div>
   );
 };
 
 export default PrivacySettings;
-
-          
