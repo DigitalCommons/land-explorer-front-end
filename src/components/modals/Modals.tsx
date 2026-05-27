@@ -9,7 +9,8 @@ import SaveSnapshot from "./SaveSnapshot";
 import FeedbackForm from "./FeedbackForm";
 import FeedbackPopUp from "./FeedbackPopUp";
 import FeedbackSuccess from "./FeedbackSuccess";
-import UserGuideModal from "./UserGuideModal";
+import UserGuidePrompt from "./UserGuidePrompt";
+import PrivacySettingsModal from "../../pages/PrivacySettings";
 
 const Modals = () => (
   <div>
@@ -24,7 +25,7 @@ const Modals = () => (
     <FeedbackForm />
     <FeedbackPopUp />
     <FeedbackSuccess />
-    <UserGuideModal />
+    <UserGuidePrompt />
   </div>
 );
 

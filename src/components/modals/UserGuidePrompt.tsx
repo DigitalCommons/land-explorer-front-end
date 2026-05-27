@@ -10,7 +10,7 @@ import { UserGuideStatusData } from "@/types/user";
 
 const userGuideModalName = "userGuide";
 
-const UserGuideModal = () => {
+const UserGuidePrompt = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
 
@@ -95,4 +95,4 @@ const UserGuideModal = () => {
   );
 };
 
-export default UserGuideModal;
+export default UserGuidePrompt;
