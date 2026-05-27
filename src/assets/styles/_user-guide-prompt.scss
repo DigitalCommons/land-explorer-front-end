@@ -1,12 +1,12 @@
 
-.user-guide-modal {
+.user-guide-prompt-modal {
   display: flex;
   flex-direction: column; 
   gap: 16px;  
 }
 
 .ModalContent {
-  &.user-guide-modal__container {  
+  &.user-guide-prompt-modal__container {  
     display:flex;
     width: 550px;
     height: auto;
@@ -15,21 +15,21 @@
   }
 }
 
-.user-guide-modal__title {
+.user-guide-prompt-modal__title {
   font-size: 32px;
   font-weight: 400;
   color: $primaryColor;
   margin: 0;
 }
 
-.user-guide-modal__copy {
+.user-guide-prompt-modal__copy {
   font-size: 16px;
   line-height: 1.6;
   color: $secondaryColor;  
   margin: 0;
 }
 
-.user-guide-modal__link {
+.user-guide-prompt-modal__link {
   color: $primaryColor;
   text-decoration: none;
   font-weight: 500;
@@ -39,13 +39,13 @@
   }
 }
 
-.user-guide-modal__image-container {
+.user-guide-prompt-modal__image-container {
   display: flex;
   justify-content: center;
   margin: 12px 0;
 }
 
-.user-guide-modal__image {  
+.user-guide-prompt-modal__image {  
   width: 65%;
   height: auto;
   text-align: center;
@@ -53,7 +53,7 @@
   border: 1px solid $midNeutral2;
 }
 
-.user-guide-modal__actions {
+.user-guide-prompt-modal__actions {
   display: flex;
   justify-content: center;
   gap: 12px;
@@ -61,12 +61,12 @@
 
 @media screen and (max-width: $medium) {
   .ModalContent {
-    &.user-guide-modal__container {
+    &.user-guide-prompt-modal__container {
       width: 90vw;
     }
   }
 
-  .user-guide-modal__actions {
+  .user-guide-prompt-modal__actions {
     flex-direction: column;
     align-items: center;
 

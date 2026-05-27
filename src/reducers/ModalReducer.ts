@@ -18,7 +18,6 @@ type ModalState = {
   feedbackPopUp: ModalConfig;
   feedbackSuccess: ModalConfig;
   userGuide: ModalConfig;
-  privacySettings: ModalConfig;
   [key: string]: ModalConfig;
 };
 

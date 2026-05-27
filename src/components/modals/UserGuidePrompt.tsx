@@ -45,40 +45,44 @@ const UserGuidePrompt = () => {
   return (
     <Modal
       id="userGuide"
-      customClass="user-guide-modal__container"
+      customClass="user-guide-prompt-modal__container"
       customClose={handleDismiss}
     >
-      <div className="user-guide-modal">
-        <h1 className="user-guide-modal__title">New to Land Explorer?</h1>
-        <p className="user-guide-modal__copy">
+      <div className="user-guide-prompt-modal">
+        <h1 className="user-guide-prompt-modal__title">
+          New to Land Explorer?
+        </h1>
+        <p className="user-guide-prompt-modal__copy">
           We've put together a simple{" "}
           <a
-            className="user-guide-modal__link"
+            className="user-guide-prompt-modal__link"
             href={constants.USER_GUIDE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => handleViewUserGuide("user-guide-modal-link")}
+            onClick={() => handleViewUserGuide("user-guide-prompt-modal-link")}
           >
             user guide
           </a>{" "}
           to help you get started. It walks through the basics of Land Explorer,
           so you can quickly find your way around.
         </p>
-        <div className="user-guide-modal__image-container">
+        <div className="user-guide-prompt-modal__image-container">
           <img
             src={userGuidePreview}
             alt="Preview of the user guide"
-            className="user-guide-modal__image"
+            className="user-guide-prompt-modal__image"
           />
         </div>
-        <p className="user-guide-modal__copy">
+        <p className="user-guide-prompt-modal__copy">
           Don't worry, you can always find the user guide in the user menu.
         </p>
-        <div className="user-guide-modal__actions">
+        <div className="user-guide-prompt-modal__actions">
           <Button
             buttonClass="rounded-button"
             type="button"
-            buttonAction={() => handleViewUserGuide("user-guide-modal-button")}
+            buttonAction={() =>
+              handleViewUserGuide("user-guide-prompt-modal-button")
+            }
           >
             Check out the user guide
           </Button>
