@@ -24,6 +24,7 @@ export const initializeMixpanel = (): void => {
     debug: constants.DEV_MODE || false,
     persistence: "localStorage",
     ip: false,
+    opt_out_tracking_by_default: true,
   });
 };
 
