@@ -68,7 +68,7 @@ const INITIAL_STATE: ModalState = {
   },
   userGuide: {
     open: false,
-    canToggle: true,
+    canToggle: false,
   },
 };
 
