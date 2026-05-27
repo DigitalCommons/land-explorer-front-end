@@ -1,6 +1,7 @@
 import { setAnalyticsConsent } from "@/actions/UserActions";
 import ToggleSwitch from "@/components/common/ToggleSwitch";
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
+import mixpanel from "mixpanel-browser";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -21,6 +22,11 @@ const PrivacySettings = () => {
 
   const savePrivacySettings = async () => {
     await dispatch(setAnalyticsConsent(currentAnalyticsConsent));
+    if (currentAnalyticsConsent) {
+      mixpanel.opt_in_tracking();
+    } else {
+      mixpanel.opt_out_tracking();
+    }
     navigator("/app/my-account");
   };
 

@@ -2,15 +2,18 @@ import { setAnalyticsConsent } from "@/actions/UserActions";
 import { useAppDispatch } from "@/hooks/react-redux";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import mixpanel from "mixpanel-browser";
 
 const ConsentBanner = () => {
   const dispatch = useAppDispatch();
   
   const handleAllowAnalytics = async () => {
+    mixpanel.opt_in_tracking();
     dispatch(setAnalyticsConsent(true));    
   };
 
   const handleDenyAnalytics = async () => {
+    mixpanel.opt_out_tracking();
     dispatch(setAnalyticsConsent(false));
   };
 
