@@ -10,7 +10,6 @@ import FeedbackForm from "./FeedbackForm";
 import FeedbackPopUp from "./FeedbackPopUp";
 import FeedbackSuccess from "./FeedbackSuccess";
 import UserGuidePrompt from "./UserGuidePrompt";
-import PrivacySettingsModal from "../../pages/PrivacySettings";
 
 const Modals = () => (
   <div>
