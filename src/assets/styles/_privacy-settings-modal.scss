@@ -1,0 +1,19 @@
+
+.privacy-settings-modal {
+  display: flex;
+  flex-direction: column; 
+  gap: 16px;  
+}
+
+.ModalContent {
+  &.privacy-settings-modal__container {  
+    display:flex;
+    width: 550px;
+    height: auto;
+    border-radius: 8px;
+    padding: 30px;    
+  }
+}
+
+
+
