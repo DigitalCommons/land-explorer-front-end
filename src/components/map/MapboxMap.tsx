@@ -100,6 +100,8 @@ const MapboxMap = () => {
   modes.static = StaticMode;
 
   const onClick = (evt: any) => {
+    debugAdminBoundaryFeatures(evt);
+    
     setDataGroupPopupVisible(-1);
     const drawControl = drawControlRef.current;
     const mode = drawControl.draw.getMode();
@@ -145,7 +147,7 @@ const MapboxMap = () => {
 
       setOnClickListener([onClick]);
     }
-  }, [activeTool, activeDrawing, currentMarker]);
+  }, [map, activeTool, activeDrawing, currentMarker]);
 
   /**
    * This takes the feature created by mapbox-gl-draw and creates a copy of it and stores it in the
@@ -274,6 +276,64 @@ const MapboxMap = () => {
     sources: sources,
     // these are the base tile sets, aerial or streets
     layers: baseLayers,
+  };
+
+
+  const ADMIN_BOUNDARY_LAYER_IDS = [
+    "wards-cu4dni",
+    "county-4ef4ik",
+    "westminster_const_region-8r33ph",
+    "district_borough_unitary_regi-bquzqt",
+    "greater_london_const_region-aplvbp",
+    "scotland_and_wales-8wahad",
+    "parish_1-bcfcla",
+    "parish_2-c6mbmy",
+    "parish_3-chtvqw",
+    "parish_4-cwfy3j",
+  ];
+
+  // Temporary function to help debug which admin boundary features are at a click point, 
+  // and what their properties are. This is to help us work out which layer(s) we need to 
+  // query to get the admin boundary name for the map layer key.
+  const debugAdminBoundaryFeatures = (evt: any) => {
+    if (!map) return;
+
+    const clickTolerance = 8;
+
+    const bbox: [[number, number], [number, number]] = [
+      [evt.point.x - clickTolerance, evt.point.y - clickTolerance],
+      [evt.point.x + clickTolerance, evt.point.y + clickTolerance],
+    ];
+
+    const features = map.queryRenderedFeatures(bbox, {
+      layers: ADMIN_BOUNDARY_LAYER_IDS,
+    });
+
+    if (!features.length) {
+      console.log("No admin boundary features found at click point");
+      return;
+    }
+
+    console.table(
+      features.map((feature: any) => ({
+        layer: feature.layer?.id,
+        name: feature.properties?.NAME,
+        description: feature.properties?.DESCRIPT,
+        description1: feature.properties?.DESCRIPT1,
+        descriptionIo: feature.properties?.DESCRIPTIO,
+        code: feature.properties?.CODE,
+        areaCode: feature.properties?.area_code,
+        typeCode: feature.properties?.TYPE_CODE,
+      })),
+    );
+
+    console.log(
+      "Full admin boundary feature properties:",
+      features.map((feature: any) => ({
+        layer: feature.layer?.id,
+        properties: feature.properties,
+      })),
+    );
   };
 
   return (
