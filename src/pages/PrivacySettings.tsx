@@ -1,16 +1,17 @@
 import { setAnalyticsConsent } from "@/actions/UserActions";
 import ToggleSwitch from "@/components/common/ToggleSwitch";
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
-import mixpanel from "mixpanel-browser";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const PrivacySettings = () => {
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
-  const analyticsConsent = useAppSelector(
-    (state) => state.user.analyticsConsent,
-  );
+  const {
+    id: userId,
+    username,
+    analyticsConsent,
+  } = useAppSelector((state) => state.user);
 
   const [currentAnalyticsConsent, setCurrentAnalyticsConsent] = useState(
     analyticsConsent ?? false,
@@ -21,12 +22,9 @@ const PrivacySettings = () => {
   };
 
   const savePrivacySettings = async () => {
-    await dispatch(setAnalyticsConsent(currentAnalyticsConsent));
-    if (currentAnalyticsConsent) {
-      mixpanel.opt_in_tracking();
-    } else {
-      mixpanel.opt_out_tracking();
-    }
+    await dispatch(
+      setAnalyticsConsent(currentAnalyticsConsent, userId, username),
+    );
     navigator("/app/my-account");
   };
 
@@ -53,11 +51,9 @@ const PrivacySettings = () => {
             Allow Analytics
           </span>
         </div>
-        {/* <div className="privacy-settings__button-group"> */}
         <button className="rounded-button" onClick={savePrivacySettings}>
           Save Changes
         </button>
-        {/* </div> */}
         <p className="privacy-settings__copy-footer">
           *This means analytics data may be linked to an identifier, but not to
           your real name.

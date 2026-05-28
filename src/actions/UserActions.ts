@@ -2,6 +2,8 @@ import { AppDispatch } from "@/store";
 import { getRequest, postRequest } from "./RequestActions";
 import { UserGuideStatusData } from "@/types/user";
 import { User } from "@/reducers/UserReducer";
+import mixpanel, { reset } from "mixpanel-browser";
+import { resetAnalyticsUser, setAnalyticsUser } from "@/analytics";
 
 export const getUserDetails = () => {
   return async (dispatch: AppDispatch) => {
@@ -70,17 +72,29 @@ export const getAnalyticsConsentStatus = () => {
   };
 };
 
-export const setAnalyticsConsent = (status: boolean) => {
+export const setAnalyticsConsent = (
+  status: boolean,
+  userId: string,
+  username: string,
+) => {
   return async (dispatch: AppDispatch) => {
     const success = await dispatch(
       postRequest("/api/user/analytics-consent", { analyticsConsent: status }),
     );
 
     if (success) {
-      dispatch({
+      await dispatch({
         type: "USER_ANALYTICS_CONSENT_STATUS",
         payload: status,
       });
+
+      if (!!status) {
+        await setAnalyticsUser(userId, username);
+        mixpanel.opt_in_tracking();
+      } else {
+        await resetAnalyticsUser();
+        mixpanel.opt_out_tracking();
+      }
     }
   };
 };

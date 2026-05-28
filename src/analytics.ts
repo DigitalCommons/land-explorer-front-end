@@ -1,18 +1,15 @@
 import mixpanel from "mixpanel-browser";
 import constants from "@/constants";
 import { AnalyticsEvent } from "./types/analytics-events";
-import store from "@/store";
+import { User } from "./reducers/UserReducer";
+import store from "./store";
 
-const analyticsEnabled = () => {
-  const { analyticsConsent } = store.getState().user;
-  if (
-    !!constants.MIXPANEL_TOKEN &&
-    !!constants.MIXPANEL_PEPPER &&
-    analyticsConsent === true
-  ) {
-    return true;
-  }
-  return false;
+const analyticsEnabled =
+  !!constants.MIXPANEL_TOKEN && !!constants.MIXPANEL_PEPPER;
+
+const userConsentGiven = () => {
+  const user = store.getState().user as User;
+  return user.analyticsConsent === true;
 };
 
 export const initializeMixpanel = (): void => {
@@ -30,7 +27,7 @@ export const initializeMixpanel = (): void => {
 
 /** Set (anonymized) user in the Mixpanel event data */
 export const setAnalyticsUser = async (userId: string, username: string) => {
-  if (!analyticsEnabled()) {
+  if (!analyticsEnabled || !userConsentGiven()) {
     return;
   }
   const user = await getUserHash(userId, username);
@@ -39,10 +36,11 @@ export const setAnalyticsUser = async (userId: string, username: string) => {
 
 /** Reset the user in the Mixpanel event data e.g. when user logs out */
 export const resetAnalyticsUser = () => {
-  if (!analyticsEnabled()) {
+  if (!analyticsEnabled) {
     return;
   }
   mixpanel.reset();
+  mixpanel.clear_opt_in_out_tracking();
 };
 
 /**
@@ -50,7 +48,7 @@ export const resetAnalyticsUser = () => {
  * analytics. This must match with the back-end's implementation, so analytics can be correlated.
  */
 const getUserHash = async (userId: string, username: string) => {
-  const saltAndPepperedInput = `${userId}${username}${constants.MIXPANEL_PEPPER}`;
+  const saltAndPepperedInput = `${userId}${username}${constants.MIXPANEL_PEPPER}`;  
 
   // Compute SHA-256 hash
   const encoder = new TextEncoder();
@@ -68,7 +66,7 @@ export const trackEvent = <T extends Record<string, unknown>>(
   action: AnalyticsEvent,
   data: T,
 ) => {
-  if (!analyticsEnabled()) {
+  if (!analyticsEnabled || !userConsentGiven()) {
     return;
   }
 

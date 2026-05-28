@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { openModal } from "../../actions/ModalActions";
 import constants from "../../constants";
 import { trackEvent } from "@/analytics";
+import { logOut } from "@/actions/AuthenticationActions";
 
 const ProfileMenu = () => {
   const dispatch = useAppDispatch();
@@ -45,7 +46,7 @@ const ProfileMenu = () => {
         <div
           className="tooltip-menu-item"
           onClick={() => {
-            dispatch({ type: "LOG_OUT" });
+            dispatch(logOut());
             closeProfileMenu();
           }}
         >

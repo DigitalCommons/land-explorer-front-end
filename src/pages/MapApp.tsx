@@ -18,7 +18,7 @@ import { resetAnalyticsUser, setAnalyticsUser } from "@/analytics";
 
 const MapApp = () => {
   const authenticated = useAppSelector(
-    (state) => state.authentication.authenticated
+    (state) => state.authentication.authenticated,
   );
   const user = useAppSelector((state) => state.user);
 
@@ -54,12 +54,6 @@ const MapApp = () => {
       }
     })();
   }, [authenticated]);
-
-  useEffect(() => {
-    if (user.populated && user.analyticsConsent === true) {
-      setAnalyticsUser(user.id, user.username);
-    }
-  }, [user.populated, user.id, user.analyticsConsent]);
 
   // If user details have been populated, render map, else render loading spinner
   if (user.populated) {

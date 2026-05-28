@@ -1,20 +1,18 @@
 import { setAnalyticsConsent } from "@/actions/UserActions";
-import { useAppDispatch } from "@/hooks/react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import mixpanel from "mixpanel-browser";
 
 const ConsentBanner = () => {
   const dispatch = useAppDispatch();
+  const { id: userId, username } = useAppSelector((state) => state.user);
   
   const handleAllowAnalytics = async () => {
-    mixpanel.opt_in_tracking();
-    dispatch(setAnalyticsConsent(true));    
+    await dispatch(setAnalyticsConsent(true, userId, username));
   };
 
   const handleDenyAnalytics = async () => {
-    mixpanel.opt_out_tracking();
-    dispatch(setAnalyticsConsent(false));
+    await dispatch(setAnalyticsConsent(false, userId, username));
   };
 
   return (
