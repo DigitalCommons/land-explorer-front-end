@@ -44,12 +44,10 @@ const PrivacySettings = () => {
         <div className="privacy-settings__toggle-group">
           <ToggleSwitch
             on={currentAnalyticsConsent === true}
-            toggle={toggleAnalyticsConsent}
             tooltip="Enable or disable analytics tracking"
+            toggle={toggleAnalyticsConsent}
           />
-          <span className="privacy-settings__toggle-label">
-            Allow Analytics
-          </span>
+          <span>Allow Analytics</span>
         </div>
         <button className="rounded-button" onClick={savePrivacySettings}>
           Save Changes

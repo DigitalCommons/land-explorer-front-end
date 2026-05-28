@@ -11,7 +11,7 @@
   padding: 6px 24px 12px 24px;
   border-radius: 8px;
   background: "white";
-    padding: 1rem;
+  padding: 1rem;
   margin: 0 auto;
 }
 
@@ -30,21 +30,20 @@
 
 .privacy-settings__toggle-group {
   display: flex;
-  align-items: center;
-  gap: 12px;  
-  border-radius: 15px;
-  position: relative;
+  align-items: center;  
   cursor: pointer;
   padding-bottom: 1rem;
+  gap: 1rem;
 }
 
 .privacy-settings__toggle-label {   
   color: $secondaryColor;
+  padding-right: 1rem; 
 }
 
 .privacy-settings__button-group {
   display: flex;
-  justify-content: center;  
+  justify-content: center;
 }
 
 .privacy-settings__copy-footer {
