@@ -2,79 +2,178 @@ const layers = {
   "provisional-agricultural-land-ab795l": {
     name: "Agricultural land classification",
     data: {
-      "Grade 1": "#3980d0",
-      "Grade 2": "#10c3ef",
-      "Grade 3": "#0fb08f",
-      "Grade 4": "#f9f90d",
-      "Grade 5": "#c9748e",
-      Exclusion: "#b2b2b2",
-      "Non Agricultural": "#b2b2b2",
-      Urban: "#b2b2b2",
+      "Grade 1": {
+        fill: "hsla(211.79, 61.63%, 51.96%, 0.4)",
+        border: "hsla(211.79, 61.63%, 51.96%, 0.7)",
+      },
+      "Grade 2": {
+        fill: "hsla(191.84, 87.45%, 50%, 0.4)",
+        border: "hsla(191.84, 87.45%, 50%, 0.7)",
+      },
+      "Grade 3": {
+        fill: "hsla(167.7, 84.29%, 37.45%, 0.4)",
+        border: "hsla(167.7, 84.29%, 37.45%, 0.7)",
+      },
+      "Grade 4": {
+        fill: "hsla(60, 95.16%, 51.37%, 0.4)",
+        border: "hsla(60, 95.16%, 51.37%, 0.7)",
+      },
+      "Grade 5": {
+        fill: "hsla(341.65, 44.04%, 62.16%, 0.4)",
+        border: "hsla(341.65, 44.04%, 62.16%, 0.7)",
+      },
+      Exclusion: {
+        fill: "hsla(0, 0%, 69.8%, 0.4)",
+        border: "hsla(0, 0%, 69.8%, 0.7)",
+      },
+      "Non Agricultural": {
+        fill: "hsla(0, 0%, 70%, 0.4)",
+        border: "hsla(0, 0%, 70%, 0.7)",
+      },
+      Urban: {
+        fill: "hsla(0, 0%, 70%, 0.4)",
+        border: "hsla(0, 0%, 70%, 0.7)",
+      },
     },
   },
   "national-forest-estate-soil-g-18j2ga": {
     name: "National forest estate soils",
     data: {
-      "Basin Bog": "#b2b2b2",
-      "Brown Earth": "#895c44",
-      "Calcareous Soil": "#4de600",
-      "Eroded Bog": "#9c9c9c",
-      "Flat or Raised Bogs": "#686868",
-      "Flushed Blanket Bog": "#333333",
-      "Ground-water Gley": "#014ea6",
-      "Ironpan Soil": "#fc5601",
-      "Littoral Soil": "#fefe67",
-      "Man-made Soil": "#ab00e5",
-      "Peaty Surface-water Gley": "#0085a8",
-      Podzol: "#e60002",
-      "Skeletal Soil": "#e7e600",
-      "Surface-water Gley": "#00a8e7",
-      "Unflushed Blanket Bog": "#010101",
-      "Valley Complex": "#8d8ead",
+      "Basin Bog": {
+        fill: "hsla(0, 0%, 69.8%, 0.4)",
+        border: "hsla(0, 0%, 69.8%, 0.7)",
+      },
+      "Brown Earth": {
+        fill: "hsla(20.87, 33.66%, 40.2%, 0.4)",
+        border: "hsla(20.87, 33.66%, 40.2%, 0.7)",
+      },
+      "Calcareous Soil": {
+        fill: "hsla(99.91, 100%, 45.1%, 0.4)",
+        border: "hsla(99.91, 100%, 45.1%, 0.7)",
+      },
+      "Eroded Bog": {
+        fill: "hsla(0, 0%, 61.18%, 0.4)",
+        border: "hsla(0, 0%, 61.18%, 0.7)",
+      },
+      "Flat or Raised Bogs": {
+        fill: "hsla(0, 0%, 40.78%, 0.4)",
+        border: "hsla(0, 0%, 40.78%, 0.7)",
+      },
+      "Flushed Blanket Bog": {
+        fill: "hsla(0, 0%, 20%, 0.4)",
+        border: "hsla(0, 0%, 20%, 0.7)",
+      },
+      "Ground-water Gley": {
+        fill: "hsla(212, 98.8%, 32.75%, 0.4)",
+        border: "hsla(212, 98.8%, 32.75%, 0.7)",
+      },
+      "Ironpan Soil": {
+        fill: "hsla(20.32, 99.21%, 49.61%, 0.4)",
+        border: "hsla(20.32, 99.21%, 49.61%, 0.7)",
+      },
+      "Littoral Soil": {
+        fill: "hsla(60, 98.69%, 70%, 0.4)",
+        border: "hsla(60, 98.69%, 70%, 0.7)",
+      },
+      "Man-made Soil": {
+        fill: "hsla(284.8, 100%, 44.9%, 0.4)",
+        border: "hsla(284.8, 100%, 44.9%, 0.7)",
+      },
+      "Peaty Surface-water Gley": {
+        fill: "hsla(192.5, 100%, 32.94%, 0.4)",
+        border: "hsla(192.5, 100%, 32.94%, 0.7)",
+      },
+      Podzol: {
+        fill: "hsla(359.48, 100%, 45.1%, 0.4)",
+        border: "hsla(359.48, 100%, 45.1%, 0.7)",
+      },
+      "Skeletal Soil": {
+        fill: "hsla(59.74, 100%, 45.29%, 0.4)",
+        border: "hsla(59.74, 100%, 45.29%, 0.7)",
+      },
+      "Surface-water Gley": {
+        fill: "hsla(196.36, 100%, 45.29%, 0.4)",
+        border: "hsla(196.36, 100%, 45.29%, 0.7)",
+      },
+      "Unflushed Blanket Bog": {
+        fill: "hsla(0, 0%, 0.39%, 0.4)",
+        border: "hsla(0, 0%, 0.39%, 0.7)",
+      },
+      "Valley Complex": {
+        fill: "hsla(238.13, 16.33%, 61.57%, 0.4)",
+        border: "hsla(238.13, 16.33%, 61.57%, 0.7)",
+      },
     },
   },
   "historic-flood-map-5y05ao": {
     name: "Historic flood map",
     data: {
-      Flood: "hsl(196, 80%, 70%)",
+      Flood: {
+        fill: "hsla(196, 80%, 70%, 0.4)",
+        border: "hsla(196, 80%, 70%, 0.7)",
+      },
     },
   },
   "flood-risk-zone": {
     name: "Flood risk zones",
     data: {
-      "Zone 1 (low)": "#F6D55C",
-      "Zone 2 (medium)": "#F28E2B",
-      "Zone 3 (high)": "#E03B33",
+      "Zone 1 (low)": {
+        fill: "hsla(47.14, 89.53%, 66.27%, 0.4)",
+        border: "hsla(47.14, 89.53%, 66.27%, 0.7)",
+      },
+      "Zone 2 (medium)": {
+        fill: "hsla(29.85, 88.44%, 55.88%, 0.4)", //"#F5CDA3",
+        border: "hsla(29.85, 88.44%, 55.88%, 0.7)", //"#F5CDA3",
+      },
+      "Zone 3 (high)": {
+        fill: "hsla(13.92, 99.21%, 49.41%, 0.4)",
+        border: "hsla(13.92, 99.21%, 49.41%, 0.7)",
+      },
     },
   },
   "sites-of-special-scientific-i-09kaq4": {
     name: "Sites of scientific interest",
     data: {
-      "Site of Interest": "hsl(1, 40%, 40%)",
+      "Site of Interest": {
+        fill: "hsla(1, 40%, 40%, 0.4)",
+        border: "hsla(1, 40%, 40%, 1)",
+      },
     },
   },
   "special-protection-areas-engl-71pdjg": {
     name: "Special protection areas",
     data: {
-      "Protection Area": "hsl(51, 40%, 40%)",
+      "Protection Area": {
+        fill: "hsla(51, 40%, 40%, 0.4)",
+        border: "hsla(51, 40%, 40%, 0.7)",
+      },
     },
   },
   "special-areas-of-conservation-bm41zr": {
     name: "Special areas of conservation",
     data: {
-      "Conservation Area": "hsl(101, 40%, 40%)",
+      "Conservation Area": {
+        fill: "hsla(101, 40%, 40%, 0.4)",
+        border: "hsla(101, 40%, 40%, 0.7)",
+      },
     },
   },
   "ncc-brownfield-sites": {
     name: "Brownfield",
     data: {
-      Brownfield: "hsla(0, 24%, 20%, 0.5)",
+      Brownfield: {
+        fill: "hsla(0, 24%, 20%, 0.4)",
+        border: "hsla(0, 24%, 20%, 0.7)",
+      },
     },
   },
   "local-authority-greenbelt-bou-9r44t6": {
     name: "Greenbelt",
     data: {
-      Greenbelt: "hsla(113, 97%, 50%, 0.4)",
+      Greenbelt: {
+        fill: "hsla(113, 97%, 50%, 0.4)",
+        border: "hsla(113, 97%, 50%, 0.7)",
+      },
     },
   },
   "wards-cu4dni": {
