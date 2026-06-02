@@ -1,0 +1,52 @@
+.privacy-settings__container {
+  width: 340px;
+  top: 6rem;
+  max-width: "90vw";
+  height: "auto";
+  top: 6rem;
+  position: relative;
+  padding: 1rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 6px 24px 12px 24px;
+  border-radius: 8px;
+  background: "white";
+  padding: 1rem;
+  margin: 0 auto;
+}
+
+.privacy-settings {
+  display: flex;
+  flex-direction: column; 
+  gap: 12px; 
+  font-size: 16px;
+}
+
+.privacy-settings__title {
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+}
+
+.privacy-settings__toggle-group {
+  display: flex;
+  align-items: center;  
+  cursor: pointer;
+  padding-bottom: 1rem;
+  gap: 1rem;
+}
+
+.privacy-settings__toggle-label {   
+  color: $secondaryColor;
+  padding-right: 1rem; 
+}
+
+.privacy-settings__button-group {
+  display: flex;
+  justify-content: center;
+}
+
+.privacy-settings__copy-footer {
+  font-size: 14px;  
+  color: $secondaryColor;  
+}
