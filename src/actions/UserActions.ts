@@ -2,8 +2,10 @@ import { AppDispatch } from "@/store";
 import { getRequest, postRequest } from "./RequestActions";
 import { UserGuideStatusData } from "@/types/user";
 import { User } from "@/reducers/UserReducer";
-import mixpanel, { reset } from "mixpanel-browser";
-import { resetAnalyticsUser, setAnalyticsUser } from "@/analytics";
+import {
+  optOutAndResetAnalyticsUser,
+  optInAndSetAnalyticsUser,
+} from "@/analytics";
 
 export const getUserDetails = () => {
   return async (dispatch: AppDispatch) => {
@@ -48,27 +50,19 @@ export const setUserGuidePromptSeen = (
   userGuideStatusData: UserGuideStatusData,
 ) => {
   return async (dispatch: AppDispatch) => {
-    await dispatch(
-      postRequest("/api/user/user-guide-prompt-seen", {
-        userGuidePromptSeen: userGuideStatusData.userGuidePromptSeen,
-        viewedUserGuide: userGuideStatusData.viewedUserGuide,
-        viewedSource: userGuideStatusData.viewedSource,
-      }),
-    );
-  };
-};
-
-export const getAnalyticsConsentStatus = () => {
-  return async (dispatch: AppDispatch) => {
-    const response = await dispatch(
-      getRequest<User>("/api/user/analytics-consent"),
-    );
-    if (response) {
-      dispatch({
-        type: "USER_ANALYTICS_CONSENT_STATUS",
-        payload: response.analyticsConsent,
-      });
-    }
+   const success = await dispatch(
+     postRequest("/api/user/user-guide-prompt-seen", {
+       userGuidePromptSeen: userGuideStatusData.userGuidePromptSeen,
+       viewedUserGuide: userGuideStatusData.viewedUserGuide,
+       viewedSource: userGuideStatusData.viewedSource,
+     }),
+   );
+   if (success) {
+     dispatch({
+       type: "USER_GUIDE_PROMPT_SEEN",
+       payload: userGuideStatusData,
+     });
+   }
   };
 };
 
@@ -88,12 +82,10 @@ export const setAnalyticsConsent = (
         payload: status,
       });
 
-      if (!!status) {
-        await setAnalyticsUser(userId, username);
-        mixpanel.opt_in_tracking();
+      if (status === true) {
+        await optInAndSetAnalyticsUser(userId, username);
       } else {
-        await resetAnalyticsUser();
-        mixpanel.opt_out_tracking();
+        await optOutAndResetAnalyticsUser();
       }
     }
   };

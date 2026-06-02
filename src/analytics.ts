@@ -26,21 +26,25 @@ export const initializeMixpanel = (): void => {
 };
 
 /** Set (anonymized) user in the Mixpanel event data */
-export const setAnalyticsUser = async (userId: string, username: string) => {
+export const optInAndSetAnalyticsUser = async (
+  userId: string,
+  username: string,
+) => {
   if (!analyticsEnabled || !userConsentGiven()) {
     return;
   }
+  mixpanel.opt_in_tracking();
   const user = await getUserHash(userId, username);
   mixpanel.identify(user);
 };
 
 /** Reset the user in the Mixpanel event data e.g. when user logs out */
-export const resetAnalyticsUser = () => {
+export const optOutAndResetAnalyticsUser = () => {
   if (!analyticsEnabled) {
     return;
   }
+  mixpanel.opt_out_tracking();
   mixpanel.reset();
-  mixpanel.clear_opt_in_out_tracking();
 };
 
 /**

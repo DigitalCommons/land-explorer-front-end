@@ -14,7 +14,10 @@ import {
   establishSocketConnection,
   closeSocketConnection,
 } from "../actions/WebSocketActions";
-import { resetAnalyticsUser, setAnalyticsUser } from "@/analytics";
+import {
+  optOutAndResetAnalyticsUser,
+  optInAndSetAnalyticsUser,
+} from "@/analytics";
 
 const MapApp = () => {
   const authenticated = useAppSelector(
@@ -46,7 +49,7 @@ const MapApp = () => {
         // If not authenticated, remove token, disconnect websocket, reset analytics user, and redirect
         // to login page
         Auth.removeToken();
-        resetAnalyticsUser();
+        optOutAndResetAnalyticsUser();
         dispatch(closeSocketConnection());
         sessionStorage.removeItem("currentMapId");
         console.log("no token, redirecting to login page");
@@ -54,6 +57,12 @@ const MapApp = () => {
       }
     })();
   }, [authenticated]);
+
+  useEffect(() => {
+    if (user.populated && user.analyticsConsent === true) {
+      optInAndSetAnalyticsUser(user.id, user.username);
+    }
+  }, [user.populated, user.analyticsConsent]);
 
   // If user details have been populated, render map, else render loading spinner
   if (user.populated) {

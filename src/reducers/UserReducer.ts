@@ -1,3 +1,4 @@
+import { UserGuideStatusData } from "@/types/user";
 import { Action } from "../types";
 
 export type User = {
@@ -107,6 +108,12 @@ export default (state: User = INITIAL_STATE, action: UserAction): User => {
       return {
         ...state,
         analyticsConsent: action.payload as boolean,
+      };
+    case "USER_GUIDE_PROMPT_SEEN":
+      const payload = action.payload as UserGuideStatusData;
+      return {
+        ...state,
+        userGuidePromptSeen: payload.userGuidePromptSeen,
       };
     default:
       return state;

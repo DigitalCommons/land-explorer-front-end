@@ -1,8 +1,8 @@
-import { resetAnalyticsUser } from "@/analytics";
+import { optOutAndResetAnalyticsUser } from "@/analytics";
 
 export const logOut = () => {
   return async (dispatch: any) => {
-    resetAnalyticsUser();
+    optOutAndResetAnalyticsUser();
     dispatch({ type: "LOG_OUT" });
   };
 };

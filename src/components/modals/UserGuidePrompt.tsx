@@ -12,13 +12,13 @@ const userGuideModalName = "userGuide";
 
 const UserGuidePrompt = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
+  const { userGuidePromptSeen } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    if (user.populated && user.userGuidePromptSeen === false) {
+    if (userGuidePromptSeen === false) {
       dispatch(openModal(userGuideModalName));
     }
-  }, [user.populated, user.userGuidePromptSeen]);
+  }, [userGuidePromptSeen]);
 
   const handleClose = (data: UserGuideStatusData) => {
     dispatch(setUserGuidePromptSeen(data));
