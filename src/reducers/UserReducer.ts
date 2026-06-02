@@ -23,6 +23,8 @@ type User = {
   populated: boolean;
   privileged: boolean;
   askForFeedback: boolean;
+  analyticsConsent: boolean | null;
+  sessionId: string;
 };
 
 type UserPayload = {
@@ -43,6 +45,7 @@ type UserPayload = {
   username?: string;
   pic?: string;
   is_super_user?: boolean;
+  analyticsConsent: boolean | null;
 };
 
 const INITIAL_STATE: User = {
@@ -68,11 +71,14 @@ const INITIAL_STATE: User = {
   populated: false,
   privileged: false,
   askForFeedback: true,
+  analyticsConsent: null,
+  sessionId: crypto.randomUUID(),
 };
 
 type UserAction =
-  | Action<UserPayload> & { type: "POPULATE_USER" }
-  | Action<boolean> & { type: "USER_FEEDBACK_STATUS" }
+  | (Action<UserPayload> & { type: "POPULATE_USER" })
+  | (Action<boolean> & { type: "USER_FEEDBACK_STATUS" })
+  | (Action<boolean> & { type: "USER_ANALYTICS_CONSENT_STATUS" })
   | Action;
 
 export default (state: User = INITIAL_STATE, action: UserAction): User => {
@@ -93,6 +99,11 @@ export default (state: User = INITIAL_STATE, action: UserAction): User => {
       return {
         ...state,
         askForFeedback: action.payload as boolean,
+      };
+    case "USER_ANALYTICS_CONSENT_STATUS":
+      return {
+        ...state,
+        analyticsConsent: action.payload as boolean,
       };
     default:
       return state;
