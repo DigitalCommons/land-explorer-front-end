@@ -14,6 +14,10 @@ import {
   establishSocketConnection,
   closeSocketConnection,
 } from "../actions/WebSocketActions";
+import {
+  optOutAndResetAnalyticsUser,
+  optInAndSetAnalyticsUser,
+} from "@/analytics";
 
 const MapApp = () => {
   const authenticated = useAppSelector(
@@ -29,9 +33,9 @@ const MapApp = () => {
       if (authenticated && Auth.isTokenActive()) {
         // If authenticated, get user details, setup websocket connection, and get maps
         await dispatch(getUserDetails());
-        dispatch(establishSocketConnection() as any);
-        dispatch(getAskForFeedback() as any);
-        await dispatch(getMyMaps() as any);
+        dispatch(establishSocketConnection());
+        dispatch(getAskForFeedback());
+        await dispatch(getMyMaps());
 
         // Open the map that was previously open if the page was refreshed
         const storedMapId = parseInt(
@@ -43,6 +47,7 @@ const MapApp = () => {
       } else {
         // If not authenticated, remove token, disconnect websocket, reset analytics user, and redirect
         // to login page
+        optOutAndResetAnalyticsUser();
         Auth.removeToken();
         dispatch(closeSocketConnection());
         sessionStorage.removeItem("currentMapId");
@@ -51,6 +56,13 @@ const MapApp = () => {
       }
     })();
   }, [authenticated]);
+
+
+  useEffect(() => {
+    if (user.populated && user.analyticsConsent === true) {
+      optInAndSetAnalyticsUser(user.id, user.username);
+    }
+  }, [user.populated, user.analyticsConsent]);
 
   // If user details have been populated, render map, else render loading spinner
   if (user.populated) {
