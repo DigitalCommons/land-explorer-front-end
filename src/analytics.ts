@@ -1,56 +1,78 @@
-// Commented this out for now since we are currently only sending analytics from the back-end.
-// We can re-enable front-end analytics later if needed.
+import mixpanel from "mixpanel-browser";
+import constants from "@/constants";
+import { AnalyticsEvent } from "./types/analytics-events";
+import { User } from "./reducers/UserReducer";
+import store from "./store";
 
-// import mixpanel from "mixpanel-browser";
+const analyticsEnabled =
+  !!constants.MIXPANEL_TOKEN && !!constants.MIXPANEL_PEPPER;
 
-// mixpanel.init(process.env.MIXPANEL_TOKEN, {
-//   debug: true,
-//   persistence: "localStorage",
-// });
+const userConsentGiven = () => {
+  const user = store.getState().user as User;
+  return user.analyticsConsent === true;
+};
 
-// let userId = null;
-// let user = null;
+export const initializeMixpanel = (): void => {
+  if (!constants.MIXPANEL_TOKEN || !constants.MIXPANEL_PEPPER) {
+    return;
+  }
 
-// /** Set (anonymized) user in the Mixpanel event data */
-// export const setUser = async (id, username) => {
-//   console.log(`[ANALYTICS] setUser`);
-//   if (userId !== id) {
-//     // Only need to re-compute hash if the user ID has changed
-//     userId = id;
-//     user = await getUserHash(id, username);
-//   }
-//   mixpanel.identify(user);
-// };
+  mixpanel.init(constants.MIXPANEL_TOKEN, {
+    debug: constants.DEV_MODE || false,
+    persistence: "localStorage",
+    ip: false,
+    opt_out_tracking_by_default: true,
+  });
+};
 
-// /** Reset the user in the Mixpanel event data e.g. when user logs out */
-// export const resetUser = () => {
-//   console.log(`[ANALYTICS] resetUser`);
-//   mixpanel.reset();
-//   userId = null;
-//   user = "LOGGED_OUT";
-// };
+/** Set (anonymized) user in the Mixpanel event data */
+export const optInAndSetAnalyticsUser = async (
+  userId: string,
+  username: string,
+) => {
+  if (!analyticsEnabled || !userConsentGiven()) {
+    return;
+  }
+  mixpanel.opt_in_tracking();
+  const user = await getUserHash(userId, username);
+  mixpanel.identify(user);
+};
 
-// /**
-//  * Convert a userId to a hashed value, using their username as a salt, to anonymize it for
-//  * analytics. This must match with the back-end's implementation, so analytics can be correlated.
-//  */
-// const getUserHash = async (id, username) => {
-//   const saltedInput = `${username}${id}`;
+/** Reset the user in the Mixpanel event data e.g. when user logs out */
+export const optOutAndResetAnalyticsUser = () => {
+  if (!analyticsEnabled) {
+    return;
+  }
+  mixpanel.opt_out_tracking();
+  mixpanel.reset();
+};
 
-//   // Compute SHA-256 hash
-//   const encoder = new TextEncoder();
-//   const data = encoder.encode(saltedInput);
-//   const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+/**
+ * Convert a userId to a hashed value, using their username as a salt, to anonymize it for
+ * analytics. This must match with the back-end's implementation, so analytics can be correlated.
+ */
+const getUserHash = async (userId: string, username: string) => {
+  const saltAndPepperedInput = `${userId}${username}${constants.MIXPANEL_PEPPER}`;
 
-//   // Convert buffer to hex string and return first 10 characters
-//   return Array.from(new Uint8Array(hashBuffer))
-//     .map((byte) => byte.toString(16).padStart(2, "0"))
-//     .join("")
-//     .substring(0, 10);
-// };
+  // Compute SHA-256 hash
+  const encoder = new TextEncoder();
+  const data = encoder.encode(saltAndPepperedInput);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
 
-// export const trackEvent = (category, action, data) => {
-//   const event = `${category}_${action}`;
-//   console.log(`[ANALYTICS] ${event}`);
-//   mixpanel.track(event, data);
-// };
+  // Convert buffer to hex string and return first 16 characters
+  return Array.from(new Uint8Array(hashBuffer))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("")
+    .substring(0, 16);
+};
+
+export const trackEvent = <T extends Record<string, unknown>>(
+  action: AnalyticsEvent,
+  data: T,
+) => {
+  if (!analyticsEnabled || !userConsentGiven()) {
+    return;
+  }
+
+  mixpanel.track(action, data);
+};
