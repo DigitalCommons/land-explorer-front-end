@@ -11,7 +11,11 @@ export const getUserDetails = () => {
     if (userData) {
       dispatch({ type: "POPULATE_USER", payload: userData });
       if (userData.analyticsConsent === true) {
-        await optInAndSetAnalyticsUser(userData.id, userData.username);
+        try {
+          await optInAndSetAnalyticsUser(userData.id, userData.username);
+        } catch {
+          // analytics failure should not prevent the app from loading
+        }
       } else if (userData.analyticsConsent === false) {
         optOutAndResetAnalyticsUser();
       }
@@ -61,10 +65,16 @@ export const setAnalyticsConsent = (status: boolean) => {
 
       if (status) {
         const { id, username } = getState().user;
-        await optInAndSetAnalyticsUser(id, username);
+        try {
+          await optInAndSetAnalyticsUser(id, username);
+        } catch {
+          // analytics failure should not prevent consent from being saved
+        }
       } else {
         optOutAndResetAnalyticsUser();
       }
     }
+
+    return success;
   };
 };

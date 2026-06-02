@@ -3,7 +3,7 @@ import ToggleSwitch from "@/components/common/ToggleSwitch";
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import Swal from "sweetalert2";
 const PrivacySettings = () => {
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
@@ -18,7 +18,16 @@ const PrivacySettings = () => {
   };
 
   const savePrivacySettings = async () => {
-    await dispatch(setAnalyticsConsent(currentAnalyticsConsent));
+    const success = await dispatch(
+      setAnalyticsConsent(currentAnalyticsConsent),
+    );
+    if (!success) {
+      Swal.fire({
+        icon: "error",
+        text: "Failed to save privacy settings. Please try again.",
+      });
+      return;
+    }
     navigator("/app/my-account");
   };
 
