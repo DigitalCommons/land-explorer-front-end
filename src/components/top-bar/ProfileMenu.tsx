@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../actions/ModalActions";
+import { logOut } from "@/actions/AuthenticationActions";
 
 const ProfileMenu = () => {
   const dispatch = useAppDispatch();
@@ -30,8 +31,8 @@ const ProfileMenu = () => {
         </div>
         <div
           className="tooltip-menu-item"
-          onClick={() => {
-            dispatch({ type: "LOG_OUT" });
+          onClick={async () => {
+            await dispatch(logOut());
             closeProfileMen();
           }}
         >

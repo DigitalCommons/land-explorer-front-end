@@ -12,8 +12,8 @@
 .consent-banner {
   position: fixed;
   bottom: 40px;
-  left: 40%;
-  transform: translateX(-40%);
+  left: 50%;
+  transform: translateX(-50%);
   background-color: #EFF0F2;
   padding: 30px 50px;
   gap: 48px;
@@ -37,6 +37,8 @@
   display: flex;
   gap: 16px;
   align-items: flex-start;
+  margin: 0;
+  line-height: 27px;
 }
 
 .consent-banner__copy-icon {
@@ -56,11 +58,6 @@
   gap: 8px;
   align-items: center;
   font-size: 20px;
-}
-
-.consent-banner__copy {
-  margin: 0;
-  line-height: 27px;
 }
 
 .consent-banner__copy-footer {

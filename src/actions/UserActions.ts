@@ -1,4 +1,4 @@
-import { AppDispatch } from "@/store";
+import { AppDispatch, RootState } from "@/store";
 import { getRequest, postRequest } from "./RequestActions";
 import {
   optInAndSetAnalyticsUser,
@@ -10,6 +10,11 @@ export const getUserDetails = () => {
     const userData = await dispatch(getRequest("/api/user/details"));
     if (userData) {
       dispatch({ type: "POPULATE_USER", payload: userData });
+      if (userData.analyticsConsent === true) {
+        await optInAndSetAnalyticsUser(userData.id, userData.username);
+      } else if (userData.analyticsConsent === false) {
+        optOutAndResetAnalyticsUser();
+      }
     }
   };
 };
@@ -42,26 +47,23 @@ export const setAskForFeedback = (status: boolean) => {
   };
 };
 
-export const setAnalyticsConsent = (
-  status: boolean,
-  userId: string,
-  username: string,
-) => {
-  return async (dispatch: AppDispatch) => {
+export const setAnalyticsConsent = (status: boolean) => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
     const success = await dispatch(
       postRequest("/api/user/analytics-consent", { analyticsConsent: status }),
     );
 
     if (success) {
-      await dispatch({
+      dispatch({
         type: "USER_ANALYTICS_CONSENT_STATUS",
         payload: status,
       });
 
-      if (status === true) {
-        await optInAndSetAnalyticsUser(userId, username);
+      if (status) {
+        const { id, username } = getState().user;
+        await optInAndSetAnalyticsUser(id, username);
       } else {
-        await optOutAndResetAnalyticsUser();
+        optOutAndResetAnalyticsUser();
       }
     }
   };

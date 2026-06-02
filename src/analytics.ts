@@ -1,16 +1,9 @@
 import mixpanel from "mixpanel-browser";
 import constants from "@/constants";
 import { AnalyticsEvent } from "./types/analytics-events";
-import { User } from "./reducers/UserReducer";
-import store from "./store";
 
 const analyticsEnabled =
   !!constants.MIXPANEL_TOKEN && !!constants.MIXPANEL_PEPPER;
-
-const userConsentGiven = () => {
-  const user = store.getState().user as User;
-  return user.analyticsConsent === true;
-};
 
 export const initializeMixpanel = (): void => {
   if (!constants.MIXPANEL_TOKEN || !constants.MIXPANEL_PEPPER) {
@@ -30,12 +23,15 @@ export const optInAndSetAnalyticsUser = async (
   userId: string,
   username: string,
 ) => {
-  if (!analyticsEnabled || !userConsentGiven()) {
+  if (!analyticsEnabled) {
     return;
   }
-  mixpanel.opt_in_tracking();
+
   const user = await getUserHash(userId, username);
   mixpanel.identify(user);
+  if (!mixpanel.has_opted_in_tracking()) {
+    mixpanel.opt_in_tracking();
+  }
 };
 
 /** Reset the user in the Mixpanel event data e.g. when user logs out */
@@ -69,8 +65,9 @@ const getUserHash = async (userId: string, username: string) => {
 export const trackEvent = <T extends Record<string, unknown>>(
   action: AnalyticsEvent,
   data: T,
+  consent: boolean,
 ) => {
-  if (!analyticsEnabled || !userConsentGiven()) {
+  if (!analyticsEnabled || !consent) {
     return;
   }
 

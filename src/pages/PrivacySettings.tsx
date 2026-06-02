@@ -7,11 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 const PrivacySettings = () => {
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
-  const {
-    id: userId,
-    username,
-    analyticsConsent,
-  } = useAppSelector((state) => state.user);
+  const { analyticsConsent } = useAppSelector((state) => state.user);
 
   const [currentAnalyticsConsent, setCurrentAnalyticsConsent] = useState(
     analyticsConsent ?? false,
@@ -22,9 +18,7 @@ const PrivacySettings = () => {
   };
 
   const savePrivacySettings = async () => {
-    await dispatch(
-      setAnalyticsConsent(currentAnalyticsConsent, userId, username),
-    );
+    await dispatch(setAnalyticsConsent(currentAnalyticsConsent));
     navigator("/app/my-account");
   };
 

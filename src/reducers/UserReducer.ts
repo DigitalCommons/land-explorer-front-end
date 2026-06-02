@@ -1,6 +1,6 @@
 import { Action } from "../types";
 
-type User = {
+export type User = {
   id: string;
   initials: string;
   pic: string;
@@ -48,7 +48,7 @@ type UserPayload = {
   analyticsConsent: boolean | null;
 };
 
-const INITIAL_STATE: User = {
+const getInitialState = (): User => ({
   id: "",
   initials: "",
   pic: "",
@@ -73,7 +73,7 @@ const INITIAL_STATE: User = {
   askForFeedback: true,
   analyticsConsent: null,
   sessionId: crypto.randomUUID(),
-};
+});
 
 type UserAction =
   | (Action<UserPayload> & { type: "POPULATE_USER" })
@@ -81,7 +81,7 @@ type UserAction =
   | (Action<boolean> & { type: "USER_ANALYTICS_CONSENT_STATUS" })
   | Action;
 
-export default (state: User = INITIAL_STATE, action: UserAction): User => {
+export default (state: User = getInitialState(), action: UserAction): User => {
   switch (action.type) {
     case "POPULATE_USER": {
       const payload = action.payload as UserPayload;
@@ -93,6 +93,7 @@ export default (state: User = INITIAL_STATE, action: UserAction): User => {
         initials:
           payload.firstName[0].toUpperCase() +
           payload.lastName[0].toUpperCase(),
+        analyticsConsent: payload.analyticsConsent ?? null,
       };
     }
     case "USER_FEEDBACK_STATUS":

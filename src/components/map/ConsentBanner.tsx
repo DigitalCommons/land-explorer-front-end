@@ -5,20 +5,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ConsentBanner = () => {
   const dispatch = useAppDispatch();
-  const { id: userId, username, analyticsConsent } = useAppSelector((state) => state.user);
+  const { analyticsConsent } = useAppSelector((state) => state.user);
   
-  const handleAllowAnalytics = async () => {
-    await dispatch(setAnalyticsConsent(true, userId, username));
-  };
-
-  const handleDenyAnalytics = async () => {
-    await dispatch(setAnalyticsConsent(false, userId, username));
+  const handleAnalyticsConsentSet = async (value: boolean) => {
+    await dispatch(setAnalyticsConsent(value));
   };
   
-  if (analyticsConsent !== null) {
-      return null;
+  if (analyticsConsent !== null && analyticsConsent !== undefined) {
+    return null;
   }
-  return (    
+  return (
     <div id="consent-banner-container" className="consent-banner-container">
       <div id="analytics-consent-banner" className="consent-banner">
         <div className="consent-banner__copy-container">
@@ -37,19 +33,22 @@ const ConsentBanner = () => {
                 time in Privacy settings.
               </p>
               <p className="consent-banner__copy-footer">
-                 *This means analytics data may be
-                linked to an identifier, but not to your real name.
+                *This means analytics data may be linked to an identifier, but
+                not to your real name.
               </p>
             </div>
           </div>
         </div>
         <div className="consent-banner__buttons">
-          <button className="rounded-button" onClick={handleAllowAnalytics}>
+          <button
+            className="rounded-button"
+            onClick={() => handleAnalyticsConsentSet(true)}
+          >
             Allow analytics
           </button>
           <button
             className="rounded-button-outline-lg"
-            onClick={handleDenyAnalytics}
+            onClick={() => handleAnalyticsConsentSet(false)}
           >
             Turn off analytics
           </button>

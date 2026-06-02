@@ -2,6 +2,7 @@ import axios from "axios";
 import constants from "../constants";
 import { getAuthHeader } from "../utils/Auth";
 import { RootState } from "@/store";
+import { sessionTimedOut } from "./AuthenticationActions";
 
 /**
  * Make a GET request to the given API endpoint.
@@ -26,7 +27,7 @@ export const getRequest = (endpoint: string) => {
       console.error(`There was an error in ${endpoint} GET request`, err);
 
       if (err.response?.status === 401) {
-        dispatch({ type: "SESSION_TIMED_OUT" });
+        await dispatch(sessionTimedOut());
       }
     }
     return null;
@@ -57,7 +58,7 @@ export const postRequest = (endpoint: string, body: any) => {
       console.error(`There was an error in ${endpoint} POST request`, err);
 
       if (err.response?.status === 401) {
-        dispatch({ type: "SESSION_TIMED_OUT" });
+        await dispatch(sessionTimedOut());
       }
     }
     return false;
