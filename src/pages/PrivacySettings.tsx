@@ -25,10 +25,17 @@ const PrivacySettings = () => {
       Swal.fire({
         icon: "error",
         text: "Failed to save privacy settings. Please try again.",
+        toast: true,
+        timer: 3000,
+        position: "top",
+        didOpen: (popup) => {
+          const container = popup.parentElement;
+          if (container) container.style.zIndex = "100010";
+        },
       });
-      return;
+    } else {
+      navigator("/app/my-account");
     }
-    navigator("/app/my-account");
   };
 
   return (
