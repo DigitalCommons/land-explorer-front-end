@@ -1,3 +1,4 @@
+import { UserGuideStatusData } from "@/types/user";
 import { Action } from "../types";
 
 export type User = {
@@ -25,6 +26,7 @@ export type User = {
   askForFeedback: boolean;
   analyticsConsent: boolean | null;
   sessionId: string;
+  userGuidePromptSeen: boolean;
 };
 
 type UserPayload = {
@@ -46,6 +48,7 @@ type UserPayload = {
   pic?: string;
   is_super_user?: boolean;
   analyticsConsent: boolean | null;
+  userGuidePromptSeen: boolean;
 };
 
 const getInitialState = (): User => ({
@@ -73,12 +76,14 @@ const getInitialState = (): User => ({
   askForFeedback: true,
   analyticsConsent: null,
   sessionId: crypto.randomUUID(),
+  userGuidePromptSeen: false,
 });
 
 type UserAction =
   | (Action<UserPayload> & { type: "POPULATE_USER" })
   | (Action<boolean> & { type: "USER_FEEDBACK_STATUS" })
   | (Action<boolean> & { type: "USER_ANALYTICS_CONSENT_STATUS" })
+  | (Action<UserGuideStatusData> & { type: "USER_GUIDE_PROMPT_SEEN" })
   | Action;
 
 export default (state: User = getInitialState(), action: UserAction): User => {
@@ -105,6 +110,12 @@ export default (state: User = getInitialState(), action: UserAction): User => {
       return {
         ...state,
         analyticsConsent: action.payload as boolean,
+      };
+    case "USER_GUIDE_PROMPT_SEEN":
+      const payload = action.payload as UserGuideStatusData;
+      return {
+        ...state,
+        userGuidePromptSeen: payload.userGuidePromptSeen,
       };
     default:
       return state;
