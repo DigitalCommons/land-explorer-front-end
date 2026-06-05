@@ -1,6 +1,6 @@
 import { Action } from "../types";
 
-type User = {
+export type User = {
   id: string;
   initials: string;
   pic: string;
@@ -23,6 +23,8 @@ type User = {
   populated: boolean;
   privileged: boolean;
   askForFeedback: boolean;
+  analyticsConsent: boolean | null;
+  sessionId: string;
 };
 
 type UserPayload = {
@@ -43,9 +45,10 @@ type UserPayload = {
   username?: string;
   pic?: string;
   is_super_user?: boolean;
+  analyticsConsent: boolean | null;
 };
 
-const INITIAL_STATE: User = {
+const getInitialState = (): User => ({
   id: "",
   initials: "",
   pic: "",
@@ -68,14 +71,17 @@ const INITIAL_STATE: User = {
   populated: false,
   privileged: false,
   askForFeedback: true,
-};
+  analyticsConsent: null,
+  sessionId: crypto.randomUUID(),
+});
 
 type UserAction =
-  | Action<UserPayload> & { type: "POPULATE_USER" }
-  | Action<boolean> & { type: "USER_FEEDBACK_STATUS" }
+  | (Action<UserPayload> & { type: "POPULATE_USER" })
+  | (Action<boolean> & { type: "USER_FEEDBACK_STATUS" })
+  | (Action<boolean> & { type: "USER_ANALYTICS_CONSENT_STATUS" })
   | Action;
 
-export default (state: User = INITIAL_STATE, action: UserAction): User => {
+export default (state: User = getInitialState(), action: UserAction): User => {
   switch (action.type) {
     case "POPULATE_USER": {
       const payload = action.payload as UserPayload;
@@ -87,12 +93,18 @@ export default (state: User = INITIAL_STATE, action: UserAction): User => {
         initials:
           payload.firstName[0].toUpperCase() +
           payload.lastName[0].toUpperCase(),
+        analyticsConsent: payload.analyticsConsent ?? null,
       };
     }
     case "USER_FEEDBACK_STATUS":
       return {
         ...state,
         askForFeedback: action.payload as boolean,
+      };
+    case "USER_ANALYTICS_CONSENT_STATUS":
+      return {
+        ...state,
+        analyticsConsent: action.payload as boolean,
       };
     default:
       return state;

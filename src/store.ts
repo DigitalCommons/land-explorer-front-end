@@ -5,6 +5,7 @@ import rootReducer from "./reducers/rootReducer";
 import constants from "./constants";
 import { Action } from "./types";
 
+
 // Enable Redux DevTools if in dev mode
 console.log("dev mode: ", constants.DEV_MODE);
 

@@ -30,6 +30,7 @@ import FeedbackTab from "../common/FeedbackTab";
 import MapBeingEditedToast from "./MapBeingEditedToast";
 import BaseLayerMenu from "../map-controls/BaseLayerMenu";
 import MapLayerKey from "../map-controls/MapLayerKey";
+import ConsentBanner from "./ConsentBanner";
 
 // Set access token globally so all mapbox-gl instances share it
 mapboxgl.accessToken = constants.MAPBOX_TOKEN ?? "";
@@ -291,8 +292,8 @@ const MapboxMap = () => {
             baseLayer === "aerial"
               ? "#091324"
               : constants.USE_OS_TILES
-              ? "#aadeef"
-              : "#72b6e6",
+                ? "#aadeef"
+                : "#72b6e6",
         }}
         zoom={zoom}
         onZoomStart={() => dispatch(setZooming(true))}
@@ -389,6 +390,7 @@ const MapboxMap = () => {
       <FeedbackTab />
       <MapBeingEditedToast />
       <Modals />
+      <ConsentBanner />
       <div className="os-accreditation">
         Contains OS data © Crown copyright and database rights 2022 OS
         0100059691

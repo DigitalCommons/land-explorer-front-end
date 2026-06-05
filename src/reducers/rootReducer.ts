@@ -48,7 +48,7 @@ type RootState = ReturnType<typeof appReducer>;
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
   // Clear all data in redux store to initial state when user logs out
-  if (action.type === "LOG_OUT") {
+  if (action.type === "LOG_OUT" || action.type === "SESSION_TIMED_OUT") {
     state = undefined;
   }
   return appReducer(state, action);
