@@ -18,6 +18,7 @@ interface ImportMetaEnv {
   readonly VITE_MAPBOX_TOKEN: string | undefined;
   readonly VITE_MIXPANEL_TOKEN: string | undefined;
   readonly VITE_MIXPANEL_PEPPER: string | undefined;
+  readonly VITE_USER_GUIDE_URL: string;
 }
 
 interface ImportMeta {
