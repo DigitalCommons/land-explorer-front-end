@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { createRoot } from "react-dom/client";
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
-import { useInterval } from "usehooks-ts";
+import { useDebounceCallback, useInterval } from "usehooks-ts";
 import mapboxgl, { MapMouseEvent } from "mapbox-gl";
 import ReactMapboxGl from "react-mapbox-gl";
 import { v4 as uuidv4 } from "uuid";
@@ -31,6 +31,8 @@ import FeedbackTab from "../common/FeedbackTab";
 import MapBeingEditedToast from "./MapBeingEditedToast";
 import AdministrativeBoundaryTooltip, {
   ADMIN_BOUNDARY_FILL_LAYER_IDS,
+  ADMIN_BOUNDARY_LAYER_GROUP_IDS,
+  ADMIN_BOUNDARY_LAYER_IDS,
   getAdminBoundaryRows,
 } from "./AdministrativeBoundaryTooltip";
 import BaseLayerMenu from "../map-controls/BaseLayerMenu";
@@ -60,7 +62,7 @@ const MapboxMap = () => {
   const { zoom, lngLat, movingMethod } = useAppSelector((state) => state.map);
   const { currentMarker } = useAppSelector((state) => state.markers);
   const baseLayer = useAppSelector((state) => state.mapBaseLayer.layer);
-  const { landDataLayers } = useAppSelector((state) => state.landDataLayers);  
+  const { landDataLayers } = useAppSelector((state) => state.landDataLayers);
   const { activeTool } = useAppSelector((state) => state.leftPane);
   const { activeDrawing, drawings, polygonsDrawn, linesDrawn } = useAppSelector(
     (state) => state.drawings,
@@ -99,7 +101,6 @@ const MapboxMap = () => {
   const [dataGroupPopupVisible, setDataGroupPopupVisible] = useState(-1);
   const { sources, satelliteLayer, topographyLayer } = mapSources;
   const [onClickListener, setOnClickListener] = useState<any[]>([]);
-  const [onMouseMoveListener, setOnMouseMoveListener] = useState<any[]>([]);
   const popupRef = useRef<mapboxgl.Popup>(
     new mapboxgl.Popup({
       closeButton: false,
@@ -290,9 +291,9 @@ const MapboxMap = () => {
     layers: baseLayers,
   };
 
-  const mouseMove = (e: MapMouseEvent) => {
+  const mouseMove = useCallback((e: MapMouseEvent) => {
     if (!map) return;
-    const features = map?.queryRenderedFeatures(e.point, {
+    const features = map.queryRenderedFeatures(e.point, {
       layers: ADMIN_BOUNDARY_FILL_LAYER_IDS,
     });
 
@@ -310,19 +311,29 @@ const MapboxMap = () => {
     const container = document.createElement("div");
     createRoot(container).render(<AdministrativeBoundaryTooltip rows={rows} />);
     popupRef.current.setLngLat(e.lngLat).setDOMContent(container).addTo(map);
-  };
+  }, [map, landDataLayers]);
+
+  const debouncedMouseMove = useDebounceCallback(mouseMove, 300);
 
   useEffect(() => {
-    if (map) {
-      if (onMouseMoveListener[0]) {
-        map.off("mousemove", onMouseMoveListener[0]);
-      }
-      if (landDataLayers) {
-        map.on("mousemove", mouseMove);
-        setOnMouseMoveListener([mouseMove]);
-      }
+    console.log("LAND DATA LAYERS ", landDataLayers);
+    console.log(
+      "ADMIN_BOUNDARY_LAYER_GROUP_IDS",
+      ADMIN_BOUNDARY_LAYER_GROUP_IDS,
+    );
+    if (
+      !map ||
+      !landDataLayers.some((id) => ADMIN_BOUNDARY_LAYER_GROUP_IDS.includes(id))
+    ) {
+      popupRef.current.remove();
+      return;
     }
-  }, [map, landDataLayers]);
+    map.on("mousemove", debouncedMouseMove);
+    return () => {
+      map.off("mousemove", debouncedMouseMove);
+      debouncedMouseMove.cancel();
+    };
+  }, [map, landDataLayers, debouncedMouseMove]);
 
   return (
     <div>

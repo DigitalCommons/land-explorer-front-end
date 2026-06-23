@@ -10,6 +10,16 @@ interface Props {
   rows: AdminBoundaryRow[];
 }
 
+export const ADMIN_BOUNDARY_LAYER_GROUP_IDS = [
+  "wards-cu4dni",
+  "county-4ef4ik",
+  "westminster_const_region-8r33ph",
+  "district_borough_unitary_regi-bquzqt",
+  "devolved-powers",
+  "parish",
+];
+
+
 export const ADMIN_BOUNDARY_LAYER_IDS = [
   "wards-cu4dni",
   "county-4ef4ik",
@@ -40,11 +50,20 @@ export const getAdminBoundaryRows = (
 
   for (const layerId of landDataLayers) {
     if (layerId.startsWith("wards-")) ward = getName("wards-");
-    else if (layerId.startsWith("parish")) parish = getName("parish_1-") ?? getName("parish_2-") ?? getName("parish_3-") ?? getName("parish_4-");
-    else if (layerId.startsWith("district_borough")) localCouncil = getName("district_borough");
+    else if (layerId.startsWith("parish"))
+      parish =
+        getName("parish_1-") ??
+        getName("parish_2-") ??
+        getName("parish_3-") ??
+        getName("parish_4-");
+    else if (layerId.startsWith("district_borough"))
+      localCouncil = getName("district_borough");
     else if (layerId.startsWith("county")) county = getName("county");
-    else if (layerId.startsWith("westminster")) parliamentaryConstituencies = getName("westminster");
-    else if (layerId.startsWith("devolved-powers")) devolvedPowers = getName("devolved-powers");
+    else if (layerId.startsWith("westminster"))
+      parliamentaryConstituencies = getName("westminster");
+    else if (layerId.startsWith("devolved-powers"))
+      devolvedPowers =
+        getName("scotland_and_wales") ?? getName("greater_london_const_region");
   }
 
   return [
