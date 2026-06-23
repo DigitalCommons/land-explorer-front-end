@@ -1,0 +1,40 @@
+
+.admin-boundary-header {
+  color: $midNeutral3;
+  font-size: 16px;
+  border-bottom: 1px white;
+}
+
+.admin-boundary-divider {
+  border-bottom: 1px;
+  color: $midNeutral3;
+}
+
+.admin-boundary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-boundary-item-header {
+  font-size: 12px;
+  color: $midNeutral3;
+  border-color: antiquewhite;
+  border-bottom: 1px;
+}
+
+.admin-boundary-item-content {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: $lightNeutral;
+}
+
+.admin-boundary-item-colour {  
+  height: 16px;
+  width: 50px;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
