@@ -1,35 +1,40 @@
 
+.admin-boundary-content {
+    font-family: Lato;
+    font-weight: 400;
+}
+
+
 .admin-boundary-header {
-  color: $midNeutral3;
+  color: $midNeutral2;
   font-size: 16px;
   border-bottom: 1px white;
 }
 
 .admin-boundary-divider {
   border-bottom: 1px;
-  color: $midNeutral3;
+  color: $midNeutral2;
 }
 
 .admin-boundary-item {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  padding-bottom: 6px;
 }
 
 .admin-boundary-item-header {
-  font-size: 12px;
-  color: $midNeutral3;
-  border-color: antiquewhite;
-  border-bottom: 1px;
+  font-size: 13px;
+  color: $midNeutral2;
+  border-color: antiquewhite;  
 }
 
 .admin-boundary-item-content {
   display: flex;
   flex-direction: row;
   gap: 16px;
-  font-size: 14px;
-  margin-bottom: 4px;
+  font-size: 15px;
   color: $lightNeutral;
+  justify-content: space-between;
 }
 
 .admin-boundary-item-colour {  
