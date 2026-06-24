@@ -1,3 +1,16 @@
+.mapboxgl-popup-content {
+  background-color: #333;  
+}
+
+@keyframes adminTooltipFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.admin-boundary-popup {
+  animation: adminTooltipFadeIn 200ms ease-in-out;
+}
+
 
 .admin-boundary-content {
     font-family: Lato;
@@ -19,7 +32,7 @@
 .admin-boundary-item {
   display: flex;
   flex-direction: column;
-  padding-bottom: 6px;
+  padding-bottom: 10px;
 }
 
 .admin-boundary-item-header {
@@ -31,10 +44,11 @@
 .admin-boundary-item-content {
   display: flex;
   flex-direction: row;
-  gap: 16px;
+  gap: 24px;
   font-size: 15px;
   color: $lightNeutral;
   justify-content: space-between;
+  align-items: center;
 }
 
 .admin-boundary-item-colour {  
@@ -42,4 +56,5 @@
   width: 50px;
   margin-right: 6px;
   flex-shrink: 0;
+  border: 1px solid white;
 }

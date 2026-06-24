@@ -19,24 +19,19 @@ export const ADMIN_BOUNDARY_LAYER_GROUP_IDS = [
   "parish",
 ];
 
-
-export const ADMIN_BOUNDARY_LAYER_IDS = [
-  "wards-cu4dni",
-  "county-4ef4ik",
-  "westminster_const_region-8r33ph",
-  "district_borough_unitary_regi-bquzqt",
-  "greater_london_const_region-aplvbp",
-  "scotland_and_wales-8wahad",
-  "parish_1-bcfcla",
-  "parish_2-c6mbmy",
-  "parish_3-chtvqw",
-  "parish_4-cwfy3j",
-];
-
 // Invisible fill layers used to detect the boundaries between the administrative regions
-export const ADMIN_BOUNDARY_FILL_LAYER_IDS = ADMIN_BOUNDARY_LAYER_IDS.map(
-  (id) => `${id}-fill`,
-);
+export const ADMIN_BOUNDARY_FILL_LAYER_IDS = [
+  "wards-cu4dni-fill",
+  "county-4ef4ik-fill",
+  "westminster_const_region-8r33ph-fill",
+  "district_borough_unitary_regi-bquzqt-fill",
+  "greater_london_const_region-aplvbp-fill",
+  "scotland_and_wales-8wahad-fill",
+  "parish_1-bcfcla-fill",
+  "parish_2-c6mbmy-fill",
+  "parish_3-chtvqw-fill",
+  "parish_4-cwfy3j-fill",
+];
 
 
 export const getAdminBoundaryRows = (
@@ -67,12 +62,24 @@ export const getAdminBoundaryRows = (
   }
 
   return [
-    { label: "Ward", value: ward, colour: "hsl(245, 100%, 50%)" },
+    { label: "Ward", value: ward, colour: "hsla(245, 100%, 50%)" },
     { label: "Parish", value: parish, colour: "hsl(280,60%,70%)" },
-    { label: "Local Councils", value: localCouncil, colour: "hsl(56, 97%, 50%)" },
-    { label: "Parliamentary Constituencies", value: parliamentaryConstituencies, colour: "hsl(183, 97%, 50%)" },
-    { label: "Devolved Powers", value: devolvedPowers, colour: "hsl(320,97%,50%)" },
-    { label: "County", value: county, colour: "hsla(113, 97%, 50%, 0.4)" },
+    {
+      label: "Local Councils",
+      value: localCouncil,
+      colour: "hsl(56, 97%, 50%)",
+    },
+    {
+      label: "Parliamentary Constituencies",
+      value: parliamentaryConstituencies,
+      colour: "hsl(183, 97%, 50%)",
+    },
+    {
+      label: "Devolved Powers",
+      value: devolvedPowers,
+      colour: "hsl(320,97%,50%)",
+    },
+    { label: "County", value: county, colour: "hsl(113, 97%, 50%)" },
   ].filter((r) => r.value);
 };
 

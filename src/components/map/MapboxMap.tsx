@@ -32,7 +32,6 @@ import MapBeingEditedToast from "./MapBeingEditedToast";
 import AdministrativeBoundaryTooltip, {
   ADMIN_BOUNDARY_FILL_LAYER_IDS,
   ADMIN_BOUNDARY_LAYER_GROUP_IDS,
-  ADMIN_BOUNDARY_LAYER_IDS,
   getAdminBoundaryRows,
 } from "./AdministrativeBoundaryTooltip";
 import BaseLayerMenu from "../map-controls/BaseLayerMenu";
@@ -106,6 +105,8 @@ const MapboxMap = () => {
       closeButton: false,
       closeOnClick: false,
       offset: [0, -20],
+      maxWidth: "350",
+      className: "admin-boundary-popup",
     }),
   );
 
@@ -316,11 +317,6 @@ const MapboxMap = () => {
   const debouncedMouseMove = useDebounceCallback(mouseMove, 300);
 
   useEffect(() => {
-    console.log("LAND DATA LAYERS ", landDataLayers);
-    console.log(
-      "ADMIN_BOUNDARY_LAYER_GROUP_IDS",
-      ADMIN_BOUNDARY_LAYER_GROUP_IDS,
-    );
     if (
       !map ||
       !landDataLayers.some((id) => ADMIN_BOUNDARY_LAYER_GROUP_IDS.includes(id))
