@@ -85,7 +85,7 @@ export const getAdminBoundaryRows = (
 
 const AdministrativeBoundaryTooltip = ({ rows }: Props) => {
   if (rows.length === 0) {
-    return;
+    return null;
   }
 
   return (

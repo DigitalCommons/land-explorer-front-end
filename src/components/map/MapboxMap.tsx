@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { createRoot } from "react-dom/client";
+import { createRoot, Root } from "react-dom/client";
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { useDebounceCallback, useInterval } from "usehooks-ts";
 import mapboxgl, { MapMouseEvent } from "mapbox-gl";
@@ -109,6 +109,8 @@ const MapboxMap = () => {
       className: "admin-boundary-popup",
     }),
   );
+  const popupRootRef = useRef<Root | null>(null);
+  const popupContainerRef = useRef<HTMLDivElement | null>(null);
 
   const [map, setMap] = useState<mapboxgl.Map>();
 
@@ -292,27 +294,38 @@ const MapboxMap = () => {
     layers: baseLayers,
   };
 
-  const mouseMove = useCallback((e: MapMouseEvent) => {
-    if (!map) return;
-    const features = map.queryRenderedFeatures(e.point, {
-      layers: ADMIN_BOUNDARY_FILL_LAYER_IDS,
-    });
+  const mouseMove = useCallback(
+    (e: MapMouseEvent) => {
+      if (!map) return;
+      const features = map.queryRenderedFeatures(e.point, {
+        layers: ADMIN_BOUNDARY_FILL_LAYER_IDS,
+      });
 
-    if (!features?.length) {
-      popupRef.current.remove();
-      return;
-    }
+      if (!features?.length) {
+        popupRef.current.remove();
+        return;
+      }
 
-    const rows = getAdminBoundaryRows(features, landDataLayers);
-    if (rows.length === 0) {
-      popupRef.current.remove();
-      return;
-    }
+      const rows = getAdminBoundaryRows(features, landDataLayers);
+      if (rows.length === 0) {
+        popupRef.current.remove();
+        return;
+      }
 
-    const container = document.createElement("div");
-    createRoot(container).render(<AdministrativeBoundaryTooltip rows={rows} />);
-    popupRef.current.setLngLat(e.lngLat).setDOMContent(container).addTo(map);
-  }, [map, landDataLayers]);
+      if (!popupContainerRef.current) {
+        popupContainerRef.current = document.createElement("div");
+        popupRootRef.current = createRoot(popupContainerRef.current);
+      }
+
+      popupRootRef.current!.render(<AdministrativeBoundaryTooltip rows={rows} />);
+
+      popupRef.current.setLngLat(e.lngLat);
+      if (!popupRef.current.isOpen()) {
+        popupRef.current.setDOMContent(popupContainerRef.current).addTo(map);
+      }
+    },
+    [map, landDataLayers],
+  );
 
   const debouncedMouseMove = useDebounceCallback(mouseMove, 300);
 
