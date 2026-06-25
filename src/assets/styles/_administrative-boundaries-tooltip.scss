@@ -9,14 +9,13 @@
 
 .admin-boundary-popup {
   animation: adminTooltipFadeIn 200ms ease-in-out;
+  max-width: 350px;
 }
-
 
 .admin-boundary-content {
     font-family: Lato;
     font-weight: 400;
 }
-
 
 .admin-boundary-header {
   color: $midNeutral2;

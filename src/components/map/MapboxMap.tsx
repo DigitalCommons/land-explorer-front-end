@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { createRoot, Root } from "react-dom/client";
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { useDebounceCallback, useInterval } from "usehooks-ts";
 import mapboxgl, { MapMouseEvent } from "mapbox-gl";
-import ReactMapboxGl from "react-mapbox-gl";
+import ReactMapboxGl, { Popup as MapboxPopup } from "react-mapbox-gl";
+// react-mapbox-gl's Popup d.ts omits children (React 18 types dropped implicit children)
+const Popup = MapboxPopup as React.ComponentType<
+  React.ComponentProps<typeof MapboxPopup> & { children?: React.ReactNode }
+>;
 import { v4 as uuidv4 } from "uuid";
 import * as turf from "@turf/turf";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
@@ -32,6 +35,7 @@ import MapBeingEditedToast from "./MapBeingEditedToast";
 import AdministrativeBoundaryTooltip, {
   ADMIN_BOUNDARY_FILL_LAYER_IDS,
   ADMIN_BOUNDARY_LAYER_GROUP_IDS,
+  AdminBoundaryRow,
   getAdminBoundaryRows,
 } from "./AdministrativeBoundaryTooltip";
 import BaseLayerMenu from "../map-controls/BaseLayerMenu";
@@ -100,17 +104,10 @@ const MapboxMap = () => {
   const [dataGroupPopupVisible, setDataGroupPopupVisible] = useState(-1);
   const { sources, satelliteLayer, topographyLayer } = mapSources;
   const [onClickListener, setOnClickListener] = useState<any[]>([]);
-  const popupRef = useRef<mapboxgl.Popup>(
-    new mapboxgl.Popup({
-      closeButton: false,
-      closeOnClick: false,
-      offset: [0, -20],
-      maxWidth: "350",
-      className: "admin-boundary-popup",
-    }),
-  );
-  const popupRootRef = useRef<Root | null>(null);
-  const popupContainerRef = useRef<HTMLDivElement | null>(null);
+  const [adminBoundaryPopup, setAdminBoundaryPopup] = useState<{
+    lngLat: [number, number];
+    rows: AdminBoundaryRow[];
+  } | null>(null);
 
   const [map, setMap] = useState<mapboxgl.Map>();
 
@@ -302,27 +299,17 @@ const MapboxMap = () => {
       });
 
       if (!features?.length) {
-        popupRef.current.remove();
+        setAdminBoundaryPopup(null);
         return;
       }
 
       const rows = getAdminBoundaryRows(features, landDataLayers);
       if (rows.length === 0) {
-        popupRef.current.remove();
+        setAdminBoundaryPopup(null);
         return;
       }
 
-      if (!popupContainerRef.current) {
-        popupContainerRef.current = document.createElement("div");
-        popupRootRef.current = createRoot(popupContainerRef.current);
-      }
-
-      popupRootRef.current!.render(<AdministrativeBoundaryTooltip rows={rows} />);
-
-      popupRef.current.setLngLat(e.lngLat);
-      if (!popupRef.current.isOpen()) {
-        popupRef.current.setDOMContent(popupContainerRef.current).addTo(map);
-      }
+      setAdminBoundaryPopup({ lngLat: [e.lngLat.lng, e.lngLat.lat], rows });
     },
     [map, landDataLayers],
   );
@@ -334,7 +321,7 @@ const MapboxMap = () => {
       !map ||
       !landDataLayers.some((id) => ADMIN_BOUNDARY_LAYER_GROUP_IDS.includes(id))
     ) {
-      popupRef.current.remove();
+      setAdminBoundaryPopup(null);
       return;
     }
     map.on("mousemove", debouncedMouseMove);
@@ -409,6 +396,15 @@ const MapboxMap = () => {
               setDataGroupPopupVisible(markerId);
             }}
           />
+        )}
+        {adminBoundaryPopup && (
+          <Popup
+            coordinates={adminBoundaryPopup.lngLat}
+            offset={[0, -20]}
+            className="admin-boundary-popup"
+          >
+            <AdministrativeBoundaryTooltip rows={adminBoundaryPopup.rows} />
+          </Popup>
         )}
         {/* Shows zoom warning if active layers are out of view */}
         <ZoomWarning show={showZoomWarning} />
