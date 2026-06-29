@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { isEqual } from "lodash";
-import axios from "axios";
 import constants from "../../constants";
-import { getAuthHeader } from "../../utils/Auth";
 import Modal from "./Modal";
 import { getMyMaps } from "../../actions/MapActions";
 import Button from "../common/Button";
