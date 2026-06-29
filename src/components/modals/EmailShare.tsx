@@ -9,6 +9,7 @@ import { getMyMaps } from "../../actions/MapActions";
 import Button from "../common/Button";
 import Dropdown, { DropdownOption } from "../common/Dropdown";
 import PillBadge from "../common/PillBadge";
+import { postRequest } from "@/actions/RequestActions";
 
 const accessOptions: DropdownOption<number>[] = [
   {
@@ -99,10 +100,10 @@ const EmailShare = () => {
     };
 
     try {
-      await axios.post(
+      console.log("here");
+      await postRequest(
         `${constants.ROOT_URL}/api/user/map/share/sync`,
         shareData,
-        getAuthHeader()
       );
 
       // closeModal();
