@@ -90,6 +90,8 @@ const EmailShare = () => {
    * selected in the UI
    */
   const sync = async () => {
+    console.log(usersSharedWith);
+    console.log(usersToShareWith);
     if (isEqual(usersSharedWith, usersToShareWith)) {
       return;
     }
@@ -100,10 +102,7 @@ const EmailShare = () => {
     };
 
     try {
-      await dispatch(postRequest(
-        `${constants.ROOT_URL}/api/user/map/share/sync`,
-        shareData,
-      ));
+      await dispatch(postRequest(`/api/user/map/share/sync`, shareData));
 
       // closeModal();
       dispatch(getMyMaps() as any);
