@@ -100,7 +100,6 @@ const EmailShare = () => {
     };
 
     try {
-      console.log("here");
       await postRequest(
         `${constants.ROOT_URL}/api/user/map/share/sync`,
         shareData,
