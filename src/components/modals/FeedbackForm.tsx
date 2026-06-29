@@ -1,6 +1,6 @@
 // FeedbackForm.js
 import { FormEvent } from "react";
-import { useAppDispatch } from "@/hooks/react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import axios from "axios";
 import useFeedbackForm from "../../hooks/useFeedbackForm";
 import Modal from "./Modal";
@@ -12,6 +12,7 @@ import { getAuthHeader } from "../../utils/Auth";
 
 const FeedbackForm = () => {
   const dispatch = useAppDispatch();
+  const sessionId = useAppSelector((state) => state.user.sessionId);
 
   const {
     formData,
@@ -45,7 +46,7 @@ const FeedbackForm = () => {
         .post(
           `${constants.ROOT_URL}/api/user/feedback`,
           submittedData,
-          getAuthHeader()
+          { headers: { ...getAuthHeader().headers, "x-session-id": sessionId } }
         )
         .then((response) => {
           console.log("Feedback Form Response:", response);
