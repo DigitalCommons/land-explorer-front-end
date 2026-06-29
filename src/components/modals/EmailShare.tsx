@@ -100,10 +100,10 @@ const EmailShare = () => {
     };
 
     try {
-      await postRequest(
+      await dispatch(postRequest(
         `${constants.ROOT_URL}/api/user/map/share/sync`,
         shareData,
-      );
+      ));
 
       // closeModal();
       dispatch(getMyMaps() as any);
