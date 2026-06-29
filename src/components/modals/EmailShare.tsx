@@ -90,8 +90,6 @@ const EmailShare = () => {
    * selected in the UI
    */
   const sync = async () => {
-    console.log(usersSharedWith);
-    console.log(usersToShareWith);
     if (isEqual(usersSharedWith, usersToShareWith)) {
       return;
     }
