@@ -79,7 +79,8 @@ const FeedbackForm = () => {
             using LandExplorer so we can improve the app, gain support for our
             work, and make a stronger case from more data to be made publicly
             accessible. You and any groups you refer to will remain anonymous
-            unless we gain your express permission via email.
+            unless we gain your express permission via email. Any data you
+            provide will be held and used in line with our Privacy Policy.
           </p>
         </div>
         {/* Question 1 */}
