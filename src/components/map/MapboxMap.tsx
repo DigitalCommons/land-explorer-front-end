@@ -1,8 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
-import { useInterval } from "usehooks-ts";
-import mapboxgl from "mapbox-gl";
-import ReactMapboxGl from "react-mapbox-gl";
+import { useDebounceCallback, useInterval } from "usehooks-ts";
+import mapboxgl, { MapMouseEvent } from "mapbox-gl";
+import ReactMapboxGl, { Popup as MapboxPopup } from "react-mapbox-gl";
+// react-mapbox-gl's Popup d.ts omits children (React 18 types dropped implicit children)
+const Popup = MapboxPopup as React.ComponentType<
+  React.ComponentProps<typeof MapboxPopup> & { children?: React.ReactNode }
+>;
 import { v4 as uuidv4 } from "uuid";
 import * as turf from "@turf/turf";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
@@ -28,6 +32,12 @@ import {
 } from "../../actions/MapActions";
 import FeedbackTab from "../common/FeedbackTab";
 import MapBeingEditedToast from "./MapBeingEditedToast";
+import AdministrativeBoundaryTooltip, {
+  ADMIN_BOUNDARY_FILL_LAYER_IDS,
+  ADMIN_BOUNDARY_LAYER_GROUP_IDS,
+  AdminBoundaryRow,
+  getAdminBoundaryRows,
+} from "./AdministrativeBoundaryTooltip";
 import BaseLayerMenu from "../map-controls/BaseLayerMenu";
 import MapLayerKey from "../map-controls/MapLayerKey";
 import ConsentBanner from "./ConsentBanner";
@@ -58,10 +68,10 @@ const MapboxMap = () => {
   const { landDataLayers } = useAppSelector((state) => state.landDataLayers);
   const { activeTool } = useAppSelector((state) => state.leftPane);
   const { activeDrawing, drawings, polygonsDrawn, linesDrawn } = useAppSelector(
-    (state) => state.drawings
+    (state) => state.drawings,
   );
   const propertiesDisplay = useAppSelector(
-    (state) => state.landOwnership.activeDisplay
+    (state) => state.landOwnership.activeDisplay,
   );
   const { visibleProperties } = useAppSelector((state) => state.landOwnership);
 
@@ -81,7 +91,7 @@ const MapboxMap = () => {
       dispatch(reloadCurrentMap());
     },
     // Refresh map data every 30 seconds if the map is locked by another user who is editing it
-    lockedByOtherUserInitials ? 30000 : null
+    lockedByOtherUserInitials ? 30000 : null,
   );
 
   // Redraw polygons and lines when changing maps or clearing an unsaved map
@@ -94,13 +104,17 @@ const MapboxMap = () => {
   const [dataGroupPopupVisible, setDataGroupPopupVisible] = useState(-1);
   const { sources, satelliteLayer, topographyLayer } = mapSources;
   const [onClickListener, setOnClickListener] = useState<any[]>([]);
+  const [adminBoundaryPopup, setAdminBoundaryPopup] = useState<{
+    lngLat: [number, number];
+    rows: AdminBoundaryRow[];
+  } | null>(null);
 
-  const [map, setMap] = useState<any>(null);
+  const [map, setMap] = useState<mapboxgl.Map>();
 
   const modes = MapboxDraw.modes;
   modes.static = StaticMode;
 
-  const onClick = (evt: any) => {
+  const onClick = (evt: MapMouseEvent) => {
     setDataGroupPopupVisible(-1);
     const drawControl = drawControlRef.current;
     const mode = drawControl.draw.getMode();
@@ -277,6 +291,46 @@ const MapboxMap = () => {
     layers: baseLayers,
   };
 
+  const mouseMove = useCallback(
+    (e: MapMouseEvent) => {
+      if (!map) return;
+      const features = map.queryRenderedFeatures(e.point, {
+        layers: ADMIN_BOUNDARY_FILL_LAYER_IDS,
+      });
+
+      if (!features?.length) {
+        setAdminBoundaryPopup(null);
+        return;
+      }
+
+      const rows = getAdminBoundaryRows(features, landDataLayers);
+      if (rows.length === 0) {
+        setAdminBoundaryPopup(null);
+        return;
+      }
+
+      setAdminBoundaryPopup({ lngLat: [e.lngLat.lng, e.lngLat.lat], rows });
+    },
+    [map, landDataLayers],
+  );
+
+  const debouncedMouseMove = useDebounceCallback(mouseMove, 300);
+
+  useEffect(() => {
+    if (
+      !map ||
+      !landDataLayers.some((id) => ADMIN_BOUNDARY_LAYER_GROUP_IDS.includes(id))
+    ) {
+      setAdminBoundaryPopup(null);
+      return;
+    }
+    map.on("mousemove", debouncedMouseMove);
+    return () => {
+      map.off("mousemove", debouncedMouseMove);
+      debouncedMouseMove.cancel();
+    };
+  }, [map, landDataLayers, debouncedMouseMove]);
+
   return (
     <div>
       {/* This is the ReactMapbox instance we created at the top of the file */}
@@ -300,7 +354,6 @@ const MapboxMap = () => {
         onZoomEnd={(map: any) => {
           dispatch(setZoom([map.getZoom()]));
           dispatch(setZooming(false));
-          // console.log(map.getZoom());
         }}
         onDragEnd={(map: any) =>
           dispatch(setLngLat(map.getCenter().lng, map.getCenter().lat))
@@ -313,7 +366,6 @@ const MapboxMap = () => {
           m?.touchZoomRotate?.disableRotation();
           m?.touchPitch?.disable();
         }}
-        // onClick={(map, evt) => console.log("hello")}
         maxBounds={constants.MAP_BOUNDS}
         // this is how the map moves automatically from one location to another (default is jumpTo, but we disable this temporarily when we load a new map)
         movingMethod={movingMethod}
@@ -344,6 +396,15 @@ const MapboxMap = () => {
               setDataGroupPopupVisible(markerId);
             }}
           />
+        )}
+        {adminBoundaryPopup && (
+          <Popup
+            coordinates={adminBoundaryPopup.lngLat}
+            offset={[0, -20]}
+            className="admin-boundary-popup"
+          >
+            <AdministrativeBoundaryTooltip rows={adminBoundaryPopup.rows} />
+          </Popup>
         )}
         {/* Shows zoom warning if active layers are out of view */}
         <ZoomWarning show={showZoomWarning} />
