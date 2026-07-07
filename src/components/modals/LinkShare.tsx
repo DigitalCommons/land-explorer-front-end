@@ -9,6 +9,7 @@ const LinkShare = () => {
     const [stage, setStage] = useState("generate");
     const [linkText, setLinkText] = useState("Generate link...");
     const currentMapId = useAppSelector((state) => state.mapMeta.currentMapId);
+    const sessionId = useAppSelector((state) => state.user.sessionId);
     const dispatch = useAppDispatch();
 
     const generate = async () => {
@@ -17,7 +18,7 @@ const LinkShare = () => {
                 {
                     mapId: currentMapId
                 },
-                getAuthHeader());
+                { headers: { ...getAuthHeader().headers, "x-session-id": sessionId } });
 
             const link = constants.ROOT_URL + result.data;
             setLinkText(link);
