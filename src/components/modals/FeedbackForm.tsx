@@ -1,6 +1,6 @@
 // FeedbackForm.js
 import { FormEvent } from "react";
-import { useAppDispatch } from "@/hooks/react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import axios from "axios";
 import useFeedbackForm from "../../hooks/useFeedbackForm";
 import Modal from "./Modal";
@@ -12,6 +12,7 @@ import { getAuthHeader } from "../../utils/Auth";
 
 const FeedbackForm = () => {
   const dispatch = useAppDispatch();
+  const sessionId = useAppSelector((state) => state.user.sessionId);
 
   const {
     formData,
@@ -45,7 +46,7 @@ const FeedbackForm = () => {
         .post(
           `${constants.ROOT_URL}/api/user/feedback`,
           submittedData,
-          getAuthHeader()
+          { headers: { ...getAuthHeader().headers, "x-session-id": sessionId } }
         )
         .then((response) => {
           console.log("Feedback Form Response:", response);
@@ -78,7 +79,8 @@ const FeedbackForm = () => {
             using LandExplorer so we can improve the app, gain support for our
             work, and make a stronger case from more data to be made publicly
             accessible. You and any groups you refer to will remain anonymous
-            unless we gain your express permission via email.
+            unless we gain your express permission via email. Any data you
+            provide will be held and used in line with our Privacy Policy.
           </p>
         </div>
         {/* Question 1 */}

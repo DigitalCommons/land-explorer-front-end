@@ -40,6 +40,9 @@ type Constants = {
   MAP_ACCESS_READ_WRITE: number;
   DATAGROUP_ACCESS_READ_ONLY: number;
   DATAGROUP_ACCESS_READ_WRITE: number;
+  MIXPANEL_TOKEN: string | undefined;
+  MIXPANEL_PEPPER: string | undefined;
+  USER_GUIDE_URL: string;
 };
 
 const constants: Constants = {
@@ -74,6 +77,9 @@ const constants: Constants = {
   MAP_ACCESS_READ_WRITE: 3,
   DATAGROUP_ACCESS_READ_ONLY: 1,
   DATAGROUP_ACCESS_READ_WRITE: 3,
+  MIXPANEL_TOKEN: import.meta.env.VITE_MIXPANEL_TOKEN,
+  MIXPANEL_PEPPER: import.meta.env.VITE_MIXPANEL_PEPPER,
+  USER_GUIDE_URL: import.meta.env.VITE_USER_GUIDE_URL,
 };
 
 export const VERSION = "1.1";

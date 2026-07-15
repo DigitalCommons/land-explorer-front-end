@@ -1,12 +1,16 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { Link } from "react-router-dom";
 import { openModal } from "../../actions/ModalActions";
+import { logOut } from "@/actions/AuthenticationActions";
+import { trackEvent } from "@/analytics";
+import constants from "@/constants";
 
 const ProfileMenu = () => {
   const dispatch = useAppDispatch();
   const open = useAppSelector((state) => state.menu.profile);
+  const { analyticsConsent } = useAppSelector((state) => state.user);
 
-  const closeProfileMen = () => {
+  const closeProfileMenu = () => {
     dispatch({ type: "CLOSE_MENU_PROFILE" });
   };
 
@@ -31,8 +35,24 @@ const ProfileMenu = () => {
         <div
           className="tooltip-menu-item"
           onClick={() => {
-            dispatch({ type: "LOG_OUT" });
-            closeProfileMen();
+            trackEvent(
+              "User_ViewedGuide",
+              {
+                source: "profile-menu",
+              },
+              analyticsConsent === true,
+            );
+            window.open(constants.USER_GUIDE_URL, "_blank");
+            closeProfileMenu();
+          }}
+        >
+          User Guide
+        </div>
+        <div
+          className="tooltip-menu-item"
+          onClick={async () => {
+            await dispatch(logOut());
+            closeProfileMenu();
           }}
         >
           Logout
@@ -48,7 +68,7 @@ const ProfileMenu = () => {
             onClick={(e) => {
               e.preventDefault();
               window.open("https://opencollective.com/digitalcommonscoop");
-              closeProfileMen();
+              closeProfileMenu();
             }}
           >
             Donate

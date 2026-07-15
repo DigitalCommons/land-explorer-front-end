@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Route, Routes } from 'react-router';
+import { Route, Routes } from 'react-router-dom';
 import TopBar from '../components/top-bar/TopBar';
 import Register from "./Register";
 import Login from "./Login";

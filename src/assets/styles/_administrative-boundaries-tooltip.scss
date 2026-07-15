@@ -1,0 +1,80 @@
+@keyframes adminTooltipFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.admin-boundary-popup {
+  animation: adminTooltipFadeIn 200ms ease-in-out;
+  max-width: 350px;
+
+  .mapboxgl-popup-content {
+    background-color: #333;
+  }
+
+  .mapboxgl-popup-tip {
+    opacity: 1;
+  }
+
+  &.mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
+  &.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip,
+  &.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+    border-bottom-color: #333;
+  }
+
+  &.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+  &.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip,
+  &.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip {
+    border-top-color: #333;
+  }
+
+  &.mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+    border-right-color: #333;
+  }
+
+  &.mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+    border-left-color: #333;
+  }
+}
+
+.admin-boundary-content {
+    font-family: Lato;
+    font-weight: 400;
+}
+
+.admin-boundary-header {
+  color: $midNeutral2;
+  font-size: 16px;
+}
+
+.admin-boundary-divider {  
+  color: $midNeutral2;
+}
+
+.admin-boundary-item {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+}
+
+.admin-boundary-item-header {
+  font-size: 13px;
+  color: $midNeutral2;  
+}
+
+.admin-boundary-item-content {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  font-size: 15px;
+  color: $lightNeutral;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-boundary-item-colour {  
+  height: 16px;
+  width: 50px;
+  margin-right: 6px;
+  flex-shrink: 0;
+  border: 1px solid white;
+}

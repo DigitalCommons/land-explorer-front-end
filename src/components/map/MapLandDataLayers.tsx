@@ -5,13 +5,15 @@ import { Source, Layer } from 'react-mapbox-gl';
 const MapLandDataLayers = () => {
   const { landDataLayers } = useAppSelector((state) => state.landDataLayers);
 
+  const floodRiskVisible = landDataLayers.includes("flood-risk-zone");
+
   // TODO: reflect the order that layer toggles have been dragged in LeftPaneLandData?
   return (
     <React.Fragment>
       <Source
         tileJsonSource={{
           type: "vector",
-          url: "mapbox://joolzt.ay7acj73,joolzt.9edhyytu,joolzt.6dd4p92w,joolzt.50odxxr1,joolzt.cpacrvmx,joolzt.c3j1rh4t,joolzt.75llshed,joolzt.4i2tzpgj,kingmob.8cgpa2xi,",
+          url: "mapbox://joolzt.ay7acj73,joolzt.9edhyytu,joolzt.6dd4p92w,joolzt.50odxxr1,joolzt.cpacrvmx,joolzt.c3j1rh4t,joolzt.75llshed,joolzt.4i2tzpgj,kingmob.8cgpa2xi,joolzt.flood-risk-zone",
         }}
         id="composite"
       />
@@ -124,6 +126,52 @@ const MapLandDataLayers = () => {
               : 0,
         }}
       />
+      <Layer // Zone 1 must render below Zone 2 so Zone 2 fills overlap correctly
+        id="flood-risk-zone-1"
+        type="fill"
+        sourceId="composite"
+        sourceLayer="flood-risk-zone"
+        minZoom={8}
+        layout={{
+          visibility: "visible",
+        }}
+        filter={["==", ["get", "flood-risk-level"], "1"]}
+        paint={{
+          "fill-color": "#F6D55C",
+          "fill-opacity": floodRiskVisible ? 0.4 : 0,
+        }}
+      />
+      <Layer // Zone 2 must render below Zone 3 so Zone 3 fills overlap correctly
+        id="flood-risk-zone-2"
+        type="fill"
+        sourceId="composite"
+        sourceLayer="flood-risk-zone"
+        minZoom={8}
+        layout={{
+          visibility: "visible",
+        }}
+        filter={["==", ["get", "flood-risk-level"], "2"]}
+        paint={{
+          "fill-color": "#F28E2B",
+          "fill-opacity": floodRiskVisible ? 0.4 : 0,
+        }}
+      />
+      <Layer
+        id="flood-risk-zone-3"
+        type="fill"
+        sourceId="composite"
+        sourceLayer="flood-risk-zone"
+        minZoom={8}
+        layout={{
+          visibility: "visible",
+        }}
+        filter={["==", ["get", "flood-risk-level"], "3"]}
+        paint={{
+          "fill-color": "#E03B33",
+          "fill-opacity": floodRiskVisible ? 0.4 : 0,
+        }}
+      />
+
       <Layer
         id="sites-of-special-scientific-i-09kaq4"
         type="fill"
@@ -219,6 +267,13 @@ const MapLandDataLayers = () => {
         id="wards"
       />
       <Layer
+        id="wards-cu4dni-fill"
+        type="fill"
+        sourceId="wards"
+        sourceLayer="wards-cu4dni"
+        paint={{ "fill-opacity": 0 }}
+      />
+      <Layer
         id="wards-cu4dni"
         type="line"
         sourceId="wards"
@@ -239,6 +294,13 @@ const MapLandDataLayers = () => {
           url: "mapbox://joolzt.6s8qdvfi",
         }}
         id="county"
+      />
+      <Layer
+        id="county-4ef4ik-fill"
+        type="fill"
+        sourceId="county"
+        sourceLayer="county-4ef4ik"
+        paint={{ "fill-opacity": 0 }}
       />
       <Layer
         id="county-4ef4ik"
@@ -264,6 +326,13 @@ const MapLandDataLayers = () => {
         id="constituency"
       />
       <Layer
+        id="westminster_const_region-8r33ph-fill"
+        type="fill"
+        sourceId="constituency"
+        sourceLayer="westminster_const_region-8r33ph"
+        paint={{ "fill-opacity": 0 }}
+      />
+      <Layer
         id="westminster_const_region-8r33ph"
         type="line"
         sourceId="constituency"
@@ -287,6 +356,13 @@ const MapLandDataLayers = () => {
           url: "mapbox://joolzt.c5ulw4oz",
         }}
         id="councils"
+      />
+      <Layer
+        id="district_borough_unitary_regi-bquzqt-fill"
+        type="fill"
+        sourceId="councils"
+        sourceLayer="district_borough_unitary_regi-bquzqt"
+        paint={{ "fill-opacity": 0 }}
       />
       <Layer
         id="district_borough_unitary_regi-bquzqt"
@@ -315,6 +391,13 @@ const MapLandDataLayers = () => {
         id="devolved-composite"
       />
       <Layer
+        id="greater_london_const_region-aplvbp-fill"
+        type="fill"
+        sourceId="devolved-composite"
+        sourceLayer="greater_london_const_region-aplvbp"
+        paint={{ "fill-opacity": 0 }}
+      />
+      <Layer
         id="greater_london_const_region-aplvbp"
         type="line"
         sourceId="devolved-composite"
@@ -329,6 +412,13 @@ const MapLandDataLayers = () => {
           "line-opacity":
             landDataLayers.indexOf("devolved-powers") !== -1 ? 1 : 0,
         }}
+      />
+      <Layer
+        id="scotland_and_wales-8wahad-fill"
+        type="fill"
+        sourceId="devolved-composite"
+        sourceLayer="scotland_and_wales-8wahad"
+        paint={{ "fill-opacity": 0 }}
       />
       <Layer
         id="scotland_and_wales-8wahad"
@@ -354,6 +444,13 @@ const MapLandDataLayers = () => {
         id="parishes-composite"
       />
       <Layer
+        id="parish_1-bcfcla-fill"
+        type="fill"
+        sourceId="parishes-composite"
+        sourceLayer="parish_1-bcfcla"
+        paint={{ "fill-opacity": 0 }}
+      />
+      <Layer
         id="parish_1-bcfcla"
         type="line"
         sourceId="parishes-composite"
@@ -367,6 +464,13 @@ const MapLandDataLayers = () => {
           "line-width": 3,
           "line-opacity": landDataLayers.indexOf("parish") !== -1 ? 1 : 0,
         }}
+      />
+      <Layer
+        id="parish_2-c6mbmy-fill"
+        type="fill"
+        sourceId="parishes-composite"
+        sourceLayer="parish_2-c6mbmy"
+        paint={{ "fill-opacity": 0 }}
       />
       <Layer
         id="parish_2-c6mbmy"
@@ -384,6 +488,13 @@ const MapLandDataLayers = () => {
         }}
       />
       <Layer
+        id="parish_3-chtvqw-fill"
+        type="fill"
+        sourceId="parishes-composite"
+        sourceLayer="parish_3-chtvqw"
+        paint={{ "fill-opacity": 0 }}
+      />
+      <Layer
         id="parish_3-chtvqw"
         type="line"
         sourceId="parishes-composite"
@@ -397,6 +508,13 @@ const MapLandDataLayers = () => {
           "line-width": 3,
           "line-opacity": landDataLayers.indexOf("parish") !== -1 ? 1 : 0,
         }}
+      />
+      <Layer
+        id="parish_4-cwfy3j-fill"
+        type="fill"
+        sourceId="parishes-composite"
+        sourceLayer="parish_4-cwfy3j"
+        paint={{ "fill-opacity": 0 }}
       />
       <Layer
         id="parish_4-cwfy3j"

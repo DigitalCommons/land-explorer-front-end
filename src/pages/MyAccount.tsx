@@ -10,6 +10,9 @@ import ChangePassword from "./ChangePassword";
 import iconDetails from "../assets/img/icon-details.svg";
 import iconMail from "../assets/img/icon-mail.svg";
 import iconLock from "../assets/img/icon-lock.svg";
+import PrivacySettings from "@/pages/PrivacySettings";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 
 type AccountViewProps = { initials: string };
 
@@ -94,6 +97,18 @@ const AccountView = ({ initials }: AccountViewProps) => {
             Edit
           </Link>
         </div>
+        <div className="my-account--option">
+          <div
+            className="my-account--option--left"
+            style={{ display: "flex", gap: "14px" }}
+          >
+            <FontAwesomeIcon icon={faShieldHalved} />
+            Privacy Settings
+          </div>
+          <Link to="/app/my-account/privacy" className="button button-small">
+            Edit
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -127,6 +142,7 @@ const MyAccount = () => {
           <Route path="/details" element={<ChangeDetails />} />
           <Route path="/email" element={<ChangeEmail />} />
           <Route path="/password" element={<ChangePassword />} />
+          <Route path="/privacy" element={<PrivacySettings />} />
         </Routes>
       </div>
     </div>

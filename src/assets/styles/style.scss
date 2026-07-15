@@ -24,6 +24,10 @@
 @import "map-being-edited";
 @import "notifications";
 @import "search";
+@import "consent-banner";
+@import "privacy-settings";
+@import "user-guide-prompt";
+@import "administrative-boundaries-tooltip";
 :root {
   --data-group-colour: #27ae60;
 }

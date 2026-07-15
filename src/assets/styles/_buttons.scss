@@ -83,6 +83,31 @@
   background-repeat: no-repeat;
 }
 
+.rounded-button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 6px 16px;
+  background: $buttonGreen;
+  border-radius: 100px;  
+  border: none;
+  color: #ffffff;
+  font-family: Lato;
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  user-select: none;
+
+  &:hover {
+    background: $primaryColor;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.25);
+  }
+}
+
 .rounded-button-full {
   border-radius: 100px;
   padding: 6px 18px;
@@ -174,6 +199,11 @@
       color: $primaryColor;
     }
   }
+}
+
+.rounded-button-outline-lg {
+  @extend .rounded-button-outline; 
+  font-size: 16px;
 }
 
 #controls {

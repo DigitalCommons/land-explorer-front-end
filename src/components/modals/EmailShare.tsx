@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/react-redux";
 import { isEqual } from "lodash";
-import axios from "axios";
 import constants from "../../constants";
-import { getAuthHeader } from "../../utils/Auth";
 import Modal from "./Modal";
 import { getMyMaps } from "../../actions/MapActions";
 import Button from "../common/Button";
 import Dropdown, { DropdownOption } from "../common/Dropdown";
 import PillBadge from "../common/PillBadge";
+import { postRequest } from "@/actions/RequestActions";
 
 const accessOptions: DropdownOption<number>[] = [
   {
@@ -99,11 +98,7 @@ const EmailShare = () => {
     };
 
     try {
-      await axios.post(
-        `${constants.ROOT_URL}/api/user/map/share/sync`,
-        shareData,
-        getAuthHeader()
-      );
+      await dispatch(postRequest(`/api/user/map/share/sync`, shareData));
 
       // closeModal();
       dispatch(getMyMaps() as any);
